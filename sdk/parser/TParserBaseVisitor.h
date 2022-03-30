@@ -1,15 +1,12 @@
-/* parser/listener/visitor header section */
 
 // Generated from ./TParser.g4 by ANTLR 4.9.2
 
 #pragma once
 
-/* base visitor preinclude section */
 
 #include "antlr4-runtime.h"
 #include "TParserVisitor.h"
 
-/* base visitor postinclude section */
 
 namespace verbum {
 
@@ -19,67 +16,60 @@ namespace verbum {
  */
 class  TParserBaseVisitor : public TParserVisitor {
 public:
-/* base visitor public declarations/members section */
 
   virtual antlrcpp::Any visitMain(TParser::MainContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitDivide(TParser::DivideContext *ctx) override {
+  virtual antlrcpp::Any visitFileContent(TParser::FileContentContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitAnd_(TParser::And_Context *ctx) override {
+  virtual antlrcpp::Any visitSentence(TParser::SentenceContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitConquer(TParser::ConquerContext *ctx) override {
+  virtual antlrcpp::Any visitLiveTokens(TParser::LiveTokensContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitUnused(TParser::UnusedContext *ctx) override {
+  virtual antlrcpp::Any visitComment(TParser::CommentContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitUnused2(TParser::Unused2Context *ctx) override {
+  virtual antlrcpp::Any visitUse(TParser::UseContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitStat(TParser::StatContext *ctx) override {
+  virtual antlrcpp::Any visitUseValue(TParser::UseValueContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitExpr(TParser::ExprContext *ctx) override {
+  virtual antlrcpp::Any visitUseString(TParser::UseStringContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitReturn(TParser::ReturnContext *ctx) override {
+  virtual antlrcpp::Any visitVariable(TParser::VariableContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitContinue(TParser::ContinueContext *ctx) override {
+  virtual antlrcpp::Any visitVariableMembers(TParser::VariableMembersContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitId(TParser::IdContext *ctx) override {
+  virtual antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitArray(TParser::ArrayContext *ctx) override {
+  virtual antlrcpp::Any visitVariableValue(TParser::VariableValueContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitIdarray(TParser::IdarrayContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitAny(TParser::AnyContext *ctx) override {
+  virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }
 
 
-private:  
-/* base visitor private declarations/members section */
 };
 
 }  // namespace verbum

@@ -1,15 +1,12 @@
-/* parser/listener/visitor header section */
 
 // Generated from ./TParser.g4 by ANTLR 4.9.2
 
 #pragma once
 
-/* base listener preinclude section */
 
 #include "antlr4-runtime.h"
 #include "TParserListener.h"
 
-/* base listener postinclude section */
 
 namespace verbum {
 
@@ -20,49 +17,45 @@ namespace verbum {
  */
 class  TParserBaseListener : public TParserListener {
 public:
-/* base listener public declarations/members section */
 
   virtual void enterMain(TParser::MainContext * /*ctx*/) override { }
   virtual void exitMain(TParser::MainContext * /*ctx*/) override { }
 
-  virtual void enterDivide(TParser::DivideContext * /*ctx*/) override { }
-  virtual void exitDivide(TParser::DivideContext * /*ctx*/) override { }
+  virtual void enterFileContent(TParser::FileContentContext * /*ctx*/) override { }
+  virtual void exitFileContent(TParser::FileContentContext * /*ctx*/) override { }
 
-  virtual void enterAnd_(TParser::And_Context * /*ctx*/) override { }
-  virtual void exitAnd_(TParser::And_Context * /*ctx*/) override { }
+  virtual void enterSentence(TParser::SentenceContext * /*ctx*/) override { }
+  virtual void exitSentence(TParser::SentenceContext * /*ctx*/) override { }
 
-  virtual void enterConquer(TParser::ConquerContext * /*ctx*/) override { }
-  virtual void exitConquer(TParser::ConquerContext * /*ctx*/) override { }
+  virtual void enterLiveTokens(TParser::LiveTokensContext * /*ctx*/) override { }
+  virtual void exitLiveTokens(TParser::LiveTokensContext * /*ctx*/) override { }
 
-  virtual void enterUnused(TParser::UnusedContext * /*ctx*/) override { }
-  virtual void exitUnused(TParser::UnusedContext * /*ctx*/) override { }
+  virtual void enterComment(TParser::CommentContext * /*ctx*/) override { }
+  virtual void exitComment(TParser::CommentContext * /*ctx*/) override { }
 
-  virtual void enterUnused2(TParser::Unused2Context * /*ctx*/) override { }
-  virtual void exitUnused2(TParser::Unused2Context * /*ctx*/) override { }
+  virtual void enterUse(TParser::UseContext * /*ctx*/) override { }
+  virtual void exitUse(TParser::UseContext * /*ctx*/) override { }
 
-  virtual void enterStat(TParser::StatContext * /*ctx*/) override { }
-  virtual void exitStat(TParser::StatContext * /*ctx*/) override { }
+  virtual void enterUseValue(TParser::UseValueContext * /*ctx*/) override { }
+  virtual void exitUseValue(TParser::UseValueContext * /*ctx*/) override { }
 
-  virtual void enterExpr(TParser::ExprContext * /*ctx*/) override { }
-  virtual void exitExpr(TParser::ExprContext * /*ctx*/) override { }
+  virtual void enterUseString(TParser::UseStringContext * /*ctx*/) override { }
+  virtual void exitUseString(TParser::UseStringContext * /*ctx*/) override { }
 
-  virtual void enterReturn(TParser::ReturnContext * /*ctx*/) override { }
-  virtual void exitReturn(TParser::ReturnContext * /*ctx*/) override { }
+  virtual void enterVariable(TParser::VariableContext * /*ctx*/) override { }
+  virtual void exitVariable(TParser::VariableContext * /*ctx*/) override { }
 
-  virtual void enterContinue(TParser::ContinueContext * /*ctx*/) override { }
-  virtual void exitContinue(TParser::ContinueContext * /*ctx*/) override { }
+  virtual void enterVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
+  virtual void exitVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
 
-  virtual void enterId(TParser::IdContext * /*ctx*/) override { }
-  virtual void exitId(TParser::IdContext * /*ctx*/) override { }
+  virtual void enterVariableDefinition(TParser::VariableDefinitionContext * /*ctx*/) override { }
+  virtual void exitVariableDefinition(TParser::VariableDefinitionContext * /*ctx*/) override { }
 
-  virtual void enterArray(TParser::ArrayContext * /*ctx*/) override { }
-  virtual void exitArray(TParser::ArrayContext * /*ctx*/) override { }
+  virtual void enterVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
+  virtual void exitVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
 
-  virtual void enterIdarray(TParser::IdarrayContext * /*ctx*/) override { }
-  virtual void exitIdarray(TParser::IdarrayContext * /*ctx*/) override { }
-
-  virtual void enterAny(TParser::AnyContext * /*ctx*/) override { }
-  virtual void exitAny(TParser::AnyContext * /*ctx*/) override { }
+  virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
+  virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }
@@ -70,8 +63,6 @@ public:
   virtual void visitTerminal(antlr4::tree::TerminalNode * /*node*/) override { }
   virtual void visitErrorNode(antlr4::tree::ErrorNode * /*node*/) override { }
 
-private:  
-/* base listener private declarations/members section */
 };
 
 }  // namespace verbum

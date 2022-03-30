@@ -1,8 +1,6 @@
-/* parser/listener/visitor header section */
 
 // Generated from ./TParser.g4 by ANTLR 4.9.2
 
-/* parser precinclude section */
 
 #include "TParserListener.h"
 #include "TParserVisitor.h"
@@ -10,10 +8,9 @@
 #include "TParser.h"
 
 
-/* parser postinclude section */
-#ifndef _WIN32
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
+  #ifndef _WIN32
+  #pragma GCC diagnostic ignored "-Wunused-parameter"
+  #endif
 
 
 using namespace antlrcpp;
@@ -40,7 +37,6 @@ dfa::Vocabulary& TParser::getVocabulary() const {
   return _vocabulary;
 }
 
-/* parser definitions section */
 
 //----------------- MainContext ------------------------------------------------------------------
 
@@ -48,16 +44,12 @@ TParser::MainContext::MainContext(ParserRuleContext *parent, size_t invokingStat
   : ParserRuleContext(parent, invokingState) {
 }
 
+TParser::FileContentContext* TParser::MainContext::fileContent() {
+  return getRuleContext<TParser::FileContentContext>(0);
+}
+
 tree::TerminalNode* TParser::MainContext::EOF() {
   return getToken(TParser::EOF, 0);
-}
-
-std::vector<TParser::StatContext *> TParser::MainContext::stat() {
-  return getRuleContexts<TParser::StatContext>();
-}
-
-TParser::StatContext* TParser::MainContext::stat(size_t i) {
-  return getRuleContext<TParser::StatContext>(i);
 }
 
 
@@ -88,7 +80,6 @@ antlrcpp::Any TParser::MainContext::accept(tree::ParseTreeVisitor *visitor) {
 TParser::MainContext* TParser::main() {
   MainContext *_localctx = _tracker.createInstance<MainContext>(_ctx, getState());
   enterRule(_localctx, 0, TParser::RuleMain);
-  size_t _la = 0;
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -99,23 +90,9 @@ TParser::MainContext* TParser::main() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(27); 
-    _errHandler->sync(this);
-    _la = _input->LA(1);
-    do {
-      setState(26);
-      stat();
-      setState(29); 
-      _errHandler->sync(this);
-      _la = _input->LA(1);
-    } while ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << TParser::Return)
-      | (1ULL << TParser::Continue)
-      | (1ULL << TParser::INT)
-      | (1ULL << TParser::ID)
-      | (1ULL << TParser::OpenPar)
-      | (1ULL << TParser::String))) != 0));
-    setState(31);
+    setState(26);
+    fileContent(0);
+    setState(27);
     match(TParser::EOF);
    
   }
@@ -128,484 +105,325 @@ TParser::MainContext* TParser::main() {
   return _localctx;
 }
 
-//----------------- DivideContext ------------------------------------------------------------------
+//----------------- FileContentContext ------------------------------------------------------------------
 
-TParser::DivideContext::DivideContext(ParserRuleContext *parent, size_t invokingState)
+TParser::FileContentContext::FileContentContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* TParser::DivideContext::ID() {
-  return getToken(TParser::ID, 0);
+TParser::FileContentContext* TParser::FileContentContext::fileContent() {
+  return getRuleContext<TParser::FileContentContext>(0);
 }
 
-TParser::And_Context* TParser::DivideContext::and_() {
-  return getRuleContext<TParser::And_Context>(0);
-}
-
-tree::TerminalNode* TParser::DivideContext::GreaterThan() {
-  return getToken(TParser::GreaterThan, 0);
+TParser::SentenceContext* TParser::FileContentContext::sentence() {
+  return getRuleContext<TParser::SentenceContext>(0);
 }
 
 
-size_t TParser::DivideContext::getRuleIndex() const {
-  return TParser::RuleDivide;
+size_t TParser::FileContentContext::getRuleIndex() const {
+  return TParser::RuleFileContent;
 }
 
-void TParser::DivideContext::enterRule(tree::ParseTreeListener *listener) {
+void TParser::FileContentContext::enterRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->enterDivide(this);
+    parserListener->enterFileContent(this);
 }
 
-void TParser::DivideContext::exitRule(tree::ParseTreeListener *listener) {
+void TParser::FileContentContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->exitDivide(this);
+    parserListener->exitFileContent(this);
 }
 
 
-antlrcpp::Any TParser::DivideContext::accept(tree::ParseTreeVisitor *visitor) {
+antlrcpp::Any TParser::FileContentContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitDivide(this);
+    return parserVisitor->visitFileContent(this);
   else
     return visitor->visitChildren(this);
 }
 
-TParser::DivideContext* TParser::divide() {
-  DivideContext *_localctx = _tracker.createInstance<DivideContext>(_ctx, getState());
-  enterRule(_localctx, 2, TParser::RuleDivide);
+
+TParser::FileContentContext* TParser::fileContent() {
+   return fileContent(0);
+}
+
+TParser::FileContentContext* TParser::fileContent(int precedence) {
+  ParserRuleContext *parentContext = _ctx;
+  size_t parentState = getState();
+  TParser::FileContentContext *_localctx = _tracker.createInstance<FileContentContext>(_ctx, parentState);
+  TParser::FileContentContext *previousContext = _localctx;
+  (void)previousContext; // Silence compiler, in case the context is not used by generated code.
+  size_t startState = 2;
+  enterRecursionRule(_localctx, 2, TParser::RuleFileContent, precedence);
+
+    
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
 #else
   auto onExit = finally([=] {
 #endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(33);
-    match(TParser::ID);
-    setState(37);
-    _errHandler->sync(this);
-
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 1, _ctx)) {
-    case 1: {
-      setState(34);
-      and_();
-      setState(35);
-      match(TParser::GreaterThan);
-      break;
-    }
-
-    default:
-      break;
-    }
-    setState(39);
-
-    if (!(doesItBlend())) throw FailedPredicateException(this, "doesItBlend()");
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- And_Context ------------------------------------------------------------------
-
-TParser::And_Context::And_Context(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-tree::TerminalNode* TParser::And_Context::And() {
-  return getToken(TParser::And, 0);
-}
-
-
-size_t TParser::And_Context::getRuleIndex() const {
-  return TParser::RuleAnd_;
-}
-
-void TParser::And_Context::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAnd_(this);
-}
-
-void TParser::And_Context::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAnd_(this);
-}
-
-
-antlrcpp::Any TParser::And_Context::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitAnd_(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-TParser::And_Context* TParser::and_() {
-  And_Context *_localctx = _tracker.createInstance<And_Context>(_ctx, getState());
-  enterRule(_localctx, 4, TParser::RuleAnd_);
-   doInit(); 
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(41);
-    match(TParser::And);
-   _ctx->stop = _input->LT(-1);
-     doAfter(); 
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- ConquerContext ------------------------------------------------------------------
-
-TParser::ConquerContext::ConquerContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-std::vector<TParser::DivideContext *> TParser::ConquerContext::divide() {
-  return getRuleContexts<TParser::DivideContext>();
-}
-
-TParser::DivideContext* TParser::ConquerContext::divide(size_t i) {
-  return getRuleContext<TParser::DivideContext>(i);
-}
-
-TParser::And_Context* TParser::ConquerContext::and_() {
-  return getRuleContext<TParser::And_Context>(0);
-}
-
-tree::TerminalNode* TParser::ConquerContext::ID() {
-  return getToken(TParser::ID, 0);
-}
-
-std::vector<tree::TerminalNode *> TParser::ConquerContext::LessThan() {
-  return getTokens(TParser::LessThan);
-}
-
-tree::TerminalNode* TParser::ConquerContext::LessThan(size_t i) {
-  return getToken(TParser::LessThan, i);
-}
-
-
-size_t TParser::ConquerContext::getRuleIndex() const {
-  return TParser::RuleConquer;
-}
-
-void TParser::ConquerContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterConquer(this);
-}
-
-void TParser::ConquerContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitConquer(this);
-}
-
-
-antlrcpp::Any TParser::ConquerContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitConquer(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-TParser::ConquerContext* TParser::conquer() {
-  ConquerContext *_localctx = _tracker.createInstance<ConquerContext>(_ctx, getState());
-  enterRule(_localctx, 6, TParser::RuleConquer);
-  size_t _la = 0;
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    setState(63);
-    _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx)) {
-    case 1: {
-      enterOuterAlt(_localctx, 1);
-      setState(44); 
-      _errHandler->sync(this);
-      _la = _input->LA(1);
-      do {
-        setState(43);
-        divide();
-        setState(46); 
-        _errHandler->sync(this);
-        _la = _input->LA(1);
-      } while (_la == TParser::ID);
-      break;
-    }
-
-    case 2: {
-      enterOuterAlt(_localctx, 2);
-      setState(48);
-
-      if (!(doesItBlend())) throw FailedPredicateException(this, "doesItBlend()");
-      setState(49);
-      and_();
-       myAction(); 
-      break;
-    }
-
-    case 3: {
-      enterOuterAlt(_localctx, 3);
-      setState(52);
-      dynamic_cast<ConquerContext *>(_localctx)->idToken = match(TParser::ID);
-      setState(60);
-      _errHandler->sync(this);
-
-      switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
-      case 1 + 1: {
-        setState(56);
-        _errHandler->sync(this);
-        _la = _input->LA(1);
-        while (_la == TParser::LessThan) {
-          setState(53);
-          match(TParser::LessThan);
-          setState(58);
-          _errHandler->sync(this);
-          _la = _input->LA(1);
-        }
-        setState(59);
-        divide();
-        break;
-      }
-
-      default:
-        break;
-      }
-       (dynamic_cast<ConquerContext *>(_localctx)->idToken != nullptr ? dynamic_cast<ConquerContext *>(_localctx)->idToken->getText() : ""); 
-      break;
-    }
-
-    default:
-      break;
-    }
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- UnusedContext ------------------------------------------------------------------
-
-TParser::UnusedContext::UnusedContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-TParser::UnusedContext::UnusedContext(ParserRuleContext *parent, size_t invokingState, double input)
-  : ParserRuleContext(parent, invokingState) {
-  this->input = input;
-}
-
-TParser::StatContext* TParser::UnusedContext::stat() {
-  return getRuleContext<TParser::StatContext>(0);
-}
-
-
-size_t TParser::UnusedContext::getRuleIndex() const {
-  return TParser::RuleUnused;
-}
-
-void TParser::UnusedContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterUnused(this);
-}
-
-void TParser::UnusedContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitUnused(this);
-}
-
-
-antlrcpp::Any TParser::UnusedContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitUnused(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-TParser::UnusedContext* TParser::unused(double input) {
-  UnusedContext *_localctx = _tracker.createInstance<UnusedContext>(_ctx, getState(), input);
-  enterRule(_localctx, 8, TParser::RuleUnused);
-   doInit(); 
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-
-    cleanUp();
-
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(65);
-    stat();
-   _ctx->stop = _input->LT(-1);
-     doAfter(); 
-  }
-  catch (...) {
-
-      // Replaces the standard exception handling.
-
-  }
-  return _localctx;
-}
-
-//----------------- Unused2Context ------------------------------------------------------------------
-
-TParser::Unused2Context::Unused2Context(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-std::vector<tree::TerminalNode *> TParser::Unused2Context::Semicolon() {
-  return getTokens(TParser::Semicolon);
-}
-
-tree::TerminalNode* TParser::Unused2Context::Semicolon(size_t i) {
-  return getToken(TParser::Semicolon, i);
-}
-
-std::vector<TParser::UnusedContext *> TParser::Unused2Context::unused() {
-  return getRuleContexts<TParser::UnusedContext>();
-}
-
-TParser::UnusedContext* TParser::Unused2Context::unused(size_t i) {
-  return getRuleContext<TParser::UnusedContext>(i);
-}
-
-tree::TerminalNode* TParser::Unused2Context::Colon() {
-  return getToken(TParser::Colon, 0);
-}
-
-tree::TerminalNode* TParser::Unused2Context::Plus() {
-  return getToken(TParser::Plus, 0);
-}
-
-
-size_t TParser::Unused2Context::getRuleIndex() const {
-  return TParser::RuleUnused2;
-}
-
-void TParser::Unused2Context::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterUnused2(this);
-}
-
-void TParser::Unused2Context::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitUnused2(this);
-}
-
-
-antlrcpp::Any TParser::Unused2Context::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitUnused2(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-TParser::Unused2Context* TParser::unused2() {
-  Unused2Context *_localctx = _tracker.createInstance<Unused2Context>(_ctx, getState());
-  enterRule(_localctx, 10, TParser::RuleUnused2);
-  size_t _la = 0;
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
+    unrollRecursionContexts(parentContext);
   });
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(70); 
+    _ctx->stop = _input->LT(-1);
+    setState(34);
     _errHandler->sync(this);
-    alt = 1;
-    do {
-      switch (alt) {
-        case 1: {
-              setState(67);
-              unused(1);
-              setState(68);
-              matchWildcard();
-              break;
-            }
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 0, _ctx);
+    while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
+      if (alt == 1) {
+        if (!_parseListeners.empty())
+          triggerExitRuleEvent();
+        previousContext = _localctx;
+        _localctx = _tracker.createInstance<FileContentContext>(parentContext, parentState);
+        pushNewRecursionContext(_localctx, startState, RuleFileContent);
+        setState(30);
 
-      default:
-        throw NoViableAltException(this);
+        if (!(precpred(_ctx, 2))) throw FailedPredicateException(this, "precpred(_ctx, 2)");
+        setState(31);
+        sentence(); 
       }
-      setState(72); 
+      setState(36);
       _errHandler->sync(this);
-      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx);
-    } while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER);
-    setState(75);
-    _errHandler->sync(this);
-
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx)) {
-    case 1: {
-      setState(74);
-      _la = _input->LA(1);
-      if (!((((_la & ~ 0x3fULL) == 0) &&
-        ((1ULL << _la) & ((1ULL << TParser::Colon)
-        | (1ULL << TParser::Semicolon)
-        | (1ULL << TParser::Plus))) != 0))) {
-      _errHandler->recoverInline(this);
-      }
-      else {
-        _errHandler->reportMatch(this);
-        consume();
-      }
-      break;
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 0, _ctx);
     }
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+  return _localctx;
+}
+
+//----------------- SentenceContext ------------------------------------------------------------------
+
+TParser::SentenceContext::SentenceContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+TParser::LiveTokensContext* TParser::SentenceContext::liveTokens() {
+  return getRuleContext<TParser::LiveTokensContext>(0);
+}
+
+TParser::CommentContext* TParser::SentenceContext::comment() {
+  return getRuleContext<TParser::CommentContext>(0);
+}
+
+TParser::UseContext* TParser::SentenceContext::use() {
+  return getRuleContext<TParser::UseContext>(0);
+}
+
+TParser::VariableContext* TParser::SentenceContext::variable() {
+  return getRuleContext<TParser::VariableContext>(0);
+}
+
+
+size_t TParser::SentenceContext::getRuleIndex() const {
+  return TParser::RuleSentence;
+}
+
+void TParser::SentenceContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterSentence(this);
+}
+
+void TParser::SentenceContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitSentence(this);
+}
+
+
+antlrcpp::Any TParser::SentenceContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitSentence(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::SentenceContext* TParser::sentence() {
+  SentenceContext *_localctx = _tracker.createInstance<SentenceContext>(_ctx, getState());
+  enterRule(_localctx, 4, TParser::RuleSentence);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    setState(41);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case TParser::Newline: {
+        enterOuterAlt(_localctx, 1);
+        setState(37);
+        liveTokens();
+        break;
+      }
+
+      case TParser::BlockComment:
+      case TParser::LineComment: {
+        enterOuterAlt(_localctx, 2);
+        setState(38);
+        comment();
+        break;
+      }
+
+      case TParser::Use: {
+        enterOuterAlt(_localctx, 3);
+        setState(39);
+        use();
+        break;
+      }
+
+      case TParser::Var: {
+        enterOuterAlt(_localctx, 4);
+        setState(40);
+        variable();
+        break;
+      }
 
     default:
-      break;
+      throw NoViableAltException(this);
     }
-    setState(77);
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- LiveTokensContext ------------------------------------------------------------------
+
+TParser::LiveTokensContext::LiveTokensContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* TParser::LiveTokensContext::Newline() {
+  return getToken(TParser::Newline, 0);
+}
+
+
+size_t TParser::LiveTokensContext::getRuleIndex() const {
+  return TParser::RuleLiveTokens;
+}
+
+void TParser::LiveTokensContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterLiveTokens(this);
+}
+
+void TParser::LiveTokensContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitLiveTokens(this);
+}
+
+
+antlrcpp::Any TParser::LiveTokensContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitLiveTokens(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::LiveTokensContext* TParser::liveTokens() {
+  LiveTokensContext *_localctx = _tracker.createInstance<LiveTokensContext>(_ctx, getState());
+  enterRule(_localctx, 6, TParser::RuleLiveTokens);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(43);
+    match(TParser::Newline);
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- CommentContext ------------------------------------------------------------------
+
+TParser::CommentContext::CommentContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* TParser::CommentContext::BlockComment() {
+  return getToken(TParser::BlockComment, 0);
+}
+
+tree::TerminalNode* TParser::CommentContext::LineComment() {
+  return getToken(TParser::LineComment, 0);
+}
+
+
+size_t TParser::CommentContext::getRuleIndex() const {
+  return TParser::RuleComment;
+}
+
+void TParser::CommentContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterComment(this);
+}
+
+void TParser::CommentContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitComment(this);
+}
+
+
+antlrcpp::Any TParser::CommentContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitComment(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::CommentContext* TParser::comment() {
+  CommentContext *_localctx = _tracker.createInstance<CommentContext>(_ctx, getState());
+  enterRule(_localctx, 8, TParser::RuleComment);
+  size_t _la = 0;
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(45);
     _la = _input->LA(1);
-    if (_la == 0 || _la == Token::EOF || (_la == TParser::Semicolon)) {
+    if (!(_la == TParser::BlockComment
+
+    || _la == TParser::LineComment)) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -623,56 +441,52 @@ TParser::Unused2Context* TParser::unused2() {
   return _localctx;
 }
 
-//----------------- StatContext ------------------------------------------------------------------
+//----------------- UseContext ------------------------------------------------------------------
 
-TParser::StatContext::StatContext(ParserRuleContext *parent, size_t invokingState)
+TParser::UseContext::UseContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<TParser::ExprContext *> TParser::StatContext::expr() {
-  return getRuleContexts<TParser::ExprContext>();
+tree::TerminalNode* TParser::UseContext::Use() {
+  return getToken(TParser::Use, 0);
 }
 
-TParser::ExprContext* TParser::StatContext::expr(size_t i) {
-  return getRuleContext<TParser::ExprContext>(i);
+TParser::UseValueContext* TParser::UseContext::useValue() {
+  return getRuleContext<TParser::UseValueContext>(0);
 }
 
-tree::TerminalNode* TParser::StatContext::Equal() {
-  return getToken(TParser::Equal, 0);
-}
-
-tree::TerminalNode* TParser::StatContext::Semicolon() {
-  return getToken(TParser::Semicolon, 0);
+tree::TerminalNode* TParser::UseContext::End() {
+  return getToken(TParser::End, 0);
 }
 
 
-size_t TParser::StatContext::getRuleIndex() const {
-  return TParser::RuleStat;
+size_t TParser::UseContext::getRuleIndex() const {
+  return TParser::RuleUse;
 }
 
-void TParser::StatContext::enterRule(tree::ParseTreeListener *listener) {
+void TParser::UseContext::enterRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->enterStat(this);
+    parserListener->enterUse(this);
 }
 
-void TParser::StatContext::exitRule(tree::ParseTreeListener *listener) {
+void TParser::UseContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->exitStat(this);
+    parserListener->exitUse(this);
 }
 
 
-antlrcpp::Any TParser::StatContext::accept(tree::ParseTreeVisitor *visitor) {
+antlrcpp::Any TParser::UseContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitStat(this);
+    return parserVisitor->visitUse(this);
   else
     return visitor->visitChildren(this);
 }
 
-TParser::StatContext* TParser::stat() {
-  StatContext *_localctx = _tracker.createInstance<StatContext>(_ctx, getState());
-  enterRule(_localctx, 12, TParser::RuleStat);
+TParser::UseContext* TParser::use() {
+  UseContext *_localctx = _tracker.createInstance<UseContext>(_ctx, getState());
+  enterRule(_localctx, 10, TParser::RuleUse);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -682,28 +496,97 @@ TParser::StatContext* TParser::stat() {
     exitRule();
   });
   try {
-    setState(87);
+    enterOuterAlt(_localctx, 1);
+    setState(47);
+    match(TParser::Use);
+    setState(48);
+    useValue();
+    setState(49);
+    match(TParser::End);
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- UseValueContext ------------------------------------------------------------------
+
+TParser::UseValueContext::UseValueContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+TParser::UseStringContext* TParser::UseValueContext::useString() {
+  return getRuleContext<TParser::UseStringContext>(0);
+}
+
+tree::TerminalNode* TParser::UseValueContext::Separator() {
+  return getToken(TParser::Separator, 0);
+}
+
+TParser::UseValueContext* TParser::UseValueContext::useValue() {
+  return getRuleContext<TParser::UseValueContext>(0);
+}
+
+
+size_t TParser::UseValueContext::getRuleIndex() const {
+  return TParser::RuleUseValue;
+}
+
+void TParser::UseValueContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterUseValue(this);
+}
+
+void TParser::UseValueContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitUseValue(this);
+}
+
+
+antlrcpp::Any TParser::UseValueContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitUseValue(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::UseValueContext* TParser::useValue() {
+  UseValueContext *_localctx = _tracker.createInstance<UseValueContext>(_ctx, getState());
+  enterRule(_localctx, 12, TParser::RuleUseValue);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    setState(56);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 8, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 2, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(79);
-      expr(0);
-      setState(80);
-      match(TParser::Equal);
-      setState(81);
-      expr(0);
-      setState(82);
-      match(TParser::Semicolon);
+      setState(51);
+      useString();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(84);
-      expr(0);
-      setState(85);
-      match(TParser::Semicolon);
+      setState(52);
+      useString();
+      setState(53);
+      match(TParser::Separator);
+      setState(54);
+      useValue();
       break;
     }
 
@@ -721,313 +604,44 @@ TParser::StatContext* TParser::stat() {
   return _localctx;
 }
 
-//----------------- ExprContext ------------------------------------------------------------------
+//----------------- UseStringContext ------------------------------------------------------------------
 
-TParser::ExprContext::ExprContext(ParserRuleContext *parent, size_t invokingState)
+TParser::UseStringContext::UseStringContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* TParser::ExprContext::OpenPar() {
-  return getToken(TParser::OpenPar, 0);
-}
-
-std::vector<TParser::ExprContext *> TParser::ExprContext::expr() {
-  return getRuleContexts<TParser::ExprContext>();
-}
-
-TParser::ExprContext* TParser::ExprContext::expr(size_t i) {
-  return getRuleContext<TParser::ExprContext>(i);
-}
-
-tree::TerminalNode* TParser::ExprContext::ClosePar() {
-  return getToken(TParser::ClosePar, 0);
-}
-
-TParser::IdContext* TParser::ExprContext::id() {
-  return getRuleContext<TParser::IdContext>(0);
-}
-
-TParser::FlowControlContext* TParser::ExprContext::flowControl() {
-  return getRuleContext<TParser::FlowControlContext>(0);
-}
-
-tree::TerminalNode* TParser::ExprContext::INT() {
-  return getToken(TParser::INT, 0);
-}
-
-tree::TerminalNode* TParser::ExprContext::String() {
+tree::TerminalNode* TParser::UseStringContext::String() {
   return getToken(TParser::String, 0);
 }
 
-tree::TerminalNode* TParser::ExprContext::Star() {
-  return getToken(TParser::Star, 0);
+
+size_t TParser::UseStringContext::getRuleIndex() const {
+  return TParser::RuleUseString;
 }
 
-tree::TerminalNode* TParser::ExprContext::Plus() {
-  return getToken(TParser::Plus, 0);
-}
-
-tree::TerminalNode* TParser::ExprContext::QuestionMark() {
-  return getToken(TParser::QuestionMark, 0);
-}
-
-tree::TerminalNode* TParser::ExprContext::Colon() {
-  return getToken(TParser::Colon, 0);
-}
-
-tree::TerminalNode* TParser::ExprContext::Equal() {
-  return getToken(TParser::Equal, 0);
-}
-
-
-size_t TParser::ExprContext::getRuleIndex() const {
-  return TParser::RuleExpr;
-}
-
-void TParser::ExprContext::enterRule(tree::ParseTreeListener *listener) {
+void TParser::UseStringContext::enterRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->enterExpr(this);
+    parserListener->enterUseString(this);
 }
 
-void TParser::ExprContext::exitRule(tree::ParseTreeListener *listener) {
+void TParser::UseStringContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->exitExpr(this);
+    parserListener->exitUseString(this);
 }
 
 
-antlrcpp::Any TParser::ExprContext::accept(tree::ParseTreeVisitor *visitor) {
+antlrcpp::Any TParser::UseStringContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitExpr(this);
+    return parserVisitor->visitUseString(this);
   else
     return visitor->visitChildren(this);
 }
 
-
-TParser::ExprContext* TParser::expr() {
-   return expr(0);
-}
-
-TParser::ExprContext* TParser::expr(int precedence) {
-  ParserRuleContext *parentContext = _ctx;
-  size_t parentState = getState();
-  TParser::ExprContext *_localctx = _tracker.createInstance<ExprContext>(_ctx, parentState);
-  TParser::ExprContext *previousContext = _localctx;
-  (void)previousContext; // Silence compiler, in case the context is not used by generated code.
-  size_t startState = 14;
-  enterRecursionRule(_localctx, 14, TParser::RuleExpr, precedence);
-
-    
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    unrollRecursionContexts(parentContext);
-  });
-  try {
-    size_t alt;
-    enterOuterAlt(_localctx, 1);
-    setState(98);
-    _errHandler->sync(this);
-    switch (_input->LA(1)) {
-      case TParser::OpenPar: {
-        setState(90);
-        match(TParser::OpenPar);
-        setState(91);
-        expr(0);
-        setState(92);
-        match(TParser::ClosePar);
-        break;
-      }
-
-      case TParser::ID: {
-        setState(94);
-        dynamic_cast<ExprContext *>(_localctx)->identifier = id();
-        break;
-      }
-
-      case TParser::Return:
-      case TParser::Continue: {
-        setState(95);
-        flowControl();
-        break;
-      }
-
-      case TParser::INT: {
-        setState(96);
-        match(TParser::INT);
-        break;
-      }
-
-      case TParser::String: {
-        setState(97);
-        match(TParser::String);
-        break;
-      }
-
-    default:
-      throw NoViableAltException(this);
-    }
-    _ctx->stop = _input->LT(-1);
-    setState(117);
-    _errHandler->sync(this);
-    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 11, _ctx);
-    while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
-      if (alt == 1) {
-        if (!_parseListeners.empty())
-          triggerExitRuleEvent();
-        previousContext = _localctx;
-        setState(115);
-        _errHandler->sync(this);
-        switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 10, _ctx)) {
-        case 1: {
-          _localctx = _tracker.createInstance<ExprContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpr);
-          setState(100);
-
-          if (!(precpred(_ctx, 9))) throw FailedPredicateException(this, "precpred(_ctx, 9)");
-          setState(101);
-          match(TParser::Star);
-          setState(102);
-          expr(10);
-          break;
-        }
-
-        case 2: {
-          _localctx = _tracker.createInstance<ExprContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpr);
-          setState(103);
-
-          if (!(precpred(_ctx, 8))) throw FailedPredicateException(this, "precpred(_ctx, 8)");
-          setState(104);
-          match(TParser::Plus);
-          setState(105);
-          expr(9);
-          break;
-        }
-
-        case 3: {
-          _localctx = _tracker.createInstance<ExprContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpr);
-          setState(106);
-
-          if (!(precpred(_ctx, 6))) throw FailedPredicateException(this, "precpred(_ctx, 6)");
-          setState(107);
-          match(TParser::QuestionMark);
-          setState(108);
-          expr(0);
-          setState(109);
-          match(TParser::Colon);
-          setState(110);
-          expr(6);
-          break;
-        }
-
-        case 4: {
-          _localctx = _tracker.createInstance<ExprContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpr);
-          setState(112);
-
-          if (!(precpred(_ctx, 5))) throw FailedPredicateException(this, "precpred(_ctx, 5)");
-          setState(113);
-          match(TParser::Equal);
-          setState(114);
-          expr(5);
-          break;
-        }
-
-        default:
-          break;
-        } 
-      }
-      setState(119);
-      _errHandler->sync(this);
-      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 11, _ctx);
-    }
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-  return _localctx;
-}
-
-//----------------- FlowControlContext ------------------------------------------------------------------
-
-TParser::FlowControlContext::FlowControlContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t TParser::FlowControlContext::getRuleIndex() const {
-  return TParser::RuleFlowControl;
-}
-
-void TParser::FlowControlContext::copyFrom(FlowControlContext *ctx) {
-  ParserRuleContext::copyFrom(ctx);
-}
-
-//----------------- ReturnContext ------------------------------------------------------------------
-
-tree::TerminalNode* TParser::ReturnContext::Return() {
-  return getToken(TParser::Return, 0);
-}
-
-TParser::ExprContext* TParser::ReturnContext::expr() {
-  return getRuleContext<TParser::ExprContext>(0);
-}
-
-TParser::ReturnContext::ReturnContext(FlowControlContext *ctx) { copyFrom(ctx); }
-
-void TParser::ReturnContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterReturn(this);
-}
-void TParser::ReturnContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitReturn(this);
-}
-
-antlrcpp::Any TParser::ReturnContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitReturn(this);
-  else
-    return visitor->visitChildren(this);
-}
-//----------------- ContinueContext ------------------------------------------------------------------
-
-tree::TerminalNode* TParser::ContinueContext::Continue() {
-  return getToken(TParser::Continue, 0);
-}
-
-TParser::ContinueContext::ContinueContext(FlowControlContext *ctx) { copyFrom(ctx); }
-
-void TParser::ContinueContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterContinue(this);
-}
-void TParser::ContinueContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitContinue(this);
-}
-
-antlrcpp::Any TParser::ContinueContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitContinue(this);
-  else
-    return visitor->visitChildren(this);
-}
-TParser::FlowControlContext* TParser::flowControl() {
-  FlowControlContext *_localctx = _tracker.createInstance<FlowControlContext>(_ctx, getState());
-  enterRule(_localctx, 16, TParser::RuleFlowControl);
+TParser::UseStringContext* TParser::useString() {
+  UseStringContext *_localctx = _tracker.createInstance<UseStringContext>(_ctx, getState());
+  enterRule(_localctx, 14, TParser::RuleUseString);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1037,29 +651,171 @@ TParser::FlowControlContext* TParser::flowControl() {
     exitRule();
   });
   try {
-    setState(123);
-    _errHandler->sync(this);
-    switch (_input->LA(1)) {
-      case TParser::Return: {
-        _localctx = dynamic_cast<FlowControlContext *>(_tracker.createInstance<TParser::ReturnContext>(_localctx));
-        enterOuterAlt(_localctx, 1);
-        setState(120);
-        match(TParser::Return);
-        setState(121);
-        expr(0);
-        break;
-      }
+    enterOuterAlt(_localctx, 1);
+    setState(58);
+    match(TParser::String);
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
 
-      case TParser::Continue: {
-        _localctx = dynamic_cast<FlowControlContext *>(_tracker.createInstance<TParser::ContinueContext>(_localctx));
-        enterOuterAlt(_localctx, 2);
-        setState(122);
-        match(TParser::Continue);
-        break;
-      }
+  return _localctx;
+}
+
+//----------------- VariableContext ------------------------------------------------------------------
+
+TParser::VariableContext::VariableContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* TParser::VariableContext::Var() {
+  return getToken(TParser::Var, 0);
+}
+
+TParser::VariableMembersContext* TParser::VariableContext::variableMembers() {
+  return getRuleContext<TParser::VariableMembersContext>(0);
+}
+
+tree::TerminalNode* TParser::VariableContext::End() {
+  return getToken(TParser::End, 0);
+}
+
+
+size_t TParser::VariableContext::getRuleIndex() const {
+  return TParser::RuleVariable;
+}
+
+void TParser::VariableContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterVariable(this);
+}
+
+void TParser::VariableContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitVariable(this);
+}
+
+
+antlrcpp::Any TParser::VariableContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitVariable(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::VariableContext* TParser::variable() {
+  VariableContext *_localctx = _tracker.createInstance<VariableContext>(_ctx, getState());
+  enterRule(_localctx, 16, TParser::RuleVariable);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(60);
+    match(TParser::Var);
+    setState(61);
+    variableMembers();
+    setState(62);
+    match(TParser::End);
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- VariableMembersContext ------------------------------------------------------------------
+
+TParser::VariableMembersContext::VariableMembersContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+TParser::VariableDefinitionContext* TParser::VariableMembersContext::variableDefinition() {
+  return getRuleContext<TParser::VariableDefinitionContext>(0);
+}
+
+tree::TerminalNode* TParser::VariableMembersContext::Separator() {
+  return getToken(TParser::Separator, 0);
+}
+
+TParser::VariableMembersContext* TParser::VariableMembersContext::variableMembers() {
+  return getRuleContext<TParser::VariableMembersContext>(0);
+}
+
+
+size_t TParser::VariableMembersContext::getRuleIndex() const {
+  return TParser::RuleVariableMembers;
+}
+
+void TParser::VariableMembersContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterVariableMembers(this);
+}
+
+void TParser::VariableMembersContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitVariableMembers(this);
+}
+
+
+antlrcpp::Any TParser::VariableMembersContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitVariableMembers(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::VariableMembersContext* TParser::variableMembers() {
+  VariableMembersContext *_localctx = _tracker.createInstance<VariableMembersContext>(_ctx, getState());
+  enterRule(_localctx, 18, TParser::RuleVariableMembers);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    setState(69);
+    _errHandler->sync(this);
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx)) {
+    case 1: {
+      enterOuterAlt(_localctx, 1);
+      setState(64);
+      variableDefinition();
+      break;
+    }
+
+    case 2: {
+      enterOuterAlt(_localctx, 2);
+      setState(65);
+      variableDefinition();
+      setState(66);
+      match(TParser::Separator);
+      setState(67);
+      variableMembers();
+      break;
+    }
 
     default:
-      throw NoViableAltException(this);
+      break;
     }
    
   }
@@ -1072,44 +828,56 @@ TParser::FlowControlContext* TParser::flowControl() {
   return _localctx;
 }
 
-//----------------- IdContext ------------------------------------------------------------------
+//----------------- VariableDefinitionContext ------------------------------------------------------------------
 
-TParser::IdContext::IdContext(ParserRuleContext *parent, size_t invokingState)
+TParser::VariableDefinitionContext::VariableDefinitionContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* TParser::IdContext::ID() {
-  return getToken(TParser::ID, 0);
+tree::TerminalNode* TParser::VariableDefinitionContext::Identifier() {
+  return getToken(TParser::Identifier, 0);
+}
+
+tree::TerminalNode* TParser::VariableDefinitionContext::Attr() {
+  return getToken(TParser::Attr, 0);
+}
+
+TParser::VariableValueContext* TParser::VariableDefinitionContext::variableValue() {
+  return getRuleContext<TParser::VariableValueContext>(0);
+}
+
+tree::TerminalNode* TParser::VariableDefinitionContext::TypeSpec() {
+  return getToken(TParser::TypeSpec, 0);
 }
 
 
-size_t TParser::IdContext::getRuleIndex() const {
-  return TParser::RuleId;
+size_t TParser::VariableDefinitionContext::getRuleIndex() const {
+  return TParser::RuleVariableDefinition;
 }
 
-void TParser::IdContext::enterRule(tree::ParseTreeListener *listener) {
+void TParser::VariableDefinitionContext::enterRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->enterId(this);
+    parserListener->enterVariableDefinition(this);
 }
 
-void TParser::IdContext::exitRule(tree::ParseTreeListener *listener) {
+void TParser::VariableDefinitionContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->exitId(this);
+    parserListener->exitVariableDefinition(this);
 }
 
 
-antlrcpp::Any TParser::IdContext::accept(tree::ParseTreeVisitor *visitor) {
+antlrcpp::Any TParser::VariableDefinitionContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitId(this);
+    return parserVisitor->visitVariableDefinition(this);
   else
     return visitor->visitChildren(this);
 }
 
-TParser::IdContext* TParser::id() {
-  IdContext *_localctx = _tracker.createInstance<IdContext>(_ctx, getState());
-  enterRule(_localctx, 18, TParser::RuleId);
+TParser::VariableDefinitionContext* TParser::variableDefinition() {
+  VariableDefinitionContext *_localctx = _tracker.createInstance<VariableDefinitionContext>(_ctx, getState());
+  enterRule(_localctx, 20, TParser::RuleVariableDefinition);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1119,9 +887,36 @@ TParser::IdContext* TParser::id() {
     exitRule();
   });
   try {
-    enterOuterAlt(_localctx, 1);
-    setState(125);
-    match(TParser::ID);
+    setState(78);
+    _errHandler->sync(this);
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
+    case 1: {
+      enterOuterAlt(_localctx, 1);
+      setState(71);
+      match(TParser::Identifier);
+      setState(72);
+      match(TParser::Attr);
+      setState(73);
+      variableValue();
+      break;
+    }
+
+    case 2: {
+      enterOuterAlt(_localctx, 2);
+      setState(74);
+      match(TParser::Identifier);
+      setState(75);
+      match(TParser::TypeSpec);
+      setState(76);
+      match(TParser::Attr);
+      setState(77);
+      variableValue();
+      break;
+    }
+
+    default:
+      break;
+    }
    
   }
   catch (RecognitionException &e) {
@@ -1133,64 +928,121 @@ TParser::IdContext* TParser::id() {
   return _localctx;
 }
 
-//----------------- ArrayContext ------------------------------------------------------------------
+//----------------- VariableValueContext ------------------------------------------------------------------
 
-TParser::ArrayContext::ArrayContext(ParserRuleContext *parent, size_t invokingState)
+TParser::VariableValueContext::VariableValueContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* TParser::ArrayContext::OpenCurly() {
-  return getToken(TParser::OpenCurly, 0);
-}
-
-tree::TerminalNode* TParser::ArrayContext::CloseCurly() {
-  return getToken(TParser::CloseCurly, 0);
-}
-
-std::vector<tree::TerminalNode *> TParser::ArrayContext::INT() {
-  return getTokens(TParser::INT);
-}
-
-tree::TerminalNode* TParser::ArrayContext::INT(size_t i) {
-  return getToken(TParser::INT, i);
-}
-
-std::vector<tree::TerminalNode *> TParser::ArrayContext::Comma() {
-  return getTokens(TParser::Comma);
-}
-
-tree::TerminalNode* TParser::ArrayContext::Comma(size_t i) {
-  return getToken(TParser::Comma, i);
+TParser::GeneralValueContext* TParser::VariableValueContext::generalValue() {
+  return getRuleContext<TParser::GeneralValueContext>(0);
 }
 
 
-size_t TParser::ArrayContext::getRuleIndex() const {
-  return TParser::RuleArray;
+size_t TParser::VariableValueContext::getRuleIndex() const {
+  return TParser::RuleVariableValue;
 }
 
-void TParser::ArrayContext::enterRule(tree::ParseTreeListener *listener) {
+void TParser::VariableValueContext::enterRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->enterArray(this);
+    parserListener->enterVariableValue(this);
 }
 
-void TParser::ArrayContext::exitRule(tree::ParseTreeListener *listener) {
+void TParser::VariableValueContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->exitArray(this);
+    parserListener->exitVariableValue(this);
 }
 
 
-antlrcpp::Any TParser::ArrayContext::accept(tree::ParseTreeVisitor *visitor) {
+antlrcpp::Any TParser::VariableValueContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitArray(this);
+    return parserVisitor->visitVariableValue(this);
   else
     return visitor->visitChildren(this);
 }
 
-TParser::ArrayContext* TParser::array() {
-  ArrayContext *_localctx = _tracker.createInstance<ArrayContext>(_ctx, getState());
-  enterRule(_localctx, 20, TParser::RuleArray);
+TParser::VariableValueContext* TParser::variableValue() {
+  VariableValueContext *_localctx = _tracker.createInstance<VariableValueContext>(_ctx, getState());
+  enterRule(_localctx, 22, TParser::RuleVariableValue);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(80);
+    generalValue();
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- GeneralValueContext ------------------------------------------------------------------
+
+TParser::GeneralValueContext::GeneralValueContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* TParser::GeneralValueContext::Identifier() {
+  return getToken(TParser::Identifier, 0);
+}
+
+tree::TerminalNode* TParser::GeneralValueContext::String() {
+  return getToken(TParser::String, 0);
+}
+
+tree::TerminalNode* TParser::GeneralValueContext::Integer() {
+  return getToken(TParser::Integer, 0);
+}
+
+tree::TerminalNode* TParser::GeneralValueContext::Float() {
+  return getToken(TParser::Float, 0);
+}
+
+tree::TerminalNode* TParser::GeneralValueContext::Bool() {
+  return getToken(TParser::Bool, 0);
+}
+
+
+size_t TParser::GeneralValueContext::getRuleIndex() const {
+  return TParser::RuleGeneralValue;
+}
+
+void TParser::GeneralValueContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterGeneralValue(this);
+}
+
+void TParser::GeneralValueContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitGeneralValue(this);
+}
+
+
+antlrcpp::Any TParser::GeneralValueContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitGeneralValue(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::GeneralValueContext* TParser::generalValue() {
+  GeneralValueContext *_localctx = _tracker.createInstance<GeneralValueContext>(_ctx, getState());
+  enterRule(_localctx, 24, TParser::RuleGeneralValue);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1202,183 +1054,20 @@ TParser::ArrayContext* TParser::array() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(127);
-    match(TParser::OpenCurly);
-    setState(128);
-    dynamic_cast<ArrayContext *>(_localctx)->intToken = match(TParser::INT);
-    dynamic_cast<ArrayContext *>(_localctx)->el.push_back(dynamic_cast<ArrayContext *>(_localctx)->intToken);
-    setState(133);
-    _errHandler->sync(this);
+    setState(82);
     _la = _input->LA(1);
-    while (_la == TParser::Comma) {
-      setState(129);
-      match(TParser::Comma);
-      setState(130);
-      dynamic_cast<ArrayContext *>(_localctx)->intToken = match(TParser::INT);
-      dynamic_cast<ArrayContext *>(_localctx)->el.push_back(dynamic_cast<ArrayContext *>(_localctx)->intToken);
-      setState(135);
-      _errHandler->sync(this);
-      _la = _input->LA(1);
+    if (!((((_la & ~ 0x3fULL) == 0) &&
+      ((1ULL << _la) & ((1ULL << TParser::Bool)
+      | (1ULL << TParser::Identifier)
+      | (1ULL << TParser::Integer)
+      | (1ULL << TParser::Float)
+      | (1ULL << TParser::String))) != 0))) {
+    _errHandler->recoverInline(this);
     }
-    setState(136);
-    match(TParser::CloseCurly);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- IdarrayContext ------------------------------------------------------------------
-
-TParser::IdarrayContext::IdarrayContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-tree::TerminalNode* TParser::IdarrayContext::OpenCurly() {
-  return getToken(TParser::OpenCurly, 0);
-}
-
-tree::TerminalNode* TParser::IdarrayContext::CloseCurly() {
-  return getToken(TParser::CloseCurly, 0);
-}
-
-std::vector<TParser::IdContext *> TParser::IdarrayContext::id() {
-  return getRuleContexts<TParser::IdContext>();
-}
-
-TParser::IdContext* TParser::IdarrayContext::id(size_t i) {
-  return getRuleContext<TParser::IdContext>(i);
-}
-
-std::vector<tree::TerminalNode *> TParser::IdarrayContext::Comma() {
-  return getTokens(TParser::Comma);
-}
-
-tree::TerminalNode* TParser::IdarrayContext::Comma(size_t i) {
-  return getToken(TParser::Comma, i);
-}
-
-
-size_t TParser::IdarrayContext::getRuleIndex() const {
-  return TParser::RuleIdarray;
-}
-
-void TParser::IdarrayContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterIdarray(this);
-}
-
-void TParser::IdarrayContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitIdarray(this);
-}
-
-
-antlrcpp::Any TParser::IdarrayContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitIdarray(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-TParser::IdarrayContext* TParser::idarray() {
-  IdarrayContext *_localctx = _tracker.createInstance<IdarrayContext>(_ctx, getState());
-  enterRule(_localctx, 22, TParser::RuleIdarray);
-  size_t _la = 0;
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(138);
-    match(TParser::OpenCurly);
-    setState(139);
-    dynamic_cast<IdarrayContext *>(_localctx)->idContext = id();
-    dynamic_cast<IdarrayContext *>(_localctx)->element.push_back(dynamic_cast<IdarrayContext *>(_localctx)->idContext);
-    setState(144);
-    _errHandler->sync(this);
-    _la = _input->LA(1);
-    while (_la == TParser::Comma) {
-      setState(140);
-      match(TParser::Comma);
-      setState(141);
-      dynamic_cast<IdarrayContext *>(_localctx)->idContext = id();
-      dynamic_cast<IdarrayContext *>(_localctx)->element.push_back(dynamic_cast<IdarrayContext *>(_localctx)->idContext);
-      setState(146);
-      _errHandler->sync(this);
-      _la = _input->LA(1);
+    else {
+      _errHandler->reportMatch(this);
+      consume();
     }
-    setState(147);
-    match(TParser::CloseCurly);
-   
-  }
-  catch (RecognitionException &e) {
-    _errHandler->reportError(this, e);
-    _localctx->exception = std::current_exception();
-    _errHandler->recover(this, _localctx->exception);
-  }
-
-  return _localctx;
-}
-
-//----------------- AnyContext ------------------------------------------------------------------
-
-TParser::AnyContext::AnyContext(ParserRuleContext *parent, size_t invokingState)
-  : ParserRuleContext(parent, invokingState) {
-}
-
-
-size_t TParser::AnyContext::getRuleIndex() const {
-  return TParser::RuleAny;
-}
-
-void TParser::AnyContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAny(this);
-}
-
-void TParser::AnyContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<TParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAny(this);
-}
-
-
-antlrcpp::Any TParser::AnyContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitAny(this);
-  else
-    return visitor->visitChildren(this);
-}
-
-TParser::AnyContext* TParser::any() {
-  AnyContext *_localctx = _tracker.createInstance<AnyContext>(_ctx, getState());
-  enterRule(_localctx, 24, TParser::RuleAny);
-
-#if __cplusplus > 201703L
-  auto onExit = finally([=, this] {
-#else
-  auto onExit = finally([=] {
-#endif
-    exitRule();
-  });
-  try {
-    enterOuterAlt(_localctx, 1);
-    setState(149);
-    dynamic_cast<AnyContext *>(_localctx)->t = matchWildcard();
    
   }
   catch (RecognitionException &e) {
@@ -1392,9 +1081,7 @@ TParser::AnyContext* TParser::any() {
 
 bool TParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
   switch (ruleIndex) {
-    case 1: return divideSempred(dynamic_cast<DivideContext *>(context), predicateIndex);
-    case 3: return conquerSempred(dynamic_cast<ConquerContext *>(context), predicateIndex);
-    case 7: return exprSempred(dynamic_cast<ExprContext *>(context), predicateIndex);
+    case 1: return fileContentSempred(dynamic_cast<FileContentContext *>(context), predicateIndex);
 
   default:
     break;
@@ -1402,32 +1089,9 @@ bool TParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIn
   return true;
 }
 
-bool TParser::divideSempred(DivideContext *_localctx, size_t predicateIndex) {
+bool TParser::fileContentSempred(FileContentContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return doesItBlend();
-
-  default:
-    break;
-  }
-  return true;
-}
-
-bool TParser::conquerSempred(ConquerContext *_localctx, size_t predicateIndex) {
-  switch (predicateIndex) {
-    case 1: return doesItBlend();
-
-  default:
-    break;
-  }
-  return true;
-}
-
-bool TParser::exprSempred(ExprContext *_localctx, size_t predicateIndex) {
-  switch (predicateIndex) {
-    case 2: return precpred(_ctx, 9);
-    case 3: return precpred(_ctx, 8);
-    case 4: return precpred(_ctx, 6);
-    case 5: return precpred(_ctx, 5);
+    case 0: return precpred(_ctx, 2);
 
   default:
     break;
@@ -1444,21 +1108,19 @@ atn::ATN TParser::_atn;
 std::vector<uint16_t> TParser::_serializedATN;
 
 std::vector<std::string> TParser::_ruleNames = {
-  "main", "divide", "and_", "conquer", "unused", "unused2", "stat", "expr", 
-  "flowControl", "id", "array", "idarray", "any"
+  "main", "fileContent", "sentence", "liveTokens", "comment", "use", "useValue", 
+  "useString", "variable", "variableMembers", "variableDefinition", "variableValue", 
+  "generalValue"
 };
 
 std::vector<std::string> TParser::_literalNames = {
-  "", "", "'return'", "'continue'", "", "", "", "'<'", "'>'", "'='", "'and'", 
-  "':'", "';'", "'+'", "'-'", "'*'", "'('", "')'", "'{'", "'}'", "'\u003F'", 
-  "','", "", "", "", "", "", "", "'.'", "'..'", "'$'", "'&'"
+  "", "", "", "'use'", "'var'", "", "';'", "'='", "','"
 };
 
 std::vector<std::string> TParser::_symbolicNames = {
-  "", "DUMMY", "Return", "Continue", "INT", "Digit", "ID", "LessThan", "GreaterThan", 
-  "Equal", "And", "Colon", "Semicolon", "Plus", "Minus", "Star", "OpenPar", 
-  "ClosePar", "OpenCurly", "CloseCurly", "QuestionMark", "Comma", "String", 
-  "Foo", "Bar", "Any", "Comment", "WS", "Dot", "DotDot", "Dollar", "Ampersand"
+  "", "BlockComment", "LineComment", "Use", "Var", "Bool", "End", "Attr", 
+  "Separator", "Identifier", "TypeSpec", "Integer", "Float", "String", "Whitespace", 
+  "Newline", "Word", "Words"
 };
 
 dfa::Vocabulary TParser::_vocabulary(_literalNames, _symbolicNames);
@@ -1481,110 +1143,60 @@ TParser::Initializer::Initializer() {
 
   static const uint16_t serializedATNSegment0[] = {
     0x3, 0x608b, 0xa72a, 0x8133, 0xb9ed, 0x417c, 0x3be7, 0x7786, 0x5964, 
-       0x3, 0x21, 0x9a, 0x4, 0x2, 0x9, 0x2, 0x4, 0x3, 0x9, 0x3, 0x4, 0x4, 
+       0x3, 0x13, 0x57, 0x4, 0x2, 0x9, 0x2, 0x4, 0x3, 0x9, 0x3, 0x4, 0x4, 
        0x9, 0x4, 0x4, 0x5, 0x9, 0x5, 0x4, 0x6, 0x9, 0x6, 0x4, 0x7, 0x9, 
        0x7, 0x4, 0x8, 0x9, 0x8, 0x4, 0x9, 0x9, 0x9, 0x4, 0xa, 0x9, 0xa, 
        0x4, 0xb, 0x9, 0xb, 0x4, 0xc, 0x9, 0xc, 0x4, 0xd, 0x9, 0xd, 0x4, 
-       0xe, 0x9, 0xe, 0x3, 0x2, 0x6, 0x2, 0x1e, 0xa, 0x2, 0xd, 0x2, 0xe, 
-       0x2, 0x1f, 0x3, 0x2, 0x3, 0x2, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 
-       0x3, 0x5, 0x3, 0x28, 0xa, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x4, 0x3, 
-       0x4, 0x3, 0x5, 0x6, 0x5, 0x2f, 0xa, 0x5, 0xd, 0x5, 0xe, 0x5, 0x30, 
-       0x3, 0x5, 0x3, 0x5, 0x3, 0x5, 0x3, 0x5, 0x3, 0x5, 0x3, 0x5, 0x7, 
-       0x5, 0x39, 0xa, 0x5, 0xc, 0x5, 0xe, 0x5, 0x3c, 0xb, 0x5, 0x3, 0x5, 
-       0x5, 0x5, 0x3f, 0xa, 0x5, 0x3, 0x5, 0x5, 0x5, 0x42, 0xa, 0x5, 0x3, 
-       0x6, 0x3, 0x6, 0x3, 0x7, 0x3, 0x7, 0x3, 0x7, 0x6, 0x7, 0x49, 0xa, 
-       0x7, 0xd, 0x7, 0xe, 0x7, 0x4a, 0x3, 0x7, 0x5, 0x7, 0x4e, 0xa, 0x7, 
+       0xe, 0x9, 0xe, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x3, 0x3, 0x3, 
+       0x3, 0x3, 0x7, 0x3, 0x23, 0xa, 0x3, 0xc, 0x3, 0xe, 0x3, 0x26, 0xb, 
+       0x3, 0x3, 0x4, 0x3, 0x4, 0x3, 0x4, 0x3, 0x4, 0x5, 0x4, 0x2c, 0xa, 
+       0x4, 0x3, 0x5, 0x3, 0x5, 0x3, 0x6, 0x3, 0x6, 0x3, 0x7, 0x3, 0x7, 
        0x3, 0x7, 0x3, 0x7, 0x3, 0x8, 0x3, 0x8, 0x3, 0x8, 0x3, 0x8, 0x3, 
-       0x8, 0x3, 0x8, 0x3, 0x8, 0x3, 0x8, 0x5, 0x8, 0x5a, 0xa, 0x8, 0x3, 
-       0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 
-       0x3, 0x9, 0x3, 0x9, 0x5, 0x9, 0x65, 0xa, 0x9, 0x3, 0x9, 0x3, 0x9, 
-       0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 
-       0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 
-       0x7, 0x9, 0x76, 0xa, 0x9, 0xc, 0x9, 0xe, 0x9, 0x79, 0xb, 0x9, 0x3, 
-       0xa, 0x3, 0xa, 0x3, 0xa, 0x5, 0xa, 0x7e, 0xa, 0xa, 0x3, 0xb, 0x3, 
-       0xb, 0x3, 0xc, 0x3, 0xc, 0x3, 0xc, 0x3, 0xc, 0x7, 0xc, 0x86, 0xa, 
-       0xc, 0xc, 0xc, 0xe, 0xc, 0x89, 0xb, 0xc, 0x3, 0xc, 0x3, 0xc, 0x3, 
-       0xd, 0x3, 0xd, 0x3, 0xd, 0x3, 0xd, 0x7, 0xd, 0x91, 0xa, 0xd, 0xc, 
-       0xd, 0xe, 0xd, 0x94, 0xb, 0xd, 0x3, 0xd, 0x3, 0xd, 0x3, 0xe, 0x3, 
-       0xe, 0x3, 0xe, 0x3, 0x3e, 0x3, 0x10, 0xf, 0x2, 0x4, 0x6, 0x8, 0xa, 
-       0xc, 0xe, 0x10, 0x12, 0x14, 0x16, 0x18, 0x1a, 0x2, 0x4, 0x3, 0x2, 
-       0xd, 0xf, 0x3, 0x2, 0xe, 0xe, 0x2, 0xa1, 0x2, 0x1d, 0x3, 0x2, 0x2, 
-       0x2, 0x4, 0x23, 0x3, 0x2, 0x2, 0x2, 0x6, 0x2b, 0x3, 0x2, 0x2, 0x2, 
-       0x8, 0x41, 0x3, 0x2, 0x2, 0x2, 0xa, 0x43, 0x3, 0x2, 0x2, 0x2, 0xc, 
-       0x48, 0x3, 0x2, 0x2, 0x2, 0xe, 0x59, 0x3, 0x2, 0x2, 0x2, 0x10, 0x64, 
-       0x3, 0x2, 0x2, 0x2, 0x12, 0x7d, 0x3, 0x2, 0x2, 0x2, 0x14, 0x7f, 0x3, 
-       0x2, 0x2, 0x2, 0x16, 0x81, 0x3, 0x2, 0x2, 0x2, 0x18, 0x8c, 0x3, 0x2, 
-       0x2, 0x2, 0x1a, 0x97, 0x3, 0x2, 0x2, 0x2, 0x1c, 0x1e, 0x5, 0xe, 0x8, 
-       0x2, 0x1d, 0x1c, 0x3, 0x2, 0x2, 0x2, 0x1e, 0x1f, 0x3, 0x2, 0x2, 0x2, 
-       0x1f, 0x1d, 0x3, 0x2, 0x2, 0x2, 0x1f, 0x20, 0x3, 0x2, 0x2, 0x2, 0x20, 
-       0x21, 0x3, 0x2, 0x2, 0x2, 0x21, 0x22, 0x7, 0x2, 0x2, 0x3, 0x22, 0x3, 
-       0x3, 0x2, 0x2, 0x2, 0x23, 0x27, 0x7, 0x8, 0x2, 0x2, 0x24, 0x25, 0x5, 
-       0x6, 0x4, 0x2, 0x25, 0x26, 0x7, 0xa, 0x2, 0x2, 0x26, 0x28, 0x3, 0x2, 
-       0x2, 0x2, 0x27, 0x24, 0x3, 0x2, 0x2, 0x2, 0x27, 0x28, 0x3, 0x2, 0x2, 
-       0x2, 0x28, 0x29, 0x3, 0x2, 0x2, 0x2, 0x29, 0x2a, 0x6, 0x3, 0x2, 0x2, 
-       0x2a, 0x5, 0x3, 0x2, 0x2, 0x2, 0x2b, 0x2c, 0x7, 0xc, 0x2, 0x2, 0x2c, 
-       0x7, 0x3, 0x2, 0x2, 0x2, 0x2d, 0x2f, 0x5, 0x4, 0x3, 0x2, 0x2e, 0x2d, 
-       0x3, 0x2, 0x2, 0x2, 0x2f, 0x30, 0x3, 0x2, 0x2, 0x2, 0x30, 0x2e, 0x3, 
-       0x2, 0x2, 0x2, 0x30, 0x31, 0x3, 0x2, 0x2, 0x2, 0x31, 0x42, 0x3, 0x2, 
-       0x2, 0x2, 0x32, 0x33, 0x6, 0x5, 0x3, 0x2, 0x33, 0x34, 0x5, 0x6, 0x4, 
-       0x2, 0x34, 0x35, 0x8, 0x5, 0x1, 0x2, 0x35, 0x42, 0x3, 0x2, 0x2, 0x2, 
-       0x36, 0x3e, 0x7, 0x8, 0x2, 0x2, 0x37, 0x39, 0x7, 0x9, 0x2, 0x2, 0x38, 
-       0x37, 0x3, 0x2, 0x2, 0x2, 0x39, 0x3c, 0x3, 0x2, 0x2, 0x2, 0x3a, 0x38, 
-       0x3, 0x2, 0x2, 0x2, 0x3a, 0x3b, 0x3, 0x2, 0x2, 0x2, 0x3b, 0x3d, 0x3, 
-       0x2, 0x2, 0x2, 0x3c, 0x3a, 0x3, 0x2, 0x2, 0x2, 0x3d, 0x3f, 0x5, 0x4, 
-       0x3, 0x2, 0x3e, 0x3f, 0x3, 0x2, 0x2, 0x2, 0x3e, 0x3a, 0x3, 0x2, 0x2, 
-       0x2, 0x3f, 0x40, 0x3, 0x2, 0x2, 0x2, 0x40, 0x42, 0x8, 0x5, 0x1, 0x2, 
-       0x41, 0x2e, 0x3, 0x2, 0x2, 0x2, 0x41, 0x32, 0x3, 0x2, 0x2, 0x2, 0x41, 
-       0x36, 0x3, 0x2, 0x2, 0x2, 0x42, 0x9, 0x3, 0x2, 0x2, 0x2, 0x43, 0x44, 
-       0x5, 0xe, 0x8, 0x2, 0x44, 0xb, 0x3, 0x2, 0x2, 0x2, 0x45, 0x46, 0x5, 
-       0xa, 0x6, 0x2, 0x46, 0x47, 0xb, 0x2, 0x2, 0x2, 0x47, 0x49, 0x3, 0x2, 
-       0x2, 0x2, 0x48, 0x45, 0x3, 0x2, 0x2, 0x2, 0x49, 0x4a, 0x3, 0x2, 0x2, 
-       0x2, 0x4a, 0x48, 0x3, 0x2, 0x2, 0x2, 0x4a, 0x4b, 0x3, 0x2, 0x2, 0x2, 
-       0x4b, 0x4d, 0x3, 0x2, 0x2, 0x2, 0x4c, 0x4e, 0x9, 0x2, 0x2, 0x2, 0x4d, 
-       0x4c, 0x3, 0x2, 0x2, 0x2, 0x4d, 0x4e, 0x3, 0x2, 0x2, 0x2, 0x4e, 0x4f, 
-       0x3, 0x2, 0x2, 0x2, 0x4f, 0x50, 0xa, 0x3, 0x2, 0x2, 0x50, 0xd, 0x3, 
-       0x2, 0x2, 0x2, 0x51, 0x52, 0x5, 0x10, 0x9, 0x2, 0x52, 0x53, 0x7, 
-       0xb, 0x2, 0x2, 0x53, 0x54, 0x5, 0x10, 0x9, 0x2, 0x54, 0x55, 0x7, 
-       0xe, 0x2, 0x2, 0x55, 0x5a, 0x3, 0x2, 0x2, 0x2, 0x56, 0x57, 0x5, 0x10, 
-       0x9, 0x2, 0x57, 0x58, 0x7, 0xe, 0x2, 0x2, 0x58, 0x5a, 0x3, 0x2, 0x2, 
-       0x2, 0x59, 0x51, 0x3, 0x2, 0x2, 0x2, 0x59, 0x56, 0x3, 0x2, 0x2, 0x2, 
-       0x5a, 0xf, 0x3, 0x2, 0x2, 0x2, 0x5b, 0x5c, 0x8, 0x9, 0x1, 0x2, 0x5c, 
-       0x5d, 0x7, 0x12, 0x2, 0x2, 0x5d, 0x5e, 0x5, 0x10, 0x9, 0x2, 0x5e, 
-       0x5f, 0x7, 0x13, 0x2, 0x2, 0x5f, 0x65, 0x3, 0x2, 0x2, 0x2, 0x60, 
-       0x65, 0x5, 0x14, 0xb, 0x2, 0x61, 0x65, 0x5, 0x12, 0xa, 0x2, 0x62, 
-       0x65, 0x7, 0x6, 0x2, 0x2, 0x63, 0x65, 0x7, 0x18, 0x2, 0x2, 0x64, 
-       0x5b, 0x3, 0x2, 0x2, 0x2, 0x64, 0x60, 0x3, 0x2, 0x2, 0x2, 0x64, 0x61, 
-       0x3, 0x2, 0x2, 0x2, 0x64, 0x62, 0x3, 0x2, 0x2, 0x2, 0x64, 0x63, 0x3, 
-       0x2, 0x2, 0x2, 0x65, 0x77, 0x3, 0x2, 0x2, 0x2, 0x66, 0x67, 0xc, 0xb, 
-       0x2, 0x2, 0x67, 0x68, 0x7, 0x11, 0x2, 0x2, 0x68, 0x76, 0x5, 0x10, 
-       0x9, 0xc, 0x69, 0x6a, 0xc, 0xa, 0x2, 0x2, 0x6a, 0x6b, 0x7, 0xf, 0x2, 
-       0x2, 0x6b, 0x76, 0x5, 0x10, 0x9, 0xb, 0x6c, 0x6d, 0xc, 0x8, 0x2, 
-       0x2, 0x6d, 0x6e, 0x7, 0x16, 0x2, 0x2, 0x6e, 0x6f, 0x5, 0x10, 0x9, 
-       0x2, 0x6f, 0x70, 0x7, 0xd, 0x2, 0x2, 0x70, 0x71, 0x5, 0x10, 0x9, 
-       0x8, 0x71, 0x76, 0x3, 0x2, 0x2, 0x2, 0x72, 0x73, 0xc, 0x7, 0x2, 0x2, 
-       0x73, 0x74, 0x7, 0xb, 0x2, 0x2, 0x74, 0x76, 0x5, 0x10, 0x9, 0x7, 
-       0x75, 0x66, 0x3, 0x2, 0x2, 0x2, 0x75, 0x69, 0x3, 0x2, 0x2, 0x2, 0x75, 
-       0x6c, 0x3, 0x2, 0x2, 0x2, 0x75, 0x72, 0x3, 0x2, 0x2, 0x2, 0x76, 0x79, 
-       0x3, 0x2, 0x2, 0x2, 0x77, 0x75, 0x3, 0x2, 0x2, 0x2, 0x77, 0x78, 0x3, 
-       0x2, 0x2, 0x2, 0x78, 0x11, 0x3, 0x2, 0x2, 0x2, 0x79, 0x77, 0x3, 0x2, 
-       0x2, 0x2, 0x7a, 0x7b, 0x7, 0x4, 0x2, 0x2, 0x7b, 0x7e, 0x5, 0x10, 
-       0x9, 0x2, 0x7c, 0x7e, 0x7, 0x5, 0x2, 0x2, 0x7d, 0x7a, 0x3, 0x2, 0x2, 
-       0x2, 0x7d, 0x7c, 0x3, 0x2, 0x2, 0x2, 0x7e, 0x13, 0x3, 0x2, 0x2, 0x2, 
-       0x7f, 0x80, 0x7, 0x8, 0x2, 0x2, 0x80, 0x15, 0x3, 0x2, 0x2, 0x2, 0x81, 
-       0x82, 0x7, 0x14, 0x2, 0x2, 0x82, 0x87, 0x7, 0x6, 0x2, 0x2, 0x83, 
-       0x84, 0x7, 0x17, 0x2, 0x2, 0x84, 0x86, 0x7, 0x6, 0x2, 0x2, 0x85, 
-       0x83, 0x3, 0x2, 0x2, 0x2, 0x86, 0x89, 0x3, 0x2, 0x2, 0x2, 0x87, 0x85, 
-       0x3, 0x2, 0x2, 0x2, 0x87, 0x88, 0x3, 0x2, 0x2, 0x2, 0x88, 0x8a, 0x3, 
-       0x2, 0x2, 0x2, 0x89, 0x87, 0x3, 0x2, 0x2, 0x2, 0x8a, 0x8b, 0x7, 0x15, 
-       0x2, 0x2, 0x8b, 0x17, 0x3, 0x2, 0x2, 0x2, 0x8c, 0x8d, 0x7, 0x14, 
-       0x2, 0x2, 0x8d, 0x92, 0x5, 0x14, 0xb, 0x2, 0x8e, 0x8f, 0x7, 0x17, 
-       0x2, 0x2, 0x8f, 0x91, 0x5, 0x14, 0xb, 0x2, 0x90, 0x8e, 0x3, 0x2, 
-       0x2, 0x2, 0x91, 0x94, 0x3, 0x2, 0x2, 0x2, 0x92, 0x90, 0x3, 0x2, 0x2, 
-       0x2, 0x92, 0x93, 0x3, 0x2, 0x2, 0x2, 0x93, 0x95, 0x3, 0x2, 0x2, 0x2, 
-       0x94, 0x92, 0x3, 0x2, 0x2, 0x2, 0x95, 0x96, 0x7, 0x15, 0x2, 0x2, 
-       0x96, 0x19, 0x3, 0x2, 0x2, 0x2, 0x97, 0x98, 0xb, 0x2, 0x2, 0x2, 0x98, 
-       0x1b, 0x3, 0x2, 0x2, 0x2, 0x11, 0x1f, 0x27, 0x30, 0x3a, 0x3e, 0x41, 
-       0x4a, 0x4d, 0x59, 0x64, 0x75, 0x77, 0x7d, 0x87, 0x92, 
+       0x8, 0x5, 0x8, 0x3b, 0xa, 0x8, 0x3, 0x9, 0x3, 0x9, 0x3, 0xa, 0x3, 
+       0xa, 0x3, 0xa, 0x3, 0xa, 0x3, 0xb, 0x3, 0xb, 0x3, 0xb, 0x3, 0xb, 
+       0x3, 0xb, 0x5, 0xb, 0x48, 0xa, 0xb, 0x3, 0xc, 0x3, 0xc, 0x3, 0xc, 
+       0x3, 0xc, 0x3, 0xc, 0x3, 0xc, 0x3, 0xc, 0x5, 0xc, 0x51, 0xa, 0xc, 
+       0x3, 0xd, 0x3, 0xd, 0x3, 0xe, 0x3, 0xe, 0x3, 0xe, 0x2, 0x3, 0x4, 
+       0xf, 0x2, 0x4, 0x6, 0x8, 0xa, 0xc, 0xe, 0x10, 0x12, 0x14, 0x16, 0x18, 
+       0x1a, 0x2, 0x4, 0x3, 0x2, 0x3, 0x4, 0x5, 0x2, 0x7, 0x7, 0xb, 0xb, 
+       0xd, 0xf, 0x2, 0x50, 0x2, 0x1c, 0x3, 0x2, 0x2, 0x2, 0x4, 0x1f, 0x3, 
+       0x2, 0x2, 0x2, 0x6, 0x2b, 0x3, 0x2, 0x2, 0x2, 0x8, 0x2d, 0x3, 0x2, 
+       0x2, 0x2, 0xa, 0x2f, 0x3, 0x2, 0x2, 0x2, 0xc, 0x31, 0x3, 0x2, 0x2, 
+       0x2, 0xe, 0x3a, 0x3, 0x2, 0x2, 0x2, 0x10, 0x3c, 0x3, 0x2, 0x2, 0x2, 
+       0x12, 0x3e, 0x3, 0x2, 0x2, 0x2, 0x14, 0x47, 0x3, 0x2, 0x2, 0x2, 0x16, 
+       0x50, 0x3, 0x2, 0x2, 0x2, 0x18, 0x52, 0x3, 0x2, 0x2, 0x2, 0x1a, 0x54, 
+       0x3, 0x2, 0x2, 0x2, 0x1c, 0x1d, 0x5, 0x4, 0x3, 0x2, 0x1d, 0x1e, 0x7, 
+       0x2, 0x2, 0x3, 0x1e, 0x3, 0x3, 0x2, 0x2, 0x2, 0x1f, 0x24, 0x8, 0x3, 
+       0x1, 0x2, 0x20, 0x21, 0xc, 0x4, 0x2, 0x2, 0x21, 0x23, 0x5, 0x6, 0x4, 
+       0x2, 0x22, 0x20, 0x3, 0x2, 0x2, 0x2, 0x23, 0x26, 0x3, 0x2, 0x2, 0x2, 
+       0x24, 0x22, 0x3, 0x2, 0x2, 0x2, 0x24, 0x25, 0x3, 0x2, 0x2, 0x2, 0x25, 
+       0x5, 0x3, 0x2, 0x2, 0x2, 0x26, 0x24, 0x3, 0x2, 0x2, 0x2, 0x27, 0x2c, 
+       0x5, 0x8, 0x5, 0x2, 0x28, 0x2c, 0x5, 0xa, 0x6, 0x2, 0x29, 0x2c, 0x5, 
+       0xc, 0x7, 0x2, 0x2a, 0x2c, 0x5, 0x12, 0xa, 0x2, 0x2b, 0x27, 0x3, 
+       0x2, 0x2, 0x2, 0x2b, 0x28, 0x3, 0x2, 0x2, 0x2, 0x2b, 0x29, 0x3, 0x2, 
+       0x2, 0x2, 0x2b, 0x2a, 0x3, 0x2, 0x2, 0x2, 0x2c, 0x7, 0x3, 0x2, 0x2, 
+       0x2, 0x2d, 0x2e, 0x7, 0x11, 0x2, 0x2, 0x2e, 0x9, 0x3, 0x2, 0x2, 0x2, 
+       0x2f, 0x30, 0x9, 0x2, 0x2, 0x2, 0x30, 0xb, 0x3, 0x2, 0x2, 0x2, 0x31, 
+       0x32, 0x7, 0x5, 0x2, 0x2, 0x32, 0x33, 0x5, 0xe, 0x8, 0x2, 0x33, 0x34, 
+       0x7, 0x8, 0x2, 0x2, 0x34, 0xd, 0x3, 0x2, 0x2, 0x2, 0x35, 0x3b, 0x5, 
+       0x10, 0x9, 0x2, 0x36, 0x37, 0x5, 0x10, 0x9, 0x2, 0x37, 0x38, 0x7, 
+       0xa, 0x2, 0x2, 0x38, 0x39, 0x5, 0xe, 0x8, 0x2, 0x39, 0x3b, 0x3, 0x2, 
+       0x2, 0x2, 0x3a, 0x35, 0x3, 0x2, 0x2, 0x2, 0x3a, 0x36, 0x3, 0x2, 0x2, 
+       0x2, 0x3b, 0xf, 0x3, 0x2, 0x2, 0x2, 0x3c, 0x3d, 0x7, 0xf, 0x2, 0x2, 
+       0x3d, 0x11, 0x3, 0x2, 0x2, 0x2, 0x3e, 0x3f, 0x7, 0x6, 0x2, 0x2, 0x3f, 
+       0x40, 0x5, 0x14, 0xb, 0x2, 0x40, 0x41, 0x7, 0x8, 0x2, 0x2, 0x41, 
+       0x13, 0x3, 0x2, 0x2, 0x2, 0x42, 0x48, 0x5, 0x16, 0xc, 0x2, 0x43, 
+       0x44, 0x5, 0x16, 0xc, 0x2, 0x44, 0x45, 0x7, 0xa, 0x2, 0x2, 0x45, 
+       0x46, 0x5, 0x14, 0xb, 0x2, 0x46, 0x48, 0x3, 0x2, 0x2, 0x2, 0x47, 
+       0x42, 0x3, 0x2, 0x2, 0x2, 0x47, 0x43, 0x3, 0x2, 0x2, 0x2, 0x48, 0x15, 
+       0x3, 0x2, 0x2, 0x2, 0x49, 0x4a, 0x7, 0xb, 0x2, 0x2, 0x4a, 0x4b, 0x7, 
+       0x9, 0x2, 0x2, 0x4b, 0x51, 0x5, 0x18, 0xd, 0x2, 0x4c, 0x4d, 0x7, 
+       0xb, 0x2, 0x2, 0x4d, 0x4e, 0x7, 0xc, 0x2, 0x2, 0x4e, 0x4f, 0x7, 0x9, 
+       0x2, 0x2, 0x4f, 0x51, 0x5, 0x18, 0xd, 0x2, 0x50, 0x49, 0x3, 0x2, 
+       0x2, 0x2, 0x50, 0x4c, 0x3, 0x2, 0x2, 0x2, 0x51, 0x17, 0x3, 0x2, 0x2, 
+       0x2, 0x52, 0x53, 0x5, 0x1a, 0xe, 0x2, 0x53, 0x19, 0x3, 0x2, 0x2, 
+       0x2, 0x54, 0x55, 0x9, 0x3, 0x2, 0x2, 0x55, 0x1b, 0x3, 0x2, 0x2, 0x2, 
+       0x7, 0x24, 0x2b, 0x3a, 0x47, 0x50, 
   };
 
   _serializedATN.insert(_serializedATN.end(), serializedATNSegment0,

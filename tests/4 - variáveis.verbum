@@ -1,0 +1,49 @@
+
+// In principio erat Verbum
+
+/*
+** In
+**   principio
+**      erat
+**         Verbum 💜
+*/
+
+// xD ^_^ 😀
+    
+        // =)
+
+use 'std:*';
+use "path/*";
+use "std:<io,💜,net>", 'path/test', 'util 💜';
+
+
+
+    var 
+    a
+        :s 
+    = 
+    "Verbum", b = 20,
+         abc:str = a;
+    var a       = "Divinus";
+
+
+var λ = "Verbum ♥";
+var π = 3.14;
+var variable :double    = 3.1337;
+var variable :float     = 0.1337;
+var variable :bool      = true;
+
+var variable :char      = '♥';
+var variable :str       = 'Verbum 😍';
+var variable :string    = 'Verbum 😍';
+var variavle :stream    = null;
+
+// Constantes aceitam apenas valores comuns.
+var variable :const     = 31337;
+var variable :const     = 3.1337;
+var variable :const     = true;
+var variable :const     = "Verbum 😍";
+
+
+
+

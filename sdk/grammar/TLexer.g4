@@ -1,86 +1,96 @@
 lexer grammar TLexer;
 
-// These are all supported lexer sections:
-
-// Lexer file header. Appears at the top of h + cpp files. Use e.g. for copyrights.
-@lexer::header {/* lexer header section */}
-
-// Appears before any #include in h + cpp files.
-@lexer::preinclude {/* lexer precinclude section */}
-
-// Follows directly after the standard #includes in h + cpp files.
 @lexer::postinclude {
-/* lexer postinclude section */
-#ifndef _WIN32
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
+	#ifndef _WIN32
+	#pragma GCC diagnostic ignored "-Wunused-parameter"
+	#endif
 }
 
-// Directly preceds the lexer class declaration in the h file (e.g. for additional types etc.).
-@lexer::context {/* lexer context section */}
+// Comentários.
+BlockComment
+    : '/*' .*? '*/'
+    ;
 
-// Appears in the public part of the lexer in the h file.
-@lexer::members {/* public lexer declarations section */
-bool canTestFoo() { return true; }
-bool isItFoo() { return true; }
-bool isItBar() { return true; }
+LineComment
+    : '//' ~[\r\n]*
+    ;
 
-void myFooLexerAction() { /* do something*/ };
-void myBarLexerAction() { /* do something*/ };
-}
+// Comandos e palavras reservadas.
+Use : 'use' ;
+Var : 'var' ;
+Bool : ( 'true' | 'false' ) ;
 
-// Appears in the private part of the lexer in the h file.
-@lexer::declarations {/* private lexer declarations/members section */}
+// Operadores.
+End : ';' ;
+Attr : '=' ;
+Separator : ',' ;
 
-// Appears in line with the other class member definitions in the cpp file.
-@lexer::definitions {/* lexer definitions section */}
+// Variáveis.
+Identifier
+	: Words
+	;
 
-channels { CommentsChannel, DirectiveChannel }
+TypeSpec
+	: [:] ( Words )
+	;
 
-tokens {
-	DUMMY
-}
+// Tokens geras
+Integer : [0-9]+ ; 
+Float : FloatLiteral ;
 
-Return: 'return';
-Continue: 'continue';
+String
+	: ( '"' .*? '"' | '\'' .*? '\'' )
+	;
 
-INT: Digit+;
-Digit: [0-9];
+Whitespace
+    : [ \t]+
+		-> skip
+    ;
 
-ID: LETTER (LETTER | '0'..'9')*;
-fragment LETTER : [a-zA-Z\u0080-\u{10FFFF}];
+Newline
+    : (   '\r' '\n'?
+      |   '\n'
+      )
+	  	-> skip
+    ;
 
-LessThan: '<';
-GreaterThan:  '>';
-Equal: '=';
-And: 'and';
+Word
+	: [a-zA-Z\u0080-\u{10FFFF}]
+	;
 
-Colon: ':';
-Semicolon: ';';
-Plus: '+';
-Minus: '-';
-Star: '*';
-OpenPar: '(';
-ClosePar: ')';
-OpenCurly: '{' -> pushMode(Mode1);
-CloseCurly: '}' -> popMode;
-QuestionMark: '?';
-Comma: ',' -> skip;
-Dollar: '$' -> more, mode(Mode1);
-Ampersand: '&' -> type(DUMMY);
+Words
+	: [a-zA-Z\u0080-\u{10FFFF}]+
+	;
 
-String: '"' .*? '"';
-Foo: {canTestFoo()}? 'foo' {isItFoo()}? { myFooLexerAction(); };
-Bar: 'bar' {isItBar()}? { myBarLexerAction(); };
-Any: Foo Dot Bar? DotDot Baz;
+// Fragments...
+fragment DecimalExponent : 'e' | 'E' | 'e+' | 'E+' | 'e-' | 'E-' DecimalDigits;
+fragment DecimalDigits   : ('0'..'9'|'_')+ ;
+fragment FloatLiteral    : FloatFrag ImaginarySuffix?;
+fragment IntegerLiteral  : IntegerFrag IntSuffix?;
+fragment FloatTypeSuffix : 'f' | 'F' | 'L';
+fragment ImaginarySuffix : 'i';
+fragment IntSuffix       : 'L'|'u'|'U'|'Lu'|'LU'|'uL'|'UL' ;
+fragment IntegerFrag         : Decimal| Binary| Octal| Hexadecimal ;
+fragment Decimal         : '0' | '1'..'9' (DecimalDigit | '_')* ;
+fragment Binary          : ('0b' | '0B') ('0' | '1' | '_')+ ;
+fragment Octal           : '0' (OctalDigit | '_')+ ;
+fragment Hexadecimal     : ('0x' | '0X') (HexDigit | '_')+;  
+fragment DecimalDigit    : '0'..'9' ;
+fragment OctalDigit      : '0'..'7' ;
+fragment HexDigit        : ('0'..'9'|'a'..'f'|'A'..'F') ;
+fragment FloatFrag
+ : DecimalDigits (  FloatTypeSuffix 
+                   | '.' DecimalDigits DecimalExponent?
+                   )
+ | '.' DecimalDigits DecimalExponent?
+ ;
+ 
+fragment NUMBER: DIGITS | OCTAL_DIGITS | HEX_DIGITS;
+fragment DIGITS: '1'..'9' '0'..'9'*;
+fragment OCTAL_DIGITS: '0' '0'..'7'+;
+fragment HEX_DIGITS: '0x' ('0'..'9' | 'a'..'f' | 'A'..'F')+;
 
-Comment : '#' ~[\r\n]* '\r'? '\n' -> channel(CommentsChannel);
-WS: [ \t\r\n]+ -> channel(99);
+/* Tokens desconhecidos. */
+//Unknown	: . ;
 
-fragment Baz: 'Baz';
 
-mode Mode1;
-Dot: '.';
-
-mode Mode2;
-DotDot: '..';

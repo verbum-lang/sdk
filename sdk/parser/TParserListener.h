@@ -1,15 +1,12 @@
-/* parser/listener/visitor header section */
 
 // Generated from ./TParser.g4 by ANTLR 4.9.2
 
 #pragma once
 
-/* listener preinclude section */
 
 #include "antlr4-runtime.h"
 #include "TParser.h"
 
-/* listener postinclude section */
 
 namespace verbum {
 
@@ -18,53 +15,47 @@ namespace verbum {
  */
 class  TParserListener : public antlr4::tree::ParseTreeListener {
 public:
-/* listener public declarations/members section */
 
   virtual void enterMain(TParser::MainContext *ctx) = 0;
   virtual void exitMain(TParser::MainContext *ctx) = 0;
 
-  virtual void enterDivide(TParser::DivideContext *ctx) = 0;
-  virtual void exitDivide(TParser::DivideContext *ctx) = 0;
+  virtual void enterFileContent(TParser::FileContentContext *ctx) = 0;
+  virtual void exitFileContent(TParser::FileContentContext *ctx) = 0;
 
-  virtual void enterAnd_(TParser::And_Context *ctx) = 0;
-  virtual void exitAnd_(TParser::And_Context *ctx) = 0;
+  virtual void enterSentence(TParser::SentenceContext *ctx) = 0;
+  virtual void exitSentence(TParser::SentenceContext *ctx) = 0;
 
-  virtual void enterConquer(TParser::ConquerContext *ctx) = 0;
-  virtual void exitConquer(TParser::ConquerContext *ctx) = 0;
+  virtual void enterLiveTokens(TParser::LiveTokensContext *ctx) = 0;
+  virtual void exitLiveTokens(TParser::LiveTokensContext *ctx) = 0;
 
-  virtual void enterUnused(TParser::UnusedContext *ctx) = 0;
-  virtual void exitUnused(TParser::UnusedContext *ctx) = 0;
+  virtual void enterComment(TParser::CommentContext *ctx) = 0;
+  virtual void exitComment(TParser::CommentContext *ctx) = 0;
 
-  virtual void enterUnused2(TParser::Unused2Context *ctx) = 0;
-  virtual void exitUnused2(TParser::Unused2Context *ctx) = 0;
+  virtual void enterUse(TParser::UseContext *ctx) = 0;
+  virtual void exitUse(TParser::UseContext *ctx) = 0;
 
-  virtual void enterStat(TParser::StatContext *ctx) = 0;
-  virtual void exitStat(TParser::StatContext *ctx) = 0;
+  virtual void enterUseValue(TParser::UseValueContext *ctx) = 0;
+  virtual void exitUseValue(TParser::UseValueContext *ctx) = 0;
 
-  virtual void enterExpr(TParser::ExprContext *ctx) = 0;
-  virtual void exitExpr(TParser::ExprContext *ctx) = 0;
+  virtual void enterUseString(TParser::UseStringContext *ctx) = 0;
+  virtual void exitUseString(TParser::UseStringContext *ctx) = 0;
 
-  virtual void enterReturn(TParser::ReturnContext *ctx) = 0;
-  virtual void exitReturn(TParser::ReturnContext *ctx) = 0;
+  virtual void enterVariable(TParser::VariableContext *ctx) = 0;
+  virtual void exitVariable(TParser::VariableContext *ctx) = 0;
 
-  virtual void enterContinue(TParser::ContinueContext *ctx) = 0;
-  virtual void exitContinue(TParser::ContinueContext *ctx) = 0;
+  virtual void enterVariableMembers(TParser::VariableMembersContext *ctx) = 0;
+  virtual void exitVariableMembers(TParser::VariableMembersContext *ctx) = 0;
 
-  virtual void enterId(TParser::IdContext *ctx) = 0;
-  virtual void exitId(TParser::IdContext *ctx) = 0;
+  virtual void enterVariableDefinition(TParser::VariableDefinitionContext *ctx) = 0;
+  virtual void exitVariableDefinition(TParser::VariableDefinitionContext *ctx) = 0;
 
-  virtual void enterArray(TParser::ArrayContext *ctx) = 0;
-  virtual void exitArray(TParser::ArrayContext *ctx) = 0;
+  virtual void enterVariableValue(TParser::VariableValueContext *ctx) = 0;
+  virtual void exitVariableValue(TParser::VariableValueContext *ctx) = 0;
 
-  virtual void enterIdarray(TParser::IdarrayContext *ctx) = 0;
-  virtual void exitIdarray(TParser::IdarrayContext *ctx) = 0;
-
-  virtual void enterAny(TParser::AnyContext *ctx) = 0;
-  virtual void exitAny(TParser::AnyContext *ctx) = 0;
+  virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
+  virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 
 
-private:  
-/* listener private declarations/members section */
 };
 
 }  // namespace verbum

@@ -1,15 +1,12 @@
-/* parser/listener/visitor header section */
 
 // Generated from ./TParser.g4 by ANTLR 4.9.2
 
 #pragma once
 
-/* visitor preinclude section */
 
 #include "antlr4-runtime.h"
 #include "TParser.h"
 
-/* visitor postinclude section */
 
 namespace verbum {
 
@@ -19,42 +16,37 @@ namespace verbum {
  */
 class  TParserVisitor : public antlr4::tree::AbstractParseTreeVisitor {
 public:
-  /* visitor public declarations/members section */
 
   /**
    * Visit parse trees produced by TParser.
    */
     virtual antlrcpp::Any visitMain(TParser::MainContext *context) = 0;
 
-    virtual antlrcpp::Any visitDivide(TParser::DivideContext *context) = 0;
+    virtual antlrcpp::Any visitFileContent(TParser::FileContentContext *context) = 0;
 
-    virtual antlrcpp::Any visitAnd_(TParser::And_Context *context) = 0;
+    virtual antlrcpp::Any visitSentence(TParser::SentenceContext *context) = 0;
 
-    virtual antlrcpp::Any visitConquer(TParser::ConquerContext *context) = 0;
+    virtual antlrcpp::Any visitLiveTokens(TParser::LiveTokensContext *context) = 0;
 
-    virtual antlrcpp::Any visitUnused(TParser::UnusedContext *context) = 0;
+    virtual antlrcpp::Any visitComment(TParser::CommentContext *context) = 0;
 
-    virtual antlrcpp::Any visitUnused2(TParser::Unused2Context *context) = 0;
+    virtual antlrcpp::Any visitUse(TParser::UseContext *context) = 0;
 
-    virtual antlrcpp::Any visitStat(TParser::StatContext *context) = 0;
+    virtual antlrcpp::Any visitUseValue(TParser::UseValueContext *context) = 0;
 
-    virtual antlrcpp::Any visitExpr(TParser::ExprContext *context) = 0;
+    virtual antlrcpp::Any visitUseString(TParser::UseStringContext *context) = 0;
 
-    virtual antlrcpp::Any visitReturn(TParser::ReturnContext *context) = 0;
+    virtual antlrcpp::Any visitVariable(TParser::VariableContext *context) = 0;
 
-    virtual antlrcpp::Any visitContinue(TParser::ContinueContext *context) = 0;
+    virtual antlrcpp::Any visitVariableMembers(TParser::VariableMembersContext *context) = 0;
 
-    virtual antlrcpp::Any visitId(TParser::IdContext *context) = 0;
+    virtual antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *context) = 0;
 
-    virtual antlrcpp::Any visitArray(TParser::ArrayContext *context) = 0;
+    virtual antlrcpp::Any visitVariableValue(TParser::VariableValueContext *context) = 0;
 
-    virtual antlrcpp::Any visitIdarray(TParser::IdarrayContext *context) = 0;
-
-    virtual antlrcpp::Any visitAny(TParser::AnyContext *context) = 0;
+    virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
 
-private:  
-/* visitor private declarations/members section */
 };
 
 }  // namespace verbum
