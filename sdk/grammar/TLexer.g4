@@ -27,11 +27,22 @@ Separator : ',' ;
 OpenArIndex : '[' ;
 CloseArIndex : ']' ;
 
-// Variáveis.
+//
+// Identificador:
+// 		nome de tipos de variáveis
+//		nome de variáveis
+//		funções e métodos
+//		classes / objetos
+//		interface
+//		abstração
+//
 Identifier
-	: Words 
-	| Words [0-9]+
-	| Words [0-9]+ [_]
+	: IDPrefix
+	| IDPrefix ( Words | [0-9]+ | [_] )*
+	;
+
+IDPrefix
+	: ( [_] | Words )
 	;
 
 TypeSpec
@@ -57,10 +68,6 @@ Newline
       )
 	  	-> skip
     ;
-
-Word
-	: [a-zA-Z\u0080-\u{10FFFF}]
-	;
 
 Words
 	: [a-zA-Z\u0080-\u{10FFFF}]+

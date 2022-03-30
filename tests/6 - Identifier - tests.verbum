@@ -1,0 +1,26 @@
+
+var _ = 3;
+var _a = 3;
+var _a_ = 3;
+var _1 = 3;
+var _1_ = 3;
+var a = 3;
+var a1 = 3;
+var a_1 = 3;
+var a___ = 3;
+var ___a = 3;
+var a___a = 3;
+var a___1 = 3;
+var a1_ = 3;
+var a1_1 = 3;
+var a1_1str = 3;
+var a1_str = 3;
+var a1_str_ = 3;
+var a1_str_ :int = 3;
+
+var ç = 10;
+
+var 😍 = ♥;
+var 😍 = '♥';
+
+
