@@ -10,6 +10,7 @@ var π           = 3.14;
 var str1 :str   = 'string 1';
 var strB        = "string 2";
 var floatNumber = 1.333;
+var number      = 134;
 var status      = true;
 var flag        = false;
 

@@ -181,7 +181,7 @@ public:
     tabCounter--;
 
     std::cout << std::endl;
-    return visitChildren(ctx);
+    return result;
   }
 
   antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) {
@@ -219,9 +219,9 @@ public:
       std::cout << "- value: " << ctx->Bool()->getText() << std::endl;
     } else if (ctx->indexArray()) {
       ptab();
-      std::cout << "[index-array] " << std::endl;
+      std::cout << "-> [index-array] " << std::endl;
       ptab();
-      std::cout << "elements:" << std::endl;
+      std::cout << "-> array elements:" << std::endl;
       arrayValue = true;
     }
 
