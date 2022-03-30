@@ -1,0 +1,7 @@
+
+var variable = (
+    10 + (variable++) + (
+        3.14 * 3) / --abc
+);
+
+
