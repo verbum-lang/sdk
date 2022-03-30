@@ -174,13 +174,11 @@ public:
 
     std::cout << "variable [" << ctx->Identifier()->getText() << "] ";
     std::cout << "[" << variableDataType << "] " << std::endl;
-    //std::cout << "variable elements ->" << std::endl;
     
     tabCounter++;
     antlrcpp::Any result = visitChildren(ctx);
     tabCounter--;
 
-    std::cout << std::endl;
     return result;
   }
 
