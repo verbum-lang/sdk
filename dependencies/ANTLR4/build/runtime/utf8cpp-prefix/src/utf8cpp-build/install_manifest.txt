@@ -1,0 +1,6 @@
+/home/user/projects/sdk/dependencies/ANTLR4/build/runtime/thirdparty/utfcpp/install/include/utf8cpp/utf8/core.h
+/home/user/projects/sdk/dependencies/ANTLR4/build/runtime/thirdparty/utfcpp/install/include/utf8cpp/utf8/unchecked.h
+/home/user/projects/sdk/dependencies/ANTLR4/build/runtime/thirdparty/utfcpp/install/include/utf8cpp/utf8/cpp11.h
+/home/user/projects/sdk/dependencies/ANTLR4/build/runtime/thirdparty/utfcpp/install/include/utf8cpp/utf8/checked.h
+/home/user/projects/sdk/dependencies/ANTLR4/build/runtime/thirdparty/utfcpp/install/include/utf8cpp/utf8.h
+/home/user/projects/sdk/dependencies/ANTLR4/build/runtime/thirdparty/utfcpp/install/lib/cmake/utf8cpp/utf8cppConfig.cmake

@@ -1,0 +1,12 @@
+# Hashes of file build rules.
+6b31623fe5e083db66aeabf7faa749ce runtime/CMakeFiles/make_lib_output_dir
+7363a83348fa847018b86f14bdc75d19 runtime/CMakeFiles/utf8cpp
+7363a83348fa847018b86f14bdc75d19 runtime/CMakeFiles/utf8cpp-build
+ca594993ed665a5f935335255d252a66 runtime/CMakeFiles/utf8cpp-complete
+a7e9e038737c7bad29ec3072eb468692 runtime/utf8cpp-prefix/src/utf8cpp-stamp/utf8cpp-build
+34add9ed1dac187079851464833afc30 runtime/utf8cpp-prefix/src/utf8cpp-stamp/utf8cpp-configure
+4e1fb787718e4508ceecd7cee9f43baa runtime/utf8cpp-prefix/src/utf8cpp-stamp/utf8cpp-download
+23a51c5d9cda1b67fb24521cba681c3b runtime/utf8cpp-prefix/src/utf8cpp-stamp/utf8cpp-install
+6f2ebbbb43c72e0db4a2aa5fb8cd2d38 runtime/utf8cpp-prefix/src/utf8cpp-stamp/utf8cpp-mkdir
+9df14f7439e916792ed1da4200709a76 runtime/utf8cpp-prefix/src/utf8cpp-stamp/utf8cpp-patch
+c1a326869175381629fc5d71df79753c runtime/utf8cpp-prefix/src/utf8cpp-stamp/utf8cpp-skip-update
