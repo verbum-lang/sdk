@@ -1,0 +1,3 @@
+[submodule "dependencies/ANTLR4/build/runtime/thirdparty/utfcpp"]
+	path = dependencies/ANTLR4/build/runtime/thirdparty/utfcpp
+	url = https://github.com/nemtrif/utfcpp.git
