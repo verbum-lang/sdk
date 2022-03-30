@@ -1,0 +1,31 @@
+
+var str :char      = '♥';
+var str :string    = 'Verbum 😍';
+
+var str = "
+    In principio
+    erat Verbum
+    et Verbum erat apud Deum
+    et Deus erat Verbum
+";
+
+var variable = { // Comentários legais xD
+    items: [
+        { name: /* xD*/ "Verbum"  },
+        { name: "Divinus", Deum: "
+    In principio
+    erat Verbum
+    et Verbum erat apud Deum
+    et Deus erat Verbum
+" },
+        {
+            values: [
+/* teste */     10, 20 :int , 30, { name: "Member" }
+            ]
+        },
+        31337
+    ],
+    test: 333 :float
+};
+
+

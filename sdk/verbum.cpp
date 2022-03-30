@@ -120,9 +120,9 @@ public:
 
       if (ctx->liveTokens()) {
         std::cout << "[ live tokens ]: " << ctx->liveTokens()->getText();
-      } else if (ctx->comment()) {
+      } /*else if (ctx->comment()) {
         std::cout << "[ comment ]: " << ctx->comment()->getText();
-      } else if (ctx->use()) {
+      }*/ else if (ctx->use()) {
         std::cout << "[ use ]: " << ctx->use()->getText();
       } else if (ctx->variable()) {
         std::cout << "[ variable ]: " << ctx->variable()->getText();
@@ -136,6 +136,7 @@ public:
   /*
   ** Comentários.
   */
+  /*
   antlrcpp::Any visitComment(TParser::CommentContext *ctx) {
 
     // Múltiplas linhas.
@@ -152,6 +153,7 @@ public:
 
     return visitChildren(ctx);
   }
+  */
 
   /*
   ** Importações: use.
@@ -218,6 +220,19 @@ public:
     } else if (ctx->indexArray()) {
       ptab();
       std::cout << "-> [index-array] " << std::endl;
+      ptab();
+      std::cout << "-> array elements:" << std::endl;
+      arrayValue = true;
+    } else if (ctx->associativeArray()) {
+      ptab();
+      std::cout << "[associative-array] ";
+      std::cout << "- member: " << 
+        ctx
+          ->associativeArray()
+          ->associativeArrayElements()
+          ->Identifier()
+          ->getText() << std::endl;
+
       ptab();
       std::cout << "-> array elements:" << std::endl;
       arrayValue = true;

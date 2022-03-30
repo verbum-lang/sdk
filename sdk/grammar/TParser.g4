@@ -23,7 +23,6 @@ fileContent
 // Sentenças permitidas.
 sentence
   : liveTokens
-  | comment 
   | use
   | variable
   ;
@@ -31,12 +30,6 @@ sentence
 // Tokens que podem ir soltos no código.
 liveTokens
   : Newline
-  ;
-
-// Comentários.
-comment
-  : BlockComment
-  | LineComment
   ;
 
 // Importações.
@@ -75,14 +68,23 @@ variableValue
 // Array indexado.
 indexArray
   : OpenArIndex CloseArIndex
-  | OpenArIndex arrayElements CloseArIndex
+  | OpenArIndex indexArrayElements CloseArIndex
   ;
 
-arrayElements
+indexArrayElements
   : generalValue
-  | generalValue TypeSpec
-  | generalValue Separator arrayElements
-  | generalValue TypeSpec Separator arrayElements
+  | generalValue Separator indexArrayElements
+  ;
+
+// Array associativo.
+associativeArray
+  : OpenBlock CloseBlock
+  | OpenBlock associativeArrayElements CloseBlock
+  ;
+
+associativeArrayElements
+  : Identifier TwoPoint generalValue
+  | Identifier TwoPoint generalValue Separator associativeArrayElements
   ;
 
 /*
@@ -101,6 +103,7 @@ generalValue
   | Float TypeSpec
   | Bool                    // Valor bool (true, false).  
   | indexArray              // Array indexado.
+  | associativeArray        // Array associativo.
   ;
 
 

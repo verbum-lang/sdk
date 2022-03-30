@@ -30,9 +30,6 @@ public:
   virtual void enterLiveTokens(TParser::LiveTokensContext * /*ctx*/) override { }
   virtual void exitLiveTokens(TParser::LiveTokensContext * /*ctx*/) override { }
 
-  virtual void enterComment(TParser::CommentContext * /*ctx*/) override { }
-  virtual void exitComment(TParser::CommentContext * /*ctx*/) override { }
-
   virtual void enterUse(TParser::UseContext * /*ctx*/) override { }
   virtual void exitUse(TParser::UseContext * /*ctx*/) override { }
 
@@ -57,8 +54,14 @@ public:
   virtual void enterIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
   virtual void exitIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
 
-  virtual void enterArrayElements(TParser::ArrayElementsContext * /*ctx*/) override { }
-  virtual void exitArrayElements(TParser::ArrayElementsContext * /*ctx*/) override { }
+  virtual void enterIndexArrayElements(TParser::IndexArrayElementsContext * /*ctx*/) override { }
+  virtual void exitIndexArrayElements(TParser::IndexArrayElementsContext * /*ctx*/) override { }
+
+  virtual void enterAssociativeArray(TParser::AssociativeArrayContext * /*ctx*/) override { }
+  virtual void exitAssociativeArray(TParser::AssociativeArrayContext * /*ctx*/) override { }
+
+  virtual void enterAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
+  virtual void exitAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
 
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }

@@ -28,8 +28,6 @@ public:
 
     virtual antlrcpp::Any visitLiveTokens(TParser::LiveTokensContext *context) = 0;
 
-    virtual antlrcpp::Any visitComment(TParser::CommentContext *context) = 0;
-
     virtual antlrcpp::Any visitUse(TParser::UseContext *context) = 0;
 
     virtual antlrcpp::Any visitUseValue(TParser::UseValueContext *context) = 0;
@@ -46,7 +44,11 @@ public:
 
     virtual antlrcpp::Any visitIndexArray(TParser::IndexArrayContext *context) = 0;
 
-    virtual antlrcpp::Any visitArrayElements(TParser::ArrayElementsContext *context) = 0;
+    virtual antlrcpp::Any visitIndexArrayElements(TParser::IndexArrayElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitAssociativeArray(TParser::AssociativeArrayContext *context) = 0;
+
+    virtual antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 

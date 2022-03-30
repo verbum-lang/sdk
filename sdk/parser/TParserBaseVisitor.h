@@ -33,10 +33,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitComment(TParser::CommentContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitUse(TParser::UseContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -69,7 +65,15 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitArrayElements(TParser::ArrayElementsContext *ctx) override {
+  virtual antlrcpp::Any visitIndexArrayElements(TParser::IndexArrayElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAssociativeArray(TParser::AssociativeArrayContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) override {
     return visitChildren(ctx);
   }
 

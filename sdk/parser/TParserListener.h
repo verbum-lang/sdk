@@ -28,9 +28,6 @@ public:
   virtual void enterLiveTokens(TParser::LiveTokensContext *ctx) = 0;
   virtual void exitLiveTokens(TParser::LiveTokensContext *ctx) = 0;
 
-  virtual void enterComment(TParser::CommentContext *ctx) = 0;
-  virtual void exitComment(TParser::CommentContext *ctx) = 0;
-
   virtual void enterUse(TParser::UseContext *ctx) = 0;
   virtual void exitUse(TParser::UseContext *ctx) = 0;
 
@@ -55,8 +52,14 @@ public:
   virtual void enterIndexArray(TParser::IndexArrayContext *ctx) = 0;
   virtual void exitIndexArray(TParser::IndexArrayContext *ctx) = 0;
 
-  virtual void enterArrayElements(TParser::ArrayElementsContext *ctx) = 0;
-  virtual void exitArrayElements(TParser::ArrayElementsContext *ctx) = 0;
+  virtual void enterIndexArrayElements(TParser::IndexArrayElementsContext *ctx) = 0;
+  virtual void exitIndexArrayElements(TParser::IndexArrayElementsContext *ctx) = 0;
+
+  virtual void enterAssociativeArray(TParser::AssociativeArrayContext *ctx) = 0;
+  virtual void exitAssociativeArray(TParser::AssociativeArrayContext *ctx) = 0;
+
+  virtual void enterAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) = 0;
+  virtual void exitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) = 0;
 
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;

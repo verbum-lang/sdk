@@ -18,10 +18,11 @@ namespace verbum {
 class  TLexer : public antlr4::Lexer {
 public:
   enum {
-    BlockComment = 1, LineComment = 2, Use = 3, Var = 4, Bool = 5, End = 6, 
-    Attr = 7, Separator = 8, OpenArIndex = 9, CloseArIndex = 10, Identifier = 11, 
-    IDPrefix = 12, TypeSpec = 13, Integer = 14, Float = 15, String = 16, 
-    Whitespace = 17, Newline = 18, Words = 19
+    Use = 1, Var = 2, Bool = 3, End = 4, Attr = 5, TwoPoint = 6, Separator = 7, 
+    OpenArIndex = 8, CloseArIndex = 9, OpenBlock = 10, CloseBlock = 11, 
+    Identifier = 12, IDPrefix = 13, TypeSpec = 14, Integer = 15, Float = 16, 
+    String = 17, Whitespace = 18, Newline = 19, Words = 20, BlockComment = 21, 
+    LineComment = 22
   };
 
   explicit TLexer(antlr4::CharStream *input);

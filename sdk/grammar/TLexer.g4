@@ -6,15 +6,6 @@ lexer grammar TLexer;
 	#endif
 }
 
-// Comentários.
-BlockComment
-    : '/*' .*? '*/'
-    ;
-
-LineComment
-    : '//' ~[\r\n]*
-    ;
-
 // Comandos e palavras reservadas.
 Use : 'use' ;
 Var : 'var' ;
@@ -23,9 +14,12 @@ Bool : ( 'true' | 'false' ) ;
 // Operadores.
 End : ';' ;
 Attr : '=' ;
+TwoPoint : ':';
 Separator : ',' ;
 OpenArIndex : '[' ;
 CloseArIndex : ']' ;
+OpenBlock : '{' ;
+CloseBlock : '}' ;
 
 //
 // Identificador:
@@ -72,6 +66,18 @@ Newline
 Words
 	: [a-zA-Z\u0080-\u{10FFFF}]+
 	;
+
+
+// Comentários.
+BlockComment
+    : '/*' .*? '*/'
+		-> skip
+    ;
+
+LineComment
+    : '//' ~[\r\n]*
+		-> skip
+    ;
 
 // Fragments...
 fragment DecimalExponent : 'e' | 'E' | 'e+' | 'E+' | 'e-' | 'E-' DecimalDigits;

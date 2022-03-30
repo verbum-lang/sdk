@@ -18,17 +18,19 @@ namespace verbum {
 class  TParser : public antlr4::Parser {
 public:
   enum {
-    BlockComment = 1, LineComment = 2, Use = 3, Var = 4, Bool = 5, End = 6, 
-    Attr = 7, Separator = 8, OpenArIndex = 9, CloseArIndex = 10, Identifier = 11, 
-    IDPrefix = 12, TypeSpec = 13, Integer = 14, Float = 15, String = 16, 
-    Whitespace = 17, Newline = 18, Words = 19
+    Use = 1, Var = 2, Bool = 3, End = 4, Attr = 5, TwoPoint = 6, Separator = 7, 
+    OpenArIndex = 8, CloseArIndex = 9, OpenBlock = 10, CloseBlock = 11, 
+    Identifier = 12, IDPrefix = 13, TypeSpec = 14, Integer = 15, Float = 16, 
+    String = 17, Whitespace = 18, Newline = 19, Words = 20, BlockComment = 21, 
+    LineComment = 22
   };
 
   enum {
     RuleMain = 0, RuleFileContent = 1, RuleSentence = 2, RuleLiveTokens = 3, 
-    RuleComment = 4, RuleUse = 5, RuleUseValue = 6, RuleUseString = 7, RuleVariable = 8, 
-    RuleVariableMembers = 9, RuleVariableDefinition = 10, RuleVariableValue = 11, 
-    RuleIndexArray = 12, RuleArrayElements = 13, RuleGeneralValue = 14
+    RuleUse = 4, RuleUseValue = 5, RuleUseString = 6, RuleVariable = 7, 
+    RuleVariableMembers = 8, RuleVariableDefinition = 9, RuleVariableValue = 10, 
+    RuleIndexArray = 11, RuleIndexArrayElements = 12, RuleAssociativeArray = 13, 
+    RuleAssociativeArrayElements = 14, RuleGeneralValue = 15
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -45,7 +47,6 @@ public:
   class FileContentContext;
   class SentenceContext;
   class LiveTokensContext;
-  class CommentContext;
   class UseContext;
   class UseValueContext;
   class UseStringContext;
@@ -54,7 +55,9 @@ public:
   class VariableDefinitionContext;
   class VariableValueContext;
   class IndexArrayContext;
-  class ArrayElementsContext;
+  class IndexArrayElementsContext;
+  class AssociativeArrayContext;
+  class AssociativeArrayElementsContext;
   class GeneralValueContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
@@ -94,7 +97,6 @@ public:
     SentenceContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     LiveTokensContext *liveTokens();
-    CommentContext *comment();
     UseContext *use();
     VariableContext *variable();
 
@@ -121,22 +123,6 @@ public:
   };
 
   LiveTokensContext* liveTokens();
-
-  class  CommentContext : public antlr4::ParserRuleContext {
-  public:
-    CommentContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *BlockComment();
-    antlr4::tree::TerminalNode *LineComment();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  CommentContext* comment();
 
   class  UseContext : public antlr4::ParserRuleContext {
   public:
@@ -260,7 +246,7 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *OpenArIndex();
     antlr4::tree::TerminalNode *CloseArIndex();
-    ArrayElementsContext *arrayElements();
+    IndexArrayElementsContext *indexArrayElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -271,14 +257,13 @@ public:
 
   IndexArrayContext* indexArray();
 
-  class  ArrayElementsContext : public antlr4::ParserRuleContext {
+  class  IndexArrayElementsContext : public antlr4::ParserRuleContext {
   public:
-    ArrayElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    IndexArrayElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     GeneralValueContext *generalValue();
-    antlr4::tree::TerminalNode *TypeSpec();
     antlr4::tree::TerminalNode *Separator();
-    ArrayElementsContext *arrayElements();
+    IndexArrayElementsContext *indexArrayElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -287,7 +272,43 @@ public:
    
   };
 
-  ArrayElementsContext* arrayElements();
+  IndexArrayElementsContext* indexArrayElements();
+
+  class  AssociativeArrayContext : public antlr4::ParserRuleContext {
+  public:
+    AssociativeArrayContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    AssociativeArrayElementsContext *associativeArrayElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AssociativeArrayContext* associativeArray();
+
+  class  AssociativeArrayElementsContext : public antlr4::ParserRuleContext {
+  public:
+    AssociativeArrayElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Identifier();
+    antlr4::tree::TerminalNode *TwoPoint();
+    GeneralValueContext *generalValue();
+    antlr4::tree::TerminalNode *Separator();
+    AssociativeArrayElementsContext *associativeArrayElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AssociativeArrayElementsContext* associativeArrayElements();
 
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:
@@ -300,6 +321,7 @@ public:
     antlr4::tree::TerminalNode *Float();
     antlr4::tree::TerminalNode *Bool();
     IndexArrayContext *indexArray();
+    AssociativeArrayContext *associativeArray();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

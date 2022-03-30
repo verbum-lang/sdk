@@ -1,0 +1,89 @@
+
+var variable = { // Comentários legais xD
+    items: [
+        { name: /* xD*/ "Verbum"  },
+        { name: "Divinus" },
+        {
+            values: [
+/* teste */     10, 20 :int , 30, { name: "Member" }
+            ]
+        },
+        31337
+    ],
+    test: 333 :float
+};
+
+
+var variable = {
+    value: 1.337 :double // Neste caso, quando necessário especificar o tipo
+                           // usa-se as setas laterais de abetura e fechamento.
+};
+
+
+// Outros exemplos.
+var variable :array = [
+    { name: "Verbum" },
+    10, 20, 30:float,
+    {
+        values: [
+            31337 :double, { name: "Divinus" }
+        ] 
+    },
+    [
+    { name: "Verbum" },
+    10, 20, 30:float,
+    {
+        values: [
+            31337 :double, { name: "Divinus" }
+        ] 
+    }
+],[
+    { name: "Verbum", item: [
+    { name: "Verbum" },
+    10, 20, 30:float,
+    {
+        values: [
+            31337 :double, { name: "Divinus" }
+        ] 
+    },
+    [
+    { name: "Verbum" },
+    10, 20, 30:float,
+    {
+        item: { // Comentários legais xD
+    items: [
+        { name: /* xD*/ "Verbum"  },
+        { name: "Divinus" },
+        {
+            values: [
+/* teste */     10, 20 :int , 30, { name: "Member" }
+            ]
+        },
+        31337
+    ],
+    test: 333 :float
+},
+        values: [
+            31337 :double, { name: "Divinus" }
+        ] 
+    }
+],[
+    { name: "Verbum" },
+    10, 20, 30:float,
+    {
+        values: [
+            31337 :double, { name: "Divinus" }
+        ] 
+    }
+]
+] },
+    10, 20, 30:float,
+    {
+        values: [
+            31337 :double, { name: "Divinus" }
+        ] 
+    }
+]
+];
+
+
