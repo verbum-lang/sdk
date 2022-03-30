@@ -52,6 +52,12 @@ public:
   virtual void enterVariableValue(TParser::VariableValueContext *ctx) = 0;
   virtual void exitVariableValue(TParser::VariableValueContext *ctx) = 0;
 
+  virtual void enterIndexArray(TParser::IndexArrayContext *ctx) = 0;
+  virtual void exitIndexArray(TParser::IndexArrayContext *ctx) = 0;
+
+  virtual void enterArrayElements(TParser::ArrayElementsContext *ctx) = 0;
+  virtual void exitArrayElements(TParser::ArrayElementsContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

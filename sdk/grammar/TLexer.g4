@@ -24,6 +24,8 @@ Bool : ( 'true' | 'false' ) ;
 End : ';' ;
 Attr : '=' ;
 Separator : ',' ;
+OpenArIndex : '[' ;
+CloseArIndex : ']' ;
 
 // Variáveis.
 Identifier

@@ -42,6 +42,7 @@ var variavle :stream    = null;
 var variable :const     = 31337;
 var variable :const     = 3.1337;
 var variable :const     = true;
+var variable :const     = false;
 var variable :const     = "Verbum 😍";
 
 

@@ -19,8 +19,9 @@ class  TLexer : public antlr4::Lexer {
 public:
   enum {
     BlockComment = 1, LineComment = 2, Use = 3, Var = 4, Bool = 5, End = 6, 
-    Attr = 7, Separator = 8, Identifier = 9, TypeSpec = 10, Integer = 11, 
-    Float = 12, String = 13, Whitespace = 14, Newline = 15, Word = 16, Words = 17
+    Attr = 7, Separator = 8, OpenArIndex = 9, CloseArIndex = 10, Identifier = 11, 
+    TypeSpec = 12, Integer = 13, Float = 14, String = 15, Whitespace = 16, 
+    Newline = 17, Word = 18, Words = 19
   };
 
   explicit TLexer(antlr4::CharStream *input);

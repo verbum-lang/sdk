@@ -44,6 +44,10 @@ public:
 
     virtual antlrcpp::Any visitVariableValue(TParser::VariableValueContext *context) = 0;
 
+    virtual antlrcpp::Any visitIndexArray(TParser::IndexArrayContext *context) = 0;
+
+    virtual antlrcpp::Any visitArrayElements(TParser::ArrayElementsContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
 

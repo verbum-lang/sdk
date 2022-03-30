@@ -54,6 +54,12 @@ public:
   virtual void enterVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
   virtual void exitVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
 
+  virtual void enterIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
+  virtual void exitIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
+
+  virtual void enterArrayElements(TParser::ArrayElementsContext * /*ctx*/) override { }
+  virtual void exitArrayElements(TParser::ArrayElementsContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 
