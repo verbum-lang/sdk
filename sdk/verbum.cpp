@@ -111,6 +111,29 @@ public:
   }
 
   /*
+  ** Controle da sentenças.
+  */
+  antlrcpp::Any visitSentence(TParser::SentenceContext *ctx) {
+    if (0) {
+      ptab();
+      std::cout << "sentence ";
+
+      if (ctx->liveTokens()) {
+        std::cout << "[ live tokens ]: " << ctx->liveTokens()->getText();
+      } else if (ctx->comment()) {
+        std::cout << "[ comment ]: " << ctx->comment()->getText();
+      } else if (ctx->use()) {
+        std::cout << "[ use ]: " << ctx->use()->getText();
+      } else if (ctx->variable()) {
+        std::cout << "[ variable ]: " << ctx->variable()->getText();
+      }
+
+      std::cout << std::endl;
+    }
+    return visitChildren(ctx);
+  }
+
+  /*
   ** Comentários.
   */
   antlrcpp::Any visitComment(TParser::CommentContext *ctx) {
@@ -118,13 +141,13 @@ public:
     // Múltiplas linhas.
     if (ctx->BlockComment()) {    
       ptab();
-      std::cout << "comment [multiline]: " << ctx->BlockComment()->getText() << std::endl;
+      std::cout << "comment: " << ctx->BlockComment()->getText() << std::endl;
     } 
     
     // Única linha.
     else if (ctx->LineComment()) {
       ptab();
-      std::cout << "comment [single line]: " << ctx->LineComment()->getText() << std::endl;
+      std::cout << "comment: " << ctx->LineComment()->getText() << std::endl;
     }
 
     return visitChildren(ctx);
@@ -144,8 +167,72 @@ public:
   ** Variáveis.
   */
   antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *ctx) {
-    std::cout << "VARIABLE -> " << ctx->getText() << std::endl;
+    std::string variableDataType = "";
+
+    if (ctx->TypeSpec()) 
+      variableDataType = ctx->TypeSpec()->getText();
+
+    std::cout << "variable [" << ctx->Identifier()->getText() << "] ";
+    std::cout << "[" << variableDataType << "] " << std::endl;
+    //std::cout << "variable elements ->" << std::endl;
+    
+    tabCounter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    tabCounter--;
+
+    std::cout << std::endl;
     return visitChildren(ctx);
+  }
+
+  antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) {
+    antlrcpp::Any result;
+    bool arrayValue = false;
+    std::string valueDataType = "";
+
+    if (ctx->TypeSpec())
+      valueDataType = ctx->TypeSpec()->getText();
+
+    if (ctx->Identifier()) {
+      ptab();
+      std::cout << "[identifier] ";
+      std::cout << "["<< valueDataType << "] ";
+      std::cout << "- value: " << ctx->Identifier()->getText() << std::endl;
+    } else if (ctx->String()) {
+      ptab();
+      std::cout << "[string] ";
+      std::cout << "["<< valueDataType << "] ";
+      std::cout << "- value: " << ctx->String()->getText() << std::endl;
+    } else if (ctx->Integer()) {
+      ptab();
+      std::cout << "[integer] ";
+      std::cout << "["<< valueDataType << "] ";
+      std::cout << "- value: " << ctx->Integer()->getText() << std::endl;
+    } else if (ctx->Float()) {
+      ptab();
+      std::cout << "[float/double] ";
+      std::cout << "["<< valueDataType << "] ";
+      std::cout << "- value: " << ctx->Float()->getText() << std::endl;
+    } else if (ctx->Bool()) {
+      ptab();
+      std::cout << "[bool] ";
+      std::cout << "["<< valueDataType << "] ";
+      std::cout << "- value: " << ctx->Bool()->getText() << std::endl;
+    } else if (ctx->indexArray()) {
+      ptab();
+      std::cout << "[index-array] " << std::endl;
+      ptab();
+      std::cout << "elements:" << std::endl;
+      arrayValue = true;
+    }
+
+    if (arrayValue) {
+      tabCounter++;
+      result = visitChildren(ctx);
+      tabCounter--;
+    } else
+      result = visitChildren(ctx);
+
+    return result;
   }
 };
 

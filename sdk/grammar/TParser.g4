@@ -93,10 +93,13 @@ arrayElements
 */
 generalValue
   : Identifier              // Identificadores: nome de tipos de variáveis, nome de variáveis, funções e métodos, classes / objetos, interface, abstração.
+  | Identifier TypeSpec
   | String                  // Strings com aspas simples e duplas.
   | Integer                 // Números inteiros.
+  | Integer TypeSpec
   | Float                   // Número de ponto flutuante, incluindo, por exemplo: 0.123.
-  | Bool                    // Valor bool (true, false).
+  | Float TypeSpec
+  | Bool                    // Valor bool (true, false).  
   | indexArray              // Array indexado.
   ;
 
