@@ -16,10 +16,10 @@ public class TParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		BlockComment=1, LineComment=2, Use=3, Var=4, Bool=5, End=6, Attr=7, TwoPoint=8, 
-		Separator=9, OpenArIndex=10, CloseArIndex=11, OpenBlock=12, CloseBlock=13, 
-		Identifier=14, IDPrefix=15, TypeSpec=16, Integer=17, Float=18, String=19, 
-		Whitespace=20, Newline=21, Words=22;
+		Use=1, Var=2, Bool=3, End=4, Attr=5, TwoPoint=6, Separator=7, OpenArIndex=8, 
+		CloseArIndex=9, OpenBlock=10, CloseBlock=11, Identifier=12, IDPrefix=13, 
+		TypeSpec=14, String=15, Integer=16, Float=17, Whitespace=18, Newline=19, 
+		Words=20, BlockComment=21, LineComment=22;
 	public static final int
 		RULE_main = 0, RULE_fileContent = 1, RULE_sentence = 2, RULE_liveTokens = 3, 
 		RULE_use = 4, RULE_useValue = 5, RULE_useString = 6, RULE_variable = 7, 
@@ -38,17 +38,17 @@ public class TParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, null, "'use'", "'var'", null, "';'", "'='", "':'", "','", 
-			"'['", "']'", "'{'", "'}'"
+			null, "'use'", "'var'", null, "';'", "'='", "':'", "','", "'['", "']'", 
+			"'{'", "'}'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "BlockComment", "LineComment", "Use", "Var", "Bool", "End", "Attr", 
-			"TwoPoint", "Separator", "OpenArIndex", "CloseArIndex", "OpenBlock", 
-			"CloseBlock", "Identifier", "IDPrefix", "TypeSpec", "Integer", "Float", 
-			"String", "Whitespace", "Newline", "Words"
+			null, "Use", "Var", "Bool", "End", "Attr", "TwoPoint", "Separator", "OpenArIndex", 
+			"CloseArIndex", "OpenBlock", "CloseBlock", "Identifier", "IDPrefix", 
+			"TypeSpec", "String", "Integer", "Float", "Whitespace", "Newline", "Words", 
+			"BlockComment", "LineComment"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -950,22 +950,22 @@ public class TParser extends Parser {
 		"l\3\2\2\2\36w\3\2\2\2 \u0086\3\2\2\2\"#\5\4\3\2#$\7\2\2\3$\3\3\2\2\2%"+
 		"*\b\3\1\2&\'\f\4\2\2\')\5\6\4\2(&\3\2\2\2),\3\2\2\2*(\3\2\2\2*+\3\2\2"+
 		"\2+\5\3\2\2\2,*\3\2\2\2-\61\5\b\5\2.\61\5\n\6\2/\61\5\20\t\2\60-\3\2\2"+
-		"\2\60.\3\2\2\2\60/\3\2\2\2\61\7\3\2\2\2\62\63\7\27\2\2\63\t\3\2\2\2\64"+
-		"\65\7\5\2\2\65\66\5\f\7\2\66\67\7\b\2\2\67\13\3\2\2\28>\5\16\b\29:\5\16"+
-		"\b\2:;\7\13\2\2;<\5\f\7\2<>\3\2\2\2=8\3\2\2\2=9\3\2\2\2>\r\3\2\2\2?@\7"+
-		"\25\2\2@\17\3\2\2\2AB\7\6\2\2BC\5\22\n\2CD\7\b\2\2D\21\3\2\2\2EK\5\24"+
-		"\13\2FG\5\24\13\2GH\7\13\2\2HI\5\22\n\2IK\3\2\2\2JE\3\2\2\2JF\3\2\2\2"+
-		"K\23\3\2\2\2LM\7\20\2\2MN\7\t\2\2NT\5\26\f\2OP\7\20\2\2PQ\7\22\2\2QR\7"+
-		"\t\2\2RT\5\26\f\2SL\3\2\2\2SO\3\2\2\2T\25\3\2\2\2UV\5 \21\2V\27\3\2\2"+
-		"\2WX\7\f\2\2X^\7\r\2\2YZ\7\f\2\2Z[\5\32\16\2[\\\7\r\2\2\\^\3\2\2\2]W\3"+
-		"\2\2\2]Y\3\2\2\2^\31\3\2\2\2_e\5 \21\2`a\5 \21\2ab\7\13\2\2bc\5\32\16"+
-		"\2ce\3\2\2\2d_\3\2\2\2d`\3\2\2\2e\33\3\2\2\2fg\7\16\2\2gm\7\17\2\2hi\7"+
-		"\16\2\2ij\5\36\20\2jk\7\17\2\2km\3\2\2\2lf\3\2\2\2lh\3\2\2\2m\35\3\2\2"+
-		"\2no\7\20\2\2op\7\n\2\2px\5 \21\2qr\7\20\2\2rs\7\n\2\2st\5 \21\2tu\7\13"+
-		"\2\2uv\5\36\20\2vx\3\2\2\2wn\3\2\2\2wq\3\2\2\2x\37\3\2\2\2y\u0087\7\20"+
-		"\2\2z{\7\20\2\2{\u0087\7\22\2\2|\u0087\7\25\2\2}\u0087\7\23\2\2~\177\7"+
-		"\23\2\2\177\u0087\7\22\2\2\u0080\u0087\7\24\2\2\u0081\u0082\7\24\2\2\u0082"+
-		"\u0087\7\22\2\2\u0083\u0087\7\7\2\2\u0084\u0087\5\30\r\2\u0085\u0087\5"+
+		"\2\60.\3\2\2\2\60/\3\2\2\2\61\7\3\2\2\2\62\63\7\25\2\2\63\t\3\2\2\2\64"+
+		"\65\7\3\2\2\65\66\5\f\7\2\66\67\7\6\2\2\67\13\3\2\2\28>\5\16\b\29:\5\16"+
+		"\b\2:;\7\t\2\2;<\5\f\7\2<>\3\2\2\2=8\3\2\2\2=9\3\2\2\2>\r\3\2\2\2?@\7"+
+		"\21\2\2@\17\3\2\2\2AB\7\4\2\2BC\5\22\n\2CD\7\6\2\2D\21\3\2\2\2EK\5\24"+
+		"\13\2FG\5\24\13\2GH\7\t\2\2HI\5\22\n\2IK\3\2\2\2JE\3\2\2\2JF\3\2\2\2K"+
+		"\23\3\2\2\2LM\7\16\2\2MN\7\7\2\2NT\5\26\f\2OP\7\16\2\2PQ\7\20\2\2QR\7"+
+		"\7\2\2RT\5\26\f\2SL\3\2\2\2SO\3\2\2\2T\25\3\2\2\2UV\5 \21\2V\27\3\2\2"+
+		"\2WX\7\n\2\2X^\7\13\2\2YZ\7\n\2\2Z[\5\32\16\2[\\\7\13\2\2\\^\3\2\2\2]"+
+		"W\3\2\2\2]Y\3\2\2\2^\31\3\2\2\2_e\5 \21\2`a\5 \21\2ab\7\t\2\2bc\5\32\16"+
+		"\2ce\3\2\2\2d_\3\2\2\2d`\3\2\2\2e\33\3\2\2\2fg\7\f\2\2gm\7\r\2\2hi\7\f"+
+		"\2\2ij\5\36\20\2jk\7\r\2\2km\3\2\2\2lf\3\2\2\2lh\3\2\2\2m\35\3\2\2\2n"+
+		"o\7\16\2\2op\7\b\2\2px\5 \21\2qr\7\16\2\2rs\7\b\2\2st\5 \21\2tu\7\t\2"+
+		"\2uv\5\36\20\2vx\3\2\2\2wn\3\2\2\2wq\3\2\2\2x\37\3\2\2\2y\u0087\7\16\2"+
+		"\2z{\7\16\2\2{\u0087\7\20\2\2|\u0087\7\21\2\2}\u0087\7\22\2\2~\177\7\22"+
+		"\2\2\177\u0087\7\20\2\2\u0080\u0087\7\23\2\2\u0081\u0082\7\23\2\2\u0082"+
+		"\u0087\7\20\2\2\u0083\u0087\7\5\2\2\u0084\u0087\5\30\r\2\u0085\u0087\5"+
 		"\34\17\2\u0086y\3\2\2\2\u0086z\3\2\2\2\u0086|\3\2\2\2\u0086}\3\2\2\2\u0086"+
 		"~\3\2\2\2\u0086\u0080\3\2\2\2\u0086\u0081\3\2\2\2\u0086\u0083\3\2\2\2"+
 		"\u0086\u0084\3\2\2\2\u0086\u0085\3\2\2\2\u0087!\3\2\2\2\f*\60=JS]dlw\u0086";

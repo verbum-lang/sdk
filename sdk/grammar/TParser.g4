@@ -91,7 +91,9 @@ associativeArrayElements
 ** Regras de uso geral.
 **
 ** Utilizada por:
-**    Variáveis - variableValue
+**    Variáveis             - variableValue
+**    Array indexado        - indexArrayElements
+**    Array associativo     - associativeArrayElements
 */
 generalValue
   : Identifier              // Identificadores: nome de tipos de variáveis, nome de variáveis, funções e métodos, classes / objetos, interface, abstração.
