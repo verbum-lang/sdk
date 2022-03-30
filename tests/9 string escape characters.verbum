@@ -1,0 +1,18 @@
+
+var str :char      = '♥';
+var str :string    = 'Verbum 😍';
+
+var str = "
+    In principio \"
+    erat Verbum  '-' \" \{\}
+    et Verbum erat apud Deum {} 
+    et Deus erat Verbum 😍
+";
+
+var str = 'Deus eh Bom ❤ \'teste\' " ';
+
+var str = 
+    '
+        xD <3 \' "
+    ';
+

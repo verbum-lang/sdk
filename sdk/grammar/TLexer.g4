@@ -43,13 +43,15 @@ TypeSpec
 	: [:] ( Identifier )
 	;
 
+// Strings.
+String
+	: '"' ( ~('"') | ('\\' '"') )* '"'
+	| '\'' ( ~('\'') | ('\\' '\'') )* '\''
+	;
+
 // Tokens geras
 Integer : [0-9]+ ; 
 Float : FloatLiteral ;
-
-String
-	: ( '"' .*? '"' | '\'' .*? '\'' )
-	;
 
 Whitespace
     : [ \t]+
