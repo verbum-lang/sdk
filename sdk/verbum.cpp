@@ -23,7 +23,7 @@ class MyParserErrorListener: public BaseErrorListener {
       size_t line,
       size_t charPositionInLine,
       const std::string &msg,
-      std::exception_ptr e) 
+      std::exception_ptr e)
   {
     // Verifica se é erro do ANTLR4 ou se é de origem da gramática.
     std::string message = msg;
@@ -103,17 +103,30 @@ class MyParserErrorListener: public BaseErrorListener {
 //
 class  MyTParserBaseVisitor : public TParserBaseVisitor {
 public:
+  int tabCounter = 0;
+
+  void ptab () {
+    for (int a=0; a<tabCounter; a++)
+      std::cout << "    ";
+  }
 
   /*
   ** Comentários.
   */
   antlrcpp::Any visitComment(TParser::CommentContext *ctx) {
 
-    if (ctx->BlockComment())
-      std::cout << "BLOCK COMMENT: " << ctx->BlockComment()->getText() << std::endl;
-    else if (ctx->LineComment())
-      std::cout << "LINE COMMENT: " << ctx->LineComment()->getText() << std::endl;
-   
+    // Múltiplas linhas.
+    if (ctx->BlockComment()) {    
+      ptab();
+      std::cout << "comment [multiline]: " << ctx->BlockComment()->getText() << std::endl;
+    } 
+    
+    // Única linha.
+    else if (ctx->LineComment()) {
+      ptab();
+      std::cout << "comment [single line]: " << ctx->LineComment()->getText() << std::endl;
+    }
+
     return visitChildren(ctx);
   }
 
@@ -121,7 +134,8 @@ public:
   ** Importações: use.
   */
   antlrcpp::Any visitUseString(TParser::UseStringContext *ctx) {
-    std::cout << "USE: " << ctx->getText() << std::endl;
+    ptab();
+    std::cout << "import [use]: " << ctx->getText() << std::endl;
     
     return visitChildren(ctx);
   }

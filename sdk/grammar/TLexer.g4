@@ -29,11 +29,13 @@ CloseArIndex : ']' ;
 
 // Variáveis.
 Identifier
-	: Words
+	: Words 
+	| Words [0-9]+
+	| Words [0-9]+ [_]
 	;
 
 TypeSpec
-	: [:] ( Words )
+	: [:] ( Identifier )
 	;
 
 // Tokens geras

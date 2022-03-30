@@ -1,5 +1,21 @@
 
-// Indexados, com acesso via número do index.
-var variable :array = [ 3, 1, 3, 3, 7 ];
+/* 
+** Comentário de múltiplas linhas!
+*/
+
+use 'std:io'; // Comentário de única linha.
+
+// Variáveis...
+var π           = 3.14;
+var str1 :str   = 'string 1';
+var strB        = "string 2";
+var floatNumber = 1.333;
+var status      = true;
+var flag        = false;
+
+// Array indexado.
+var variable :array = [ 
+    1, 2, 3 
+];
 
 
