@@ -93,6 +93,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitFunctionCallByCode(TParser::FunctionCallByCodeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *ctx) override {
     return visitChildren(ctx);
   }

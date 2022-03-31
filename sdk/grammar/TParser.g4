@@ -25,6 +25,7 @@ sentence
   : liveTokens
   | use
   | variable
+  | functionCallByCode
   ;
 
 // Tokens que podem ir soltos no código.
@@ -120,6 +121,9 @@ operationValue
   | Float TypeSpec ArithmeticOperator
 
   | functionCall
+  | functionCall ArithmeticOperator
+  | functionCall TypeSpec
+  | functionCall TypeSpec ArithmeticOperator
 
   | operationBlock
   | operationBlock ArithmeticOperator
@@ -131,6 +135,10 @@ firstIncDec : IncDecOperators ;
 lastIncDec  : IncDecOperators ;
 
 // Chamada a função, e métodos de objetos static e instanciados.
+functionCallByCode
+  : functionCall End
+  ;
+
 functionCall
   : Identifier functionCallParam
   | Identifier Point identifierB functionCallParam
@@ -140,7 +148,8 @@ functionCall
 identifierB : Identifier;
 
 functionCallParam
-  : OpenOp functionCallParamElements CloseOp
+  : OpenOp CloseOp
+  | OpenOp functionCallParamElements CloseOp
   ;
 
 functionCallParamElements

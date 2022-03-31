@@ -75,6 +75,9 @@ public:
   virtual void enterLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
   virtual void exitLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
 
+  virtual void enterFunctionCallByCode(TParser::FunctionCallByCodeContext * /*ctx*/) override { }
+  virtual void exitFunctionCallByCode(TParser::FunctionCallByCodeContext * /*ctx*/) override { }
+
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 

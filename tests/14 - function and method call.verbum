@@ -1,0 +1,18 @@
+
+
+functionName(10, [1,
+    another(verbum, [1,2,3])
+,3], 30);
+
+func(10,20,30);
+
+
+obj1 :: functionName(10, 20, 30);
+obj2 . functionName(10, 20, 30);
+
+var a = (
+    10 + io.func(
+        std::print('xD')
+    )
+);
+

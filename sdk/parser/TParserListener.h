@@ -73,6 +73,9 @@ public:
   virtual void enterLastIncDec(TParser::LastIncDecContext *ctx) = 0;
   virtual void exitLastIncDec(TParser::LastIncDecContext *ctx) = 0;
 
+  virtual void enterFunctionCallByCode(TParser::FunctionCallByCodeContext *ctx) = 0;
+  virtual void exitFunctionCallByCode(TParser::FunctionCallByCodeContext *ctx) = 0;
+
   virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
   virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
 

@@ -275,6 +275,9 @@ public:
     return result;
   }
 
+  /*
+  ** Controles relacionados ao array associativo.
+  */
   antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) {
 
     ptab();
@@ -342,7 +345,30 @@ public:
       }
  
       else if (ctx->functionCall()) {
-        std::cout << " [function-call]: " << ctx->functionCall()->Identifier()->getText() << std::endl;
+        // Método de objeto instanciado.
+        if (ctx->functionCall()->Point()) {
+          std::cout << "-> [obj-instance method-call] " << 
+            ctx->functionCall()->Identifier()->getText() << 
+            " -> " <<
+            ctx->functionCall()->identifierB()->getText() << 
+            std::endl;
+        }
+
+        // Método static.
+        else if (ctx->functionCall()->TwoTwoPoint()) {
+          std::cout << "-> [obj-static method-call] " << 
+            ctx->functionCall()->Identifier()->getText() << 
+            " -> " <<
+            ctx->functionCall()->identifierB()->getText() << 
+            std::endl;
+        }
+
+        // Função comum.
+        else {
+          std::cout << "-> [function-call] " << 
+            ctx->functionCall()->Identifier()->getText() << std::endl;
+        }
+
         ptab();
         std::cout << " function params: " << std::endl;
       }
@@ -357,6 +383,43 @@ public:
       result = visitChildren(ctx);
 
     return result;
+  }
+
+  /*
+  ** Controles relacionados as chamadas de funções pelo código.
+  */
+
+  antlrcpp::Any visitFunctionCallByCode(TParser::FunctionCallByCodeContext *ctx) {
+    ptab();
+
+    // Método de objeto instanciado.
+    if (ctx->functionCall()->Point()) {
+      std::cout << "-> [obj-instance method-call] " << 
+        ctx->functionCall()->Identifier()->getText() << 
+        " -> " <<
+        ctx->functionCall()->identifierB()->getText() << 
+        std::endl;
+    }
+
+    // Método static.
+    else if (ctx->functionCall()->TwoTwoPoint()) {
+      std::cout << "-> [obj-static method-call] " << 
+        ctx->functionCall()->Identifier()->getText() << 
+        " -> " <<
+        ctx->functionCall()->identifierB()->getText() << 
+        std::endl;
+    }
+
+    // Função comum.
+    else {
+      std::cout << "-> [function-call] " << 
+        ctx->functionCall()->Identifier()->getText() << std::endl;
+    }
+
+    ptab();
+    std::cout << "-> function-params: "<< std::endl;
+
+    return visitChildren(ctx);
   }
 };
 

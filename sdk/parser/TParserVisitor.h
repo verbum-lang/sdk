@@ -58,6 +58,8 @@ public:
 
     virtual antlrcpp::Any visitLastIncDec(TParser::LastIncDecContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunctionCallByCode(TParser::FunctionCallByCodeContext *context) = 0;
+
     virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *context) = 0;
 
     virtual antlrcpp::Any visitIdentifierB(TParser::IdentifierBContext *context) = 0;
