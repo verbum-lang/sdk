@@ -40,13 +40,13 @@ var variable :array = [
     { name:  "Verbum" },
     {
         value: 'Divino',
-        operation:  (3 + ( func(10,20,30) ) + 3)    
+        operation:  (3 + ( 3 ) + 3)    
     }
 ];
 
 var variable = [
     1, 2, 3,
-   ( 10 + ( 20 * 3 ) / 4 ),
+   ( 10 + ( 20 * 3 ) / 4),
     'str 1', "str 2"
 ];
 

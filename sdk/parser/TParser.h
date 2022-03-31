@@ -18,12 +18,12 @@ namespace verbum {
 class  TParser : public antlr4::Parser {
 public:
   enum {
-    Use = 1, Var = 2, Bool = 3, End = 4, Attr = 5, TwoPoint = 6, Separator = 7, 
-    OpenArIndex = 8, CloseArIndex = 9, OpenBlock = 10, CloseBlock = 11, 
-    OpenOp = 12, CloseOp = 13, ArithmeticOperator = 14, IncDecOperators = 15, 
-    Identifier = 16, IDPrefix = 17, TypeSpec = 18, String = 19, Integer = 20, 
-    Float = 21, Whitespace = 22, Newline = 23, Words = 24, BlockComment = 25, 
-    LineComment = 26
+    Use = 1, Var = 2, Bool = 3, End = 4, Attr = 5, Point = 6, TwoPoint = 7, 
+    TwoTwoPoint = 8, Separator = 9, OpenArIndex = 10, CloseArIndex = 11, 
+    OpenBlock = 12, CloseBlock = 13, OpenOp = 14, CloseOp = 15, ArithmeticOperator = 16, 
+    IncDecOperators = 17, Identifier = 18, IDPrefix = 19, TypeSpec = 20, 
+    String = 21, Integer = 22, Float = 23, Whitespace = 24, Newline = 25, 
+    Words = 26, BlockComment = 27, LineComment = 28
   };
 
   enum {
@@ -32,8 +32,8 @@ public:
     RuleVariableMembers = 8, RuleVariableDefinition = 9, RuleIndexArray = 10, 
     RuleIndexArrayElements = 11, RuleAssociativeArray = 12, RuleAssociativeArrayElements = 13, 
     RuleOperationBlock = 14, RuleOperationElements = 15, RuleOperationValue = 16, 
-    RuleFirstIncDec = 17, RuleLastIncDec = 18, RuleFunctionCall = 19, RuleFunctionCallParam = 20, 
-    RuleFunctionCallParamElements = 21, RuleGeneralValue = 22
+    RuleFirstIncDec = 17, RuleLastIncDec = 18, RuleFunctionCall = 19, RuleIdentifierB = 20, 
+    RuleFunctionCallParam = 21, RuleFunctionCallParamElements = 22, RuleGeneralValue = 23
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -66,6 +66,7 @@ public:
   class FirstIncDecContext;
   class LastIncDecContext;
   class FunctionCallContext;
+  class IdentifierBContext;
   class FunctionCallParamContext;
   class FunctionCallParamElementsContext;
   class GeneralValueContext; 
@@ -397,6 +398,9 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *Identifier();
     FunctionCallParamContext *functionCallParam();
+    antlr4::tree::TerminalNode *Point();
+    IdentifierBContext *identifierB();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -406,6 +410,21 @@ public:
   };
 
   FunctionCallContext* functionCall();
+
+  class  IdentifierBContext : public antlr4::ParserRuleContext {
+  public:
+    IdentifierBContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Identifier();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IdentifierBContext* identifierB();
 
   class  FunctionCallParamContext : public antlr4::ParserRuleContext {
   public:

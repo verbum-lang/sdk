@@ -60,6 +60,8 @@ public:
 
     virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *context) = 0;
 
+    virtual antlrcpp::Any visitIdentifierB(TParser::IdentifierBContext *context) = 0;
+
     virtual antlrcpp::Any visitFunctionCallParam(TParser::FunctionCallParamContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCallParamElements(TParser::FunctionCallParamElementsContext *context) = 0;

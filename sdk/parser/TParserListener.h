@@ -76,6 +76,9 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
   virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
 
+  virtual void enterIdentifierB(TParser::IdentifierBContext *ctx) = 0;
+  virtual void exitIdentifierB(TParser::IdentifierBContext *ctx) = 0;
+
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
 

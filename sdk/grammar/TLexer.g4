@@ -14,7 +14,9 @@ Bool : ( 'true' | 'false' ) ;
 // Operadores.
 End : ';' ;
 Attr : '=' ;
+Point : '.';
 TwoPoint : ':';
+TwoTwoPoint : '::';
 Separator : ',' ;
 OpenArIndex : '[' ;
 CloseArIndex : ']' ;

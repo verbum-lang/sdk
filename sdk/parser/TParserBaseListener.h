@@ -78,6 +78,9 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 
+  virtual void enterIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
+  virtual void exitIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
+
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
 

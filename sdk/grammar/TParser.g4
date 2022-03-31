@@ -130,10 +130,14 @@ operationValue
 firstIncDec : IncDecOperators ;
 lastIncDec  : IncDecOperators ;
 
-// Chamada a função.
+// Chamada a função, e métodos de objetos static e instanciados.
 functionCall
   : Identifier functionCallParam
+  | Identifier Point identifierB functionCallParam
+  | Identifier TwoTwoPoint identifierB functionCallParam
   ;
+
+identifierB : Identifier;
 
 functionCallParam
   : OpenOp functionCallParamElements CloseOp

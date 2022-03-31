@@ -2,10 +2,40 @@
 var a = (10 + (20));
 
 var variable = functionName(10, [1,
-    another(verbum)
+    another(verbum, [1,2,3])
 ,3], 30);
 
-//var variable = obj::functionName(10, 20, 30);
-//var variable = obj.functionName(10, 20, 30);
+
+var variable :array = [
+    { name:  "Verbum" },
+    {
+        value: 'Divino',
+        test:  (3 + ( func(10,[lol],30) ) + 3)    
+    }
+];
+
+var variable :array = [
+    { name:  "Verbum" },
+    {
+        value: 'Divino',
+        test: oi   ,
+        data: 10,
+        pi: 3.14,
+        flag: true,
+        ar_index: [ 1,2,3 ],
+        ar_assoc: { name: 'Jesus' },
+        fx: func(10,20,30),
+        op: (10+10)
+    }
+];
+
+var a = {
+    op1: (10 + 20),
+    flag: true,
+    op2: (3 * 3)
+};
+
+var variable = obj1 :: functionName(10, 20, 30);
+var variable = obj2 . functionName(10, 20, 30);
 
 
