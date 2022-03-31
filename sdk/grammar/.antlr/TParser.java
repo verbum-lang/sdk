@@ -1237,8 +1237,8 @@ public class TParser extends Parser {
 		public AssociativeArrayContext associativeArray() {
 			return getRuleContext(AssociativeArrayContext.class,0);
 		}
-		public OperationBlockContext operationBlock() {
-			return getRuleContext(OperationBlockContext.class,0);
+		public OperationElementsContext operationElements() {
+			return getRuleContext(OperationElementsContext.class,0);
 		}
 		public GeneralValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1333,7 +1333,7 @@ public class TParser extends Parser {
 				enterOuterAlt(_localctx, 11);
 				{
 				setState(221);
-				operationBlock();
+				operationElements();
 				}
 				break;
 			}
@@ -1435,7 +1435,7 @@ public class TParser extends Parser {
 		"\u00d4\7\22\2\2\u00d4\u00e1\7\24\2\2\u00d5\u00e1\7\25\2\2\u00d6\u00e1"+
 		"\7\26\2\2\u00d7\u00d8\7\26\2\2\u00d8\u00e1\7\24\2\2\u00d9\u00e1\7\27\2"+
 		"\2\u00da\u00db\7\27\2\2\u00db\u00e1\7\24\2\2\u00dc\u00e1\7\5\2\2\u00dd"+
-		"\u00e1\5\30\r\2\u00de\u00e1\5\34\17\2\u00df\u00e1\5 \21\2\u00e0\u00d2"+
+		"\u00e1\5\30\r\2\u00de\u00e1\5\34\17\2\u00df\u00e1\5\"\22\2\u00e0\u00d2"+
 		"\3\2\2\2\u00e0\u00d3\3\2\2\2\u00e0\u00d5\3\2\2\2\u00e0\u00d6\3\2\2\2\u00e0"+
 		"\u00d7\3\2\2\2\u00e0\u00d9\3\2\2\2\u00e0\u00da\3\2\2\2\u00e0\u00dc\3\2"+
 		"\2\2\u00e0\u00dd\3\2\2\2\u00e0\u00de\3\2\2\2\u00e0\u00df\3\2\2\2\u00e1"+

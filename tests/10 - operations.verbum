@@ -16,5 +16,38 @@ var variable = (
     );
 
 
+// Operações dentro de elementos de array.
+var variable = [
+    1, 2, 3,
+    (10 + 20),
+    'str 1', "str 2"
+];
+
+var variable = [
+    1, 2, 3,
+    ( (12 + (1337:int) + 3) % 20 :int / 30 ),
+    'str 1', "str 2"
+];
+
+var variable = [
+    1, 2, 3,
+    (12 + (1337:int) + 3) % 20 :int / 30,
+    'str 1', "str 2"
+];
+
+
+var variable :array = [
+    { name:  "Verbum" },
+    {
+        value: 'Divino',
+        operation:  3 + ( 3 ) + 3    
+    }
+];
+
+var variable = [
+    1, 2, 3,
+    10 + ( 20 * 3 ) / 4,
+    'str 1', "str 2"
+];
 
 

@@ -4,7 +4,6 @@ echo "Clean temporary files."
 rm -rf verbum
 
 echo "Compiling Verbum"
-cd ..
 c++ -c verbum.cpp -I../dependencies/ANTLR4/runtime/src -I./parser -Wno-overloaded-virtual
 
 echo "Linking file..."

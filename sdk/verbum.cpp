@@ -236,7 +236,7 @@ public:
       ptab();
       std::cout << "-> array elements:" << std::endl;
       nextNivel = true;
-    } else if (ctx->operationBlock()) {
+    } else if (ctx->operationElements()) {
       ptab();
       std::cout << "-> [operation-block] " << std::endl;
       ptab();

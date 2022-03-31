@@ -87,7 +87,7 @@ associativeArrayElements
   | Identifier TwoPoint generalValue Separator associativeArrayElements
   ;
 
-// Bloco de operações.
+// Bloco de operações (em conjunto com elementos aritméticos).
 operationBlock
   : OpenOp operationElements CloseOp
   ;
@@ -151,7 +151,7 @@ generalValue
   | Bool                    // Valor bool (true, false).  
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.
-  | operationBlock          // Bloco de operações.
+  | operationElements       // Bloco de operações.
   ;
 
 
