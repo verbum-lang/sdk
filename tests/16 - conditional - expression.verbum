@@ -1,4 +1,4 @@
-/*
+
 if ( ((a > (10 * ( b / 9 )) && b < 333)) != null )
     io.print('Verbum!');
 
@@ -51,21 +51,19 @@ if
         10 * 30 / (
             ++a - --a
         ) + variable + (
-            10 /* (a=fnz()) * /
+            10 /* (a=fnz()) */
         ) * 1
 
     ) / func2() ) && flag > (a = func())
 
     print('Verbum');
-*/
 
-/*
 if !(a + func([1,2,3])) print('Verbum');
 
 if !(a += func()) print('Verbum');
 
 if !(ab += func([1,2,3])) print('Verbum');
-*/
+
 
 if !(ab += func([1,2,3]) :int ) print('Verbum');
 if !(ab += io.func([1,2,3]) :int ) print('Verbum');
