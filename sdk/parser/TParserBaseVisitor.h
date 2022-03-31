@@ -89,6 +89,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitFirstIncDec(TParser::FirstIncDecContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLastIncDec(TParser::LastIncDecContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }

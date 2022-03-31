@@ -72,6 +72,12 @@ public:
   virtual void enterOperationValue(TParser::OperationValueContext * /*ctx*/) override { }
   virtual void exitOperationValue(TParser::OperationValueContext * /*ctx*/) override { }
 
+  virtual void enterFirstIncDec(TParser::FirstIncDecContext * /*ctx*/) override { }
+  virtual void exitFirstIncDec(TParser::FirstIncDecContext * /*ctx*/) override { }
+
+  virtual void enterLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
+  virtual void exitLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

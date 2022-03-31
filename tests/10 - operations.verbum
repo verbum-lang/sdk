@@ -11,8 +11,8 @@ var variable = (
 );
 
     var VerbumGod = (
-        10 :double + (variable) + (
-            3.14 * 3) / abc
+        10 :double + (++variable) + (
+            3.14 * 3) / abc--
     );
 
 

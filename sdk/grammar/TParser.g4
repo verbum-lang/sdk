@@ -103,6 +103,16 @@ operationValue
   | Identifier TypeSpec
   | Identifier TypeSpec ArithmeticOperator
 
+  | firstIncDec Identifier
+  | firstIncDec Identifier ArithmeticOperator
+  | firstIncDec Identifier TypeSpec
+  | firstIncDec Identifier TypeSpec ArithmeticOperator
+
+  | Identifier lastIncDec
+  | Identifier ArithmeticOperator lastIncDec
+  | Identifier TypeSpec lastIncDec
+  | Identifier TypeSpec ArithmeticOperator lastIncDec
+
   | Integer
   | Integer ArithmeticOperator
   | Integer TypeSpec
@@ -118,6 +128,9 @@ operationValue
   | operationBlock TypeSpec
   | operationBlock TypeSpec ArithmeticOperator
   ;
+
+firstIncDec : IncDecOperators ;
+lastIncDec  : IncDecOperators ;
 
 /*
 ** Regras de uso geral.

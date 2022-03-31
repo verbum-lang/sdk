@@ -56,6 +56,10 @@ public:
 
     virtual antlrcpp::Any visitOperationValue(TParser::OperationValueContext *context) = 0;
 
+    virtual antlrcpp::Any visitFirstIncDec(TParser::FirstIncDecContext *context) = 0;
+
+    virtual antlrcpp::Any visitLastIncDec(TParser::LastIncDecContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
 

@@ -70,6 +70,12 @@ public:
   virtual void enterOperationValue(TParser::OperationValueContext *ctx) = 0;
   virtual void exitOperationValue(TParser::OperationValueContext *ctx) = 0;
 
+  virtual void enterFirstIncDec(TParser::FirstIncDecContext *ctx) = 0;
+  virtual void exitFirstIncDec(TParser::FirstIncDecContext *ctx) = 0;
+
+  virtual void enterLastIncDec(TParser::LastIncDecContext *ctx) = 0;
+  virtual void exitLastIncDec(TParser::LastIncDecContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

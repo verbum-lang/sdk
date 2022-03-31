@@ -32,7 +32,8 @@ public:
     RuleVariableMembers = 8, RuleVariableDefinition = 9, RuleVariableValue = 10, 
     RuleIndexArray = 11, RuleIndexArrayElements = 12, RuleAssociativeArray = 13, 
     RuleAssociativeArrayElements = 14, RuleOperationBlock = 15, RuleOperationElements = 16, 
-    RuleOperationValue = 17, RuleGeneralValue = 18
+    RuleOperationValue = 17, RuleFirstIncDec = 18, RuleLastIncDec = 19, 
+    RuleGeneralValue = 20
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -63,6 +64,8 @@ public:
   class OperationBlockContext;
   class OperationElementsContext;
   class OperationValueContext;
+  class FirstIncDecContext;
+  class LastIncDecContext;
   class GeneralValueContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
@@ -355,6 +358,8 @@ public:
     antlr4::tree::TerminalNode *Identifier();
     antlr4::tree::TerminalNode *ArithmeticOperator();
     antlr4::tree::TerminalNode *TypeSpec();
+    FirstIncDecContext *firstIncDec();
+    LastIncDecContext *lastIncDec();
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
     OperationBlockContext *operationBlock();
@@ -367,6 +372,36 @@ public:
   };
 
   OperationValueContext* operationValue();
+
+  class  FirstIncDecContext : public antlr4::ParserRuleContext {
+  public:
+    FirstIncDecContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IncDecOperators();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FirstIncDecContext* firstIncDec();
+
+  class  LastIncDecContext : public antlr4::ParserRuleContext {
+  public:
+    LastIncDecContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IncDecOperators();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LastIncDecContext* lastIncDec();
 
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:

@@ -288,7 +288,17 @@ public:
       std::cout << " ";
 
       if (ctx->Identifier()) 
+      {
+        // Processa incremento/decremento.
+        if (ctx->firstIncDec())
+          std::cout << " ["<< ctx->firstIncDec()->getText() <<"] ";
+
         std::cout << ctx->Identifier()->getText();
+        
+        if (ctx->lastIncDec())
+          std::cout << " ["<< ctx->lastIncDec()->getText() <<"] ";
+      }
+      
       else if (ctx->Integer()) 
         std::cout << ctx->Integer()->getText();
       else if (ctx->Float()) 
