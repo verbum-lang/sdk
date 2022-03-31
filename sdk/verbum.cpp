@@ -225,18 +225,12 @@ public:
       nextNivel = true;
     } else if (ctx->associativeArray()) {
       ptab();
-      std::cout << "[associative-array] ";
-      std::cout << "- member: " << 
-        ctx
-          ->associativeArray()
-          ->associativeArrayElements()
-          ->Identifier()
-          ->getText() << std::endl;
-
+      std::cout << "[associative-array] " << std::endl;
       ptab();
       std::cout << "-> array elements:" << std::endl;
       nextNivel = true;
     } else if (ctx->operationBlock()) {
+      //std::cout << "DBG: " << ctx->operationBlock()->operationElements()->operationValue()->getText() << std::endl;
       ptab();
       std::cout << "-> [operation-block] " << std::endl;
       ptab();
@@ -244,7 +238,7 @@ public:
       nextNivel = true;
     } else if (ctx->functionCall()) {
       ptab();
-      std::cout << "-> [function-call] " << std::endl;
+      std::cout << "-> [function-call] " << ctx->functionCall()->Identifier()->getText() << std::endl;
       ptab();
       std::cout << "-> function params:" << std::endl;
       nextNivel = true;
@@ -258,6 +252,17 @@ public:
       result = visitChildren(ctx);
 
     return result;
+  }
+
+  antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) {
+
+    ptab();
+    std::cout << "-> Associative array - member: " << 
+      ctx
+        ->Identifier()
+        ->getText() << std::endl;
+
+    return visitChildren(ctx);
   }
 
   /*
@@ -305,12 +310,20 @@ public:
           std::cout << " ["<< ctx->lastIncDec()->getText() <<"] ";
       }
       
-      else if (ctx->Integer()) 
+      else if (ctx->Integer()) {
         std::cout << ctx->Integer()->getText();
-      else if (ctx->Float()) 
+        std::cout << " [" << valueDataType << "] " << std::endl;
+      }
+      else if (ctx->Float()) {
         std::cout << ctx->Float()->getText();
-      
-      std::cout << " [" << valueDataType << "] " << std::endl;
+        std::cout << " [" << valueDataType << "] " << std::endl;
+      }
+ 
+      else if (ctx->functionCall()) {
+        std::cout << " [function-call]: " << ctx->functionCall()->Identifier()->getText() << std::endl;
+        ptab();
+        std::cout << " function params: " << std::endl;
+      }
 
       if (ctx->ArithmeticOperator()) {
         ptab();

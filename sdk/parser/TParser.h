@@ -349,6 +349,7 @@ public:
     LastIncDecContext *lastIncDec();
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
+    FunctionCallContext *functionCall();
     OperationBlockContext *operationBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;

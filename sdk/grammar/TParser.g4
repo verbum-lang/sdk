@@ -119,6 +119,8 @@ operationValue
   | Float TypeSpec
   | Float TypeSpec ArithmeticOperator
 
+  | functionCall
+
   | operationBlock
   | operationBlock ArithmeticOperator
   | operationBlock TypeSpec
