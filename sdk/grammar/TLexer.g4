@@ -35,10 +35,12 @@ ArithmeticOperator
 
 AssignmentOperator
 	: '+=' | '-=' | '*=' | '/=' | '%='
-	| '>'  | '<' | '>=' | '<=' 
+	| '>'  | '<'  | '>=' | '<=' 
 	| '&&' | '||'
 	| '==' | '!='
 	;
+
+Not : '!';
 
 // Incremento e decremento.
 IncDecOperators

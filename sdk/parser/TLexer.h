@@ -21,10 +21,10 @@ public:
     Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, Bool = 6, End = 7, Attr = 8, 
     Point = 9, TwoPoint = 10, TwoTwoPoint = 11, Separator = 12, OpenArIndex = 13, 
     CloseArIndex = 14, OpenBlock = 15, CloseBlock = 16, OpenOp = 17, CloseOp = 18, 
-    ArithmeticOperator = 19, AssignmentOperator = 20, IncDecOperators = 21, 
-    Identifier = 22, IDPrefix = 23, TypeSpec = 24, String = 25, Integer = 26, 
-    Float = 27, Whitespace = 28, Newline = 29, Words = 30, BlockComment = 31, 
-    LineComment = 32
+    ArithmeticOperator = 19, AssignmentOperator = 20, Not = 21, IncDecOperators = 22, 
+    Identifier = 23, IDPrefix = 24, TypeSpec = 25, String = 26, Integer = 27, 
+    Float = 28, Whitespace = 29, Newline = 30, Words = 31, BlockComment = 32, 
+    LineComment = 33
   };
 
   explicit TLexer(antlr4::CharStream *input);

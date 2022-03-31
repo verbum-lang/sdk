@@ -158,6 +158,8 @@ functionCallParam
 functionCallParamElements
   : generalValue
   | generalValue Separator functionCallParamElements
+  | operationElements
+  | operationElements Separator functionCallParamElements
   ;
 
 // Expressões condicionais.
@@ -171,6 +173,9 @@ conditionalExpressionElements
   | operationElements AssignmentOperator conditionalExpressionElements
   | OpenOp conditionalExpressionElements CloseOp
   | OpenOp conditionalExpressionElements CloseOp AssignmentOperator conditionalExpressionElements
+  | OpenOp Identifier Attr functionCall CloseOp
+  | OpenOp Identifier Attr functionCall CloseOp AssignmentOperator conditionalExpressionElements
+  | Not conditionalExpressionElements
   ;
 
 blockElements

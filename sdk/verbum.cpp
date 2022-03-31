@@ -429,7 +429,7 @@ public:
 
     //if (ctx->callingFunction()) {
       ptab();
-      std::cout << "-> [conditional]" << std::endl;
+      std::cout << "-> [conditional]: " << ctx->conditionalExpressionElements()->getText() << std::endl;
     //} else {
     //  ptab();
     //  std::cout << "-> [conditional-block]" << std::endl;

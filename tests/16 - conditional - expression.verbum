@@ -1,4 +1,26 @@
 
-if ( ((a > (10 * ( b / 9 )) && b < 333)) != null )
+//if ( ((a > (10 * ( b / 9 )) && b < 333)) != null )
+//    io.print('Verbum!');
+
+//if ((a = func()) != null)
+//    io.print('Verbum!');
+
+/*
+if ( 
+
+    a = func( funN() * 10 )
+
+) != null && a > 10
     io.print('Verbum!');
+
+if ( a = func( 10 + 10 ) )
+    io.print('Verbum!');
+
+if ( (a+10) += value )
+    io.print('Verbum!');
+*/
+
+if  !(a = func())
+    print('Verbum');
+
 
