@@ -427,15 +427,25 @@ public:
   */
   antlrcpp::Any visitConditionalExpression(TParser::ConditionalExpressionContext *ctx) {
 
-    //if (ctx->callingFunction()) {
+    if (ctx->callingFunction()) {
       ptab();
-      std::cout << "-> [conditional]: " << ctx->conditionalExpressionElements()->getText() << std::endl;
-    //} else {
-    //  ptab();
-    //  std::cout << "-> [conditional-block]" << std::endl;
-    //}
+      std::cout << "-> [conditional-function]: " << 
+        ctx->conditionalExpressionElements()->getText() << std::endl;
+      ptab();
+      std::cout << "-> conditional-elements:" << std::endl;
+    } else {
+      ptab();
+      std::cout << "-> [conditional-block]: " << 
+        ctx->conditionalExpressionElements()->getText() << std::endl;
+      ptab();
+      std::cout << "-> conditional-elements:" << std::endl;
+    }
 
-    return visitChildren(ctx);
+    tabCounter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    tabCounter--;
+
+    return result;
   }
 
   /*

@@ -1,11 +1,10 @@
-
-//if ( ((a > (10 * ( b / 9 )) && b < 333)) != null )
-//    io.print('Verbum!');
-
-//if ((a = func()) != null)
-//    io.print('Verbum!');
-
 /*
+if ( ((a > (10 * ( b / 9 )) && b < 333)) != null )
+    io.print('Verbum!');
+
+if ((a = func()) != null)
+    io.print('Verbum!');
+
 if ( 
 
     a = func( funN() * 10 )
@@ -18,9 +17,49 @@ if ( a = func( 10 + 10 ) )
 
 if ( (a+10) += value )
     io.print('Verbum!');
-*/
 
 if  !(a = func())
     print('Verbum');
+
+*/
+
+/*
+if 
+    a > 10 * 30 + ( func1(
+
+        10 * 30 / (
+            ++a - --a
+        ) + variable + (
+            10 /* (a=fnz()) * /
+        ) * 1
+
+    ) / func2() ) && flag > (a = func())
+
+    print('Verbum');
+
+
+if !(a = func())
+    print('Verbum');
+
+*/
+
+if a == 10
+{
+    print('a');
+
+    if (b < 20)
+        print('b');
+
+    if a == b {
+        print('a b');
+        if x
+            print('Verbum');
+        print('c d');
+    }
+}
+
+if z {
+    var name = 'Verbum';
+}
 
 
