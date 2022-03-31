@@ -105,9 +105,9 @@ operationValue
   | firstIncDec Identifier TypeSpec ArithmeticOperator
 
   | Identifier lastIncDec
-  | Identifier ArithmeticOperator lastIncDec
-  | Identifier TypeSpec lastIncDec
-  | Identifier TypeSpec ArithmeticOperator lastIncDec
+  | Identifier lastIncDec ArithmeticOperator 
+  | Identifier lastIncDec TypeSpec 
+  | Identifier lastIncDec TypeSpec ArithmeticOperator 
 
   | Integer 
   | Integer ArithmeticOperator

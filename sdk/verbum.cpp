@@ -321,14 +321,15 @@ public:
 
       if (ctx->Identifier()) 
       {
-        // Processa incremento/decremento.
+        // Processa pré-incremento/decremento.
         if (ctx->firstIncDec())
-          std::cout << " ["<< ctx->firstIncDec()->getText() <<"] ";
+          std::cout << " [pre -> "<< ctx->firstIncDec()->getText() <<"] ";
 
-        std::cout << ctx->Identifier()->getText();
-        
+        // Processa pós-incremento/decremento.
         if (ctx->lastIncDec())
-          std::cout << " ["<< ctx->lastIncDec()->getText() <<"] ";
+          std::cout << " [pos -> "<< ctx->lastIncDec()->getText() <<"] ";
+
+        std::cout << ctx->Identifier()->getText() << std::endl;
       }
       
       else if (ctx->Integer()) {
