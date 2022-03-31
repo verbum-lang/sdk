@@ -1,0 +1,11 @@
+
+var a = (10 + (20));
+
+var variable = functionName(10, [1,
+    another(verbum)
+,3], 30);
+
+//var variable = obj::functionName(10, 20, 30);
+//var variable = obj.functionName(10, 20, 30);
+
+

@@ -29,11 +29,11 @@ public:
   enum {
     RuleMain = 0, RuleFileContent = 1, RuleSentence = 2, RuleLiveTokens = 3, 
     RuleUse = 4, RuleUseValue = 5, RuleUseString = 6, RuleVariable = 7, 
-    RuleVariableMembers = 8, RuleVariableDefinition = 9, RuleVariableValue = 10, 
-    RuleIndexArray = 11, RuleIndexArrayElements = 12, RuleAssociativeArray = 13, 
-    RuleAssociativeArrayElements = 14, RuleOperationBlock = 15, RuleOperationElements = 16, 
-    RuleOperationValue = 17, RuleFirstIncDec = 18, RuleLastIncDec = 19, 
-    RuleGeneralValue = 20
+    RuleVariableMembers = 8, RuleVariableDefinition = 9, RuleIndexArray = 10, 
+    RuleIndexArrayElements = 11, RuleAssociativeArray = 12, RuleAssociativeArrayElements = 13, 
+    RuleOperationBlock = 14, RuleOperationElements = 15, RuleOperationValue = 16, 
+    RuleFirstIncDec = 17, RuleLastIncDec = 18, RuleFunctionCall = 19, RuleFunctionCallParam = 20, 
+    RuleFunctionCallParamElements = 21, RuleGeneralValue = 22
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -56,7 +56,6 @@ public:
   class VariableContext;
   class VariableMembersContext;
   class VariableDefinitionContext;
-  class VariableValueContext;
   class IndexArrayContext;
   class IndexArrayElementsContext;
   class AssociativeArrayContext;
@@ -66,6 +65,9 @@ public:
   class OperationValueContext;
   class FirstIncDecContext;
   class LastIncDecContext;
+  class FunctionCallContext;
+  class FunctionCallParamContext;
+  class FunctionCallParamElementsContext;
   class GeneralValueContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
@@ -221,7 +223,7 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *Identifier();
     antlr4::tree::TerminalNode *Attr();
-    VariableValueContext *variableValue();
+    GeneralValueContext *generalValue();
     antlr4::tree::TerminalNode *TypeSpec();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -232,21 +234,6 @@ public:
   };
 
   VariableDefinitionContext* variableDefinition();
-
-  class  VariableValueContext : public antlr4::ParserRuleContext {
-  public:
-    VariableValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    GeneralValueContext *generalValue();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  VariableValueContext* variableValue();
 
   class  IndexArrayContext : public antlr4::ParserRuleContext {
   public:
@@ -403,6 +390,56 @@ public:
 
   LastIncDecContext* lastIncDec();
 
+  class  FunctionCallContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCallContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Identifier();
+    FunctionCallParamContext *functionCallParam();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCallContext* functionCall();
+
+  class  FunctionCallParamContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCallParamContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenOp();
+    FunctionCallParamElementsContext *functionCallParamElements();
+    antlr4::tree::TerminalNode *CloseOp();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCallParamContext* functionCallParam();
+
+  class  FunctionCallParamElementsContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCallParamElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueContext *generalValue();
+    antlr4::tree::TerminalNode *Separator();
+    FunctionCallParamElementsContext *functionCallParamElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCallParamElementsContext* functionCallParamElements();
+
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:
     GeneralValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -415,7 +452,8 @@ public:
     antlr4::tree::TerminalNode *Bool();
     IndexArrayContext *indexArray();
     AssociativeArrayContext *associativeArray();
-    OperationElementsContext *operationElements();
+    OperationBlockContext *operationBlock();
+    FunctionCallContext *functionCall();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

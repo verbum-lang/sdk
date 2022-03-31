@@ -236,11 +236,17 @@ public:
       ptab();
       std::cout << "-> array elements:" << std::endl;
       nextNivel = true;
-    } else if (ctx->operationElements()) {
+    } else if (ctx->operationBlock()) {
       ptab();
       std::cout << "-> [operation-block] " << std::endl;
       ptab();
       std::cout << "-> operation elements:" << std::endl;
+      nextNivel = true;
+    } else if (ctx->functionCall()) {
+      ptab();
+      std::cout << "-> [function-call] " << std::endl;
+      ptab();
+      std::cout << "-> function params:" << std::endl;
       nextNivel = true;
     }
 

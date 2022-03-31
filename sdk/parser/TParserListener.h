@@ -46,9 +46,6 @@ public:
   virtual void enterVariableDefinition(TParser::VariableDefinitionContext *ctx) = 0;
   virtual void exitVariableDefinition(TParser::VariableDefinitionContext *ctx) = 0;
 
-  virtual void enterVariableValue(TParser::VariableValueContext *ctx) = 0;
-  virtual void exitVariableValue(TParser::VariableValueContext *ctx) = 0;
-
   virtual void enterIndexArray(TParser::IndexArrayContext *ctx) = 0;
   virtual void exitIndexArray(TParser::IndexArrayContext *ctx) = 0;
 
@@ -75,6 +72,15 @@ public:
 
   virtual void enterLastIncDec(TParser::LastIncDecContext *ctx) = 0;
   virtual void exitLastIncDec(TParser::LastIncDecContext *ctx) = 0;
+
+  virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
+  virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
+
+  virtual void enterFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
+  virtual void exitFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
+
+  virtual void enterFunctionCallParamElements(TParser::FunctionCallParamElementsContext *ctx) = 0;
+  virtual void exitFunctionCallParamElements(TParser::FunctionCallParamElementsContext *ctx) = 0;
 
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;

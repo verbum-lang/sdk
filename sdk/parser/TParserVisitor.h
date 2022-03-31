@@ -40,8 +40,6 @@ public:
 
     virtual antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *context) = 0;
 
-    virtual antlrcpp::Any visitVariableValue(TParser::VariableValueContext *context) = 0;
-
     virtual antlrcpp::Any visitIndexArray(TParser::IndexArrayContext *context) = 0;
 
     virtual antlrcpp::Any visitIndexArrayElements(TParser::IndexArrayElementsContext *context) = 0;
@@ -59,6 +57,12 @@ public:
     virtual antlrcpp::Any visitFirstIncDec(TParser::FirstIncDecContext *context) = 0;
 
     virtual antlrcpp::Any visitLastIncDec(TParser::LastIncDecContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCallParam(TParser::FunctionCallParamContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCallParamElements(TParser::FunctionCallParamElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 

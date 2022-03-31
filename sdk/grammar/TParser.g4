@@ -57,12 +57,8 @@ variableMembers
   ;
 
 variableDefinition
-  : Identifier Attr variableValue
-  | Identifier TypeSpec Attr variableValue
-  ;
-
-variableValue
-  : generalValue
+  : Identifier Attr generalValue
+  | Identifier TypeSpec Attr generalValue
   ;
 
 // Array indexado.
@@ -98,7 +94,7 @@ operationElements
   ;
 
 operationValue
-  : Identifier
+  : Identifier 
   | Identifier ArithmeticOperator
   | Identifier TypeSpec
   | Identifier TypeSpec ArithmeticOperator
@@ -113,12 +109,12 @@ operationValue
   | Identifier TypeSpec lastIncDec
   | Identifier TypeSpec ArithmeticOperator lastIncDec
 
-  | Integer
+  | Integer 
   | Integer ArithmeticOperator
   | Integer TypeSpec
   | Integer TypeSpec ArithmeticOperator
 
-  | Float
+  | Float 
   | Float ArithmeticOperator
   | Float TypeSpec
   | Float TypeSpec ArithmeticOperator
@@ -131,6 +127,20 @@ operationValue
 
 firstIncDec : IncDecOperators ;
 lastIncDec  : IncDecOperators ;
+
+// Chamada a função.
+functionCall
+  : Identifier functionCallParam
+  ;
+
+functionCallParam
+  : OpenOp functionCallParamElements CloseOp
+  ;
+
+functionCallParamElements
+  : generalValue
+  | generalValue Separator functionCallParamElements
+  ;
 
 /*
 ** Regras de uso geral.
@@ -151,7 +161,8 @@ generalValue
   | Bool                    // Valor bool (true, false).  
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.
-  | operationElements       // Bloco de operações.
+  | operationBlock          // Bloco de operações.
+  | functionCall
   ;
 
 

@@ -48,9 +48,6 @@ public:
   virtual void enterVariableDefinition(TParser::VariableDefinitionContext * /*ctx*/) override { }
   virtual void exitVariableDefinition(TParser::VariableDefinitionContext * /*ctx*/) override { }
 
-  virtual void enterVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
-  virtual void exitVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
-
   virtual void enterIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
   virtual void exitIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
 
@@ -77,6 +74,15 @@ public:
 
   virtual void enterLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
   virtual void exitLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
+  virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
+  virtual void exitFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCallParamElements(TParser::FunctionCallParamElementsContext * /*ctx*/) override { }
+  virtual void exitFunctionCallParamElements(TParser::FunctionCallParamElementsContext * /*ctx*/) override { }
 
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
