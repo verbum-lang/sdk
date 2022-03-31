@@ -33,6 +33,13 @@ ArithmeticOperator
 	: '+' | '-' | '*' | '/' | '%' 
 	;
 
+AssignmentOperator
+	: '+=' | '-=' | '*=' | '/=' | '%='
+	| '>'  | '<' | '>=' | '<=' 
+	| '&&' | '||'
+	| '==' | '!='
+	;
+
 // Incremento e decremento.
 IncDecOperators
 	: ( '++' | '--' )

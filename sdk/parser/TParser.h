@@ -21,9 +21,10 @@ public:
     Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, Bool = 6, End = 7, Attr = 8, 
     Point = 9, TwoPoint = 10, TwoTwoPoint = 11, Separator = 12, OpenArIndex = 13, 
     CloseArIndex = 14, OpenBlock = 15, CloseBlock = 16, OpenOp = 17, CloseOp = 18, 
-    ArithmeticOperator = 19, IncDecOperators = 20, Identifier = 21, IDPrefix = 22, 
-    TypeSpec = 23, String = 24, Integer = 25, Float = 26, Whitespace = 27, 
-    Newline = 28, Words = 29, BlockComment = 30, LineComment = 31
+    ArithmeticOperator = 19, AssignmentOperator = 20, IncDecOperators = 21, 
+    Identifier = 22, IDPrefix = 23, TypeSpec = 24, String = 25, Integer = 26, 
+    Float = 27, Whitespace = 28, Newline = 29, Words = 30, BlockComment = 31, 
+    LineComment = 32
   };
 
   enum {
@@ -509,6 +510,11 @@ public:
     ConditionalExpressionElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     OperationElementsContext *operationElements();
+    antlr4::tree::TerminalNode *AssignmentOperator();
+    std::vector<ConditionalExpressionElementsContext *> conditionalExpressionElements();
+    ConditionalExpressionElementsContext* conditionalExpressionElements(size_t i);
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -542,10 +548,10 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *Identifier();
     antlr4::tree::TerminalNode *TypeSpec();
-    antlr4::tree::TerminalNode *String();
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
     antlr4::tree::TerminalNode *Bool();
+    antlr4::tree::TerminalNode *String();
     IndexArrayContext *indexArray();
     AssociativeArrayContext *associativeArray();
     OperationBlockContext *operationBlock();
