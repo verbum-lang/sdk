@@ -63,6 +63,15 @@ public:
   virtual void enterAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
   virtual void exitAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
 
+  virtual void enterOperationBlock(TParser::OperationBlockContext * /*ctx*/) override { }
+  virtual void exitOperationBlock(TParser::OperationBlockContext * /*ctx*/) override { }
+
+  virtual void enterOperationElements(TParser::OperationElementsContext * /*ctx*/) override { }
+  virtual void exitOperationElements(TParser::OperationElementsContext * /*ctx*/) override { }
+
+  virtual void enterOperationValue(TParser::OperationValueContext * /*ctx*/) override { }
+  virtual void exitOperationValue(TParser::OperationValueContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

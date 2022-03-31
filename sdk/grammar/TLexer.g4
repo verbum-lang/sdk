@@ -20,6 +20,18 @@ OpenArIndex : '[' ;
 CloseArIndex : ']' ;
 OpenBlock : '{' ;
 CloseBlock : '}' ;
+OpenOp : '(';
+CloseOp :')';
+
+// Operações aritméticas.
+ArithmeticOperator
+	: '+' | '-' | '*' | '/' | '%' 
+	;
+
+// Incremento e decremento.
+IncDecOperators
+	: ( '++' | '--' )
+	;
 
 //
 // Identificador:

@@ -87,6 +87,38 @@ associativeArrayElements
   | Identifier TwoPoint generalValue Separator associativeArrayElements
   ;
 
+// Bloco de operações.
+operationBlock
+  : OpenOp operationElements CloseOp
+  ;
+
+operationElements
+  : operationValue
+  | operationValue operationElements
+  ;
+
+operationValue
+  : Identifier
+  | Identifier ArithmeticOperator
+  | Identifier TypeSpec
+  | Identifier TypeSpec ArithmeticOperator
+
+  | Integer
+  | Integer ArithmeticOperator
+  | Integer TypeSpec
+  | Integer TypeSpec ArithmeticOperator
+
+  | Float
+  | Float ArithmeticOperator
+  | Float TypeSpec
+  | Float TypeSpec ArithmeticOperator
+
+  | operationBlock
+  | operationBlock ArithmeticOperator
+  | operationBlock TypeSpec
+  | operationBlock TypeSpec ArithmeticOperator
+  ;
+
 /*
 ** Regras de uso geral.
 **
@@ -106,6 +138,7 @@ generalValue
   | Bool                    // Valor bool (true, false).  
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.
+  | operationBlock          // Bloco de operações.
   ;
 
 

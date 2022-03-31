@@ -166,7 +166,7 @@ public:
   }
 
   /*
-  ** Variáveis.
+  ** Variáveis e questões relacionadas aos valores de atribuição.
   */
   antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *ctx) {
     std::string variableDataType = "";
@@ -186,7 +186,7 @@ public:
 
   antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) {
     antlrcpp::Any result;
-    bool arrayValue = false;
+    bool nextNivel = false;
     std::string valueDataType = "";
 
     if (ctx->TypeSpec())
@@ -222,7 +222,7 @@ public:
       std::cout << "-> [index-array] " << std::endl;
       ptab();
       std::cout << "-> array elements:" << std::endl;
-      arrayValue = true;
+      nextNivel = true;
     } else if (ctx->associativeArray()) {
       ptab();
       std::cout << "[associative-array] ";
@@ -235,14 +235,74 @@ public:
 
       ptab();
       std::cout << "-> array elements:" << std::endl;
-      arrayValue = true;
+      nextNivel = true;
+    } else if (ctx->operationBlock()) {
+      ptab();
+      std::cout << "-> [operation-block] " << std::endl;
+      ptab();
+      std::cout << "-> operation elements:" << std::endl;
+      nextNivel = true;
     }
 
-    if (arrayValue) {
+    if (nextNivel) {
       tabCounter++;
       result = visitChildren(ctx);
       tabCounter--;
     } else
+      result = visitChildren(ctx);
+
+    return result;
+  }
+
+  /*
+  ** Controla conjunto de operações delimitadas por parênteses.
+  */
+  antlrcpp::Any visitOperationValue(TParser::OperationValueContext *ctx) {
+    std::string valueDataType = "";
+    antlrcpp::Any result;
+    bool block = false;
+    
+    if (ctx->TypeSpec())
+      valueDataType = ctx->TypeSpec()->getText();
+
+    if (ctx->operationBlock()) {
+      block = true;
+
+      ptab();
+      std::cout << " ( " << std::endl;
+      tabCounter++;
+
+      result = visitChildren(ctx);
+
+      tabCounter--;
+      ptab();
+      std::cout << " ) [" << valueDataType << "] " << std::endl;
+
+      if (ctx->ArithmeticOperator()) {
+        ptab();
+        std::cout << " " << ctx->ArithmeticOperator()->getText() << " " << std::endl; 
+      }
+
+    } else {
+      ptab();
+      std::cout << " ";
+
+      if (ctx->Identifier()) 
+        std::cout << ctx->Identifier()->getText();
+      else if (ctx->Integer()) 
+        std::cout << ctx->Integer()->getText();
+      else if (ctx->Float()) 
+        std::cout << ctx->Float()->getText();
+      
+      std::cout << " [" << valueDataType << "] " << std::endl;
+
+      if (ctx->ArithmeticOperator()) {
+        ptab();
+        std::cout << " " << ctx->ArithmeticOperator()->getText() << " " << std::endl;
+      }
+    }
+
+    if (!block)
       result = visitChildren(ctx);
 
     return result;

@@ -50,6 +50,12 @@ public:
 
     virtual antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitOperationBlock(TParser::OperationBlockContext *context) = 0;
+
+    virtual antlrcpp::Any visitOperationElements(TParser::OperationElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitOperationValue(TParser::OperationValueContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
 

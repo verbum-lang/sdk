@@ -20,9 +20,10 @@ public:
   enum {
     Use = 1, Var = 2, Bool = 3, End = 4, Attr = 5, TwoPoint = 6, Separator = 7, 
     OpenArIndex = 8, CloseArIndex = 9, OpenBlock = 10, CloseBlock = 11, 
-    Identifier = 12, IDPrefix = 13, TypeSpec = 14, String = 15, Integer = 16, 
-    Float = 17, Whitespace = 18, Newline = 19, Words = 20, BlockComment = 21, 
-    LineComment = 22
+    OpenOp = 12, CloseOp = 13, ArithmeticOperator = 14, IncDecOperators = 15, 
+    Identifier = 16, IDPrefix = 17, TypeSpec = 18, String = 19, Integer = 20, 
+    Float = 21, Whitespace = 22, Newline = 23, Words = 24, BlockComment = 25, 
+    LineComment = 26
   };
 
   explicit TLexer(antlr4::CharStream *input);

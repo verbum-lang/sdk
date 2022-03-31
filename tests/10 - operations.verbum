@@ -1,9 +1,20 @@
 
 
-    var variable = (
-        10 + (variable++) + (
-            3.14 * 3) / --abc
+var variable = (
+    10 :float + (
+        40 - 50 :double
+    ) :float
+    
+    *
+    
+    (12 + (1337:int) + 3) % 20 :int / 30
+);
+
+    var VerbumGod = (
+        10 :double + (variable) + (
+            3.14 * 3) / abc
     );
+
 
 
 

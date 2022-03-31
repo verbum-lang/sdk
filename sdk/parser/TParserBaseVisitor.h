@@ -77,6 +77,18 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitOperationBlock(TParser::OperationBlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitOperationElements(TParser::OperationElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitOperationValue(TParser::OperationValueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }

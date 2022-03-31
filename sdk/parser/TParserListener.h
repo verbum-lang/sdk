@@ -61,6 +61,15 @@ public:
   virtual void enterAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) = 0;
   virtual void exitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) = 0;
 
+  virtual void enterOperationBlock(TParser::OperationBlockContext *ctx) = 0;
+  virtual void exitOperationBlock(TParser::OperationBlockContext *ctx) = 0;
+
+  virtual void enterOperationElements(TParser::OperationElementsContext *ctx) = 0;
+  virtual void exitOperationElements(TParser::OperationElementsContext *ctx) = 0;
+
+  virtual void enterOperationValue(TParser::OperationValueContext *ctx) = 0;
+  virtual void exitOperationValue(TParser::OperationValueContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 
