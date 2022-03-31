@@ -22,7 +22,7 @@ fileContent
 
 // Sentenças permitidas.
 sentence
-  : liveTokens
+  : liveToken
   | use
   | variable
   | callingFunction
@@ -30,8 +30,10 @@ sentence
   ;
 
 // Tokens que podem ir soltos no código.
-liveTokens
+liveToken
   : Newline
+//  | OpenBlock
+//  | CloseBlock
   ;
 
 // Importações.
@@ -160,12 +162,19 @@ functionCallParamElements
 
 // Expressões condicionais.
 conditionalExpression
-  : If conditionalExpressionElements OpenBlock
-  | If conditionalExpressionElements functionCall
+  : If conditionalExpressionElements callingFunction
+  | If conditionalExpressionElements OpenBlock blockElements CloseBlock
   ;
 
 conditionalExpressionElements
-  : 
+  : operationElements
+  ;
+
+blockElements
+  : conditionalExpression
+  | conditionalExpression blockElements
+  | sentence
+  | sentence blockElements
   ;
 
 /*

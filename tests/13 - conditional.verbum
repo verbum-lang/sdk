@@ -1,0 +1,19 @@
+
+
+if  a + ( b * 10 ) 
+    print("Verbum is God!");
+
+if  a + ( b * 10 ) 
+{
+    print("Verbum is God!");
+
+    if (b + 10) 
+        print("b variable");
+
+    if (c + 333) {
+        print('In principio');
+        print('erat Verbum!');
+    }
+}
+
+

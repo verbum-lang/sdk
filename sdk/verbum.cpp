@@ -118,8 +118,8 @@ public:
       ptab();
       std::cout << "sentence ";
 
-      if (ctx->liveTokens()) {
-        std::cout << "[ live tokens ]: " << ctx->liveTokens()->getText();
+      if (ctx->liveToken()) {
+        std::cout << "[ live token ]: " << ctx->liveToken()->getText();
       } /*else if (ctx->comment()) {
         std::cout << "[ comment ]: " << ctx->comment()->getText();
       }*/ else if (ctx->use()) {
@@ -389,7 +389,7 @@ public:
   ** Controles relacionados as chamadas de funções pelo código.
   */
 
-  antlrcpp::Any visitFunctionCallByCode(TParser::FunctionCallByCodeContext *ctx) {
+  antlrcpp::Any visitCallingFunction(TParser::CallingFunctionContext *ctx) {
     ptab();
 
     // Método de objeto instanciado.
@@ -421,6 +421,43 @@ public:
 
     return visitChildren(ctx);
   }
+
+  /*
+  ** Condicionais (if).
+  */
+  antlrcpp::Any visitConditionalExpression(TParser::ConditionalExpressionContext *ctx) {
+
+    //if (ctx->callingFunction()) {
+      ptab();
+      std::cout << "-> [conditional]" << std::endl;
+    //} else {
+    //  ptab();
+    //  std::cout << "-> [conditional-block]" << std::endl;
+    //}
+
+    return visitChildren(ctx);
+  }
+
+  /*
+  ** Controle dos tokens livres.
+  */
+  antlrcpp::Any visitLiveToken(TParser::LiveTokenContext *ctx) {
+
+    /*
+    if (ctx->OpenBlock()) {
+      ptab();
+      std::cout << "-> [block-open]" << std::endl;
+      tabCounter++;
+    } else if (ctx->CloseBlock()) {
+      tabCounter--;
+      ptab();
+      std::cout << "-> [block-close]" << std::endl;
+    }
+    */
+
+    return visitChildren(ctx);
+  }
+
 };
 
 int main(int argc, const char **argv) {
