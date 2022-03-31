@@ -21,27 +21,13 @@ if ( (a+10) += value )
 if  !(a = func())
     print('Verbum');
 
-*/
 
-/*
-if 
-    a > 10 * 30 + ( func1(
+if a > 10 || b < 20 print('oi');
 
-        10 * 30 / (
-            ++a - --a
-        ) + variable + (
-            10 /* (a=fnz()) * /
-        ) * 1
+if (a > 10) || (b < 20) print('oi');
 
-    ) / func2() ) && flag > (a = func())
+if ( !z && ( !y > 10 ) || a == b ) print('Verbum');
 
-    print('Verbum');
-
-
-if !(a = func())
-    print('Verbum');
-
-*/
 
 if a == 10
 {
@@ -58,8 +44,31 @@ if a == 10
     }
 }
 
-if z {
-    var name = 'Verbum';
-}
+
+if 
+    a > 10 * 30 + ( func1(
+
+        10 * 30 / (
+            ++a - --a
+        ) + variable + (
+            10 /* (a=fnz()) * /
+        ) * 1
+
+    ) / func2() ) && flag > (a = func())
+
+    print('Verbum');
+*/
+
+/*
+if !(a + func([1,2,3])) print('Verbum');
+
+if !(a += func()) print('Verbum');
+
+if !(ab += func([1,2,3])) print('Verbum');
+*/
+
+if !(ab += func([1,2,3]) :int ) print('Verbum');
+if !(ab += io.func([1,2,3]) :int ) print('Verbum');
+if !(ab += io::func([1,2,3]) :int ) print('Verbum');
 
 

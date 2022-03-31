@@ -36,7 +36,9 @@ public:
     RuleFirstIncDec = 17, RuleLastIncDec = 18, RuleCallingFunction = 19, 
     RuleFunctionCall = 20, RuleIdentifierB = 21, RuleFunctionCallParam = 22, 
     RuleFunctionCallParamElements = 23, RuleConditionalExpression = 24, 
-    RuleConditionalExpressionElements = 25, RuleBlockElements = 26, RuleGeneralValue = 27
+    RuleConditionalExpressionElements = 25, RuleConditionalExpElementsValue = 26, 
+    RuleConditionExpBlock = 27, RuleConditionalExpValue = 28, RuleBlockElements = 29, 
+    RuleGeneralValue = 30
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -75,6 +77,9 @@ public:
   class FunctionCallParamElementsContext;
   class ConditionalExpressionContext;
   class ConditionalExpressionElementsContext;
+  class ConditionalExpElementsValueContext;
+  class ConditionExpBlockContext;
+  class ConditionalExpValueContext;
   class BlockElementsContext;
   class GeneralValueContext; 
 
@@ -510,15 +515,9 @@ public:
   public:
     ConditionalExpressionElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    OperationElementsContext *operationElements();
-    antlr4::tree::TerminalNode *AssignmentOperator();
-    std::vector<ConditionalExpressionElementsContext *> conditionalExpressionElements();
-    ConditionalExpressionElementsContext* conditionalExpressionElements(size_t i);
-    antlr4::tree::TerminalNode *OpenOp();
-    antlr4::tree::TerminalNode *CloseOp();
-    antlr4::tree::TerminalNode *Identifier();
-    antlr4::tree::TerminalNode *Attr();
-    FunctionCallContext *functionCall();
+    ConditionalExpElementsValueContext *conditionalExpElementsValue();
+    ConditionalExpressionElementsContext *conditionalExpressionElements();
+    ConditionExpBlockContext *conditionExpBlock();
     antlr4::tree::TerminalNode *Not();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -529,6 +528,66 @@ public:
   };
 
   ConditionalExpressionElementsContext* conditionalExpressionElements();
+
+  class  ConditionalExpElementsValueContext : public antlr4::ParserRuleContext {
+  public:
+    ConditionalExpElementsValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ConditionalExpValueContext *conditionalExpValue();
+    ConditionalExpElementsValueContext *conditionalExpElementsValue();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ConditionalExpElementsValueContext* conditionalExpElementsValue();
+
+  class  ConditionExpBlockContext : public antlr4::ParserRuleContext {
+  public:
+    ConditionExpBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenOp();
+    ConditionalExpressionElementsContext *conditionalExpressionElements();
+    antlr4::tree::TerminalNode *CloseOp();
+    ConditionExpBlockContext *conditionExpBlock();
+    antlr4::tree::TerminalNode *AssignmentOperator();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ConditionExpBlockContext* conditionExpBlock();
+  ConditionExpBlockContext* conditionExpBlock(int precedence);
+  class  ConditionalExpValueContext : public antlr4::ParserRuleContext {
+  public:
+    ConditionalExpValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Identifier();
+    antlr4::tree::TerminalNode *ArithmeticOperator();
+    antlr4::tree::TerminalNode *AssignmentOperator();
+    antlr4::tree::TerminalNode *TypeSpec();
+    FirstIncDecContext *firstIncDec();
+    LastIncDecContext *lastIncDec();
+    antlr4::tree::TerminalNode *Integer();
+    antlr4::tree::TerminalNode *Float();
+    FunctionCallContext *functionCall();
+    antlr4::tree::TerminalNode *Attr();
+    OperationBlockContext *operationBlock();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ConditionalExpValueContext* conditionalExpValue();
 
   class  BlockElementsContext : public antlr4::ParserRuleContext {
   public:
@@ -574,6 +633,7 @@ public:
 
   virtual bool sempred(antlr4::RuleContext *_localctx, size_t ruleIndex, size_t predicateIndex) override;
   bool fileContentSempred(FileContentContext *_localctx, size_t predicateIndex);
+  bool conditionExpBlockSempred(ConditionExpBlockContext *_localctx, size_t predicateIndex);
 
 private:
   static std::vector<antlr4::dfa::DFA> _decisionToDFA;

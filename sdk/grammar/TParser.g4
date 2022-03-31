@@ -169,13 +169,64 @@ conditionalExpression
   ;
 
 conditionalExpressionElements
-  : operationElements
-  | operationElements AssignmentOperator conditionalExpressionElements
-  | OpenOp conditionalExpressionElements CloseOp
-  | OpenOp conditionalExpressionElements CloseOp AssignmentOperator conditionalExpressionElements
-  | OpenOp Identifier Attr functionCall CloseOp
-  | OpenOp Identifier Attr functionCall CloseOp AssignmentOperator conditionalExpressionElements
+  : conditionalExpElementsValue
+  | conditionalExpElementsValue conditionalExpressionElements
+  | conditionExpBlock
+  | conditionExpBlock conditionalExpressionElements
   | Not conditionalExpressionElements
+  ;
+
+conditionalExpElementsValue // operationElements equivalent
+  : conditionalExpValue
+  | conditionalExpValue conditionalExpElementsValue
+  ;
+
+conditionExpBlock
+  : OpenOp conditionalExpressionElements CloseOp
+  //| OpenOp Identifier Attr functionCall CloseOp
+  | conditionExpBlock AssignmentOperator
+  ;
+
+conditionalExpValue
+  : Identifier 
+  | Identifier (ArithmeticOperator | AssignmentOperator)
+  | Identifier TypeSpec
+  | Identifier TypeSpec (ArithmeticOperator | AssignmentOperator)
+
+  | firstIncDec Identifier
+  | firstIncDec Identifier (ArithmeticOperator | AssignmentOperator)
+  | firstIncDec Identifier TypeSpec
+  | firstIncDec Identifier TypeSpec (ArithmeticOperator | AssignmentOperator)
+
+  | Identifier lastIncDec
+  | Identifier lastIncDec (ArithmeticOperator | AssignmentOperator) 
+  | Identifier lastIncDec TypeSpec 
+  | Identifier lastIncDec TypeSpec (ArithmeticOperator | AssignmentOperator) 
+
+  | Integer 
+  | Integer (ArithmeticOperator | AssignmentOperator)
+  | Integer TypeSpec
+  | Integer TypeSpec (ArithmeticOperator | AssignmentOperator)
+
+  | Float 
+  | Float (ArithmeticOperator | AssignmentOperator)
+  | Float TypeSpec
+  | Float TypeSpec (ArithmeticOperator | AssignmentOperator)
+
+  | functionCall
+  | functionCall (ArithmeticOperator | AssignmentOperator)
+  | functionCall TypeSpec
+  | functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
+
+  | Identifier Attr functionCall
+  | Identifier Attr functionCall (ArithmeticOperator | AssignmentOperator)
+  | Identifier Attr functionCall TypeSpec
+  | Identifier Attr functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
+
+  | operationBlock
+  | operationBlock (ArithmeticOperator | AssignmentOperator)
+  | operationBlock TypeSpec
+  | operationBlock TypeSpec (ArithmeticOperator | AssignmentOperator)
   ;
 
 blockElements

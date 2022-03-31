@@ -94,6 +94,15 @@ public:
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
 
+  virtual void enterConditionalExpElementsValue(TParser::ConditionalExpElementsValueContext *ctx) = 0;
+  virtual void exitConditionalExpElementsValue(TParser::ConditionalExpElementsValueContext *ctx) = 0;
+
+  virtual void enterConditionExpBlock(TParser::ConditionExpBlockContext *ctx) = 0;
+  virtual void exitConditionExpBlock(TParser::ConditionExpBlockContext *ctx) = 0;
+
+  virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
+  virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
+
   virtual void enterBlockElements(TParser::BlockElementsContext *ctx) = 0;
   virtual void exitBlockElements(TParser::BlockElementsContext *ctx) = 0;
 

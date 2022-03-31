@@ -96,6 +96,15 @@ public:
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
 
+  virtual void enterConditionalExpElementsValue(TParser::ConditionalExpElementsValueContext * /*ctx*/) override { }
+  virtual void exitConditionalExpElementsValue(TParser::ConditionalExpElementsValueContext * /*ctx*/) override { }
+
+  virtual void enterConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
+  virtual void exitConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
+
+  virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext * /*ctx*/) override { }
+  virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext * /*ctx*/) override { }
+
   virtual void enterBlockElements(TParser::BlockElementsContext * /*ctx*/) override { }
   virtual void exitBlockElements(TParser::BlockElementsContext * /*ctx*/) override { }
 

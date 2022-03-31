@@ -111,51 +111,6 @@ public:
   }
 
   /*
-  ** Controle da sentenças.
-  */
-  antlrcpp::Any visitSentence(TParser::SentenceContext *ctx) {
-    if (0) {
-      ptab();
-      std::cout << "sentence ";
-
-      if (ctx->liveToken()) {
-        std::cout << "[ live token ]: " << ctx->liveToken()->getText();
-      } /*else if (ctx->comment()) {
-        std::cout << "[ comment ]: " << ctx->comment()->getText();
-      }*/ else if (ctx->use()) {
-        std::cout << "[ use ]: " << ctx->use()->getText();
-      } else if (ctx->variable()) {
-        std::cout << "[ variable ]: " << ctx->variable()->getText();
-      }
-
-      std::cout << std::endl;
-    }
-    return visitChildren(ctx);
-  }
-
-  /*
-  ** Comentários.
-  */
-  /*
-  antlrcpp::Any visitComment(TParser::CommentContext *ctx) {
-
-    // Múltiplas linhas.
-    if (ctx->BlockComment()) {    
-      ptab();
-      std::cout << "comment: " << ctx->BlockComment()->getText() << std::endl;
-    } 
-    
-    // Única linha.
-    else if (ctx->LineComment()) {
-      ptab();
-      std::cout << "comment: " << ctx->LineComment()->getText() << std::endl;
-    }
-
-    return visitChildren(ctx);
-  }
-  */
-
-  /*
   ** Importações: use.
   */
   antlrcpp::Any visitUseString(TParser::UseStringContext *ctx) {
@@ -448,24 +403,154 @@ public:
     return result;
   }
 
-  /*
-  ** Controle dos tokens livres.
-  */
-  antlrcpp::Any visitLiveToken(TParser::LiveTokenContext *ctx) {
+  antlrcpp::Any visitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) {
+    antlrcpp::Any result;
 
-    /*
-    if (ctx->OpenBlock()) {
+    if (ctx->Not()) {
       ptab();
-      std::cout << "-> [block-open]" << std::endl;
-      tabCounter++;
-    } else if (ctx->CloseBlock()) {
-      tabCounter--;
-      ptab();
-      std::cout << "-> [block-close]" << std::endl;
+      std::cout << " !" << std::endl;
     }
-    */
 
     return visitChildren(ctx);
+  }
+
+  antlrcpp::Any visitConditionExpBlock(TParser::ConditionExpBlockContext *ctx) {
+    antlrcpp::Any result;
+
+    if (ctx->OpenOp() && ctx->CloseOp()) {
+      ptab();
+      std::cout << " (" << std::endl;
+      tabCounter++;
+
+      result = visitChildren(ctx);
+
+      tabCounter--;
+      ptab();
+      std::cout << " )" << std::endl;
+    }
+    
+    else {
+      result = visitChildren(ctx);
+
+      if (ctx->AssignmentOperator()) {
+        ptab();
+        std::cout << " " <<
+          ctx->AssignmentOperator()->getText() << std::endl;
+      }
+    }
+
+    return result;
+  }
+
+  antlrcpp::Any visitConditionalExpValue(TParser::ConditionalExpValueContext *ctx) {
+    std::string valueDataType = "";
+    antlrcpp::Any result;
+    bool block = false;
+    
+    if (ctx->TypeSpec())
+      valueDataType = ctx->TypeSpec()->getText();
+
+    if (ctx->operationBlock()) {
+      block = true;
+
+      ptab();
+      std::cout << " ( " << std::endl;
+      tabCounter++;
+
+      result = visitChildren(ctx);
+
+      tabCounter--;
+      ptab();
+      std::cout << " ) [" << valueDataType << "] " << std::endl;
+
+      if (ctx->ArithmeticOperator()) {
+        ptab();
+        std::cout << " " << ctx->ArithmeticOperator()->getText() << " " << std::endl; 
+      } else if (ctx->AssignmentOperator()) {
+        ptab();
+        std::cout << " " << ctx->AssignmentOperator()->getText() << " " << std::endl; 
+      }
+
+    } else {
+      ptab();
+      std::cout << " ";
+
+      if (ctx->Identifier() && !ctx->functionCall()) 
+      {
+        // Processa pré-incremento/decremento.
+        if (ctx->firstIncDec())
+          std::cout << " [pre -> "<< ctx->firstIncDec()->getText() <<"] ";
+
+        // Processa pós-incremento/decremento.
+        if (ctx->lastIncDec())
+          std::cout << " [pos -> "<< ctx->lastIncDec()->getText() <<"] ";
+
+        std::cout << ctx->Identifier()->getText() << std::endl;
+      }
+      
+      else if (ctx->Integer()) {
+        std::cout << ctx->Integer()->getText();
+        std::cout << " [" << valueDataType << "] " << std::endl;
+      }
+      else if (ctx->Float()) {
+        std::cout << ctx->Float()->getText();
+        std::cout << " [" << valueDataType << "] " << std::endl;
+      }
+ 
+      else if (ctx->functionCall()) {
+
+        // Atribuição na operação.
+        if (ctx->Identifier() && ctx->Attr()) {
+          std::cout << ctx->Identifier()->getText() << std::endl;
+          ptab();
+          std::cout << " "<< ctx->Attr()->getText() << std::endl;
+          ptab();
+        }
+
+        // Método de objeto instanciado.
+        if (ctx->functionCall()->Point()) {
+          std::cout << "-> [obj-instance method-call] " << 
+            ctx->functionCall()->Identifier()->getText() << 
+            " -> " <<
+            ctx->functionCall()->identifierB()->getText();
+        }
+
+        // Método static.
+        else if (ctx->functionCall()->TwoTwoPoint()) {
+          std::cout << "-> [obj-static method-call] " << 
+            ctx->functionCall()->Identifier()->getText() << 
+            " -> " <<
+            ctx->functionCall()->identifierB()->getText();
+        }
+
+        // Função comum.
+        else {
+          std::cout << "-> [function-call] " << 
+            ctx->functionCall()->Identifier()->getText();
+        }
+
+        // Verifica especificação de tipo.
+        if (ctx->TypeSpec())
+          std::cout << " - typespec: " << ctx->TypeSpec()->getText();
+        std::cout << std::endl;
+
+        ptab();
+        std::cout << " function params: " << std::endl;
+      }
+
+      if (ctx->ArithmeticOperator()) {
+        ptab();
+        std::cout << " " << ctx->ArithmeticOperator()->getText() << " " << std::endl;
+      } else if (ctx->AssignmentOperator()) {
+        ptab();
+        std::cout << " " << ctx->AssignmentOperator()->getText() << " " << std::endl;
+      }
+    }
+
+    if (!block)
+      result = visitChildren(ctx);
+
+    return result;
   }
 
 };
