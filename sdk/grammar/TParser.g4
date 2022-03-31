@@ -25,7 +25,8 @@ sentence
   : liveTokens
   | use
   | variable
-  | functionCallByCode
+  | callingFunction
+  | conditionalExpression
   ;
 
 // Tokens que podem ir soltos no código.
@@ -135,7 +136,7 @@ firstIncDec : IncDecOperators ;
 lastIncDec  : IncDecOperators ;
 
 // Chamada a função, e métodos de objetos static e instanciados.
-functionCallByCode
+callingFunction
   : functionCall End
   ;
 
@@ -155,6 +156,16 @@ functionCallParam
 functionCallParamElements
   : generalValue
   | generalValue Separator functionCallParamElements
+  ;
+
+// Expressões condicionais.
+conditionalExpression
+  : If conditionalExpressionElements OpenBlock
+  | If conditionalExpressionElements functionCall
+  ;
+
+conditionalExpressionElements
+  : 
   ;
 
 /*
