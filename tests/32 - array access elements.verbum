@@ -1,5 +1,4 @@
 
-
 var a = name[1];
 var a = name[1].member[20];
 var a = name[1].memberX.ABC;
@@ -18,21 +17,23 @@ name[1].memberX.ABC[3][123] = a;
 b[1].c.d[3].e[1][2][3][4][5].f.g.h.i[123] = a;
 a.b.c.e.d = a;
 
-//var a = name[1] * 10;
+name[1] = 10;
+name[1][2] = 20;
+name[1][2] = result[1];
+name[1][2] = result[1][2];
+name[1][2] = result[1][2].value;
+name[1][2] = result[1][2].value.name[1];
+result[1].item[2] = value.name[1];
+
+print("Value\n", name[0], name[1]);
+print("Value\n", name[0].member, name[1]);
+variable.items[0].name = 10;             // Verbum
+variable.items[1].name = 20;              // Divinus
+variable.items[2].values[0]  = 30;        // 10
+variable.items[2].values[3].name=40;    // Member
+variable.items[3]=50;                   // 31337
+
+//var a = name * 10;
 //var a = (name[1] * 10);
-//name[1] = 10;
-//name[1][2] = 20;
-//name[1][2] = result[1];
-//name[1][2] = result[1][2];
-//name[1][2] = result[1][2].value;
-//name[1][2] = result[1][2].value.name[1];
-//result[1].item[2] = value.name[1];
-//print("Value\n", name[0], name[1]);
-//print("Value\n", name[0].name, name[1]);
-//variable.items[0].name              // Verbum
-//variable.items[1].name              // Divinus
-//variable.items[2].values[0]         // 10
-//variable.items[2].values[3].name    // Member
-//variable.items[3]                   // 31337
 
 
