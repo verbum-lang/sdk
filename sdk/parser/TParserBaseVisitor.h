@@ -273,6 +273,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitObjIdentifierA(TParser::ObjIdentifierAContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitObjIdentifierB(TParser::ObjIdentifierBContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
 
 };
 

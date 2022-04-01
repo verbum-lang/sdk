@@ -1,0 +1,23 @@
+
+print("value: {}\n", Example.subVersion);
+print("Sub version: {}\n", Example::subVersion);
+
+ret [
+    this.attributeA,
+    this.attributeB
+];
+
+ret parent::exampleA();
+ret this.attributeA;
+
+        ret self::subVersion;
+
+        if (flag) 
+            ret self::getVersion();
+        
+for ret 10;
+
+ret obj.attr;
+ret obj.method([1,2,3]);
+
+

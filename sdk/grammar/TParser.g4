@@ -222,7 +222,8 @@ condBlockElementsLimited
   : ifConditions
   | ifConditions conditionalBlockElements
   | loop
-  | loop loopBlockElementsLimited
+  | loop condBlockElementsLimited
+  | ret
   ;
 
 // Controle do bloco das expressões.
@@ -334,6 +335,7 @@ loopBlockElementsLimited
   | ifConditions loopBlockElementsLimited
   | loop
   | loop loopBlockElementsLimited
+  | ret
   ;
 
 /*
@@ -485,10 +487,18 @@ generalValue
   | Float                   // Número de ponto flutuante, incluindo, por exemplo: 0.123.
   | Float TypeSpec
   | String                  // Strings com aspas simples e duplas.
+  
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.
   | operationBlock          // Bloco de operações.
-  | functionCall
+  | functionCall            // Chamada de função.
+
+  // Acesso a componentes de objeto.
+  | objIdentifierA Point objIdentifierB
+  | objIdentifierA TwoTwoPoint objIdentifierB
   ;
+
+objIdentifierA : Identifier;
+objIdentifierB : Identifier;
 
 

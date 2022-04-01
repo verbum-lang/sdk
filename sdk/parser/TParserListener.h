@@ -208,6 +208,12 @@ public:
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 
+  virtual void enterObjIdentifierA(TParser::ObjIdentifierAContext *ctx) = 0;
+  virtual void exitObjIdentifierA(TParser::ObjIdentifierAContext *ctx) = 0;
+
+  virtual void enterObjIdentifierB(TParser::ObjIdentifierBContext *ctx) = 0;
+  virtual void exitObjIdentifierB(TParser::ObjIdentifierBContext *ctx) = 0;
+
 
 };
 

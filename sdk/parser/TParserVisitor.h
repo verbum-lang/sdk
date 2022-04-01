@@ -148,6 +148,10 @@ public:
 
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
+    virtual antlrcpp::Any visitObjIdentifierA(TParser::ObjIdentifierAContext *context) = 0;
+
+    virtual antlrcpp::Any visitObjIdentifierB(TParser::ObjIdentifierBContext *context) = 0;
+
 
 };
 

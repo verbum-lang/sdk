@@ -219,6 +219,14 @@ public:
       std::cout << "-> function params:" << std::endl;
       nextNivel = true;
     }
+    
+    // Acesso aos identificadores de acesso aos objetos.
+    else if (ctx->objIdentifierA() || ctx->objIdentifierB()) {
+      ptab();
+      std::cout << "[identifier A B] ";
+      std::cout << "["<< valueDataType << "] ";
+      std::cout << "- value: " << ctx->getText() << std::endl;
+    }
 
     if (nextNivel) {
       tabCounter++;

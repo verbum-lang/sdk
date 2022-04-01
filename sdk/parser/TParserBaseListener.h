@@ -210,6 +210,12 @@ public:
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 
+  virtual void enterObjIdentifierA(TParser::ObjIdentifierAContext * /*ctx*/) override { }
+  virtual void exitObjIdentifierA(TParser::ObjIdentifierAContext * /*ctx*/) override { }
+
+  virtual void enterObjIdentifierB(TParser::ObjIdentifierBContext * /*ctx*/) override { }
+  virtual void exitObjIdentifierB(TParser::ObjIdentifierBContext * /*ctx*/) override { }
+
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }
   virtual void exitEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }
