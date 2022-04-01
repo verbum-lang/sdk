@@ -33,7 +33,17 @@ variable.items[2].values[0]  = 30;        // 10
 variable.items[2].values[3].name=40;    // Member
 variable.items[3]=50;                   // 31337
 
-//var a = name * 10;
-//var a = (name[1] * 10);
+var a = (name.abc * 10);
+var a = (name.abc.a.b.c.d.e + a.b.e.f.g * 10);
+var a = (name.abc.a[1].b.c[x].d.e[2] + a.b[3].e.f.g * 10);
+
+// if's
+
+if valor[1] == 10 print('Verbum');
+if (valor[1] == 10 && 
+    name.abc.a[1].b.c[x].d.e[2]
+ > 10) print('Verbum');
+
+// var a = name * 10;
 
 

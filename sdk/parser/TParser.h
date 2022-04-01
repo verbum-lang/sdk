@@ -463,6 +463,7 @@ public:
     antlr4::tree::TerminalNode *Float();
     FunctionCallContext *functionCall();
     OperationBlockContext *operationBlock();
+    ArrayAccessElementsContext *arrayAccessElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -788,6 +789,7 @@ public:
     FunctionCallContext *functionCall();
     antlr4::tree::TerminalNode *Attr();
     OperationBlockContext *operationBlock();
+    ArrayAccessElementsContext *arrayAccessElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1313,8 +1315,9 @@ public:
     AccessBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *OpenArIndex();
-    antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *CloseArIndex();
+    antlr4::tree::TerminalNode *Integer();
+    antlr4::tree::TerminalNode *Identifier();
     AccessBlockContext *accessBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;

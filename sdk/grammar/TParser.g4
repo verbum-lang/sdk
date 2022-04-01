@@ -166,6 +166,11 @@ operationValue
   | operationBlock ArithmeticOperator
   | operationBlock TypeSpec
   | operationBlock TypeSpec ArithmeticOperator
+
+  | arrayAccessElements 
+  | arrayAccessElements ArithmeticOperator
+  | arrayAccessElements TypeSpec
+  | arrayAccessElements TypeSpec ArithmeticOperator
   ;
 
 firstIncDec : IncDecOperators ;
@@ -304,6 +309,11 @@ conditionalExpValue
   | operationBlock (ArithmeticOperator | AssignmentOperator)
   | operationBlock TypeSpec
   | operationBlock TypeSpec (ArithmeticOperator | AssignmentOperator)
+
+  | arrayAccessElements 
+  | arrayAccessElements (ArithmeticOperator | AssignmentOperator)
+  | arrayAccessElements TypeSpec
+  | arrayAccessElements TypeSpec (ArithmeticOperator | AssignmentOperator)
   ;
 
 // Loops.
@@ -501,8 +511,8 @@ arrayAccessElements
   ;
 
 accessBlock
-  : OpenArIndex Integer CloseArIndex 
-  | OpenArIndex Integer CloseArIndex accessBlock
+  : OpenArIndex (Integer | Identifier) CloseArIndex 
+  | OpenArIndex (Integer | Identifier) CloseArIndex accessBlock
   ;
 
 /*

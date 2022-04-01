@@ -364,6 +364,12 @@ public:
         std::cout << " function params: " << std::endl;
       }
 
+      else if (ctx->arrayAccessElements()) {
+        ptab();
+        std::cout << "variable [" << 
+          ctx->arrayAccessElements()->getText() << "] ";
+      }
+
       if (ctx->ArithmeticOperator()) {
         ptab();
         std::cout << " " << ctx->ArithmeticOperator()->getText() << " " << std::endl;
@@ -605,6 +611,12 @@ public:
 
         ptab();
         std::cout << " function params: " << std::endl;
+      }
+
+      else if (ctx->arrayAccessElements()) {
+        ptab();
+        std::cout << "variable [" << 
+          ctx->arrayAccessElements()->getText() << "] ";
       }
 
       if (ctx->ArithmeticOperator()) {
