@@ -36,6 +36,8 @@ public:
 
     virtual antlrcpp::Any visitVariable(TParser::VariableContext *context) = 0;
 
+    virtual antlrcpp::Any visitVariableModes(TParser::VariableModesContext *context) = 0;
+
     virtual antlrcpp::Any visitVariableMembers(TParser::VariableMembersContext *context) = 0;
 
     virtual antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *context) = 0;

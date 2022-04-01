@@ -49,6 +49,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitVariableModes(TParser::VariableModesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitVariableMembers(TParser::VariableMembersContext *ctx) override {
     return visitChildren(ctx);
   }

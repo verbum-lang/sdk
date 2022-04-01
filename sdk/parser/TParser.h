@@ -32,25 +32,25 @@ public:
   enum {
     RuleMain = 0, RuleFileContent = 1, RuleSentence = 2, RuleLiveToken = 3, 
     RuleUse = 4, RuleUseValue = 5, RuleUseString = 6, RuleVariable = 7, 
-    RuleVariableMembers = 8, RuleVariableDefinition = 9, RuleIndexArray = 10, 
-    RuleIndexArrayElements = 11, RuleAssociativeArray = 12, RuleAssociativeArrayElements = 13, 
-    RuleOperationBlock = 14, RuleOperationElements = 15, RuleOperationValue = 16, 
-    RuleFirstIncDec = 17, RuleLastIncDec = 18, RuleCallingFunction = 19, 
-    RuleFunctionCall = 20, RuleIdentifierB = 21, RuleFunctionCallParam = 22, 
-    RuleFunctionCallParamElements = 23, RuleConditionalExpression = 24, 
-    RuleConditionalBlockElements = 25, RuleIfConditions = 26, RuleElifConditions = 27, 
-    RuleElseConditions = 28, RuleCondBlockElementsLimited = 29, RuleConditionalExpressionElements = 30, 
-    RuleConditionalExpElementsValue = 31, RuleConditionExpBlock = 32, RuleConditionalExpValue = 33, 
-    RuleLoop = 34, RuleLoopExpression = 35, RuleLoopOneMembers = 36, RuleLoopTwoMembers = 37, 
-    RuleLoopThreeMembers = 38, RuleLoopThreeMembersValues = 39, RuleLoopBlockElements = 40, 
-    RuleLoopBlockElementsLimited = 41, RuleRet = 42, RuleRetValues = 43, 
-    RuleFunctions = 44, RuleFunctionGeneralModes = 45, RuleFunctionsModes = 46, 
-    RuleFunctionMethodsModes = 47, RuleMethodPerm = 48, RuleConstructClassMethod = 49, 
-    RuleInterfaceMethod = 50, RuleFunctionCodeBlock = 51, RuleFunctionParams = 52, 
-    RuleFunctionParamElements = 53, RuleOopGeneral = 54, RuleInterfaceClass = 55, 
-    RuleInterfaceClassDefinition = 56, RuleAbstractClass = 57, RuleAbstractClassDefinition = 58, 
-    RuleClassDefination = 59, RuleClassModesGeneral = 60, RuleClassModes = 61, 
-    RuleGeneralValue = 62
+    RuleVariableModes = 8, RuleVariableMembers = 9, RuleVariableDefinition = 10, 
+    RuleIndexArray = 11, RuleIndexArrayElements = 12, RuleAssociativeArray = 13, 
+    RuleAssociativeArrayElements = 14, RuleOperationBlock = 15, RuleOperationElements = 16, 
+    RuleOperationValue = 17, RuleFirstIncDec = 18, RuleLastIncDec = 19, 
+    RuleCallingFunction = 20, RuleFunctionCall = 21, RuleIdentifierB = 22, 
+    RuleFunctionCallParam = 23, RuleFunctionCallParamElements = 24, RuleConditionalExpression = 25, 
+    RuleConditionalBlockElements = 26, RuleIfConditions = 27, RuleElifConditions = 28, 
+    RuleElseConditions = 29, RuleCondBlockElementsLimited = 30, RuleConditionalExpressionElements = 31, 
+    RuleConditionalExpElementsValue = 32, RuleConditionExpBlock = 33, RuleConditionalExpValue = 34, 
+    RuleLoop = 35, RuleLoopExpression = 36, RuleLoopOneMembers = 37, RuleLoopTwoMembers = 38, 
+    RuleLoopThreeMembers = 39, RuleLoopThreeMembersValues = 40, RuleLoopBlockElements = 41, 
+    RuleLoopBlockElementsLimited = 42, RuleRet = 43, RuleRetValues = 44, 
+    RuleFunctions = 45, RuleFunctionGeneralModes = 46, RuleFunctionsModes = 47, 
+    RuleFunctionMethodsModes = 48, RuleMethodPerm = 49, RuleConstructClassMethod = 50, 
+    RuleInterfaceMethod = 51, RuleFunctionCodeBlock = 52, RuleFunctionParams = 53, 
+    RuleFunctionParamElements = 54, RuleOopGeneral = 55, RuleInterfaceClass = 56, 
+    RuleInterfaceClassDefinition = 57, RuleAbstractClass = 58, RuleAbstractClassDefinition = 59, 
+    RuleClassDefination = 60, RuleClassModesGeneral = 61, RuleClassModes = 62, 
+    RuleGeneralValue = 63
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -71,6 +71,7 @@ public:
   class UseValueContext;
   class UseStringContext;
   class VariableContext;
+  class VariableModesContext;
   class VariableMembersContext;
   class VariableDefinitionContext;
   class IndexArrayContext;
@@ -250,9 +251,7 @@ public:
   public:
     VariableContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *Var();
-    VariableMembersContext *variableMembers();
-    antlr4::tree::TerminalNode *End();
+    VariableModesContext *variableModes();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -262,6 +261,26 @@ public:
   };
 
   VariableContext* variable();
+
+  class  VariableModesContext : public antlr4::ParserRuleContext {
+  public:
+    VariableModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Var();
+    VariableMembersContext *variableMembers();
+    antlr4::tree::TerminalNode *End();
+    MethodPermContext *methodPerm();
+    antlr4::tree::TerminalNode *Static();
+    antlr4::tree::TerminalNode *Final();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  VariableModesContext* variableModes();
 
   class  VariableMembersContext : public antlr4::ParserRuleContext {
   public:

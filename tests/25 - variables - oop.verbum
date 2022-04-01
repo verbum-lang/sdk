@@ -1,0 +1,17 @@
+
+priv var value :int = 0;
+priv var attributeA :uint = 31337;
+pub var attributeB :string  = "Verbum 😃";
+pub static var subVersion :string = "1337";
+final var a = 10;
+final priv var a = 10;
+final static var a = 10;
+static var a = 10;
+final var a = 10;
+var a = 10;
+final priv var a = 10;
+pub static var a = 10;
+
+final static fn example () {}
+
+

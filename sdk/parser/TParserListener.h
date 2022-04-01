@@ -40,6 +40,9 @@ public:
   virtual void enterVariable(TParser::VariableContext *ctx) = 0;
   virtual void exitVariable(TParser::VariableContext *ctx) = 0;
 
+  virtual void enterVariableModes(TParser::VariableModesContext *ctx) = 0;
+  virtual void exitVariableModes(TParser::VariableModesContext *ctx) = 0;
+
   virtual void enterVariableMembers(TParser::VariableMembersContext *ctx) = 0;
   virtual void exitVariableMembers(TParser::VariableMembersContext *ctx) = 0;
 

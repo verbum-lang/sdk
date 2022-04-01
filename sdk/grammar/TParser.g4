@@ -54,7 +54,18 @@ useString
 
 // Variáveis.
 variable
-  : Var variableMembers End
+  : variableModes
+  ;
+
+variableModes
+  :                         Var variableMembers End
+  |       methodPerm        Var variableMembers End
+  |                  Static Var variableMembers End
+  |       methodPerm Static Var variableMembers End
+  | Final methodPerm Static Var variableMembers End
+  | Final methodPerm        Var variableMembers End 
+  | Final                   Var variableMembers End 
+  | Final            Static Var variableMembers End 
   ;
 
 variableMembers
@@ -63,6 +74,8 @@ variableMembers
   ;
 
 variableDefinition
+  
+  // Uso geral.
   : Identifier Attr generalValue
   | Identifier TypeSpec Attr generalValue
 
@@ -370,6 +383,7 @@ functionMethodsModes
   | Final methodPerm Static functionGeneralModes
   | Final methodPerm        functionGeneralModes 
   | Final                   functionGeneralModes 
+  | Final            Static functionGeneralModes 
   ;
 
 methodPerm
