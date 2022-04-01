@@ -90,8 +90,8 @@ String
 	;
 
 // Tokens geras
-Integer : [0-9]+ ; 
-Float : FloatLiteral ;
+Integer : [0-9]+ | [-][0-9]+ ; 
+Float : FloatLiteral | [-] FloatLiteral;
 
 Whitespace
     : [ \t]+

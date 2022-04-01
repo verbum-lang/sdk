@@ -1,0 +1,6 @@
+
+ret -10;
+var value = -333;
+var value = -1.23;
+
+
