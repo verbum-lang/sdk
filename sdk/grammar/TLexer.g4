@@ -13,6 +13,7 @@ If : 'if';
 Elif : 'elif';
 Else : 'else';
 For : 'for';
+Ret : 'ret';
 
 // Operadores.
 End : ';' ;
