@@ -539,7 +539,8 @@ generalValue
   
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.
-  | operationBlock          // Bloco de operações.
+//| operationBlock          // Bloco de operações.
+  | operationElements       // Elementos de operações (suportando blocos de operações).
   | functionCall            // Chamada de função.
 
   // Acesso a componentes de objeto.

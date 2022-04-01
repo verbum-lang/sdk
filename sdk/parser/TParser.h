@@ -1357,7 +1357,7 @@ public:
     antlr4::tree::TerminalNode *String();
     IndexArrayContext *indexArray();
     AssociativeArrayContext *associativeArray();
-    OperationBlockContext *operationBlock();
+    OperationElementsContext *operationElements();
     FunctionCallContext *functionCall();
     ObjIdentifierAContext *objIdentifierA();
     antlr4::tree::TerminalNode *Point();
