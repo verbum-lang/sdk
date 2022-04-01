@@ -213,6 +213,12 @@ public:
   virtual void enterClassModes(TParser::ClassModesContext * /*ctx*/) override { }
   virtual void exitClassModes(TParser::ClassModesContext * /*ctx*/) override { }
 
+  virtual void enterArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }
+  virtual void exitArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }
+
+  virtual void enterAccessBlock(TParser::AccessBlockContext * /*ctx*/) override { }
+  virtual void exitAccessBlock(TParser::AccessBlockContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

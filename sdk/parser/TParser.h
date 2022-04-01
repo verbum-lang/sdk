@@ -51,7 +51,8 @@ public:
     RuleFunctionParamElements = 56, RuleOopGeneral = 57, RuleInterfaceClass = 58, 
     RuleInterfaceClassDefinition = 59, RuleAbstractClass = 60, RuleAbstractClassDefinition = 61, 
     RuleClassDefination = 62, RuleClassModesGeneral = 63, RuleClassModes = 64, 
-    RuleGeneralValue = 65, RuleObjIdentifierA = 66, RuleObjIdentifierB = 67
+    RuleArrayAccessElements = 65, RuleAccessBlock = 66, RuleGeneralValue = 67, 
+    RuleObjIdentifierA = 68, RuleObjIdentifierB = 69
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -129,6 +130,8 @@ public:
   class ClassDefinationContext;
   class ClassModesGeneralContext;
   class ClassModesContext;
+  class ArrayAccessElementsContext;
+  class AccessBlockContext;
   class GeneralValueContext;
   class ObjIdentifierAContext;
   class ObjIdentifierBContext; 
@@ -314,6 +317,7 @@ public:
     antlr4::tree::TerminalNode *Point();
     ObjIdentifierBContext *objIdentifierB();
     antlr4::tree::TerminalNode *TwoTwoPoint();
+    ArrayAccessElementsContext *arrayAccessElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1286,6 +1290,42 @@ public:
 
   ClassModesContext* classModes();
 
+  class  ArrayAccessElementsContext : public antlr4::ParserRuleContext {
+  public:
+    ArrayAccessElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Identifier();
+    antlr4::tree::TerminalNode *Point();
+    ArrayAccessElementsContext *arrayAccessElements();
+    AccessBlockContext *accessBlock();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ArrayAccessElementsContext* arrayAccessElements();
+
+  class  AccessBlockContext : public antlr4::ParserRuleContext {
+  public:
+    AccessBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenArIndex();
+    antlr4::tree::TerminalNode *Integer();
+    antlr4::tree::TerminalNode *CloseArIndex();
+    AccessBlockContext *accessBlock();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AccessBlockContext* accessBlock();
+
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:
     GeneralValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1303,6 +1343,7 @@ public:
     antlr4::tree::TerminalNode *Point();
     ObjIdentifierBContext *objIdentifierB();
     antlr4::tree::TerminalNode *TwoTwoPoint();
+    ArrayAccessElementsContext *arrayAccessElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

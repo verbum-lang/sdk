@@ -84,6 +84,9 @@ variableDefinition
   // Acesso a componentes de objeto.
   | objIdentifierA Point objIdentifierB variableDefinitionGeneral
   | objIdentifierA TwoTwoPoint objIdentifierB variableDefinitionGeneral
+
+  // Acesso a elementos de variavel/array.
+  | arrayAccessElements variableDefinitionGeneral
   ;
 
 variableDefinitionGeneral
@@ -488,6 +491,21 @@ classModes
   ;
 
 /*
+** Controle do acesso a elementos de array.
+*/
+arrayAccessElements
+  : Identifier  
+  | Identifier Point arrayAccessElements
+  | Identifier accessBlock
+  | Identifier accessBlock Point arrayAccessElements
+  ;
+
+accessBlock
+  : OpenArIndex Integer CloseArIndex 
+  | OpenArIndex Integer CloseArIndex accessBlock
+  ;
+
+/*
 ** Regras de uso geral.
 **
 ** Utilizada por:
@@ -512,6 +530,9 @@ generalValue
   // Acesso a componentes de objeto.
   | objIdentifierA Point objIdentifierB
   | objIdentifierA TwoTwoPoint objIdentifierB
+
+  // Acesso a elementos de arrays.
+  | arrayAccessElements
   ;
 
 objIdentifierA : Identifier;

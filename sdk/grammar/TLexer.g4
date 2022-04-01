@@ -89,8 +89,8 @@ String
 	| '\'' ( ~('\'') | ('\\' '\'') )* '\''
 	;
 
-// Tokens geras
-Integer : [0-9]+ | [-][0-9]+ ; 
+// Tokens gerais
+Integer : [0-9]+ | [-][0-9]+; 
 Float : FloatLiteral | [-] FloatLiteral;
 
 Whitespace

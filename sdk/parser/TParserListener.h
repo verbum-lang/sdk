@@ -211,6 +211,12 @@ public:
   virtual void enterClassModes(TParser::ClassModesContext *ctx) = 0;
   virtual void exitClassModes(TParser::ClassModesContext *ctx) = 0;
 
+  virtual void enterArrayAccessElements(TParser::ArrayAccessElementsContext *ctx) = 0;
+  virtual void exitArrayAccessElements(TParser::ArrayAccessElementsContext *ctx) = 0;
+
+  virtual void enterAccessBlock(TParser::AccessBlockContext *ctx) = 0;
+  virtual void exitAccessBlock(TParser::AccessBlockContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

@@ -150,6 +150,10 @@ public:
 
     virtual antlrcpp::Any visitClassModes(TParser::ClassModesContext *context) = 0;
 
+    virtual antlrcpp::Any visitArrayAccessElements(TParser::ArrayAccessElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitAccessBlock(TParser::AccessBlockContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
     virtual antlrcpp::Any visitObjIdentifierA(TParser::ObjIdentifierAContext *context) = 0;

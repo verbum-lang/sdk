@@ -140,6 +140,8 @@ public:
         std::cout << "::";
 
       std::cout << " " << ctx->objIdentifierB()->getText() << "] ";
+    } else if (ctx->arrayAccessElements()) {
+      std::cout << "variable [" << ctx->arrayAccessElements()->getText() << "] ";
     }
 
     std::cout << "[" << variableDataType << "] " << std::endl;
@@ -239,6 +241,15 @@ public:
     else if (ctx->objIdentifierA() || ctx->objIdentifierB()) {
       ptab();
       std::cout << "[identifier A B] ";
+      std::cout << "["<< valueDataType << "] ";
+      std::cout << "- value: " << ctx->getText() << std::endl;
+    }
+
+    // Acesso a elementos de arrays - uso no código.
+    else if (ctx->arrayAccessElements())
+    {
+      ptab();
+      std::cout << "[array-access] ";
       std::cout << "["<< valueDataType << "] ";
       std::cout << "- value: " << ctx->getText() << std::endl;
     }
