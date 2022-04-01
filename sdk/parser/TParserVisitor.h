@@ -152,7 +152,9 @@ public:
 
     virtual antlrcpp::Any visitArrayAccessElements(TParser::ArrayAccessElementsContext *context) = 0;
 
-    virtual antlrcpp::Any visitAccessBlock(TParser::AccessBlockContext *context) = 0;
+    virtual antlrcpp::Any visitAccessBlockAr(TParser::AccessBlockArContext *context) = 0;
+
+    virtual antlrcpp::Any visitArrayIndexAccess(TParser::ArrayIndexAccessContext *context) = 0;
 
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 

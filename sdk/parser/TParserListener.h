@@ -214,8 +214,11 @@ public:
   virtual void enterArrayAccessElements(TParser::ArrayAccessElementsContext *ctx) = 0;
   virtual void exitArrayAccessElements(TParser::ArrayAccessElementsContext *ctx) = 0;
 
-  virtual void enterAccessBlock(TParser::AccessBlockContext *ctx) = 0;
-  virtual void exitAccessBlock(TParser::AccessBlockContext *ctx) = 0;
+  virtual void enterAccessBlockAr(TParser::AccessBlockArContext *ctx) = 0;
+  virtual void exitAccessBlockAr(TParser::AccessBlockArContext *ctx) = 0;
+
+  virtual void enterArrayIndexAccess(TParser::ArrayIndexAccessContext *ctx) = 0;
+  virtual void exitArrayIndexAccess(TParser::ArrayIndexAccessContext *ctx) = 0;
 
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;

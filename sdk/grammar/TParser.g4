@@ -506,13 +506,18 @@ classModes
 arrayAccessElements
   : Identifier  
   | Identifier Point arrayAccessElements
-  | Identifier accessBlock
-  | Identifier accessBlock Point arrayAccessElements
+  | Identifier accessBlockAr
+  | Identifier accessBlockAr Point arrayAccessElements
   ;
 
-accessBlock
-  : OpenArIndex (Integer | Identifier) CloseArIndex 
-  | OpenArIndex (Integer | Identifier) CloseArIndex accessBlock
+accessBlockAr
+  : OpenArIndex arrayIndexAccess CloseArIndex 
+  | OpenArIndex arrayIndexAccess CloseArIndex accessBlockAr
+  ;
+
+arrayIndexAccess
+  : (Integer | Identifier)
+  | operationElements
   ;
 
 /*

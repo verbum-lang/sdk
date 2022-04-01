@@ -281,7 +281,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitAccessBlock(TParser::AccessBlockContext *ctx) override {
+  virtual antlrcpp::Any visitAccessBlockAr(TParser::AccessBlockArContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitArrayIndexAccess(TParser::ArrayIndexAccessContext *ctx) override {
     return visitChildren(ctx);
   }
 
