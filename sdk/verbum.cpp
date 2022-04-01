@@ -378,40 +378,7 @@ public:
   }
 
   /*
-  ** Condicionais (if).
-  */
-  /*
-  antlrcpp::Any visitConditionalExpression(TParser::ConditionalExpressionContext *ctx) {
-    if (ctx->ifConditions())
-    {
-      ptab();
-      std::cout << "-> [conditional-block : if]: " << 
-        ctx->ifConditions()->conditionalExpressionElements()->getText() << std::endl;
-      ptab();
-      std::cout << "-> conditional-elements:" << std::endl;
-    }
-    else if (ctx->elifConditions())
-    {
-      ptab();
-      std::cout << "-> [conditional-block : elif]: " << 
-        ctx->elifConditions()->conditionalExpressionElements()->getText() << std::endl;
-      ptab();
-      std::cout << "-> conditional-elements:" << std::endl;
-    }
-    else
-    {
-      ptab();
-      std::cout << "-> [conditional-block : else]: " << std::endl;
-      ptab();
-      std::cout << "-> conditional-elements:" << std::endl;
-    }
-    
-    tabCounter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    tabCounter--;
-
-    return result;
-  }
+  ** Condicionais.
   */
 
   antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx) {
@@ -421,13 +388,13 @@ public:
     ptab();
     std::cout << "-> conditional-elements:" << std::endl;
 
-    tabCounter++;
+    //tabCounter++;
     antlrcpp::Any result = visitChildren(ctx);
-    tabCounter--;
+    //tabCounter--;
 
     return result;
   }
-
+  
   antlrcpp::Any visitElifConditions(TParser::ElifConditionsContext *ctx) {
     ptab();
     std::cout << "-> [conditional-block : elif]: " << 
@@ -435,22 +402,22 @@ public:
     ptab();
     std::cout << "-> conditional-elements:" << std::endl;
 
-    tabCounter++;
+    //tabCounter++;
     antlrcpp::Any result = visitChildren(ctx);
-    tabCounter--;
+    //tabCounter--;
 
     return result;
   }
-
+  
   antlrcpp::Any visitElseConditions(TParser::ElseConditionsContext *ctx) {
     ptab();
     std::cout << "-> [conditional-block : else]: " << std::endl;
     ptab();
     std::cout << "-> conditional-elements:" << std::endl;
   
-    tabCounter++;
+    //tabCounter++;
     antlrcpp::Any result = visitChildren(ctx);
-    tabCounter--;
+    //tabCounter--;
 
     return result;
   }

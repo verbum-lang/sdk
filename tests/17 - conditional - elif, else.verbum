@@ -20,20 +20,48 @@ else {
 }
 */
 
-
+/*
+if (abc)
+    print('ABC');
+elif (x) {
     if (abc)
         print('ABC');
-    elif (x)
-    //else
-        if (abc)
-            print('ABC');
-       else {
-           print('DRF');
+    else {
+        print('DRF');
 
-        if (n) print('N level');
-       }
+        if (n) 
+            print('N level');
+        else 
+            if(k) print('k'); 
+        
+    }
+}
 
-       if (test)
-        print('testee');
+if (test)  print('testee');
+*/
+
+/*
+if a 
+    print('Verbum');
+elif b
+    print('Verbum');
+*/
+
+/*
+if a 
+    if b  
+        if c
+            print('Verbum');
+        elif f
+            print('Verbum');
+   
+
+
+if n
+    print('Verbum');
+*/
+
+if a print('Verbum'); else {  }
+
 
 

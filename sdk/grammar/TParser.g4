@@ -31,9 +31,7 @@ sentence
 
 // Tokens que podem ir soltos no código.
 liveToken
-  : Newline
-//  | OpenBlock
-//  | CloseBlock
+  : Newline // Utilizar para contagem de linhas lidas.
   ;
 
 // Importações.
@@ -162,31 +160,49 @@ functionCallParamElements
   | operationElements Separator functionCallParamElements
   ;
 
-// Expressões condicionais (if, elif).
+// Expressões condicionais (if, elif, else).
+
+// Regra que vai no controlador geral.
 conditionalExpression
   : ifConditions
   | elifConditions
   | elseConditions
   ;
 
+blockElements
+  : conditionalExpression
+  | conditionalExpression blockElements
+  | sentence
+  | sentence blockElements
+  ;
+
 ifConditions
   : If conditionalExpressionElements callingFunction
+  | If conditionalExpressionElements OpenBlock CloseBlock
   | If conditionalExpressionElements OpenBlock blockElements CloseBlock
-  | If conditionalExpressionElements ifConditions conditionalExpression
+  | If conditionalExpressionElements blockElementsLimited
   ;
 
 elifConditions
   : Elif conditionalExpressionElements callingFunction
+  | Elif conditionalExpressionElements OpenBlock CloseBlock
   | Elif conditionalExpressionElements OpenBlock blockElements CloseBlock
-  | Elif conditionalExpressionElements ifConditions conditionalExpression
+  | Elif conditionalExpressionElements blockElementsLimited
   ;
 
 elseConditions
   : Else callingFunction
+  | Else OpenBlock CloseBlock
   | Else OpenBlock blockElements CloseBlock
-  | Else ifConditions conditionalExpression
+  | Else blockElementsLimited
   ;
 
+blockElementsLimited
+  : ifConditions
+  | ifConditions blockElements
+  ;
+
+// Controle do bloco das expressões.
 conditionalExpressionElements
   : conditionalExpElementsValue
   | conditionalExpElementsValue conditionalExpressionElements
@@ -245,13 +261,6 @@ conditionalExpValue
   | operationBlock (ArithmeticOperator | AssignmentOperator)
   | operationBlock TypeSpec
   | operationBlock TypeSpec (ArithmeticOperator | AssignmentOperator)
-  ;
-
-blockElements
-  : conditionalExpression
-  | conditionalExpression blockElements
-  | sentence
-  | sentence blockElements
   ;
 
 /*

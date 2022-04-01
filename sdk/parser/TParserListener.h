@@ -91,6 +91,9 @@ public:
   virtual void enterConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
   virtual void exitConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
 
+  virtual void enterBlockElements(TParser::BlockElementsContext *ctx) = 0;
+  virtual void exitBlockElements(TParser::BlockElementsContext *ctx) = 0;
+
   virtual void enterIfConditions(TParser::IfConditionsContext *ctx) = 0;
   virtual void exitIfConditions(TParser::IfConditionsContext *ctx) = 0;
 
@@ -99,6 +102,9 @@ public:
 
   virtual void enterElseConditions(TParser::ElseConditionsContext *ctx) = 0;
   virtual void exitElseConditions(TParser::ElseConditionsContext *ctx) = 0;
+
+  virtual void enterBlockElementsLimited(TParser::BlockElementsLimitedContext *ctx) = 0;
+  virtual void exitBlockElementsLimited(TParser::BlockElementsLimitedContext *ctx) = 0;
 
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
@@ -111,9 +117,6 @@ public:
 
   virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
   virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
-
-  virtual void enterBlockElements(TParser::BlockElementsContext *ctx) = 0;
-  virtual void exitBlockElements(TParser::BlockElementsContext *ctx) = 0;
 
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;

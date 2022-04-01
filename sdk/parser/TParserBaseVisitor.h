@@ -117,6 +117,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockElements(TParser::BlockElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -126,6 +130,10 @@ public:
   }
 
   virtual antlrcpp::Any visitElseConditions(TParser::ElseConditionsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockElementsLimited(TParser::BlockElementsLimitedContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -142,10 +150,6 @@ public:
   }
 
   virtual antlrcpp::Any visitConditionalExpValue(TParser::ConditionalExpValueContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitBlockElements(TParser::BlockElementsContext *ctx) override {
     return visitChildren(ctx);
   }
 
