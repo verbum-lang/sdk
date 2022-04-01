@@ -1,0 +1,8 @@
+
+var resultA :array    = obj.getValues();
+var resultB :int      = obj.getValues(1);
+var resultC :int      = obj.checkString("Verbum Divinus");
+
+var obj     :Example  = new Example(31337, "Verbum");
+
+

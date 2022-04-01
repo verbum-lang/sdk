@@ -25,6 +25,7 @@ Abstract : 'abstract';
 Extends : 'extends';
 Class : 'class';
 Implements : 'implements';
+New : 'new';
 
 // Operadores.
 ArrowRight : '->';

@@ -65,6 +65,9 @@ variableMembers
 variableDefinition
   : Identifier Attr generalValue
   | Identifier TypeSpec Attr generalValue
+
+  // Instanciamento de objeto.
+  | Identifier TypeSpec Attr New generalValue
   ;
 
 // Array indexado.

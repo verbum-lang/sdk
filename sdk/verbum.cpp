@@ -131,7 +131,12 @@ public:
 
     std::cout << "variable [" << ctx->Identifier()->getText() << "] ";
     std::cout << "[" << variableDataType << "] " << std::endl;
-    
+
+    // Verifica se é para instanciar objeto.
+    if (ctx->New()) {
+      std::cout << "-> instance new object" << std::endl;
+    }
+
     tabCounter++;
     antlrcpp::Any result = visitChildren(ctx);
     tabCounter--;

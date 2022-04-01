@@ -20,13 +20,13 @@ public:
   enum {
     Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, Ret = 7, Function = 8, 
     Pub = 9, Pro = 10, Priv = 11, Static = 12, Final = 13, Interface = 14, 
-    Abstract = 15, Extends = 16, Class = 17, Implements = 18, ArrowRight = 19, 
-    End = 20, Attr = 21, Point = 22, TwoPoint = 23, TwoTwoPoint = 24, Separator = 25, 
-    OpenArIndex = 26, CloseArIndex = 27, OpenBlock = 28, CloseBlock = 29, 
-    OpenOp = 30, CloseOp = 31, ArithmeticOperator = 32, AssignmentOperator = 33, 
-    Not = 34, IncDecOperators = 35, Identifier = 36, IDPrefix = 37, TypeSpec = 38, 
-    String = 39, Integer = 40, Float = 41, Whitespace = 42, Newline = 43, 
-    Words = 44, BlockComment = 45, LineComment = 46
+    Abstract = 15, Extends = 16, Class = 17, Implements = 18, New = 19, 
+    ArrowRight = 20, End = 21, Attr = 22, Point = 23, TwoPoint = 24, TwoTwoPoint = 25, 
+    Separator = 26, OpenArIndex = 27, CloseArIndex = 28, OpenBlock = 29, 
+    CloseBlock = 30, OpenOp = 31, CloseOp = 32, ArithmeticOperator = 33, 
+    AssignmentOperator = 34, Not = 35, IncDecOperators = 36, Identifier = 37, 
+    IDPrefix = 38, TypeSpec = 39, String = 40, Integer = 41, Float = 42, 
+    Whitespace = 43, Newline = 44, Words = 45, BlockComment = 46, LineComment = 47
   };
 
   explicit TLexer(antlr4::CharStream *input);
