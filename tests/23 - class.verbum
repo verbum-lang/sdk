@@ -1,0 +1,12 @@
+
+class Example {}
+
+//class Common extends AbstractClass {}
+
+//class Another implements AbstractClass {}
+
+//class Example extends Common implements ExampleTemplate { }
+
+//final class Example extends Common implements ExampleTemplate { }
+
+

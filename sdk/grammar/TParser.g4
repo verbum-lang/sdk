@@ -406,8 +406,10 @@ functionParamElements
 oopGeneral
   : interfaceClass
   | abstractClass
+  | classDefination
   ;
 
+// Interface e classe abstrata.
 interfaceClass
   : interfaceClassDefinition
   ;
@@ -430,7 +432,10 @@ abstractClassDefinition
   | Abstract Identifier Extends Identifier OpenBlock functionCodeBlock CloseBlock
   ;
 
-
+// Definição de classe.
+classDefination
+  : 
+  ;
 
 /*
 ** Regras de uso geral.
