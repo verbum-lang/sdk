@@ -5,4 +5,23 @@ var resultC :int      = obj.checkString("Verbum Divinus");
 
 var obj     :Example  = new Example(31337, "Verbum");
 
+// Exemplo com "parent".
+var obj1 = new Common();
+obj1.exampleA();            // Verbum
+obj1.getExampleA();         // Verbum
+
+var obj2 = new Example();
+obj2.exampleA();            // Divinus
+obj2.getExampleA();         // Divinus
+obj2.getExampleB();         // Verbum
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
 

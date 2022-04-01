@@ -67,6 +67,7 @@ variableDefinition
   | Identifier TypeSpec Attr generalValue
 
   // Instanciamento de objeto.
+  | Identifier Attr New generalValue
   | Identifier TypeSpec Attr New generalValue
   ;
 
