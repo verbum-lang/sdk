@@ -212,6 +212,9 @@ public:
           " -> " <<
           ctx->functionCall()->identifierB()->getText() << 
           std::endl;
+
+          ptab();
+          std::cout << "call content: " << ctx->getText() << std::endl;
       }
 
       // Método static.
@@ -224,7 +227,7 @@ public:
       }
 
       // Função comum.
-      else
+      else 
         std::cout << "-> [function-call] " << ctx->functionCall()->Identifier()->getText() << std::endl;
       
       ptab();
@@ -327,6 +330,9 @@ public:
             " -> " <<
             ctx->functionCall()->identifierB()->getText() << 
             std::endl;
+
+          ptab();
+          std::cout << "call content: " << ctx->getText() << std::endl;
         }
 
         // Método static.
@@ -339,10 +345,9 @@ public:
         }
 
         // Função comum.
-        else {
+        else 
           std::cout << "-> [function-call] " << 
             ctx->functionCall()->Identifier()->getText() << std::endl;
-        }
 
         ptab();
         std::cout << " function params: " << std::endl;
@@ -374,6 +379,9 @@ public:
         " -> " <<
         ctx->functionCall()->identifierB()->getText() << 
         std::endl;
+
+      ptab();
+      std::cout << "call content: " << ctx->getText() << std::endl;
     }
 
     // Método static.
@@ -560,6 +568,9 @@ public:
             ctx->functionCall()->Identifier()->getText() << 
             " -> " <<
             ctx->functionCall()->identifierB()->getText();
+
+          ptab();
+          std::cout << "call content: " << ctx->getText() << std::endl;
         }
 
         // Método static.

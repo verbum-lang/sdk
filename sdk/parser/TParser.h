@@ -37,21 +37,21 @@ public:
     RuleAssociativeArray = 14, RuleAssociativeArrayElements = 15, RuleOperationBlock = 16, 
     RuleOperationElements = 17, RuleOperationValue = 18, RuleFirstIncDec = 19, 
     RuleLastIncDec = 20, RuleCallingFunction = 21, RuleFunctionCall = 22, 
-    RuleIdentifierB = 23, RuleFunctionCallParam = 24, RuleFunctionCallParamElements = 25, 
-    RuleConditionalExpression = 26, RuleConditionalBlockElements = 27, RuleIfConditions = 28, 
-    RuleElifConditions = 29, RuleElseConditions = 30, RuleCondBlockElementsLimited = 31, 
-    RuleConditionalExpressionElements = 32, RuleConditionalExpElementsValue = 33, 
-    RuleConditionExpBlock = 34, RuleConditionalExpValue = 35, RuleLoop = 36, 
-    RuleLoopExpression = 37, RuleLoopOneMembers = 38, RuleLoopTwoMembers = 39, 
-    RuleLoopThreeMembers = 40, RuleLoopThreeMembersValues = 41, RuleLoopBlockElements = 42, 
-    RuleLoopBlockElementsLimited = 43, RuleRet = 44, RuleRetValues = 45, 
-    RuleFunctions = 46, RuleFunctionGeneralModes = 47, RuleFunctionsModes = 48, 
-    RuleFunctionMethodsModes = 49, RuleMethodPerm = 50, RuleConstructClassMethod = 51, 
-    RuleInterfaceMethod = 52, RuleFunctionCodeBlock = 53, RuleFunctionParams = 54, 
-    RuleFunctionParamElements = 55, RuleOopGeneral = 56, RuleInterfaceClass = 57, 
-    RuleInterfaceClassDefinition = 58, RuleAbstractClass = 59, RuleAbstractClassDefinition = 60, 
-    RuleClassDefination = 61, RuleClassModesGeneral = 62, RuleClassModes = 63, 
-    RuleGeneralValue = 64, RuleObjIdentifierA = 65, RuleObjIdentifierB = 66
+    RuleIdentifierB = 23, RulePointSeparator = 24, RuleFunctionCallParam = 25, 
+    RuleFunctionCallParamElements = 26, RuleConditionalExpression = 27, 
+    RuleConditionalBlockElements = 28, RuleIfConditions = 29, RuleElifConditions = 30, 
+    RuleElseConditions = 31, RuleCondBlockElementsLimited = 32, RuleConditionalExpressionElements = 33, 
+    RuleConditionalExpElementsValue = 34, RuleConditionExpBlock = 35, RuleConditionalExpValue = 36, 
+    RuleLoop = 37, RuleLoopExpression = 38, RuleLoopOneMembers = 39, RuleLoopTwoMembers = 40, 
+    RuleLoopThreeMembers = 41, RuleLoopThreeMembersValues = 42, RuleLoopBlockElements = 43, 
+    RuleLoopBlockElementsLimited = 44, RuleRet = 45, RuleRetValues = 46, 
+    RuleFunctions = 47, RuleFunctionGeneralModes = 48, RuleFunctionsModes = 49, 
+    RuleFunctionMethodsModes = 50, RuleMethodPerm = 51, RuleConstructClassMethod = 52, 
+    RuleInterfaceMethod = 53, RuleFunctionCodeBlock = 54, RuleFunctionParams = 55, 
+    RuleFunctionParamElements = 56, RuleOopGeneral = 57, RuleInterfaceClass = 58, 
+    RuleInterfaceClassDefinition = 59, RuleAbstractClass = 60, RuleAbstractClassDefinition = 61, 
+    RuleClassDefination = 62, RuleClassModesGeneral = 63, RuleClassModes = 64, 
+    RuleGeneralValue = 65, RuleObjIdentifierA = 66, RuleObjIdentifierB = 67
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -88,6 +88,7 @@ public:
   class CallingFunctionContext;
   class FunctionCallContext;
   class IdentifierBContext;
+  class PointSeparatorContext;
   class FunctionCallParamContext;
   class FunctionCallParamElementsContext;
   class ConditionalExpressionContext;
@@ -523,6 +524,8 @@ public:
     antlr4::tree::TerminalNode *Point();
     IdentifierBContext *identifierB();
     antlr4::tree::TerminalNode *TwoTwoPoint();
+    PointSeparatorContext *pointSeparator();
+    FunctionCallContext *functionCall();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -547,6 +550,21 @@ public:
   };
 
   IdentifierBContext* identifierB();
+
+  class  PointSeparatorContext : public antlr4::ParserRuleContext {
+  public:
+    PointSeparatorContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Point();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  PointSeparatorContext* pointSeparator();
 
   class  FunctionCallParamContext : public antlr4::ParserRuleContext {
   public:

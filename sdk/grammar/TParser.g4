@@ -177,9 +177,13 @@ functionCall
   : Identifier functionCallParam
   | Identifier Point identifierB functionCallParam
   | Identifier TwoTwoPoint identifierB functionCallParam
+
+  // Acesso a método concatenado (de objeto instanciado).
+  | Identifier Point identifierB functionCallParam pointSeparator functionCall
   ;
 
 identifierB : Identifier;
+pointSeparator : Point;
 
 functionCallParam
   : OpenOp CloseOp

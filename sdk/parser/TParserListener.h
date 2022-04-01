@@ -88,6 +88,9 @@ public:
   virtual void enterIdentifierB(TParser::IdentifierBContext *ctx) = 0;
   virtual void exitIdentifierB(TParser::IdentifierBContext *ctx) = 0;
 
+  virtual void enterPointSeparator(TParser::PointSeparatorContext *ctx) = 0;
+  virtual void exitPointSeparator(TParser::PointSeparatorContext *ctx) = 0;
+
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
 

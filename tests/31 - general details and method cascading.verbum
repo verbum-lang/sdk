@@ -1,0 +1,9 @@
+
+obj.foo(10);
+obj.foo(10).show( ).show();
+obj.foo(10).show(a).bar(20).show();
+var a = obj.func1().func2().func3();
+var a = ( 10 * obj.func1().func2().func3() );
+if ( 10 >= obj.func().func().func() ) print('Verbum');
+
+

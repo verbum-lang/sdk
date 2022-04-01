@@ -90,6 +90,9 @@ public:
   virtual void enterIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
   virtual void exitIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
 
+  virtual void enterPointSeparator(TParser::PointSeparatorContext * /*ctx*/) override { }
+  virtual void exitPointSeparator(TParser::PointSeparatorContext * /*ctx*/) override { }
+
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
 

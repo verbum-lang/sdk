@@ -113,6 +113,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitPointSeparator(TParser::PointSeparatorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitFunctionCallParam(TParser::FunctionCallParamContext *ctx) override {
     return visitChildren(ctx);
   }

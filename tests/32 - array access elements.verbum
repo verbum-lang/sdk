@@ -1,0 +1,13 @@
+
+//name.value = 30; // { name: { value: 'data' } }
+//name[1] = 10;
+//name[1][2] = 20;
+//name[1][2] = result[1];
+//name[1][2] = result[1][2];
+//name[1][2] = result[1][2].value;
+//name[1][2] = result[1][2].value.name[1];
+//result[1].item[2] = value.name[1];
+//print("Value\n", name[0], name[1]);
+//print("Value\n", name[0].name, name[1]);
+
+
