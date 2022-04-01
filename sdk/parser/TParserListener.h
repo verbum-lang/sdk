@@ -91,6 +91,15 @@ public:
   virtual void enterConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
   virtual void exitConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
 
+  virtual void enterIfConditions(TParser::IfConditionsContext *ctx) = 0;
+  virtual void exitIfConditions(TParser::IfConditionsContext *ctx) = 0;
+
+  virtual void enterElifConditions(TParser::ElifConditionsContext *ctx) = 0;
+  virtual void exitElifConditions(TParser::ElifConditionsContext *ctx) = 0;
+
+  virtual void enterElseConditions(TParser::ElseConditionsContext *ctx) = 0;
+  virtual void exitElseConditions(TParser::ElseConditionsContext *ctx) = 0;
+
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
 

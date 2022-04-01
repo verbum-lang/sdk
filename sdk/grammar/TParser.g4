@@ -162,10 +162,29 @@ functionCallParamElements
   | operationElements Separator functionCallParamElements
   ;
 
-// Expressões condicionais.
+// Expressões condicionais (if, elif).
 conditionalExpression
+  : ifConditions
+  | elifConditions
+  | elseConditions
+  ;
+
+ifConditions
   : If conditionalExpressionElements callingFunction
   | If conditionalExpressionElements OpenBlock blockElements CloseBlock
+  | If conditionalExpressionElements ifConditions conditionalExpression
+  ;
+
+elifConditions
+  : Elif conditionalExpressionElements callingFunction
+  | Elif conditionalExpressionElements OpenBlock blockElements CloseBlock
+  | Elif conditionalExpressionElements ifConditions conditionalExpression
+  ;
+
+elseConditions
+  : Else callingFunction
+  | Else OpenBlock blockElements CloseBlock
+  | Else ifConditions conditionalExpression
   ;
 
 conditionalExpressionElements
@@ -183,7 +202,6 @@ conditionalExpElementsValue // operationElements equivalent
 
 conditionExpBlock
   : OpenOp conditionalExpressionElements CloseOp
-  //| OpenOp Identifier Attr functionCall CloseOp
   | conditionExpBlock AssignmentOperator
   ;
 

@@ -93,6 +93,15 @@ public:
   virtual void enterConditionalExpression(TParser::ConditionalExpressionContext * /*ctx*/) override { }
   virtual void exitConditionalExpression(TParser::ConditionalExpressionContext * /*ctx*/) override { }
 
+  virtual void enterIfConditions(TParser::IfConditionsContext * /*ctx*/) override { }
+  virtual void exitIfConditions(TParser::IfConditionsContext * /*ctx*/) override { }
+
+  virtual void enterElifConditions(TParser::ElifConditionsContext * /*ctx*/) override { }
+  virtual void exitElifConditions(TParser::ElifConditionsContext * /*ctx*/) override { }
+
+  virtual void enterElseConditions(TParser::ElseConditionsContext * /*ctx*/) override { }
+  virtual void exitElseConditions(TParser::ElseConditionsContext * /*ctx*/) override { }
+
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
 

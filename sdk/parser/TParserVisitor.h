@@ -70,6 +70,12 @@ public:
 
     virtual antlrcpp::Any visitConditionalExpression(TParser::ConditionalExpressionContext *context) = 0;
 
+    virtual antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *context) = 0;
+
+    virtual antlrcpp::Any visitElifConditions(TParser::ElifConditionsContext *context) = 0;
+
+    virtual antlrcpp::Any visitElseConditions(TParser::ElseConditionsContext *context) = 0;
+
     virtual antlrcpp::Any visitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitConditionalExpElementsValue(TParser::ConditionalExpElementsValueContext *context) = 0;

@@ -380,22 +380,74 @@ public:
   /*
   ** Condicionais (if).
   */
+  /*
   antlrcpp::Any visitConditionalExpression(TParser::ConditionalExpressionContext *ctx) {
-
-    if (ctx->callingFunction()) {
+    if (ctx->ifConditions())
+    {
       ptab();
-      std::cout << "-> [conditional-function]: " << 
-        ctx->conditionalExpressionElements()->getText() << std::endl;
-      ptab();
-      std::cout << "-> conditional-elements:" << std::endl;
-    } else {
-      ptab();
-      std::cout << "-> [conditional-block]: " << 
-        ctx->conditionalExpressionElements()->getText() << std::endl;
+      std::cout << "-> [conditional-block : if]: " << 
+        ctx->ifConditions()->conditionalExpressionElements()->getText() << std::endl;
       ptab();
       std::cout << "-> conditional-elements:" << std::endl;
     }
+    else if (ctx->elifConditions())
+    {
+      ptab();
+      std::cout << "-> [conditional-block : elif]: " << 
+        ctx->elifConditions()->conditionalExpressionElements()->getText() << std::endl;
+      ptab();
+      std::cout << "-> conditional-elements:" << std::endl;
+    }
+    else
+    {
+      ptab();
+      std::cout << "-> [conditional-block : else]: " << std::endl;
+      ptab();
+      std::cout << "-> conditional-elements:" << std::endl;
+    }
+    
+    tabCounter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    tabCounter--;
 
+    return result;
+  }
+  */
+
+  antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx) {
+    ptab();
+    std::cout << "-> [conditional-block : if]: " << 
+      ctx->conditionalExpressionElements()->getText() << std::endl;
+    ptab();
+    std::cout << "-> conditional-elements:" << std::endl;
+
+    tabCounter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    tabCounter--;
+
+    return result;
+  }
+
+  antlrcpp::Any visitElifConditions(TParser::ElifConditionsContext *ctx) {
+    ptab();
+    std::cout << "-> [conditional-block : elif]: " << 
+      ctx->conditionalExpressionElements()->getText() << std::endl;
+    ptab();
+    std::cout << "-> conditional-elements:" << std::endl;
+
+    tabCounter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    tabCounter--;
+
+    return result;
+  }
+
+  antlrcpp::Any visitElseConditions(TParser::ElseConditionsContext *ctx) {
+    ptab();
+    std::cout << "-> [conditional-block : else]: " << std::endl;
+    ptab();
+    std::cout << "-> conditional-elements:" << std::endl;
+  
     tabCounter++;
     antlrcpp::Any result = visitChildren(ctx);
     tabCounter--;

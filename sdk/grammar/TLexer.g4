@@ -9,7 +9,7 @@ lexer grammar TLexer;
 // Comandos e palavras reservadas.
 Use : 'use' ;
 Var : 'var' ;
-If : 'if' ;
+If : 'if';
 Elif : 'elif';
 Else : 'else';
 Bool : ( 'true' | 'false' ) ;

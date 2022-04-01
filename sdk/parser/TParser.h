@@ -36,9 +36,10 @@ public:
     RuleFirstIncDec = 17, RuleLastIncDec = 18, RuleCallingFunction = 19, 
     RuleFunctionCall = 20, RuleIdentifierB = 21, RuleFunctionCallParam = 22, 
     RuleFunctionCallParamElements = 23, RuleConditionalExpression = 24, 
-    RuleConditionalExpressionElements = 25, RuleConditionalExpElementsValue = 26, 
-    RuleConditionExpBlock = 27, RuleConditionalExpValue = 28, RuleBlockElements = 29, 
-    RuleGeneralValue = 30
+    RuleIfConditions = 25, RuleElifConditions = 26, RuleElseConditions = 27, 
+    RuleConditionalExpressionElements = 28, RuleConditionalExpElementsValue = 29, 
+    RuleConditionExpBlock = 30, RuleConditionalExpValue = 31, RuleBlockElements = 32, 
+    RuleGeneralValue = 33
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -76,6 +77,9 @@ public:
   class FunctionCallParamContext;
   class FunctionCallParamElementsContext;
   class ConditionalExpressionContext;
+  class IfConditionsContext;
+  class ElifConditionsContext;
+  class ElseConditionsContext;
   class ConditionalExpressionElementsContext;
   class ConditionalExpElementsValueContext;
   class ConditionExpBlockContext;
@@ -495,12 +499,9 @@ public:
   public:
     ConditionalExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *If();
-    ConditionalExpressionElementsContext *conditionalExpressionElements();
-    CallingFunctionContext *callingFunction();
-    antlr4::tree::TerminalNode *OpenBlock();
-    BlockElementsContext *blockElements();
-    antlr4::tree::TerminalNode *CloseBlock();
+    IfConditionsContext *ifConditions();
+    ElifConditionsContext *elifConditions();
+    ElseConditionsContext *elseConditions();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -510,6 +511,71 @@ public:
   };
 
   ConditionalExpressionContext* conditionalExpression();
+
+  class  IfConditionsContext : public antlr4::ParserRuleContext {
+  public:
+    IfConditionsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *If();
+    ConditionalExpressionElementsContext *conditionalExpressionElements();
+    CallingFunctionContext *callingFunction();
+    antlr4::tree::TerminalNode *OpenBlock();
+    BlockElementsContext *blockElements();
+    antlr4::tree::TerminalNode *CloseBlock();
+    IfConditionsContext *ifConditions();
+    ConditionalExpressionContext *conditionalExpression();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IfConditionsContext* ifConditions();
+
+  class  ElifConditionsContext : public antlr4::ParserRuleContext {
+  public:
+    ElifConditionsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Elif();
+    ConditionalExpressionElementsContext *conditionalExpressionElements();
+    CallingFunctionContext *callingFunction();
+    antlr4::tree::TerminalNode *OpenBlock();
+    BlockElementsContext *blockElements();
+    antlr4::tree::TerminalNode *CloseBlock();
+    IfConditionsContext *ifConditions();
+    ConditionalExpressionContext *conditionalExpression();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ElifConditionsContext* elifConditions();
+
+  class  ElseConditionsContext : public antlr4::ParserRuleContext {
+  public:
+    ElseConditionsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Else();
+    CallingFunctionContext *callingFunction();
+    antlr4::tree::TerminalNode *OpenBlock();
+    BlockElementsContext *blockElements();
+    antlr4::tree::TerminalNode *CloseBlock();
+    IfConditionsContext *ifConditions();
+    ConditionalExpressionContext *conditionalExpression();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ElseConditionsContext* elseConditions();
 
   class  ConditionalExpressionElementsContext : public antlr4::ParserRuleContext {
   public:

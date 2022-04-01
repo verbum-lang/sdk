@@ -117,6 +117,18 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitElifConditions(TParser::ElifConditionsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitElseConditions(TParser::ElseConditionsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) override {
     return visitChildren(ctx);
   }

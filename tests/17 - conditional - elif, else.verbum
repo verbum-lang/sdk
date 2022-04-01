@@ -1,0 +1,39 @@
+
+/*
+if (a)
+    io.print('Verbum!');
+elif (b)
+    io.print('Verbum!');
+else {
+    io.print('Verbum!');
+    io.print('Verbum!');
+
+    if (abc)
+        print('ABC');
+    elif (x)
+    {
+        if (abc)
+            print('ABC');
+        else
+            print('DRF');
+    }
+}
+*/
+
+
+    if (abc)
+        print('ABC');
+    elif (x)
+    //else
+        if (abc)
+            print('ABC');
+       else {
+           print('DRF');
+
+        if (n) print('N level');
+       }
+
+       if (test)
+        print('testee');
+
+
