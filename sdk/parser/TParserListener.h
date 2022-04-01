@@ -142,6 +142,12 @@ public:
   virtual void enterLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext *ctx) = 0;
   virtual void exitLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext *ctx) = 0;
 
+  virtual void enterRet(TParser::RetContext *ctx) = 0;
+  virtual void exitRet(TParser::RetContext *ctx) = 0;
+
+  virtual void enterRetValues(TParser::RetValuesContext *ctx) = 0;
+  virtual void exitRetValues(TParser::RetValuesContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

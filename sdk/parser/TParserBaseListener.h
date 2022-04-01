@@ -144,6 +144,12 @@ public:
   virtual void enterLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext * /*ctx*/) override { }
   virtual void exitLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext * /*ctx*/) override { }
 
+  virtual void enterRet(TParser::RetContext * /*ctx*/) override { }
+  virtual void exitRet(TParser::RetContext * /*ctx*/) override { }
+
+  virtual void enterRetValues(TParser::RetValuesContext * /*ctx*/) override { }
+  virtual void exitRetValues(TParser::RetValuesContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

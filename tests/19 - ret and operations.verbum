@@ -1,4 +1,10 @@
 
-ret 10 + 20;
+ret (10 + 20) / ( func([1,2,3], 333) ) * 20;
+
+ret (a * 10);
+
+ret io.method(10, [1,2,3], funcN(), variable);
+
+ret (a * b) + value;
 
 

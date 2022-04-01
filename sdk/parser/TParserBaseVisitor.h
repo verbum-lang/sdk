@@ -185,6 +185,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitRet(TParser::RetContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitRetValues(TParser::RetValuesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }

@@ -104,6 +104,10 @@ public:
 
     virtual antlrcpp::Any visitLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext *context) = 0;
 
+    virtual antlrcpp::Any visitRet(TParser::RetContext *context) = 0;
+
+    virtual antlrcpp::Any visitRetValues(TParser::RetValuesContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
 

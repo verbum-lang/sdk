@@ -583,6 +583,14 @@ public:
     return visitChildren(ctx);
   }
 
+  /*
+  ** Retorno (ret).
+  */
+  antlrcpp::Any visitRet(TParser::RetContext *ctx) {
+    std::cout << "[ret]: " << ctx->getText() << std::endl;
+    return visitChildren(ctx);
+  }
+
 };
 
 int main(int argc, const char **argv) {

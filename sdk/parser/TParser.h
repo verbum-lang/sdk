@@ -18,13 +18,13 @@ namespace verbum {
 class  TParser : public antlr4::Parser {
 public:
   enum {
-    Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, End = 7, Attr = 8, 
-    Point = 9, TwoPoint = 10, TwoTwoPoint = 11, Separator = 12, OpenArIndex = 13, 
-    CloseArIndex = 14, OpenBlock = 15, CloseBlock = 16, OpenOp = 17, CloseOp = 18, 
-    ArithmeticOperator = 19, AssignmentOperator = 20, Not = 21, IncDecOperators = 22, 
-    Identifier = 23, IDPrefix = 24, TypeSpec = 25, String = 26, Integer = 27, 
-    Float = 28, Whitespace = 29, Newline = 30, Words = 31, BlockComment = 32, 
-    LineComment = 33
+    Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, Ret = 7, End = 8, 
+    Attr = 9, Point = 10, TwoPoint = 11, TwoTwoPoint = 12, Separator = 13, 
+    OpenArIndex = 14, CloseArIndex = 15, OpenBlock = 16, CloseBlock = 17, 
+    OpenOp = 18, CloseOp = 19, ArithmeticOperator = 20, AssignmentOperator = 21, 
+    Not = 22, IncDecOperators = 23, Identifier = 24, IDPrefix = 25, TypeSpec = 26, 
+    String = 27, Integer = 28, Float = 29, Whitespace = 30, Newline = 31, 
+    Words = 32, BlockComment = 33, LineComment = 34
   };
 
   enum {
@@ -41,7 +41,8 @@ public:
     RuleConditionalExpElementsValue = 31, RuleConditionExpBlock = 32, RuleConditionalExpValue = 33, 
     RuleLoop = 34, RuleLoopExpression = 35, RuleLoopOneMembers = 36, RuleLoopTwoMembers = 37, 
     RuleLoopThreeMembers = 38, RuleLoopThreeMembersValues = 39, RuleLoopBlockElements = 40, 
-    RuleLoopBlockElementsLimited = 41, RuleGeneralValue = 42
+    RuleLoopBlockElementsLimited = 41, RuleRet = 42, RuleRetValues = 43, 
+    RuleGeneralValue = 44
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -96,6 +97,8 @@ public:
   class LoopThreeMembersValuesContext;
   class LoopBlockElementsContext;
   class LoopBlockElementsLimitedContext;
+  class RetContext;
+  class RetValuesContext;
   class GeneralValueContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
@@ -140,6 +143,7 @@ public:
     CallingFunctionContext *callingFunction();
     ConditionalExpressionContext *conditionalExpression();
     LoopContext *loop();
+    RetContext *ret();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -837,6 +841,40 @@ public:
   };
 
   LoopBlockElementsLimitedContext* loopBlockElementsLimited();
+
+  class  RetContext : public antlr4::ParserRuleContext {
+  public:
+    RetContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Ret();
+    RetValuesContext *retValues();
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  RetContext* ret();
+
+  class  RetValuesContext : public antlr4::ParserRuleContext {
+  public:
+    RetValuesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueContext *generalValue();
+    OperationElementsContext *operationElements();
+    OperationBlockContext *operationBlock();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  RetValuesContext* retValues();
 
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:

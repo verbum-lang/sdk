@@ -28,6 +28,7 @@ sentence
   | callingFunction
   | conditionalExpression
   | loop
+  | ret
   ;
 
 // Tokens que podem ir soltos no código.
@@ -314,6 +315,20 @@ loopBlockElementsLimited
   | ifConditions loopBlockElementsLimited
   | loop
   | loop loopBlockElementsLimited
+  ;
+
+/*
+** Comando de retorno (ret).
+*/
+
+ret
+  : Ret retValues End
+  ;
+
+retValues
+  : generalValue
+  | operationElements
+  | operationBlock
   ;
 
 /*
