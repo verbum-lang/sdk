@@ -18,13 +18,13 @@ namespace verbum {
 class  TParser : public antlr4::Parser {
 public:
   enum {
-    Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, Ret = 7, End = 8, 
-    Attr = 9, Point = 10, TwoPoint = 11, TwoTwoPoint = 12, Separator = 13, 
-    OpenArIndex = 14, CloseArIndex = 15, OpenBlock = 16, CloseBlock = 17, 
-    OpenOp = 18, CloseOp = 19, ArithmeticOperator = 20, AssignmentOperator = 21, 
-    Not = 22, IncDecOperators = 23, Identifier = 24, IDPrefix = 25, TypeSpec = 26, 
-    String = 27, Integer = 28, Float = 29, Whitespace = 30, Newline = 31, 
-    Words = 32, BlockComment = 33, LineComment = 34
+    Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, Ret = 7, Function = 8, 
+    ArrowRight = 9, End = 10, Attr = 11, Point = 12, TwoPoint = 13, TwoTwoPoint = 14, 
+    Separator = 15, OpenArIndex = 16, CloseArIndex = 17, OpenBlock = 18, 
+    CloseBlock = 19, OpenOp = 20, CloseOp = 21, ArithmeticOperator = 22, 
+    AssignmentOperator = 23, Not = 24, IncDecOperators = 25, Identifier = 26, 
+    IDPrefix = 27, TypeSpec = 28, String = 29, Integer = 30, Float = 31, 
+    Whitespace = 32, Newline = 33, Words = 34, BlockComment = 35, LineComment = 36
   };
 
   enum {
@@ -42,7 +42,8 @@ public:
     RuleLoop = 34, RuleLoopExpression = 35, RuleLoopOneMembers = 36, RuleLoopTwoMembers = 37, 
     RuleLoopThreeMembers = 38, RuleLoopThreeMembersValues = 39, RuleLoopBlockElements = 40, 
     RuleLoopBlockElementsLimited = 41, RuleRet = 42, RuleRetValues = 43, 
-    RuleGeneralValue = 44
+    RuleFunctions = 44, RuleFunctionsModes = 45, RuleFunctionCodeBlock = 46, 
+    RuleFunctionParams = 47, RuleFunctionParamElements = 48, RuleGeneralValue = 49
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -99,6 +100,11 @@ public:
   class LoopBlockElementsLimitedContext;
   class RetContext;
   class RetValuesContext;
+  class FunctionsContext;
+  class FunctionsModesContext;
+  class FunctionCodeBlockContext;
+  class FunctionParamsContext;
+  class FunctionParamElementsContext;
   class GeneralValueContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
@@ -143,6 +149,7 @@ public:
     CallingFunctionContext *callingFunction();
     ConditionalExpressionContext *conditionalExpression();
     LoopContext *loop();
+    FunctionsContext *functions();
     RetContext *ret();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -875,6 +882,94 @@ public:
   };
 
   RetValuesContext* retValues();
+
+  class  FunctionsContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionsModesContext *functionsModes();
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    FunctionCodeBlockContext *functionCodeBlock();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionsContext* functions();
+
+  class  FunctionsModesContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionsModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Function();
+    std::vector<antlr4::tree::TerminalNode *> Identifier();
+    antlr4::tree::TerminalNode* Identifier(size_t i);
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+    antlr4::tree::TerminalNode *ArrowRight();
+    FunctionParamsContext *functionParams();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionsModesContext* functionsModes();
+
+  class  FunctionCodeBlockContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCodeBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    SentenceContext *sentence();
+    FunctionCodeBlockContext *functionCodeBlock();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCodeBlockContext* functionCodeBlock();
+
+  class  FunctionParamsContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionParamsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionParamElementsContext *functionParamElements();
+    antlr4::tree::TerminalNode *Separator();
+    FunctionParamsContext *functionParams();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionParamsContext* functionParams();
+
+  class  FunctionParamElementsContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionParamElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Identifier();
+    antlr4::tree::TerminalNode *TypeSpec();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionParamElementsContext* functionParamElements();
 
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:

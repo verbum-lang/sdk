@@ -148,6 +148,21 @@ public:
   virtual void enterRetValues(TParser::RetValuesContext *ctx) = 0;
   virtual void exitRetValues(TParser::RetValuesContext *ctx) = 0;
 
+  virtual void enterFunctions(TParser::FunctionsContext *ctx) = 0;
+  virtual void exitFunctions(TParser::FunctionsContext *ctx) = 0;
+
+  virtual void enterFunctionsModes(TParser::FunctionsModesContext *ctx) = 0;
+  virtual void exitFunctionsModes(TParser::FunctionsModesContext *ctx) = 0;
+
+  virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
+  virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
+
+  virtual void enterFunctionParams(TParser::FunctionParamsContext *ctx) = 0;
+  virtual void exitFunctionParams(TParser::FunctionParamsContext *ctx) = 0;
+
+  virtual void enterFunctionParamElements(TParser::FunctionParamElementsContext *ctx) = 0;
+  virtual void exitFunctionParamElements(TParser::FunctionParamElementsContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

@@ -150,6 +150,21 @@ public:
   virtual void enterRetValues(TParser::RetValuesContext * /*ctx*/) override { }
   virtual void exitRetValues(TParser::RetValuesContext * /*ctx*/) override { }
 
+  virtual void enterFunctions(TParser::FunctionsContext * /*ctx*/) override { }
+  virtual void exitFunctions(TParser::FunctionsContext * /*ctx*/) override { }
+
+  virtual void enterFunctionsModes(TParser::FunctionsModesContext * /*ctx*/) override { }
+  virtual void exitFunctionsModes(TParser::FunctionsModesContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
+  virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
+
+  virtual void enterFunctionParams(TParser::FunctionParamsContext * /*ctx*/) override { }
+  virtual void exitFunctionParams(TParser::FunctionParamsContext * /*ctx*/) override { }
+
+  virtual void enterFunctionParamElements(TParser::FunctionParamElementsContext * /*ctx*/) override { }
+  virtual void exitFunctionParamElements(TParser::FunctionParamElementsContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

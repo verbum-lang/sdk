@@ -591,6 +591,14 @@ public:
     return visitChildren(ctx);
   }
 
+  /*
+  ** Funções.
+  */
+  antlrcpp::Any visitFunctions(TParser::FunctionsContext *ctx) {
+    std::cout << "[function]: " << ctx->getText() << std::endl;
+    return visitChildren(ctx);
+  }
+
 };
 
 int main(int argc, const char **argv) {

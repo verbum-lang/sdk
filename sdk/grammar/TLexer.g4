@@ -14,8 +14,10 @@ Elif : 'elif';
 Else : 'else';
 For : 'for';
 Ret : 'ret';
+Function : 'fn';
 
 // Operadores.
+ArrowRight : '->';
 End : ';' ;
 Attr : '=' ;
 Point : '.';

@@ -108,6 +108,16 @@ public:
 
     virtual antlrcpp::Any visitRetValues(TParser::RetValuesContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunctions(TParser::FunctionsContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionsModes(TParser::FunctionsModesContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCodeBlock(TParser::FunctionCodeBlockContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionParams(TParser::FunctionParamsContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionParamElements(TParser::FunctionParamElementsContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
 

@@ -28,6 +28,7 @@ sentence
   | callingFunction
   | conditionalExpression
   | loop
+  | functions
   | ret
   ;
 
@@ -329,6 +330,36 @@ retValues
   : generalValue
   | operationElements
   | operationBlock
+  ;
+
+/*
+** Funções.
+*/
+functions
+  : functionsModes OpenBlock CloseBlock
+  | functionsModes OpenBlock functionCodeBlock CloseBlock
+  ;
+
+functionsModes
+  : Function Identifier OpenOp CloseOp
+  | Function Identifier OpenOp CloseOp ArrowRight Identifier
+  | Function Identifier OpenOp functionParams CloseOp
+  | Function Identifier OpenOp functionParams CloseOp ArrowRight Identifier
+  ;
+
+functionCodeBlock
+  : sentence
+  | sentence functionCodeBlock
+  ;
+
+functionParams
+  : functionParamElements
+  | functionParamElements Separator functionParams
+  ;
+
+functionParamElements
+  : Identifier 
+  | Identifier TypeSpec
   ;
 
 /*
