@@ -61,7 +61,15 @@ if n
     print('Verbum');
 */
 
-if a print('Verbum'); else {  }
+if a 
+    if x 
+        print('Verbum');
+    elif b 
+        print('Verbum');
+    else 
+        print('Verbum');
 
+if n {} elif z
+    print('Verbum');
 
 

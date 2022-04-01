@@ -379,6 +379,14 @@ public:
 
   /*
   ** Condicionais.
+  **
+  ** Utilizar controles: 
+  **    callingFunction - para detectar abertura com chamada de função.
+  **    OpenBlock CloseBlock - para detectar bloco de código.
+  **    blockElementsLimited - para detectar if concatenado.
+  **
+  ** Fazer sistema com flags para ir incrementando e decrementando de acordo com a abertura
+  ** de bloco de código (modos acima), para assim identificar a hierarquia dos condicionais.
   */
 
   antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx) {
