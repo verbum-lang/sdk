@@ -1,0 +1,136 @@
+// Interface comum...
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+// Classe.
+class Common extends AbstractClass {
+    // ...
+    pub fn checkString (string :string) -> int { /* ... */ }
+
+    // Implementa método abstrato.
+    pro fn abstractMethod (){
+        // ...
+    }
+
+    // Testa "parent" na classe herdeira.
+    pub fn exampleA () -> str {
+        ret "Verbum";
+    }
+
+    pub fn getExampleA () -> str {
+        ret this.exampleA();
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Atributos.
+    priv var attributeA :uint = 31337;
+    pub var attributeB :string  = "Verbum 😃";
+    pub static var subVersion :string = "1337";
+
+    // Construtor.
+    Example (a :uint, b :string) {
+        //this.attributeA = a;
+        //this.attributeB = b;
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+        ret "1.0.0";
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+        if (flag)
+            ret self::getVersion();
+        ret self::subVersion;
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+        ret [
+            this.attributeA,
+            this.attributeB
+        ];
+    }
+
+    pub fn getValues (index :int) -> int {
+        if (index == 1)
+            ret this.attributeA;
+        ret 10;
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+        print("Verbum\n");
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+        ret "Divinus";
+    }
+
+    pub fn getExampleB () -> str {
+        ret parent::exampleA();
+    }
+}
+
+// Instanciamento e uso.
+var obj     :Example  = new Example(31337, "Verbum");
+var resultA :array    = obj.getValues();
+var resultB :int      = obj.getValues(1);
+var resultC :int      = obj.checkString("Verbum Divinus");
+
+print("Version: {}\n", Example::getVersion());
+print("Sub version: {}\n", Example::subVersion);
+//print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
+print("resultB = {}\n", resultB);
+print("Check String = {}\n", resultC);
+
+// Exemplo com "parent".
+var obj1 = new Common();
+obj1.exampleA();            // Verbum
+obj1.getExampleA();         // Verbum
+
+var obj2 = new Example();
+obj2.exampleA();            // Divinus
+obj2.getExampleA();         // Divinus
+obj2.getExampleB();         // Verbum
+
+
+class Example {
+    priv var value :int = 0;
+
+    pub fn foo (a :int) -> this {
+        //this.value += a;
+        ret this;
+    }
+
+    pub fn bar (a :int) -> this {
+        //this.value += a;
+        ret this;
+    }
+
+    pub fn show () {
+        print("Value: {}\n", this.value);
+    }
+}
+
+var obj = new Example();
+//obj.foo(10).show().bar(20).show();
+
+

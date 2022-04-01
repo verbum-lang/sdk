@@ -49,6 +49,9 @@ public:
   virtual void enterVariableDefinition(TParser::VariableDefinitionContext *ctx) = 0;
   virtual void exitVariableDefinition(TParser::VariableDefinitionContext *ctx) = 0;
 
+  virtual void enterVariableDefinitionGeneral(TParser::VariableDefinitionGeneralContext *ctx) = 0;
+  virtual void exitVariableDefinitionGeneral(TParser::VariableDefinitionGeneralContext *ctx) = 0;
+
   virtual void enterIndexArray(TParser::IndexArrayContext *ctx) = 0;
   virtual void exitIndexArray(TParser::IndexArrayContext *ctx) = 0;
 

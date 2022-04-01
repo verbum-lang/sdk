@@ -42,6 +42,8 @@ public:
 
     virtual antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *context) = 0;
 
+    virtual antlrcpp::Any visitVariableDefinitionGeneral(TParser::VariableDefinitionGeneralContext *context) = 0;
+
     virtual antlrcpp::Any visitIndexArray(TParser::IndexArrayContext *context) = 0;
 
     virtual antlrcpp::Any visitIndexArrayElements(TParser::IndexArrayElementsContext *context) = 0;

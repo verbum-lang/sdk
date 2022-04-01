@@ -51,6 +51,9 @@ public:
   virtual void enterVariableDefinition(TParser::VariableDefinitionContext * /*ctx*/) override { }
   virtual void exitVariableDefinition(TParser::VariableDefinitionContext * /*ctx*/) override { }
 
+  virtual void enterVariableDefinitionGeneral(TParser::VariableDefinitionGeneralContext * /*ctx*/) override { }
+  virtual void exitVariableDefinitionGeneral(TParser::VariableDefinitionGeneralContext * /*ctx*/) override { }
+
   virtual void enterIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
   virtual void exitIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
 

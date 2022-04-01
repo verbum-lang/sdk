@@ -74,14 +74,22 @@ variableMembers
   ;
 
 variableDefinition
-  
   // Uso geral.
-  : Identifier Attr generalValue
-  | Identifier TypeSpec Attr generalValue
+  : Identifier variableDefinitionGeneral
+
+  // Acesso a componentes de objeto.
+  | objIdentifierA Point objIdentifierB variableDefinitionGeneral
+  | objIdentifierA TwoTwoPoint objIdentifierB variableDefinitionGeneral
+  ;
+
+variableDefinitionGeneral
+  // Uso geral.
+  : Attr generalValue
+  | TypeSpec Attr generalValue
 
   // Instanciamento de objeto.
-  | Identifier Attr New generalValue
-  | Identifier TypeSpec Attr New generalValue
+  | Attr New generalValue
+  | TypeSpec Attr New generalValue
   ;
 
 // Array indexado.

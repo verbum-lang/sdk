@@ -126,14 +126,14 @@ public:
   antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *ctx) {
     std::string variableDataType = "";
 
-    if (ctx->TypeSpec()) 
-      variableDataType = ctx->TypeSpec()->getText();
+    if (ctx->variableDefinitionGeneral()->TypeSpec()) 
+      variableDataType = ctx->variableDefinitionGeneral()->TypeSpec()->getText();
 
     std::cout << "variable [" << ctx->Identifier()->getText() << "] ";
     std::cout << "[" << variableDataType << "] " << std::endl;
 
     // Verifica se é para instanciar objeto.
-    if (ctx->New()) {
+    if (ctx->variableDefinitionGeneral()->New()) {
       std::cout << "-> instance new object" << std::endl;
     }
 

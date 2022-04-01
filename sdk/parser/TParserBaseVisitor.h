@@ -61,6 +61,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitVariableDefinitionGeneral(TParser::VariableDefinitionGeneralContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitIndexArray(TParser::IndexArrayContext *ctx) override {
     return visitChildren(ctx);
   }
