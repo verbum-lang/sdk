@@ -1,12 +1,20 @@
 
 class Example {}
 
-//class Common extends AbstractClass {}
+class Common extends AbstractClass {}
 
-//class Another implements AbstractClass {}
+class Another implements AbstractClass {}
 
-//class Example extends Common implements ExampleTemplate { }
+class Example extends Common implements ExampleTemplate { }
 
-//final class Example extends Common implements ExampleTemplate { }
+// Verbum
+
+final class Example {}
+
+final class Common extends AbstractClass {}
+
+final class Another implements AbstractClass {}
+
+final class Example extends Common implements ExampleTemplate { }
 
 

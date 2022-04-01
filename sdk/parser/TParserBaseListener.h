@@ -195,6 +195,15 @@ public:
   virtual void enterAbstractClassDefinition(TParser::AbstractClassDefinitionContext * /*ctx*/) override { }
   virtual void exitAbstractClassDefinition(TParser::AbstractClassDefinitionContext * /*ctx*/) override { }
 
+  virtual void enterClassDefination(TParser::ClassDefinationContext * /*ctx*/) override { }
+  virtual void exitClassDefination(TParser::ClassDefinationContext * /*ctx*/) override { }
+
+  virtual void enterClassModesGeneral(TParser::ClassModesGeneralContext * /*ctx*/) override { }
+  virtual void exitClassModesGeneral(TParser::ClassModesGeneralContext * /*ctx*/) override { }
+
+  virtual void enterClassModes(TParser::ClassModesContext * /*ctx*/) override { }
+  virtual void exitClassModes(TParser::ClassModesContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

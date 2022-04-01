@@ -20,12 +20,13 @@ public:
   enum {
     Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, Ret = 7, Function = 8, 
     Pub = 9, Pro = 10, Priv = 11, Static = 12, Final = 13, Interface = 14, 
-    Abstract = 15, Extends = 16, ArrowRight = 17, End = 18, Attr = 19, Point = 20, 
-    TwoPoint = 21, TwoTwoPoint = 22, Separator = 23, OpenArIndex = 24, CloseArIndex = 25, 
-    OpenBlock = 26, CloseBlock = 27, OpenOp = 28, CloseOp = 29, ArithmeticOperator = 30, 
-    AssignmentOperator = 31, Not = 32, IncDecOperators = 33, Identifier = 34, 
-    IDPrefix = 35, TypeSpec = 36, String = 37, Integer = 38, Float = 39, 
-    Whitespace = 40, Newline = 41, Words = 42, BlockComment = 43, LineComment = 44
+    Abstract = 15, Extends = 16, Class = 17, Implements = 18, ArrowRight = 19, 
+    End = 20, Attr = 21, Point = 22, TwoPoint = 23, TwoTwoPoint = 24, Separator = 25, 
+    OpenArIndex = 26, CloseArIndex = 27, OpenBlock = 28, CloseBlock = 29, 
+    OpenOp = 30, CloseOp = 31, ArithmeticOperator = 32, AssignmentOperator = 33, 
+    Not = 34, IncDecOperators = 35, Identifier = 36, IDPrefix = 37, TypeSpec = 38, 
+    String = 39, Integer = 40, Float = 41, Whitespace = 42, Newline = 43, 
+    Words = 44, BlockComment = 45, LineComment = 46
   };
 
   enum {
@@ -48,7 +49,8 @@ public:
     RuleInterfaceMethod = 50, RuleFunctionCodeBlock = 51, RuleFunctionParams = 52, 
     RuleFunctionParamElements = 53, RuleOopGeneral = 54, RuleInterfaceClass = 55, 
     RuleInterfaceClassDefinition = 56, RuleAbstractClass = 57, RuleAbstractClassDefinition = 58, 
-    RuleGeneralValue = 59
+    RuleClassDefination = 59, RuleClassModesGeneral = 60, RuleClassModes = 61, 
+    RuleGeneralValue = 62
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -120,6 +122,9 @@ public:
   class InterfaceClassDefinitionContext;
   class AbstractClassContext;
   class AbstractClassDefinitionContext;
+  class ClassDefinationContext;
+  class ClassModesGeneralContext;
+  class ClassModesContext;
   class GeneralValueContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
@@ -1081,6 +1086,7 @@ public:
     virtual size_t getRuleIndex() const override;
     InterfaceClassContext *interfaceClass();
     AbstractClassContext *abstractClass();
+    ClassDefinationContext *classDefination();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1162,6 +1168,59 @@ public:
   };
 
   AbstractClassDefinitionContext* abstractClassDefinition();
+
+  class  ClassDefinationContext : public antlr4::ParserRuleContext {
+  public:
+    ClassDefinationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ClassModesGeneralContext *classModesGeneral();
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    FunctionCodeBlockContext *functionCodeBlock();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ClassDefinationContext* classDefination();
+
+  class  ClassModesGeneralContext : public antlr4::ParserRuleContext {
+  public:
+    ClassModesGeneralContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ClassModesContext *classModes();
+    antlr4::tree::TerminalNode *Final();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ClassModesGeneralContext* classModesGeneral();
+
+  class  ClassModesContext : public antlr4::ParserRuleContext {
+  public:
+    ClassModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Class();
+    std::vector<antlr4::tree::TerminalNode *> Identifier();
+    antlr4::tree::TerminalNode* Identifier(size_t i);
+    antlr4::tree::TerminalNode *Extends();
+    antlr4::tree::TerminalNode *Implements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ClassModesContext* classModes();
 
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:

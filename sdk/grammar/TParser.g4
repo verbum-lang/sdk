@@ -403,6 +403,7 @@ functionParamElements
 ** Questões gerais da orientação à objetos.
 */
 
+// Regras que vão no controlador geral.
 oopGeneral
   : interfaceClass
   | abstractClass
@@ -434,7 +435,20 @@ abstractClassDefinition
 
 // Definição de classe.
 classDefination
-  : 
+  : classModesGeneral OpenBlock CloseBlock
+  | classModesGeneral OpenBlock functionCodeBlock CloseBlock
+  ;
+
+classModesGeneral
+  : classModes
+  | Final classModes
+  ;
+
+classModes
+  : Class Identifier
+  | Class Identifier Extends Identifier
+  | Class Identifier Implements Identifier
+  | Class Identifier Extends Identifier Implements Identifier
   ;
 
 /*

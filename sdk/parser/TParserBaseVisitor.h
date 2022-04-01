@@ -253,6 +253,18 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitClassDefination(TParser::ClassDefinationContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitClassModesGeneral(TParser::ClassModesGeneralContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitClassModes(TParser::ClassModesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }

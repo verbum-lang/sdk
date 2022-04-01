@@ -627,6 +627,11 @@ public:
     std::cout << "[abstract]: " << ctx->getText() << std::endl;
     return visitChildren(ctx);
   }
+  
+  antlrcpp::Any visitClassDefination(TParser::ClassDefinationContext *ctx) {
+    std::cout << "[class]: " << ctx->getText() << std::endl;
+    return visitChildren(ctx);
+  }
 
 };
 

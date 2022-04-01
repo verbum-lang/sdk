@@ -23,6 +23,8 @@ Final : 'final';
 Interface : 'interface';
 Abstract : 'abstract';
 Extends : 'extends';
+Class : 'class';
+Implements : 'implements';
 
 // Operadores.
 ArrowRight : '->';

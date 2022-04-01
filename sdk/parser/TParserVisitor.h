@@ -138,6 +138,12 @@ public:
 
     virtual antlrcpp::Any visitAbstractClassDefinition(TParser::AbstractClassDefinitionContext *context) = 0;
 
+    virtual antlrcpp::Any visitClassDefination(TParser::ClassDefinationContext *context) = 0;
+
+    virtual antlrcpp::Any visitClassModesGeneral(TParser::ClassModesGeneralContext *context) = 0;
+
+    virtual antlrcpp::Any visitClassModes(TParser::ClassModesContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
 

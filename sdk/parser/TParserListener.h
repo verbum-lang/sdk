@@ -193,6 +193,15 @@ public:
   virtual void enterAbstractClassDefinition(TParser::AbstractClassDefinitionContext *ctx) = 0;
   virtual void exitAbstractClassDefinition(TParser::AbstractClassDefinitionContext *ctx) = 0;
 
+  virtual void enterClassDefination(TParser::ClassDefinationContext *ctx) = 0;
+  virtual void exitClassDefination(TParser::ClassDefinationContext *ctx) = 0;
+
+  virtual void enterClassModesGeneral(TParser::ClassModesGeneralContext *ctx) = 0;
+  virtual void exitClassModesGeneral(TParser::ClassModesGeneralContext *ctx) = 0;
+
+  virtual void enterClassModes(TParser::ClassModesContext *ctx) = 0;
+  virtual void exitClassModes(TParser::ClassModesContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 
