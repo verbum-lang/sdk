@@ -167,11 +167,6 @@ public:
       std::cout << "[float/double] ";
       std::cout << "["<< valueDataType << "] ";
       std::cout << "- value: " << ctx->Float()->getText() << std::endl;
-    } else if (ctx->Bool()) {
-      ptab();
-      std::cout << "[bool] ";
-      std::cout << "["<< valueDataType << "] ";
-      std::cout << "- value: " << ctx->Bool()->getText() << std::endl;
     } else if (ctx->indexArray()) {
       ptab();
       std::cout << "-> [index-array] " << std::endl;
@@ -578,6 +573,14 @@ public:
       result = visitChildren(ctx);
 
     return result;
+  }
+
+  /*
+  ** Loops.
+  */
+  antlrcpp::Any visitLoopExpression(TParser::LoopExpressionContext *ctx) {
+    std::cout << "[loop]: " << ctx->getText() << std::endl;
+    return visitChildren(ctx);
   }
 
 };

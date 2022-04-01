@@ -12,7 +12,7 @@ Var : 'var' ;
 If : 'if';
 Elif : 'elif';
 Else : 'else';
-Bool : ( 'true' | 'false' ) ;
+For : 'for';
 
 // Operadores.
 End : ';' ;

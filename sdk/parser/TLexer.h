@@ -18,7 +18,7 @@ namespace verbum {
 class  TLexer : public antlr4::Lexer {
 public:
   enum {
-    Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, Bool = 6, End = 7, Attr = 8, 
+    Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, End = 7, Attr = 8, 
     Point = 9, TwoPoint = 10, TwoTwoPoint = 11, Separator = 12, OpenArIndex = 13, 
     CloseArIndex = 14, OpenBlock = 15, CloseBlock = 16, OpenOp = 17, CloseOp = 18, 
     ArithmeticOperator = 19, AssignmentOperator = 20, Not = 21, IncDecOperators = 22, 

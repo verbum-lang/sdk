@@ -27,6 +27,7 @@ sentence
   | variable
   | callingFunction
   | conditionalExpression
+  | loop
   ;
 
 // Tokens que podem ir soltos no código.
@@ -169,37 +170,39 @@ conditionalExpression
   | elseConditions
   ;
 
-blockElements
+conditionalBlockElements
   : conditionalExpression
-  | conditionalExpression blockElements
+  | conditionalExpression conditionalBlockElements
   | sentence
-  | sentence blockElements
+  | sentence conditionalBlockElements
   ;
 
 ifConditions
   : If conditionalExpressionElements callingFunction
   | If conditionalExpressionElements OpenBlock CloseBlock
-  | If conditionalExpressionElements OpenBlock blockElements CloseBlock
-  | If conditionalExpressionElements blockElementsLimited
+  | If conditionalExpressionElements OpenBlock conditionalBlockElements CloseBlock
+  | If conditionalExpressionElements condBlockElementsLimited
   ;
 
 elifConditions
   : Elif conditionalExpressionElements callingFunction
   | Elif conditionalExpressionElements OpenBlock CloseBlock
-  | Elif conditionalExpressionElements OpenBlock blockElements CloseBlock
-  | Elif conditionalExpressionElements blockElementsLimited
+  | Elif conditionalExpressionElements OpenBlock conditionalBlockElements CloseBlock
+  | Elif conditionalExpressionElements condBlockElementsLimited
   ;
 
 elseConditions
   : Else callingFunction
   | Else OpenBlock CloseBlock
-  | Else OpenBlock blockElements CloseBlock
-  | Else blockElementsLimited
+  | Else OpenBlock conditionalBlockElements CloseBlock
+  | Else condBlockElementsLimited
   ;
 
-blockElementsLimited
+condBlockElementsLimited
   : ifConditions
-  | ifConditions blockElements
+  | ifConditions conditionalBlockElements
+  | loop
+  | loop loopBlockElementsLimited
   ;
 
 // Controle do bloco das expressões.
@@ -263,6 +266,56 @@ conditionalExpValue
   | operationBlock TypeSpec (ArithmeticOperator | AssignmentOperator)
   ;
 
+// Loops.
+loop
+  : For loopExpression OpenBlock CloseBlock
+  | For loopExpression OpenBlock loopBlockElements CloseBlock
+  | For loopExpression callingFunction
+  | For loopExpression loopBlockElementsLimited
+  ;
+
+loopExpression
+  : OpenOp loopOneMembers End loopTwoMembers End loopThreeMembers CloseOp
+  | loopOneMembers End loopTwoMembers End loopThreeMembers
+  | conditionalExpressionElements
+  | OpenOp CloseOp
+  |
+  ;
+
+loopOneMembers
+  : variableMembers
+  |
+  ;
+
+loopTwoMembers
+  : conditionalExpressionElements
+  |
+  ;
+
+loopThreeMembers
+  : loopThreeMembersValues
+  |
+  ;
+
+loopThreeMembersValues
+  : operationElements
+  | operationBlock
+  | operationElements Separator loopThreeMembersValues
+  | operationBlock Separator loopThreeMembersValues
+  ;
+
+loopBlockElements
+  : sentence
+  | sentence loopBlockElements
+  ;
+
+loopBlockElementsLimited
+  : ifConditions
+  | ifConditions loopBlockElementsLimited
+  | loop
+  | loop loopBlockElementsLimited
+  ;
+
 /*
 ** Regras de uso geral.
 **
@@ -278,7 +331,6 @@ generalValue
   | Integer TypeSpec
   | Float                   // Número de ponto flutuante, incluindo, por exemplo: 0.123.
   | Float TypeSpec
-  | Bool                    // Valor bool (true, false).  
   | String                  // Strings com aspas simples e duplas.
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.

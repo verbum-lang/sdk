@@ -70,7 +70,7 @@ public:
 
     virtual antlrcpp::Any visitConditionalExpression(TParser::ConditionalExpressionContext *context) = 0;
 
-    virtual antlrcpp::Any visitBlockElements(TParser::BlockElementsContext *context) = 0;
+    virtual antlrcpp::Any visitConditionalBlockElements(TParser::ConditionalBlockElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *context) = 0;
 
@@ -78,7 +78,7 @@ public:
 
     virtual antlrcpp::Any visitElseConditions(TParser::ElseConditionsContext *context) = 0;
 
-    virtual antlrcpp::Any visitBlockElementsLimited(TParser::BlockElementsLimitedContext *context) = 0;
+    virtual antlrcpp::Any visitCondBlockElementsLimited(TParser::CondBlockElementsLimitedContext *context) = 0;
 
     virtual antlrcpp::Any visitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *context) = 0;
 
@@ -87,6 +87,22 @@ public:
     virtual antlrcpp::Any visitConditionExpBlock(TParser::ConditionExpBlockContext *context) = 0;
 
     virtual antlrcpp::Any visitConditionalExpValue(TParser::ConditionalExpValueContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoop(TParser::LoopContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopExpression(TParser::LoopExpressionContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopOneMembers(TParser::LoopOneMembersContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopTwoMembers(TParser::LoopTwoMembersContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopThreeMembers(TParser::LoopThreeMembersContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopBlockElements(TParser::LoopBlockElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext *context) = 0;
 
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 

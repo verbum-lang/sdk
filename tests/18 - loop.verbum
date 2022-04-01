@@ -1,0 +1,34 @@
+
+for (;;) { print('Verbum'); }
+for (;;) for (;;) { print('Verbum'); }
+for ;; { print('Verbum'); }
+for ;;  print('Verbum'); 
+
+for (a :double = 0 :float; a<10; a++) {
+   print('Verbum');
+}
+
+for (a=0,b=10; (line = func([1,2,3])) != null && b==10; a++) {
+   print('Verbum');
+}
+
+for (;;a++, --b)
+    print('Verbum');
+
+for ;; y++, --n
+    print('Verbum');
+
+for a<10
+    print('Verbum');
+
+for ()
+    print('Verbum');
+
+for print('Infinite...');
+
+for if a > 10 print('Verbum');
+
+if a > 10 for print('Verbum');
+
+
+

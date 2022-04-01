@@ -91,8 +91,8 @@ public:
   virtual void enterConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
   virtual void exitConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
 
-  virtual void enterBlockElements(TParser::BlockElementsContext *ctx) = 0;
-  virtual void exitBlockElements(TParser::BlockElementsContext *ctx) = 0;
+  virtual void enterConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
+  virtual void exitConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
 
   virtual void enterIfConditions(TParser::IfConditionsContext *ctx) = 0;
   virtual void exitIfConditions(TParser::IfConditionsContext *ctx) = 0;
@@ -103,8 +103,8 @@ public:
   virtual void enterElseConditions(TParser::ElseConditionsContext *ctx) = 0;
   virtual void exitElseConditions(TParser::ElseConditionsContext *ctx) = 0;
 
-  virtual void enterBlockElementsLimited(TParser::BlockElementsLimitedContext *ctx) = 0;
-  virtual void exitBlockElementsLimited(TParser::BlockElementsLimitedContext *ctx) = 0;
+  virtual void enterCondBlockElementsLimited(TParser::CondBlockElementsLimitedContext *ctx) = 0;
+  virtual void exitCondBlockElementsLimited(TParser::CondBlockElementsLimitedContext *ctx) = 0;
 
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
@@ -117,6 +117,30 @@ public:
 
   virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
   virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
+
+  virtual void enterLoop(TParser::LoopContext *ctx) = 0;
+  virtual void exitLoop(TParser::LoopContext *ctx) = 0;
+
+  virtual void enterLoopExpression(TParser::LoopExpressionContext *ctx) = 0;
+  virtual void exitLoopExpression(TParser::LoopExpressionContext *ctx) = 0;
+
+  virtual void enterLoopOneMembers(TParser::LoopOneMembersContext *ctx) = 0;
+  virtual void exitLoopOneMembers(TParser::LoopOneMembersContext *ctx) = 0;
+
+  virtual void enterLoopTwoMembers(TParser::LoopTwoMembersContext *ctx) = 0;
+  virtual void exitLoopTwoMembers(TParser::LoopTwoMembersContext *ctx) = 0;
+
+  virtual void enterLoopThreeMembers(TParser::LoopThreeMembersContext *ctx) = 0;
+  virtual void exitLoopThreeMembers(TParser::LoopThreeMembersContext *ctx) = 0;
+
+  virtual void enterLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *ctx) = 0;
+  virtual void exitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *ctx) = 0;
+
+  virtual void enterLoopBlockElements(TParser::LoopBlockElementsContext *ctx) = 0;
+  virtual void exitLoopBlockElements(TParser::LoopBlockElementsContext *ctx) = 0;
+
+  virtual void enterLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext *ctx) = 0;
+  virtual void exitLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext *ctx) = 0;
 
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
