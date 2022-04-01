@@ -30,6 +30,7 @@ sentence
   | loop
   | functions
   | ret
+  | oopGeneral
   ;
 
 // Tokens que podem ir soltos no código.
@@ -333,20 +334,57 @@ retValues
   ;
 
 /*
-** Funções.
+** Funções e métodos.
 */
 functions
   : functionsModes OpenBlock CloseBlock
   | functionsModes OpenBlock functionCodeBlock CloseBlock
+  | functionMethodsModes OpenBlock CloseBlock
+  | functionMethodsModes OpenBlock functionCodeBlock CloseBlock
+  | constructClassMethod OpenBlock CloseBlock
+  | constructClassMethod OpenBlock functionCodeBlock CloseBlock
+  | interfaceMethod End
   ;
 
-functionsModes
+functionGeneralModes
   : Function Identifier OpenOp CloseOp
   | Function Identifier OpenOp CloseOp ArrowRight Identifier
   | Function Identifier OpenOp functionParams CloseOp
   | Function Identifier OpenOp functionParams CloseOp ArrowRight Identifier
   ;
 
+// Funções.
+functionsModes
+  : functionGeneralModes
+  ;
+
+// Métodos.
+functionMethodsModes
+  :       methodPerm        functionGeneralModes
+  |                  Static functionGeneralModes
+  |       methodPerm Static functionGeneralModes
+  | Final methodPerm Static functionGeneralModes
+  | Final methodPerm        functionGeneralModes 
+  | Final                   functionGeneralModes 
+  ;
+
+methodPerm
+  : Pub | Pro | Priv
+  ;
+
+// Método construtor da classe.
+constructClassMethod
+  : Identifier OpenOp CloseOp
+  | Identifier OpenOp functionParams CloseOp
+  ;
+
+// Métodos de interfaces e classes abstratas.
+interfaceMethod
+  : functionsModes
+  | functionMethodsModes
+  ;
+
+// Controles gerais.
 functionCodeBlock
   : sentence
   | sentence functionCodeBlock
@@ -358,9 +396,26 @@ functionParams
   ;
 
 functionParamElements
-  : Identifier 
-  | Identifier TypeSpec
+  : Identifier TypeSpec
   ;
+
+/*
+** Questões gerais da orientação à objetos.
+*/
+
+oopGeneral
+  : interfaceControl
+  ;
+
+interfaceControl
+  : Interface Identifier OpenBlock CloseBlock
+  | Interface Identifier OpenBlock functionCodeBlock CloseBlock
+  | Interface Identifier Extends Identifier OpenBlock CloseBlock
+  | Interface Identifier Extends Identifier OpenBlock functionCodeBlock CloseBlock
+  ;
+
+
+
 
 /*
 ** Regras de uso geral.

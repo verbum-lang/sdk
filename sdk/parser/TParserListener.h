@@ -151,8 +151,23 @@ public:
   virtual void enterFunctions(TParser::FunctionsContext *ctx) = 0;
   virtual void exitFunctions(TParser::FunctionsContext *ctx) = 0;
 
+  virtual void enterFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) = 0;
+  virtual void exitFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) = 0;
+
   virtual void enterFunctionsModes(TParser::FunctionsModesContext *ctx) = 0;
   virtual void exitFunctionsModes(TParser::FunctionsModesContext *ctx) = 0;
+
+  virtual void enterFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) = 0;
+  virtual void exitFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) = 0;
+
+  virtual void enterMethodPerm(TParser::MethodPermContext *ctx) = 0;
+  virtual void exitMethodPerm(TParser::MethodPermContext *ctx) = 0;
+
+  virtual void enterConstructClassMethod(TParser::ConstructClassMethodContext *ctx) = 0;
+  virtual void exitConstructClassMethod(TParser::ConstructClassMethodContext *ctx) = 0;
+
+  virtual void enterInterfaceMethod(TParser::InterfaceMethodContext *ctx) = 0;
+  virtual void exitInterfaceMethod(TParser::InterfaceMethodContext *ctx) = 0;
 
   virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
   virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;

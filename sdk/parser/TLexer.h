@@ -19,12 +19,13 @@ class  TLexer : public antlr4::Lexer {
 public:
   enum {
     Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, Ret = 7, Function = 8, 
-    ArrowRight = 9, End = 10, Attr = 11, Point = 12, TwoPoint = 13, TwoTwoPoint = 14, 
-    Separator = 15, OpenArIndex = 16, CloseArIndex = 17, OpenBlock = 18, 
-    CloseBlock = 19, OpenOp = 20, CloseOp = 21, ArithmeticOperator = 22, 
-    AssignmentOperator = 23, Not = 24, IncDecOperators = 25, Identifier = 26, 
-    IDPrefix = 27, TypeSpec = 28, String = 29, Integer = 30, Float = 31, 
-    Whitespace = 32, Newline = 33, Words = 34, BlockComment = 35, LineComment = 36
+    Pub = 9, Pro = 10, Priv = 11, Static = 12, Final = 13, ArrowRight = 14, 
+    End = 15, Attr = 16, Point = 17, TwoPoint = 18, TwoTwoPoint = 19, Separator = 20, 
+    OpenArIndex = 21, CloseArIndex = 22, OpenBlock = 23, CloseBlock = 24, 
+    OpenOp = 25, CloseOp = 26, ArithmeticOperator = 27, AssignmentOperator = 28, 
+    Not = 29, IncDecOperators = 30, Identifier = 31, IDPrefix = 32, TypeSpec = 33, 
+    String = 34, Integer = 35, Float = 36, Whitespace = 37, Newline = 38, 
+    Words = 39, BlockComment = 40, LineComment = 41
   };
 
   explicit TLexer(antlr4::CharStream *input);

@@ -15,6 +15,13 @@ Else : 'else';
 For : 'for';
 Ret : 'ret';
 Function : 'fn';
+Pub : 'pub';
+Pro : 'pro';
+Priv : 'priv';
+Static : 'static';
+Final : 'final';
+Interface : 'interface';
+Extends : 'extends';
 
 // Operadores.
 ArrowRight : '->';

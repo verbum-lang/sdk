@@ -594,11 +594,25 @@ public:
   /*
   ** Funções.
   */
-  antlrcpp::Any visitFunctions(TParser::FunctionsContext *ctx) {
+  antlrcpp::Any visitFunctionsModes(TParser::FunctionsModesContext *ctx) {
     std::cout << "[function]: " << ctx->getText() << std::endl;
     return visitChildren(ctx);
   }
 
+  antlrcpp::Any visitFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) {
+    std::cout << "[method]: " << ctx->getText() << std::endl;
+    return visitChildren(ctx);
+  }
+
+  antlrcpp::Any visitConstructClassMethod(TParser::ConstructClassMethodContext *ctx) {
+    std::cout << "[constructor method]: " << ctx->getText() << std::endl;
+    return visitChildren(ctx);
+  }
+
+  antlrcpp::Any visitInterfaceMethod(TParser::InterfaceMethodContext *ctx) {
+    std::cout << "[interface/abstract method]: " << ctx->getText() << std::endl;
+    return visitChildren(ctx);
+  }
 };
 
 int main(int argc, const char **argv) {

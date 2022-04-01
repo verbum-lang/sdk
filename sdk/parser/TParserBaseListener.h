@@ -153,8 +153,23 @@ public:
   virtual void enterFunctions(TParser::FunctionsContext * /*ctx*/) override { }
   virtual void exitFunctions(TParser::FunctionsContext * /*ctx*/) override { }
 
+  virtual void enterFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
+  virtual void exitFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
+
   virtual void enterFunctionsModes(TParser::FunctionsModesContext * /*ctx*/) override { }
   virtual void exitFunctionsModes(TParser::FunctionsModesContext * /*ctx*/) override { }
+
+  virtual void enterFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }
+  virtual void exitFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }
+
+  virtual void enterMethodPerm(TParser::MethodPermContext * /*ctx*/) override { }
+  virtual void exitMethodPerm(TParser::MethodPermContext * /*ctx*/) override { }
+
+  virtual void enterConstructClassMethod(TParser::ConstructClassMethodContext * /*ctx*/) override { }
+  virtual void exitConstructClassMethod(TParser::ConstructClassMethodContext * /*ctx*/) override { }
+
+  virtual void enterInterfaceMethod(TParser::InterfaceMethodContext * /*ctx*/) override { }
+  virtual void exitInterfaceMethod(TParser::InterfaceMethodContext * /*ctx*/) override { }
 
   virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
   virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
