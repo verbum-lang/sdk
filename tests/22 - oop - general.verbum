@@ -1,4 +1,17 @@
 
+// Interface comum...
+interface FirstTemplate {
+    pub fn getValues () -> array;
+}
 
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
 
 

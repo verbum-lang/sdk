@@ -21,6 +21,7 @@ Priv : 'priv';
 Static : 'static';
 Final : 'final';
 Interface : 'interface';
+Abstract : 'abstract';
 Extends : 'extends';
 
 // Operadores.

@@ -180,6 +180,21 @@ public:
   virtual void enterFunctionParamElements(TParser::FunctionParamElementsContext * /*ctx*/) override { }
   virtual void exitFunctionParamElements(TParser::FunctionParamElementsContext * /*ctx*/) override { }
 
+  virtual void enterOopGeneral(TParser::OopGeneralContext * /*ctx*/) override { }
+  virtual void exitOopGeneral(TParser::OopGeneralContext * /*ctx*/) override { }
+
+  virtual void enterInterfaceClass(TParser::InterfaceClassContext * /*ctx*/) override { }
+  virtual void exitInterfaceClass(TParser::InterfaceClassContext * /*ctx*/) override { }
+
+  virtual void enterInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext * /*ctx*/) override { }
+  virtual void exitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext * /*ctx*/) override { }
+
+  virtual void enterAbstractClass(TParser::AbstractClassContext * /*ctx*/) override { }
+  virtual void exitAbstractClass(TParser::AbstractClassContext * /*ctx*/) override { }
+
+  virtual void enterAbstractClassDefinition(TParser::AbstractClassDefinitionContext * /*ctx*/) override { }
+  virtual void exitAbstractClassDefinition(TParser::AbstractClassDefinitionContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

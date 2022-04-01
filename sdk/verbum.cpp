@@ -613,6 +613,21 @@ public:
     std::cout << "[interface/abstract method]: " << ctx->getText() << std::endl;
     return visitChildren(ctx);
   }
+
+  /*
+  ** Questões gerais da orientação à objetos.
+  */
+  
+  antlrcpp::Any visitInterfaceClass(TParser::InterfaceClassContext *ctx) {
+    std::cout << "[interface]: " << ctx->getText() << std::endl;
+    return visitChildren(ctx);
+  }
+  
+  antlrcpp::Any visitAbstractClass(TParser::AbstractClassContext *ctx) {
+    std::cout << "[abstract]: " << ctx->getText() << std::endl;
+    return visitChildren(ctx);
+  }
+
 };
 
 int main(int argc, const char **argv) {

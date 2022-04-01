@@ -19,13 +19,13 @@ class  TParser : public antlr4::Parser {
 public:
   enum {
     Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, Ret = 7, Function = 8, 
-    Pub = 9, Pro = 10, Priv = 11, Static = 12, Final = 13, ArrowRight = 14, 
-    End = 15, Attr = 16, Point = 17, TwoPoint = 18, TwoTwoPoint = 19, Separator = 20, 
-    OpenArIndex = 21, CloseArIndex = 22, OpenBlock = 23, CloseBlock = 24, 
-    OpenOp = 25, CloseOp = 26, ArithmeticOperator = 27, AssignmentOperator = 28, 
-    Not = 29, IncDecOperators = 30, Identifier = 31, IDPrefix = 32, TypeSpec = 33, 
-    String = 34, Integer = 35, Float = 36, Whitespace = 37, Newline = 38, 
-    Words = 39, BlockComment = 40, LineComment = 41
+    Pub = 9, Pro = 10, Priv = 11, Static = 12, Final = 13, Interface = 14, 
+    Abstract = 15, Extends = 16, ArrowRight = 17, End = 18, Attr = 19, Point = 20, 
+    TwoPoint = 21, TwoTwoPoint = 22, Separator = 23, OpenArIndex = 24, CloseArIndex = 25, 
+    OpenBlock = 26, CloseBlock = 27, OpenOp = 28, CloseOp = 29, ArithmeticOperator = 30, 
+    AssignmentOperator = 31, Not = 32, IncDecOperators = 33, Identifier = 34, 
+    IDPrefix = 35, TypeSpec = 36, String = 37, Integer = 38, Float = 39, 
+    Whitespace = 40, Newline = 41, Words = 42, BlockComment = 43, LineComment = 44
   };
 
   enum {
@@ -46,7 +46,9 @@ public:
     RuleFunctions = 44, RuleFunctionGeneralModes = 45, RuleFunctionsModes = 46, 
     RuleFunctionMethodsModes = 47, RuleMethodPerm = 48, RuleConstructClassMethod = 49, 
     RuleInterfaceMethod = 50, RuleFunctionCodeBlock = 51, RuleFunctionParams = 52, 
-    RuleFunctionParamElements = 53, RuleGeneralValue = 54
+    RuleFunctionParamElements = 53, RuleOopGeneral = 54, RuleInterfaceClass = 55, 
+    RuleInterfaceClassDefinition = 56, RuleAbstractClass = 57, RuleAbstractClassDefinition = 58, 
+    RuleGeneralValue = 59
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -113,6 +115,11 @@ public:
   class FunctionCodeBlockContext;
   class FunctionParamsContext;
   class FunctionParamElementsContext;
+  class OopGeneralContext;
+  class InterfaceClassContext;
+  class InterfaceClassDefinitionContext;
+  class AbstractClassContext;
+  class AbstractClassDefinitionContext;
   class GeneralValueContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
@@ -159,6 +166,7 @@ public:
     LoopContext *loop();
     FunctionsContext *functions();
     RetContext *ret();
+    OopGeneralContext *oopGeneral();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1066,6 +1074,94 @@ public:
   };
 
   FunctionParamElementsContext* functionParamElements();
+
+  class  OopGeneralContext : public antlr4::ParserRuleContext {
+  public:
+    OopGeneralContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    InterfaceClassContext *interfaceClass();
+    AbstractClassContext *abstractClass();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  OopGeneralContext* oopGeneral();
+
+  class  InterfaceClassContext : public antlr4::ParserRuleContext {
+  public:
+    InterfaceClassContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    InterfaceClassDefinitionContext *interfaceClassDefinition();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  InterfaceClassContext* interfaceClass();
+
+  class  InterfaceClassDefinitionContext : public antlr4::ParserRuleContext {
+  public:
+    InterfaceClassDefinitionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Interface();
+    std::vector<antlr4::tree::TerminalNode *> Identifier();
+    antlr4::tree::TerminalNode* Identifier(size_t i);
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    FunctionCodeBlockContext *functionCodeBlock();
+    antlr4::tree::TerminalNode *Extends();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  InterfaceClassDefinitionContext* interfaceClassDefinition();
+
+  class  AbstractClassContext : public antlr4::ParserRuleContext {
+  public:
+    AbstractClassContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    AbstractClassDefinitionContext *abstractClassDefinition();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AbstractClassContext* abstractClass();
+
+  class  AbstractClassDefinitionContext : public antlr4::ParserRuleContext {
+  public:
+    AbstractClassDefinitionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Abstract();
+    std::vector<antlr4::tree::TerminalNode *> Identifier();
+    antlr4::tree::TerminalNode* Identifier(size_t i);
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    FunctionCodeBlockContext *functionCodeBlock();
+    antlr4::tree::TerminalNode *Extends();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AbstractClassDefinitionContext* abstractClassDefinition();
 
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:

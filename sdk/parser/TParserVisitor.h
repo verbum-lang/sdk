@@ -128,6 +128,16 @@ public:
 
     virtual antlrcpp::Any visitFunctionParamElements(TParser::FunctionParamElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitOopGeneral(TParser::OopGeneralContext *context) = 0;
+
+    virtual antlrcpp::Any visitInterfaceClass(TParser::InterfaceClassContext *context) = 0;
+
+    virtual antlrcpp::Any visitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *context) = 0;
+
+    virtual antlrcpp::Any visitAbstractClass(TParser::AbstractClassContext *context) = 0;
+
+    virtual antlrcpp::Any visitAbstractClassDefinition(TParser::AbstractClassDefinitionContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
 

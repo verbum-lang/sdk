@@ -404,16 +404,31 @@ functionParamElements
 */
 
 oopGeneral
-  : interfaceControl
+  : interfaceClass
+  | abstractClass
   ;
 
-interfaceControl
+interfaceClass
+  : interfaceClassDefinition
+  ;
+
+interfaceClassDefinition
   : Interface Identifier OpenBlock CloseBlock
   | Interface Identifier OpenBlock functionCodeBlock CloseBlock
   | Interface Identifier Extends Identifier OpenBlock CloseBlock
   | Interface Identifier Extends Identifier OpenBlock functionCodeBlock CloseBlock
   ;
 
+abstractClass
+  : abstractClassDefinition
+  ;
+
+abstractClassDefinition
+  : Abstract Identifier OpenBlock CloseBlock
+  | Abstract Identifier OpenBlock functionCodeBlock CloseBlock
+  | Abstract Identifier Extends Identifier OpenBlock CloseBlock
+  | Abstract Identifier Extends Identifier OpenBlock functionCodeBlock CloseBlock
+  ;
 
 
 

@@ -178,6 +178,21 @@ public:
   virtual void enterFunctionParamElements(TParser::FunctionParamElementsContext *ctx) = 0;
   virtual void exitFunctionParamElements(TParser::FunctionParamElementsContext *ctx) = 0;
 
+  virtual void enterOopGeneral(TParser::OopGeneralContext *ctx) = 0;
+  virtual void exitOopGeneral(TParser::OopGeneralContext *ctx) = 0;
+
+  virtual void enterInterfaceClass(TParser::InterfaceClassContext *ctx) = 0;
+  virtual void exitInterfaceClass(TParser::InterfaceClassContext *ctx) = 0;
+
+  virtual void enterInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *ctx) = 0;
+  virtual void exitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *ctx) = 0;
+
+  virtual void enterAbstractClass(TParser::AbstractClassContext *ctx) = 0;
+  virtual void exitAbstractClass(TParser::AbstractClassContext *ctx) = 0;
+
+  virtual void enterAbstractClassDefinition(TParser::AbstractClassDefinitionContext *ctx) = 0;
+  virtual void exitAbstractClassDefinition(TParser::AbstractClassDefinitionContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 
