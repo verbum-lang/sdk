@@ -129,7 +129,19 @@ public:
     if (ctx->variableDefinitionGeneral()->TypeSpec()) 
       variableDataType = ctx->variableDefinitionGeneral()->TypeSpec()->getText();
 
-    std::cout << "variable [" << ctx->Identifier()->getText() << "] ";
+    if (ctx->Identifier())
+      std::cout << "variable [" << ctx->Identifier()->getText() << "] ";
+    else if (ctx->objIdentifierA() && ctx->objIdentifierB()) {
+      std::cout << "variable [" << ctx->objIdentifierA()->getText() << " ";
+
+      if (ctx->Point())
+        std::cout << ".";
+      if (ctx->TwoTwoPoint())
+        std::cout << "::";
+
+      std::cout << " " << ctx->objIdentifierB()->getText() << "] ";
+    }
+
     std::cout << "[" << variableDataType << "] " << std::endl;
 
     // Verifica se é para instanciar objeto.

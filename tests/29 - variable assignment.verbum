@@ -1,0 +1,17 @@
+
+name = 10;
+obj.attr = 20;
+
+this.value >= a;
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
+
+

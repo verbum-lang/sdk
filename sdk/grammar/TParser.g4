@@ -58,6 +58,7 @@ variable
   ;
 
 variableModes
+  // Declarações.
   :                         Var variableMembers End
   |       methodPerm        Var variableMembers End
   |                  Static Var variableMembers End
@@ -66,6 +67,9 @@ variableModes
   | Final methodPerm        Var variableMembers End 
   | Final                   Var variableMembers End 
   | Final            Static Var variableMembers End 
+  
+  // Atribuições.
+  | variableMembers End
   ;
 
 variableMembers
@@ -84,12 +88,12 @@ variableDefinition
 
 variableDefinitionGeneral
   // Uso geral.
-  : Attr generalValue
-  | TypeSpec Attr generalValue
+  : (Attr | AssignmentOperator) generalValue
+  | TypeSpec (Attr | AssignmentOperator) generalValue
 
   // Instanciamento de objeto.
-  | Attr New generalValue
-  | TypeSpec Attr New generalValue
+  | (Attr | AssignmentOperator) New generalValue
+  | TypeSpec (Attr | AssignmentOperator) New generalValue
   ;
 
 // Array indexado.
