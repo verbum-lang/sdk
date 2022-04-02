@@ -18,7 +18,7 @@ namespace verbum {
         private:
             int argc;
             const char **argv;
-            std::string filename;
+            std::string filepath;
     };
 }
 

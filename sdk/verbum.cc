@@ -622,14 +622,15 @@ public:
 
 int main(int argc, const char **argv) {
   
+  // Initialization.
   VerbumHelp verbumHelp(argc, argv);
   verbumHelp.check();
 
-  VerbumLoader verbumLoader(argc, argv)
-  std::cout << "file: " << verbumLoader.
+  VerbumLoader verbumLoader(argc, argv);
+  std::cout << "filename: " << verbumLoader.getFilename() << std::endl;
+
+  // Process syntax.
   
-
-
 
   /*
   // Verificações iniciais.
