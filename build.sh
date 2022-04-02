@@ -27,8 +27,12 @@ $COMPILER_PATH -c TParserListener.cpp -I../../dependencies/ANTLR4/runtime/src  -
 echo "Compile: TParserVisitor.cpp"
 $COMPILER_PATH -c TParserVisitor.cpp -I../../dependencies/ANTLR4/runtime/src  -Wno-overloaded-virtual
 
-echo "Compile: verbum.cc"
 cd ..
+
+echo "Compile: help.cc"
+$COMPILER_PATH -c help.cc -I../dependencies/ANTLR4/runtime/src -I./parser -Wno-overloaded-virtual
+
+echo "Compile: verbum.cc"
 $COMPILER_PATH -c verbum.cc -I../dependencies/ANTLR4/runtime/src -I./parser -Wno-overloaded-virtual
 
 echo "Linking files..."

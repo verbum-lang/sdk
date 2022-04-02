@@ -1,14 +1,27 @@
 
+/*
+** Copyright (c) 2022, the Verbum project authors.  Please see the AUTHORS file
+** for details. All rights reserved. Use of this source code is governed by a
+** BSD-style license that can be found in the LICENSE file.
+**
+** Entry-point da linguagem.
+*/
+
 #include <iostream>
 #include <stdlib.h>
 
+// ANTLR4.
 #include "antlr4-runtime.h"
 #include "TLexer.h"
 #include "TParser.h"
 #include "TParserBaseVisitor.h"
+#include "TParserBaseVisitor.h"
 
-using namespace verbum;
+// Verbum.
+#include "help.h"
+
 using namespace antlr4;
+using namespace verbum;
 
 //
 // Realiza acesso aos nodes da árvore sintática.
@@ -607,6 +620,9 @@ public:
 };
 
 int main(int argc, const char **argv) {
+
+  VerbumHelp verbumHelp(argc, argv);
+  verbumHelp.check();
 
   /*
   // Verificações iniciais.
