@@ -7,19 +7,19 @@
 
 using namespace verbum;
 
-VerbumHelp::VerbumHelp (int pargc, const char **pargv) {
-    argc = pargc;
-    argv = pargv;
+verbum_help::verbum_help (int pargc, const char **pargv) {
+    this->argc = pargc;
+    this->argv = pargv;
 }
 
-void VerbumHelp::check () {
-    if (argc <= 1) {
+void verbum_help::check () {
+    if (this->argc <= 1) {
         banner();
         exit(0);
     }
 }
 
-void VerbumHelp::banner () {
+void verbum_help::banner () {
     printf(
         "\n\n The Verbum Programming Language\n\n"
 
@@ -34,7 +34,7 @@ void VerbumHelp::banner () {
         "                  et Verbum erat apud Deum \n"
         "                    et Deus erat Verbum - John 1\n\n"
         
-        " Use: %s source.verbum\n\n", argv[0]
+        " Use: %s source.verbum\n\n", this->argv[0]
     );
 }
 

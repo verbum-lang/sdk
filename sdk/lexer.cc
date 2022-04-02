@@ -10,7 +10,7 @@
 
 using namespace verbum;
 
-VerbumLoader::VerbumLexer () {
+verbum_lexer::verbum_lexer () {
 
 }
 

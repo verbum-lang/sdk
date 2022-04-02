@@ -621,14 +621,22 @@ public:
 
 };
 
-int main(int argc, const char **argv) {
-  
+int main (int argc, const char **argv) 
+{  
   // Initialization.
-  VerbumHelp verbumHelp(argc, argv);
-  verbumHelp.check();
+  verbum_help help(argc, argv);
+  help.check();
 
-  VerbumLoader verbumLoader(argc, argv);
-  std::cout << "filename: " << verbumLoader.getFilename() << std::endl;
+  verbum_loader loader(argc, argv);
+  std::cout << "file path: " << loader.get_file_path() << std::endl;
+  std::cout << "file content: " << std::endl;
+
+  std::vector<char> buffer = loader.get_file_content();
+  std::cout << "file size: " << buffer.size() << std::endl;
+
+  for (auto i: buffer)
+    std::cout << i;
+  std::cout << std::endl;
 
   // Process syntax.
   //VerbumLexer verbumLexer();

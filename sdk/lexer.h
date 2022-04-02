@@ -13,9 +13,9 @@
 #define VERBUM_LEXER
 
 namespace verbum {
-    class VerbumLexer {
+    class verbum_lexer {
         public:
-            VerbumLexer ();
+            verbum_lexer ();
         
         private:
     };

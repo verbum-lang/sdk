@@ -15,21 +15,24 @@
 #include <vector>
 
 namespace verbum {
-    class VerbumLoader {
+    class verbum_loader {
         public:
-            VerbumLoader (int pargc, const char **pargv);
+            verbum_loader (int pargc, const char **pargv);
 
             // Retorna path do diretório onde encontra-se o arquivo de código Verbum.
-            std::string getFilePath ();
+            std::string get_file_path ();
 
             // Retorno dados do arquivo de código lido.
-            std::vector<char> GetFileContent ();
+            std::vector<char> get_file_content ();
         
         private:
             int argc;                       // Entrada argc.
             const char **argv;              // Entrada argv.
-            std::string filePath;           // Path completo do diretório onde encontra-se o código Verbum.
-            std::vector<char> fileContent;  // Bytes do arquivo de código Verbum.            
+            std::string filepath;           // Path completo do diretório onde encontra-se o código Verbum.
+            std::vector<char> file_content; // Bytes do arquivo de código Verbum.
+            
+            // Realiza leitura/carregamento do conteúdo do arquivo de código Verbum.
+            void read_source_code ();
     };
 }
 

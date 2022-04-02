@@ -10,9 +10,10 @@
 
 using namespace verbum;
 
-VerbumLoader::VerbumLoader (int pargc, const char **pargv) {
-    this->argc = pargc;
-    this->argv = pargv;
+verbum_loader::verbum_loader (int pargc, const char **pargv) 
+{
+    this->argc  = pargc;
+    this->argv  = pargv;
 
     // Verificações iniciais.
     size_t size = sizeof(char) * (strlen(argv[1]) + 1);
@@ -36,29 +37,39 @@ VerbumLoader::VerbumLoader (int pargc, const char **pargv) {
     // Carrega path completo do arquivo.
     char path [1024];
     realpath(fname, path);
-    this->filePath = std::string(path);
+    this->filepath = std::string(path);
 
     free(fname);
+
+    // Carrega arquivo de código.
+    this->read_source_code();
+
+    // Formata informações.
+    this->prepare_file_informations();
 }
 
-void VerbumLoader::readSourceCode () {
-    std::ifstream infile(this->filePath);
+void verbum_loader::read_source_code () 
+{
+    std::ifstream infile(this->filepath);
 
     infile.seekg(0, infile.end);
     size_t length = infile.tellg();
     infile.seekg(0, infile.beg);
 
     if (length > 0) {
-        this->filePath.resize(length);    
-        infile.read(&this->filePath[0], length);
+        this->file_content.resize(length);    
+        infile.read(&this->file_content[0], length);
     }
 }
 
-std::string VerbumLoader::getFilePath () {
-    return this->filePath;
+std::string verbum_loader::get_file_path () 
+{
+    return this->filepath;
 }
 
-std::vector<char> GetFileContent () {
-    return this->fileContent;
+std::vector<char> verbum_loader::get_file_content () 
+{
+    return this->file_content;
 }
+
 

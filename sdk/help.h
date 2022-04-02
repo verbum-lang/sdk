@@ -13,9 +13,9 @@
 #define VERBUM_HELP
 
 namespace verbum {
-    class VerbumHelp {
+    class verbum_help {
         public:
-            VerbumHelp (int pargc, const char **pargv);
+            verbum_help (int pargc, const char **pargv);
             void check ();
         
         private:
