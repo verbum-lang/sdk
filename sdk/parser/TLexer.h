@@ -25,9 +25,8 @@ public:
     Separator = 26, OpenArIndex = 27, CloseArIndex = 28, OpenBlock = 29, 
     CloseBlock = 30, OpenOp = 31, CloseOp = 32, ArithmeticOperator = 33, 
     AssignmentOperator = 34, Not = 35, IncDecOperators = 36, Identifier = 37, 
-    IDPrefix = 38, TypeSpec = 39, UseAll = 40, String = 41, Integer = 42, 
-    Float = 43, Whitespace = 44, Newline = 45, Words = 46, BlockComment = 47, 
-    LineComment = 48
+    IDPrefix = 38, TypeSpec = 39, String = 40, Integer = 41, Float = 42, 
+    Whitespace = 43, Newline = 44, Words = 45, BlockComment = 46, LineComment = 47
   };
 
   explicit TLexer(antlr4::CharStream *input);

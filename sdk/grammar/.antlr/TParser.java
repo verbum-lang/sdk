@@ -22,8 +22,8 @@ public class TParser extends Parser {
 		TwoTwoPoint=25, Separator=26, OpenArIndex=27, CloseArIndex=28, OpenBlock=29, 
 		CloseBlock=30, OpenOp=31, CloseOp=32, ArithmeticOperator=33, AssignmentOperator=34, 
 		Not=35, IncDecOperators=36, Identifier=37, IDPrefix=38, TypeSpec=39, UseAll=40, 
-		UseUnique=41, String=42, Integer=43, Float=44, Whitespace=45, Newline=46, 
-		Words=47, BlockComment=48, LineComment=49;
+		String=41, Integer=42, Float=43, Whitespace=44, Newline=45, Words=46, 
+		BlockComment=47, LineComment=48;
 	public static final int
 		RULE_main = 0, RULE_fileContent = 1, RULE_sentence = 2, RULE_liveToken = 3, 
 		RULE_use = 4, RULE_useValue = 5, RULE_useString = 6, RULE_variable = 7, 
@@ -90,8 +90,8 @@ public class TParser extends Parser {
 			"TwoTwoPoint", "Separator", "OpenArIndex", "CloseArIndex", "OpenBlock", 
 			"CloseBlock", "OpenOp", "CloseOp", "ArithmeticOperator", "AssignmentOperator", 
 			"Not", "IncDecOperators", "Identifier", "IDPrefix", "TypeSpec", "UseAll", 
-			"UseUnique", "String", "Integer", "Float", "Whitespace", "Newline", "Words", 
-			"BlockComment", "LineComment"
+			"String", "Integer", "Float", "Whitespace", "Newline", "Words", "BlockComment", 
+			"LineComment"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -481,7 +481,7 @@ public class TParser extends Parser {
 	}
 
 	public static class UseStringContext extends ParserRuleContext {
-		public TerminalNode UseAll() { return getToken(TParser.UseAll, 0); }
+		public TerminalNode String() { return getToken(TParser.String, 0); }
 		public UseStringContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -495,7 +495,7 @@ public class TParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(177);
-			match(UseAll);
+			match(String);
 			}
 		}
 		catch (RecognitionException re) {
@@ -5426,7 +5426,7 @@ public class TParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\63\u040e\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\62\u040e\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -5492,7 +5492,7 @@ public class TParser extends Parser {
 		"F\3F\3F\3F\3F\3F\5F\u0408\nF\3G\3G\3H\3H\3H\2\4\4HI\2\4\6\b\n\f\16\20"+
 		"\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\\^`bdfhj"+
 		"lnprtvxz|~\u0080\u0082\u0084\u0086\u0088\u008a\u008c\u008e\2\6\4\2\30"+
-		"\30$$\3\2#$\3\2\13\r\4\2\'\'--\2\u048b\2\u0090\3\2\2\2\4\u0093\3\2\2\2"+
+		"\30$$\3\2#$\3\2\13\r\4\2\'\',,\2\u048b\2\u0090\3\2\2\2\4\u0093\3\2\2\2"+
 		"\6\u00a4\3\2\2\2\b\u00a6\3\2\2\2\n\u00a8\3\2\2\2\f\u00b1\3\2\2\2\16\u00b3"+
 		"\3\2\2\2\20\u00b5\3\2\2\2\22\u00e6\3\2\2\2\24\u00ed\3\2\2\2\26\u00fe\3"+
 		"\2\2\2\30\u010c\3\2\2\2\32\u0114\3\2\2\2\34\u011b\3\2\2\2\36\u0123\3\2"+
@@ -5517,11 +5517,11 @@ public class TParser extends Parser {
 		"\u00a5\5\\/\2\u00a3\u00a5\5t;\2\u00a4\u009b\3\2\2\2\u00a4\u009c\3\2\2"+
 		"\2\u00a4\u009d\3\2\2\2\u00a4\u009e\3\2\2\2\u00a4\u009f\3\2\2\2\u00a4\u00a0"+
 		"\3\2\2\2\u00a4\u00a1\3\2\2\2\u00a4\u00a2\3\2\2\2\u00a4\u00a3\3\2\2\2\u00a5"+
-		"\7\3\2\2\2\u00a6\u00a7\7\60\2\2\u00a7\t\3\2\2\2\u00a8\u00a9\7\3\2\2\u00a9"+
+		"\7\3\2\2\2\u00a6\u00a7\7/\2\2\u00a7\t\3\2\2\2\u00a8\u00a9\7\3\2\2\u00a9"+
 		"\u00aa\5\f\7\2\u00aa\u00ab\7\27\2\2\u00ab\13\3\2\2\2\u00ac\u00b2\5\16"+
 		"\b\2\u00ad\u00ae\5\16\b\2\u00ae\u00af\7\34\2\2\u00af\u00b0\5\f\7\2\u00b0"+
 		"\u00b2\3\2\2\2\u00b1\u00ac\3\2\2\2\u00b1\u00ad\3\2\2\2\u00b2\r\3\2\2\2"+
-		"\u00b3\u00b4\7*\2\2\u00b4\17\3\2\2\2\u00b5\u00b6\5\22\n\2\u00b6\21\3\2"+
+		"\u00b3\u00b4\7+\2\2\u00b4\17\3\2\2\2\u00b5\u00b6\5\22\n\2\u00b6\21\3\2"+
 		"\2\2\u00b7\u00b8\7\4\2\2\u00b8\u00b9\5\24\13\2\u00b9\u00ba\7\27\2\2\u00ba"+
 		"\u00e7\3\2\2\2\u00bb\u00bc\5h\65\2\u00bc\u00bd\7\4\2\2\u00bd\u00be\5\24"+
 		"\13\2\u00be\u00bf\7\27\2\2\u00bf\u00e7\3\2\2\2\u00c0\u00c1\7\16\2\2\u00c1"+
@@ -5576,11 +5576,11 @@ public class TParser extends Parser {
 		"\u0156\5*\26\2\u0156\u0157\7#\2\2\u0157\u0193\3\2\2\2\u0158\u0159\7\'"+
 		"\2\2\u0159\u015a\5*\26\2\u015a\u015b\7)\2\2\u015b\u0193\3\2\2\2\u015c"+
 		"\u015d\7\'\2\2\u015d\u015e\5*\26\2\u015e\u015f\7)\2\2\u015f\u0160\7#\2"+
-		"\2\u0160\u0193\3\2\2\2\u0161\u0193\7-\2\2\u0162\u0163\7-\2\2\u0163\u0193"+
-		"\7#\2\2\u0164\u0165\7-\2\2\u0165\u0193\7)\2\2\u0166\u0167\7-\2\2\u0167"+
-		"\u0168\7)\2\2\u0168\u0193\7#\2\2\u0169\u0193\7.\2\2\u016a\u016b\7.\2\2"+
-		"\u016b\u0193\7#\2\2\u016c\u016d\7.\2\2\u016d\u0193\7)\2\2\u016e\u016f"+
-		"\7.\2\2\u016f\u0170\7)\2\2\u0170\u0193\7#\2\2\u0171\u0193\5.\30\2\u0172"+
+		"\2\u0160\u0193\3\2\2\2\u0161\u0193\7,\2\2\u0162\u0163\7,\2\2\u0163\u0193"+
+		"\7#\2\2\u0164\u0165\7,\2\2\u0165\u0193\7)\2\2\u0166\u0167\7,\2\2\u0167"+
+		"\u0168\7)\2\2\u0168\u0193\7#\2\2\u0169\u0193\7-\2\2\u016a\u016b\7-\2\2"+
+		"\u016b\u0193\7#\2\2\u016c\u016d\7-\2\2\u016d\u0193\7)\2\2\u016e\u016f"+
+		"\7-\2\2\u016f\u0170\7)\2\2\u0170\u0193\7#\2\2\u0171\u0193\5.\30\2\u0172"+
 		"\u0173\5.\30\2\u0173\u0174\7#\2\2\u0174\u0193\3\2\2\2\u0175\u0176\5.\30"+
 		"\2\u0176\u0177\7)\2\2\u0177\u0193\3\2\2\2\u0178\u0179\5.\30\2\u0179\u017a"+
 		"\7)\2\2\u017a\u017b\7#\2\2\u017b\u0193\3\2\2\2\u017c\u0193\5\"\22\2\u017d"+
@@ -5664,10 +5664,10 @@ public class TParser extends Parser {
 		"\2\2\u0255\u02a4\3\2\2\2\u0256\u0257\7\'\2\2\u0257\u0258\5*\26\2\u0258"+
 		"\u0259\7)\2\2\u0259\u02a4\3\2\2\2\u025a\u025b\7\'\2\2\u025b\u025c\5*\26"+
 		"\2\u025c\u025d\7)\2\2\u025d\u025e\t\3\2\2\u025e\u02a4\3\2\2\2\u025f\u02a4"+
-		"\7-\2\2\u0260\u0261\7-\2\2\u0261\u02a4\t\3\2\2\u0262\u0263\7-\2\2\u0263"+
-		"\u02a4\7)\2\2\u0264\u0265\7-\2\2\u0265\u0266\7)\2\2\u0266\u02a4\t\3\2"+
-		"\2\u0267\u02a4\7.\2\2\u0268\u0269\7.\2\2\u0269\u02a4\t\3\2\2\u026a\u026b"+
-		"\7.\2\2\u026b\u02a4\7)\2\2\u026c\u026d\7.\2\2\u026d\u026e\7)\2\2\u026e"+
+		"\7,\2\2\u0260\u0261\7,\2\2\u0261\u02a4\t\3\2\2\u0262\u0263\7,\2\2\u0263"+
+		"\u02a4\7)\2\2\u0264\u0265\7,\2\2\u0265\u0266\7)\2\2\u0266\u02a4\t\3\2"+
+		"\2\u0267\u02a4\7-\2\2\u0268\u0269\7-\2\2\u0269\u02a4\t\3\2\2\u026a\u026b"+
+		"\7-\2\2\u026b\u02a4\7)\2\2\u026c\u026d\7-\2\2\u026d\u026e\7)\2\2\u026e"+
 		"\u02a4\t\3\2\2\u026f\u02a4\5.\30\2\u0270\u0271\5.\30\2\u0271\u0272\t\3"+
 		"\2\2\u0272\u02a4\3\2\2\2\u0273\u0274\5.\30\2\u0274\u0275\7)\2\2\u0275"+
 		"\u02a4\3\2\2\2\u0276\u0277\5.\30\2\u0277\u0278\7)\2\2\u0278\u0279\t\3"+
@@ -5802,9 +5802,9 @@ public class TParser extends Parser {
 		"\2\2\u03ea\u03e1\3\2\2\2\u03ea\u03e5\3\2\2\2\u03eb\u0087\3\2\2\2\u03ec"+
 		"\u03ef\t\5\2\2\u03ed\u03ef\5$\23\2\u03ee\u03ec\3\2\2\2\u03ee\u03ed\3\2"+
 		"\2\2\u03ef\u0089\3\2\2\2\u03f0\u0408\7\'\2\2\u03f1\u03f2\7\'\2\2\u03f2"+
-		"\u0408\7)\2\2\u03f3\u0408\7-\2\2\u03f4\u03f5\7-\2\2\u03f5\u0408\7)\2\2"+
-		"\u03f6\u0408\7.\2\2\u03f7\u03f8\7.\2\2\u03f8\u0408\7)\2\2\u03f9\u0408"+
-		"\7,\2\2\u03fa\u0408\5\32\16\2\u03fb\u0408\5\36\20\2\u03fc\u0408\5$\23"+
+		"\u0408\7)\2\2\u03f3\u0408\7,\2\2\u03f4\u03f5\7,\2\2\u03f5\u0408\7)\2\2"+
+		"\u03f6\u0408\7-\2\2\u03f7\u03f8\7-\2\2\u03f8\u0408\7)\2\2\u03f9\u0408"+
+		"\7+\2\2\u03fa\u0408\5\32\16\2\u03fb\u0408\5\36\20\2\u03fc\u0408\5$\23"+
 		"\2\u03fd\u0408\5.\30\2\u03fe\u03ff\5\u008cG\2\u03ff\u0400\7\31\2\2\u0400"+
 		"\u0401\5\u008eH\2\u0401\u0408\3\2\2\2\u0402\u0403\5\u008cG\2\u0403\u0404"+
 		"\7\33\2\2\u0404\u0405\5\u008eH\2\u0405\u0408\3\2\2\2\u0406\u0408\5\u0084"+

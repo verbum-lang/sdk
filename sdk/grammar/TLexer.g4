@@ -83,31 +83,6 @@ TypeSpec
 	: [:] ( Identifier )
 	;
 
-/*
-** use (importações).
-*/
-
-// Todos - a partir de módulo instalado ou diretório específico.
-//fragment UseParam0 : ( ~('"') | ('\\' '"') )* ;
-//fragment UseParam1 : '"'  UseParam0 ;
-//fragment UseParam2 : '\'' UseParam0 ;
-
-UseAll
-	: '"'  .*? (':' | '/') (' ')+? '*' (' ')+? '"' 
-	| '\'' .*? (':' | '/') (' ')+? '*' (' ')+? '\'' 
-	;
-
-/*
-UseUnique
-	: '"'  .*? (':' | '/') (' ')+? '*' (' ')+? '"' 
-	| '\'' .*? (':' | '/') (' ')+? '*' (' ')+? '\'' 
-	;
-	*/
-
-/*
-** Outros tokens...
-*/
-
 // Strings.
 String
 	: '"' ( ~('"') | ('\\' '"') )* '"'
@@ -144,6 +119,10 @@ LineComment
     : '//' ~[\r\n]*
 		-> skip
     ;
+
+/*
+** use (importações).
+*/
 
 // Fragments...
 fragment DecimalExponent : 'e' | 'E' | 'e+' | 'E+' | 'e-' | 'E-' DecimalDigits;
