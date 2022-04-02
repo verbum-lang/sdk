@@ -50,7 +50,7 @@ useValue
 
 useString
   : UseAll
-  | UseUnique
+ // | UseUnique
   ;
 
 // Variáveis.

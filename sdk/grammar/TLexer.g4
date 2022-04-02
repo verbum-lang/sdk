@@ -83,36 +83,26 @@ TypeSpec
 	: [:] ( Identifier )
 	;
 
-// Comentários.
-BlockComment
-    : '/*' .*? '*/'
-		-> skip
-    ;
-
-LineComment
-    : '//' ~[\r\n]*
-		-> skip
-    ;
-
 /*
 ** use (importações).
 */
 
 // Todos - a partir de módulo instalado ou diretório específico.
-fragment UseParam0 : ( ~('"') | ('\\' '"') )* ;
-fragment UseParam1 : '"'  UseParam0 ;
-fragment UseParam2 : '\'' UseParam0 ;
-
+//fragment UseParam0 : ( ~('"') | ('\\' '"') )* ;
+//fragment UseParam1 : '"'  UseParam0 ;
+//fragment UseParam2 : '\'' UseParam0 ;
 
 UseAll
-	: UseParam1 ([:] | [/]) [*] '"' 
-	| UseParam2 ([:] | [/]) [*] '\'' 
+	: '"'  .*? (':' | '/') (' ')+? '*' (' ')+? '"' 
+	| '\'' .*? (':' | '/') (' ')+? '*' (' ')+? '\'' 
 	;
 
+/*
 UseUnique
-	: UseParam1 ([:] | [/]) [*] UseParam0 '"' 
-	| UseParam2 ([:] | [/]) [*] UseParam0 '\'' 
+	: '"'  .*? (':' | '/') (' ')+? '*' (' ')+? '"' 
+	| '\'' .*? (':' | '/') (' ')+? '*' (' ')+? '\'' 
 	;
+	*/
 
 /*
 ** Outros tokens...
@@ -143,6 +133,17 @@ Newline
 Words
 	: [a-zA-Z\u0080-\u{10FFFF}]+
 	;
+
+// Comentários.
+BlockComment
+    : '/*' .*? '*/'
+		-> skip
+    ;
+
+LineComment
+    : '//' ~[\r\n]*
+		-> skip
+    ;
 
 // Fragments...
 fragment DecimalExponent : 'e' | 'E' | 'e+' | 'E+' | 'e-' | 'E-' DecimalDigits;

@@ -25,9 +25,9 @@ public:
     Separator = 26, OpenArIndex = 27, CloseArIndex = 28, OpenBlock = 29, 
     CloseBlock = 30, OpenOp = 31, CloseOp = 32, ArithmeticOperator = 33, 
     AssignmentOperator = 34, Not = 35, IncDecOperators = 36, Identifier = 37, 
-    IDPrefix = 38, TypeSpec = 39, BlockComment = 40, LineComment = 41, UseAll = 42, 
-    UseUnique = 43, String = 44, Integer = 45, Float = 46, Whitespace = 47, 
-    Newline = 48, Words = 49
+    IDPrefix = 38, TypeSpec = 39, UseAll = 40, String = 41, Integer = 42, 
+    Float = 43, Whitespace = 44, Newline = 45, Words = 46, BlockComment = 47, 
+    LineComment = 48
   };
 
   enum {
@@ -247,7 +247,6 @@ public:
     UseStringContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *UseAll();
-    antlr4::tree::TerminalNode *UseUnique();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
