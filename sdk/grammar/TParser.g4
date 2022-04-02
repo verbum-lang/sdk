@@ -49,7 +49,8 @@ useValue
   ;
 
 useString
-  : String
+  : UseAll
+  | UseUnique
   ;
 
 // Variáveis.
