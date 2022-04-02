@@ -19,6 +19,7 @@
 
 // Verbum.
 #include "help.h"
+#include "loader.h"
 
 using namespace antlr4;
 using namespace verbum;
@@ -620,9 +621,15 @@ public:
 };
 
 int main(int argc, const char **argv) {
-
+  
   VerbumHelp verbumHelp(argc, argv);
   verbumHelp.check();
+
+  VerbumLoader verbumLoader(argc, argv)
+  std::cout << "file: " << verbumLoader.
+  
+
+
 
   /*
   // Verificações iniciais.
