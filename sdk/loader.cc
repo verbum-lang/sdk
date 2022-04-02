@@ -11,8 +11,8 @@
 using namespace verbum;
 
 VerbumLoader::VerbumLoader (int pargc, const char **pargv) {
-    argc = pargc;
-    argv = pargv;
+    this->argc = pargc;
+    this->argv = pargv;
 
     // Verificações iniciais.
     size_t size = sizeof(char) * (strlen(argv[1]) + 1);
@@ -36,13 +36,29 @@ VerbumLoader::VerbumLoader (int pargc, const char **pargv) {
     // Carrega path completo do arquivo.
     char path [1024];
     realpath(fname, path);
-    filepath = std::string(path);
+    this->filePath = std::string(path);
 
     free(fname);
 }
 
-std::string VerbumLoader::getFilename () {
-    return filepath;
+void VerbumLoader::readSourceCode () {
+    std::ifstream infile(this->filePath);
+
+    infile.seekg(0, infile.end);
+    size_t length = infile.tellg();
+    infile.seekg(0, infile.beg);
+
+    if (length > 0) {
+        this->filePath.resize(length);    
+        infile.read(&this->filePath[0], length);
+    }
 }
 
+std::string VerbumLoader::getFilePath () {
+    return this->filePath;
+}
+
+std::vector<char> GetFileContent () {
+    return this->fileContent;
+}
 

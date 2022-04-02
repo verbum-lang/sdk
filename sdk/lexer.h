@@ -6,18 +6,20 @@
 **
 ** In principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum - John 1
 **
-** Configurações globais da aplicação.
+** Controle do lexer/tokenização.
 */
 
-#ifndef VERBUM_CONFIGURATION
-#define VERBUM_CONFIGURATION
+#ifndef VERBUM_LEXER
+#define VERBUM_LEXER
 
-// Language version.
-#define LANGUAGE_VERSION "1.0"
-
-// Debug flag.
-// Comentar linha para desabilitar o modo debug.
-#define DBG
+namespace verbum {
+    class VerbumLexer {
+        public:
+            VerbumLexer ();
+        
+        private:
+    };
+}
 
 #endif
 

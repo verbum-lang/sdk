@@ -6,7 +6,7 @@ cd sdk
 
 echo "Clean temporary files."
 rm -rf ../build/verbum
-rm -rf verbum.o
+rm -rf verbum.o loader.o help.o
 
 echo "Compile: help.cc"
 $COMPILER_PATH -c help.cc -I../dependencies/ANTLR4/runtime/src -I./parser -Wno-overloaded-virtual

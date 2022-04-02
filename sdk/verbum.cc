@@ -20,6 +20,7 @@
 // Verbum.
 #include "help.h"
 #include "loader.h"
+#include "lexer.h"
 
 using namespace antlr4;
 using namespace verbum;
@@ -630,7 +631,9 @@ int main(int argc, const char **argv) {
   std::cout << "filename: " << verbumLoader.getFilename() << std::endl;
 
   // Process syntax.
-  
+  //VerbumLexer verbumLexer();
+  //verbumLexer.
+
 
   /*
   // Verificações iniciais.

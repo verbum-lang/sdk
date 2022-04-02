@@ -18,6 +18,9 @@
 #include "TParser.h"
 #include "TParserBaseVisitor.h"
 
+#include "configuration.h"
+#include "error.h"
+
 using namespace verbum;
 using namespace antlr4;
 
