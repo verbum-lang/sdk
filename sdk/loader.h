@@ -9,6 +9,9 @@
 ** Controle do arquivo de código Verbum carregado.
 */
 
+#ifndef VERBUM_LOADER
+#define VERBUM_LOADER
+
 namespace verbum {
     class VerbumLoader {
         public:
@@ -21,5 +24,7 @@ namespace verbum {
             std::string filepath;
     };
 }
+
+#endif
 
 

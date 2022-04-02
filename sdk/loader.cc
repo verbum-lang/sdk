@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "configuration.h"
 #include "loader.h"
 
 using namespace verbum;

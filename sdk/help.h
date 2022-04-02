@@ -9,6 +9,9 @@
 ** Banner de ajuda e inicialização da linguagem.
 */
 
+#ifndef VERBUM_HELP
+#define VERBUM_HELP
+
 namespace verbum {
     class VerbumHelp {
         public:
@@ -22,5 +25,7 @@ namespace verbum {
             void banner ();
     };
 }
+
+#endif
 
 
