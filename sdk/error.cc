@@ -27,13 +27,8 @@ using namespace antlr4;
 //
 // Erros de sintaxe (ANTLR parser).
 //
-class MyParserErrorListener: public BaseErrorListener {
+class verbum_error_visitor: public BaseErrorListener {
     
-std::vector<char> buffer;
-std::string currentFileName;
-
-    void setProperties (std::string souceFilename)
-
     void syntaxError(
         Recognizer *recognizer,
         Token *offendingSymbol,

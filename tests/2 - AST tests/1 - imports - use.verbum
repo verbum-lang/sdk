@@ -5,7 +5,7 @@
 
 // Comentário de única linha.
 // Todos arquivos dentro de um pacote instalado, ou de diretório específico.
-use 'std:*';
+use 'std:*'
 use 'path/*';
 use '   std :   *   ';
 use '       path     /  *    ';

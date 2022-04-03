@@ -14,6 +14,7 @@
 
 #include "configuration.h"
 #include "lexer-syntactic.h"
+#include "error.h"
 #include "ast-visitor.h"
 
 using namespace antlr4;
@@ -32,7 +33,7 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path)
     #ifdef DBG
         std::cout << "\nTokens: \n\n";
         tokens.fill();
-        
+
         for (auto token : tokens.getTokens()) 
             std::cout << token->toString() << std::endl;
         std::cout << std::endl << std::endl;
