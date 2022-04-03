@@ -12,6 +12,12 @@
 #ifndef VERBUM_STRUCT
 #define VERBUM_STRUCT
 
+// Modalidades do comando 'use'.
+#define VERBUM_USE_UNKNOWN      0
+#define VERBUM_USE_MODULE       1
+#define VERBUM_USE_PATH         2
+#define VERBUM_USE_ARCHIVE      3
+
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_t 
 {

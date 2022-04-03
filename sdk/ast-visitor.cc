@@ -24,7 +24,7 @@ using namespace verbum;
 */
 void verbum_ast_visitor::prepare_ast ()
 {
-    
+
 }
 
 /*
@@ -36,9 +36,26 @@ antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx
 
     std::string content = ctx->getText();
 
+    // Verifica se é módulo, path ou arquivo específico.
+    int type = VERBUM_USE_UNKNOWN;
+    std::string part1 = "";
+
     for (auto i : content) {
-        std::cout << i << std::endl;
+        if (i == ':') {
+            type = VERBUM_USE_MODULE;
+            break;
+        } else if (i == '/') {
+            type = VERBUM_USE_PATH;
+            break;
+        }
+
+        part1 += i;
     }
+
+    if (type == VERBUM_USE_UNKNOWN && part1.length() > 0 && part1.length() == content.length()) 
+        type = VERBUM_USE_ARCHIVE;
+    
+    std::cout << "type: " << type << std::endl;
 
     return visitChildren(ctx);
 }

@@ -30,5 +30,6 @@ use 'path2/*', 'mysql:*', 'json:unicode';
 */
 
 use '😍:😀';
+use 'std:<io,net>', 'path/test/another', 'util';
 
 
