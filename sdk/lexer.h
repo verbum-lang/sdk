@@ -12,12 +12,25 @@
 #ifndef VERBUM_LEXER
 #define VERBUM_LEXER
 
+// ANTLR4.
+#include "antlr4-runtime.h"
+#include "TLexer.h"
+#include "TParser.h"
+#include "TParserBaseVisitor.h"
+#include "TParserBaseVisitor.h"
+
+using namespace antlr4;
+
 namespace verbum {
     class verbum_lexer {
         public:
-            verbum_lexer ();
+            verbum_lexer (std::string file_path);
         
+
         private:
+            ANTLRInputStream *input;
+            TLexer *lexer;
+            CommonTokenStream *tokens;
     };
 }
 

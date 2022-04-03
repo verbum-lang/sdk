@@ -22,17 +22,28 @@ namespace verbum {
             // Retorna path do diretório onde encontra-se o arquivo de código Verbum.
             std::string get_file_path ();
 
-            // Retorno dados do arquivo de código lido.
+            // Retorna dados do arquivo de código lido.
             std::vector<char> get_file_content ();
+
+            // Retorna total de bytes do arquivo de código.
+            int get_file_size();
+
+            // Retorna total de linhas encontradas (ocorrências de nova-linha).
+            int get_total_lines();
         
         private:
             int argc;                       // Entrada argc.
             const char **argv;              // Entrada argv.
             std::string filepath;           // Path completo do diretório onde encontra-se o código Verbum.
             std::vector<char> file_content; // Bytes do arquivo de código Verbum.
+            int total_bytes;                // Total de bytes existentes no código.
+            int total_lines;                // Total de linhas encontradas (contando por ocorrências de nova-linha).
             
             // Realiza leitura/carregamento do conteúdo do arquivo de código Verbum.
             void read_source_code ();
+
+            // Prepara informações gerais a respeito do arquivo de código.
+            void prepare_file_informations ();
     };
 }
 

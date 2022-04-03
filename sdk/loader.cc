@@ -62,14 +62,20 @@ void verbum_loader::read_source_code ()
     }
 }
 
-std::string verbum_loader::get_file_path () 
+void verbum_loader::prepare_file_informations ()
 {
-    return this->filepath;
+    this->total_bytes = this->file_content.size();
+    this->total_lines = 0;
+
+    for (auto i: this->file_content)
+        if (i == '\n')
+            this->total_lines++;
 }
 
-std::vector<char> verbum_loader::get_file_content () 
-{
-    return this->file_content;
-}
+// Getters (public interface).
+std::string verbum_loader::get_file_path            () { return this->filepath;     }
+std::vector<char> verbum_loader::get_file_content   () { return this->file_content; }
+int verbum_loader::get_file_size                    () { return this->total_bytes;  }
+int verbum_loader::get_total_lines                  () { return this->total_lines;  }
 
 

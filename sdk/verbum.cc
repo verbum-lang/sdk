@@ -621,22 +621,38 @@ public:
 
 };
 
+
+
 int main (int argc, const char **argv) 
 {  
-  // Initialization.
+  // Inicialização.
   verbum_help help(argc, argv);
   help.check();
 
+  // Carrega código.
   verbum_loader loader(argc, argv);
-  std::cout << "file path: " << loader.get_file_path() << std::endl;
-  std::cout << "file content: " << std::endl;
 
-  std::vector<char> buffer = loader.get_file_content();
-  std::cout << "file size: " << buffer.size() << std::endl;
+  #ifdef DBG
+    std::cout << "File path: "      << loader.get_file_path() << std::endl;
+    std::cout << "Total size: "     << loader.get_file_size() << std::endl;
+    std::cout << "Total lines: "    << loader.get_total_lines() << std::endl;
+    std::cout << "File content:"    << std::endl;
 
-  for (auto i: buffer)
-    std::cout << i;
-  std::cout << std::endl;
+    for (auto i: loader.get_file_content())
+      std::cout << i;
+    std::cout << std::endl << std::endl;
+  #endif
+
+  // Realiza análise léxica / tokenização.
+  verbum_lexer lexer(loader.get_file_path());
+  
+  #ifdef DBG
+    std::cout << "Tokens:" << std::endl;
+
+    for (auto token : lexer.get_tokens())
+      std::cout << token->toString() << std::endl;
+    std::cout << std::endl << std::endl;
+  #endif
 
   // Process syntax.
   //VerbumLexer verbumLexer();
@@ -682,6 +698,12 @@ int main (int argc, const char **argv)
   for (auto i: buffer)
     std::cout << i;
   std::cout << std::endl;
+
+
+
+
+
+
 
   // Processa tokens.
   std::cout << "\n+++++++++++++++++++++++++++" << std::endl;
