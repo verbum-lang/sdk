@@ -16,6 +16,7 @@ $COMPILER_PATH -Wall -pedantic -W -O3 -DNDEBUG -O3 -DNDEBUG -rdynamic verbum.o .
     ./parser/TParser.o ./parser/TParserBaseListener.o ./parser/TParserBaseVisitor.o \
     ./parser/TParserListener.o ./parser/TParserVisitor.o \
     ./help.o ./loader.o ./lexer-syntactic.o ./ast-visitor.o ./error.o ./semantics.o \
+    ./use.o \
     -o ../build/verbum ../dependencies/ANTLR4/dist/libantlr4-runtime.a -luuid 
 
 echo "Finished!"

@@ -15,6 +15,7 @@
 #include "configuration.h"
 #include "ast-struct.h"
 #include "ast-visitor.h"
+#include "use.h"
 
 using namespace antlr4;
 using namespace verbum;
@@ -32,31 +33,9 @@ void verbum_ast_visitor::prepare_ast ()
 */
 antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx) 
 {
-    std::cout << "import [use]: " << ctx->getText() << std::endl;
-
-    std::string content = ctx->getText();
-
-    // Verifica se é módulo, path ou arquivo específico.
-    int type = VERBUM_USE_UNKNOWN;
-    std::string part1 = "";
-
-    for (auto i : content) {
-        if (i == ':') {
-            type = VERBUM_USE_MODULE;
-            break;
-        } else if (i == '/') {
-            type = VERBUM_USE_PATH;
-            break;
-        }
-
-        part1 += i;
-    }
-
-    if (type == VERBUM_USE_UNKNOWN && part1.length() > 0 && part1.length() == content.length()) 
-        type = VERBUM_USE_ARCHIVE;
+    std::string content = ctx->getText().substr(1, ctx->getText().length() - 2);
+    verbum_use_import verbum_use(content);
     
-    std::cout << "type: " << type << std::endl;
-
     return visitChildren(ctx);
 }
 
