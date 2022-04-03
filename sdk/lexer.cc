@@ -23,21 +23,24 @@ verbum_lexer::verbum_lexer (std::string file_path)
     std::ifstream stream;
     stream.open(file_path);
 
-    //MyParserErrorListener errorListner;
-    this->input = new ANTLRInputStream(stream);
-    this->lexer = new TLexer(this->input);
-
-    // Configura controle dos erros.
-    //lexer.removeErrorListeners();
-    //lexer.addErrorListener(&errorListner);
-
-    this->tokens = new CommonTokenStream(this->lexer);
+    // Processa análise lexica.
+    ANTLRInputStream input(stream);
+    TLexer lexer(&input);
+    CommonTokenStream tokens(&lexer);
 
     #ifdef DBG
-        this->tokens->fill();
-        for (auto token : this->tokens->getTokens())
+        std::cout << "\nTokens: \n\n";
+
+        tokens.fill();
+        for (auto token : tokens.getTokens()) {
             std::cout << token->toString() << std::endl;
-    #endif    
+        }
+    #endif
+
+    // Processa análise sintática.
+    TParser parser(&tokens);
+    tree::ParseTree* tree = parser.main();
+    std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
 }
 
 

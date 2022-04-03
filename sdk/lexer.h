@@ -25,12 +25,6 @@ namespace verbum {
     class verbum_lexer {
         public:
             verbum_lexer (std::string file_path);
-        
-
-        private:
-            ANTLRInputStream *input;
-            TLexer *lexer;
-            CommonTokenStream *tokens;
     };
 }
 

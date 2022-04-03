@@ -46,6 +46,17 @@ verbum_loader::verbum_loader (int pargc, const char **pargv)
 
     // Formata informações.
     this->prepare_file_informations();
+
+    #ifdef DBG
+        std::cout << "File path: "      << this->filepath << std::endl;
+        std::cout << "Total size: "     << this->total_bytes << std::endl;
+        std::cout << "Total lines: "    << this->total_lines << std::endl;
+        std::cout << "File content:"    << std::endl;
+
+        for (auto i: this->file_content)
+            std::cout << i;
+        std::cout << std::endl << std::endl;
+    #endif
 }
 
 void verbum_loader::read_source_code () 
