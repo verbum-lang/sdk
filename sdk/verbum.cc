@@ -4,6 +4,8 @@
 ** for details. All rights reserved. Use of this source code is governed by a
 ** BSD-style license that can be found in the LICENSE file.
 **
+** In principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum - John 1
+**
 ** Entry-point da linguagem.
 */
 
