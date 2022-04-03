@@ -13,6 +13,7 @@
 #include "TParserBaseVisitor.h"
 
 #include "configuration.h"
+#include "ast-struct.h"
 #include "ast-visitor.h"
 
 using namespace antlr4;
@@ -26,6 +27,11 @@ antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx
     std::cout << "import [use]: " << ctx->getText() << std::endl;
 
     return visitChildren(ctx);
+}
+
+verbum_ast_control_t * verbum_ast_visitor::get_verbum_ast ()
+{
+    return this->ast;
 }
 
 

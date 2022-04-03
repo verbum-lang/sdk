@@ -20,15 +20,25 @@
 #include "TParserBaseVisitor.h"
 #include "TParserBaseVisitor.h"
 
+#include "ast-struct.h"
+
 using namespace antlr4;
 
 namespace verbum {
     class verbum_ast_visitor : public TParserBaseVisitor
     {
         public:
+
+            // Retorna AST pronta para análise semântica.
+            verbum_ast_control_t * get_verbum_ast ();
         
             // Processa importações (use).
             antlrcpp::Any visitUseString (TParser::UseStringContext *ctx);
+
+        private:
+
+            // Árvore AST para uso na análise semântica (etapa posterior).
+            verbum_ast_control_t * ast;
     };
 }
 
