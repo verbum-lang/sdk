@@ -29,6 +29,9 @@ namespace verbum {
     {
         public:
 
+            // Prepara estrutura AST para uso.
+            void prepare_ast ();
+
             // Retorna AST pronta para análise semântica.
             verbum_ast_control_t * get_verbum_ast ();
         

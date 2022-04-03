@@ -3,6 +3,7 @@
 ** Comentário /*de múltiplas linhas.
 */
 
+/*
 // Comentário de única linha.
 // Todos arquivos dentro de um pacote instalado, ou de diretório específico.
 use 'std:*';
@@ -26,5 +27,8 @@ use 'path/<file1, file2, file3>';
 // Importações múltiplas em uma única linha.
 use 'std:<io,net>', 'path/test', 'util';
 use 'path2/*', 'mysql:*', 'json:unicode';
+*/
+
+use '😍:😀';
 
 
