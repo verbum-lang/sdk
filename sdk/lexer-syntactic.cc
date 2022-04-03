@@ -13,12 +13,13 @@
 #include "TParserBaseVisitor.h"
 
 #include "configuration.h"
-#include "lexer.h"
+#include "lexer-syntactic.h"
+#include "ast-visitor.h"
 
 using namespace antlr4;
 using namespace verbum;
 
-verbum_lexer::verbum_lexer (std::string file_path) 
+verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path) 
 {
     std::ifstream stream;
     stream.open(file_path);
@@ -30,17 +31,19 @@ verbum_lexer::verbum_lexer (std::string file_path)
 
     #ifdef DBG
         std::cout << "\nTokens: \n\n";
-
         tokens.fill();
-        for (auto token : tokens.getTokens()) {
+        
+        for (auto token : tokens.getTokens()) 
             std::cout << token->toString() << std::endl;
-        }
+        std::cout << std::endl << std::endl;
     #endif
 
     // Processa análise sintática.
     TParser parser(&tokens);
-    tree::ParseTree* tree = parser.main();
-    std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
+
+    verbum_ast_visitor visitor;
+    TParser::MainContext* tree = parser.main();
+    visitor.visitMain(tree);
 }
 
 

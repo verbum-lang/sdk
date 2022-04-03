@@ -21,7 +21,7 @@
 #include "configuration.h"
 #include "help.h"
 #include "loader.h"
-#include "lexer.h"
+#include "lexer-syntactic.h"
 
 using namespace antlr4;
 using namespace verbum;
@@ -35,8 +35,8 @@ int main (int argc, const char **argv)
   // Carrega código.
   verbum_loader loader(argc, argv);
 
-  // Realiza análise léxica / tokenização.
-  verbum_lexer lexer(loader.get_file_path());
+  // Realiza análise léxica e sintática.
+  verbum_lexer_syntactic lexer_syntactic(loader.get_file_path());
   
   // Process syntax.
   //VerbumLexer verbumLexer();

@@ -6,11 +6,12 @@
 **
 ** In principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum - John 1
 **
-** Controle do lexer/tokenização.
+** Controle do processamento da AST gerada pelo parser (ANTLR4).
+** E geração de nova AST contendo os elementos melhor organizados.
 */
 
-#ifndef VERBUM_LEXER
-#define VERBUM_LEXER
+#ifndef VERBUM_AST_VISITOR
+#define VERBUM_AST_VISITOR
 
 // ANTLR4.
 #include "antlr4-runtime.h"
@@ -22,9 +23,12 @@
 using namespace antlr4;
 
 namespace verbum {
-    class verbum_lexer {
+    class verbum_ast_visitor : public TParserBaseVisitor
+    {
         public:
-            verbum_lexer (std::string file_path);
+        
+            // Processa importações (use).
+            antlrcpp::Any visitUseString (TParser::UseStringContext *ctx);
     };
 }
 
