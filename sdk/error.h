@@ -22,11 +22,30 @@
 using namespace antlr4;
 
 namespace verbum {
-    class verbum_error_visitor : public TParserBaseVisitor
+    class verbum_error_listener : public BaseErrorListener
     {
         public:
+            // Especifica configurações.
+            void set_properties (std::string file_path, std::vector<char> file_content);
 
-            
+            // Mensagens de erro do analisador léxico e sintático.
+            void syntaxError(
+                Recognizer *recognizer,
+                Token *offendingSymbol,
+                size_t line,
+                size_t charPositionInLine,
+                const std::string &msg,
+                std::exception_ptr e);
+                
+        private:
+            // Path completo do arquivo de código em questão.
+            std::string file_path;
+
+            // Conteúdo do arquivo de código Verbum.
+            std::vector<char> file_content;
+
+            // Imprime linha de código em específico.
+            void print_source_line (size_t line, size_t size_ch);
     };
 }
 

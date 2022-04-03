@@ -34,7 +34,7 @@ namespace verbum {
         private:
             int argc;                       // Entrada argc.
             const char **argv;              // Entrada argv.
-            std::string filepath;           // Path completo do diretório onde encontra-se o código Verbum.
+            std::string file_path;          // Path completo do diretório onde encontra-se o código Verbum.
             std::vector<char> file_content; // Bytes do arquivo de código Verbum.
             int total_bytes;                // Total de bytes existentes no código.
             int total_lines;                // Total de linhas encontradas (contando por ocorrências de nova-linha).

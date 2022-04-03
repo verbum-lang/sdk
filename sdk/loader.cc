@@ -37,7 +37,7 @@ verbum_loader::verbum_loader (int pargc, const char **pargv)
     // Carrega path completo do arquivo.
     char path [1024];
     realpath(fname, path);
-    this->filepath = std::string(path);
+    this->file_path = std::string(path);
 
     free(fname);
 
@@ -48,7 +48,7 @@ verbum_loader::verbum_loader (int pargc, const char **pargv)
     this->prepare_file_informations();
 
     #ifdef DBG
-        std::cout << "File path: "      << this->filepath << std::endl;
+        std::cout << "File path: "      << this->file_path << std::endl;
         std::cout << "Total size: "     << this->total_bytes << std::endl;
         std::cout << "Total lines: "    << this->total_lines << std::endl;
         std::cout << "File content:"    << std::endl;
@@ -61,7 +61,7 @@ verbum_loader::verbum_loader (int pargc, const char **pargv)
 
 void verbum_loader::read_source_code () 
 {
-    std::ifstream infile(this->filepath);
+    std::ifstream infile(this->file_path);
 
     infile.seekg(0, infile.end);
     size_t length = infile.tellg();
@@ -84,7 +84,7 @@ void verbum_loader::prepare_file_informations ()
 }
 
 // Getters (public interface).
-std::string verbum_loader::get_file_path            () { return this->filepath;     }
+std::string verbum_loader::get_file_path            () { return this->file_path;     }
 std::vector<char> verbum_loader::get_file_content   () { return this->file_content; }
 int verbum_loader::get_file_size                    () { return this->total_bytes;  }
 int verbum_loader::get_total_lines                  () { return this->total_lines;  }

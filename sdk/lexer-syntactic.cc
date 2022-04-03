@@ -20,14 +20,23 @@
 using namespace antlr4;
 using namespace verbum;
 
-verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path) 
+verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vector<char> file_content) 
 {
     std::ifstream stream;
     stream.open(file_path);
 
+    // Controle dos erros.
+    verbum_error_listener error_listener;
+    error_listener.set_properties(file_path, file_content);
+
     // Processa análise lexica.
     ANTLRInputStream input(stream);
     TLexer lexer(&input);
+
+    // Configura controle dos erros.
+    lexer.removeErrorListeners();
+    lexer.addErrorListener(&error_listener);
+
     CommonTokenStream tokens(&lexer);
 
     #ifdef DBG
@@ -42,6 +51,11 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path)
     // Processa análise sintática.
     TParser parser(&tokens);
 
+    // Configura controle dos erros.
+    parser.removeErrorListeners();
+    parser.addErrorListener(&error_listener);
+
+    // Percorre AST gerada pelo parser (analisador sintático).
     verbum_ast_visitor visitor;
     TParser::MainContext* tree = parser.main();
     visitor.visitMain(tree);

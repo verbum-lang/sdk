@@ -36,7 +36,7 @@ int main (int argc, const char **argv)
   verbum_loader loader(argc, argv);
 
   // Realiza análise léxica e sintática.
-  verbum_lexer_syntactic lexer_syntactic(loader.get_file_path());
+  verbum_lexer_syntactic lexer_syntactic(loader.get_file_path(), loader.get_file_content());
   
   // Process syntax.
   //VerbumLexer verbumLexer();

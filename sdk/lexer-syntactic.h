@@ -24,7 +24,7 @@ using namespace antlr4;
 namespace verbum {
     class verbum_lexer_syntactic {
         public:
-            verbum_lexer_syntactic (std::string file_path);
+            verbum_lexer_syntactic (std::string file_path, std::vector<char> file_content);
     };
 }
 

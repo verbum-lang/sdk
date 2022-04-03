@@ -13,6 +13,7 @@
 #include <iostream>
 #include <stdlib.h>
 
+// ANTLR4.
 #include "antlr4-runtime.h"
 #include "TLexer.h"
 #include "TParser.h"
@@ -24,50 +25,50 @@
 using namespace verbum;
 using namespace antlr4;
 
-//
-// Erros de sintaxe (ANTLR parser).
-//
-class verbum_error_visitor: public BaseErrorListener {
-    
-    void syntaxError(
-        Recognizer *recognizer,
-        Token *offendingSymbol,
-        size_t line,
-        size_t charPositionInLine,
-        const std::string &msg,
-        std::exception_ptr e)
-    {
-    // Verifica se é erro do ANTLR4 ou se é de origem da gramática.
+void verbum_error_listener::set_properties (std::string file_path, std::vector<char> file_content)
+{
+    this->file_path    = file_path;
+    this->file_content = file_content;
+}
+
+void verbum_error_listener::syntaxError(
+    Recognizer *recognizer,
+    Token *offendingSymbol,
+    size_t line,
+    size_t charPositionInLine,
+    const std::string &msg,
+    std::exception_ptr e)
+{
+    // Verifica se é erro do ANTLR4 ou se é de origem da gramática (personalizado).
     std::string message = msg;
     std::string search  = "internal:";
     std::size_t found   = message.find(search);
 
-    if (found != std::string::npos) {
-        message = "Custom error message.";
-    }
+    if (found != std::string::npos)
+        message = "Syntax error.";
 
     // Informações gerais.
-    std::cout << " " << std::endl << std::endl;
-    std::cout << " Filename: " << currentFileName << std::endl;
+    std::cout << "\n Verbum Programming Language\n\n";
+    std::cout << " Filename: " << this->file_path << "\n";
     std::cout << " Syntax error [" << line << "," << 
-        charPositionInLine << "] -> " << message << std::endl << std::endl;
+        charPositionInLine << "] -> " << message << "\n\n";
 
     // Imprime linhas do erro.
-    size_t errorLineLimit = 10;
-    size_t startErrorLines = 1;
+    size_t error_line_limit = VERBUM_MAX_ERROR_PRINT_LINES;
+    size_t start_error_lines = 1;
 
-    if (line > errorLineLimit)
-        startErrorLines = line - errorLineLimit;
+    if (line > error_line_limit)
+        start_error_lines = line - error_line_limit;
 
-    std::string lineSize = std::to_string((int) startErrorLines);
+    std::string line_size = std::to_string((int) start_error_lines);
 
-    for (size_t a=startErrorLines; a<=line; a++)
-        printSourceLine(a, lineSize.length());
+    for (size_t a=start_error_lines; a<=line; a++)
+        this->print_source_line(a, line_size.length());
 
     // Imprime apontador para caractere onde está o erro.
-    std::string lnSz = std::to_string((int) line);
-    size_t lastLineSize = ((lineSize.length() == lnSz.length()) ? 2 : 1) + lnSz.length() + 4;
-    size_t size = charPositionInLine + lastLineSize;
+    std::string lnsz = std::to_string((int) line);
+    size_t last_line_size = ((line_size.length() == lnsz.length()) ? 2 : 1) + lnsz.length() + 4;
+    size_t size = charPositionInLine + last_line_size;
 
     for (size_t a=0; a<size; a++)
         std::cout << ' ';
@@ -82,16 +83,17 @@ class verbum_error_visitor: public BaseErrorListener {
     std::cout << "`--> Syntax error: " << message << std::endl << std::endl;
 
     exit(0);
-  }
+}
 
-  // Imprime linha do erro.
-  void printSourceLine (size_t line, size_t sizeCh) {
+// Imprime linha do erro.
+void verbum_error_listener::print_source_line (size_t line, size_t size_ch) 
+{
     size_t counter = 1;
-    std::string lineSize = std::to_string((int) line);
+    std::string line_size = std::to_string((int) line);
 
-    std::cout << ((sizeCh == lineSize.length()) ? "  " : " ") << line << "  | ";
+    std::cout << ((size_ch == line_size.length()) ? "  " : " ") << line << "  | ";
 
-    for (auto i: buffer) {
+    for (auto i: this->file_content) 
       if (counter != line && i == '\n')
         counter++;
       else if (counter == line && i == '\n')
@@ -104,10 +106,9 @@ class verbum_error_visitor: public BaseErrorListener {
             std::cout << i;
         }
       }
-    }
+    
 
     std::cout << std::endl;
-  }
-};
+}
 
 
