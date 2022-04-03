@@ -7,7 +7,7 @@ clear
 echo "Clean temporary files."
 ./clean.sh
 
-cd sdk
+cd vm
 
 echo "Generate grammar files."
 cd grammar

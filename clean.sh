@@ -1,6 +1,6 @@
 
 clear
-cd sdk
+cd vm
 
 echo "Clean temporary files."
 rm -rf ../build/verbum
