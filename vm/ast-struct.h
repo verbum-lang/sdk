@@ -41,6 +41,9 @@ typedef struct verbum_ast_node
     string use_module;                              // Nome do módulo.
     string use_path;                                // Caminho de diretório / path.
     vector <string> use_elements;                   // Múltiplas importações.
+
+    // Nodes internos.
+    vector <struct verbum_ast_node> nodes;
 }  verbum_ast_node;
 
 #endif

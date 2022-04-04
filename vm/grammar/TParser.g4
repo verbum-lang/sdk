@@ -82,7 +82,7 @@ variableDefinition
   : Identifier variableDefinitionGeneral
 
   // Acesso a componentes de objeto.
-  | objIdentifierA Point objIdentifierB variableDefinitionGeneral
+  | objIdentifierA Point       objIdentifierB variableDefinitionGeneral
   | objIdentifierA TwoTwoPoint objIdentifierB variableDefinitionGeneral
 
   // Acesso a elementos de variavel/array.
@@ -91,17 +91,17 @@ variableDefinition
 
 variableDefinitionGeneral
   // Uso geral.
-  : (Attr | AssignmentOperator) generalValue
+  :          (Attr | AssignmentOperator) generalValue
   | TypeSpec (Attr | AssignmentOperator) generalValue
 
   // Instanciamento de objeto.
-  | (Attr | AssignmentOperator) New generalValue
+  |          (Attr | AssignmentOperator) New generalValue
   | TypeSpec (Attr | AssignmentOperator) New generalValue
   ;
 
 // Array indexado.
 indexArray
-  : OpenArIndex CloseArIndex
+  : OpenArIndex                    CloseArIndex
   | OpenArIndex indexArrayElements CloseArIndex
   ;
 
@@ -112,7 +112,7 @@ indexArrayElements
 
 // Array associativo.
 associativeArray
-  : OpenBlock CloseBlock
+  : OpenBlock                          CloseBlock
   | OpenBlock associativeArrayElements CloseBlock
   ;
 
@@ -133,42 +133,42 @@ operationElements
 
 operationValue
   : Identifier 
-  | Identifier ArithmeticOperator
+  | Identifier          ArithmeticOperator
   | Identifier TypeSpec
   | Identifier TypeSpec ArithmeticOperator
 
   | firstIncDec Identifier
-  | firstIncDec Identifier ArithmeticOperator
+  | firstIncDec Identifier          ArithmeticOperator
   | firstIncDec Identifier TypeSpec
   | firstIncDec Identifier TypeSpec ArithmeticOperator
 
   | Identifier lastIncDec
-  | Identifier lastIncDec ArithmeticOperator 
+  | Identifier lastIncDec          ArithmeticOperator 
   | Identifier lastIncDec TypeSpec 
   | Identifier lastIncDec TypeSpec ArithmeticOperator 
 
   | Integer 
-  | Integer ArithmeticOperator
+  | Integer          ArithmeticOperator
   | Integer TypeSpec
   | Integer TypeSpec ArithmeticOperator
 
   | Float 
-  | Float ArithmeticOperator
+  | Float          ArithmeticOperator
   | Float TypeSpec
   | Float TypeSpec ArithmeticOperator
 
   | functionCall
-  | functionCall ArithmeticOperator
+  | functionCall          ArithmeticOperator
   | functionCall TypeSpec
   | functionCall TypeSpec ArithmeticOperator
 
   | operationBlock
-  | operationBlock ArithmeticOperator
+  | operationBlock          ArithmeticOperator
   | operationBlock TypeSpec
   | operationBlock TypeSpec ArithmeticOperator
 
   | arrayAccessElements 
-  | arrayAccessElements ArithmeticOperator
+  | arrayAccessElements          ArithmeticOperator
   | arrayAccessElements TypeSpec
   | arrayAccessElements TypeSpec ArithmeticOperator
   ;
@@ -182,8 +182,8 @@ callingFunction
   ;
 
 functionCall
-  : Identifier functionCallParam
-  | Identifier Point identifierB functionCallParam
+  : Identifier                         functionCallParam
+  | Identifier Point       identifierB functionCallParam
   | Identifier TwoTwoPoint identifierB functionCallParam
 
   // Acesso a método concatenado (de objeto instanciado).
@@ -200,7 +200,7 @@ functionCallParam
 
 functionCallParamElements
   : generalValue
-  | generalValue Separator functionCallParamElements
+  | generalValue      Separator functionCallParamElements
   | operationElements
   | operationElements Separator functionCallParamElements
   ;
@@ -271,54 +271,54 @@ conditionExpBlock
 
 conditionalExpValue
   : Identifier 
-  | Identifier (ArithmeticOperator | AssignmentOperator)
+  | Identifier          (ArithmeticOperator | AssignmentOperator)
   | Identifier TypeSpec
   | Identifier TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | firstIncDec Identifier
-  | firstIncDec Identifier (ArithmeticOperator | AssignmentOperator)
+  | firstIncDec Identifier          (ArithmeticOperator | AssignmentOperator)
   | firstIncDec Identifier TypeSpec
   | firstIncDec Identifier TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | Identifier lastIncDec
-  | Identifier lastIncDec (ArithmeticOperator | AssignmentOperator) 
+  | Identifier lastIncDec          (ArithmeticOperator | AssignmentOperator) 
   | Identifier lastIncDec TypeSpec 
   | Identifier lastIncDec TypeSpec (ArithmeticOperator | AssignmentOperator) 
 
   | Integer 
-  | Integer (ArithmeticOperator | AssignmentOperator)
+  | Integer          (ArithmeticOperator | AssignmentOperator)
   | Integer TypeSpec
   | Integer TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | Float 
-  | Float (ArithmeticOperator | AssignmentOperator)
+  | Float          (ArithmeticOperator | AssignmentOperator)
   | Float TypeSpec
   | Float TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | functionCall
-  | functionCall (ArithmeticOperator | AssignmentOperator)
+  | functionCall          (ArithmeticOperator | AssignmentOperator)
   | functionCall TypeSpec
   | functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | Identifier Attr functionCall
-  | Identifier Attr functionCall (ArithmeticOperator | AssignmentOperator)
+  | Identifier Attr functionCall          (ArithmeticOperator | AssignmentOperator)
   | Identifier Attr functionCall TypeSpec
   | Identifier Attr functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | operationBlock
-  | operationBlock (ArithmeticOperator | AssignmentOperator)
+  | operationBlock          (ArithmeticOperator | AssignmentOperator)
   | operationBlock TypeSpec
   | operationBlock TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | arrayAccessElements 
-  | arrayAccessElements (ArithmeticOperator | AssignmentOperator)
+  | arrayAccessElements          (ArithmeticOperator | AssignmentOperator)
   | arrayAccessElements TypeSpec
   | arrayAccessElements TypeSpec (ArithmeticOperator | AssignmentOperator)
   ;
 
 // Loops.
 loop
-  : For loopExpression OpenBlock CloseBlock
+  : For loopExpression OpenBlock                   CloseBlock
   | For loopExpression OpenBlock loopBlockElements CloseBlock
   | For loopExpression callingFunction
   | For loopExpression loopBlockElementsLimited
@@ -326,9 +326,9 @@ loop
 
 loopExpression
   : OpenOp loopOneMembers End loopTwoMembers End loopThreeMembers CloseOp
-  | loopOneMembers End loopTwoMembers End loopThreeMembers
+  |        loopOneMembers End loopTwoMembers End loopThreeMembers
   | conditionalExpressionElements
-  | OpenOp CloseOp
+  | OpenOp                                                        CloseOp
   |
   ;
 
@@ -351,7 +351,7 @@ loopThreeMembersValues
   : operationElements
   | operationBlock
   | operationElements Separator loopThreeMembersValues
-  | operationBlock Separator loopThreeMembersValues
+  | operationBlock    Separator loopThreeMembersValues
   ;
 
 loopBlockElements
@@ -385,18 +385,18 @@ retValues
 ** Funções e métodos.
 */
 functions
-  : functionsModes OpenBlock CloseBlock
-  | functionsModes OpenBlock functionCodeBlock CloseBlock
-  | functionMethodsModes OpenBlock CloseBlock
+  : functionsModes       OpenBlock                   CloseBlock
+  | functionsModes       OpenBlock functionCodeBlock CloseBlock
+  | functionMethodsModes OpenBlock                   CloseBlock
   | functionMethodsModes OpenBlock functionCodeBlock CloseBlock
-  | constructClassMethod OpenBlock CloseBlock
+  | constructClassMethod OpenBlock                   CloseBlock
   | constructClassMethod OpenBlock functionCodeBlock CloseBlock
   | interfaceMethod End
   ;
 
 functionGeneralModes
-  : Function Identifier OpenOp CloseOp
-  | Function Identifier OpenOp CloseOp ArrowRight Identifier
+  : Function Identifier OpenOp                CloseOp
+  | Function Identifier OpenOp                CloseOp ArrowRight Identifier
   | Function Identifier OpenOp functionParams CloseOp
   | Function Identifier OpenOp functionParams CloseOp ArrowRight Identifier
   ;
@@ -423,7 +423,7 @@ methodPerm
 
 // Método construtor da classe.
 constructClassMethod
-  : Identifier OpenOp CloseOp
+  : Identifier OpenOp                CloseOp
   | Identifier OpenOp functionParams CloseOp
   ;
 
@@ -465,9 +465,9 @@ interfaceClass
   ;
 
 interfaceClassDefinition
-  : Interface Identifier OpenBlock CloseBlock
-  | Interface Identifier OpenBlock functionCodeBlock CloseBlock
-  | Interface Identifier Extends Identifier OpenBlock CloseBlock
+  : Interface Identifier                    OpenBlock                   CloseBlock
+  | Interface Identifier                    OpenBlock functionCodeBlock CloseBlock
+  | Interface Identifier Extends Identifier OpenBlock                   CloseBlock
   | Interface Identifier Extends Identifier OpenBlock functionCodeBlock CloseBlock
   ;
 
@@ -476,15 +476,15 @@ abstractClass
   ;
 
 abstractClassDefinition
-  : Abstract Identifier OpenBlock CloseBlock
-  | Abstract Identifier OpenBlock functionCodeBlock CloseBlock
-  | Abstract Identifier Extends Identifier OpenBlock CloseBlock
+  : Abstract Identifier                    OpenBlock                   CloseBlock
+  | Abstract Identifier                    OpenBlock functionCodeBlock CloseBlock
+  | Abstract Identifier Extends Identifier OpenBlock                   CloseBlock
   | Abstract Identifier Extends Identifier OpenBlock functionCodeBlock CloseBlock
   ;
 
 // Definição de classe.
 classDefination
-  : classModesGeneral OpenBlock CloseBlock
+  : classModesGeneral OpenBlock                   CloseBlock
   | classModesGeneral OpenBlock functionCodeBlock CloseBlock
   ;
 
@@ -495,9 +495,9 @@ classModesGeneral
 
 classModes
   : Class Identifier
-  | Class Identifier Extends Identifier
+  | Class Identifier Extends    Identifier
   | Class Identifier Implements Identifier
-  | Class Identifier Extends Identifier Implements Identifier
+  | Class Identifier Extends    Identifier Implements Identifier
   ;
 
 /*
@@ -505,7 +505,7 @@ classModes
 */
 arrayAccessElements
   : Identifier  
-  | Identifier Point arrayAccessElements
+  | Identifier               Point arrayAccessElements
   | Identifier accessBlockAr
   | Identifier accessBlockAr Point arrayAccessElements
   ;
@@ -530,21 +530,20 @@ arrayIndexAccess
 */
 generalValue
   : Identifier              // Identificadores: nome de tipos de variáveis, nome de variáveis, funções e métodos, classes / objetos, interface, abstração.
-  | Identifier TypeSpec
+  | Identifier  TypeSpec
   | Integer                 // Números inteiros.
-  | Integer TypeSpec
+  | Integer     TypeSpec
   | Float                   // Número de ponto flutuante, incluindo, por exemplo: 0.123.
-  | Float TypeSpec
+  | Float       TypeSpec
   | String                  // Strings com aspas simples e duplas.
   
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.
-//| operationBlock          // Bloco de operações.
   | operationElements       // Elementos de operações (suportando blocos de operações).
   | functionCall            // Chamada de função.
 
   // Acesso a componentes de objeto.
-  | objIdentifierA Point objIdentifierB
+  | objIdentifierA Point       objIdentifierB
   | objIdentifierA TwoTwoPoint objIdentifierB
 
   // Acesso a elementos de arrays.

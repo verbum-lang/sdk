@@ -7,44 +7,44 @@ lexer grammar TLexer;
 }
 
 // Comandos e palavras reservadas.
-Use : 'use' ;
-Var : 'var' ;
-If : 'if';
-Elif : 'elif';
-Else : 'else';
-For : 'for';
-Ret : 'ret';
-Function : 'fn';
-Pub : 'pub';
-Pro : 'pro';
-Priv : 'priv';
-Static : 'static';
-Final : 'final';
-Interface : 'interface';
-Abstract : 'abstract';
-Extends : 'extends';
-Class : 'class';
-Implements : 'implements';
-New : 'new';
+Use 			: 'use' ;
+Var 			: 'var' ;
+If 				: 'if';
+Elif 			: 'elif';
+Else 			: 'else';
+For 			: 'for';
+Ret 			: 'ret';
+Function 		: 'fn';
+Pub 			: 'pub';
+Pro 			: 'pro';
+Priv 			: 'priv';
+Static 			: 'static';
+Final 			: 'final';
+Interface 		: 'interface';
+Abstract 		: 'abstract';
+Extends 		: 'extends';
+Class 			: 'class';
+Implements 		: 'implements';
+New 			: 'new';
 
 // Operadores.
-ArrowRight : '->';
-End : ';' ;
-Attr : '=' ;
-Point : '.';
-TwoPoint : ':';
-TwoTwoPoint : '::';
-Separator : ',' ;
-OpenArIndex : '[' ;
-CloseArIndex : ']' ;
-OpenBlock : '{' ;
-CloseBlock : '}' ;
-OpenOp : '(';
-CloseOp :')';
+ArrowRight 		: '->';
+End 			: ';' ;
+Attr 			: '=' ;
+Point 			: '.';
+TwoPoint 		: ':';
+TwoTwoPoint 	: '::';
+Separator 		: ',' ;
+OpenArIndex 	: '[' ;
+CloseArIndex 	: ']' ;
+OpenBlock 		: '{' ;
+CloseBlock 		: '}' ;
+OpenOp 			: '(';
+CloseOp 		:')';
 
 // Operações aritméticas.
 ArithmeticOperator
-	: '+' | '-' | '*' | '/' | '%' 
+	: '+'  | '-'  | '*'  | '/'  | '%' 
 	;
 
 AssignmentOperator
