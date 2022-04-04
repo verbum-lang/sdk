@@ -24,6 +24,8 @@
 #include "help.h"
 #include "loader.h"
 #include "lexer-syntactic.h"
+#include "ast-struct.h"
+#include "semantics.h"
 
 using namespace antlr4;
 using namespace verbum;
@@ -40,6 +42,9 @@ int main (int argc, const char **argv)
   // Realiza análise léxica e sintática.
   verbum_lexer_syntactic lexer_syntactic(loader.get_file_path(), loader.get_file_content());
   
+  // Realiz análise semântica.
+  verbum_semantics semantics(lexer_syntactic.get_verbum_ast());
+
   return 0;
 }
 

@@ -16,7 +16,6 @@
 #include "lexer-syntactic.h"
 #include "error.h"
 #include "ast-visitor.h"
-#include "semantics.h"
 
 using namespace antlr4;
 using namespace verbum;
@@ -62,7 +61,12 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     visitor.visitMain(tree);
 
     // Realiza análise semântica.
-    verbum_semantics semantics(visitor.get_verbum_ast());
+    this->ast = visitor.get_verbum_ast();
+}
+
+vector <verbum_ast_node> verbum_lexer_syntactic::get_verbum_ast ()
+{
+    return this->ast;
 }
 
 

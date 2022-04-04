@@ -19,12 +19,23 @@
 #include "TParserBaseVisitor.h"
 #include "TParserBaseVisitor.h"
 
+#include "ast-struct.h"
+
 using namespace antlr4;
+using namespace std;
 
 namespace verbum {
     class verbum_lexer_syntactic {
         public:
-            verbum_lexer_syntactic (std::string file_path, std::vector<char> file_content);
+            verbum_lexer_syntactic (string file_path, vector<char> file_content);
+
+            // Retorna AST pronta para análise semântica.
+            vector <verbum_ast_node> get_verbum_ast ();
+
+        private:
+
+            // Árvore AST para uso na análise semântica (etapa posterior).
+            vector <verbum_ast_node> ast;
     };
 }
 
