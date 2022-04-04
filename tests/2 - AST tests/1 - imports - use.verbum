@@ -40,4 +40,6 @@ use 'lib / ui / views / login interface';
 use 'lib \ ui \ views \ login interface';
 
 
+use ':';
+
 

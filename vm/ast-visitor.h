@@ -36,10 +36,7 @@ namespace verbum {
     class verbum_ast_visitor : public TParserBaseVisitor
     {
         public:
-
-            // Prepara estrutura AST para uso.
-            void prepare_ast ();
-
+        
             // Retorna AST pronta para análise semântica.
             vector <verbum_ast_node> get_verbum_ast ();
         

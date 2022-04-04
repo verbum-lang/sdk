@@ -22,11 +22,6 @@ using namespace verbum;
 using namespace std;
 
 /*
-** Prepara estrutura AST para uso. 
-*/
-void verbum_ast_visitor::prepare_ast () {  }
-
-/*
 ** Importações: use.
 */
 antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx) 
