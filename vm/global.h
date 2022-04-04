@@ -6,25 +6,19 @@
 **
 ** In principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum - John 1
 **
-** Controle do comando de importação: use.
+** Recursos de uso geral, manipulação de strings e coisas relacionadas.
 */
 
-#ifndef VERBUM_USE_IMPORT
-#define VERBUM_USE_IMPORT
-
-#include "ast-struct.h"
+#ifndef VERBUM_GLOBAL
+#define VERBUM_GLOBAL
 
 using namespace std;
 
 namespace verbum {
-    class verbum_use_import 
+    class verbum_global 
     {
         public:
-            verbum_use_import (string raw);
-            verbum_ast_node get_ast_node ();
-
-        private:
-            verbum_ast_node ast_node;
+            static string trim (string str);
     };
 }
 

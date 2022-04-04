@@ -18,7 +18,7 @@ use '      path    /*  ';
 use 'std:io';
 use 'std:io/file';
 use 'test';
-use 'path/path/test';
+use 'path       /   path    /   test';
 
 // Importações múltiplas (dentro de um único módulo ou diretório).
 use 'std:<io, net, os, string>';
@@ -29,10 +29,10 @@ use 'std:<io,net>', 'path/test', 'util';
 use 'path2/*', 'mysql:*', 'json:unicode';
 
 
-use "😍:😀";
-use 'std:<io,net>', 
-    'test-😀', 
-    'path/test/another', 
+use "    😍 :   😀       ";
+use 'std    :   <io,net>', 
+    'test    -😀', 
+    '   path    /   test   /    another ', 
     'util';
 
 

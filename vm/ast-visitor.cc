@@ -19,6 +19,7 @@
 
 using namespace antlr4;
 using namespace verbum;
+using namespace std;
 
 /*
 ** Prepara estrutura AST para uso. 
@@ -33,9 +34,10 @@ void verbum_ast_visitor::prepare_ast ()
 */
 antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx) 
 {
-    std::string content = ctx->getText().substr(1, ctx->getText().length() - 2);
+    string content = ctx->getText().substr(1, ctx->getText().length() - 2);
     verbum_use_import verbum_use(content);
-    
+    verbum_ast_node ast_node = verbum_use.get_ast_node();
+
     return visitChildren(ctx);
 }
 
