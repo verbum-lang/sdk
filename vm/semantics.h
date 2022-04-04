@@ -12,13 +12,22 @@
 #ifndef VERBUM_SEMANTICS
 #define VERBUM_SEMANTICS
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
+
 #include "ast-struct.h"
+
+using namespace std;
 
 namespace verbum {
     class verbum_semantics
     {
         public:
-            verbum_semantics (verbum_ast_control_t *verbum_ast);
+            verbum_semantics (vector <verbum_ast_node> ast);
     };
 }
 

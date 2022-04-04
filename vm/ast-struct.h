@@ -43,13 +43,6 @@ typedef struct verbum_ast_node
     vector <string> use_elements;                   // Múltiplas importações.
 }  verbum_ast_node;
 
-// Controle da estrutura AST.
-// Controle da quantidade de elementos e coisas semelhantes.
-typedef struct verbum_ast_control_t 
-{
-    int size;
-} verbum_ast_control_t;
-
 #endif
 
 

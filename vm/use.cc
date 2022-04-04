@@ -45,35 +45,45 @@ verbum_use_import::verbum_use_import (string raw)
     part1 = verbum_global::trim(part1);
     part2 = verbum_global::trim(part2);
 
-    // Verifica se é carregado múltiplos módulos do pacote.
-    if (part2[0] == '<' && part2[part2.length()-1] == '>') {
-        string part3 = part2.substr(1, part2.length()-2);
-        string current = "";
-        flag = 0;
+    if (type != VERBUM_USE_ARCHIVE) {
 
-        for (auto a : part3) {
-            if (a == ',') {
-                this->ast_node.use_elements.push_back( verbum_global::trim(current) );
-                current = "";
-                flag = 1;
+        // Verifica se é carregado múltiplos módulos do pacote.
+        if (part2[0] == '<' && part2[part2.length()-1] == '>') {
+            string part3 = part2.substr(1, part2.length()-2);
+            string current = "";
+            flag = 0;
+
+            for (auto a : part3) {
+                if (a == ',') {
+                    this->ast_node.use_elements.push_back( verbum_global::trim(current) );
+                    current = "";
+                    flag = 1;
+                }
+
+                if (!flag)
+                    current += a;
+                else
+                    flag = 0;
             }
 
-            if (!flag)
-                current += a;
-            else
-                flag = 0;
-        }
+            if (current.length() > 0) {
+                this->ast_node.use_elements.push_back( verbum_global::trim(current) );
+                current = "";
+            }
+        } else 
+            this->ast_node.use_elements.push_back( part2 );
 
-        if (current.length() > 0) {
-            this->ast_node.use_elements.push_back( verbum_global::trim(current) );
-            current = "";
-        }
-    }
+    } else 
+        this->ast_node.use_elements.push_back( part1 );
 
     // Salva valores.
-    this->ast_node.use_type   = type;
-    this->ast_node.use_module = part1;
-    this->ast_node.use_path   = part2;
+    this->ast_node.type             = VERBUM_USE;
+    this->ast_node.use_type         = type;
+
+    if (type == VERBUM_USE_MODULE)
+        this->ast_node.use_module   = part1;
+    else if (type == VERBUM_USE_PATH)
+        this->ast_node.use_path     = part1;
 }
 
 verbum_ast_node verbum_use_import::get_ast_node ()

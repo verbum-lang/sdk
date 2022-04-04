@@ -24,10 +24,7 @@ using namespace std;
 /*
 ** Prepara estrutura AST para uso. 
 */
-void verbum_ast_visitor::prepare_ast ()
-{
-
-}
+void verbum_ast_visitor::prepare_ast () {  }
 
 /*
 ** Importações: use.
@@ -37,11 +34,12 @@ antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx
     string content = ctx->getText().substr(1, ctx->getText().length() - 2);
     verbum_use_import verbum_use(content);
     verbum_ast_node ast_node = verbum_use.get_ast_node();
+    ast.push_back(verbum_use.get_ast_node());
 
     return visitChildren(ctx);
 }
 
-verbum_ast_control_t * verbum_ast_visitor::get_verbum_ast ()
+vector <verbum_ast_node> verbum_ast_visitor::get_verbum_ast ()
 {
     return this->ast;
 }

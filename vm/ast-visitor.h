@@ -13,6 +13,13 @@
 #ifndef VERBUM_AST_VISITOR
 #define VERBUM_AST_VISITOR
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
+
 // ANTLR4.
 #include "antlr4-runtime.h"
 #include "TLexer.h"
@@ -23,6 +30,7 @@
 #include "ast-struct.h"
 
 using namespace antlr4;
+using namespace std;
 
 namespace verbum {
     class verbum_ast_visitor : public TParserBaseVisitor
@@ -33,7 +41,7 @@ namespace verbum {
             void prepare_ast ();
 
             // Retorna AST pronta para análise semântica.
-            verbum_ast_control_t * get_verbum_ast ();
+            vector <verbum_ast_node> get_verbum_ast ();
         
             // Processa importações (use).
             antlrcpp::Any visitUseString (TParser::UseStringContext *ctx);
@@ -41,7 +49,7 @@ namespace verbum {
         private:
 
             // Árvore AST para uso na análise semântica (etapa posterior).
-            verbum_ast_control_t * ast;
+            vector <verbum_ast_node> ast;
     };
 }
 
