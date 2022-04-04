@@ -21,6 +21,11 @@ using namespace antlr4;
 using namespace verbum;
 using namespace std;
 
+vector <verbum_ast_node> verbum_ast_visitor::get_verbum_ast ()
+{
+    return this->ast;
+}
+
 /*
 ** Importações: use.
 */
@@ -34,9 +39,35 @@ antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx
     return visitChildren(ctx);
 }
 
-vector <verbum_ast_node> verbum_ast_visitor::get_verbum_ast ()
+/*
+** Variáveis: identifica se é declaração ou atribuição (uso).
+*/
+antlrcpp::Any verbum_ast_visitor::visitVariableModes (TParser::VariableDefinitionContext *ctx)
 {
-    return this->ast;
+    bool vfinal = false;
+
+
+
+
+
+  variableModes
+  // Declarações.
+  :                         Var variableMembers End
+  |       methodPerm        Var variableMembers End
+  |                  Static Var variableMembers End
+  |       methodPerm Static Var variableMembers End
+  | Final methodPerm Static Var variableMembers End
+  | Final methodPerm        Var variableMembers End 
+  | Final                   Var variableMembers End 
+  | Final            Static Var variableMembers End 
+  
+  // Atribuições.
+  | variableMembers End
+  ;
+    antlrcpp::Any result = visitChildren(ctx);
+
+
+    return result;
 }
 
 

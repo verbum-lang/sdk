@@ -124,7 +124,7 @@ LineComment
 ** use (importações).
 */
 
-// Fragments...
+// Fragments... (uso futuro)
 fragment DecimalExponent : 'e' | 'E' | 'e+' | 'E+' | 'e-' | 'E-' DecimalDigits;
 fragment DecimalDigits   : ('0'..'9'|'_')+ ;
 fragment FloatLiteral    : FloatFrag ImaginarySuffix?;

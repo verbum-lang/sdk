@@ -36,13 +36,62 @@ typedef struct verbum_ast_node
     int type;                                       // Tipo do elemento.
                                                     // Ex.: VERBUM_USE
 
-    // Parâmetros do comando use.
-    int use_type;                                   // Tipo do comando use. Ex.: VERBUM_USE_MODULE.
+    /*
+    ** Comando use (importações).
+    */
+    int use_type;                                   // Tipo do comando use:
+                                                    //      VERBUM_USE_MODULE
+                                                    //      VERBUM_USE_PATH
+                                                    //      VERBUM_USE_ARCHIVE
+
     string use_module;                              // Nome do módulo.
     string use_path;                                // Caminho de diretório / path.
     vector <string> use_elements;                   // Múltiplas importações.
 
-    // Nodes internos.
+    /*
+    ** Inicialização e uso das variáveis.
+    */
+    int variable_type;                              // Tipo do uso da variável:
+                                                    //      VERBUM_DECLARATION
+                                                    //      VERBUM_ATTRIBUTION
+
+    struct variable_settings {                      // Configurações de acessibilidade.
+        bool vfinal;                                // final.
+        bool priv;                                  // private.
+        bool pro;                                   // protected.
+        bool pub;                                   // public.
+        bool vstatic;                               // static.
+        bool simple;                                // Identifica se é uma declaração simples, sem a prefixação de atributos especiais.
+    };
+
+    /*
+    ** .
+    */
+    int variable_definition_type;                   // Tipo da definição/uso da variável:
+                                                    //      VERBUM_VARIABLE_SIMPLE
+                                                    //      VERBUM_VARIABLE_OBJ_INSTANCE
+                                                    //      VERBUM_VARIABLE_OBJ_STATIC
+                                                    //      VERBUM_VARIABLE_ARRAY_ACCESS
+
+    struct variable_names {                         // Nomes.
+        string simple_name;                         // Nome da variável (uso simples).
+        string object_name;                         // Nome do objeto chamado (acesso a objeto).
+        string method_name;                         // Nome do método chamado (acesso a objeto).
+    };
+
+    bool variable_type_conversion;                  // Especifica se há conversão de tipo.
+    string variable_type_conversion_name;           // Nome do tipo a ser convertido (quando há).
+    int variable_operation;                         // Operação da variável:
+                                                    //      VERBUM_VARIABLE_ATTR
+                                                    //      VERBUM_VARIABLE_... (Todos os Assignment Operators).
+
+    int variable_mod_operation;                     // Modo da operação:
+                                                    //      VERBUM_MOD_OP_SIMPLE            - atribuição simples.
+                                                    //      VERBUM_MOD_OP_OBJ_INSTANCE      - instanciamento de objeto (new).
+
+
+
+    // Nodes internos (árvore).
     vector <struct verbum_ast_node> nodes;
 }  verbum_ast_node;
 
