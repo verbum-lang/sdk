@@ -1,0 +1,41 @@
+
+/*
+** In principio erat Verbum.
+*/
+
+// Importações.
+use 'std:io', 'std:file';
+use 'path/*';
+
+// Variáveis.
+var variable            = 333;
+var variable :int       = 31337;
+var variable :int       = -1337;
+var variable :float     = 0.1337;
+var variable :double    = 3.1337;
+var variable :double    = -1.337;
+var variable :bool      = true;
+var variable :char      = '♥';
+var variable :string    = 'Verbum 😍';
+var variavle :stream    = file.open('archive.bin');
+
+// O UNICODE é aceito no uso comum da linguagem.
+var λ = "Verbum ♥";
+var π = 3.14;
+
+// String de múltiplass linhas.
+var variable = "
+    In princípio
+    erat Verbum!
+";
+
+λ = "Jesus ♥", 
+    marie = sancta;
+
+final priv static var value = 333; 
+
+pub var value = 1234;
+
+var a = 0, b = 20;
+
+

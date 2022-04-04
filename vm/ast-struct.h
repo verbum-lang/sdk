@@ -21,14 +21,27 @@
 
 using namespace std;
 
-// Modalidades do comando 'use'.
-#define VERBUM_USE_UNKNOWN                  0
-#define VERBUM_USE_MODULE                   1
-#define VERBUM_USE_PATH                     2
-#define VERBUM_USE_ARCHIVE                  3
-
 // Lista de tipos de elementos.
-#define VERBUM_USE                          0
+#define VERBUM_UNKNOWN                                  0
+#define VERBUM_USE                                      1
+#define VERBUM_VARIABLE_INITIALIZATION                  2
+#define VERBUM_VARIABLE_USE_TYPES                       3
+#define VERBUM_VARIABLE_ACCESS_ARRAY                    4
+
+// Modalidades do comando 'use'.
+#define VERBUM_USE_UNKNOWN                              0
+#define VERBUM_USE_MODULE                               1
+#define VERBUM_USE_PATH                                 2
+#define VERBUM_USE_ARCHIVE                              3
+
+// Tipos de variáveis (setor 'mode').
+#define VERBUM_VARIABLE_DECLARATION                     1
+#define VERBUM_VARIABLE_ATTRIBUTION                     2
+
+#define VERBUM_VARIABLE_SIMPLE                          1
+#define VERBUM_VARIABLE_OBJ_INSTANCE                    2
+#define VERBUM_VARIABLE_OBJ_STATIC                      3
+#define VERBUM_VARIABLE_ARRAY_ACCESS                    4
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
@@ -60,14 +73,14 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_DECLARATION
                                                     //      VERBUM_ATTRIBUTION
 
-    struct variable_settings {                      // Configurações de acessibilidade.
+    struct {                                        // Configurações de acessibilidade.
         bool vfinal;                                // final.
         bool priv;                                  // private.
         bool pro;                                   // protected.
         bool pub;                                   // public.
         bool vstatic;                               // static.
         bool simple;                                // Identifica se é uma declaração simples, sem a prefixação de atributos especiais.
-    };
+    } variable_settings;
 
     /*
     ** Tipo das variáveis utilizadas.
@@ -79,11 +92,11 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_VARIABLE_OBJ_STATIC
                                                     //      VERBUM_VARIABLE_ARRAY_ACCESS
 
-    struct variable_names {                         // Nomes...
+    struct {                                        // Nomes...
         string simple_name;                         // Nome da variável (uso simples).
         string object_name;                         // Nome do objeto chamado (acesso a objeto).
         string method_name;                         // Nome do método chamado (acesso a objeto).
-    };
+    } variable_names;
 
     bool variable_type_conversion;                  // Especifica se há conversão de tipo.
     string variable_type_conversion_name;           // Nome do tipo a ser convertido (quando há).

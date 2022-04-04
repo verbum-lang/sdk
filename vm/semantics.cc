@@ -18,23 +18,54 @@ verbum_semantics::verbum_semantics (vector <verbum_ast_node> ast)
     int size = ast.size();
 
     for (int a=0; a<size; a++) {
-        
-        // Use.
-        if (ast[a].type == VERBUM_USE) {
+        verbum_ast_node node = ast[a];
+
+        /*
+        ** Importações.
+        */
+        if (node.type == VERBUM_USE) {
             cout << "use: ";
 
-            if (ast[a].use_type == VERBUM_USE_MODULE)
-                cout << ast[a].use_module;
-            else if (ast[a].use_type == VERBUM_USE_PATH)
-                cout << ast[a].use_path;
-            else if (ast[a].use_type == VERBUM_USE_ARCHIVE)
-                cout << ast[a].use_elements[0];
+            if (node.use_type == VERBUM_USE_MODULE)
+                cout << node.use_module;
+            else if (node.use_type == VERBUM_USE_PATH)
+                cout << node.use_path;
+            else if (node.use_type == VERBUM_USE_ARCHIVE)
+                cout << node.use_elements[0];
 
-            if (ast[a].use_type == VERBUM_USE_MODULE || ast[a].use_type == VERBUM_USE_PATH) {
-                for (int b=0; b<ast[a].use_elements.size(); b++) {
-                    cout << " -> "<< ast[a].use_elements[b];
+            if (node.use_type == VERBUM_USE_MODULE || node.use_type == VERBUM_USE_PATH) {
+                for (int b=0; b<node.use_elements.size(); b++) {
+                    cout << " -> "<< node.use_elements[b];
                 }
             }
+
+            cout << "\n";
+        }
+
+        /*
+        ** Variáveis.
+        */
+        else if (node.type == VERBUM_VARIABLE_INITIALIZATION) {
+            cout << "variable: ";
+
+            // Modo.
+            if (node.variable_type == VERBUM_VARIABLE_ATTRIBUTION)
+                cout << "attr -> ";
+            else
+                cout << "declaration -> ";
+
+            // Configurações de acessibilidade.
+            if (node.variable_settings.vfinal)
+                cout << " final ";
+            if (node.variable_settings.vstatic)
+                cout << " static ";
+
+            if (node.variable_settings.pub)
+                cout << " pub ";
+            else if (node.variable_settings.priv)
+                cout << " priv ";
+            else if (node.variable_settings.pro)
+                cout << " pro ";
 
             cout << "\n";
         }

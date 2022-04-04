@@ -40,34 +40,126 @@ antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx
 }
 
 /*
+** Variáveis: reseta estrutura de controle.
+*/ 
+void verbum_ast_visitor::variable_resets ()
+{
+    // VERBUM_VARIABLE_INITIALIZATION
+    this->variable.variable_type                    = VERBUM_UNKNOWN;
+    this->variable.variable_settings.vfinal         = false;
+    this->variable.variable_settings.priv           = false;
+    this->variable.variable_settings.pro            = false;
+    this->variable.variable_settings.pub            = false;
+    this->variable.variable_settings.vstatic        = false;
+    this->variable.variable_settings.simple         = false;
+
+    // VERBUM_VARIABLE_USE_TYPES
+    this->variable.variable_definition_type         = VERBUM_UNKNOWN;
+    this->variable.variable_names.simple_name       = "";     
+    this->variable.variable_names.object_name       = ""; 
+    this->variable.variable_names.method_name       = ""; 
+    this->variable.variable_type_conversion         = false;
+    this->variable.variable_type_conversion_name    = "";
+    this->variable.variable_operation               = VERBUM_UNKNOWN;
+    this->variable.variable_mod_operation           = VERBUM_UNKNOWN;
+}
+
+/*
 ** Variáveis: identifica se é declaração ou atribuição (uso).
 */
-antlrcpp::Any verbum_ast_visitor::visitVariableModes (TParser::VariableDefinitionContext *ctx)
+antlrcpp::Any verbum_ast_visitor::visitVariableModes (TParser::VariableModesContext *ctx)
 {
-    bool vfinal = false;
+    this->variable_resets();
+    this->variable.type = VERBUM_VARIABLE_INITIALIZATION;
 
+    // Atribuição.
+    if (!ctx->Var())
+        this->variable.variable_type = VERBUM_VARIABLE_ATTRIBUTION;
 
+    // Declaração.
+    else {
+        this->variable.variable_type = VERBUM_VARIABLE_DECLARATION;
 
+        if (ctx->Final())
+            this->variable.variable_settings.vfinal   = true;
+        if (ctx->Static())
+            this->variable.variable_settings.vstatic  = true;
 
+        if (ctx->methodPerm()) {
+            if (ctx->methodPerm()->Pub())
+                this->variable.variable_settings.pub  = true;
+            else if (ctx->methodPerm()->Priv())
+                this->variable.variable_settings.priv = true;
+            else if (ctx->methodPerm()->Pro())
+                this->variable.variable_settings.pro  = true;
+        }
+    }
+    
+    return visitChildren(ctx);
+}
 
-  variableModes
-  // Declarações.
-  :                         Var variableMembers End
-  |       methodPerm        Var variableMembers End
-  |                  Static Var variableMembers End
-  |       methodPerm Static Var variableMembers End
-  | Final methodPerm Static Var variableMembers End
-  | Final methodPerm        Var variableMembers End 
-  | Final                   Var variableMembers End 
-  | Final            Static Var variableMembers End 
-  
-  // Atribuições.
-  | variableMembers End
+/*
+** Variáveis: tipo e modo de utilização.
+*/
+antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefinitionContext *ctx)
+{
+    this->variable.type = VERBUM_VARIABLE_USE_TYPES;
+
+    // Tipo de acesso.
+    if (ctx->arrayAccessElements())
+        this->variable.variable_definition_type = VERBUM_VARIABLE_ARRAY_ACCESS;
+    else if (ctx->objIdentifierA() && ctx->objIdentifierB() && ctx->Point())
+        this->variable.variable_definition_type = VERBUM_VARIABLE_OBJ_INSTANCE;
+    else if (ctx->objIdentifierA() && ctx->objIdentifierB() && ctx->TwoTwoPoint())
+        this->variable.variable_definition_type = VERBUM_VARIABLE_OBJ_STATIC;
+    else
+        this->variable.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
+
+    
+
+/*
+
+variableDefinition
+  // Uso geral.
+  : Identifier variableDefinitionGeneral
+
+  // Acesso a componentes de objeto.
+  | objIdentifierA Point       objIdentifierB variableDefinitionGeneral
+  | objIdentifierA TwoTwoPoint objIdentifierB variableDefinitionGeneral
+
+  // Acesso a elementos de variavel/array.
+  | arrayAccessElements variableDefinitionGeneral
   ;
-    antlrcpp::Any result = visitChildren(ctx);
+
+  +++++++++++++++++++++++++++++++++++++++++++++
+
+int variable_definition_type;                   // Tipo da definição/uso da variável:
+                                                //      VERBUM_VARIABLE_SIMPLE
+                                                //      VERBUM_VARIABLE_OBJ_INSTANCE
+                                                //      VERBUM_VARIABLE_OBJ_STATIC
+                                                //      VERBUM_VARIABLE_ARRAY_ACCESS
+
+struct {                                        // Nomes...
+    string simple_name;                         // Nome da variável (uso simples).
+    string object_name;                         // Nome do objeto chamado (acesso a objeto).
+    string method_name;                         // Nome do método chamado (acesso a objeto).
+} variable_names;
+
+bool variable_type_conversion;                  // Especifica se há conversão de tipo.
+string variable_type_conversion_name;           // Nome do tipo a ser convertido (quando há).
+
+int variable_operation;                         // Operação da variável:
+                                                //      VERBUM_VARIABLE_ATTR
+                                                //      VERBUM_VARIABLE_... (Todos os Assignment Operators).
+
+int variable_mod_operation;                     // Modo da operação:
+                                                //      VERBUM_MOD_OP_SIMPLE            - atribuição simples.
+                                                //      VERBUM_MOD_OP_OBJ_INSTANCE      - instanciamento de objeto (new).
 
 
-    return result;
+*/
+
+    return visitChildren(ctx);
 }
 
 

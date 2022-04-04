@@ -43,10 +43,17 @@ namespace verbum {
             // Processa importações (use).
             antlrcpp::Any visitUseString (TParser::UseStringContext *ctx);
 
+            // Processa variáveis.
+            antlrcpp::Any visitVariableModes (TParser::VariableModesContext *ctx);
+            antlrcpp::Any visitVariableDefinition (TParser::VariableDefinitionContext *ctx);
+
         private:
 
             // Árvore AST para uso na análise semântica (etapa posterior).
             vector <verbum_ast_node> ast;
+
+            // Controle temporário para formatação das variáveis.
+            verbum_ast_node variable;
     };
 }
 
