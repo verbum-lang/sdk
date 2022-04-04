@@ -6,7 +6,7 @@
 **
 ** In principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum - John 1
 **
-** Realização da análise semântica.
+** Controle da estrutura AST.
 */
 
 #ifndef VERBUM_STRUCT
@@ -34,10 +34,14 @@ using namespace std;
 typedef struct verbum_ast_node 
 {
     int type;                                       // Tipo do elemento.
-                                                    // Ex.: VERBUM_USE
+                                                    //      VERBUM_USE
+                                                    //      VERBUM_VARIABLE_INITIALIZATION
+                                                    //      VERBUM_VARIABLE_USE_TYPES
+                                                    //      VERBUM_VARIABLE_ACCESS_ARRAY
 
     /*
     ** Comando use (importações).
+    ** type: VERBUM_USE
     */
     int use_type;                                   // Tipo do comando use:
                                                     //      VERBUM_USE_MODULE
@@ -49,7 +53,8 @@ typedef struct verbum_ast_node
     vector <string> use_elements;                   // Múltiplas importações.
 
     /*
-    ** Inicialização e uso das variáveis.
+    ** Especificações de inicialização e uso das variáveis.
+    ** type: VERBUM_VARIABLE_INITIALIZATION
     */
     int variable_type;                              // Tipo do uso da variável:
                                                     //      VERBUM_DECLARATION
@@ -65,7 +70,8 @@ typedef struct verbum_ast_node
     };
 
     /*
-    ** .
+    ** Tipo das variáveis utilizadas.
+    ** type: VERBUM_VARIABLE_USE_TYPES
     */
     int variable_definition_type;                   // Tipo da definição/uso da variável:
                                                     //      VERBUM_VARIABLE_SIMPLE
@@ -73,7 +79,7 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_VARIABLE_OBJ_STATIC
                                                     //      VERBUM_VARIABLE_ARRAY_ACCESS
 
-    struct variable_names {                         // Nomes.
+    struct variable_names {                         // Nomes...
         string simple_name;                         // Nome da variável (uso simples).
         string object_name;                         // Nome do objeto chamado (acesso a objeto).
         string method_name;                         // Nome do método chamado (acesso a objeto).
@@ -81,6 +87,7 @@ typedef struct verbum_ast_node
 
     bool variable_type_conversion;                  // Especifica se há conversão de tipo.
     string variable_type_conversion_name;           // Nome do tipo a ser convertido (quando há).
+
     int variable_operation;                         // Operação da variável:
                                                     //      VERBUM_VARIABLE_ATTR
                                                     //      VERBUM_VARIABLE_... (Todos os Assignment Operators).
@@ -89,10 +96,24 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_MOD_OP_SIMPLE            - atribuição simples.
                                                     //      VERBUM_MOD_OP_OBJ_INSTANCE      - instanciamento de objeto (new).
 
+    /*
+    ** Itens do acesso a elementos de array.
+    ** type: VERBUM_VARIABLE_ACCESS_ARRAY
+    */
+    int array_access_variable_type;                 // Tipo da variável utilizada no acesso a elemento de array:
+                                                    //      VERBUM_ARRAY_ACCESS_SIMPLE
+                                                    //      VERBUM_ARRAY_ACCESS_OBJ_INSTANCE
+                                                    //      VERBUM_ARRAY_ACCESS_OBJ_STATIC
 
-
-    // Nodes internos (árvore).
+    int array_access_mode;                          // Modo do acesso ao elemento do array:
+                                                    //      VERBUM_ARRAY_ACCESS_INDEX
+                                                    //      VERBUM_ARRAY_ACCESS_ASSOCIATIVE
+    
+    /*
+    ** Nodes internos (árvore) do elemento em questão.
+    */
     vector <struct verbum_ast_node> nodes;
+
 }  verbum_ast_node;
 
 #endif

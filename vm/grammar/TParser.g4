@@ -91,8 +91,8 @@ variableDefinition
 
 variableDefinitionGeneral
   // Uso geral.
-  :          (Attr | AssignmentOperator) generalValue
-  | TypeSpec (Attr | AssignmentOperator) generalValue
+  :          (Attr | AssignmentOperator)     generalValue
+  | TypeSpec (Attr | AssignmentOperator)     generalValue
 
   // Instanciamento de objeto.
   |          (Attr | AssignmentOperator) New generalValue
