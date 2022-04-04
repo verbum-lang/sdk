@@ -25,7 +25,7 @@ verbum_use_import::verbum_use_import (string raw)
         if (i == ':' && !flag) {
             type = VERBUM_USE_MODULE;
             flag = 1;
-        } else if (i == '/' && !flag) {
+        } else if ((i == '/' || i == '\\') && !flag) {
             type = VERBUM_USE_PATH;
             flag = 1;
         }
@@ -70,11 +70,53 @@ verbum_use_import::verbum_use_import (string raw)
                 this->ast_node.use_elements.push_back( verbum_global::trim(current) );
                 current = "";
             }
-        } else 
-            this->ast_node.use_elements.push_back( part2 );
 
-    } else 
+        } 
+        
+        // Sub-path - único.
+        else 
+            this->ast_node.use_elements.push_back( part2 );
+    }
+    
+    // Arquivo de código.
+    else 
         this->ast_node.use_elements.push_back( part1 );
+
+    // Remove espaços da divisão dos paths.
+    string current = "";
+    
+    for (int a=0; a<this->ast_node.use_elements.size(); a++) {
+        vector <string> elements;
+        current = "";
+
+        for (auto b : this->ast_node.use_elements[a]) {
+            if (b == '/' || b == '\\') {
+                current = verbum_global::trim(current);
+                elements.push_back(current);
+                current = "";
+                continue;
+            }
+
+            current += b;
+        }
+
+        if (current.length() > 0) {
+            current = verbum_global::trim(current);
+            elements.push_back(current);
+            current = "";
+        }
+
+        int size = elements.size();
+
+        for (int b=0; b<size; b++) {
+            if ((b+1) >= size)
+                current += elements[b];
+            else
+                current += elements[b] + "/";
+        }
+
+        this->ast_node.use_elements[a] = current;
+    }
 
     // Salva valores.
     this->ast_node.type             = VERBUM_USE;
