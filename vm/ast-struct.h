@@ -89,6 +89,9 @@ using namespace std;
 #define VERBUM_OP_INCDEC_PRE                            1
 #define VERBUM_OP_INCDEC_POS                            2
 
+// Tipos de operações (em relação a sua organização).
+#define VERBUM_OPERATION_TYPE_SIMPLE                    1
+#define VERBUM_OPERATION_TYPE_BLOCK                     2
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
@@ -189,6 +192,9 @@ typedef struct verbum_ast_node
     ** Bloco de operações.
     ** VERBUM_OPERATION_BLOCK
     */
+    int operation_type;                             // Tipo do operação:
+                                                    //      VERBUM_OPERATION_TYPE_SIMPLE    - Operação simples.
+                                                    //      VERBUM_OPERATION_TYPE_BLOCK     - Bloco de operações.
 
     struct {
         int type;                                   // Tipo do dado da operação:
@@ -215,7 +221,7 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_OPERATOR_DIV 
                                                     //      VERBUM_OPERATOR_PERC
                                                     //      VERBUM_OPERATOR_MUL 
-    
+
     /*
     ** Nodes internos (árvore) do elemento em questão.
     */

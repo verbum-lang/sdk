@@ -267,6 +267,8 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccess
         else if (ctx->accessBlockAr()->arrayIndexAccess()->operationElements()) {
             node.access_array_index_type           = VERBUM_ACCESS_ARRAY_TINDEX_OPERATION;
             this->variable_declaration_process_ops = true;
+            this->array_access_elements_operations = zero_data();
+            this->operation_block_counter = 0;
 
             // Processa nodes (filhos). Para processar as operações no acesso ao elemento do array.
             result = visitChildren(ctx);
@@ -307,24 +309,33 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
         valueDataType = ctx->TypeSpec()->getText();
 
     if (ctx->operationBlock()) {
+        node.operation_type = VERBUM_OPERATION_TYPE_BLOCK;
         block = true;
 
-        //ptab();
-        std::cout << " ( " << std::endl;
-        //tabCounter++;
-
-        result = visitChildren(ctx);
-
-        //tabCounter--;
-        //ptab();
-        std::cout << " ) [" << valueDataType << "] " << std::endl;
-
+        // Operador aritmético relacionado à operação.
         if (ctx->ArithmeticOperator()) {
-            //ptab();
-            std::cout << " " << ctx->ArithmeticOperator()->getText() << " " << std::endl; 
+            string op = ctx->ArithmeticOperator()->getText();
+            node.operation_op = this->check_block_arithmeic_operator(op);
         }
 
+        this->operation_block_counter_run = 0;
+        this->array_access_elements_operations =
+            this->add_node_operations_elements(node, this->array_access_elements_operations);
+        
+        // Entra em nodes (filhos).
+        this->operation_block_counter++;
+        result = visitChildren(ctx);
+        this->operation_block_counter--;
+
+        //node.nodes.push_back(this->array_access_elements_operations);
+        //this->array_access_elements_operations = zero_data();
+
+        // Adiciona no array de controle.
+        //this->array_access_elements_operations.nodes.push_back(node);
+
     } else {
+        node.operation_type = VERBUM_OPERATION_TYPE_SIMPLE;
+
         if (ctx->Identifier()) {
             string currentData = ctx->Identifier()->getText();
             node.operation_data.type = VERBUM_DATA_IDENTIFIER;
@@ -405,28 +416,68 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
             ctx->arrayAccessElements()->getText() << "] ";
         }
 
+        // Operador aritmético relacionado à operação.
         if (ctx->ArithmeticOperator()) {
             string op = ctx->ArithmeticOperator()->getText();
-            node.operation_op = VERBUM_UNKNOWN;
-
-            if (op.compare("+") == 0)
-                node.operation_op = VERBUM_OPERATOR_ADD;
-            else if (op.compare("-") == 0)
-                node.operation_op = VERBUM_OPERATOR_SUB;
-            else if (op.compare("*") == 0)
-                node.operation_op = VERBUM_OPERATOR_MUL;
-            else if (op.compare("/") == 0)
-                node.operation_op = VERBUM_OPERATOR_DIV;
-            else if (op.compare("%") == 0)
-                node.operation_op = VERBUM_OPERATOR_PERC;
+            node.operation_op = this->check_block_arithmeic_operator(op);
         }
 
         // Adiciona no array de controle.
-        this->array_access_elements_operations.nodes.push_back(node);
+        this->operation_block_counter_run = 0;
+        this->array_access_elements_operations =
+            this->add_node_operations_elements(node, this->array_access_elements_operations);
+        //this->array_access_elements_operations.nodes.push_back(node);
     }
 
     if (!block)
       result = visitChildren(ctx);
+
+    return result;
+}
+
+/*
+** Adiciona node temporário no respectivo nível de hierarquia a qual ele percente.
+** Utilizado para processamento da hierarquia dos blocos das operações.
+*/
+verbum_ast_node verbum_ast_visitor::add_node_operations_elements (verbum_ast_node source, verbum_ast_node destination) {
+    if (this->operation_block_counter_run == this->operation_block_counter) {
+
+        destination.nodes.push_back(source);
+
+    } else {
+        this->operation_block_counter_run++;
+
+        if (destination.nodes.size() > 0) {
+
+            verbum_ast_node node = this->add_node_operations_elements(source, destination.nodes[
+                destination.nodes.size() - 1
+            ]);
+
+            destination.nodes[
+                destination.nodes.size() - 1
+            ] = node;
+        }
+    }
+
+    return destination;
+}
+
+/*
+** Verifica operador aritmético utilizado no bloco de operações.
+*/
+int verbum_ast_visitor::check_block_arithmeic_operator (string op) {
+    int result = VERBUM_UNKNOWN;
+
+    if (op.compare("+") == 0)
+        result = VERBUM_OPERATOR_ADD;
+    else if (op.compare("-") == 0)
+        result = VERBUM_OPERATOR_SUB;
+    else if (op.compare("*") == 0)
+        result = VERBUM_OPERATOR_MUL;
+    else if (op.compare("/") == 0)
+        result = VERBUM_OPERATOR_DIV;
+    else if (op.compare("%") == 0)
+        result = VERBUM_OPERATOR_PERC;
 
     return result;
 }

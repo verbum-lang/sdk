@@ -72,6 +72,9 @@ namespace verbum {
             //      + Acesso aos elementos de array.
             bool variable_declaration_process;
             bool variable_declaration_process_ops; // Voltado para filtrar as operações usadas no acesso.
+            
+            int operation_block_counter;
+            int operation_block_counter_run;
 
             // Zera estrutura AST.
             verbum_ast_node zero_data ();
@@ -79,6 +82,13 @@ namespace verbum {
             // Reseta informações relacionadas as estruturas controladoras
             // utilizadas no processamento das variáveis.
             void variable_resets ();
+
+            // Verifica operador aritmético utilizado no bloco de operações.
+            int check_block_arithmeic_operator (string op);
+
+            // Adiciona node do bloco de operação, em seu respectivo nível hierarquico.
+            verbum_ast_node add_node_operations_elements (verbum_ast_node source, verbum_ast_node destination);
+
     };
 }
 
