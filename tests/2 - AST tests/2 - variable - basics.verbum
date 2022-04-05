@@ -47,6 +47,6 @@ Jesus += Deus;
 
 var test = new Obj();
 
-ar.mem[10] = 333;
+ar[10].mem[ x + 1 ] = 333;
 
 

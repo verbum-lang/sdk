@@ -92,6 +92,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_STATIC)
                 cout << "\t" << node.variable_names.object_name << "::" << node.variable_names.method_name;
             else if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
+                cout << "\tarray access:\n";
                 if (node.nodes.size() > 0) 
                     if (node.nodes[0].nodes.size() > 0) 
                         this->verbum_recursive_ast(node.nodes[0].nodes);
@@ -131,12 +132,28 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         /*
         ** Acesso a elemento de array.
         */
-        else if (node.type == VERBUM_VARIABLE_ACCESS_ARRAY) {
-            cout << "\t" << node.variable_access_array_identifier;
+        else if (node.type == VERBUM_ACCESS_ARRAY) {
+            cout << "\t" << node.access_array_identifier;
 
-            if (node.variable_access_array_index_mod)
-                cout << " [] \n";
-            else 
+            // Acesso por indexação.
+            if (node.access_array_index_mod) {
+                cout << " [ \n";
+                
+                // Verifica tipo do acesso.
+                switch (node.access_array_index_type) {
+                    case VERBUM_ACCESS_ARRAY_TINDEX_INTEGER: 
+                        cout << "\t\t" << node.access_array_i_integer;
+                        break;
+                    case VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER: 
+                        cout << "\t\t" << node.access_array_i_identifier;
+                        break;
+                    case VERBUM_ACCESS_ARRAY_TINDEX_OPERATION:
+                        cout << "\t\t" << "op";
+                        break;
+                }
+
+                cout << "\n\t] \n";
+            } else 
                 cout << "\n";
         }
 

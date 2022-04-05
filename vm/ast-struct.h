@@ -27,7 +27,7 @@ using namespace std;
 #define VERBUM_USE                                      1
 #define VERBUM_VARIABLE_INITIALIZATION                  2
 #define VERBUM_VARIABLE_USE_TYPES                       3
-#define VERBUM_VARIABLE_ACCESS_ARRAY                    4
+#define VERBUM_ACCESS_ARRAY                             4
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
@@ -76,7 +76,7 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_USE
                                                     //      VERBUM_VARIABLE_INITIALIZATION
                                                     //      VERBUM_VARIABLE_USE_TYPES
-                                                    //      VERBUM_VARIABLE_ACCESS_ARRAY
+                                                    //      VERBUM_ACCESS_ARRAY
 
     /*
     ** Comando use (importações).
@@ -150,18 +150,18 @@ typedef struct verbum_ast_node
 
     /*
     ** Itens do acesso a elementos de array.
-    ** type: VERBUM_VARIABLE_ACCESS_ARRAY
+    ** type: VERBUM_ACCESS_ARRAY
     */
-    string variable_access_array_identifier;        // Nome identificador do membro de acesso aos elementos de array.
-    bool variable_access_array_index_mod;           // Identifica se no membro em questão, há acesso por indexação (se sim: true).
+    string access_array_identifier;                 // Nome identificador do membro de acesso aos elementos de array.
+    bool access_array_index_mod;                    // Identifica se no membro em questão, há acesso por indexação (se sim: true).
 
-    int variable_access_array_index_type;           // Tipo do identificador de acesso ao elemento de array:
+    int access_array_index_type;                    // Tipo do identificador de acesso ao elemento de array:
                                                     //      VERBUM_ACCESS_ARRAY_TINDEX_INTEGER
                                                     //      VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER
                                                     //      VERBUM_ACCESS_ARRAY_TINDEX_OPERATION
-                                                    
-    string variable_access_array_i_integer;         // Número inteiro (token) usado no acesso.                                                   
-    string variable_access_array_i_identifier;      // Identificador usado no acesso.
+
+    string access_array_i_integer;                  // Número inteiro (token) usado no acesso.                                                   
+    string access_array_i_identifier;               // Identificador usado no acesso.
 
     /*
     ** 
