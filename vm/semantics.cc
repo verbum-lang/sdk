@@ -148,13 +148,71 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                         cout << "\t\t" << node.access_array_i_identifier;
                         break;
                     case VERBUM_ACCESS_ARRAY_TINDEX_OPERATION:
-                        cout << "\t\t" << "op";
+                        cout << "\t\t" << "op:\n";
+
+                        if (node.nodes.size() > 0) 
+                            if (node.nodes[0].nodes.size() > 0) 
+                                this->verbum_recursive_ast(node.nodes[0].nodes);
+
                         break;
                 }
 
                 cout << "\n\t] \n";
             } else 
                 cout << "\n";
+        }
+
+        /*
+        ** Bloco de operações.
+        */
+        else if (node.type == VERBUM_OPERATION_BLOCK) {
+
+            // Identificador.
+            if (node.operation_data.type == VERBUM_DATA_IDENTIFIER) {
+
+                // Pré inc/dec.
+                if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
+                    switch (node.operation_data.type_inc_dec) {
+                        case VERBUM_OP_TYPE_INC: cout << "++"; break;
+                        case VERBUM_OP_TYPE_DEC: cout << "--"; break;
+                    }
+                }
+
+                cout << " " << node.operation_data.identifier << " ";
+
+                // Pós inc/dec.
+                if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
+                    switch (node.operation_data.type_inc_dec) {
+                        case VERBUM_OP_TYPE_INC: cout << "++"; break;
+                        case VERBUM_OP_TYPE_DEC: cout << "--"; break;
+                    }
+                }
+            }
+
+            // Inteiro.
+            else if (node.operation_data.type == VERBUM_DATA_INTEGER) {
+                cout << " " << node.operation_data.integer << " ";
+            }
+
+            // Float.
+            else if (node.operation_data.type == VERBUM_DATA_FLOAT) {
+                cout << " " << node.operation_data.floating << " ";
+            }
+
+            // Operação.
+            if (node.operation_op != VERBUM_UNKNOWN) {
+                cout << " ";
+                
+                switch (node.operation_op) {
+                    case VERBUM_OPERATOR_ADD:  cout << "+"; break;
+                    case VERBUM_OPERATOR_SUB:  cout << "-"; break;
+                    case VERBUM_OPERATOR_DIV:  cout << "/"; break;
+                    case VERBUM_OPERATOR_MUL:  cout << "*"; break;
+                    case VERBUM_OPERATOR_PERC: cout << "%"; break;
+                }
+                
+                cout << " ";
+            }
         }
 
     }

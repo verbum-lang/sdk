@@ -28,6 +28,7 @@ using namespace std;
 #define VERBUM_VARIABLE_INITIALIZATION                  2
 #define VERBUM_VARIABLE_USE_TYPES                       3
 #define VERBUM_ACCESS_ARRAY                             4
+#define VERBUM_OPERATION_BLOCK                          5
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
@@ -66,8 +67,28 @@ using namespace std;
 #define VERBUM_OPERATOR_NOT_EQUAL                      14
 #define VERBUM_OPERATOR_NOT                            15
 
+// Aritméticos.
+#define VERBUM_OPERATOR_ADD                             1
+#define VERBUM_OPERATOR_SUB                             2
+#define VERBUM_OPERATOR_DIV                             3
+#define VERBUM_OPERATOR_PERC                            4
+#define VERBUM_OPERATOR_MUL                             5
+
 #define VERBUM_MOD_OP_SIMPLE                            1
 #define VERBUM_MOD_OP_OBJ_INSTANCE                      2
+
+// Tipos de dados.
+#define VERBUM_DATA_IDENTIFIER                          1
+#define VERBUM_DATA_INTEGER                             2
+#define VERBUM_DATA_FLOAT                               3
+
+// Operações de inc/dec.
+#define VERBUM_OP_TYPE_INC                              1
+#define VERBUM_OP_TYPE_DEC                              2
+
+#define VERBUM_OP_INCDEC_PRE                            1
+#define VERBUM_OP_INCDEC_POS                            2
+
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
@@ -77,6 +98,7 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_VARIABLE_INITIALIZATION
                                                     //      VERBUM_VARIABLE_USE_TYPES
                                                     //      VERBUM_ACCESS_ARRAY
+                                                    //      VERBUM_OPERATION_BLOCK
 
     /*
     ** Comando use (importações).
@@ -164,9 +186,36 @@ typedef struct verbum_ast_node
     string access_array_i_identifier;               // Identificador usado no acesso.
 
     /*
-    ** 
+    ** Bloco de operações.
+    ** VERBUM_OPERATION_BLOCK
     */
 
+    struct {
+        int type;                                   // Tipo do dado da operação:
+                                                    //      VERBUM_DATA_IDENTIFIER
+                                                    //      VERBUM_DATA_INTEGER
+                                                    //      VERBUM_DATA_FLOAT
+
+        int type_inc_dec;                           // Tipo de incremento/decremento:
+                                                    //      VERBUM_OP_TYPE_INC
+                                                    //      VERBUM_OP_TYPE_DEC
+                                                    //
+        int mod_inc_dec;                            // Modo da operação de incremento/decremento:
+                                                    //      VERBUM_OP_INCDEC_PRE    - Anterior a variável.
+                                                    //      VERBUM_OP_INCDEC_POS    - Após a variável.
+
+        string identifier;                          // Identificador.
+        string integer;                             // Inteiro.
+        string floating;                            // Float.
+    } operation_data;
+
+    int operation_op;                               // Operador relacionado à operação:
+                                                    //      VERBUM_OPERATOR_ADD 
+                                                    //      VERBUM_OPERATOR_SUB 
+                                                    //      VERBUM_OPERATOR_DIV 
+                                                    //      VERBUM_OPERATOR_PERC
+                                                    //      VERBUM_OPERATOR_MUL 
+    
     /*
     ** Nodes internos (árvore) do elemento em questão.
     */

@@ -50,6 +50,9 @@ namespace verbum {
             // Acessa elementos de array.
             antlrcpp::Any visitArrayAccessElements (TParser::ArrayAccessElementsContext *ctx);
 
+            // Processa blocos de operações.
+            antlrcpp::Any visitOperationValue(TParser::OperationValueContext *ctx);
+
         private:
 
             // Árvore AST para uso na análise semântica (etapa posterior).
@@ -68,6 +71,7 @@ namespace verbum {
             // Utilizada em:
             //      + Acesso aos elementos de array.
             bool variable_declaration_process;
+            bool variable_declaration_process_ops; // Voltado para filtrar as operações usadas no acesso.
 
             // Zera estrutura AST.
             verbum_ast_node zero_data ();
