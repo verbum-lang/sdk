@@ -47,6 +47,9 @@ namespace verbum {
             antlrcpp::Any visitVariableModes (TParser::VariableModesContext *ctx);
             antlrcpp::Any visitVariableDefinition (TParser::VariableDefinitionContext *ctx);
 
+            // Acessa elementos de array.
+            antlrcpp::Any visitArrayAccessElements (TParser::ArrayAccessElementsContext *ctx);
+
         private:
 
             // Árvore AST para uso na análise semântica (etapa posterior).
@@ -55,6 +58,7 @@ namespace verbum {
             // Controle temporário para formatação das variáveis.
             verbum_ast_node variable;
             verbum_ast_node array_elements;
+            bool variable_process;
 
             // Reseta informações de 'variable'.
             // Onde a mesma é utilizada para armazenar os dados da variável enquanto se adentro na árvore.

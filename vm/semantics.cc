@@ -48,7 +48,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
-        ** Variáveis.
+        ** Variáveis: declações e inicializações.
         */
         else if (node.type == VERBUM_VARIABLE_INITIALIZATION) {
             cout << "variable: ";
@@ -79,6 +79,9 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->verbum_recursive_ast(node.nodes);
         }
 
+        /*
+        ** Variáveis: tipagem e atribuição.
+        */
         else if (node.type == VERBUM_VARIABLE_USE_TYPES) {
             
             // Nome da variável.
@@ -89,9 +92,9 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_STATIC)
                 cout << "\t" << node.variable_names.object_name << "::" << node.variable_names.method_name;
             else if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
-                cout << "\taccess array element...";
                 if (node.nodes.size() > 0) 
-                    this->verbum_recursive_ast(node.nodes);
+                    if (node.nodes[0].nodes.size() > 0) 
+                        this->verbum_recursive_ast(node.nodes[0].nodes);
             }
 
             // Verifica se há conversão de dados (casting).
@@ -123,6 +126,18 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << " (new object) ";
 
             cout << "\n";
+        }
+
+        /*
+        ** Acesso a elemento de array.
+        */
+        else if (node.type == VERBUM_VARIABLE_ACCESS_ARRAY) {
+            cout << "\t" << node.variable_access_array_identifier;
+
+            if (node.variable_access_array_index_mod)
+                cout << " [] \n";
+            else 
+                cout << "\n";
         }
 
     }

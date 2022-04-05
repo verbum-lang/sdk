@@ -64,6 +64,9 @@ void verbum_ast_visitor::variable_resets ()
     this->variable.variable_mod_operation           = VERBUM_UNKNOWN;
 
     this->variable.nodes.clear();
+
+    // Flag de controle.
+    this->variable_process                          = false;
 }
 
 /*
@@ -136,6 +139,7 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
     }
 
     // Verifica se há conversão de tipo.
+    node.variable_type_conversion = false;
     if (ctx->variableDefinitionGeneral()->TypeSpec()) {
         node.variable_type_conversion = true;
         node.variable_type_conversion_name = ctx->variableDefinitionGeneral()->TypeSpec()->getText();
@@ -181,14 +185,63 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
     else
         node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
 
+    this->variable_process = true;
+
     // Acessa elementos filhos.
     antlrcpp::Any result = visitChildren(ctx);
     
+    this->variable_process = false;
+
     // Se for acesso a elementos de array, adiciona os mesmo como nodes.
-    if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS)
-        node.nodes.push_back(array_elements);
+    if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
+
+        node.nodes.push_back(this->array_elements);
+    }
 
     this->variable.nodes.push_back(node);
+
+    return result;
+}
+
+/*
+** Controle de acesso a elementos de array.
+*/
+antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccessElementsContext *ctx)
+{
+    verbum_ast_node node; 
+
+    // Uso atrelado à variáveis.
+    if (this->variable_process) {
+        node.type = VERBUM_VARIABLE_ACCESS_ARRAY;
+        node.variable_access_array_identifier = ctx->Identifier()->getText();
+
+        // Verifica se há acesso por indexação no elemento em questão.
+        node.variable_access_array_index_mod = false;
+        if (ctx->accessBlockAr()) {
+            node.variable_access_array_index_mod = true;
+
+            // Verifica se o acesso é feito por um número inteiro.
+            if (ctx->accessBlockAr()->arrayIndexAccess()->Integer()) {
+                node.variable_access_array_index_type = VERBUM_ACCESS_ARRAY_TINDEX_INTEGER;
+                node.variable_access_array_i_integer  = ctx->accessBlockAr()->arrayIndexAccess()->Integer()->getText();
+            }
+
+            // Por um identificador.
+            else if (ctx->accessBlockAr()->arrayIndexAccess()->Identifier()) {
+                node.variable_access_array_index_type   = VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER;
+                node.variable_access_array_i_identifier = ctx->accessBlockAr()->arrayIndexAccess()->Identifier()->getText();
+            }
+
+            // Por operação.
+            else if (ctx->accessBlockAr()->arrayIndexAccess()->operationElements()) {
+                node.variable_access_array_index_type   = VERBUM_ACCESS_ARRAY_TINDEX_OPERATION;
+            }
+        }
+
+        this->array_elements.nodes.push_back(node);
+    }
+
+    antlrcpp::Any result = visitChildren(ctx);
 
     return result;
 }

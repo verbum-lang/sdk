@@ -1,7 +1,6 @@
 
 COMPILER_PATH=c++
 
-clear
 cd vm
 
 echo "Clean temporary files."

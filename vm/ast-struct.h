@@ -44,6 +44,11 @@ using namespace std;
 #define VERBUM_VARIABLE_OBJ_STATIC                      3
 #define VERBUM_VARIABLE_ARRAY_ACCESS                    4
 
+// Acesso aos elementos de array.
+#define VERBUM_ACCESS_ARRAY_TINDEX_INTEGER              1
+#define VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER           2
+#define VERBUM_ACCESS_ARRAY_TINDEX_OPERATION            3
+
 // Operadores.
 #define VERBUM_OPERATOR_ATTR                            1
 #define VERBUM_OPERATOR_ADD_EQUAL                       2
@@ -147,15 +152,21 @@ typedef struct verbum_ast_node
     ** Itens do acesso a elementos de array.
     ** type: VERBUM_VARIABLE_ACCESS_ARRAY
     */
-    int array_access_variable_type;                 // Tipo da variável utilizada no acesso a elemento de array:
-                                                    //      VERBUM_ARRAY_ACCESS_SIMPLE
-                                                    //      VERBUM_ARRAY_ACCESS_OBJ_INSTANCE
-                                                    //      VERBUM_ARRAY_ACCESS_OBJ_STATIC
+    string variable_access_array_identifier;        // Nome identificador do membro de acesso aos elementos de array.
+    bool variable_access_array_index_mod;           // Identifica se no membro em questão, há acesso por indexação (se sim: true).
 
-    int array_access_mode;                          // Modo do acesso ao elemento do array:
-                                                    //      VERBUM_ARRAY_ACCESS_INDEX
-                                                    //      VERBUM_ARRAY_ACCESS_ASSOCIATIVE
-    
+    int variable_access_array_index_type;           // Tipo do identificador de acesso ao elemento de array:
+                                                    //      VERBUM_ACCESS_ARRAY_TINDEX_INTEGER
+                                                    //      VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER
+                                                    //      VERBUM_ACCESS_ARRAY_TINDEX_OPERATION
+                                                    
+    string variable_access_array_i_integer;         // Número inteiro (token) usado no acesso.                                                   
+    string variable_access_array_i_identifier;      // Identificador usado no acesso.
+
+    /*
+    ** 
+    */
+
     /*
     ** Nodes internos (árvore) do elemento em questão.
     */
