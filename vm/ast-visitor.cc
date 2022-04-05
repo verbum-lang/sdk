@@ -40,33 +40,62 @@ antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx
 }
 
 /*
-** Variáveis: reseta estrutura de controle.
+** Zera estrutura de controle.
+*/
+verbum_ast_node verbum_ast_visitor::zero_data ()
+{
+    verbum_ast_node ast;
+
+    // VERBUM_USE
+    ast.use_type                            = VERBUM_UNKNOWN;
+    ast.use_module                          = "";
+    ast.use_path                            = "";
+    ast.use_elements.clear();
+    
+    // VERBUM_VARIABLE_INITIALIZATION
+    ast.variable_type                       = VERBUM_UNKNOWN;
+    ast.variable_settings.vfinal            = false;
+    ast.variable_settings.priv              = false;
+    ast.variable_settings.pro               = false;
+    ast.variable_settings.pub               = false;
+    ast.variable_settings.vstatic           = false;
+    ast.variable_settings.simple            = false;
+
+    // VERBUM_VARIABLE_USE_TYPES
+    ast.variable_definition_type            = VERBUM_UNKNOWN;
+    ast.variable_names.simple_name          = "";     
+    ast.variable_names.object_name          = ""; 
+    ast.variable_names.method_name          = ""; 
+    ast.variable_type_conversion            = false;
+    ast.variable_type_conversion_name       = "";
+    ast.variable_operation                  = VERBUM_UNKNOWN;
+    ast.variable_mod_operation              = VERBUM_UNKNOWN;
+
+    // VERBUM_ACCESS_ARRAY
+    ast.access_array_identifier             = "";
+    ast.access_array_index_mod              = false;
+    ast.access_array_index_type             = VERBUM_UNKNOWN;
+    ast.access_array_i_integer              = "";
+    ast.access_array_i_identifier           = "";
+
+    // Limpa estruturas de controle.
+    ast.nodes.clear();
+
+    return ast;
+}
+
+/*
+** Variáveis: reseta estruturas de controle.
 */ 
 void verbum_ast_visitor::variable_resets ()
 {
-    // VERBUM_VARIABLE_INITIALIZATION
-    this->variable.variable_type                    = VERBUM_UNKNOWN;
-    this->variable.variable_settings.vfinal         = false;
-    this->variable.variable_settings.priv           = false;
-    this->variable.variable_settings.pro            = false;
-    this->variable.variable_settings.pub            = false;
-    this->variable.variable_settings.vstatic        = false;
-    this->variable.variable_settings.simple         = false;
-
-    // VERBUM_VARIABLE_USE_TYPES
-    this->variable.variable_definition_type         = VERBUM_UNKNOWN;
-    this->variable.variable_names.simple_name       = "";     
-    this->variable.variable_names.object_name       = ""; 
-    this->variable.variable_names.method_name       = ""; 
-    this->variable.variable_type_conversion         = false;
-    this->variable.variable_type_conversion_name    = "";
-    this->variable.variable_operation               = VERBUM_UNKNOWN;
-    this->variable.variable_mod_operation           = VERBUM_UNKNOWN;
-
-    this->variable.nodes.clear();
+    // Estruturas de controle.
+    this->variable                          = zero_data();
+    this->array_access_elements             = zero_data();
+    this->array_access_elements_operations  = zero_data();
 
     // Flag de controle.
-    this->variable_process                          = false;
+    this->variable_declaration_process      = false;
 }
 
 /*
@@ -185,19 +214,20 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
     else
         node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
 
-    this->variable_process = true;
+    // Ativa informando uso de processamento das declarações das variáveis.
+    this->variable_declaration_process = true;
 
     // Acessa elementos filhos.
     antlrcpp::Any result = visitChildren(ctx);
     
-    this->variable_process = false;
+    this->variable_declaration_process = false;
 
     // Se for acesso a elementos de array, adiciona os mesmo como nodes.
-    if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
+    if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) 
+        node.nodes.push_back(this->array_access_elements);
 
-        node.nodes.push_back(this->array_elements);
-    }
-
+    // Adiciona expressão de declaração/uso de variável a lista de nodes, segundo
+    // o comando completo de declaração da(s) variável(is).
     this->variable.nodes.push_back(node);
 
     return result;
@@ -209,6 +239,8 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
 antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccessElementsContext *ctx)
 {
     verbum_ast_node node; 
+    antlrcpp::Any result;
+    bool result_ok = false;
 
     node.type = VERBUM_ACCESS_ARRAY;
     node.access_array_identifier = ctx->Identifier()->getText();
@@ -220,27 +252,42 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccess
 
         // Verifica se o acesso é feito por um número inteiro.
         if (ctx->accessBlockAr()->arrayIndexAccess()->Integer()) {
-            node.access_array_index_type = VERBUM_ACCESS_ARRAY_TINDEX_INTEGER;
-            node.access_array_i_integer  = ctx->accessBlockAr()->arrayIndexAccess()->Integer()->getText();
+            node.access_array_index_type    = VERBUM_ACCESS_ARRAY_TINDEX_INTEGER;
+            node.access_array_i_integer     = ctx->accessBlockAr()->arrayIndexAccess()->Integer()->getText();
         }
 
         // Por um identificador.
         else if (ctx->accessBlockAr()->arrayIndexAccess()->Identifier()) {
-            node.access_array_index_type   = VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER;
-            node.access_array_i_identifier = ctx->accessBlockAr()->arrayIndexAccess()->Identifier()->getText();
+            node.access_array_index_type    = VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER;
+            node.access_array_i_identifier  = ctx->accessBlockAr()->arrayIndexAccess()->Identifier()->getText();
         }
 
         // Por operação.
         else if (ctx->accessBlockAr()->arrayIndexAccess()->operationElements()) {
-            node.access_array_index_type   = VERBUM_ACCESS_ARRAY_TINDEX_OPERATION;
+            node.access_array_index_type    = VERBUM_ACCESS_ARRAY_TINDEX_OPERATION;
+
+            // Processa nodes (filhos). Para processar as operações no acesso ao elemento do array.
+            result = visitChildren(ctx);
+            result_ok = true;
+
+            // Adiciona elementos da operação, no node em questão.
+            node.nodes.push_back(array_access_elements_operations);
         }
     }
     
     // Uso atrelado à variáveis.
-    if (this->variable_process)
-        this->array_elements.nodes.push_back(node);
+    if (this->variable_declaration_process)
+        this->array_access_elements.nodes.push_back(node);
 
-    return visitChildren(ctx);
+    if (!result_ok)
+        result = visitChildren(ctx);
+
+    return result;
 }
+
+/*
+** Controle dos blocos de operaões.
+*/
+
 
 

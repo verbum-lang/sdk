@@ -55,13 +55,25 @@ namespace verbum {
             // Árvore AST para uso na análise semântica (etapa posterior).
             vector <verbum_ast_node> ast;
 
-            // Controle temporário para formatação das variáveis.
+            // Controle do comando de declaração e uso das variáveis.
             verbum_ast_node variable;
-            verbum_ast_node array_elements;
-            bool variable_process;
 
-            // Reseta informações de 'variable'.
-            // Onde a mesma é utilizada para armazenar os dados da variável enquanto se adentro na árvore.
+            // Controle dos elementos do array (utilizado no acesso).
+            verbum_ast_node array_access_elements;
+
+            // Operações passadas no acesso a elementos de array.
+            verbum_ast_node array_access_elements_operations;
+
+            // Flag informando que está sendo realizado o processamento das declarações das variáveis.
+            // Utilizada em:
+            //      + Acesso aos elementos de array.
+            bool variable_declaration_process;
+
+            // Zera estrutura AST.
+            verbum_ast_node zero_data ();
+
+            // Reseta informações relacionadas as estruturas controladoras
+            // utilizadas no processamento das variáveis.
             void variable_resets ();
     };
 }
