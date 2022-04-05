@@ -455,14 +455,14 @@ public:
   public:
     OperationValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *Identifier();
+    FunctionCallContext *functionCall();
     antlr4::tree::TerminalNode *ArithmeticOperator();
     antlr4::tree::TerminalNode *TypeSpec();
+    antlr4::tree::TerminalNode *Identifier();
     FirstIncDecContext *firstIncDec();
     LastIncDecContext *lastIncDec();
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
-    FunctionCallContext *functionCall();
     OperationBlockContext *operationBlock();
     ArrayAccessElementsContext *arrayAccessElements();
 

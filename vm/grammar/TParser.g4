@@ -132,7 +132,12 @@ operationElements
   ;
 
 operationValue
-  : Identifier 
+  : functionCall
+  | functionCall          ArithmeticOperator
+  | functionCall TypeSpec
+  | functionCall TypeSpec ArithmeticOperator
+
+  | Identifier 
   | Identifier          ArithmeticOperator
   | Identifier TypeSpec
   | Identifier TypeSpec ArithmeticOperator
@@ -156,11 +161,6 @@ operationValue
   | Float          ArithmeticOperator
   | Float TypeSpec
   | Float TypeSpec ArithmeticOperator
-
-  | functionCall
-  | functionCall          ArithmeticOperator
-  | functionCall TypeSpec
-  | functionCall TypeSpec ArithmeticOperator
 
   | operationBlock
   | operationBlock          ArithmeticOperator

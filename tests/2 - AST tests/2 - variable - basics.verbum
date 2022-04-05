@@ -40,6 +40,7 @@ pub var value = 1234;
 var a = 0, b = 20;
 */
 
+/*
 λ :iesus = "Jesus ♥", 
     marie = sancta;
 
@@ -56,4 +57,9 @@ ar[10].mem[
 
 
 ar[10].mem[ x + 1 * 3 / 9 ] = 333;
+*/
+
+ar[10].mem[ x :another  
+    + func(5+5) * 3 / 9 ] = 333;
+
 

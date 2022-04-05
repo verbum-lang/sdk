@@ -81,6 +81,9 @@ using namespace std;
 #define VERBUM_DATA_IDENTIFIER                          1
 #define VERBUM_DATA_INTEGER                             2
 #define VERBUM_DATA_FLOAT                               3
+#define VERBUM_DATA_FUNCTION_CALL                       4
+#define VERBUM_DATA_INSTANCE_METHOD_CALL                5
+#define VERBUM_DATA_STATIC_METHOD_CALL                  6
 
 // Operações de inc/dec.
 #define VERBUM_OP_TYPE_INC                              1
@@ -201,6 +204,9 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_DATA_IDENTIFIER
                                                     //      VERBUM_DATA_INTEGER
                                                     //      VERBUM_DATA_FLOAT
+                                                    //      VERBUM_DATA_FUNCTION_CALL
+                                                    //      VERBUM_DATA_INSTANCE_METHOD_CALL
+                                                    //      VERBUM_DATA_STATIC_METHOD_CALL
 
         int type_inc_dec;                           // Tipo de incremento/decremento:
                                                     //      VERBUM_OP_TYPE_INC
@@ -213,6 +219,10 @@ typedef struct verbum_ast_node
         string identifier;                          // Identificador.
         string integer;                             // Inteiro.
         string floating;                            // Float.
+        
+        string function_name;                       // Nome da função chamada.
+        string object_name;                         // Nome do objeto.
+        string method_name;                         // Nome do método.
     } operation_data;
 
     int operation_op;                               // Operador relacionado à operação:
@@ -221,6 +231,9 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_OPERATOR_DIV 
                                                     //      VERBUM_OPERATOR_PERC
                                                     //      VERBUM_OPERATOR_MUL 
+
+    bool operation_type_conversion;                 // Verifica se há conversão de tipo no elemento em questão.
+    string operation_type_conversion_data;          // Nome do tipo a ser convertido.
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

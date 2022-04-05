@@ -1252,9 +1252,12 @@ public class TParser extends Parser {
 	}
 
 	public static class OperationValueContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(TParser.Identifier, 0); }
+		public FunctionCallContext functionCall() {
+			return getRuleContext(FunctionCallContext.class,0);
+		}
 		public TerminalNode ArithmeticOperator() { return getToken(TParser.ArithmeticOperator, 0); }
 		public TerminalNode TypeSpec() { return getToken(TParser.TypeSpec, 0); }
+		public TerminalNode Identifier() { return getToken(TParser.Identifier, 0); }
 		public FirstIncDecContext firstIncDec() {
 			return getRuleContext(FirstIncDecContext.class,0);
 		}
@@ -1263,9 +1266,6 @@ public class TParser extends Parser {
 		}
 		public TerminalNode Integer() { return getToken(TParser.Integer, 0); }
 		public TerminalNode Float() { return getToken(TParser.Float, 0); }
-		public FunctionCallContext functionCall() {
-			return getRuleContext(FunctionCallContext.class,0);
-		}
 		public OperationBlockContext operationBlock() {
 			return getRuleContext(OperationBlockContext.class,0);
 		}
@@ -1289,14 +1289,14 @@ public class TParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(312);
-				match(Identifier);
+				functionCall();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(313);
-				match(Identifier);
+				functionCall();
 				setState(314);
 				match(ArithmeticOperator);
 				}
@@ -1304,37 +1304,33 @@ public class TParser extends Parser {
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(315);
-				match(Identifier);
 				setState(316);
+				functionCall();
+				setState(317);
 				match(TypeSpec);
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(317);
-				match(Identifier);
-				setState(318);
-				match(TypeSpec);
 				setState(319);
+				functionCall();
+				setState(320);
+				match(TypeSpec);
+				setState(321);
 				match(ArithmeticOperator);
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(320);
-				firstIncDec();
-				setState(321);
+				setState(323);
 				match(Identifier);
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(323);
-				firstIncDec();
 				setState(324);
 				match(Identifier);
 				setState(325);
@@ -1344,92 +1340,94 @@ public class TParser extends Parser {
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(327);
-				firstIncDec();
-				setState(328);
+				setState(326);
 				match(Identifier);
-				setState(329);
+				setState(327);
 				match(TypeSpec);
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(331);
-				firstIncDec();
-				setState(332);
+				setState(328);
 				match(Identifier);
-				setState(333);
+				setState(329);
 				match(TypeSpec);
-				setState(334);
+				setState(330);
 				match(ArithmeticOperator);
 				}
 				break;
 			case 9:
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(336);
+				setState(331);
+				firstIncDec();
+				setState(332);
 				match(Identifier);
-				setState(337);
-				lastIncDec();
 				}
 				break;
 			case 10:
 				enterOuterAlt(_localctx, 10);
 				{
-				setState(338);
+				setState(334);
+				firstIncDec();
+				setState(335);
 				match(Identifier);
-				setState(339);
-				lastIncDec();
-				setState(340);
+				setState(336);
 				match(ArithmeticOperator);
 				}
 				break;
 			case 11:
 				enterOuterAlt(_localctx, 11);
 				{
-				setState(342);
+				setState(338);
+				firstIncDec();
+				setState(339);
 				match(Identifier);
-				setState(343);
-				lastIncDec();
-				setState(344);
+				setState(340);
 				match(TypeSpec);
 				}
 				break;
 			case 12:
 				enterOuterAlt(_localctx, 12);
 				{
-				setState(346);
+				setState(342);
+				firstIncDec();
+				setState(343);
 				match(Identifier);
-				setState(347);
-				lastIncDec();
-				setState(348);
+				setState(344);
 				match(TypeSpec);
-				setState(349);
+				setState(345);
 				match(ArithmeticOperator);
 				}
 				break;
 			case 13:
 				enterOuterAlt(_localctx, 13);
 				{
-				setState(351);
-				match(Integer);
+				setState(347);
+				match(Identifier);
+				setState(348);
+				lastIncDec();
 				}
 				break;
 			case 14:
 				enterOuterAlt(_localctx, 14);
 				{
-				setState(352);
-				match(Integer);
-				setState(353);
+				setState(349);
+				match(Identifier);
+				setState(350);
+				lastIncDec();
+				setState(351);
 				match(ArithmeticOperator);
 				}
 				break;
 			case 15:
 				enterOuterAlt(_localctx, 15);
 				{
+				setState(353);
+				match(Identifier);
 				setState(354);
-				match(Integer);
+				lastIncDec();
 				setState(355);
 				match(TypeSpec);
 				}
@@ -1437,83 +1435,85 @@ public class TParser extends Parser {
 			case 16:
 				enterOuterAlt(_localctx, 16);
 				{
-				setState(356);
-				match(Integer);
 				setState(357);
-				match(TypeSpec);
+				match(Identifier);
 				setState(358);
+				lastIncDec();
+				setState(359);
+				match(TypeSpec);
+				setState(360);
 				match(ArithmeticOperator);
 				}
 				break;
 			case 17:
 				enterOuterAlt(_localctx, 17);
 				{
-				setState(359);
-				match(Float);
+				setState(362);
+				match(Integer);
 				}
 				break;
 			case 18:
 				enterOuterAlt(_localctx, 18);
 				{
-				setState(360);
-				match(Float);
-				setState(361);
+				setState(363);
+				match(Integer);
+				setState(364);
 				match(ArithmeticOperator);
 				}
 				break;
 			case 19:
 				enterOuterAlt(_localctx, 19);
 				{
-				setState(362);
-				match(Float);
-				setState(363);
+				setState(365);
+				match(Integer);
+				setState(366);
 				match(TypeSpec);
 				}
 				break;
 			case 20:
 				enterOuterAlt(_localctx, 20);
 				{
-				setState(364);
-				match(Float);
-				setState(365);
+				setState(367);
+				match(Integer);
+				setState(368);
 				match(TypeSpec);
-				setState(366);
+				setState(369);
 				match(ArithmeticOperator);
 				}
 				break;
 			case 21:
 				enterOuterAlt(_localctx, 21);
 				{
-				setState(367);
-				functionCall();
+				setState(370);
+				match(Float);
 				}
 				break;
 			case 22:
 				enterOuterAlt(_localctx, 22);
 				{
-				setState(368);
-				functionCall();
-				setState(369);
+				setState(371);
+				match(Float);
+				setState(372);
 				match(ArithmeticOperator);
 				}
 				break;
 			case 23:
 				enterOuterAlt(_localctx, 23);
 				{
-				setState(371);
-				functionCall();
-				setState(372);
+				setState(373);
+				match(Float);
+				setState(374);
 				match(TypeSpec);
 				}
 				break;
 			case 24:
 				enterOuterAlt(_localctx, 24);
 				{
-				setState(374);
-				functionCall();
 				setState(375);
-				match(TypeSpec);
+				match(Float);
 				setState(376);
+				match(TypeSpec);
+				setState(377);
 				match(ArithmeticOperator);
 				}
 				break;
@@ -5565,38 +5565,38 @@ public class TParser extends Parser {
 		"\2\2\2\u012e\u0128\3\2\2\2\u012f!\3\2\2\2\u0130\u0131\7!\2\2\u0131\u0132"+
 		"\5$\23\2\u0132\u0133\7\"\2\2\u0133#\3\2\2\2\u0134\u0139\5&\24\2\u0135"+
 		"\u0136\5&\24\2\u0136\u0137\5$\23\2\u0137\u0139\3\2\2\2\u0138\u0134\3\2"+
-		"\2\2\u0138\u0135\3\2\2\2\u0139%\3\2\2\2\u013a\u0193\7\'\2\2\u013b\u013c"+
-		"\7\'\2\2\u013c\u0193\7#\2\2\u013d\u013e\7\'\2\2\u013e\u0193\7)\2\2\u013f"+
-		"\u0140\7\'\2\2\u0140\u0141\7)\2\2\u0141\u0193\7#\2\2\u0142\u0143\5(\25"+
-		"\2\u0143\u0144\7\'\2\2\u0144\u0193\3\2\2\2\u0145\u0146\5(\25\2\u0146\u0147"+
-		"\7\'\2\2\u0147\u0148\7#\2\2\u0148\u0193\3\2\2\2\u0149\u014a\5(\25\2\u014a"+
-		"\u014b\7\'\2\2\u014b\u014c\7)\2\2\u014c\u0193\3\2\2\2\u014d\u014e\5(\25"+
-		"\2\u014e\u014f\7\'\2\2\u014f\u0150\7)\2\2\u0150\u0151\7#\2\2\u0151\u0193"+
-		"\3\2\2\2\u0152\u0153\7\'\2\2\u0153\u0193\5*\26\2\u0154\u0155\7\'\2\2\u0155"+
-		"\u0156\5*\26\2\u0156\u0157\7#\2\2\u0157\u0193\3\2\2\2\u0158\u0159\7\'"+
-		"\2\2\u0159\u015a\5*\26\2\u015a\u015b\7)\2\2\u015b\u0193\3\2\2\2\u015c"+
-		"\u015d\7\'\2\2\u015d\u015e\5*\26\2\u015e\u015f\7)\2\2\u015f\u0160\7#\2"+
-		"\2\u0160\u0193\3\2\2\2\u0161\u0193\7+\2\2\u0162\u0163\7+\2\2\u0163\u0193"+
-		"\7#\2\2\u0164\u0165\7+\2\2\u0165\u0193\7)\2\2\u0166\u0167\7+\2\2\u0167"+
-		"\u0168\7)\2\2\u0168\u0193\7#\2\2\u0169\u0193\7,\2\2\u016a\u016b\7,\2\2"+
-		"\u016b\u0193\7#\2\2\u016c\u016d\7,\2\2\u016d\u0193\7)\2\2\u016e\u016f"+
-		"\7,\2\2\u016f\u0170\7)\2\2\u0170\u0193\7#\2\2\u0171\u0193\5.\30\2\u0172"+
-		"\u0173\5.\30\2\u0173\u0174\7#\2\2\u0174\u0193\3\2\2\2\u0175\u0176\5.\30"+
-		"\2\u0176\u0177\7)\2\2\u0177\u0193\3\2\2\2\u0178\u0179\5.\30\2\u0179\u017a"+
-		"\7)\2\2\u017a\u017b\7#\2\2\u017b\u0193\3\2\2\2\u017c\u0193\5\"\22\2\u017d"+
+		"\2\2\u0138\u0135\3\2\2\2\u0139%\3\2\2\2\u013a\u0193\5.\30\2\u013b\u013c"+
+		"\5.\30\2\u013c\u013d\7#\2\2\u013d\u0193\3\2\2\2\u013e\u013f\5.\30\2\u013f"+
+		"\u0140\7)\2\2\u0140\u0193\3\2\2\2\u0141\u0142\5.\30\2\u0142\u0143\7)\2"+
+		"\2\u0143\u0144\7#\2\2\u0144\u0193\3\2\2\2\u0145\u0193\7\'\2\2\u0146\u0147"+
+		"\7\'\2\2\u0147\u0193\7#\2\2\u0148\u0149\7\'\2\2\u0149\u0193\7)\2\2\u014a"+
+		"\u014b\7\'\2\2\u014b\u014c\7)\2\2\u014c\u0193\7#\2\2\u014d\u014e\5(\25"+
+		"\2\u014e\u014f\7\'\2\2\u014f\u0193\3\2\2\2\u0150\u0151\5(\25\2\u0151\u0152"+
+		"\7\'\2\2\u0152\u0153\7#\2\2\u0153\u0193\3\2\2\2\u0154\u0155\5(\25\2\u0155"+
+		"\u0156\7\'\2\2\u0156\u0157\7)\2\2\u0157\u0193\3\2\2\2\u0158\u0159\5(\25"+
+		"\2\u0159\u015a\7\'\2\2\u015a\u015b\7)\2\2\u015b\u015c\7#\2\2\u015c\u0193"+
+		"\3\2\2\2\u015d\u015e\7\'\2\2\u015e\u0193\5*\26\2\u015f\u0160\7\'\2\2\u0160"+
+		"\u0161\5*\26\2\u0161\u0162\7#\2\2\u0162\u0193\3\2\2\2\u0163\u0164\7\'"+
+		"\2\2\u0164\u0165\5*\26\2\u0165\u0166\7)\2\2\u0166\u0193\3\2\2\2\u0167"+
+		"\u0168\7\'\2\2\u0168\u0169\5*\26\2\u0169\u016a\7)\2\2\u016a\u016b\7#\2"+
+		"\2\u016b\u0193\3\2\2\2\u016c\u0193\7+\2\2\u016d\u016e\7+\2\2\u016e\u0193"+
+		"\7#\2\2\u016f\u0170\7+\2\2\u0170\u0193\7)\2\2\u0171\u0172\7+\2\2\u0172"+
+		"\u0173\7)\2\2\u0173\u0193\7#\2\2\u0174\u0193\7,\2\2\u0175\u0176\7,\2\2"+
+		"\u0176\u0193\7#\2\2\u0177\u0178\7,\2\2\u0178\u0193\7)\2\2\u0179\u017a"+
+		"\7,\2\2\u017a\u017b\7)\2\2\u017b\u0193\7#\2\2\u017c\u0193\5\"\22\2\u017d"+
 		"\u017e\5\"\22\2\u017e\u017f\7#\2\2\u017f\u0193\3\2\2\2\u0180\u0181\5\""+
 		"\22\2\u0181\u0182\7)\2\2\u0182\u0193\3\2\2\2\u0183\u0184\5\"\22\2\u0184"+
 		"\u0185\7)\2\2\u0185\u0186\7#\2\2\u0186\u0193\3\2\2\2\u0187\u0193\5\u0084"+
 		"C\2\u0188\u0189\5\u0084C\2\u0189\u018a\7#\2\2\u018a\u0193\3\2\2\2\u018b"+
 		"\u018c\5\u0084C\2\u018c\u018d\7)\2\2\u018d\u0193\3\2\2\2\u018e\u018f\5"+
 		"\u0084C\2\u018f\u0190\7)\2\2\u0190\u0191\7#\2\2\u0191\u0193\3\2\2\2\u0192"+
-		"\u013a\3\2\2\2\u0192\u013b\3\2\2\2\u0192\u013d\3\2\2\2\u0192\u013f\3\2"+
-		"\2\2\u0192\u0142\3\2\2\2\u0192\u0145\3\2\2\2\u0192\u0149\3\2\2\2\u0192"+
-		"\u014d\3\2\2\2\u0192\u0152\3\2\2\2\u0192\u0154\3\2\2\2\u0192\u0158\3\2"+
-		"\2\2\u0192\u015c\3\2\2\2\u0192\u0161\3\2\2\2\u0192\u0162\3\2\2\2\u0192"+
-		"\u0164\3\2\2\2\u0192\u0166\3\2\2\2\u0192\u0169\3\2\2\2\u0192\u016a\3\2"+
-		"\2\2\u0192\u016c\3\2\2\2\u0192\u016e\3\2\2\2\u0192\u0171\3\2\2\2\u0192"+
-		"\u0172\3\2\2\2\u0192\u0175\3\2\2\2\u0192\u0178\3\2\2\2\u0192\u017c\3\2"+
+		"\u013a\3\2\2\2\u0192\u013b\3\2\2\2\u0192\u013e\3\2\2\2\u0192\u0141\3\2"+
+		"\2\2\u0192\u0145\3\2\2\2\u0192\u0146\3\2\2\2\u0192\u0148\3\2\2\2\u0192"+
+		"\u014a\3\2\2\2\u0192\u014d\3\2\2\2\u0192\u0150\3\2\2\2\u0192\u0154\3\2"+
+		"\2\2\u0192\u0158\3\2\2\2\u0192\u015d\3\2\2\2\u0192\u015f\3\2\2\2\u0192"+
+		"\u0163\3\2\2\2\u0192\u0167\3\2\2\2\u0192\u016c\3\2\2\2\u0192\u016d\3\2"+
+		"\2\2\u0192\u016f\3\2\2\2\u0192\u0171\3\2\2\2\u0192\u0174\3\2\2\2\u0192"+
+		"\u0175\3\2\2\2\u0192\u0177\3\2\2\2\u0192\u0179\3\2\2\2\u0192\u017c\3\2"+
 		"\2\2\u0192\u017d\3\2\2\2\u0192\u0180\3\2\2\2\u0192\u0183\3\2\2\2\u0192"+
 		"\u0187\3\2\2\2\u0192\u0188\3\2\2\2\u0192\u018b\3\2\2\2\u0192\u018e\3\2"+
 		"\2\2\u0193\'\3\2\2\2\u0194\u0195\7&\2\2\u0195)\3\2\2\2\u0196\u0197\7&"+

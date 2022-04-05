@@ -103,6 +103,8 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << " (casting: " << node.variable_type_conversion_name << ")";
 
             cout << " ";
+            if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) 
+                cout << "\t";
 
             // Tipo de atribuição / operação.
             switch (node.variable_operation) {
@@ -179,6 +181,10 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
                 cout << "\t\t)         <---| close block\n";
 
+                // Verifica se há conversão de tipo.
+                if (node.operation_type_conversion)
+                    cout << "\t\t" << node.operation_type_conversion_data << " (type conversion)\n";
+
                 // Operação.
                 if (node.operation_op != VERBUM_UNKNOWN) {
                     switch (node.operation_op) {
@@ -217,14 +223,31 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 }
 
                 // Inteiro.
-                else if (node.operation_data.type == VERBUM_DATA_INTEGER) {
+                else if (node.operation_data.type == VERBUM_DATA_INTEGER) 
                     cout << "\t\t" << node.operation_data.integer << "\n";
-                }
 
                 // Float.
-                else if (node.operation_data.type == VERBUM_DATA_FLOAT) {
+                else if (node.operation_data.type == VERBUM_DATA_FLOAT) 
                     cout << "\t\t" << node.operation_data.floating << "\n";
-                }
+
+                // Chamada a função (simples).
+                else if (node.operation_data.type == VERBUM_DATA_FUNCTION_CALL) 
+                    cout << "\t\t" << node.operation_data.function_name << " (function-call)\n";
+                
+                // Chamada a método de objeto (instanciado).
+                else if (node.operation_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL)
+                    cout << "\t\t" << node.operation_data.object_name << " . " << 
+                        node.operation_data.method_name << " (instance-method-call)\n";
+
+                // Chamada a método de objeto (estático).
+                else if (node.operation_data.type == VERBUM_DATA_STATIC_METHOD_CALL)
+                    cout << "\t\t" << node.operation_data.object_name << " :: " << 
+                        node.operation_data.method_name << " (static-method-call)\n";
+
+
+                // Verifica se há conversão de tipo.
+                if (node.operation_type_conversion)
+                    cout << "\t\t" << node.operation_type_conversion_data << " (type conversion)\n";
 
                 // Operação.
                 if (node.operation_op != VERBUM_UNKNOWN) {                    

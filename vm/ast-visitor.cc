@@ -296,141 +296,140 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccess
 */
 
 antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueContext *ctx) {
-    std::string valueDataType = "";
     antlrcpp::Any result;
-    bool block = false;
-    verbum_ast_node node = zero_data();
-    node.type = VERBUM_OPERATION_BLOCK;
     
-    if (this->variable_declaration_process_ops == false)
-        return visitChildren(ctx);
+    // Processamento relacionado ao uso de operadores em declaração de variáveis.
+    //  + Acesso a elementos de array.
+    if (this->variable_declaration_process_ops) {
+        bool block = false;
+        verbum_ast_node node = zero_data();
+        node.type = VERBUM_OPERATION_BLOCK;
 
-    if (ctx->TypeSpec())
-        valueDataType = ctx->TypeSpec()->getText();
-
-    if (ctx->operationBlock()) {
-        node.operation_type = VERBUM_OPERATION_TYPE_BLOCK;
-        block = true;
-
-        // Operador aritmético relacionado à operação.
-        if (ctx->ArithmeticOperator()) {
-            string op = ctx->ArithmeticOperator()->getText();
-            node.operation_op = this->check_block_arithmeic_operator(op);
+        node.operation_type_conversion = false;
+        if (ctx->TypeSpec()) {
+            node.operation_type_conversion = true;
+            node.operation_type_conversion_data = ctx->TypeSpec()->getText();
         }
 
-        this->operation_block_counter_run = 0;
-        this->array_access_elements_operations =
-            this->add_node_operations_elements(node, this->array_access_elements_operations);
+        if (ctx->operationBlock()) {
+            node.operation_type = VERBUM_OPERATION_TYPE_BLOCK;
+            block = true;
+
+            // Operador aritmético relacionado à operação.
+            if (ctx->ArithmeticOperator()) {
+                string op = ctx->ArithmeticOperator()->getText();
+                node.operation_op = this->check_block_arithmeic_operator(op);
+            }
+
+            // Adiciona no array de controle.
+            this->operation_block_counter_run = 0;
+            this->array_access_elements_operations =
+                this->add_node_operations_elements(node, this->array_access_elements_operations);
+            
+            // Entra em nodes (filhos).
+            this->operation_block_counter++;
+            result = visitChildren(ctx);
+            this->operation_block_counter--;
+
+        } else {
+            node.operation_type = VERBUM_OPERATION_TYPE_SIMPLE;
+
+            // Identificadores.
+            if (ctx->Identifier()) {
+                string currentData = ctx->Identifier()->getText();
+                node.operation_data.type = VERBUM_DATA_IDENTIFIER;
+                node.operation_data.identifier = currentData;
+
+                node.operation_data.mod_inc_dec  = VERBUM_UNKNOWN;
+                node.operation_data.type_inc_dec = VERBUM_UNKNOWN;
+
+                // Processa pré-incremento/decremento.
+                if (ctx->firstIncDec()) {
+                    string item = ctx->firstIncDec()->getText();
+                    node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_PRE;
+
+                    if (item.compare("++") == 0)
+                        node.operation_data.type_inc_dec = VERBUM_OP_TYPE_INC;
+                    else if (item.compare("--") == 0)
+                        node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
+                }
+
+                // Processa pós-incremento/decremento.
+                if (ctx->lastIncDec()) {
+                    string item = ctx->lastIncDec()->getText();
+                    node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_POS;
+
+                    if (item.compare("++") == 0)
+                        node.operation_data.type_inc_dec = VERBUM_OP_TYPE_INC;
+                    else if (item.compare("--") == 0)
+                        node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
+                }
+            }
         
-        // Entra em nodes (filhos).
-        this->operation_block_counter++;
-        result = visitChildren(ctx);
-        this->operation_block_counter--;
-
-        //node.nodes.push_back(this->array_access_elements_operations);
-        //this->array_access_elements_operations = zero_data();
-
-        // Adiciona no array de controle.
-        //this->array_access_elements_operations.nodes.push_back(node);
-
-    } else {
-        node.operation_type = VERBUM_OPERATION_TYPE_SIMPLE;
-
-        if (ctx->Identifier()) {
-            string currentData = ctx->Identifier()->getText();
-            node.operation_data.type = VERBUM_DATA_IDENTIFIER;
-            node.operation_data.identifier = currentData;
-
-            node.operation_data.mod_inc_dec  = VERBUM_UNKNOWN;
-            node.operation_data.type_inc_dec = VERBUM_UNKNOWN;
-
-            // Processa pré-incremento/decremento.
-            if (ctx->firstIncDec()) {
-                string item = ctx->firstIncDec()->getText();
-                node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_PRE;
-
-                if (item.compare("++") == 0)
-                    node.operation_data.type_inc_dec = VERBUM_OP_TYPE_INC;
-                else if (item.compare("--") == 0)
-                    node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
+            // Números inteiros.
+            else if (ctx->Integer()) {
+                string currentData = ctx->Integer()->getText();
+                node.operation_data.type = VERBUM_DATA_INTEGER;
+                node.operation_data.integer = currentData;
+            }
+        
+            // Números de ponto flutuante.
+            else if (ctx->Float()) {
+                string currentData = ctx->Float()->getText();
+                node.operation_data.type = VERBUM_DATA_FLOAT;
+                node.operation_data.floating = currentData;
             }
 
-            // Processa pós-incremento/decremento.
-            if (ctx->lastIncDec()) {
-                string item = ctx->lastIncDec()->getText();
-                node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_POS;
+            // Chamadas a funções e méthod.
+            else if (ctx->functionCall()) {
 
-                if (item.compare("++") == 0)
-                    node.operation_data.type_inc_dec = VERBUM_OP_TYPE_INC;
-                else if (item.compare("--") == 0)
-                    node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
-            }
-        }
-      
-        else if (ctx->Integer()) {
-            string currentData = ctx->Integer()->getText();
-            node.operation_data.type = VERBUM_DATA_INTEGER;
-            node.operation_data.integer = currentData;
-        }
-     
-        else if (ctx->Float()) {
-            string currentData = ctx->Float()->getText();
-            node.operation_data.type = VERBUM_DATA_FLOAT;
-            node.operation_data.floating = currentData;
-        }
- 
-        else if (ctx->functionCall()) {
-            // Método de objeto instanciado.
-            if (ctx->functionCall()->Point()) {
-            std::cout << "-> [obj-instance method-call] " << 
-                ctx->functionCall()->Identifier()->getText() << 
-                " -> " <<
-                ctx->functionCall()->identifierB()->getText() << 
-                std::endl;
+                // Método de objeto instanciado.
+                if (ctx->functionCall()->Point()) {
+                    node.operation_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
+                    node.operation_data.object_name = ctx->functionCall()->Identifier()->getText();
+                    node.operation_data.method_name = ctx->functionCall()->identifierB()->getText();
+                }
 
-            //ptab();
-            std::cout << "call content: " << ctx->getText() << std::endl;
+                // Método static.
+                else if (ctx->functionCall()->TwoTwoPoint()) {
+                    node.operation_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
+                    node.operation_data.object_name = ctx->functionCall()->Identifier()->getText();
+                    node.operation_data.method_name = ctx->functionCall()->identifierB()->getText();
+                }
+
+                // Função comum.
+                else {
+                    node.operation_data.type = VERBUM_DATA_FUNCTION_CALL;
+                    node.operation_data.function_name = ctx->functionCall()->Identifier()->getText();
+                }
             }
 
-            // Método static.
-            else if (ctx->functionCall()->TwoTwoPoint()) {
-            std::cout << "-> [obj-static method-call] " << 
-                ctx->functionCall()->Identifier()->getText() << 
-                " -> " <<
-                ctx->functionCall()->identifierB()->getText() << 
-                std::endl;
+            // Acesso a elementos de array.
+            else if (ctx->arrayAccessElements()) {
+                //ptab();
+                std::cout << "variable [" << 
+                ctx->arrayAccessElements()->getText() << "] ";
             }
 
-            // Função comum.
-            else 
-            std::cout << "-> [function-call] " << 
-                ctx->functionCall()->Identifier()->getText() << std::endl;
+            // Operador aritmético relacionado à operação.
+            if (ctx->ArithmeticOperator()) {
+                string op = ctx->ArithmeticOperator()->getText();
+                node.operation_op = this->check_block_arithmeic_operator(op);
+            }
 
-            //ptab();
-            std::cout << " function params: " << std::endl;
+            // Adiciona no array de controle.
+            this->operation_block_counter_run = 0;
+            this->array_access_elements_operations =
+                this->add_node_operations_elements(node, this->array_access_elements_operations);
         }
 
-        else if (ctx->arrayAccessElements()) {
-            //ptab();
-            std::cout << "variable [" << 
-            ctx->arrayAccessElements()->getText() << "] ";
-        }
-
-        // Operador aritmético relacionado à operação.
-        if (ctx->ArithmeticOperator()) {
-            string op = ctx->ArithmeticOperator()->getText();
-            node.operation_op = this->check_block_arithmeic_operator(op);
-        }
-
-        // Adiciona no array de controle.
-        this->operation_block_counter_run = 0;
-        this->array_access_elements_operations =
-            this->add_node_operations_elements(node, this->array_access_elements_operations);
-        //this->array_access_elements_operations.nodes.push_back(node);
+        if (!block)
+            result = visitChildren(ctx);
     }
 
-    if (!block)
-      result = visitChildren(ctx);
+    // Outros...
+    else
+        result = visitChildren(ctx);
 
     return result;
 }
@@ -440,22 +439,18 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
 ** Utilizado para processamento da hierarquia dos blocos das operações.
 */
 verbum_ast_node verbum_ast_visitor::add_node_operations_elements (verbum_ast_node source, verbum_ast_node destination) {
-    if (this->operation_block_counter_run == this->operation_block_counter) {
 
+    if (this->operation_block_counter_run == this->operation_block_counter) 
         destination.nodes.push_back(source);
-
-    } else {
+    else {
         this->operation_block_counter_run++;
 
         if (destination.nodes.size() > 0) {
-
             verbum_ast_node node = this->add_node_operations_elements(source, destination.nodes[
                 destination.nodes.size() - 1
             ]);
 
-            destination.nodes[
-                destination.nodes.size() - 1
-            ] = node;
+            destination.nodes[ destination.nodes.size() - 1 ] = node;
         }
     }
 
