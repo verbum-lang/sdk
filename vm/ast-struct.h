@@ -21,8 +21,9 @@
 
 using namespace std;
 
-// Lista de tipos de elementos.
 #define VERBUM_UNKNOWN                                  0
+
+// Lista de tipos de elementos.
 #define VERBUM_USE                                      1
 #define VERBUM_VARIABLE_INITIALIZATION                  2
 #define VERBUM_VARIABLE_USE_TYPES                       3
@@ -42,6 +43,26 @@ using namespace std;
 #define VERBUM_VARIABLE_OBJ_INSTANCE                    2
 #define VERBUM_VARIABLE_OBJ_STATIC                      3
 #define VERBUM_VARIABLE_ARRAY_ACCESS                    4
+
+// Operadores.
+#define VERBUM_OPERATOR_ATTR                            1
+#define VERBUM_OPERATOR_ADD_EQUAL                       2
+#define VERBUM_OPERATOR_SUB_EQUAL                       3
+#define VERBUM_OPERATOR_MUL_EQUAL                       4
+#define VERBUM_OPERATOR_DIV_EQUAL                       5
+#define VERBUM_OPERATOR_PERC_EQUAL                      6
+#define VERBUM_OPERATOR_MAJOR                           7
+#define VERBUM_OPERATOR_MINOR                           8
+#define VERBUM_OPERATOR_MAJOR_EQUAL                     9
+#define VERBUM_OPERATOR_MINOR_EQUAL                    10
+#define VERBUM_OPERATOR_AND                            11
+#define VERBUM_OPERATOR_OR                             12
+#define VERBUM_OPERATOR_EQUAL                          13
+#define VERBUM_OPERATOR_NOT_EQUAL                      14
+#define VERBUM_OPERATOR_NOT                            15
+
+#define VERBUM_MOD_OP_SIMPLE                            1
+#define VERBUM_MOD_OP_OBJ_INSTANCE                      2
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
@@ -102,8 +123,21 @@ typedef struct verbum_ast_node
     string variable_type_conversion_name;           // Nome do tipo a ser convertido (quando há).
 
     int variable_operation;                         // Operação da variável:
-                                                    //      VERBUM_VARIABLE_ATTR
-                                                    //      VERBUM_VARIABLE_... (Todos os Assignment Operators).
+                                                    //      VERBUM_OPERATOR_ATTR                    =
+                                                    //      VERBUM_OPERATOR_ADD_EQUAL              +=
+                                                    //      VERBUM_OPERATOR_SUB_EQUAL              -=
+                                                    //      VERBUM_OPERATOR_MUL_EQUAL              *=
+                                                    //      VERBUM_OPERATOR_DIV_EQUAL              /=
+                                                    //      VERBUM_OPERATOR_PERC_EQUAL             %=
+                                                    //      VERBUM_OPERATOR_MAJOR                   >
+                                                    //      VERBUM_OPERATOR_MINOR                   <
+                                                    //      VERBUM_OPERATOR_MAJOR_EQUAL            >=
+                                                    //      VERBUM_OPERATOR_MINOR_EQUAL            <=
+                                                    //      VERBUM_OPERATOR_AND                    &&
+                                                    //      VERBUM_OPERATOR_OR                     ||
+                                                    //      VERBUM_OPERATOR_EQUAL                  ==
+                                                    //      VERBUM_OPERATOR_NOT_EQUAL              !=
+                                                    //      VERBUM_OPERATOR_NOT                     !
 
     int variable_mod_operation;                     // Modo da operação:
                                                     //      VERBUM_MOD_OP_SIMPLE            - atribuição simples.

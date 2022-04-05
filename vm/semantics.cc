@@ -74,16 +74,55 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             cout << "\n";
 
-            if (node.nodes.size() > 0) {
+            // Acessa nodes (filhos) da expressão (comando) de declaração da variável.
+            if (node.nodes.size() > 0) 
                 this->verbum_recursive_ast(node.nodes);
-            }
         }
 
         else if (node.type == VERBUM_VARIABLE_USE_TYPES) {
-
+            
+            // Nome da variável.
             if (node.variable_definition_type == VERBUM_VARIABLE_SIMPLE)
-                cout << node.variable_names.simple_name << "\n";
+                cout << "\t" << node.variable_names.simple_name;
+            else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_INSTANCE)
+                cout << "\t" << node.variable_names.object_name << "." << node.variable_names.method_name;
+            else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_STATIC)
+                cout << "\t" << node.variable_names.object_name << "::" << node.variable_names.method_name;
+            else if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
+                cout << "\taccess array element...";
+                if (node.nodes.size() > 0) 
+                    this->verbum_recursive_ast(node.nodes);
+            }
 
+            // Verifica se há conversão de dados (casting).
+            if (node.variable_type_conversion)
+                cout << " (casting: " << node.variable_type_conversion_name << ")";
+
+            cout << " ";
+
+            // Tipo de atribuição / operação.
+            switch (node.variable_operation) {
+                case VERBUM_OPERATOR_ATTR:              cout <<  "="; break;
+                case VERBUM_OPERATOR_ADD_EQUAL:         cout << "+="; break;
+                case VERBUM_OPERATOR_SUB_EQUAL:         cout << "-="; break;
+                case VERBUM_OPERATOR_MUL_EQUAL:         cout << "*="; break;
+                case VERBUM_OPERATOR_DIV_EQUAL:         cout << "/="; break;
+                case VERBUM_OPERATOR_PERC_EQUAL:        cout << "%="; break;
+                case VERBUM_OPERATOR_MAJOR:             cout <<  ">"; break;
+                case VERBUM_OPERATOR_MINOR:             cout <<  "<"; break;
+                case VERBUM_OPERATOR_MAJOR_EQUAL:       cout << ">="; break;
+                case VERBUM_OPERATOR_MINOR_EQUAL:       cout << "<="; break;
+                case VERBUM_OPERATOR_AND:               cout << "&&"; break;
+                case VERBUM_OPERATOR_EQUAL:             cout << "=="; break;
+                case VERBUM_OPERATOR_NOT_EQUAL:         cout << "!="; break;
+                case VERBUM_OPERATOR_NOT:               cout <<  "!"; break;
+            }
+
+            // Verifica se há instanciamento de objeto.
+            if (node.variable_mod_operation == VERBUM_MOD_OP_OBJ_INSTANCE)
+                cout << " (new object) ";
+
+            cout << "\n";
         }
 
     }

@@ -54,6 +54,7 @@ namespace verbum {
 
             // Controle temporário para formatação das variáveis.
             verbum_ast_node variable;
+            verbum_ast_node array_elements;
 
             // Reseta informações de 'variable'.
             // Onde a mesma é utilizada para armazenar os dados da variável enquanto se adentro na árvore.

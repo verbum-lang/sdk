@@ -62,6 +62,8 @@ void verbum_ast_visitor::variable_resets ()
     this->variable.variable_type_conversion_name    = "";
     this->variable.variable_operation               = VERBUM_UNKNOWN;
     this->variable.variable_mod_operation           = VERBUM_UNKNOWN;
+
+    this->variable.nodes.clear();
 }
 
 /*
@@ -125,7 +127,7 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
 
         node.variable_names.object_name = ctx->objIdentifierA()->getText();        
         node.variable_names.method_name = ctx->objIdentifierB()->getText();        
-    } 
+    }
     
     // Uso geral.
     else {
@@ -133,79 +135,62 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
         node.variable_names.simple_name = ctx->Identifier()->getText();
     }
 
+    // Verifica se há conversão de tipo.
+    if (ctx->variableDefinitionGeneral()->TypeSpec()) {
+        node.variable_type_conversion = true;
+        node.variable_type_conversion_name = ctx->variableDefinitionGeneral()->TypeSpec()->getText();
+    }
+
+    // Tipo da atribuição.
+    if (ctx->variableDefinitionGeneral()->Attr())
+        node.variable_operation = VERBUM_OPERATOR_ATTR;
+    else {
+        string op = ctx->variableDefinitionGeneral()->AssignmentOperator()->getText();
+
+        if (op.compare("+=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_ADD_EQUAL;
+        else if (op.compare("-=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_SUB_EQUAL;
+        else if (op.compare("*=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_MUL_EQUAL;
+        else if (op.compare("/=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_DIV_EQUAL;
+        else if (op.compare("%=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_PERC_EQUAL;
+        else if (op.compare(">")  == 0)
+            node.variable_operation = VERBUM_OPERATOR_MAJOR;
+        else if (op.compare("<")  == 0)
+            node.variable_operation = VERBUM_OPERATOR_MINOR;
+        else if (op.compare(">=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_MAJOR_EQUAL;
+        else if (op.compare("<=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_MINOR_EQUAL;
+        else if (op.compare("&&") == 0)
+            node.variable_operation = VERBUM_OPERATOR_AND;
+        else if (op.compare("==") == 0)
+            node.variable_operation = VERBUM_OPERATOR_EQUAL;
+        else if (op.compare("!=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_NOT_EQUAL;
+        else if (op.compare("!")  == 0)
+            node.variable_operation = VERBUM_OPERATOR_NOT;
+    }
+
+    // Verifica se há instanciamento de objeto.
+    if (ctx->variableDefinitionGeneral()->New())
+        node.variable_mod_operation = VERBUM_MOD_OP_OBJ_INSTANCE;
+    else
+        node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
+
+    // Acessa elementos filhos.
+    antlrcpp::Any result = visitChildren(ctx);
+    
+    // Se for acesso a elementos de array, adiciona os mesmo como nodes.
+    if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS)
+        node.nodes.push_back(array_elements);
+
     this->variable.nodes.push_back(node);
 
-    /*
-    this->variable.type = VERBUM_VARIABLE_USE_TYPES;
-
-    // Acesso a elemento de array.
-    if (ctx->arrayAccessElements()) 
-        this->variable.variable_definition_type = VERBUM_VARIABLE_ARRAY_ACCESS;
-
-    // Acesso a membro de objeto instanciado ou estático.
-    else if (ctx->objIdentifierA() && ctx->objIdentifierB()) {
-
-        // Instanciado.
-        if (ctx->Point())
-            this->variable.variable_definition_type = VERBUM_VARIABLE_OBJ_INSTANCE;
-        // Estático.
-        else if (ctx->TwoTwoPoint())
-            this->variable.variable_definition_type = VERBUM_VARIABLE_OBJ_STATIC;
-
-        this->variable.variable_names.object_name = ctx->objIdentifierA()->getText();        
-        this->variable.variable_names.method_name = ctx->objIdentifierB()->getText();        
-    } 
-    
-    // Uso geral.
-    else {
-        this->variable.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
-        this->variable.variable_names.simple_name = ctx->Identifier()->getText();
-    }
-*/
-
-/*
-
-variableDefinition
-  // Uso geral.
-  : Identifier variableDefinitionGeneral
-
-  // Acesso a componentes de objeto.
-  | objIdentifierA Point       objIdentifierB variableDefinitionGeneral
-  | objIdentifierA TwoTwoPoint objIdentifierB variableDefinitionGeneral
-
-  // Acesso a elementos de variavel/array.
-  | arrayAccessElements variableDefinitionGeneral
-  ;
-
-  +++++++++++++++++++++++++++++++++++++++++++++
-
-int variable_definition_type;                   // Tipo da definição/uso da variável:
-                                                //      VERBUM_VARIABLE_SIMPLE
-                                                //      VERBUM_VARIABLE_OBJ_INSTANCE
-                                                //      VERBUM_VARIABLE_OBJ_STATIC
-                                                //      VERBUM_VARIABLE_ARRAY_ACCESS
-
-struct {                                        // Nomes...
-    string simple_name;                         // Nome da variável (uso simples).
-    string object_name;                         // Nome do objeto chamado (acesso a objeto).
-    string method_name;                         // Nome do método chamado (acesso a objeto).
-} variable_names;
-
-bool variable_type_conversion;                  // Especifica se há conversão de tipo.
-string variable_type_conversion_name;           // Nome do tipo a ser convertido (quando há).
-
-int variable_operation;                         // Operação da variável:
-                                                //      VERBUM_VARIABLE_ATTR
-                                                //      VERBUM_VARIABLE_... (Todos os Assignment Operators).
-
-int variable_mod_operation;                     // Modo da operação:
-                                                //      VERBUM_MOD_OP_SIMPLE            - atribuição simples.
-                                                //      VERBUM_MOD_OP_OBJ_INSTANCE      - instanciamento de objeto (new).
-
-
-*/
-
-    return visitChildren(ctx);
+    return result;
 }
 
 

@@ -8,6 +8,7 @@ use 'std:io', 'std:file';
 use 'path/*';
 
 // Variáveis.
+/*
 var variable            = 333;
 var variable :int       = 31337;
 var variable :int       = -1337;
@@ -37,5 +38,15 @@ final priv static var value = 333;
 pub var value = 1234;
 
 var a = 0, b = 20;
+*/
+
+λ :iesus = "Jesus ♥", 
+    marie = sancta;
+
+Jesus += Deus;
+
+var test = new Obj();
+
+ar.mem[10] = 333;
 
 
