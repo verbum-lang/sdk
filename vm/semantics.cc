@@ -15,6 +15,11 @@ using namespace std;
 
 verbum_semantics::verbum_semantics (vector <verbum_ast_node> ast) 
 {
+    this->verbum_recursive_ast(ast);
+}
+
+void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
+{
     int size = ast.size();
 
     for (int a=0; a<size; a++) {
@@ -68,6 +73,17 @@ verbum_semantics::verbum_semantics (vector <verbum_ast_node> ast)
                 cout << " pro ";
 
             cout << "\n";
+
+            if (node.nodes.size() > 0) {
+                this->verbum_recursive_ast(node.nodes);
+            }
+        }
+
+        else if (node.type == VERBUM_VARIABLE_USE_TYPES) {
+
+            if (node.variable_definition_type == VERBUM_VARIABLE_SIMPLE)
+                cout << node.variable_names.simple_name << "\n";
+
         }
 
     }

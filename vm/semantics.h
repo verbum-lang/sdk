@@ -28,6 +28,9 @@ namespace verbum {
     {
         public:
             verbum_semantics (vector <verbum_ast_node> ast);
+
+        private:
+            void verbum_recursive_ast (vector <verbum_ast_node> ast);
     };
 }
 

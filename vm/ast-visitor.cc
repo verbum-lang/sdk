@@ -95,7 +95,10 @@ antlrcpp::Any verbum_ast_visitor::visitVariableModes (TParser::VariableModesCont
         }
     }
     
-    return visitChildren(ctx);
+    antlrcpp::Any result = visitChildren(ctx);
+    this->ast.push_back(this->variable);
+    
+    return result;
 }
 
 /*
@@ -103,19 +106,62 @@ antlrcpp::Any verbum_ast_visitor::visitVariableModes (TParser::VariableModesCont
 */
 antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefinitionContext *ctx)
 {
+    verbum_ast_node node; 
+    node.type = VERBUM_VARIABLE_USE_TYPES;
+
+    // Acesso a elemento de array.
+    if (ctx->arrayAccessElements()) 
+        node.variable_definition_type = VERBUM_VARIABLE_ARRAY_ACCESS;
+
+    // Acesso a membro de objeto instanciado ou estático.
+    else if (ctx->objIdentifierA() && ctx->objIdentifierB()) {
+
+        // Instanciado.
+        if (ctx->Point())
+            node.variable_definition_type = VERBUM_VARIABLE_OBJ_INSTANCE;
+        // Estático.
+        else if (ctx->TwoTwoPoint())
+            node.variable_definition_type = VERBUM_VARIABLE_OBJ_STATIC;
+
+        node.variable_names.object_name = ctx->objIdentifierA()->getText();        
+        node.variable_names.method_name = ctx->objIdentifierB()->getText();        
+    } 
+    
+    // Uso geral.
+    else {
+        node.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
+        node.variable_names.simple_name = ctx->Identifier()->getText();
+    }
+
+    this->variable.nodes.push_back(node);
+
+    /*
     this->variable.type = VERBUM_VARIABLE_USE_TYPES;
 
-    // Tipo de acesso.
-    if (ctx->arrayAccessElements())
+    // Acesso a elemento de array.
+    if (ctx->arrayAccessElements()) 
         this->variable.variable_definition_type = VERBUM_VARIABLE_ARRAY_ACCESS;
-    else if (ctx->objIdentifierA() && ctx->objIdentifierB() && ctx->Point())
-        this->variable.variable_definition_type = VERBUM_VARIABLE_OBJ_INSTANCE;
-    else if (ctx->objIdentifierA() && ctx->objIdentifierB() && ctx->TwoTwoPoint())
-        this->variable.variable_definition_type = VERBUM_VARIABLE_OBJ_STATIC;
-    else
-        this->variable.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
 
+    // Acesso a membro de objeto instanciado ou estático.
+    else if (ctx->objIdentifierA() && ctx->objIdentifierB()) {
+
+        // Instanciado.
+        if (ctx->Point())
+            this->variable.variable_definition_type = VERBUM_VARIABLE_OBJ_INSTANCE;
+        // Estático.
+        else if (ctx->TwoTwoPoint())
+            this->variable.variable_definition_type = VERBUM_VARIABLE_OBJ_STATIC;
+
+        this->variable.variable_names.object_name = ctx->objIdentifierA()->getText();        
+        this->variable.variable_names.method_name = ctx->objIdentifierB()->getText();        
+    } 
     
+    // Uso geral.
+    else {
+        this->variable.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
+        this->variable.variable_names.simple_name = ctx->Identifier()->getText();
+    }
+*/
 
 /*
 
