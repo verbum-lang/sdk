@@ -94,7 +94,8 @@ using namespace std;
 
 // Tipos de operações (em relação a sua organização).
 #define VERBUM_OPERATION_TYPE_SIMPLE                    1
-#define VERBUM_OPERATION_TYPE_BLOCK                     2
+#define VERBUM_OPERATION_TYPE_BLOCK                     2 
+#define VERBUM_OPERATION_FUNC_BLOCK                     3
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
@@ -198,6 +199,7 @@ typedef struct verbum_ast_node
     int operation_type;                             // Tipo do operação:
                                                     //      VERBUM_OPERATION_TYPE_SIMPLE    - Operação simples.
                                                     //      VERBUM_OPERATION_TYPE_BLOCK     - Bloco de operações.
+                                                    //      VERBUM_OPERATION_TYPE_FUNC_CALL - Chamadas a funções.
 
     struct {
         int type;                                   // Tipo do dado da operação:

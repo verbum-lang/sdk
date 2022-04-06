@@ -78,6 +78,21 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.access_array_i_integer              = "";
     ast.access_array_i_identifier           = "";
 
+    // VERBUM_OPERATION_BLOCK
+    ast.operation_type                      = VERBUM_UNKNOWN;
+    ast.operation_data.type                 = VERBUM_UNKNOWN;
+    ast.operation_data.type_inc_dec         = VERBUM_UNKNOWN;
+    ast.operation_data.mod_inc_dec          = VERBUM_UNKNOWN;
+    ast.operation_data.identifier           = "";
+    ast.operation_data.integer              = "";
+    ast.operation_data.floating             = "";
+    ast.operation_data.function_name        = "";
+    ast.operation_data.object_name          = "";
+    ast.operation_data.method_name          = "";
+    ast.operation_op                        = VERBUM_UNKNOWN;
+    ast.operation_type_conversion           = false;
+    ast.operation_type_conversion_data      = "";
+
     // Limpa estruturas de controle.
     ast.nodes.clear();
 
@@ -90,9 +105,9 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
 void verbum_ast_visitor::variable_resets ()
 {
     // Estruturas de controle.
-    this->variable                          = zero_data();
-    this->array_access_elements             = zero_data();
-    this->array_access_elements_operations  = zero_data();
+    this->variable                          = this->zero_data();
+    this->array_access_elements             = this->zero_data();
+    this->array_access_elements_operations  = this->zero_data();
 
     // Flag de controle.
     this->variable_declaration_process      = false;
@@ -302,7 +317,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
     //  + Acesso a elementos de array.
     if (this->variable_declaration_process_ops) {
         bool block = false;
-        verbum_ast_node node = zero_data();
+        verbum_ast_node node = this->zero_data();
         node.type = VERBUM_OPERATION_BLOCK;
 
         node.operation_type_conversion = false;
@@ -382,6 +397,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
 
             // Chamadas a funções e méthod.
             else if (ctx->functionCall()) {
+                node.operation_type = VERBUM_OPERATION_FUNC_BLOCK;
 
                 // Método de objeto instanciado.
                 if (ctx->functionCall()->Point()) {
@@ -402,6 +418,30 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
                     node.operation_data.type = VERBUM_DATA_FUNCTION_CALL;
                     node.operation_data.function_name = ctx->functionCall()->Identifier()->getText();
                 }
+
+/*
+                // Node de controle da chamada a função.
+                verbum_ast_node node_function = this->zero_data();
+                node_function.type = VERBUM_OPERATION_BLOCK;
+                node_function.operation_type = VERBUM_OPERATION_FUNC_BLOCK;
+*/
+                // Operador aritmético relacionado à operação.
+                if (ctx->ArithmeticOperator()) {
+                    string op = ctx->ArithmeticOperator()->getText();
+                    node.operation_op = this->check_block_arithmeic_operator(op);
+                }
+
+                // Adiciona no array de controle.
+                this->operation_block_counter_run = 0;
+                this->array_access_elements_operations =
+                    this->add_node_operations_elements(node, this->array_access_elements_operations);
+                    
+                // Entra em nodes (filhos).
+                this->operation_block_counter++;
+                result = visitChildren(ctx);
+                this->operation_block_counter--;
+                
+                return result;
             }
 
             // Acesso a elementos de array.

@@ -150,7 +150,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                         cout << "\t\t" << node.access_array_i_identifier;
                         break;
                     case VERBUM_ACCESS_ARRAY_TINDEX_OPERATION:
-                        cout << "\t\t" << "op:\n";
+                        cout << "\t\t" << "operations (operation block):\n";
 
                         if (node.nodes.size() > 0) 
                             if (node.nodes[0].nodes.size() > 0) 
@@ -180,6 +180,50 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                         this->verbum_recursive_ast(node.nodes);
 
                 cout << "\t\t)         <---| close block\n";
+
+                // Verifica se há conversão de tipo.
+                if (node.operation_type_conversion)
+                    cout << "\t\t" << node.operation_type_conversion_data << " (type conversion)\n";
+
+                // Operação.
+                if (node.operation_op != VERBUM_UNKNOWN) {
+                    switch (node.operation_op) {
+                        case VERBUM_OPERATOR_ADD:  cout << "\t\t+\n"; break;
+                        case VERBUM_OPERATOR_SUB:  cout << "\t\t-\n"; break;
+                        case VERBUM_OPERATOR_DIV:  cout << "\t\t/\n"; break;
+                        case VERBUM_OPERATOR_MUL:  cout << "\t\t*\n"; break;
+                        case VERBUM_OPERATOR_PERC: cout << "\t\t%\n"; break;
+                    }
+                }
+            }
+
+            // Bloco de chamada a funções.
+            else if (node.operation_type == VERBUM_OPERATION_FUNC_BLOCK) {
+                
+                // Chamada a função (simples).
+                if (node.operation_data.type == VERBUM_DATA_FUNCTION_CALL) 
+                    cout << "\t\t" << node.operation_data.function_name << " (function-call)\n";
+                
+                // Chamada a método de objeto (instanciado).
+                else if (node.operation_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL)
+                    cout << "\t\t" << node.operation_data.object_name << " . " << 
+                        node.operation_data.method_name << " (instance-method-call)\n";
+
+                // Chamada a método de objeto (estático).
+                else if (node.operation_data.type == VERBUM_DATA_STATIC_METHOD_CALL)
+                    cout << "\t\t" << node.operation_data.object_name << " :: " << 
+                        node.operation_data.method_name << " (static-method-call)\n";
+
+
+                // Processamento dos nodes (filhos).
+                cout << "\t\t(         <---| open function-block\n";
+
+                if (node.nodes.size() > 0) 
+                    if (node.nodes.size() > 0) 
+                        this->verbum_recursive_ast(node.nodes);
+
+                cout << "\t\t)         <---| close function-block\n";
+
 
                 // Verifica se há conversão de tipo.
                 if (node.operation_type_conversion)
@@ -229,20 +273,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 // Float.
                 else if (node.operation_data.type == VERBUM_DATA_FLOAT) 
                     cout << "\t\t" << node.operation_data.floating << "\n";
-
-                // Chamada a função (simples).
-                else if (node.operation_data.type == VERBUM_DATA_FUNCTION_CALL) 
-                    cout << "\t\t" << node.operation_data.function_name << " (function-call)\n";
-                
-                // Chamada a método de objeto (instanciado).
-                else if (node.operation_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL)
-                    cout << "\t\t" << node.operation_data.object_name << " . " << 
-                        node.operation_data.method_name << " (instance-method-call)\n";
-
-                // Chamada a método de objeto (estático).
-                else if (node.operation_data.type == VERBUM_DATA_STATIC_METHOD_CALL)
-                    cout << "\t\t" << node.operation_data.object_name << " :: " << 
-                        node.operation_data.method_name << " (static-method-call)\n";
 
 
                 // Verifica se há conversão de tipo.
