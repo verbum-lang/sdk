@@ -50,8 +50,15 @@ namespace verbum {
             antlrcpp::Any visitVariableModes (TParser::VariableModesContext *ctx);
             antlrcpp::Any visitVariableDefinition (TParser::VariableDefinitionContext *ctx);
  
+            // Acesso a elementos de array.
+            antlrcpp::Any visitArrayAccessElementsItems (TParser::ArrayAccessElementsItemsContext *ctx);
+            antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
+
             // Condicionais.
             antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx);
+
+            // Operações.
+            antlrcpp::Any visitOperationValue(TParser::OperationValueContext *ctx);
 
         private:
             // Contadores e flags de controle da adição dos nodes.
@@ -67,6 +74,9 @@ namespace verbum {
             // Realiza controle de adição de node em node central.
             verbum_ast_node add_node (int type, verbum_ast_node source, verbum_ast_node destination);
             verbum_ast_node add_node_internal (int type, verbum_ast_node source, verbum_ast_node destination);
+
+            // Verifica se trata-se de operador...
+            int check_block_arithmeic_operator (string op);
     };
 }
 

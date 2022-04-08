@@ -3,25 +3,6 @@
 ** In principio erat Verbum.
 */
 
-// Importações.
-use 'std:io', 'std:file';
-use 'path/*';
-
-// Variáveis.
-var abcd            = 333;
-var efgh :int       = 31337;
-
-if (a) {
-    var x = 10;
-}
-
-if (b) {
-    var y = 20;
-    if (a) {
-    var x = 10;
-}
-    var z = 30;
-}
 
 /*
 var variable :int       = -1337;
@@ -100,5 +81,21 @@ ar[333].mem[
 
 ] = 333;
 */
+
+// Importações.
+use 'std:io';
+
+// Variáveis.
+var abcd            = 333;
+var efgh :int       = 31337;
+
+if (a) {
+    var x = 10;
+
+    Jesus = Deus;
+
+    a.b[1].c.d[2].e = 33;
+    a[10][11] = 20;
+}
 
 
