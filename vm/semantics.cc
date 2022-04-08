@@ -94,7 +94,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             else if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
                 cout << "\tarray access:\n";
                 if (node.nodes.size() > 0) 
-                    //if (node.nodes[0].nodes.size() > 0) 
                         this->verbum_recursive_ast(node.nodes);
             }
 
@@ -134,6 +133,8 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         /*
         ** Acesso a elemento de array.
         */
+
+        // Identificador.
         else if (node.type == VERBUM_ACCESS_ARRAY) {
             cout << "\t" << node.access_array_identifier;
 
@@ -148,8 +149,13 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << "\n";
         }
         
+        // Blocos.
         else if (node.type == VERBUM_ACCESS_ARRAY_INDEX_BLOCK) {
-            cout << " [ ] ";
+            cout << "\t[ ] (member block) \n";
+
+            // Acessa elementos do bloco.
+            if (node.nodes.size() > 0) 
+                    this->verbum_recursive_ast(node.nodes);
         }
 
         /*

@@ -50,6 +50,7 @@ namespace verbum {
             // Acessa elementos de array.
             antlrcpp::Any visitArrayAccessElements (TParser::ArrayAccessElementsContext *ctx);
             antlrcpp::Any visitAccessBlockAr (TParser::AccessBlockArContext *ctx);
+            antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
 
             // Processa blocos de operações.
             antlrcpp::Any visitOperationValue(TParser::OperationValueContext *ctx);

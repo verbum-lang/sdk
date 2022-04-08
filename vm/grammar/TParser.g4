@@ -516,8 +516,8 @@ accessBlockAr
   ;
 
 arrayIndexAccess
-  : (Integer | Identifier)
-  | operationElements
+  //: (Integer | Identifier)
+  : operationElements
   ;
 
 /*

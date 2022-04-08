@@ -285,71 +285,32 @@ antlrcpp::Any verbum_ast_visitor::visitAccessBlockAr (TParser::AccessBlockArCont
 
     node.type = VERBUM_ACCESS_ARRAY_INDEX_BLOCK;
 
-    // Uso atrelado à variáveis.
+    this->operation_block_counter = 0;
+    this->array_access_elements_operations = zero_data();
+
+    this->variable_declaration_process_ops = true;
+    result = visitChildren(ctx);
+    this->variable_declaration_process_ops = false;
+
     if (this->variable_declaration_process) {
+        node.nodes = this->array_access_elements_operations.nodes;  
         this->array_access_elements.nodes.push_back(node);
     }
-
-    result = visitChildren(ctx);
 
     return result;
 }
 
-/*
-antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccessElementsContext *ctx)
+antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx)
 {
     verbum_ast_node node = zero_data();
     antlrcpp::Any result;
-    bool result_ok = false;
 
-    node.type = VERBUM_ACCESS_ARRAY;
-    node.access_array_identifier = ctx->Identifier()->getText();
-
-    // Verifica se há acesso por indexação no elemento em questão.
-    node.access_array_index_mod = false;
-    if (ctx->accessBlockAr()) {
-        node.access_array_index_mod = true;
-
-        // Verifica se o acesso é feito por um número inteiro.
-        if (ctx->accessBlockAr()->arrayIndexAccess()->Integer()) {
-            node.access_array_index_type    = VERBUM_ACCESS_ARRAY_TINDEX_INTEGER;
-            node.access_array_i_integer     = ctx->accessBlockAr()->arrayIndexAccess()->Integer()->getText();
-        }
-
-        // Por um identificador.
-        else if (ctx->accessBlockAr()->arrayIndexAccess()->Identifier()) {
-            node.access_array_index_type    = VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER;
-            node.access_array_i_identifier  = ctx->accessBlockAr()->arrayIndexAccess()->Identifier()->getText();
-        }
-
-        // Por operação.
-        else if (ctx->accessBlockAr()->arrayIndexAccess()->operationElements()) {
-            node.access_array_index_type           = VERBUM_ACCESS_ARRAY_TINDEX_OPERATION;
-            this->variable_declaration_process_ops = true;
-            this->array_access_elements_operations = zero_data();
-            this->operation_block_counter = 0;
-
-            // Processa nodes (filhos). Para processar as operações no acesso ao elemento do array.
-            result = visitChildren(ctx);
-            result_ok = true;
-
-            // Adiciona elementos da operação, no node em questão.
-            node.nodes.push_back(this->array_access_elements_operations);
-
-            this->variable_declaration_process_ops = false;
-        }
-    }
-    
-    // Uso atrelado à variáveis.
-    if (this->variable_declaration_process)
-        this->array_access_elements.nodes.push_back(node);
-
-    if (!result_ok)
-        result = visitChildren(ctx);
+    //this->variable_declaration_process_ops = true;
+    result = visitChildren(ctx);
+    //this->variable_declaration_process_ops = false;
 
     return result;
 }
-*/
 
 /*
 ** Controle dos blocos de operaões.
@@ -361,6 +322,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
     // Processamento relacionado ao uso de operadores em declaração de variáveis.
     //  + Acesso a elementos de array.
     if (this->variable_declaration_process_ops) {
+
         bool block = false;
         verbum_ast_node node = this->zero_data();
         node.type = VERBUM_OPERATION_BLOCK;
