@@ -151,7 +151,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         
         // Blocos.
         else if (node.type == VERBUM_ACCESS_ARRAY_INDEX_BLOCK) {
-            cout << "\t[ ] (member block) \n";
+            cout << "\t[] (member block) \n";
 
             // Acessa elementos do bloco.
             if (node.nodes.size() > 0) 

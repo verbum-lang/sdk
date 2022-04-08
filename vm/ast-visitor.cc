@@ -270,8 +270,9 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccess
         node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER;
     
     // Uso atrelado à variáveis.
-    if (this->variable_declaration_process)
+    if (this->variable_declaration_process){
         this->array_access_elements.nodes.push_back(node);
+    }
 
     result = visitChildren(ctx);
 
@@ -279,6 +280,15 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccess
 }
 
 antlrcpp::Any verbum_ast_visitor::visitAccessBlockAr (TParser::AccessBlockArContext *ctx)
+{
+    antlrcpp::Any result;
+
+    result = visitChildren(ctx);
+    
+    return result;
+}
+
+antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx)
 {
     verbum_ast_node node = zero_data();
     antlrcpp::Any result;
@@ -296,18 +306,6 @@ antlrcpp::Any verbum_ast_visitor::visitAccessBlockAr (TParser::AccessBlockArCont
         node.nodes = this->array_access_elements_operations.nodes;  
         this->array_access_elements.nodes.push_back(node);
     }
-
-    return result;
-}
-
-antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx)
-{
-    verbum_ast_node node = zero_data();
-    antlrcpp::Any result;
-
-    //this->variable_declaration_process_ops = true;
-    result = visitChildren(ctx);
-    //this->variable_declaration_process_ops = false;
 
     return result;
 }
