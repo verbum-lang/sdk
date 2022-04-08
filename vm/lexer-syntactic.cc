@@ -58,6 +58,8 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     // Percorre AST gerada pelo parser (analisador sintático).
     verbum_ast_visitor visitor;
     TParser::MainContext* tree = parser.main();
+
+    visitor.prepare_data();
     visitor.visitMain(tree);
 
     // Realiza análise semântica.

@@ -504,10 +504,15 @@ classModes
 ** Controle do acesso a elementos de array.
 */
 arrayAccessElements
+  : arrayAccessElementsItems
+  | arrayAccessElementsItems arrayAccessElements
+  ;
+
+arrayAccessElementsItems
   : Identifier  
-  | Identifier               Point arrayAccessElements
+  | Identifier               Point
   | Identifier accessBlockAr
-  | Identifier accessBlockAr Point arrayAccessElements
+  | Identifier accessBlockAr Point
   ;
 
 accessBlockAr

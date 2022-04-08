@@ -36,7 +36,10 @@ namespace verbum {
     class verbum_ast_visitor : public TParserBaseVisitor
     {
         public:
-        
+
+            // Realiza inicializações.
+            void prepare_data ();
+
             // Retorna AST pronta para análise semântica.
             vector <verbum_ast_node> get_verbum_ast ();
         
@@ -45,52 +48,21 @@ namespace verbum {
 
             // Processa variáveis.
             antlrcpp::Any visitVariableModes (TParser::VariableModesContext *ctx);
-            antlrcpp::Any visitVariableDefinition (TParser::VariableDefinitionContext *ctx);
-
-            // Acessa elementos de array.
-            antlrcpp::Any visitArrayAccessElements (TParser::ArrayAccessElementsContext *ctx);
-            antlrcpp::Any visitAccessBlockAr (TParser::AccessBlockArContext *ctx);
-            antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
-
-            // Processa blocos de operações.
-            antlrcpp::Any visitOperationValue(TParser::OperationValueContext *ctx);
-
+ 
         private:
+            // Contadores e flags de controle da adição dos nodes.
+            int node_block_counter;
+            int node_run_counter;
 
             // Árvore AST para uso na análise semântica (etapa posterior).
-            vector <verbum_ast_node> ast;
+            verbum_ast_node ast;
 
-            // Controle do comando de declaração e uso das variáveis.
-            verbum_ast_node variable;
-
-            // Controle dos elementos do array (utilizado no acesso).
-            verbum_ast_node array_access_elements;
-
-            // Operações passadas no acesso a elementos de array.
-            verbum_ast_node array_access_elements_operations;
-
-            // Flag informando que está sendo realizado o processamento das declarações das variáveis.
-            // Utilizada em:
-            //      + Acesso aos elementos de array.
-            bool variable_declaration_process;
-            bool variable_declaration_process_ops; // Voltado para filtrar as operações usadas no acesso.
-            
-            int operation_block_counter;
-            int operation_block_counter_run;
-
-            // Zera estrutura AST.
+            // Retorna node AST zerado.
             verbum_ast_node zero_data ();
 
-            // Reseta informações relacionadas as estruturas controladoras
-            // utilizadas no processamento das variáveis.
-            void variable_resets ();
-
-            // Verifica operador aritmético utilizado no bloco de operações.
-            int check_block_arithmeic_operator (string op);
-
-            // Adiciona node do bloco de operação, em seu respectivo nível hierarquico.
-            verbum_ast_node add_node_operations_elements (verbum_ast_node source, verbum_ast_node destination);
-
+            // Realiza controle de adição de node em node central.
+            verbum_ast_node add_node (int type, verbum_ast_node source, verbum_ast_node destination);
+            verbum_ast_node add_node_internal (int type, verbum_ast_node source, verbum_ast_node destination);
     };
 }
 

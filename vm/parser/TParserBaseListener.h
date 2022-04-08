@@ -216,6 +216,9 @@ public:
   virtual void enterArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }
   virtual void exitArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }
 
+  virtual void enterArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext * /*ctx*/) override { }
+  virtual void exitArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext * /*ctx*/) override { }
+
   virtual void enterAccessBlockAr(TParser::AccessBlockArContext * /*ctx*/) override { }
   virtual void exitAccessBlockAr(TParser::AccessBlockArContext * /*ctx*/) override { }
 
