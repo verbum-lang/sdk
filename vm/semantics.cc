@@ -168,7 +168,9 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << node.access_array_identifier;
 
             // Modo do acesso.
-            if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT)
+            if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER)
+                cout << "     (identifier access) ";
+            else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT)
                 cout << " .   (member access) ";
             else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK)
                 cout << " []  (block access) ";
@@ -190,7 +192,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         // Blocos.
         else if (node.type == VERBUM_ACCESS_ARRAY_INDEX_BLOCK) {
             this->tab();
-            cout << "(member block) \n";
+            cout << "(block) \n";
 
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
@@ -291,7 +293,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     }
 
                     this->tab();
-                    cout << node.operation_data.identifier << "\n";
+                    cout << node.operation_data.identifier << " (identifier)\n";
 
                     // Pós inc/dec.
                     if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
