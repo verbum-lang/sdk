@@ -280,7 +280,6 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElementsItems (TParser::ArrayA
 antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
-
     node.type = VERBUM_ACCESS_ARRAY_INDEX_BLOCK;
 
     this->ast = this->add_node(VERBUM_ACCESS_ARRAY, node, this->ast);
@@ -295,7 +294,7 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
 antlrcpp::Any verbum_ast_visitor::visitIfConditions(TParser::IfConditionsContext *ctx)
 {
     verbum_ast_node node;
-
+    
     node.type = VERBUM_CONDITIONAL_IF;
     this->ast = this->add_node(VERBUM_CONDITIONAL_IF, node, this->ast);
 
@@ -434,14 +433,6 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
             
             return result;
         }
-
-        // Acesso a elementos de array.
-        else if (ctx->arrayAccessElements()) {
-            //ptab();
-            std::cout << "variable [" << 
-            ctx->arrayAccessElements()->getText() << "] ";
-        }
-
 
         // Operador aritmético relacionado à operação.
         if (ctx->ArithmeticOperator()) {

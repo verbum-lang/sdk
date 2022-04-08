@@ -110,6 +110,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             // Variáveis comuns.
             if (node.variable_definition_type != VERBUM_VARIABLE_ARRAY_ACCESS) {
+                cout << "-> name: ";
 
                 if (node.variable_definition_type == VERBUM_VARIABLE_SIMPLE)
                     cout << node.variable_names.simple_name;
@@ -121,41 +122,44 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 // Verifica se há conversão de dados (casting).
                 if (node.variable_type_conversion) 
                     cout << " (casting: " << node.variable_type_conversion_name << ")";
-                cout << " ";
-
-                // Tipo de atribuição / operação.
-                switch (node.variable_operation) {
-                    case VERBUM_OPERATOR_ATTR:              cout <<  "="; break;
-                    case VERBUM_OPERATOR_ADD_EQUAL:         cout << "+="; break;
-                    case VERBUM_OPERATOR_SUB_EQUAL:         cout << "-="; break;
-                    case VERBUM_OPERATOR_MUL_EQUAL:         cout << "*="; break;
-                    case VERBUM_OPERATOR_DIV_EQUAL:         cout << "/="; break;
-                    case VERBUM_OPERATOR_PERC_EQUAL:        cout << "%="; break;
-                    case VERBUM_OPERATOR_MAJOR:             cout <<  ">"; break;
-                    case VERBUM_OPERATOR_MINOR:             cout <<  "<"; break;
-                    case VERBUM_OPERATOR_MAJOR_EQUAL:       cout << ">="; break;
-                    case VERBUM_OPERATOR_MINOR_EQUAL:       cout << "<="; break;
-                    case VERBUM_OPERATOR_AND:               cout << "&&"; break;
-                    case VERBUM_OPERATOR_EQUAL:             cout << "=="; break;
-                    case VERBUM_OPERATOR_NOT_EQUAL:         cout << "!="; break;
-                    case VERBUM_OPERATOR_NOT:               cout <<  "!"; break;
-                }
-
-                // Verifica se há instanciamento de objeto.
-                if (node.variable_mod_operation == VERBUM_MOD_OP_OBJ_INSTANCE)
-                    cout << " (new object) ";
-
                 cout << "\n";
             }
 
             // Acesso a elementos de array.
-            if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
+            else if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
                 cout << "-> array access:\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
             }
+
+            this->tab();
+            cout << "-> operation: ";
+
+            // Tipo de atribuição / operação.
+            switch (node.variable_operation) {
+                case VERBUM_OPERATOR_ATTR:              cout <<  "="; break;
+                case VERBUM_OPERATOR_ADD_EQUAL:         cout << "+="; break;
+                case VERBUM_OPERATOR_SUB_EQUAL:         cout << "-="; break;
+                case VERBUM_OPERATOR_MUL_EQUAL:         cout << "*="; break;
+                case VERBUM_OPERATOR_DIV_EQUAL:         cout << "/="; break;
+                case VERBUM_OPERATOR_PERC_EQUAL:        cout << "%="; break;
+                case VERBUM_OPERATOR_MAJOR:             cout <<  ">"; break;
+                case VERBUM_OPERATOR_MINOR:             cout <<  "<"; break;
+                case VERBUM_OPERATOR_MAJOR_EQUAL:       cout << ">="; break;
+                case VERBUM_OPERATOR_MINOR_EQUAL:       cout << "<="; break;
+                case VERBUM_OPERATOR_AND:               cout << "&&"; break;
+                case VERBUM_OPERATOR_EQUAL:             cout << "=="; break;
+                case VERBUM_OPERATOR_NOT_EQUAL:         cout << "!="; break;
+                case VERBUM_OPERATOR_NOT:               cout <<  "!"; break;
+            }
+
+            // Verifica se há instanciamento de objeto.
+            if (node.variable_mod_operation == VERBUM_MOD_OP_OBJ_INSTANCE)
+                cout << " (new object) ";
+
+            cout << "\n";
         }
 
         /*
@@ -208,70 +212,83 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             if (node.operation_type == VERBUM_OPERATION_TYPE_BLOCK) {
 
                 // Processamento dos nodes (filhos).
-                cout << "\t\t(         <---| open block\n";
+                this->tab();
+                cout << "( <---| open block\n";
 
-                if (node.nodes.size() > 0) 
-                    if (node.nodes.size() > 0) 
-                        this->verbum_recursive_ast(node.nodes);
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-                cout << "\t\t)         <---| close block\n";
+                this->tab();
+                cout << ") <---| close block\n";
 
                 // Verifica se há conversão de tipo.
-                if (node.operation_type_conversion)
-                    cout << "\t\t" << node.operation_type_conversion_data << " (type conversion)\n";
+                if (node.operation_type_conversion) {
+                    this->tab();
+                    cout << node.operation_type_conversion_data << " (type conversion)\n";
+                }
 
                 // Operação.
                 if (node.operation_op != VERBUM_UNKNOWN) {
+                    this->tab();
+
                     switch (node.operation_op) {
-                        case VERBUM_OPERATOR_ADD:  cout << "\t\t+\n"; break;
-                        case VERBUM_OPERATOR_SUB:  cout << "\t\t-\n"; break;
-                        case VERBUM_OPERATOR_DIV:  cout << "\t\t/\n"; break;
-                        case VERBUM_OPERATOR_MUL:  cout << "\t\t*\n"; break;
-                        case VERBUM_OPERATOR_PERC: cout << "\t\t%\n"; break;
+                        case VERBUM_OPERATOR_ADD:  cout << "+\n"; break;
+                        case VERBUM_OPERATOR_SUB:  cout << "-\n"; break;
+                        case VERBUM_OPERATOR_DIV:  cout << "/\n"; break;
+                        case VERBUM_OPERATOR_MUL:  cout << "*\n"; break;
+                        case VERBUM_OPERATOR_PERC: cout << "%\n"; break;
                     }
                 }
             }
 
             // Bloco de chamada a funções.
             else if (node.operation_type == VERBUM_OPERATION_FUNC_BLOCK) {
-                
+                this->tab();
+
                 // Chamada a função (simples).
                 if (node.operation_data.type == VERBUM_DATA_FUNCTION_CALL) 
-                    cout << "\t\t" << node.operation_data.function_name << " (function-call)\n";
+                    cout << node.operation_data.function_name << " (function-call)\n";
                 
                 // Chamada a método de objeto (instanciado).
                 else if (node.operation_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL)
-                    cout << "\t\t" << node.operation_data.object_name << " . " << 
+                    cout << node.operation_data.object_name << " . " << 
                         node.operation_data.method_name << " (instance-method-call)\n";
 
                 // Chamada a método de objeto (estático).
                 else if (node.operation_data.type == VERBUM_DATA_STATIC_METHOD_CALL)
-                    cout << "\t\t" << node.operation_data.object_name << " :: " << 
+                    cout << node.operation_data.object_name << " :: " << 
                         node.operation_data.method_name << " (static-method-call)\n";
 
 
                 // Processamento dos nodes (filhos).
-                cout << "\t\t(         <---| open function-block\n";
+                this->tab();
+                cout << "( <---| open function-block\n";
 
-                if (node.nodes.size() > 0) 
-                    if (node.nodes.size() > 0) 
-                        this->verbum_recursive_ast(node.nodes);
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-                cout << "\t\t)         <---| close function-block\n";
+                this->tab();
+                cout << ") <---| close function-block\n";
 
 
                 // Verifica se há conversão de tipo.
-                if (node.operation_type_conversion)
-                    cout << "\t\t" << node.operation_type_conversion_data << " (type conversion)\n";
+                if (node.operation_type_conversion) {
+                    this->tab();
+                    cout << node.operation_type_conversion_data << " (type conversion)\n";
+                }
 
                 // Operação.
                 if (node.operation_op != VERBUM_UNKNOWN) {
+                    this->tab();
+
                     switch (node.operation_op) {
-                        case VERBUM_OPERATOR_ADD:  cout << "\t\t+\n"; break;
-                        case VERBUM_OPERATOR_SUB:  cout << "\t\t-\n"; break;
-                        case VERBUM_OPERATOR_DIV:  cout << "\t\t/\n"; break;
-                        case VERBUM_OPERATOR_MUL:  cout << "\t\t*\n"; break;
-                        case VERBUM_OPERATOR_PERC: cout << "\t\t%\n"; break;
+                        case VERBUM_OPERATOR_ADD:  cout << "+\n"; break;
+                        case VERBUM_OPERATOR_SUB:  cout << "-\n"; break;
+                        case VERBUM_OPERATOR_DIV:  cout << "/\n"; break;
+                        case VERBUM_OPERATOR_MUL:  cout << "*\n"; break;
+                        case VERBUM_OPERATOR_PERC: cout << "%\n"; break;
                     }
                 }
             }
