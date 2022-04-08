@@ -27,8 +27,15 @@ using namespace std;
 #define VERBUM_USE                                      1
 #define VERBUM_VARIABLE_INITIALIZATION                  2
 #define VERBUM_VARIABLE_USE_TYPES                       3
+
 #define VERBUM_ACCESS_ARRAY                             4
-#define VERBUM_OPERATION_BLOCK                          5
+#define VERBUM_ACCESS_ARRAY_INDEX_BLOCK                 5
+#define VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER             6
+#define VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT       7
+#define VERBUM_ACCESS_ARRAY_TYPE_BLOCK                  8
+#define VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT            9
+
+#define VERBUM_OPERATION_BLOCK                          10
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
@@ -106,6 +113,7 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_VARIABLE_USE_TYPES
                                                     //      VERBUM_ACCESS_ARRAY
                                                     //      VERBUM_OPERATION_BLOCK
+                                                    //      ...
 
     /*
     ** Comando use (importações).
@@ -182,15 +190,14 @@ typedef struct verbum_ast_node
     ** type: VERBUM_ACCESS_ARRAY
     */
     string access_array_identifier;                 // Nome identificador do membro de acesso aos elementos de array.
-    bool access_array_index_mod;                    // Identifica se no membro em questão, há acesso por indexação (se sim: true).
 
-    int access_array_index_type;                    // Tipo do identificador de acesso ao elemento de array:
-                                                    //      VERBUM_ACCESS_ARRAY_TINDEX_INTEGER
-                                                    //      VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER
-                                                    //      VERBUM_ACCESS_ARRAY_TINDEX_OPERATION
-
-    string access_array_i_integer;                  // Número inteiro (token) usado no acesso.                                                   
-    string access_array_i_identifier;               // Identificador usado no acesso.
+    struct {                                        // Tipo de acesso ao elemento do array.
+        int type;                                   // Tipo:
+                                                    //      VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER
+                                                    //      VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT
+                                                    //      VERBUM_ACCESS_ARRAY_TYPE_BLOCK
+                                                    //      VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT
+    } access_array_type;
 
     /*
     ** Bloco de operações.

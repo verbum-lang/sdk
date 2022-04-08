@@ -94,8 +94,8 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             else if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
                 cout << "\tarray access:\n";
                 if (node.nodes.size() > 0) 
-                    if (node.nodes[0].nodes.size() > 0) 
-                        this->verbum_recursive_ast(node.nodes[0].nodes);
+                    //if (node.nodes[0].nodes.size() > 0) 
+                        this->verbum_recursive_ast(node.nodes);
             }
 
             // Verifica se há conversão de dados (casting).
@@ -137,31 +137,19 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         else if (node.type == VERBUM_ACCESS_ARRAY) {
             cout << "\t" << node.access_array_identifier;
 
-            // Acesso por indexação.
-            if (node.access_array_index_mod) {
-                cout << " [ \n";
-                
-                // Verifica tipo do acesso.
-                switch (node.access_array_index_type) {
-                    case VERBUM_ACCESS_ARRAY_TINDEX_INTEGER: 
-                        cout << "\t\t" << node.access_array_i_integer;
-                        break;
-                    case VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER: 
-                        cout << "\t\t" << node.access_array_i_identifier;
-                        break;
-                    case VERBUM_ACCESS_ARRAY_TINDEX_OPERATION:
-                        cout << "\t\t" << "operations (operation block):\n";
+            // Modo do acesso.
+            if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT)
+                cout << " . (member access) ";
+            else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK)
+                cout << " [] (block access) ";
+            else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT)
+                cout << " []. (block access and member access) ";
 
-                        if (node.nodes.size() > 0) 
-                            if (node.nodes[0].nodes.size() > 0) 
-                                this->verbum_recursive_ast(node.nodes[0].nodes);
-
-                        break;
-                }
-
-                cout << "\n\t] \n";
-            } else 
-                cout << "\n";
+            cout << "\n";
+        }
+        
+        else if (node.type == VERBUM_ACCESS_ARRAY_INDEX_BLOCK) {
+            cout << " [ ] ";
         }
 
         /*

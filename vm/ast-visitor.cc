@@ -73,11 +73,8 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
 
     // VERBUM_ACCESS_ARRAY
     ast.access_array_identifier             = "";
-    ast.access_array_index_mod              = false;
-    ast.access_array_index_type             = VERBUM_UNKNOWN;
-    ast.access_array_i_integer              = "";
-    ast.access_array_i_identifier           = "";
-
+    ast.access_array_type.type              = VERBUM_UNKNOWN;
+    
     // VERBUM_OPERATION_BLOCK
     ast.operation_type                      = VERBUM_UNKNOWN;
     ast.operation_data.type                 = VERBUM_UNKNOWN;
@@ -240,7 +237,7 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
 
     // Se for acesso a elementos de array, adiciona os mesmo como nodes.
     if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) 
-        node.nodes.push_back(this->array_access_elements);
+        node.nodes = this->array_access_elements.nodes;
 
     // Adiciona expressão de declaração/uso de variável a lista de nodes, segundo
     // o comando completo de declaração da(s) variável(is).
@@ -252,6 +249,53 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
 /*
 ** Controle de acesso a elementos de array.
 */
+antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccessElementsContext *ctx)
+{
+    verbum_ast_node node = zero_data();
+    antlrcpp::Any result;
+
+    node.type = VERBUM_ACCESS_ARRAY;
+
+    // Nome do elemento de acesso.
+    node.access_array_identifier = ctx->Identifier()->getText();
+
+    // Modo do acesso.
+    if (ctx->Identifier() && ctx->accessBlockAr() && ctx->Point()) 
+        node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT;
+    else if (ctx->Identifier() && ctx->accessBlockAr() && !ctx->Point()) 
+        node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_BLOCK;
+    else if (ctx->Identifier() && !ctx->accessBlockAr() && ctx->Point()) 
+        node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT;
+    else if (ctx->Identifier() && !ctx->accessBlockAr() && !ctx->Point()) 
+        node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER;
+    
+    // Uso atrelado à variáveis.
+    if (this->variable_declaration_process)
+        this->array_access_elements.nodes.push_back(node);
+
+    result = visitChildren(ctx);
+
+    return result;
+}
+
+antlrcpp::Any verbum_ast_visitor::visitAccessBlockAr (TParser::AccessBlockArContext *ctx)
+{
+    verbum_ast_node node = zero_data();
+    antlrcpp::Any result;
+
+    node.type = VERBUM_ACCESS_ARRAY_INDEX_BLOCK;
+
+    // Uso atrelado à variáveis.
+    if (this->variable_declaration_process) {
+        this->array_access_elements.nodes.push_back(node);
+    }
+
+    result = visitChildren(ctx);
+
+    return result;
+}
+
+/*
 antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccessElementsContext *ctx)
 {
     verbum_ast_node node = zero_data();
@@ -305,12 +349,13 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElements (TParser::ArrayAccess
 
     return result;
 }
+*/
 
 /*
 ** Controle dos blocos de operaões.
 */
-
-antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueContext *ctx) {
+antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueContext *ctx)
+{
     antlrcpp::Any result;
     
     // Processamento relacionado ao uso de operadores em declaração de variáveis.
@@ -326,6 +371,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
             node.operation_type_conversion_data = ctx->TypeSpec()->getText();
         }
 
+        // Bloco de operações.
         if (ctx->operationBlock()) {
             node.operation_type = VERBUM_OPERATION_TYPE_BLOCK;
             block = true;
@@ -346,7 +392,10 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
             result = visitChildren(ctx);
             this->operation_block_counter--;
 
-        } else {
+        }
+        
+        // Expressões simples.
+        else {
             node.operation_type = VERBUM_OPERATION_TYPE_SIMPLE;
 
             // Identificadores.
@@ -419,12 +468,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
                     node.operation_data.function_name = ctx->functionCall()->Identifier()->getText();
                 }
 
-/*
-                // Node de controle da chamada a função.
-                verbum_ast_node node_function = this->zero_data();
-                node_function.type = VERBUM_OPERATION_BLOCK;
-                node_function.operation_type = VERBUM_OPERATION_FUNC_BLOCK;
-*/
+
                 // Operador aritmético relacionado à operação.
                 if (ctx->ArithmeticOperator()) {
                     string op = ctx->ArithmeticOperator()->getText();
@@ -450,6 +494,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
                 std::cout << "variable [" << 
                 ctx->arrayAccessElements()->getText() << "] ";
             }
+
 
             // Operador aritmético relacionado à operação.
             if (ctx->ArithmeticOperator()) {
@@ -478,8 +523,8 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueCon
 ** Adiciona node temporário no respectivo nível de hierarquia a qual ele percente.
 ** Utilizado para processamento da hierarquia dos blocos das operações.
 */
-verbum_ast_node verbum_ast_visitor::add_node_operations_elements (verbum_ast_node source, verbum_ast_node destination) {
-
+verbum_ast_node verbum_ast_visitor::add_node_operations_elements (verbum_ast_node source, verbum_ast_node destination)
+{
     if (this->operation_block_counter_run == this->operation_block_counter) 
         destination.nodes.push_back(source);
     else {
@@ -500,7 +545,8 @@ verbum_ast_node verbum_ast_visitor::add_node_operations_elements (verbum_ast_nod
 /*
 ** Verifica operador aritmético utilizado no bloco de operações.
 */
-int verbum_ast_visitor::check_block_arithmeic_operator (string op) {
+int verbum_ast_visitor::check_block_arithmeic_operator (string op)
+{
     int result = VERBUM_UNKNOWN;
 
     if (op.compare("+") == 0)
