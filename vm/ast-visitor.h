@@ -48,7 +48,11 @@ namespace verbum {
 
             // Processa variáveis.
             antlrcpp::Any visitVariableModes (TParser::VariableModesContext *ctx);
+            antlrcpp::Any visitVariableDefinition (TParser::VariableDefinitionContext *ctx);
  
+            // Condicionais.
+            antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx);
+
         private:
             // Contadores e flags de controle da adição dos nodes.
             int node_block_counter;

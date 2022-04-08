@@ -15,7 +15,14 @@ using namespace std;
 
 verbum_semantics::verbum_semantics (vector <verbum_ast_node> ast) 
 {
+    this->block_counter = 0;
     this->verbum_recursive_ast(ast);
+}
+
+void verbum_semantics::tab ()
+{
+    for (int a=0; a<this->block_counter; a++)
+        cout << "\t";
 }
 
 void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
@@ -48,9 +55,25 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Bloco condicional (if).
+        */
+        else if (node.type == VERBUM_CONDITIONAL_IF) {
+            this->tab();
+            cout << "conditional-if () {\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "}\n";
+        }
+
+        /*
         ** Variáveis: declações e inicializações.
         */
         else if (node.type == VERBUM_VARIABLE_INITIALIZATION) {
+            this->tab();
             cout << "variable: ";
 
             // Modo.
@@ -73,9 +96,62 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << " pro ";
 
             cout << "\n";
-
-            // Acessa nodes (filhos) da expressão (comando) de declaração da variável.
+            
+            this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+        }
+
+        /*
+        ** Variáveis: tipagem e atribuição.
+        */
+        else if (node.type == VERBUM_VARIABLE_USE_TYPES) {
+            this->tab();
+
+            // Nome da variável.
+            if (node.variable_definition_type == VERBUM_VARIABLE_SIMPLE)
+                cout << node.variable_names.simple_name;
+            else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_INSTANCE)
+                cout << node.variable_names.object_name << "." << node.variable_names.method_name;
+            else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_STATIC)
+                cout << node.variable_names.object_name << "::" << node.variable_names.method_name;
+            else if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
+                cout << "\tarray access:\n";
+                if (node.nodes.size() > 0) 
+                        this->verbum_recursive_ast(node.nodes);
+            }
+
+            // Verifica se há conversão de dados (casting).
+            if (node.variable_type_conversion) 
+                cout << " (casting: " << node.variable_type_conversion_name << ")";
+
+            cout << " ";
+            if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) 
+                cout << "\t";
+
+            // Tipo de atribuição / operação.
+            switch (node.variable_operation) {
+                case VERBUM_OPERATOR_ATTR:              cout <<  "="; break;
+                case VERBUM_OPERATOR_ADD_EQUAL:         cout << "+="; break;
+                case VERBUM_OPERATOR_SUB_EQUAL:         cout << "-="; break;
+                case VERBUM_OPERATOR_MUL_EQUAL:         cout << "*="; break;
+                case VERBUM_OPERATOR_DIV_EQUAL:         cout << "/="; break;
+                case VERBUM_OPERATOR_PERC_EQUAL:        cout << "%="; break;
+                case VERBUM_OPERATOR_MAJOR:             cout <<  ">"; break;
+                case VERBUM_OPERATOR_MINOR:             cout <<  "<"; break;
+                case VERBUM_OPERATOR_MAJOR_EQUAL:       cout << ">="; break;
+                case VERBUM_OPERATOR_MINOR_EQUAL:       cout << "<="; break;
+                case VERBUM_OPERATOR_AND:               cout << "&&"; break;
+                case VERBUM_OPERATOR_EQUAL:             cout << "=="; break;
+                case VERBUM_OPERATOR_NOT_EQUAL:         cout << "!="; break;
+                case VERBUM_OPERATOR_NOT:               cout <<  "!"; break;
+            }
+
+            // Verifica se há instanciamento de objeto.
+            if (node.variable_mod_operation == VERBUM_MOD_OP_OBJ_INSTANCE)
+                cout << " (new object) ";
+
+            cout << "\n";
         }
 
     }

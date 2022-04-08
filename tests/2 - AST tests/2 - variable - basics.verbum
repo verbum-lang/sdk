@@ -10,6 +10,19 @@ use 'path/*';
 // Variáveis.
 var abcd            = 333;
 var efgh :int       = 31337;
+
+if (a) {
+    var x = 10;
+}
+
+if (b) {
+    var y = 20;
+    if (a) {
+    var x = 10;
+}
+    var z = 30;
+}
+
 /*
 var variable :int       = -1337;
 var variable :float     = 0.1337;

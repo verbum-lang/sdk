@@ -24,6 +24,7 @@ using namespace std;
 void verbum_ast_visitor::prepare_data ()
 {
     this->ast = this->zero_data();
+    this->ast.type = VERBUM_UNKNOWN;
     this->node_block_counter = 0;
     this->node_run_counter = 0;
 }
@@ -140,6 +141,104 @@ antlrcpp::Any verbum_ast_visitor::visitVariableModes (TParser::VariableModesCont
 }
 
 /*
+** Variáveis: tipo e modo de utilização.
+*/
+antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefinitionContext *ctx)
+{
+    verbum_ast_node node = zero_data();
+    node.type = VERBUM_VARIABLE_USE_TYPES;
+
+    // Acesso a elemento de array.
+    if (ctx->arrayAccessElements()) 
+        node.variable_definition_type = VERBUM_VARIABLE_ARRAY_ACCESS;
+
+    // Acesso a membro de objeto instanciado ou estático.
+    else if (ctx->objIdentifierA() && ctx->objIdentifierB()) {
+
+        // Instanciado.
+        if (ctx->Point())
+            node.variable_definition_type = VERBUM_VARIABLE_OBJ_INSTANCE;
+        // Estático.
+        else if (ctx->TwoTwoPoint())
+            node.variable_definition_type = VERBUM_VARIABLE_OBJ_STATIC;
+
+        node.variable_names.object_name = ctx->objIdentifierA()->getText();        
+        node.variable_names.method_name = ctx->objIdentifierB()->getText();        
+    }
+    
+    // Uso geral.
+    else {
+        node.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
+        node.variable_names.simple_name = ctx->Identifier()->getText();
+    }
+
+    // Verifica se há conversão de tipo.
+    node.variable_type_conversion = false;
+    if (ctx->variableDefinitionGeneral()->TypeSpec()) {
+        node.variable_type_conversion = true;
+        node.variable_type_conversion_name = ctx->variableDefinitionGeneral()->TypeSpec()->getText();
+    }
+
+    // Tipo da atribuição.
+    if (ctx->variableDefinitionGeneral()->Attr())
+        node.variable_operation = VERBUM_OPERATOR_ATTR;
+    else {
+        string op = ctx->variableDefinitionGeneral()->AssignmentOperator()->getText();
+
+        if (op.compare("+=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_ADD_EQUAL;
+        else if (op.compare("-=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_SUB_EQUAL;
+        else if (op.compare("*=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_MUL_EQUAL;
+        else if (op.compare("/=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_DIV_EQUAL;
+        else if (op.compare("%=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_PERC_EQUAL;
+        else if (op.compare(">")  == 0)
+            node.variable_operation = VERBUM_OPERATOR_MAJOR;
+        else if (op.compare("<")  == 0)
+            node.variable_operation = VERBUM_OPERATOR_MINOR;
+        else if (op.compare(">=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_MAJOR_EQUAL;
+        else if (op.compare("<=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_MINOR_EQUAL;
+        else if (op.compare("&&") == 0)
+            node.variable_operation = VERBUM_OPERATOR_AND;
+        else if (op.compare("==") == 0)
+            node.variable_operation = VERBUM_OPERATOR_EQUAL;
+        else if (op.compare("!=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_NOT_EQUAL;
+        else if (op.compare("!")  == 0)
+            node.variable_operation = VERBUM_OPERATOR_NOT;
+    }
+
+    // Verifica se há instanciamento de objeto.
+    if (ctx->variableDefinitionGeneral()->New())
+        node.variable_mod_operation = VERBUM_MOD_OP_OBJ_INSTANCE;
+    else
+        node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
+
+    this->ast = this->add_node(VERBUM_VARIABLE_USE_TYPES, node, this->ast);
+
+    return visitChildren(ctx);
+}
+
+antlrcpp::Any verbum_ast_visitor::visitIfConditions(TParser::IfConditionsContext *ctx)
+{
+    verbum_ast_node node;
+
+    node.type = VERBUM_CONDITIONAL_IF;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_IF, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
 ** Adiciona node no respectivo nível de hierarquia.
 */
 verbum_ast_node verbum_ast_visitor::add_node (int type, verbum_ast_node source, verbum_ast_node destination)
@@ -150,19 +249,42 @@ verbum_ast_node verbum_ast_visitor::add_node (int type, verbum_ast_node source, 
 
 verbum_ast_node verbum_ast_visitor::add_node_internal (int type, verbum_ast_node source, verbum_ast_node destination)
 {
+    int last = destination.nodes.size() - 1;
+    if (last < 0)
+        last = 0;
+        
     // Nodes de declaração de inicialização de variáveis.
-    if (type == VERBUM_VARIABLE_INITIALIZATION) { 
+    if (type == VERBUM_VARIABLE_INITIALIZATION ||
+        type == VERBUM_CONDITIONAL_IF           )
+    {
         if (this->node_run_counter == this->node_block_counter) 
             destination.nodes.push_back(source);
         else {
             this->node_run_counter++;
 
             if (destination.nodes.size() > 0) {
-                verbum_ast_node node = this->add_node_internal(type, source, destination.nodes[
-                    destination.nodes.size() - 1
-                ]);
+                verbum_ast_node node = this->add_node_internal(type, source, 
+                    destination.nodes[ last ]
+                );
 
-                destination.nodes[ destination.nodes.size() - 1 ] = node;
+                destination.nodes[ last ] = node;
+            }
+        }
+    }
+
+    // Nodes dos tipos e modos de utilização das variáveis.
+    else if (type == VERBUM_VARIABLE_USE_TYPES) {
+        if (this->node_run_counter == this->node_block_counter) 
+            destination.nodes[ destination.nodes.size()-1 ].nodes.push_back(source);
+        else {
+            this->node_run_counter++;
+
+            if (destination.nodes.size() > 0) {
+                verbum_ast_node node = this->add_node_internal(type, source, 
+                    destination.nodes[ last ]
+                );
+
+                destination.nodes[ last ] = node;
             }
         }
     }

@@ -30,6 +30,9 @@ namespace verbum {
             verbum_semantics (vector <verbum_ast_node> ast);
 
         private:
+            int block_counter;
+
+            void tab ();
             void verbum_recursive_ast (vector <verbum_ast_node> ast);
     };
 }

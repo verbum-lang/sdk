@@ -35,7 +35,9 @@ using namespace std;
 #define VERBUM_ACCESS_ARRAY_TYPE_BLOCK                  8
 #define VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT            9
 
-#define VERBUM_OPERATION_BLOCK                          10
+#define VERBUM_CONDITIONAL_IF                           10
+
+#define VERBUM_OPERATION_BLOCK                          11
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
