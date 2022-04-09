@@ -68,12 +68,11 @@ namespace verbum {
 
             // Condicionais.
             antlrcpp::Any visitConditionalExpressionStructBlock (TParser::ConditionalExpressionStructBlockContext *ctx);
+            antlrcpp::Any visitConditionalExpressionItems (TParser::ConditionalExpressionItemsContext *ctx);
+            antlrcpp::Any visitConditionalBlockElements (TParser::ConditionalBlockElementsContext *ctx);
             antlrcpp::Any visitIfElementUnique (TParser::IfElementUniqueContext *ctx);
             antlrcpp::Any visitElifElementUnique (TParser::ElifElementUniqueContext *ctx);
             antlrcpp::Any visitElseElementUnique (TParser::ElseElementUniqueContext *ctx);
-            // antlrcpp::Any visitIfConditions (TParser::IfConditionsContext *ctx);
-            // antlrcpp::Any visitElifConditions (TParser::ElifConditionsContext *ctx);
-            // antlrcpp::Any visitElseConditions (TParser::ElseConditionsContext *ctx);
 
         private:
         

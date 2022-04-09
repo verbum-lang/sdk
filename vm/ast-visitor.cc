@@ -657,6 +657,7 @@ antlrcpp::Any verbum_ast_visitor::visitCallingFunction (TParser::CallingFunction
 ** Condicionais.
 */
 
+// Bloco completo do condicional.
 antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionStructBlock (TParser::ConditionalExpressionStructBlockContext *ctx)
 {
     verbum_ast_node node;
@@ -671,6 +672,37 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionStructBlock (TParser
     return result;
 }
 
+// Bloco da expressão condicional.
+antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionItems (TParser::ConditionalExpressionItemsContext *ctx)
+{
+    verbum_ast_node node;
+    
+    node.type = VERBUM_CONDITIONAL_EXPRESSION_BLOCK;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_EXPRESSION_BLOCK, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código do condicional.
+antlrcpp::Any verbum_ast_visitor::visitConditionalBlockElements (TParser::ConditionalBlockElementsContext *ctx)
+{
+    verbum_ast_node node;
+    
+    node.type = VERBUM_CONDITIONAL_CODE_BLOCK;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_CODE_BLOCK, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// If.
 antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUniqueContext *ctx)
 {
     verbum_ast_node node;
@@ -685,6 +717,7 @@ antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUnique
     return result;
 }
 
+// Elif.
 antlrcpp::Any verbum_ast_visitor::visitElifElementUnique (TParser::ElifElementUniqueContext *ctx)
 {
     verbum_ast_node node;
@@ -699,6 +732,7 @@ antlrcpp::Any verbum_ast_visitor::visitElifElementUnique (TParser::ElifElementUn
     return result;
 }
 
+// Else.
 antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUniqueContext *ctx)
 {
     verbum_ast_node node;
@@ -714,50 +748,13 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
 }
 
 /*
-// If.
-antlrcpp::Any verbum_ast_visitor::visitIfConditions (TParser::IfConditionsContext *ctx)
-{
-    verbum_ast_node node;
-    
-    node.type = VERBUM_CONDITIONAL_IF;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_IF, node, this->ast);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
-}
-
-// Elif.
-antlrcpp::Any verbum_ast_visitor::visitElifConditions (TParser::ElifConditionsContext *ctx)
-{
-    verbum_ast_node node;
-    
-    node.type = VERBUM_CONDITIONAL_ELIF;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_ELIF, node, this->ast);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
-}
-
-// Else.
-antlrcpp::Any verbum_ast_visitor::visitElseConditions (TParser::ElseConditionsContext *ctx)
-{
-    verbum_ast_node node;
-    
-    node.type = VERBUM_CONDITIONAL_ELSE;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_ELSE, node, this->ast);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
-}
+** Controle dos valores utilizado nas expressões.
 */
+
+// Dados gerais.
+
+// Bloco de expressão.
+
+// Bloco "not".
 
 

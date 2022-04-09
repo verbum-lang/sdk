@@ -205,51 +205,8 @@ functionCallParamElements
   | operationElements Separator functionCallParamElements
   ;
 
-// Expressões condicionais (if, elif, else).
-
-// Regra que vai no controlador geral.
 /*
-conditionalExpression
-  : ifConditions
-  | elifConditions
-  | elseConditions
-  ;
-
-conditionalBlockElements
-  : conditionalExpression
-  | conditionalExpression conditionalBlockElements
-  | sentence
-  | sentence conditionalBlockElements
-  ;
-
-ifConditions
-  : If conditionalExpressionElements callingFunction
-  | If conditionalExpressionElements OpenBlock CloseBlock
-  | If conditionalExpressionElements OpenBlock conditionalBlockElements CloseBlock
-  | If conditionalExpressionElements condBlockElementsLimited
-  ;
-
-elifConditions
-  : Elif conditionalExpressionElements callingFunction
-  | Elif conditionalExpressionElements OpenBlock CloseBlock
-  | Elif conditionalExpressionElements OpenBlock conditionalBlockElements CloseBlock
-  | Elif conditionalExpressionElements condBlockElementsLimited
-  ;
-
-elseConditions
-  : Else callingFunction
-  | Else OpenBlock CloseBlock
-  | Else OpenBlock conditionalBlockElements CloseBlock
-  | Else condBlockElementsLimited
-  ;
-
-condBlockElementsLimited
-  : ifConditions
-  | ifConditions conditionalBlockElements
-  | loop
-  | loop condBlockElementsLimited
-  | ret
-  ;
+** Expressões condicionais (if, elif, else).
 */
 
 // Controle/repetição geral do bloco de expressão.
@@ -309,16 +266,11 @@ conditionalBlockElsItems
 
 // Controle do bloco das expressões.
 conditionalExpressionElements
-  : conditionalExpElementsValue
-  | conditionalExpElementsValue conditionalExpressionElements
+  : conditionalExpValue
+  | conditionalExpValue conditionalExpressionElements
   | conditionExpBlock
   | conditionExpBlock conditionalExpressionElements
   | Not conditionalExpressionElements
-  ;
-
-conditionalExpElementsValue
-  : conditionalExpValue
-  | conditionalExpValue conditionalExpElementsValue
   ;
 
 conditionExpBlock
@@ -577,7 +529,6 @@ accessBlockAr
   ;
 
 arrayIndexAccess
-  //: (Integer | Identifier)
   : operationElements
   ;
 
