@@ -2895,8 +2895,8 @@ TParser::ConditionalExpressionContext::ConditionalExpressionContext(ParserRuleCo
   : ParserRuleContext(parent, invokingState) {
 }
 
-TParser::ConditionalExpressionModesContext* TParser::ConditionalExpressionContext::conditionalExpressionModes() {
-  return getRuleContext<TParser::ConditionalExpressionModesContext>(0);
+TParser::ConditionalExpressionStructBlockContext* TParser::ConditionalExpressionContext::conditionalExpressionStructBlock() {
+  return getRuleContext<TParser::ConditionalExpressionStructBlockContext>(0);
 }
 
 TParser::ConditionalExpressionContext* TParser::ConditionalExpressionContext::conditionalExpression() {
@@ -2946,14 +2946,14 @@ TParser::ConditionalExpressionContext* TParser::conditionalExpression() {
     case 1: {
       enterOuterAlt(_localctx, 1);
       setState(462);
-      conditionalExpressionModes();
+      conditionalExpressionStructBlock();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
       setState(463);
-      conditionalExpressionModes();
+      conditionalExpressionStructBlock();
       setState(464);
       conditionalExpression();
       break;
@@ -2973,52 +2973,52 @@ TParser::ConditionalExpressionContext* TParser::conditionalExpression() {
   return _localctx;
 }
 
-//----------------- ConditionalExpressionModesContext ------------------------------------------------------------------
+//----------------- ConditionalExpressionStructBlockContext ------------------------------------------------------------------
 
-TParser::ConditionalExpressionModesContext::ConditionalExpressionModesContext(ParserRuleContext *parent, size_t invokingState)
+TParser::ConditionalExpressionStructBlockContext::ConditionalExpressionStructBlockContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-TParser::IfElementUniqueContext* TParser::ConditionalExpressionModesContext::ifElementUnique() {
+TParser::IfElementUniqueContext* TParser::ConditionalExpressionStructBlockContext::ifElementUnique() {
   return getRuleContext<TParser::IfElementUniqueContext>(0);
 }
 
-TParser::ElifElementsContext* TParser::ConditionalExpressionModesContext::elifElements() {
+TParser::ElifElementsContext* TParser::ConditionalExpressionStructBlockContext::elifElements() {
   return getRuleContext<TParser::ElifElementsContext>(0);
 }
 
-TParser::ElseElementUniqueContext* TParser::ConditionalExpressionModesContext::elseElementUnique() {
+TParser::ElseElementUniqueContext* TParser::ConditionalExpressionStructBlockContext::elseElementUnique() {
   return getRuleContext<TParser::ElseElementUniqueContext>(0);
 }
 
 
-size_t TParser::ConditionalExpressionModesContext::getRuleIndex() const {
-  return TParser::RuleConditionalExpressionModes;
+size_t TParser::ConditionalExpressionStructBlockContext::getRuleIndex() const {
+  return TParser::RuleConditionalExpressionStructBlock;
 }
 
-void TParser::ConditionalExpressionModesContext::enterRule(tree::ParseTreeListener *listener) {
+void TParser::ConditionalExpressionStructBlockContext::enterRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->enterConditionalExpressionModes(this);
+    parserListener->enterConditionalExpressionStructBlock(this);
 }
 
-void TParser::ConditionalExpressionModesContext::exitRule(tree::ParseTreeListener *listener) {
+void TParser::ConditionalExpressionStructBlockContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->exitConditionalExpressionModes(this);
+    parserListener->exitConditionalExpressionStructBlock(this);
 }
 
 
-antlrcpp::Any TParser::ConditionalExpressionModesContext::accept(tree::ParseTreeVisitor *visitor) {
+antlrcpp::Any TParser::ConditionalExpressionStructBlockContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitConditionalExpressionModes(this);
+    return parserVisitor->visitConditionalExpressionStructBlock(this);
   else
     return visitor->visitChildren(this);
 }
 
-TParser::ConditionalExpressionModesContext* TParser::conditionalExpressionModes() {
-  ConditionalExpressionModesContext *_localctx = _tracker.createInstance<ConditionalExpressionModesContext>(_ctx, getState());
-  enterRule(_localctx, 56, TParser::RuleConditionalExpressionModes);
+TParser::ConditionalExpressionStructBlockContext* TParser::conditionalExpressionStructBlock() {
+  ConditionalExpressionStructBlockContext *_localctx = _tracker.createInstance<ConditionalExpressionStructBlockContext>(_ctx, getState());
+  enterRule(_localctx, 56, TParser::RuleConditionalExpressionStructBlock);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -8196,18 +8196,19 @@ std::vector<std::string> TParser::_ruleNames = {
   "associativeArrayElements", "operationBlock", "operationElements", "operationValue", 
   "firstIncDec", "lastIncDec", "callingFunction", "functionCall", "identifierB", 
   "pointSeparator", "functionCallParam", "functionCallParamElements", "conditionalExpression", 
-  "conditionalExpressionModes", "ifElementUnique", "elifElements", "elifElementUnique", 
-  "elseElementUnique", "conditionalExpressionItems", "conditionalBlockElements", 
-  "conditionalBlockElsItems", "conditionalExpressionElements", "conditionalExpElementsValue", 
-  "conditionExpBlock", "conditionalExpValue", "loop", "loopExpression", 
-  "loopOneMembers", "loopTwoMembers", "loopThreeMembers", "loopThreeMembersValues", 
-  "loopBlockElements", "loopBlockElementsLimited", "ret", "retValues", "functions", 
-  "functionGeneralModes", "functionsModes", "functionMethodsModes", "methodPerm", 
-  "constructClassMethod", "interfaceMethod", "functionCodeBlock", "functionParams", 
-  "functionParamElements", "oopGeneral", "interfaceClass", "interfaceClassDefinition", 
-  "abstractClass", "abstractClassDefinition", "classDefination", "classModesGeneral", 
-  "classModes", "arrayAccessElements", "arrayAccessElementsItems", "accessBlockAr", 
-  "arrayIndexAccess", "generalValue", "objIdentifierA", "objIdentifierB"
+  "conditionalExpressionStructBlock", "ifElementUnique", "elifElements", 
+  "elifElementUnique", "elseElementUnique", "conditionalExpressionItems", 
+  "conditionalBlockElements", "conditionalBlockElsItems", "conditionalExpressionElements", 
+  "conditionalExpElementsValue", "conditionExpBlock", "conditionalExpValue", 
+  "loop", "loopExpression", "loopOneMembers", "loopTwoMembers", "loopThreeMembers", 
+  "loopThreeMembersValues", "loopBlockElements", "loopBlockElementsLimited", 
+  "ret", "retValues", "functions", "functionGeneralModes", "functionsModes", 
+  "functionMethodsModes", "methodPerm", "constructClassMethod", "interfaceMethod", 
+  "functionCodeBlock", "functionParams", "functionParamElements", "oopGeneral", 
+  "interfaceClass", "interfaceClassDefinition", "abstractClass", "abstractClassDefinition", 
+  "classDefination", "classModesGeneral", "classModes", "arrayAccessElements", 
+  "arrayAccessElementsItems", "accessBlockAr", "arrayIndexAccess", "generalValue", 
+  "objIdentifierA", "objIdentifierB"
 };
 
 std::vector<std::string> TParser::_literalNames = {

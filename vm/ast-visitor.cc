@@ -657,6 +657,20 @@ antlrcpp::Any verbum_ast_visitor::visitCallingFunction (TParser::CallingFunction
 ** Condicionais.
 */
 
+antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionStructBlock (TParser::ConditionalExpressionStructBlockContext *ctx)
+{
+    verbum_ast_node node;
+    
+    node.type = VERBUM_CONDITIONAL_STRUCT_BLOCK;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_STRUCT_BLOCK, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUniqueContext *ctx)
 {
     verbum_ast_node node;

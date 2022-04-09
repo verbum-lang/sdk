@@ -102,8 +102,8 @@ public:
   virtual void enterConditionalExpression(TParser::ConditionalExpressionContext * /*ctx*/) override { }
   virtual void exitConditionalExpression(TParser::ConditionalExpressionContext * /*ctx*/) override { }
 
-  virtual void enterConditionalExpressionModes(TParser::ConditionalExpressionModesContext * /*ctx*/) override { }
-  virtual void exitConditionalExpressionModes(TParser::ConditionalExpressionModesContext * /*ctx*/) override { }
+  virtual void enterConditionalExpressionStructBlock(TParser::ConditionalExpressionStructBlockContext * /*ctx*/) override { }
+  virtual void exitConditionalExpressionStructBlock(TParser::ConditionalExpressionStructBlockContext * /*ctx*/) override { }
 
   virtual void enterIfElementUnique(TParser::IfElementUniqueContext * /*ctx*/) override { }
   virtual void exitIfElementUnique(TParser::IfElementUniqueContext * /*ctx*/) override { }

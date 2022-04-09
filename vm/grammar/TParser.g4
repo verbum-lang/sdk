@@ -254,12 +254,12 @@ condBlockElementsLimited
 
 // Controle/repetição geral do bloco de expressão.
 conditionalExpression
-  : conditionalExpressionModes
-  | conditionalExpressionModes conditionalExpression
+  : conditionalExpressionStructBlock
+  | conditionalExpressionStructBlock conditionalExpression
   ;
 
 // Bloco de expressão.
-conditionalExpressionModes
+conditionalExpressionStructBlock
   : ifElementUnique
   | ifElementUnique elifElements
   | ifElementUnique              elseElementUnique

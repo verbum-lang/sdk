@@ -129,7 +129,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitConditionalExpressionModes(TParser::ConditionalExpressionModesContext *ctx) override {
+  virtual antlrcpp::Any visitConditionalExpressionStructBlock(TParser::ConditionalExpressionStructBlockContext *ctx) override {
     return visitChildren(ctx);
   }
 

@@ -100,8 +100,8 @@ public:
   virtual void enterConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
   virtual void exitConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
 
-  virtual void enterConditionalExpressionModes(TParser::ConditionalExpressionModesContext *ctx) = 0;
-  virtual void exitConditionalExpressionModes(TParser::ConditionalExpressionModesContext *ctx) = 0;
+  virtual void enterConditionalExpressionStructBlock(TParser::ConditionalExpressionStructBlockContext *ctx) = 0;
+  virtual void exitConditionalExpressionStructBlock(TParser::ConditionalExpressionStructBlockContext *ctx) = 0;
 
   virtual void enterIfElementUnique(TParser::IfElementUniqueContext *ctx) = 0;
   virtual void exitIfElementUnique(TParser::IfElementUniqueContext *ctx) = 0;

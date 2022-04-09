@@ -76,7 +76,7 @@ public:
 
     virtual antlrcpp::Any visitConditionalExpression(TParser::ConditionalExpressionContext *context) = 0;
 
-    virtual antlrcpp::Any visitConditionalExpressionModes(TParser::ConditionalExpressionModesContext *context) = 0;
+    virtual antlrcpp::Any visitConditionalExpressionStructBlock(TParser::ConditionalExpressionStructBlockContext *context) = 0;
 
     virtual antlrcpp::Any visitIfElementUnique(TParser::IfElementUniqueContext *context) = 0;
 

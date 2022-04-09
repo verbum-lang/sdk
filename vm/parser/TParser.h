@@ -39,12 +39,12 @@ public:
     RuleLastIncDec = 20, RuleCallingFunction = 21, RuleFunctionCall = 22, 
     RuleIdentifierB = 23, RulePointSeparator = 24, RuleFunctionCallParam = 25, 
     RuleFunctionCallParamElements = 26, RuleConditionalExpression = 27, 
-    RuleConditionalExpressionModes = 28, RuleIfElementUnique = 29, RuleElifElements = 30, 
-    RuleElifElementUnique = 31, RuleElseElementUnique = 32, RuleConditionalExpressionItems = 33, 
-    RuleConditionalBlockElements = 34, RuleConditionalBlockElsItems = 35, 
-    RuleConditionalExpressionElements = 36, RuleConditionalExpElementsValue = 37, 
-    RuleConditionExpBlock = 38, RuleConditionalExpValue = 39, RuleLoop = 40, 
-    RuleLoopExpression = 41, RuleLoopOneMembers = 42, RuleLoopTwoMembers = 43, 
+    RuleConditionalExpressionStructBlock = 28, RuleIfElementUnique = 29, 
+    RuleElifElements = 30, RuleElifElementUnique = 31, RuleElseElementUnique = 32, 
+    RuleConditionalExpressionItems = 33, RuleConditionalBlockElements = 34, 
+    RuleConditionalBlockElsItems = 35, RuleConditionalExpressionElements = 36, 
+    RuleConditionalExpElementsValue = 37, RuleConditionExpBlock = 38, RuleConditionalExpValue = 39, 
+    RuleLoop = 40, RuleLoopExpression = 41, RuleLoopOneMembers = 42, RuleLoopTwoMembers = 43, 
     RuleLoopThreeMembers = 44, RuleLoopThreeMembersValues = 45, RuleLoopBlockElements = 46, 
     RuleLoopBlockElementsLimited = 47, RuleRet = 48, RuleRetValues = 49, 
     RuleFunctions = 50, RuleFunctionGeneralModes = 51, RuleFunctionsModes = 52, 
@@ -96,7 +96,7 @@ public:
   class FunctionCallParamContext;
   class FunctionCallParamElementsContext;
   class ConditionalExpressionContext;
-  class ConditionalExpressionModesContext;
+  class ConditionalExpressionStructBlockContext;
   class IfElementUniqueContext;
   class ElifElementsContext;
   class ElifElementUniqueContext;
@@ -618,7 +618,7 @@ public:
   public:
     ConditionalExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    ConditionalExpressionModesContext *conditionalExpressionModes();
+    ConditionalExpressionStructBlockContext *conditionalExpressionStructBlock();
     ConditionalExpressionContext *conditionalExpression();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -630,9 +630,9 @@ public:
 
   ConditionalExpressionContext* conditionalExpression();
 
-  class  ConditionalExpressionModesContext : public antlr4::ParserRuleContext {
+  class  ConditionalExpressionStructBlockContext : public antlr4::ParserRuleContext {
   public:
-    ConditionalExpressionModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    ConditionalExpressionStructBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     IfElementUniqueContext *ifElementUnique();
     ElifElementsContext *elifElements();
@@ -645,7 +645,7 @@ public:
    
   };
 
-  ConditionalExpressionModesContext* conditionalExpressionModes();
+  ConditionalExpressionStructBlockContext* conditionalExpressionStructBlock();
 
   class  IfElementUniqueContext : public antlr4::ParserRuleContext {
   public:

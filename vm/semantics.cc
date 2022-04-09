@@ -224,6 +224,19 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         ** Condicionais.
         */
 
+        // Controle do block inteiro do condicional.
+        else if (node.type == VERBUM_CONDITIONAL_STRUCT_BLOCK) {
+            this->tab();
+            cout << "-> conditional-block-open\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> conditional-block-close\n";
+        }
+
         // If.
         else if (node.type == VERBUM_CONDITIONAL_IF) {
             this->tab();

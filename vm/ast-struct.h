@@ -43,9 +43,10 @@ using namespace std;
 
 #define VERBUM_FUNCTION_CALL                            15
 
-#define VERBUM_CONDITIONAL_IF                           16
-#define VERBUM_CONDITIONAL_ELIF                         17
-#define VERBUM_CONDITIONAL_ELSE                         18
+#define VERBUM_CONDITIONAL_STRUCT_BLOCK                 16
+#define VERBUM_CONDITIONAL_IF                           17
+#define VERBUM_CONDITIONAL_ELIF                         18
+#define VERBUM_CONDITIONAL_ELSE                         19
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0

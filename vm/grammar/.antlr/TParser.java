@@ -34,12 +34,12 @@ public class TParser extends Parser {
 		RULE_lastIncDec = 20, RULE_callingFunction = 21, RULE_functionCall = 22, 
 		RULE_identifierB = 23, RULE_pointSeparator = 24, RULE_functionCallParam = 25, 
 		RULE_functionCallParamElements = 26, RULE_conditionalExpression = 27, 
-		RULE_conditionalExpressionModes = 28, RULE_ifElementUnique = 29, RULE_elifElements = 30, 
-		RULE_elifElementUnique = 31, RULE_elseElementUnique = 32, RULE_conditionalExpressionItems = 33, 
-		RULE_conditionalBlockElements = 34, RULE_conditionalBlockElsItems = 35, 
-		RULE_conditionalExpressionElements = 36, RULE_conditionalExpElementsValue = 37, 
-		RULE_conditionExpBlock = 38, RULE_conditionalExpValue = 39, RULE_loop = 40, 
-		RULE_loopExpression = 41, RULE_loopOneMembers = 42, RULE_loopTwoMembers = 43, 
+		RULE_conditionalExpressionStructBlock = 28, RULE_ifElementUnique = 29, 
+		RULE_elifElements = 30, RULE_elifElementUnique = 31, RULE_elseElementUnique = 32, 
+		RULE_conditionalExpressionItems = 33, RULE_conditionalBlockElements = 34, 
+		RULE_conditionalBlockElsItems = 35, RULE_conditionalExpressionElements = 36, 
+		RULE_conditionalExpElementsValue = 37, RULE_conditionExpBlock = 38, RULE_conditionalExpValue = 39, 
+		RULE_loop = 40, RULE_loopExpression = 41, RULE_loopOneMembers = 42, RULE_loopTwoMembers = 43, 
 		RULE_loopThreeMembers = 44, RULE_loopThreeMembersValues = 45, RULE_loopBlockElements = 46, 
 		RULE_loopBlockElementsLimited = 47, RULE_ret = 48, RULE_retValues = 49, 
 		RULE_functions = 50, RULE_functionGeneralModes = 51, RULE_functionsModes = 52, 
@@ -59,16 +59,16 @@ public class TParser extends Parser {
 			"associativeArrayElements", "operationBlock", "operationElements", "operationValue", 
 			"firstIncDec", "lastIncDec", "callingFunction", "functionCall", "identifierB", 
 			"pointSeparator", "functionCallParam", "functionCallParamElements", "conditionalExpression", 
-			"conditionalExpressionModes", "ifElementUnique", "elifElements", "elifElementUnique", 
-			"elseElementUnique", "conditionalExpressionItems", "conditionalBlockElements", 
-			"conditionalBlockElsItems", "conditionalExpressionElements", "conditionalExpElementsValue", 
-			"conditionExpBlock", "conditionalExpValue", "loop", "loopExpression", 
-			"loopOneMembers", "loopTwoMembers", "loopThreeMembers", "loopThreeMembersValues", 
-			"loopBlockElements", "loopBlockElementsLimited", "ret", "retValues", 
-			"functions", "functionGeneralModes", "functionsModes", "functionMethodsModes", 
-			"methodPerm", "constructClassMethod", "interfaceMethod", "functionCodeBlock", 
-			"functionParams", "functionParamElements", "oopGeneral", "interfaceClass", 
-			"interfaceClassDefinition", "abstractClass", "abstractClassDefinition", 
+			"conditionalExpressionStructBlock", "ifElementUnique", "elifElements", 
+			"elifElementUnique", "elseElementUnique", "conditionalExpressionItems", 
+			"conditionalBlockElements", "conditionalBlockElsItems", "conditionalExpressionElements", 
+			"conditionalExpElementsValue", "conditionExpBlock", "conditionalExpValue", 
+			"loop", "loopExpression", "loopOneMembers", "loopTwoMembers", "loopThreeMembers", 
+			"loopThreeMembersValues", "loopBlockElements", "loopBlockElementsLimited", 
+			"ret", "retValues", "functions", "functionGeneralModes", "functionsModes", 
+			"functionMethodsModes", "methodPerm", "constructClassMethod", "interfaceMethod", 
+			"functionCodeBlock", "functionParams", "functionParamElements", "oopGeneral", 
+			"interfaceClass", "interfaceClassDefinition", "abstractClass", "abstractClassDefinition", 
 			"classDefination", "classModesGeneral", "classModes", "arrayAccessElements", 
 			"arrayAccessElementsItems", "accessBlockAr", "arrayIndexAccess", "generalValue", 
 			"objIdentifierA", "objIdentifierB"
@@ -1976,8 +1976,8 @@ public class TParser extends Parser {
 	}
 
 	public static class ConditionalExpressionContext extends ParserRuleContext {
-		public ConditionalExpressionModesContext conditionalExpressionModes() {
-			return getRuleContext(ConditionalExpressionModesContext.class,0);
+		public ConditionalExpressionStructBlockContext conditionalExpressionStructBlock() {
+			return getRuleContext(ConditionalExpressionStructBlockContext.class,0);
 		}
 		public ConditionalExpressionContext conditionalExpression() {
 			return getRuleContext(ConditionalExpressionContext.class,0);
@@ -1999,14 +1999,14 @@ public class TParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(462);
-				conditionalExpressionModes();
+				conditionalExpressionStructBlock();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(463);
-				conditionalExpressionModes();
+				conditionalExpressionStructBlock();
 				setState(464);
 				conditionalExpression();
 				}
@@ -2024,7 +2024,7 @@ public class TParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ConditionalExpressionModesContext extends ParserRuleContext {
+	public static class ConditionalExpressionStructBlockContext extends ParserRuleContext {
 		public IfElementUniqueContext ifElementUnique() {
 			return getRuleContext(IfElementUniqueContext.class,0);
 		}
@@ -2034,15 +2034,15 @@ public class TParser extends Parser {
 		public ElseElementUniqueContext elseElementUnique() {
 			return getRuleContext(ElseElementUniqueContext.class,0);
 		}
-		public ConditionalExpressionModesContext(ParserRuleContext parent, int invokingState) {
+		public ConditionalExpressionStructBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_conditionalExpressionModes; }
+		@Override public int getRuleIndex() { return RULE_conditionalExpressionStructBlock; }
 	}
 
-	public final ConditionalExpressionModesContext conditionalExpressionModes() throws RecognitionException {
-		ConditionalExpressionModesContext _localctx = new ConditionalExpressionModesContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_conditionalExpressionModes);
+	public final ConditionalExpressionStructBlockContext conditionalExpressionStructBlock() throws RecognitionException {
+		ConditionalExpressionStructBlockContext _localctx = new ConditionalExpressionStructBlockContext(_ctx, getState());
+		enterRule(_localctx, 56, RULE_conditionalExpressionStructBlock);
 		try {
 			setState(479);
 			_errHandler.sync(this);

@@ -67,6 +67,7 @@ namespace verbum {
             antlrcpp::Any visitCallingFunction (TParser::CallingFunctionContext *ctx);
 
             // Condicionais.
+            antlrcpp::Any visitConditionalExpressionStructBlock (TParser::ConditionalExpressionStructBlockContext *ctx);
             antlrcpp::Any visitIfElementUnique (TParser::IfElementUniqueContext *ctx);
             antlrcpp::Any visitElifElementUnique (TParser::ElifElementUniqueContext *ctx);
             antlrcpp::Any visitElseElementUnique (TParser::ElseElementUniqueContext *ctx);
