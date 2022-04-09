@@ -117,6 +117,24 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.operation_type_conversion           = false;
     ast.operation_type_conversion_data      = "";
 
+    // VERBUM_GENERAL_VALUE
+    ast.general_value_data.type             = VERBUM_UNKNOWN;
+    ast.general_value_data.identifier       = "";
+    ast.general_value_data.vstring          = "";
+    ast.general_value_data.integer          = "";
+    ast.general_value_data.floating         = "";
+    ast.general_value_data.function_name    = "";
+    ast.general_value_data.object_name      = "";
+    ast.general_value_data.method_name      = "";
+    ast.general_value_type_conversion       = false;
+    ast.general_value_type_conversion_data  = "";
+    
+    // VERBUM_FUNCTION_CALL
+    ast.function_call.type                      = false;
+    ast.function_call.function_name             = "";
+    ast.function_call.object_name               = "";
+    ast.function_call.method_name               = "";
+    
     // Limpa estruturas de controle.
     ast.nodes.clear();
 
@@ -596,6 +614,43 @@ antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements(TParser::Associa
     this->ast = this->add_node(VERBUM_GENERAL_VALUE, node, this->ast);
 
     return visitChildren(ctx);
+}
+
+/*
+** Chamad a função.
+*/
+antlrcpp::Any verbum_ast_visitor::visitCallingFunction(TParser::CallingFunctionContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_FUNCTION_CALL;
+
+    // Método de objeto instanciado.
+    if (ctx->functionCall()->Point()) {
+        node.function_call.type = VERBUM_FUNCTION_CALL_INSTANCE;
+        node.function_call.object_name = ctx->functionCall()->Identifier()->getText();
+        node.function_call.method_name = ctx->functionCall()->identifierB()->getText();
+    }
+
+    // Método static.
+    else if (ctx->functionCall()->TwoTwoPoint()) {
+        node.function_call.type = VERBUM_FUNCTION_CALL_STATIC;
+        node.function_call.object_name = ctx->functionCall()->Identifier()->getText();
+        node.function_call.method_name = ctx->functionCall()->identifierB()->getText();
+    }
+
+    // Função comum.
+    else {
+        node.function_call.type = VERBUM_FUNCTION_CALL_SIMPLE;
+        node.function_call.function_name = ctx->functionCall()->Identifier()->getText();
+    }
+
+    this->ast = this->add_node(VERBUM_FUNCTION_CALL, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
 }
 
 /*

@@ -1,0 +1,15 @@
+
+func(10,20,30);
+
+io.print("Verbum!\n");
+
+obj::method();
+
+if (a==10) {
+    func(10,20,30);
+
+    io.print("Verbum!\n");
+
+    obj::method();
+}
+

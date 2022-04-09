@@ -63,6 +63,9 @@ namespace verbum {
             // Array associativo.
             antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx);
 
+            // Chamada a função.
+            antlrcpp::Any visitCallingFunction(TParser::CallingFunctionContext *ctx);
+
             // Condicionais.
             antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx);
 

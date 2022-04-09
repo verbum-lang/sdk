@@ -204,6 +204,38 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Chamada a função.
+        */
+        else if (node.type == VERBUM_FUNCTION_CALL) {
+            this->tab();
+            
+            // Chamada a função (simples).
+            if (node.function_call.type == VERBUM_FUNCTION_CALL_SIMPLE) 
+                cout << node.function_call.function_name << " (function-call)\n";
+            
+            // Chamada a método de objeto (instanciado).
+            else if (node.function_call.type == VERBUM_FUNCTION_CALL_INSTANCE)
+                cout << node.function_call.object_name << " . " << 
+                    node.function_call.method_name << " (instance-method-call)\n";
+
+            // Chamada a método de objeto (estático).
+            else if (node.function_call.type == VERBUM_FUNCTION_CALL_STATIC)
+                cout << node.function_call.object_name << " :: " << 
+                    node.function_call.method_name << " (static-method-call)\n";
+
+            // Processamento dos nodes (filhos).
+            this->tab();
+            cout << "( <---| open function-block\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << ") <---| close function-block\n";
+        }
+
+        /*
         ** Bloco de operações.
         */
         else if (node.type == VERBUM_OPERATION_BLOCK) {

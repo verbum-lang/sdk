@@ -41,6 +41,7 @@ using namespace std;
 #define VERBUM_DATA_ASSOC_ARRAY_BLOCK                   13
 #define VERBUM_DATA_ASSOC_ARRAY_ELEMENT                 14
 
+#define VERBUM_FUNCTION_CALL                            15
 #define VERBUM_CONDITIONAL_IF                           10333
 
 // Modalidades do comando 'use'.
@@ -111,6 +112,11 @@ using namespace std;
 #define VERBUM_OPERATION_TYPE_SIMPLE                    1
 #define VERBUM_OPERATION_TYPE_BLOCK                     2 
 #define VERBUM_OPERATION_FUNC_BLOCK                     3
+
+// Tipos de chamada a função.
+#define VERBUM_FUNCTION_CALL_SIMPLE                     1
+#define VERBUM_FUNCTION_CALL_INSTANCE                   2   
+#define VERBUM_FUNCTION_CALL_STATIC                     3
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
@@ -256,7 +262,7 @@ typedef struct verbum_ast_node
     ** Valores gerais.
     ** VERBUM_GENERAL_VALUE
     */
-    struct {                                        // Controle dos dados mais simples.
+    struct {                                        // Controle dos dados.
         int type;                                   // Tipo:
                                                     //      VERBUM_DATA_IDENTIFIER
                                                     //      VERBUM_DATA_STRING
@@ -279,6 +285,21 @@ typedef struct verbum_ast_node
 
     bool general_value_type_conversion;             // Verifica se há conversão de tipo no elemento em questão.
     string general_value_type_conversion_data;      // Nome do tipo a ser convertido.
+
+    /*
+    ** Chamada a função.
+    ** VERBUM_FUNCTION_CALL
+    */
+    struct {                                        // Tipo da chamada.
+        int type;                                   // Tipo:
+                                                    //      VERBUM_FUNCTION_CALL_SIMPLE
+                                                    //      VERBUM_FUNCTION_CALL_INSTANCE
+                                                    //      VERBUM_FUNCTION_CALL_STATIC
+        
+        string function_name;                       // Nome da função chamada.
+        string object_name;                         // Nome do objeto.
+        string method_name;                         // Nome do método.
+    } function_call;
 
     /*
     ** Nodes internos (árvore) do elemento em questão.
