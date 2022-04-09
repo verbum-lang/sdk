@@ -208,6 +208,7 @@ functionCallParamElements
 // Expressões condicionais (if, elif, else).
 
 // Regra que vai no controlador geral.
+/*
 conditionalExpression
   : ifConditions
   | elifConditions
@@ -249,6 +250,61 @@ condBlockElementsLimited
   | loop condBlockElementsLimited
   | ret
   ;
+*/
+
+// Controle/repetição geral do bloco de expressão.
+conditionalExpression
+  : conditionalExpressionModes
+  | conditionalExpressionModes conditionalExpression
+  ;
+
+// Bloco de expressão.
+conditionalExpressionModes
+  : ifElementUnique
+  | ifElementUnique elifElements
+  | ifElementUnique              elseElementUnique
+  | ifElementUnique elifElements elseElementUnique
+  ;
+
+// If.
+ifElementUnique
+  : If conditionalExpressionItems conditionalBlockElements
+  ;
+
+// Elif.
+elifElements
+  : elifElementUnique
+  | elifElementUnique elifElements
+  ;
+
+elifElementUnique
+  : Elif conditionalExpressionItems conditionalBlockElements
+  ;
+
+// Else.
+elseElementUnique
+  : Else conditionalBlockElements
+  ;
+
+// Blocos...
+conditionalExpressionItems
+  : OpenOp Identifier CloseOp
+  ;
+
+conditionalBlockElements
+  : OpenBlock CloseBlock
+  | OpenBlock conditionalBlockElsItems CloseBlock
+  | callingFunction
+  | conditionalExpression
+  ;
+
+// Código dentro dos blocos.
+conditionalBlockElsItems
+  : sentence
+  | sentence conditionalBlockElsItems
+  ;
+
+// +++
 
 // Controle do bloco das expressões.
 conditionalExpressionElements
@@ -360,9 +416,9 @@ loopBlockElements
   ;
 
 loopBlockElementsLimited
-  : ifConditions
-  | ifConditions loopBlockElementsLimited
-  | loop
+  //: ifConditions
+  //| ifConditions loopBlockElementsLimited
+  : loop
   | loop loopBlockElementsLimited
   | ret
   ;

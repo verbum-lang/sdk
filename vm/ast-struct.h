@@ -42,7 +42,10 @@ using namespace std;
 #define VERBUM_DATA_ASSOC_ARRAY_ELEMENT                 14
 
 #define VERBUM_FUNCTION_CALL                            15
-#define VERBUM_CONDITIONAL_IF                           10333
+
+#define VERBUM_CONDITIONAL_IF                           16
+#define VERBUM_CONDITIONAL_ELIF                         17
+#define VERBUM_CONDITIONAL_ELSE                         18
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0

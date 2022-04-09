@@ -129,23 +129,35 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitConditionalExpressionModes(TParser::ConditionalExpressionModesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitIfElementUnique(TParser::IfElementUniqueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitElifElements(TParser::ElifElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitElifElementUnique(TParser::ElifElementUniqueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitElseElementUnique(TParser::ElseElementUniqueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitConditionalExpressionItems(TParser::ConditionalExpressionItemsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitElifConditions(TParser::ElifConditionsContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitElseConditions(TParser::ElseConditionsContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitCondBlockElementsLimited(TParser::CondBlockElementsLimitedContext *ctx) override {
+  virtual antlrcpp::Any visitConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext *ctx) override {
     return visitChildren(ctx);
   }
 

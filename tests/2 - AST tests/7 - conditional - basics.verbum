@@ -1,10 +1,31 @@
 
-if (a==10) {
-if (a==10) 
-    print("Verbum\n");
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
 
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
+    }
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
+
+if (b)
+    print("Deus eh Bom");
 else
-    print("Verbum\n");
-}
+    print("Verbum - else\n");
 
 

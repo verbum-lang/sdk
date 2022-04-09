@@ -100,20 +100,29 @@ public:
   virtual void enterConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
   virtual void exitConditionalExpression(TParser::ConditionalExpressionContext *ctx) = 0;
 
+  virtual void enterConditionalExpressionModes(TParser::ConditionalExpressionModesContext *ctx) = 0;
+  virtual void exitConditionalExpressionModes(TParser::ConditionalExpressionModesContext *ctx) = 0;
+
+  virtual void enterIfElementUnique(TParser::IfElementUniqueContext *ctx) = 0;
+  virtual void exitIfElementUnique(TParser::IfElementUniqueContext *ctx) = 0;
+
+  virtual void enterElifElements(TParser::ElifElementsContext *ctx) = 0;
+  virtual void exitElifElements(TParser::ElifElementsContext *ctx) = 0;
+
+  virtual void enterElifElementUnique(TParser::ElifElementUniqueContext *ctx) = 0;
+  virtual void exitElifElementUnique(TParser::ElifElementUniqueContext *ctx) = 0;
+
+  virtual void enterElseElementUnique(TParser::ElseElementUniqueContext *ctx) = 0;
+  virtual void exitElseElementUnique(TParser::ElseElementUniqueContext *ctx) = 0;
+
+  virtual void enterConditionalExpressionItems(TParser::ConditionalExpressionItemsContext *ctx) = 0;
+  virtual void exitConditionalExpressionItems(TParser::ConditionalExpressionItemsContext *ctx) = 0;
+
   virtual void enterConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
   virtual void exitConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
 
-  virtual void enterIfConditions(TParser::IfConditionsContext *ctx) = 0;
-  virtual void exitIfConditions(TParser::IfConditionsContext *ctx) = 0;
-
-  virtual void enterElifConditions(TParser::ElifConditionsContext *ctx) = 0;
-  virtual void exitElifConditions(TParser::ElifConditionsContext *ctx) = 0;
-
-  virtual void enterElseConditions(TParser::ElseConditionsContext *ctx) = 0;
-  virtual void exitElseConditions(TParser::ElseConditionsContext *ctx) = 0;
-
-  virtual void enterCondBlockElementsLimited(TParser::CondBlockElementsLimitedContext *ctx) = 0;
-  virtual void exitCondBlockElementsLimited(TParser::CondBlockElementsLimitedContext *ctx) = 0;
+  virtual void enterConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext *ctx) = 0;
+  virtual void exitConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext *ctx) = 0;
 
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;

@@ -102,20 +102,29 @@ public:
   virtual void enterConditionalExpression(TParser::ConditionalExpressionContext * /*ctx*/) override { }
   virtual void exitConditionalExpression(TParser::ConditionalExpressionContext * /*ctx*/) override { }
 
+  virtual void enterConditionalExpressionModes(TParser::ConditionalExpressionModesContext * /*ctx*/) override { }
+  virtual void exitConditionalExpressionModes(TParser::ConditionalExpressionModesContext * /*ctx*/) override { }
+
+  virtual void enterIfElementUnique(TParser::IfElementUniqueContext * /*ctx*/) override { }
+  virtual void exitIfElementUnique(TParser::IfElementUniqueContext * /*ctx*/) override { }
+
+  virtual void enterElifElements(TParser::ElifElementsContext * /*ctx*/) override { }
+  virtual void exitElifElements(TParser::ElifElementsContext * /*ctx*/) override { }
+
+  virtual void enterElifElementUnique(TParser::ElifElementUniqueContext * /*ctx*/) override { }
+  virtual void exitElifElementUnique(TParser::ElifElementUniqueContext * /*ctx*/) override { }
+
+  virtual void enterElseElementUnique(TParser::ElseElementUniqueContext * /*ctx*/) override { }
+  virtual void exitElseElementUnique(TParser::ElseElementUniqueContext * /*ctx*/) override { }
+
+  virtual void enterConditionalExpressionItems(TParser::ConditionalExpressionItemsContext * /*ctx*/) override { }
+  virtual void exitConditionalExpressionItems(TParser::ConditionalExpressionItemsContext * /*ctx*/) override { }
+
   virtual void enterConditionalBlockElements(TParser::ConditionalBlockElementsContext * /*ctx*/) override { }
   virtual void exitConditionalBlockElements(TParser::ConditionalBlockElementsContext * /*ctx*/) override { }
 
-  virtual void enterIfConditions(TParser::IfConditionsContext * /*ctx*/) override { }
-  virtual void exitIfConditions(TParser::IfConditionsContext * /*ctx*/) override { }
-
-  virtual void enterElifConditions(TParser::ElifConditionsContext * /*ctx*/) override { }
-  virtual void exitElifConditions(TParser::ElifConditionsContext * /*ctx*/) override { }
-
-  virtual void enterElseConditions(TParser::ElseConditionsContext * /*ctx*/) override { }
-  virtual void exitElseConditions(TParser::ElseConditionsContext * /*ctx*/) override { }
-
-  virtual void enterCondBlockElementsLimited(TParser::CondBlockElementsLimitedContext * /*ctx*/) override { }
-  virtual void exitCondBlockElementsLimited(TParser::CondBlockElementsLimitedContext * /*ctx*/) override { }
+  virtual void enterConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext * /*ctx*/) override { }
+  virtual void exitConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext * /*ctx*/) override { }
 
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }

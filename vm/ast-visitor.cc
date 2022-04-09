@@ -344,7 +344,7 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
 /*
 ** Controle dos blocos de operações.
 */
-antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueContext *ctx)
+antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
     antlrcpp::Any result;
@@ -510,7 +510,7 @@ int verbum_ast_visitor::check_block_arithmeic_operator (string op)
 /*
 ** Controle dos valores gerais.
 */
-antlrcpp::Any verbum_ast_visitor::visitGeneralValue(TParser::GeneralValueContext *ctx) 
+antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContext *ctx) 
 {
     antlrcpp::Any result;
     bool block = false;
@@ -602,7 +602,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue(TParser::GeneralValueContext
 /*
 ** Array associativo.
 */
-antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx)
+antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
 
@@ -619,7 +619,7 @@ antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements(TParser::Associa
 /*
 ** Chamad a função.
 */
-antlrcpp::Any verbum_ast_visitor::visitCallingFunction(TParser::CallingFunctionContext *ctx)
+antlrcpp::Any verbum_ast_visitor::visitCallingFunction (TParser::CallingFunctionContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_FUNCTION_CALL;
@@ -654,9 +654,10 @@ antlrcpp::Any verbum_ast_visitor::visitCallingFunction(TParser::CallingFunctionC
 }
 
 /*
-** Condicionais: if.
+** Condicionais.
 */
-antlrcpp::Any verbum_ast_visitor::visitIfConditions(TParser::IfConditionsContext *ctx)
+
+antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUniqueContext *ctx)
 {
     verbum_ast_node node;
     
@@ -669,5 +670,80 @@ antlrcpp::Any verbum_ast_visitor::visitIfConditions(TParser::IfConditionsContext
 
     return result;
 }
+
+antlrcpp::Any verbum_ast_visitor::visitElifElementUnique (TParser::ElifElementUniqueContext *ctx)
+{
+    verbum_ast_node node;
+    
+    node.type = VERBUM_CONDITIONAL_ELIF;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_ELIF, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUniqueContext *ctx)
+{
+    verbum_ast_node node;
+    
+    node.type = VERBUM_CONDITIONAL_ELSE;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_ELSE, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
+// If.
+antlrcpp::Any verbum_ast_visitor::visitIfConditions (TParser::IfConditionsContext *ctx)
+{
+    verbum_ast_node node;
+    
+    node.type = VERBUM_CONDITIONAL_IF;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_IF, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Elif.
+antlrcpp::Any verbum_ast_visitor::visitElifConditions (TParser::ElifConditionsContext *ctx)
+{
+    verbum_ast_node node;
+    
+    node.type = VERBUM_CONDITIONAL_ELIF;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_ELIF, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Else.
+antlrcpp::Any verbum_ast_visitor::visitElseConditions (TParser::ElseConditionsContext *ctx)
+{
+    verbum_ast_node node;
+    
+    node.type = VERBUM_CONDITIONAL_ELSE;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_ELSE, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+*/
 
 

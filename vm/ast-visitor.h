@@ -55,21 +55,27 @@ namespace verbum {
             antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
 
             // Operações.
-            antlrcpp::Any visitOperationValue(TParser::OperationValueContext *ctx);
+            antlrcpp::Any visitOperationValue (TParser::OperationValueContext *ctx);
 
             // Valores gerais.
-            antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx);
+            antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
 
             // Array associativo.
-            antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx);
+            antlrcpp::Any visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx);
 
             // Chamada a função.
-            antlrcpp::Any visitCallingFunction(TParser::CallingFunctionContext *ctx);
+            antlrcpp::Any visitCallingFunction (TParser::CallingFunctionContext *ctx);
 
             // Condicionais.
-            antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx);
+            antlrcpp::Any visitIfElementUnique (TParser::IfElementUniqueContext *ctx);
+            antlrcpp::Any visitElifElementUnique (TParser::ElifElementUniqueContext *ctx);
+            antlrcpp::Any visitElseElementUnique (TParser::ElseElementUniqueContext *ctx);
+            // antlrcpp::Any visitIfConditions (TParser::IfConditionsContext *ctx);
+            // antlrcpp::Any visitElifConditions (TParser::ElifConditionsContext *ctx);
+            // antlrcpp::Any visitElseConditions (TParser::ElseConditionsContext *ctx);
 
         private:
+        
             // Contadores e flags de controle da adição dos nodes.
             int node_block_counter;
             int node_run_counter;
