@@ -502,6 +502,10 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
         }
 
+        /*
+        ** 
+        */
+
     }
 }
 
