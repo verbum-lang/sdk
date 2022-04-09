@@ -303,6 +303,23 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Valores das expressões condicionais.
+        */
+
+        // Not.
+        else if (node.type == VERBUM_CONDITIONAL_EXPR_NOT) {
+            this->tab();
+            cout << "( <---| c.not-block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << ") <---| c.not-block (close)\n";
+        }
+
+        /*
         ** Bloco de operações.
         */
         else if (node.type == VERBUM_OPERATION_BLOCK) {
@@ -568,10 +585,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             }
 
         }
-
-        /*
-        ** 
-        */
 
     }
 }

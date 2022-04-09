@@ -74,6 +74,9 @@ namespace verbum {
             antlrcpp::Any visitElifElementUnique (TParser::ElifElementUniqueContext *ctx);
             antlrcpp::Any visitElseElementUnique (TParser::ElseElementUniqueContext *ctx);
 
+            // Valores das expressões.
+            antlrcpp::Any visitConditionalExpressionElements (TParser::ConditionalExpressionElementsContext *ctx);
+
         private:
         
             // Contadores e flags de controle da adição dos nodes.
@@ -87,8 +90,8 @@ namespace verbum {
             verbum_ast_node zero_data ();
 
             // Realiza controle de adição de node em node central.
-            verbum_ast_node add_node (int type, verbum_ast_node source, verbum_ast_node destination);
-            verbum_ast_node add_node_internal (int type, verbum_ast_node source, verbum_ast_node destination);
+            verbum_ast_node add_node (verbum_ast_node source, verbum_ast_node destination);
+            verbum_ast_node add_node_internal (verbum_ast_node source, verbum_ast_node destination);
 
             // Verifica se trata-se de operador...
             int check_block_arithmeic_operator (string op);

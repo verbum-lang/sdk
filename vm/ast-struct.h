@@ -50,6 +50,8 @@ using namespace std;
 #define VERBUM_CONDITIONAL_ELIF                         20
 #define VERBUM_CONDITIONAL_ELSE                         21
 
+#define VERBUM_CONDITIONAL_EXPR_NOT                     22
+
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
 #define VERBUM_USE_MODULE                               1
@@ -306,6 +308,13 @@ typedef struct verbum_ast_node
         string object_name;                         // Nome do objeto.
         string method_name;                         // Nome do método.
     } function_call;
+
+    /*
+    ** Condicionais.
+    ** VERBUM_CONDITIONAL_*
+    */
+    int conditional_type;                           // Tipo da expressão condicional.
+                                                    //      VERBUM_CONDITIONAL_EXPR_NOT
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

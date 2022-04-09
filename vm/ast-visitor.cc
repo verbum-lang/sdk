@@ -37,13 +37,13 @@ vector <verbum_ast_node> verbum_ast_visitor::get_verbum_ast ()
 /*
 ** Adiciona node no respectivo nível hierárquico.
 */
-verbum_ast_node verbum_ast_visitor::add_node (int type, verbum_ast_node source, verbum_ast_node destination)
+verbum_ast_node verbum_ast_visitor::add_node (verbum_ast_node source, verbum_ast_node destination)
 {
     this->node_run_counter = 0;
-    return this->add_node_internal(type, source, destination);
+    return this->add_node_internal(source, destination);
 }
 
-verbum_ast_node verbum_ast_visitor::add_node_internal (int type, verbum_ast_node source, verbum_ast_node destination)
+verbum_ast_node verbum_ast_visitor::add_node_internal (verbum_ast_node source, verbum_ast_node destination)
 {
     int last = destination.nodes.size() - 1;
     if (last < 0)
@@ -55,7 +55,7 @@ verbum_ast_node verbum_ast_visitor::add_node_internal (int type, verbum_ast_node
         this->node_run_counter++;
 
         if (destination.nodes.size() > 0) {
-            verbum_ast_node node = this->add_node_internal(type, source, 
+            verbum_ast_node node = this->add_node_internal(source, 
                 destination.nodes[ last ]
             );
 
@@ -185,7 +185,7 @@ antlrcpp::Any verbum_ast_visitor::visitVariableModes (TParser::VariableModesCont
         }
     }
     
-    this->ast = this->add_node(VERBUM_VARIABLE_INITIALIZATION, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -273,7 +273,7 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
     else
         node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
 
-    this->ast = this->add_node(VERBUM_VARIABLE_USE_TYPES, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     // Quando é acesso a elemento de array, adiciona-o como node filho.
     if (ctx->arrayAccessElements()) {
@@ -308,7 +308,7 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElementsItems (TParser::ArrayA
     else if (ctx->Identifier() && !ctx->accessBlockAr() && !ctx->Point()) 
         node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER;
     
-    this->ast = this->add_node(VERBUM_ACCESS_ARRAY, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     // Caso seja bloco de acesso, torna-o node filho do membro em questão.
     if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT ||
@@ -332,7 +332,7 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_ACCESS_ARRAY_INDEX_BLOCK;
 
-    this->ast = this->add_node(VERBUM_ACCESS_ARRAY, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -370,7 +370,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
         }
 
         // Adiciona no array de controle.
-        this->ast = this->add_node(VERBUM_OPERATION_BLOCK, node, this->ast);
+        this->ast = this->add_node(node, this->ast);
 
         // Entra em nodes (filhos).
         this->node_block_counter++;
@@ -460,7 +460,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
             }
 
             // Adiciona no array de controle.
-            this->ast = this->add_node(VERBUM_OPERATION_BLOCK, node, this->ast);
+            this->ast = this->add_node(node, this->ast);
 
             // Entra em nodes (filhos).
             this->node_block_counter++;
@@ -477,7 +477,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
         }
 
         // Adiciona no array de controle.
-        this->ast = this->add_node(VERBUM_OPERATION_BLOCK, node, this->ast);
+        this->ast = this->add_node(node, this->ast);
     }
 
     if (!block)
@@ -587,7 +587,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
     }
     
     
-    this->ast = this->add_node(VERBUM_GENERAL_VALUE, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     if (block) {
       this->node_block_counter++;
@@ -611,7 +611,7 @@ antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements (TParser::Associ
     node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_ELEMENT;
     node.general_value_data.identifier = ctx->Identifier()->getText();
     
-    this->ast = this->add_node(VERBUM_GENERAL_VALUE, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     return visitChildren(ctx);
 }
@@ -644,7 +644,7 @@ antlrcpp::Any verbum_ast_visitor::visitCallingFunction (TParser::CallingFunction
         node.function_call.function_name = ctx->functionCall()->Identifier()->getText();
     }
 
-    this->ast = this->add_node(VERBUM_FUNCTION_CALL, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -663,7 +663,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionStructBlock (TParser
     verbum_ast_node node;
     
     node.type = VERBUM_CONDITIONAL_STRUCT_BLOCK;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_STRUCT_BLOCK, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -678,7 +678,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionItems (TParser::Cond
     verbum_ast_node node;
     
     node.type = VERBUM_CONDITIONAL_EXPRESSION_BLOCK;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_EXPRESSION_BLOCK, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -693,7 +693,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalBlockElements (TParser::Condit
     verbum_ast_node node;
     
     node.type = VERBUM_CONDITIONAL_CODE_BLOCK;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_CODE_BLOCK, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -708,7 +708,7 @@ antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUnique
     verbum_ast_node node;
     
     node.type = VERBUM_CONDITIONAL_IF;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_IF, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -723,7 +723,7 @@ antlrcpp::Any verbum_ast_visitor::visitElifElementUnique (TParser::ElifElementUn
     verbum_ast_node node;
     
     node.type = VERBUM_CONDITIONAL_ELIF;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_ELIF, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -738,7 +738,7 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
     verbum_ast_node node;
     
     node.type = VERBUM_CONDITIONAL_ELSE;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_ELSE, node, this->ast);
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -751,10 +751,28 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
 ** Controle dos valores utilizado nas expressões.
 */
 
+// Bloco "not".
+antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionElements (TParser::ConditionalExpressionElementsContext *ctx)
+{
+    if (ctx->Not()) {
+        verbum_ast_node node;
+        
+        node.type = VERBUM_CONDITIONAL_EXPR_NOT;
+        this->ast = this->add_node(node, this->ast);
+
+        this->node_block_counter++;
+        antlrcpp::Any result = visitChildren(ctx);
+        this->node_block_counter--;
+
+        return result;
+    }
+
+    return visitChildren(ctx);
+}
+
+
 // Dados gerais.
 
 // Bloco de expressão.
-
-// Bloco "not".
 
 
