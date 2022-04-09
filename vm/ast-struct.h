@@ -259,12 +259,19 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_DATA_STRING
                                                     //      VERBUM_DATA_INTEGER
                                                     //      VERBUM_DATA_FLOAT
-                                                    //
+                                                    //      VERBUM_DATA_OPERATION_BLOCK
+                                                    //      VERBUM_DATA_FUNCTION_CALL
+                                                    //      VERBUM_DATA_INSTANCE_METHOD_CALL
+                                                    //      VERBUM_DATA_STATIC_METHOD_CALL
         
         string identifier;                          // Identificador.
         string vstring;                             // String.
         string integer;                             // Inteiro.
         string floating;                            // Float.
+
+        string function_name;                       // Nome da função chamada.
+        string object_name;                         // Nome do objeto.
+        string method_name;                         // Nome do método.
     } general_value_data;
 
     bool general_value_type_conversion;             // Verifica se há conversão de tipo no elemento em questão.

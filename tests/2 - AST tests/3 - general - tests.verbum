@@ -1,0 +1,7 @@
+
+use 'std:io';
+
+if (a > 10)
+    print("Verbum\n");
+
+

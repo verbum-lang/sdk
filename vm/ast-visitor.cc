@@ -521,12 +521,41 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue(TParser::GeneralValueContext
         node.general_value_data.floating = ctx->Float()->getText();
     }
 
-    // Dados complexos.
+    /*
+    ** Dados complexos.
+    */
+
+    // Bloco de operações.
     else if (ctx->operationElements()) {
         node.general_value_data.type = VERBUM_DATA_OPERATION_BLOCK;
         block = true;
     }
 
+    // Chamadas a funções.
+    else if (ctx->functionCall()) {
+        block = true;
+
+        // Método de objeto instanciado.
+        if (ctx->functionCall()->Point()) {
+            node.general_value_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
+            node.general_value_data.object_name = ctx->functionCall()->Identifier()->getText();
+            node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
+        }
+
+        // Método static.
+        else if (ctx->functionCall()->TwoTwoPoint()) {
+            node.general_value_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
+            node.general_value_data.object_name = ctx->functionCall()->Identifier()->getText();
+            node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
+        }
+
+        // Função comum.
+        else {
+            node.general_value_data.type = VERBUM_DATA_FUNCTION_CALL;
+            node.general_value_data.function_name = ctx->functionCall()->Identifier()->getText();
+        }
+    }
+    
     this->ast = this->add_node(VERBUM_GENERAL_VALUE, node, this->ast);
 
     if (block) {

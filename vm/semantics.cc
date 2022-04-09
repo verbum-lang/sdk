@@ -377,10 +377,49 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             // Dados complexos.
             else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
                 cout << "\n";
+                this->tab();
+                cout << "-> operation-block:\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
+            }
+
+            /*
+            ** Chamada a função.
+            */
+            else if (node.general_value_data.type == VERBUM_DATA_FUNCTION_CALL          ||
+                     node.general_value_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL   ||
+                     node.general_value_data.type == VERBUM_DATA_STATIC_METHOD_CALL      )
+            {
+                cout << "\n";
+                this->tab();
+
+                // Função simples.
+                if (node.general_value_data.type == VERBUM_DATA_FUNCTION_CALL) 
+                    cout << node.general_value_data.function_name << " (function-call)\n";
+
+                // Chamada a método de objeto instanciado.
+                else if (node.general_value_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL)
+                    cout << node.general_value_data.object_name << " . " << 
+                        node.general_value_data.method_name << " (instance-method-call)\n"; 
+
+                // Chamada a método de objeto estático.
+                else if (node.general_value_data.type == VERBUM_DATA_STATIC_METHOD_CALL)
+                    cout << node.general_value_data.object_name << " :: " << 
+                        node.general_value_data.method_name << " (static-method-call)\n";
+
+
+                // Processamento dos nodes (filhos).
+                this->tab();
+                cout << "( <---| open function-block\n";
+
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+
+                this->tab();
+                cout << ") <---| close function-block\n";
             }
 
             // Verifica se há conversão de tipo.
