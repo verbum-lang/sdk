@@ -54,11 +54,14 @@ namespace verbum {
             antlrcpp::Any visitArrayAccessElementsItems (TParser::ArrayAccessElementsItemsContext *ctx);
             antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
 
-            // Condicionais.
-            antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx);
-
             // Operações.
             antlrcpp::Any visitOperationValue(TParser::OperationValueContext *ctx);
+
+            // Valores gerais.
+            antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx);
+
+            // Condicionais.
+            antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx);
 
         private:
             // Contadores e flags de controle da adição dos nodes.

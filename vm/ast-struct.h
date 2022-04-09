@@ -23,7 +23,7 @@ using namespace std;
 
 #define VERBUM_UNKNOWN                                  0
 
-// Lista de tipos de elementos.
+// Lista de tipos de elementos da AST.
 #define VERBUM_USE                                      1
 #define VERBUM_VARIABLE_INITIALIZATION                  2
 #define VERBUM_VARIABLE_USE_TYPES                       3
@@ -35,9 +35,10 @@ using namespace std;
 #define VERBUM_ACCESS_ARRAY_TYPE_BLOCK                  8
 #define VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT            9
 
-#define VERBUM_CONDITIONAL_IF                           10
+#define VERBUM_OPERATION_BLOCK                          10
+#define VERBUM_GENERAL_VALUE                            11
 
-#define VERBUM_OPERATION_BLOCK                          11
+#define VERBUM_CONDITIONAL_IF                           10333
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
@@ -93,6 +94,8 @@ using namespace std;
 #define VERBUM_DATA_FUNCTION_CALL                       4
 #define VERBUM_DATA_INSTANCE_METHOD_CALL                5
 #define VERBUM_DATA_STATIC_METHOD_CALL                  6
+#define VERBUM_DATA_STRING                              7
+#define VERBUM_DATA_OPERATION_BLOCK                     8
 
 // Operações de inc/dec.
 #define VERBUM_OP_TYPE_INC                              1
@@ -245,6 +248,27 @@ typedef struct verbum_ast_node
 
     bool operation_type_conversion;                 // Verifica se há conversão de tipo no elemento em questão.
     string operation_type_conversion_data;          // Nome do tipo a ser convertido.
+
+    /*
+    ** Valores gerais.
+    ** VERBUM_GENERAL_VALUE
+    */
+    struct {                                        // Controle dos dados mais simples.
+        int type;                                   // Tipo:
+                                                    //      VERBUM_DATA_IDENTIFIER
+                                                    //      VERBUM_DATA_STRING
+                                                    //      VERBUM_DATA_INTEGER
+                                                    //      VERBUM_DATA_FLOAT
+                                                    //
+        
+        string identifier;                          // Identificador.
+        string vstring;                             // String.
+        string integer;                             // Inteiro.
+        string floating;                            // Float.
+    } general_value_data;
+
+    bool general_value_type_conversion;             // Verifica se há conversão de tipo no elemento em questão.
+    string general_value_type_conversion_data;      // Nome do tipo a ser convertido.
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

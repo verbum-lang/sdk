@@ -35,16 +35,35 @@ vector <verbum_ast_node> verbum_ast_visitor::get_verbum_ast ()
 }
 
 /*
-** Importações: use.
+** Adiciona node no respectivo nível hierárquico.
 */
-antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx) 
+verbum_ast_node verbum_ast_visitor::add_node (int type, verbum_ast_node source, verbum_ast_node destination)
 {
-    string content = ctx->getText().substr(1, ctx->getText().length() - 2);
-    verbum_use_import verbum_use(content);
-    verbum_ast_node ast_node = verbum_use.get_ast_node();
-    ast.nodes.push_back(verbum_use.get_ast_node());
+    this->node_run_counter = 0;
+    return this->add_node_internal(type, source, destination);
+}
 
-    return visitChildren(ctx);
+verbum_ast_node verbum_ast_visitor::add_node_internal (int type, verbum_ast_node source, verbum_ast_node destination)
+{
+    int last = destination.nodes.size() - 1;
+    if (last < 0)
+        last = 0;
+    
+    if (this->node_run_counter == this->node_block_counter) 
+        destination.nodes.push_back(source);
+    else {
+        this->node_run_counter++;
+
+        if (destination.nodes.size() > 0) {
+            verbum_ast_node node = this->add_node_internal(type, source, 
+                destination.nodes[ last ]
+            );
+
+            destination.nodes[ last ] = node;
+        }
+    }
+
+    return destination;
 }
 
 /*
@@ -102,6 +121,19 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.nodes.clear();
 
     return ast;
+}
+
+/*
+** Importações: use.
+*/
+antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx) 
+{
+    string content = ctx->getText().substr(1, ctx->getText().length() - 2);
+    verbum_use_import verbum_use(content);
+    verbum_ast_node ast_node = verbum_use.get_ast_node();
+    ast.nodes.push_back(verbum_use.get_ast_node());
+
+    return visitChildren(ctx);
 }
 
 /*
@@ -291,22 +323,8 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
     return result;
 }
 
-antlrcpp::Any verbum_ast_visitor::visitIfConditions(TParser::IfConditionsContext *ctx)
-{
-    verbum_ast_node node;
-    
-    node.type = VERBUM_CONDITIONAL_IF;
-    this->ast = this->add_node(VERBUM_CONDITIONAL_IF, node, this->ast);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
-}
-
 /*
-** Controle dos blocos de operaões.
+** Controle dos blocos de operações.
 */
 antlrcpp::Any verbum_ast_visitor::visitOperationValue(TParser::OperationValueContext *ctx)
 {
@@ -472,43 +490,70 @@ int verbum_ast_visitor::check_block_arithmeic_operator (string op)
 }
 
 /*
-** Adiciona node no respectivo nível de hierarquia.
+** Controle dos valores gerais.
 */
-verbum_ast_node verbum_ast_visitor::add_node (int type, verbum_ast_node source, verbum_ast_node destination)
+antlrcpp::Any verbum_ast_visitor::visitGeneralValue(TParser::GeneralValueContext *ctx) 
 {
-    this->node_run_counter = 0;
-    return this->add_node_internal(type, source, destination);
-}
+    antlrcpp::Any result;
+    bool block = false;
+    verbum_ast_node node = this->zero_data();
 
-verbum_ast_node verbum_ast_visitor::add_node_internal (int type, verbum_ast_node source, verbum_ast_node destination)
-{
-    int last = destination.nodes.size() - 1;
-    if (last < 0)
-        last = 0;
-        
-    /*
-    if (type == VERBUM_VARIABLE_INITIALIZATION ||
-        type == VERBUM_CONDITIONAL_IF          ||
-        type == VERBUM_ACCESS_ARRAY            ||
-        type == VERBUM_VARIABLE_USE_TYPES       )
-    */
-    {
-        if (this->node_run_counter == this->node_block_counter) 
-            destination.nodes.push_back(source);
-        else {
-            this->node_run_counter++;
+    node.type = VERBUM_GENERAL_VALUE;
+    node.general_value_type_conversion = false;
 
-            if (destination.nodes.size() > 0) {
-                verbum_ast_node node = this->add_node_internal(type, source, 
-                    destination.nodes[ last ]
-                );
-
-                destination.nodes[ last ] = node;
-            }
-        }
+    if (ctx->TypeSpec()) {
+        node.general_value_type_conversion = true;
+        node.general_value_type_conversion_data = ctx->TypeSpec()->getText();
     }
 
-    return destination;
+    // Dados simples.
+    if (ctx->Identifier()) {
+        node.general_value_data.type = VERBUM_DATA_IDENTIFIER;
+        node.general_value_data.identifier = ctx->Identifier()->getText();
+    } else if (ctx->String()) {
+        node.general_value_data.type = VERBUM_DATA_STRING;
+        node.general_value_data.vstring = ctx->String()->getText();
+    } else if (ctx->Integer()) {
+        node.general_value_data.type = VERBUM_DATA_INTEGER;
+        node.general_value_data.integer = ctx->Integer()->getText();
+    } else if (ctx->Float()) {
+        node.general_value_data.type = VERBUM_DATA_FLOAT;
+        node.general_value_data.floating = ctx->Float()->getText();
+    }
+
+    // Dados complexos.
+    else if (ctx->operationElements()) {
+        node.general_value_data.type = VERBUM_DATA_OPERATION_BLOCK;
+        block = true;
+    }
+
+    this->ast = this->add_node(VERBUM_GENERAL_VALUE, node, this->ast);
+
+    if (block) {
+      this->node_block_counter++;
+      result = visitChildren(ctx);
+      this->node_block_counter--;
+    } else
+      result = visitChildren(ctx);
+
+    return result;
+}
+
+/*
+** Condicionais: if.
+*/
+antlrcpp::Any verbum_ast_visitor::visitIfConditions(TParser::IfConditionsContext *ctx)
+{
+    verbum_ast_node node;
+    
+    node.type = VERBUM_CONDITIONAL_IF;
+    this->ast = this->add_node(VERBUM_CONDITIONAL_IF, node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
 }
 
 

@@ -166,10 +166,14 @@ use 'std:io';
 var abcd            = 333;
 var efgh :int       = 31337;
 
-if (a) {
-    var x = 10;
+if (a == 10) {
+    var x = 10.1;
 
     Jesus = Deus;
+
+    var amor = "Trindade";
+
+    var abc = 10 * (20 + a :int);
 }
 
 

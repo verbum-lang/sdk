@@ -310,7 +310,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     }
 
                     this->tab();
-                    cout << node.operation_data.identifier << " (identifier)\n";
+                    cout << node.operation_data.identifier << " (o.identifier)\n";
 
                     // Pós inc/dec.
                     if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
@@ -326,13 +326,13 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 // Inteiro.
                 else if (node.operation_data.type == VERBUM_DATA_INTEGER) {
                     this->tab();
-                    cout << node.operation_data.integer << "\n";
+                    cout << node.operation_data.integer << " (o.integer)\n";
                 }
 
                 // Float.
                 else if (node.operation_data.type == VERBUM_DATA_FLOAT) {
                     this->tab();
-                    cout << node.operation_data.floating << "\n";
+                    cout << node.operation_data.floating << " (o.float)\n";
                 }
 
                 // Verifica se há conversão de tipo.
@@ -354,6 +354,41 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     }
                 }
             }
+        }
+
+        /*
+        ** Valores gerais.
+        */
+        else if (node.type == VERBUM_GENERAL_VALUE) {
+
+            // Dados simples.
+            this->tab();
+            cout << "-> value: ";
+
+            if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) 
+                cout << node.general_value_data.identifier << " (s.identifier)\n";
+            else if (node.general_value_data.type == VERBUM_DATA_INTEGER) 
+                cout << node.general_value_data.integer << " (s.integer)\n";
+            else if (node.general_value_data.type == VERBUM_DATA_STRING) 
+                cout << node.general_value_data.vstring << " (s.string)\n";
+            else if (node.general_value_data.type == VERBUM_DATA_FLOAT) 
+                cout << node.general_value_data.floating << " (s.float)\n";
+            
+            // Dados complexos.
+            else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
+                cout << "\n";
+
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+            }
+
+            // Verifica se há conversão de tipo.
+            if (node.general_value_type_conversion) {
+                this->tab();
+                cout << node.general_value_type_conversion_data << " (type conversion)\n";
+            }
+
         }
 
     }
