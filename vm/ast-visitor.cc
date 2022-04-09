@@ -562,6 +562,13 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue(TParser::GeneralValueContext
         block = true;
     }
     
+    // Array associativo.
+    else if (ctx->associativeArray()) {
+        node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
+        block = true;
+    }
+    
+    
     this->ast = this->add_node(VERBUM_GENERAL_VALUE, node, this->ast);
 
     if (block) {
@@ -572,6 +579,23 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue(TParser::GeneralValueContext
       result = visitChildren(ctx);
 
     return result;
+}
+
+/*
+** Array associativo.
+*/
+antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+
+    node.type = VERBUM_GENERAL_VALUE;
+    node.general_value_type_conversion = false;
+    node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_ELEMENT;
+    node.general_value_data.identifier = ctx->Identifier()->getText();
+    
+    this->ast = this->add_node(VERBUM_GENERAL_VALUE, node, this->ast);
+
+    return visitChildren(ctx);
 }
 
 /*

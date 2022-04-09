@@ -362,23 +362,30 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         else if (node.type == VERBUM_GENERAL_VALUE) {
 
             // Dados simples.
-            this->tab();
-            cout << "-> value: ";
+            if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER      ||
+                node.general_value_data.type == VERBUM_DATA_INTEGER         ||
+                node.general_value_data.type == VERBUM_DATA_STRING          ||
+                node.general_value_data.type == VERBUM_DATA_FLOAT            )
+            {
+                this->tab();
+                cout << "-> value: ";
 
-            if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) 
-                cout << node.general_value_data.identifier << " (s.identifier)\n";
-            else if (node.general_value_data.type == VERBUM_DATA_INTEGER) 
-                cout << node.general_value_data.integer << " (s.integer)\n";
-            else if (node.general_value_data.type == VERBUM_DATA_STRING) 
-                cout << node.general_value_data.vstring << " (s.string)\n";
-            else if (node.general_value_data.type == VERBUM_DATA_FLOAT) 
-                cout << node.general_value_data.floating << " (s.float)\n";
-            
-            // Dados complexos.
+                if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) 
+                    cout << node.general_value_data.identifier << " (s.identifier)\n";
+                else if (node.general_value_data.type == VERBUM_DATA_INTEGER) 
+                    cout << node.general_value_data.integer << " (s.integer)\n";
+                else if (node.general_value_data.type == VERBUM_DATA_STRING) 
+                    cout << node.general_value_data.vstring << " (s.string)\n";
+                else if (node.general_value_data.type == VERBUM_DATA_FLOAT) 
+                    cout << node.general_value_data.floating << " (s.float)\n";
+            }
+
+            /*
+            ** Dados complexos.
+            */
 
             // Operações e sub-elementos.
             else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
-                cout << "\n";
                 this->tab();
                 cout << "-> operation-block:\n";
 
@@ -387,18 +394,36 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->block_counter--;
             }
 
-            // Operações e sub-elementos.
+            // Array indexado.
             else if (node.general_value_data.type == VERBUM_DATA_INDEX_ARRAY_BLOCK) {
-                cout << "\n";
                 this->tab();
-                cout << "[ <---| array-open-block:\n";
+                cout << "[ <---| array-index-open:\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
 
                 this->tab();
-                cout << "] <---| array-close-block:\n";
+                cout << "] <---| array-index-close:\n";
+            }
+
+            // Array associativo - bloco.
+            else if (node.general_value_data.type == VERBUM_DATA_ASSOC_ARRAY_BLOCK) {
+                this->tab();
+                cout << "{ <---| array-assoc-open:\n";
+
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+
+                this->tab();
+                cout << "} <---| array-assoc-close:\n";
+            }
+
+            // Array associativo - elementos.
+            else if (node.general_value_data.type == VERBUM_DATA_ASSOC_ARRAY_ELEMENT) {
+                this->tab();
+                cout << "-> key: " << node.general_value_data.identifier << "\n";
             }
 
             /*
@@ -408,7 +433,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                      node.general_value_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL   ||
                      node.general_value_data.type == VERBUM_DATA_STATIC_METHOD_CALL      )
             {
-                cout << "\n";
                 this->tab();
 
                 // Função simples.

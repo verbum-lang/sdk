@@ -49,7 +49,7 @@ namespace verbum {
             // Processa variáveis.
             antlrcpp::Any visitVariableModes (TParser::VariableModesContext *ctx);
             antlrcpp::Any visitVariableDefinition (TParser::VariableDefinitionContext *ctx);
- 
+            
             // Acesso a elementos de array.
             antlrcpp::Any visitArrayAccessElementsItems (TParser::ArrayAccessElementsItemsContext *ctx);
             antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
@@ -59,6 +59,9 @@ namespace verbum {
 
             // Valores gerais.
             antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx);
+
+            // Array associativo.
+            antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx);
 
             // Condicionais.
             antlrcpp::Any visitIfConditions(TParser::IfConditionsContext *ctx);

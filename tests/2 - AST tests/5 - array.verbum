@@ -1,0 +1,20 @@
+
+use 'std:io';
+
+var a = {
+    nome: "Jesus",
+    valor: "Deus",
+    abc: 10 :float
+};
+
+var a = {
+    
+    nome: "Jesus",
+    valor: "Deus",
+    xyz: [
+        1,2,3
+    ],
+    abc: 10 :float
+};
+
+

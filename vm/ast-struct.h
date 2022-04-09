@@ -38,6 +38,8 @@ using namespace std;
 #define VERBUM_OPERATION_BLOCK                          10
 #define VERBUM_GENERAL_VALUE                            11
 #define VERBUM_DATA_INDEX_ARRAY_BLOCK                   12
+#define VERBUM_DATA_ASSOC_ARRAY_BLOCK                   13
+#define VERBUM_DATA_ASSOC_ARRAY_ELEMENT                 14
 
 #define VERBUM_CONDITIONAL_IF                           10333
 
