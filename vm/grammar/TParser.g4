@@ -286,16 +286,19 @@ elseElementUnique
   : Else conditionalBlockElements
   ;
 
-// Blocos...
+// Bloco da expressão condicional.
 conditionalExpressionItems
-  : OpenOp Identifier CloseOp
+  : conditionalExpressionElements
   ;
 
+// Bloco de comandos.
 conditionalBlockElements
   : OpenBlock CloseBlock
   | OpenBlock conditionalBlockElsItems CloseBlock
-  | callingFunction
   | conditionalExpression
+  | callingFunction
+  | loop
+  | ret
   ;
 
 // Código dentro dos blocos.
@@ -303,8 +306,6 @@ conditionalBlockElsItems
   : sentence
   | sentence conditionalBlockElsItems
   ;
-
-// +++
 
 // Controle do bloco das expressões.
 conditionalExpressionElements
@@ -315,7 +316,7 @@ conditionalExpressionElements
   | Not conditionalExpressionElements
   ;
 
-conditionalExpElementsValue // operationElements equivalent
+conditionalExpElementsValue
   : conditionalExpValue
   | conditionalExpValue conditionalExpElementsValue
   ;
@@ -416,10 +417,9 @@ loopBlockElements
   ;
 
 loopBlockElementsLimited
-  //: ifConditions
-  //| ifConditions loopBlockElementsLimited
   : loop
   | loop loopBlockElementsLimited
+  | conditionalExpression
   | ret
   ;
 

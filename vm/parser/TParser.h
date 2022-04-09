@@ -717,9 +717,7 @@ public:
   public:
     ConditionalExpressionItemsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *OpenOp();
-    antlr4::tree::TerminalNode *Identifier();
-    antlr4::tree::TerminalNode *CloseOp();
+    ConditionalExpressionElementsContext *conditionalExpressionElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -737,8 +735,10 @@ public:
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
     ConditionalBlockElsItemsContext *conditionalBlockElsItems();
-    CallingFunctionContext *callingFunction();
     ConditionalExpressionContext *conditionalExpression();
+    CallingFunctionContext *callingFunction();
+    LoopContext *loop();
+    RetContext *ret();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -972,6 +972,7 @@ public:
     virtual size_t getRuleIndex() const override;
     LoopContext *loop();
     LoopBlockElementsLimitedContext *loopBlockElementsLimited();
+    ConditionalExpressionContext *conditionalExpression();
     RetContext *ret();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
