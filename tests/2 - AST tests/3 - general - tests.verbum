@@ -4,4 +4,10 @@ use 'std:io';
 if (a > 10)
     print("Verbum\n");
 
+var a = a.b.c.d.e();
+var a = a.b.c.d::e();
+var a = a.b();
+
+var a = ar[1][2][3];
+
 

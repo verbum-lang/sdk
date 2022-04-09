@@ -375,6 +375,8 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << node.general_value_data.floating << " (s.float)\n";
             
             // Dados complexos.
+
+            // Operações e sub-elementos.
             else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
                 cout << "\n";
                 this->tab();
@@ -383,6 +385,20 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
+            }
+
+            // Operações e sub-elementos.
+            else if (node.general_value_data.type == VERBUM_DATA_INDEX_ARRAY_BLOCK) {
+                cout << "\n";
+                this->tab();
+                cout << "[ <---| array-open-block:\n";
+
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+
+                this->tab();
+                cout << "] <---| array-close-block:\n";
             }
 
             /*

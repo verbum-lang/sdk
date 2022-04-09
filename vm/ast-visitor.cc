@@ -555,6 +555,12 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue(TParser::GeneralValueContext
             node.general_value_data.function_name = ctx->functionCall()->Identifier()->getText();
         }
     }
+
+    // Array indexado.
+    else if (ctx->indexArray()) {
+        node.general_value_data.type = VERBUM_DATA_INDEX_ARRAY_BLOCK;
+        block = true;
+    }
     
     this->ast = this->add_node(VERBUM_GENERAL_VALUE, node, this->ast);
 
