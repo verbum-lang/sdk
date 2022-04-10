@@ -34,6 +34,7 @@ using namespace std;
 #define VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT       7
 #define VERBUM_ACCESS_ARRAY_TYPE_BLOCK                  8
 #define VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT            9
+#define VERBUM_ACCESS_ARRAY_OP_ELEMENT                  27
 
 #define VERBUM_OPERATION_BLOCK                          10
 #define VERBUM_GENERAL_VALUE                            11

@@ -1200,6 +1200,56 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::Conditional
             return result;
         }
 
+        else if (ctx->arrayAccessElements()) {
+            node.operation_type = VERBUM_ACCESS_ARRAY_OP_ELEMENT;
+
+            // Operador aritmético relacionado à operação.
+            if (ctx->ArithmeticOperator()) {
+                string op = ctx->ArithmeticOperator()->getText();
+                node.operation_op = this->check_block_arithmeic_operator(op);
+            }
+
+            // Operador relacional.
+            if (ctx->AssignmentOperator()) {
+                string op = ctx->AssignmentOperator()->getText();
+
+                if (op.compare("+=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_ADD_EQUAL;
+                else if (op.compare("-=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_SUB_EQUAL;
+                else if (op.compare("*=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_MUL_EQUAL;
+                else if (op.compare("/=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_DIV_EQUAL;
+                else if (op.compare("%=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_PERC_EQUAL;
+                else if (op.compare(">")  == 0)
+                    node.operation_op = VERBUM_OPERATOR_MAJOR;
+                else if (op.compare("<")  == 0)
+                    node.operation_op = VERBUM_OPERATOR_MINOR;
+                else if (op.compare(">=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_MAJOR_EQUAL;
+                else if (op.compare("<=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_MINOR_EQUAL;
+                else if (op.compare("&&") == 0)
+                    node.operation_op = VERBUM_OPERATOR_AND;
+                else if (op.compare("==") == 0)
+                    node.operation_op = VERBUM_OPERATOR_EQUAL;
+                else if (op.compare("!=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_NOT_EQUAL;
+                else if (op.compare("!")  == 0)
+                    node.operation_op = VERBUM_OPERATOR_NOT;
+            }
+
+            this->ast = this->add_node(node, this->ast);
+
+            this->node_block_counter++;
+            result = visitChildren(ctx);
+            this->node_block_counter--;
+            
+            return result;
+        }
+
         // Operador aritmético relacionado à operação.
         if (ctx->ArithmeticOperator()) {
             string op = ctx->ArithmeticOperator()->getText();

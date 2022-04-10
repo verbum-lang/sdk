@@ -419,6 +419,54 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         */
         else if (node.type == VERBUM_OPERATION_BLOCK) {
             
+            if (node.operation_type == VERBUM_ACCESS_ARRAY_OP_ELEMENT) {
+                this->tab();
+                cout << "-> open array-access-op-block\n";
+
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+
+                this->tab();
+                cout << "-> close array-access-op-block\n";
+
+
+                // Verifica se há conversão de tipo.
+                if (node.operation_type_conversion) {
+                    this->tab();
+                    cout << node.operation_type_conversion_data << " (type conversion)\n";
+                }
+
+                // Operação.
+                if (node.operation_op != VERBUM_UNKNOWN) {
+                    this->tab();
+
+                    switch (node.operation_op) {
+                        case VERBUM_OPERATOR_ADD:         cout <<  "+\n"; break;
+                        case VERBUM_OPERATOR_SUB:         cout <<  "-\n"; break;
+                        case VERBUM_OPERATOR_DIV:         cout <<  "/\n"; break;
+                        case VERBUM_OPERATOR_MUL:         cout <<  "*\n"; break;
+                        case VERBUM_OPERATOR_PERC:        cout <<  "%\n"; break;
+
+                        // Utilizado nas expressões condicionais.
+                        case VERBUM_OPERATOR_ATTR:        cout <<  "=\n"; break;
+                        case VERBUM_OPERATOR_ADD_EQUAL:   cout << "+=\n"; break;
+                        case VERBUM_OPERATOR_SUB_EQUAL:   cout << "-=\n"; break;
+                        case VERBUM_OPERATOR_MUL_EQUAL:   cout << "*=\n"; break;
+                        case VERBUM_OPERATOR_DIV_EQUAL:   cout << "/=\n"; break;
+                        case VERBUM_OPERATOR_PERC_EQUAL:  cout << "%=\n"; break;
+                        case VERBUM_OPERATOR_MAJOR:       cout <<  ">\n"; break;
+                        case VERBUM_OPERATOR_MINOR:       cout <<  "<\n"; break;
+                        case VERBUM_OPERATOR_MAJOR_EQUAL: cout << ">=\n"; break;
+                        case VERBUM_OPERATOR_MINOR_EQUAL: cout << "<=\n"; break;
+                        case VERBUM_OPERATOR_AND:         cout << "&&\n"; break;
+                        case VERBUM_OPERATOR_EQUAL:       cout << "==\n"; break;
+                        case VERBUM_OPERATOR_NOT_EQUAL:   cout << "!=\n"; break;
+                        case VERBUM_OPERATOR_NOT:         cout <<  "!\n"; break;
+                    }
+                }
+            }
+
             // Bloco de operações.
             if (node.operation_type == VERBUM_OPERATION_TYPE_BLOCK) {
 
@@ -577,6 +625,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     this->tab();
                     cout << node.operation_data.floating << " (o.float)\n";
                 }
+
 
                 // Verifica se há conversão de tipo.
                 if (node.operation_type_conversion) {
