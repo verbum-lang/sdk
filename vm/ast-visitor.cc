@@ -1200,6 +1200,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::Conditional
             return result;
         }
 
+        // Acesso a elemento de array.
         else if (ctx->arrayAccessElements()) {
             node.operation_type = VERBUM_ACCESS_ARRAY_OP_ELEMENT;
 

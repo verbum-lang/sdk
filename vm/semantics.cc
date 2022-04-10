@@ -419,6 +419,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         */
         else if (node.type == VERBUM_OPERATION_BLOCK) {
             
+            // Bloco de acesso a elemento de array.
             if (node.operation_type == VERBUM_ACCESS_ARRAY_OP_ELEMENT) {
                 this->tab();
                 cout << "-> open array-access-op-block\n";
@@ -468,7 +469,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             }
 
             // Bloco de operações.
-            if (node.operation_type == VERBUM_OPERATION_TYPE_BLOCK) {
+            else if (node.operation_type == VERBUM_OPERATION_TYPE_BLOCK) {
 
                 // Processamento dos nodes (filhos).
                 this->tab();
