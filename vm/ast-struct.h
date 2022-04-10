@@ -34,29 +34,34 @@ using namespace std;
 #define VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT       7
 #define VERBUM_ACCESS_ARRAY_TYPE_BLOCK                  8
 #define VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT            9
-#define VERBUM_ACCESS_ARRAY_OP_ELEMENT                  27
+#define VERBUM_ACCESS_ARRAY_OP_ELEMENT                  10
 
-#define VERBUM_OPERATION_BLOCK                          10
-#define VERBUM_GENERAL_VALUE                            11
-#define VERBUM_DATA_INDEX_ARRAY_BLOCK                   12
-#define VERBUM_DATA_ASSOC_ARRAY_BLOCK                   13
-#define VERBUM_DATA_ASSOC_ARRAY_ELEMENT                 14
+#define VERBUM_OPERATION_BLOCK                          11
+#define VERBUM_GENERAL_VALUE                            12
+#define VERBUM_DATA_INDEX_ARRAY_BLOCK                   13
+#define VERBUM_DATA_ASSOC_ARRAY_BLOCK                   14
+#define VERBUM_DATA_ASSOC_ARRAY_ELEMENT                 15
 
-#define VERBUM_FUNCTION_CALL                            15
+#define VERBUM_FUNCTION_CALL                            16
 
-#define VERBUM_CONDITIONAL_STRUCT_BLOCK                 16
-#define VERBUM_CONDITIONAL_EXPRESSION_BLOCK             17
-#define VERBUM_CONDITIONAL_CODE_BLOCK                   18
-#define VERBUM_CONDITIONAL_IF                           19
-#define VERBUM_CONDITIONAL_ELIF                         20
-#define VERBUM_CONDITIONAL_ELSE                         21
+#define VERBUM_CONDITIONAL_STRUCT_BLOCK                 17
+#define VERBUM_CONDITIONAL_EXPRESSION_BLOCK             18
+#define VERBUM_CONDITIONAL_CODE_BLOCK                   19
+#define VERBUM_CONDITIONAL_IF                           20
+#define VERBUM_CONDITIONAL_ELIF                         21
+#define VERBUM_CONDITIONAL_ELSE                         22
 
-#define VERBUM_CONDITIONAL_EXPR_NOT                     22
-#define VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN              23
+#define VERBUM_CONDITIONAL_EXPR_NOT                     23
+#define VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN              24
 
-#define VERBUM_EXPRESSION_ATTR_FUNC_CALL                24
-#define VERBUM_EXPRESSION_ATTR_FUNC_CALL_DESTINATION    25
-#define VERBUM_EXPRESSION_ATTR_FUNC_CALL_BLOCK          26
+#define VERBUM_EXPRESSION_ATTR_FUNC_CALL                25
+#define VERBUM_EXPRESSION_ATTR_FUNC_CALL_DESTINATION    26
+#define VERBUM_EXPRESSION_ATTR_FUNC_CALL_BLOCK          27
+
+#define VERBUM_LOOP                                     29
+#define VERBUM_LOOP_COMPLETE                            30
+#define VERBUM_LOOP_CONDITIONAL                         31
+#define VERBUM_LOOP_INFINITE                            32
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
@@ -338,6 +343,15 @@ typedef struct verbum_ast_node
     ** Atribuição com chamada a função (usado em expressões condicionais).
     */
     int attr_function_call_operator;                // Operador utilizado na atribuição.
+
+    /*
+    ** Loops.
+    ** VERBUM_LOOP
+    */
+    int loop_type;                                  // Tipo do loop (identificado de acordo com a expressão).
+                                                    //      VERBUM_LOOP_COMPLETE
+                                                    //      VERBUM_LOOP_CONDITIONAL
+                                                    //      VERBUM_LOOP_INFINITE
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

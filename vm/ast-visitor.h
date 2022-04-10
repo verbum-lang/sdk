@@ -87,6 +87,10 @@ namespace verbum {
             // Valores das expressões condicionais.            
             antlrcpp::Any visitConditionalExpValue (TParser::ConditionalExpValueContext *ctx);
 
+            // Loop.
+            antlrcpp::Any visitLoopExpressionItems (TParser::LoopExpressionItemsContext *ctx);
+            antlrcpp::Any visitLoopExpression (TParser::LoopExpressionContext *ctx);
+
         private:
         
             // Contadores e flags de controle da adição dos nodes.

@@ -157,8 +157,26 @@ public:
   virtual void enterLoop(TParser::LoopContext *ctx) = 0;
   virtual void exitLoop(TParser::LoopContext *ctx) = 0;
 
+  virtual void enterLoopExpressionItems(TParser::LoopExpressionItemsContext *ctx) = 0;
+  virtual void exitLoopExpressionItems(TParser::LoopExpressionItemsContext *ctx) = 0;
+
   virtual void enterLoopExpression(TParser::LoopExpressionContext *ctx) = 0;
   virtual void exitLoopExpression(TParser::LoopExpressionContext *ctx) = 0;
+
+  virtual void enterLoopInfinite(TParser::LoopInfiniteContext *ctx) = 0;
+  virtual void exitLoopInfinite(TParser::LoopInfiniteContext *ctx) = 0;
+
+  virtual void enterLoopComplete(TParser::LoopCompleteContext *ctx) = 0;
+  virtual void exitLoopComplete(TParser::LoopCompleteContext *ctx) = 0;
+
+  virtual void enterLoopConditional(TParser::LoopConditionalContext *ctx) = 0;
+  virtual void exitLoopConditional(TParser::LoopConditionalContext *ctx) = 0;
+
+  virtual void enterEndOne(TParser::EndOneContext *ctx) = 0;
+  virtual void exitEndOne(TParser::EndOneContext *ctx) = 0;
+
+  virtual void enterEndTwo(TParser::EndTwoContext *ctx) = 0;
+  virtual void exitEndTwo(TParser::EndTwoContext *ctx) = 0;
 
   virtual void enterLoopOneMembers(TParser::LoopOneMembersContext *ctx) = 0;
   virtual void exitLoopOneMembers(TParser::LoopOneMembersContext *ctx) = 0;

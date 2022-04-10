@@ -205,7 +205,31 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitLoopExpressionItems(TParser::LoopExpressionItemsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitLoopExpression(TParser::LoopExpressionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLoopInfinite(TParser::LoopInfiniteContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLoopComplete(TParser::LoopCompleteContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLoopConditional(TParser::LoopConditionalContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitEndOne(TParser::EndOneContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitEndTwo(TParser::EndTwoContext *ctx) override {
     return visitChildren(ctx);
   }
 

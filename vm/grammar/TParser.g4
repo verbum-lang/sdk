@@ -364,24 +364,48 @@ functionCallAttrFnItem
   | functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
   ;
 
-// Loops.
+/*
+** Loops.
+*/
+
+// Controle geral.
 loop
-  : For loopExpression OpenBlock                   CloseBlock
-  | For loopExpression OpenBlock loopBlockElements CloseBlock
-  | For loopExpression callingFunction
-  | For loopExpression loopBlockElementsLimited
+  : loopExpressionItems
+  | loopExpressionItems loop
   ;
 
-loopExpression
-  : OpenOp loopOneMembers End loopTwoMembers End loopThreeMembers CloseOp
-  |        loopOneMembers End loopTwoMembers End loopThreeMembers
-  | conditionalExpressionElements
-  | OpenOp                                                        CloseOp
-  |
+loopExpressionItems
+  : For loopExpression loopBlockElementsLimited
   ;
+
+// Tipos de expressões.
+loopExpression
+  : loopInfinite
+  | loopComplete
+  | loopConditional
+  ;
+
+// Tipos de loop.
+loopInfinite
+  : OpenOp CloseOp
+  | 
+  ;
+
+loopComplete
+  : OpenOp loopOneMembers endOne loopTwoMembers endTwo loopThreeMembers CloseOp
+  |        loopOneMembers endOne loopTwoMembers endTwo loopThreeMembers
+  ;
+
+loopConditional
+  : loopTwoMembers
+  ;
+
+endOne : End;
+endTwo : End;
 
 loopOneMembers
   : variableMembers
+  | Var variableMembers
   |
   ;
 
@@ -397,20 +421,22 @@ loopThreeMembers
 
 loopThreeMembersValues
   : operationElements
-  | operationBlock
   | operationElements Separator loopThreeMembersValues
-  | operationBlock    Separator loopThreeMembersValues
   ;
 
+// Bloco de código.
 loopBlockElements
   : sentence
   | sentence loopBlockElements
   ;
 
+// Bloco de código - modalidades.
 loopBlockElementsLimited
-  : loop
-  | loop loopBlockElementsLimited
+  : OpenBlock CloseBlock
+  | OpenBlock loopBlockElements CloseBlock
   | conditionalExpression
+  | callingFunction
+  | loop
   | ret
   ;
 
@@ -425,7 +451,6 @@ ret
 retValues
   : generalValue
   | operationElements
-  | operationBlock
   ;
 
 /*

@@ -284,7 +284,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         // If.
         else if (node.type == VERBUM_CONDITIONAL_IF) {
             this->tab();
-            cout << "conditional-if () {\n";
+            cout << "conditional-if {\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
@@ -297,7 +297,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         // Elif.
         else if (node.type == VERBUM_CONDITIONAL_ELIF) {
             this->tab();
-            cout << "conditional-elif () {\n";
+            cout << "conditional-elif {\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
@@ -310,7 +310,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         // Else.
         else if (node.type == VERBUM_CONDITIONAL_ELSE) {
             this->tab();
-            cout << "conditional-else () {\n";
+            cout << "conditional-else {\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
@@ -318,6 +318,33 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             this->tab();
             cout << "}\n";
+        }
+
+        /*
+        ** Loops.
+        */
+
+        // Bloco completo.
+        else if (node.type == VERBUM_LOOP) {
+            this->tab();
+            cout << "-> loop-block open\n";
+            
+            // Tipo do loop.
+            this->tab();
+            
+            if (node.loop_type == VERBUM_LOOP_COMPLETE)
+                cout << "-> loop-type: complete\n";
+            else if (node.loop_type == VERBUM_LOOP_CONDITIONAL)
+                cout << "-> loop-type: conditional\n";
+            else if (node.loop_type == VERBUM_LOOP_INFINITE)
+                cout << "-> loop-type: infinite\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> loop-block close\n";
         }
 
         /*
@@ -669,7 +696,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         ** Valores gerais.
         */
         else if (node.type == VERBUM_GENERAL_VALUE) {
-            
+
             // Dados simples.
             if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER      ||
                      node.general_value_data.type == VERBUM_DATA_INTEGER         ||

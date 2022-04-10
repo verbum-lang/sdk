@@ -1317,4 +1317,41 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::Conditional
     return result;
 }
 
+// Bloco completo do loop.
+antlrcpp::Any verbum_ast_visitor::visitLoopExpressionItems (TParser::LoopExpressionItemsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_LOOP;
+    node.loop_type       = VERBUM_UNKNOWN;
+
+    /*
+    ** Identifica tipo do loop.
+    */
+
+    // Loop completo.
+    if (ctx->loopExpression()->loopComplete())
+        node.loop_type = VERBUM_LOOP_COMPLETE;
+
+    // Loop condicional.
+    else if (ctx->loopExpression()->loopConditional())
+        node.loop_type = VERBUM_LOOP_CONDITIONAL;
+
+    // Loop infinito.
+    else if (ctx->loopExpression()->loopInfinite())
+        node.loop_type = VERBUM_LOOP_INFINITE;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+antlrcpp::Any verbum_ast_visitor::visitLoopExpression (TParser::LoopExpressionContext *ctx)
+{
+    return visitChildren(ctx);
+}
+
 

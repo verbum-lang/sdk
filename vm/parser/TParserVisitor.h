@@ -114,7 +114,19 @@ public:
 
     virtual antlrcpp::Any visitLoop(TParser::LoopContext *context) = 0;
 
+    virtual antlrcpp::Any visitLoopExpressionItems(TParser::LoopExpressionItemsContext *context) = 0;
+
     virtual antlrcpp::Any visitLoopExpression(TParser::LoopExpressionContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopInfinite(TParser::LoopInfiniteContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopComplete(TParser::LoopCompleteContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopConditional(TParser::LoopConditionalContext *context) = 0;
+
+    virtual antlrcpp::Any visitEndOne(TParser::EndOneContext *context) = 0;
+
+    virtual antlrcpp::Any visitEndTwo(TParser::EndTwoContext *context) = 0;
 
     virtual antlrcpp::Any visitLoopOneMembers(TParser::LoopOneMembersContext *context) = 0;
 

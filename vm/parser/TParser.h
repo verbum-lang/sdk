@@ -46,18 +46,20 @@ public:
     RuleConditionExpValue = 37, RuleConditionExpBlock = 38, RuleConditionExpBlockItemValue = 39, 
     RuleConditionExpBlockItem = 40, RuleConditionalExpValue = 41, RuleFunctionCallAndAttr = 42, 
     RuleIdentifierAttrFn = 43, RuleFunctionCallAttrFn = 44, RuleFunctionCallAttrFnItem = 45, 
-    RuleLoop = 46, RuleLoopExpression = 47, RuleLoopOneMembers = 48, RuleLoopTwoMembers = 49, 
-    RuleLoopThreeMembers = 50, RuleLoopThreeMembersValues = 51, RuleLoopBlockElements = 52, 
-    RuleLoopBlockElementsLimited = 53, RuleRet = 54, RuleRetValues = 55, 
-    RuleFunctions = 56, RuleFunctionGeneralModes = 57, RuleFunctionsModes = 58, 
-    RuleFunctionMethodsModes = 59, RuleMethodPerm = 60, RuleConstructClassMethod = 61, 
-    RuleInterfaceMethod = 62, RuleFunctionCodeBlock = 63, RuleFunctionParams = 64, 
-    RuleFunctionParamElements = 65, RuleOopGeneral = 66, RuleInterfaceClass = 67, 
-    RuleInterfaceClassDefinition = 68, RuleAbstractClass = 69, RuleAbstractClassDefinition = 70, 
-    RuleClassDefination = 71, RuleClassModesGeneral = 72, RuleClassModes = 73, 
-    RuleArrayAccessElements = 74, RuleArrayAccessElementsItems = 75, RuleAccessBlockAr = 76, 
-    RuleArrayIndexAccess = 77, RuleGeneralValue = 78, RuleObjIdentifierA = 79, 
-    RuleObjIdentifierB = 80
+    RuleLoop = 46, RuleLoopExpressionItems = 47, RuleLoopExpression = 48, 
+    RuleLoopInfinite = 49, RuleLoopComplete = 50, RuleLoopConditional = 51, 
+    RuleEndOne = 52, RuleEndTwo = 53, RuleLoopOneMembers = 54, RuleLoopTwoMembers = 55, 
+    RuleLoopThreeMembers = 56, RuleLoopThreeMembersValues = 57, RuleLoopBlockElements = 58, 
+    RuleLoopBlockElementsLimited = 59, RuleRet = 60, RuleRetValues = 61, 
+    RuleFunctions = 62, RuleFunctionGeneralModes = 63, RuleFunctionsModes = 64, 
+    RuleFunctionMethodsModes = 65, RuleMethodPerm = 66, RuleConstructClassMethod = 67, 
+    RuleInterfaceMethod = 68, RuleFunctionCodeBlock = 69, RuleFunctionParams = 70, 
+    RuleFunctionParamElements = 71, RuleOopGeneral = 72, RuleInterfaceClass = 73, 
+    RuleInterfaceClassDefinition = 74, RuleAbstractClass = 75, RuleAbstractClassDefinition = 76, 
+    RuleClassDefination = 77, RuleClassModesGeneral = 78, RuleClassModes = 79, 
+    RuleArrayAccessElements = 80, RuleArrayAccessElementsItems = 81, RuleAccessBlockAr = 82, 
+    RuleArrayIndexAccess = 83, RuleGeneralValue = 84, RuleObjIdentifierA = 85, 
+    RuleObjIdentifierB = 86
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -117,7 +119,13 @@ public:
   class FunctionCallAttrFnContext;
   class FunctionCallAttrFnItemContext;
   class LoopContext;
+  class LoopExpressionItemsContext;
   class LoopExpressionContext;
+  class LoopInfiniteContext;
+  class LoopCompleteContext;
+  class LoopConditionalContext;
+  class EndOneContext;
+  class EndTwoContext;
   class LoopOneMembersContext;
   class LoopTwoMembersContext;
   class LoopThreeMembersContext;
@@ -953,13 +961,8 @@ public:
   public:
     LoopContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *For();
-    LoopExpressionContext *loopExpression();
-    antlr4::tree::TerminalNode *OpenBlock();
-    antlr4::tree::TerminalNode *CloseBlock();
-    LoopBlockElementsContext *loopBlockElements();
-    CallingFunctionContext *callingFunction();
-    LoopBlockElementsLimitedContext *loopBlockElementsLimited();
+    LoopExpressionItemsContext *loopExpressionItems();
+    LoopContext *loop();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -970,18 +973,30 @@ public:
 
   LoopContext* loop();
 
+  class  LoopExpressionItemsContext : public antlr4::ParserRuleContext {
+  public:
+    LoopExpressionItemsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *For();
+    LoopExpressionContext *loopExpression();
+    LoopBlockElementsLimitedContext *loopBlockElementsLimited();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LoopExpressionItemsContext* loopExpressionItems();
+
   class  LoopExpressionContext : public antlr4::ParserRuleContext {
   public:
     LoopExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *OpenOp();
-    LoopOneMembersContext *loopOneMembers();
-    std::vector<antlr4::tree::TerminalNode *> End();
-    antlr4::tree::TerminalNode* End(size_t i);
-    LoopTwoMembersContext *loopTwoMembers();
-    LoopThreeMembersContext *loopThreeMembers();
-    antlr4::tree::TerminalNode *CloseOp();
-    ConditionalExpressionElementsContext *conditionalExpressionElements();
+    LoopInfiniteContext *loopInfinite();
+    LoopCompleteContext *loopComplete();
+    LoopConditionalContext *loopConditional();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -992,11 +1007,94 @@ public:
 
   LoopExpressionContext* loopExpression();
 
+  class  LoopInfiniteContext : public antlr4::ParserRuleContext {
+  public:
+    LoopInfiniteContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LoopInfiniteContext* loopInfinite();
+
+  class  LoopCompleteContext : public antlr4::ParserRuleContext {
+  public:
+    LoopCompleteContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenOp();
+    LoopOneMembersContext *loopOneMembers();
+    EndOneContext *endOne();
+    LoopTwoMembersContext *loopTwoMembers();
+    EndTwoContext *endTwo();
+    LoopThreeMembersContext *loopThreeMembers();
+    antlr4::tree::TerminalNode *CloseOp();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LoopCompleteContext* loopComplete();
+
+  class  LoopConditionalContext : public antlr4::ParserRuleContext {
+  public:
+    LoopConditionalContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    LoopTwoMembersContext *loopTwoMembers();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LoopConditionalContext* loopConditional();
+
+  class  EndOneContext : public antlr4::ParserRuleContext {
+  public:
+    EndOneContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  EndOneContext* endOne();
+
+  class  EndTwoContext : public antlr4::ParserRuleContext {
+  public:
+    EndTwoContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  EndTwoContext* endTwo();
+
   class  LoopOneMembersContext : public antlr4::ParserRuleContext {
   public:
     LoopOneMembersContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     VariableMembersContext *variableMembers();
+    antlr4::tree::TerminalNode *Var();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1042,7 +1140,6 @@ public:
     LoopThreeMembersValuesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     OperationElementsContext *operationElements();
-    OperationBlockContext *operationBlock();
     antlr4::tree::TerminalNode *Separator();
     LoopThreeMembersValuesContext *loopThreeMembersValues();
 
@@ -1075,9 +1172,12 @@ public:
   public:
     LoopBlockElementsLimitedContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    LoopContext *loop();
-    LoopBlockElementsLimitedContext *loopBlockElementsLimited();
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    LoopBlockElementsContext *loopBlockElements();
     ConditionalExpressionContext *conditionalExpression();
+    CallingFunctionContext *callingFunction();
+    LoopContext *loop();
     RetContext *ret();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1112,7 +1212,6 @@ public:
     virtual size_t getRuleIndex() const override;
     GeneralValueContext *generalValue();
     OperationElementsContext *operationElements();
-    OperationBlockContext *operationBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

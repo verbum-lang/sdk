@@ -159,8 +159,26 @@ public:
   virtual void enterLoop(TParser::LoopContext * /*ctx*/) override { }
   virtual void exitLoop(TParser::LoopContext * /*ctx*/) override { }
 
+  virtual void enterLoopExpressionItems(TParser::LoopExpressionItemsContext * /*ctx*/) override { }
+  virtual void exitLoopExpressionItems(TParser::LoopExpressionItemsContext * /*ctx*/) override { }
+
   virtual void enterLoopExpression(TParser::LoopExpressionContext * /*ctx*/) override { }
   virtual void exitLoopExpression(TParser::LoopExpressionContext * /*ctx*/) override { }
+
+  virtual void enterLoopInfinite(TParser::LoopInfiniteContext * /*ctx*/) override { }
+  virtual void exitLoopInfinite(TParser::LoopInfiniteContext * /*ctx*/) override { }
+
+  virtual void enterLoopComplete(TParser::LoopCompleteContext * /*ctx*/) override { }
+  virtual void exitLoopComplete(TParser::LoopCompleteContext * /*ctx*/) override { }
+
+  virtual void enterLoopConditional(TParser::LoopConditionalContext * /*ctx*/) override { }
+  virtual void exitLoopConditional(TParser::LoopConditionalContext * /*ctx*/) override { }
+
+  virtual void enterEndOne(TParser::EndOneContext * /*ctx*/) override { }
+  virtual void exitEndOne(TParser::EndOneContext * /*ctx*/) override { }
+
+  virtual void enterEndTwo(TParser::EndTwoContext * /*ctx*/) override { }
+  virtual void exitEndTwo(TParser::EndTwoContext * /*ctx*/) override { }
 
   virtual void enterLoopOneMembers(TParser::LoopOneMembersContext * /*ctx*/) override { }
   virtual void exitLoopOneMembers(TParser::LoopOneMembersContext * /*ctx*/) override { }
