@@ -224,6 +224,14 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT
                                                     //      VERBUM_ACCESS_ARRAY_TYPE_BLOCK
                                                     //      VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT
+
+        int type_inc_dec;                           // Tipo de incremento/decremento:
+                                                    //      VERBUM_OP_TYPE_INC
+                                                    //      VERBUM_OP_TYPE_DEC
+                                                    //
+        int mod_inc_dec;                            // Modo da operação de incremento/decremento:
+                                                    //      VERBUM_OP_INCDEC_PRE    - Anterior a variável.
+                                                    //      VERBUM_OP_INCDEC_POS    - Após a variável.
     } access_array_type;
 
     /*

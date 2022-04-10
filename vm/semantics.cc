@@ -153,8 +153,26 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
         // Identificador.
         else if (node.type == VERBUM_ACCESS_ARRAY) {
+
+            // Identificador
             this->tab();
             cout << node.access_array_identifier;
+
+            // Pré inc/dec.
+            if (node.access_array_type.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
+                switch (node.access_array_type.type_inc_dec) {
+                    case VERBUM_OP_TYPE_INC: cout << " ++ (pre) "; break;
+                    case VERBUM_OP_TYPE_DEC: cout << " -- (pre) "; break;
+                }
+            }
+            
+            // Pós inc/dec.
+            if (node.access_array_type.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
+                switch (node.access_array_type.type_inc_dec) {
+                    case VERBUM_OP_TYPE_INC: cout << " ++ (pos) "; break;
+                    case VERBUM_OP_TYPE_DEC: cout << " -- (pos) "; break;
+                }
+            }
 
             // Modo do acesso.
             if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER)

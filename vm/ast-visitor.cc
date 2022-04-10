@@ -101,7 +101,9 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     // VERBUM_ACCESS_ARRAY
     ast.access_array_identifier             = "";
     ast.access_array_type.type              = VERBUM_UNKNOWN;
-    
+    ast.access_array_type.type_inc_dec      = VERBUM_UNKNOWN;
+    ast.access_array_type.mod_inc_dec       = VERBUM_UNKNOWN;
+
     // VERBUM_OPERATION_BLOCK
     ast.operation_type                      = VERBUM_UNKNOWN;
     ast.operation_data.type                 = VERBUM_UNKNOWN;
@@ -315,6 +317,32 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElementsItems (TParser::ArrayA
         node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT;
     else if (ctx->Identifier() && !ctx->accessBlockAr() && !ctx->Point()) 
         node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER;
+    
+    // Processa incremento/decremento.
+    node.access_array_type.mod_inc_dec  = VERBUM_UNKNOWN;
+    node.access_array_type.type_inc_dec = VERBUM_UNKNOWN;
+
+    // Processa pré-incremento/decremento.
+    if (ctx->firstIncDec()) {
+        string item = ctx->firstIncDec()->getText();
+        node.access_array_type.mod_inc_dec = VERBUM_OP_INCDEC_PRE;
+
+        if (item.compare("++") == 0)
+            node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_INC;
+        else if (item.compare("--") == 0)
+            node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_DEC;
+    }
+
+    // Processa pós-incremento/decremento.
+    if (ctx->lastIncDec()) {
+        string item = ctx->lastIncDec()->getText();
+        node.access_array_type.mod_inc_dec = VERBUM_OP_INCDEC_POS;
+
+        if (item.compare("++") == 0)
+            node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_INC;
+        else if (item.compare("--") == 0)
+            node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_DEC;
+    }
     
     this->ast = this->add_node(node, this->ast);
 

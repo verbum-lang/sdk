@@ -560,6 +560,16 @@ arrayAccessElementsItems
   | Identifier               Point
   | Identifier accessBlockAr
   | Identifier accessBlockAr Point
+
+  | firstIncDec Identifier  
+  |             Identifier               Point
+  | firstIncDec Identifier accessBlockAr
+  |             Identifier accessBlockAr Point
+
+  | Identifier               lastIncDec
+  | Identifier                          Point
+  | Identifier accessBlockAr lastIncDec
+  | Identifier accessBlockAr            Point
   ;
 
 accessBlockAr
