@@ -1,93 +1,93 @@
 lexer grammar TLexer;
 
 @lexer::postinclude {
-	#ifndef _WIN32
-	#pragma GCC diagnostic ignored "-Wunused-parameter"
-	#endif
+  #ifndef _WIN32
+  #pragma GCC diagnostic ignored "-Wunused-parameter"
+  #endif
 }
 
 // Comandos e palavras reservadas.
-Use 			: 'use' ;
-Var 			: 'var' ;
-If  			: 'if';
-Elif 			: 'elif';
-Else 			: 'else';
-For 			: 'for';
-Ret 			: 'ret';
-Function 		: 'fn';
-Pub 			: 'pub';
-Pro 			: 'pro';
-Priv 			: 'priv';
-Static 			: 'static';
-Final 			: 'final';
-Interface 		: 'interface';
-Abstract 		: 'abstract';
-Extends 		: 'extends';
-Class 			: 'class';
-Implements 		: 'implements';
-New 			: 'new';
+Use          : 'use' ;
+Var          : 'var' ;
+If           : 'if';
+Elif         : 'elif';
+Else         : 'else';
+For          : 'for';
+Ret          : 'ret';
+Function     : 'fn';
+Pub          : 'pub';
+Pro          : 'pro';
+Priv         : 'priv';
+Static       : 'static';
+Final        : 'final';
+Interface    : 'interface';
+Abstract     : 'abstract';
+Extends      : 'extends';
+Class        : 'class';
+Implements   : 'implements';
+New          : 'new';
 
 // Operadores.
-ArrowRight 		: '->';
-End 			: ';' ;
-Attr 			: '=' ;
-Point 			: '.';
-TwoPoint 		: ':';
-TwoTwoPoint 	: '::';
-Separator 		: ',' ;
-OpenArIndex 	: '[' ;
-CloseArIndex 	: ']' ;
-OpenBlock 		: '{' ;
-CloseBlock 		: '}' ;
-OpenOp 			: '(';
-CloseOp 		:')';
+ArrowRight   : '->';
+End          : ';' ;
+Attr         : '=' ;
+Point        : '.';
+TwoPoint     : ':';
+TwoTwoPoint  : '::';
+Separator    : ',' ;
+OpenArIndex  : '[' ;
+CloseArIndex : ']' ;
+OpenBlock    : '{' ;
+CloseBlock   : '}' ;
+OpenOp       : '(';
+CloseOp      :')';
 
 // Operações aritméticas.
 ArithmeticOperator
-	: '+'  | '-'  | '*'  | '/'  | '%' 
-	;
+  : '+'  | '-'  | '*'  | '/'  | '%' 
+  ;
 
 AssignmentOperator
-	: '+=' | '-=' | '*=' | '/=' | '%='
-	| '>'  | '<'  | '>=' | '<=' 
-	| '&&' | '||'
-	| '==' | '!='
-	;
+  : '+=' | '-=' | '*=' | '/=' | '%='
+  | '>'  | '<'  | '>=' | '<=' 
+  | '&&' | '||'
+  | '==' | '!='
+  ;
 
 Not : '!';
 
 // Incremento e decremento.
 IncDecOperators
-	: ( '++' | '--' )
-	;
+  : ( '++' | '--' )
+  ;
 
 //
 // Identificador:
-// 		nome de tipos de variáveis
-//		nome de variáveis
-//		funções e métodos
-//		classes / objetos
-//		interface
-//		abstração
+//     nome de tipos de variáveis
+//    nome de variáveis
+//    funções e métodos
+//    classes / objetos
+//    interface
+//    abstração
 //
 Identifier
-	: IDPrefix
-	| IDPrefix ( Words | [0-9]+ | [_] )*
-	;
+  : IDPrefix
+  | IDPrefix ( Words | [0-9]+ | [_] )*
+  ;
 
 IDPrefix
-	: ( [_] | Words )
-	;
+  : ( [_] | Words )
+  ;
 
 TypeSpec
-	: [:] ( Identifier )
-	;
+  : [:] ( Identifier )
+  ;
 
 // Strings.
 String
-	: '"' ( ~('"') | ('\\' '"') )* '"'
-	| '\'' ( ~('\'') | ('\\' '\'') )* '\''
-	;
+  : '"'  ( ~('"')  | ('\\' '"') )*  '"'
+  | '\'' ( ~('\'') | ('\\' '\'') )* '\''
+  ;
 
 // Tokens gerais
 Integer : [0-9]+ | [-][0-9]+; 
@@ -95,29 +95,29 @@ Float : FloatLiteral | [-] FloatLiteral;
 
 Whitespace
     : [ \t]+
-		-> skip
+    -> skip
     ;
 
 Newline
     : (   '\r' '\n'?
       |   '\n'
       )
-	  	-> skip
+      -> skip
     ;
 
 Words
-	: [a-zA-Z\u0080-\u{10FFFF}]+
-	;
+  : [a-zA-Z\u0080-\u{10FFFF}]+
+  ;
 
 // Comentários.
 BlockComment
     : '/*' .*? '*/'
-		-> skip
+    -> skip
     ;
 
 LineComment
     : '//' ~[\r\n]*
-		-> skip
+    -> skip
     ;
 
 /*
@@ -153,6 +153,6 @@ fragment OCTAL_DIGITS: '0' '0'..'7'+;
 fragment HEX_DIGITS: '0x' ('0'..'9' | 'a'..'f' | 'A'..'F')+;
 
 /* Tokens desconhecidos. */
-//Unknown	: . ;
+//Unknown  : . ;
 
 
