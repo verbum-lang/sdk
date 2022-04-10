@@ -7,9 +7,9 @@
 #include "antlr4-runtime.h"
 
 
-	#ifndef _WIN32
-	#pragma GCC diagnostic ignored "-Wunused-parameter"
-	#endif
+  #ifndef _WIN32
+  #pragma GCC diagnostic ignored "-Wunused-parameter"
+  #endif
 
 
 namespace verbum {
