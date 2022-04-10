@@ -132,7 +132,7 @@ fragment IntegerLiteral  : IntegerFrag IntSuffix?;
 fragment FloatTypeSuffix : 'f' | 'F' | 'L';
 fragment ImaginarySuffix : 'i';
 fragment IntSuffix       : 'L'|'u'|'U'|'Lu'|'LU'|'uL'|'UL' ;
-fragment IntegerFrag         : Decimal| Binary| Octal| Hexadecimal ;
+fragment IntegerFrag     : Decimal| Binary| Octal| Hexadecimal ;
 fragment Decimal         : '0' | '1'..'9' (DecimalDigit | '_')* ;
 fragment Binary          : ('0b' | '0B') ('0' | '1' | '_')+ ;
 fragment Octal           : '0' (OctalDigit | '_')+ ;
