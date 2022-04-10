@@ -94,6 +94,9 @@ namespace verbum {
             antlrcpp::Any visitLoopThreeMembers (TParser::LoopThreeMembersContext *ctx);
             antlrcpp::Any visitLoopBlockElementsLimited (TParser::LoopBlockElementsLimitedContext *ctx);
 
+            // Ret.
+            antlrcpp::Any visitRet (TParser::RetContext *ctx);
+
         private:
         
             // Contadores e flags de controle da adição dos nodes.

@@ -64,6 +64,9 @@ using namespace std;
 #define VERBUM_LOOP_INFINITE                            32
 #define VERBUM_LOOP_BLOCK                               33
 
+#define VERBUM_RET                                      34
+
+// Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2
 #define VERBUM_LOOP_INCDEC                              3

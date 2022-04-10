@@ -12,4 +12,5 @@ for ;a<10; {
         print("Verbum!\n");
 }
 
+ret 10;
 

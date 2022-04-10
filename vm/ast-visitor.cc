@@ -1413,4 +1413,21 @@ antlrcpp::Any verbum_ast_visitor::visitLoopBlockElementsLimited (TParser::LoopBl
     return result;
 }
 
+/*
+** Comando de retorno (ret).
+*/
+antlrcpp::Any verbum_ast_visitor::visitRet (TParser::RetContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_RET;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 
