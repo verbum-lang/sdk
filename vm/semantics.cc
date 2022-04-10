@@ -669,12 +669,12 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         ** Valores gerais.
         */
         else if (node.type == VERBUM_GENERAL_VALUE) {
-
+            
             // Dados simples.
             if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER      ||
-                node.general_value_data.type == VERBUM_DATA_INTEGER         ||
-                node.general_value_data.type == VERBUM_DATA_STRING          ||
-                node.general_value_data.type == VERBUM_DATA_FLOAT            )
+                     node.general_value_data.type == VERBUM_DATA_INTEGER         ||
+                     node.general_value_data.type == VERBUM_DATA_STRING          ||
+                     node.general_value_data.type == VERBUM_DATA_FLOAT            )
             {
                 this->tab();
                 cout << "-> value: ";

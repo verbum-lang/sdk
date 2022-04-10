@@ -506,6 +506,25 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
             return result;
         }
 
+        // Acesso a elemento de array.
+        else if (ctx->arrayAccessElements()) {
+            node.operation_type = VERBUM_ACCESS_ARRAY_OP_ELEMENT;
+
+            // Operador aritmético relacionado à operação.
+            if (ctx->ArithmeticOperator()) {
+                string op = ctx->ArithmeticOperator()->getText();
+                node.operation_op = this->check_block_arithmeic_operator(op);
+            }
+
+            this->ast = this->add_node(node, this->ast);
+
+            this->node_block_counter++;
+            result = visitChildren(ctx);
+            this->node_block_counter--;
+            
+            return result;
+        }
+
         // Operador aritmético relacionado à operação.
         if (ctx->ArithmeticOperator()) {
             string op = ctx->ArithmeticOperator()->getText();
@@ -621,7 +640,6 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
         block = true;
     }
-    
     
     this->ast = this->add_node(node, this->ast);
 
