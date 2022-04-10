@@ -42,21 +42,21 @@ public:
     RuleConditionalExpressionStructBlock = 28, RuleIfElementUnique = 29, 
     RuleElifElements = 30, RuleElifElementUnique = 31, RuleElseElementUnique = 32, 
     RuleConditionalExpressionItems = 33, RuleConditionalBlockElements = 34, 
-    RuleConditionalBlockElsItems = 35, RuleConditionalExpressionElements2 = 36, 
-    RuleDefaultExpValues = 37, RuleDefaultExpValuesUnique = 38, RuleConditionalExpressionElements = 39, 
-    RuleConditionExpBlock = 40, RuleConditionExpBlockItem = 41, RuleConditionalExpValue = 42, 
-    RuleIdentifierAttrFn = 43, RuleLoop = 44, RuleLoopExpression = 45, RuleLoopOneMembers = 46, 
-    RuleLoopTwoMembers = 47, RuleLoopThreeMembers = 48, RuleLoopThreeMembersValues = 49, 
-    RuleLoopBlockElements = 50, RuleLoopBlockElementsLimited = 51, RuleRet = 52, 
-    RuleRetValues = 53, RuleFunctions = 54, RuleFunctionGeneralModes = 55, 
-    RuleFunctionsModes = 56, RuleFunctionMethodsModes = 57, RuleMethodPerm = 58, 
-    RuleConstructClassMethod = 59, RuleInterfaceMethod = 60, RuleFunctionCodeBlock = 61, 
-    RuleFunctionParams = 62, RuleFunctionParamElements = 63, RuleOopGeneral = 64, 
-    RuleInterfaceClass = 65, RuleInterfaceClassDefinition = 66, RuleAbstractClass = 67, 
-    RuleAbstractClassDefinition = 68, RuleClassDefination = 69, RuleClassModesGeneral = 70, 
-    RuleClassModes = 71, RuleArrayAccessElements = 72, RuleArrayAccessElementsItems = 73, 
-    RuleAccessBlockAr = 74, RuleArrayIndexAccess = 75, RuleGeneralValue = 76, 
-    RuleObjIdentifierA = 77, RuleObjIdentifierB = 78
+    RuleConditionalBlockElsItems = 35, RuleConditionalExpressionElements = 36, 
+    RuleConditionExpValue = 37, RuleConditionExpBlock = 38, RuleConditionExpBlockItemValue = 39, 
+    RuleConditionExpBlockItem = 40, RuleConditionalExpValue = 41, RuleIdentifierAttrFn = 42, 
+    RuleLoop = 43, RuleLoopExpression = 44, RuleLoopOneMembers = 45, RuleLoopTwoMembers = 46, 
+    RuleLoopThreeMembers = 47, RuleLoopThreeMembersValues = 48, RuleLoopBlockElements = 49, 
+    RuleLoopBlockElementsLimited = 50, RuleRet = 51, RuleRetValues = 52, 
+    RuleFunctions = 53, RuleFunctionGeneralModes = 54, RuleFunctionsModes = 55, 
+    RuleFunctionMethodsModes = 56, RuleMethodPerm = 57, RuleConstructClassMethod = 58, 
+    RuleInterfaceMethod = 59, RuleFunctionCodeBlock = 60, RuleFunctionParams = 61, 
+    RuleFunctionParamElements = 62, RuleOopGeneral = 63, RuleInterfaceClass = 64, 
+    RuleInterfaceClassDefinition = 65, RuleAbstractClass = 66, RuleAbstractClassDefinition = 67, 
+    RuleClassDefination = 68, RuleClassModesGeneral = 69, RuleClassModes = 70, 
+    RuleArrayAccessElements = 71, RuleArrayAccessElementsItems = 72, RuleAccessBlockAr = 73, 
+    RuleArrayIndexAccess = 74, RuleGeneralValue = 75, RuleObjIdentifierA = 76, 
+    RuleObjIdentifierB = 77
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -105,11 +105,10 @@ public:
   class ConditionalExpressionItemsContext;
   class ConditionalBlockElementsContext;
   class ConditionalBlockElsItemsContext;
-  class ConditionalExpressionElements2Context;
-  class DefaultExpValuesContext;
-  class DefaultExpValuesUniqueContext;
   class ConditionalExpressionElementsContext;
+  class ConditionExpValueContext;
   class ConditionExpBlockContext;
+  class ConditionExpBlockItemValueContext;
   class ConditionExpBlockItemContext;
   class ConditionalExpValueContext;
   class IdentifierAttrFnContext;
@@ -770,59 +769,11 @@ public:
 
   ConditionalBlockElsItemsContext* conditionalBlockElsItems();
 
-  class  ConditionalExpressionElements2Context : public antlr4::ParserRuleContext {
-  public:
-    ConditionalExpressionElements2Context(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    DefaultExpValuesContext *defaultExpValues();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  ConditionalExpressionElements2Context* conditionalExpressionElements2();
-
-  class  DefaultExpValuesContext : public antlr4::ParserRuleContext {
-  public:
-    DefaultExpValuesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    DefaultExpValuesUniqueContext *defaultExpValuesUnique();
-    DefaultExpValuesContext *defaultExpValues();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  DefaultExpValuesContext* defaultExpValues();
-
-  class  DefaultExpValuesUniqueContext : public antlr4::ParserRuleContext {
-  public:
-    DefaultExpValuesUniqueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    ConditionalExpValueContext *conditionalExpValue();
-    antlr4::tree::TerminalNode *OpenOp();
-    antlr4::tree::TerminalNode *CloseOp();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  DefaultExpValuesUniqueContext* defaultExpValuesUnique();
-
   class  ConditionalExpressionElementsContext : public antlr4::ParserRuleContext {
   public:
     ConditionalExpressionElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    ConditionalExpValueContext *conditionalExpValue();
+    ConditionExpValueContext *conditionExpValue();
     ConditionalExpressionElementsContext *conditionalExpressionElements();
     ConditionExpBlockContext *conditionExpBlock();
 
@@ -835,14 +786,27 @@ public:
 
   ConditionalExpressionElementsContext* conditionalExpressionElements();
 
+  class  ConditionExpValueContext : public antlr4::ParserRuleContext {
+  public:
+    ConditionExpValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Not();
+    ConditionalExpValueContext *conditionalExpValue();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ConditionExpValueContext* conditionExpValue();
+
   class  ConditionExpBlockContext : public antlr4::ParserRuleContext {
   public:
     ConditionExpBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    ConditionExpBlockItemContext *conditionExpBlockItem();
-    antlr4::tree::TerminalNode *ArithmeticOperator();
-    antlr4::tree::TerminalNode *AssignmentOperator();
-    antlr4::tree::TerminalNode *TypeSpec();
+    ConditionExpBlockItemValueContext *conditionExpBlockItemValue();
     antlr4::tree::TerminalNode *Not();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -853,6 +817,24 @@ public:
   };
 
   ConditionExpBlockContext* conditionExpBlock();
+
+  class  ConditionExpBlockItemValueContext : public antlr4::ParserRuleContext {
+  public:
+    ConditionExpBlockItemValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ConditionExpBlockItemContext *conditionExpBlockItem();
+    antlr4::tree::TerminalNode *ArithmeticOperator();
+    antlr4::tree::TerminalNode *AssignmentOperator();
+    antlr4::tree::TerminalNode *TypeSpec();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ConditionExpBlockItemValueContext* conditionExpBlockItemValue();
 
   class  ConditionExpBlockItemContext : public antlr4::ParserRuleContext {
   public:

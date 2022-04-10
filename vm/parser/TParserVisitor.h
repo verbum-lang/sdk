@@ -92,15 +92,13 @@ public:
 
     virtual antlrcpp::Any visitConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext *context) = 0;
 
-    virtual antlrcpp::Any visitConditionalExpressionElements2(TParser::ConditionalExpressionElements2Context *context) = 0;
-
-    virtual antlrcpp::Any visitDefaultExpValues(TParser::DefaultExpValuesContext *context) = 0;
-
-    virtual antlrcpp::Any visitDefaultExpValuesUnique(TParser::DefaultExpValuesUniqueContext *context) = 0;
-
     virtual antlrcpp::Any visitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitConditionExpValue(TParser::ConditionExpValueContext *context) = 0;
+
     virtual antlrcpp::Any visitConditionExpBlock(TParser::ConditionExpBlockContext *context) = 0;
+
+    virtual antlrcpp::Any visitConditionExpBlockItemValue(TParser::ConditionExpBlockItemValueContext *context) = 0;
 
     virtual antlrcpp::Any visitConditionExpBlockItem(TParser::ConditionExpBlockItemContext *context) = 0;
 

@@ -751,42 +751,42 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
 ** Controle dos valores utilizado nas expressões.
 */
 
-antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionElements (TParser::ConditionalExpressionElementsContext *ctx)
+// Uso do 'not' no bloco de expressão.
+antlrcpp::Any verbum_ast_visitor::visitConditionExpBlock (TParser::ConditionExpBlockContext *ctx)
 {
-    /*
     if (ctx->Not()) {
         verbum_ast_node node = this->zero_data();
         
         node.type = VERBUM_CONDITIONAL_EXPR_NOT;
         this->ast = this->add_node(node, this->ast);
 
-        this->node_block_counter++;
         antlrcpp::Any result = visitChildren(ctx);
-        this->node_block_counter--;
 
         return result;
     }
-    */
 
     return visitChildren(ctx);
 }
 
-antlrcpp::Any verbum_ast_visitor::visitConditionExpBlockItem (TParser::ConditionExpBlockItemContext *ctx)
+// Uso do 'not' em valor comum (identifier, inteiros, etc).
+antlrcpp::Any verbum_ast_visitor::visitConditionExpValue (TParser::ConditionExpValueContext *ctx)
 {
+    if (ctx->Not()) {
+        verbum_ast_node node = this->zero_data();
+        
+        node.type = VERBUM_CONDITIONAL_EXPR_NOT;
+        this->ast = this->add_node(node, this->ast);
+
+        antlrcpp::Any result = visitChildren(ctx);
+
+        return result;
+    }
+
     return visitChildren(ctx);
 }
 
-// Bloco de expressão.
-antlrcpp::Any verbum_ast_visitor::visitDefaultExpValuesUnique (TParser::DefaultExpValuesUniqueContext *ctx)
-{
-    //this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    //this->node_block_counter--;
-
-    return result;
-}
-
-antlrcpp::Any verbum_ast_visitor::visitConditionExpBlock (TParser::ConditionExpBlockContext *ctx)
+// Detecta blocos condicionais (trata os blocos isoladamente).
+antlrcpp::Any verbum_ast_visitor::visitConditionExpBlockItemValue (TParser::ConditionExpBlockItemValueContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
     
@@ -831,11 +831,6 @@ antlrcpp::Any verbum_ast_visitor::visitConditionExpBlock (TParser::ConditionExpB
             node.conditional_operator = VERBUM_OPERATOR_NOT;
     }
     
-    // Not.
-    node.conditional_not = false;
-    if (ctx->Not()) 
-        node.conditional_not = true;
-
     this->ast = this->add_node(node, this->ast);
     
     this->node_block_counter++;

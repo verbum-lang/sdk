@@ -264,40 +264,33 @@ conditionalBlockElsItems
   | sentence conditionalBlockElsItems
   ;
 
-// Controle do bloco das expressões.
-conditionalExpressionElements2
-  : defaultExpValues
-  ;
-
-// Valores padrões (uso recursivo).
-defaultExpValues
-  : defaultExpValuesUnique
-  | defaultExpValuesUnique defaultExpValues
-  ;
-
-defaultExpValuesUnique
-  : conditionalExpValue
-  | OpenOp conditionalExpValue CloseOp
-  ;
-
-// +++
+/*
+** Controle do bloco das expressões.
+*/
 conditionalExpressionElements
-  // : Not conditionalExpValue
-  // | Not conditionExpBlock
-  : conditionalExpValue
-  | conditionalExpValue conditionalExpressionElements
+  : conditionExpValue
+  | conditionExpValue conditionalExpressionElements
+
   | conditionExpBlock
   | conditionExpBlock conditionalExpressionElements
   ;
 
+// Valores.
+conditionExpValue
+  : Not conditionalExpValue
+  | conditionalExpValue
+  ;
+
+// Blocos.
 conditionExpBlock
+  : conditionExpBlockItemValue
+  | Not conditionExpBlockItemValue
+  ;
+
+conditionExpBlockItemValue
   : conditionExpBlockItem
   | conditionExpBlockItem          (ArithmeticOperator | AssignmentOperator)
   | conditionExpBlockItem TypeSpec (ArithmeticOperator | AssignmentOperator)
-
-  | Not conditionExpBlockItem
-  | Not conditionExpBlockItem          (ArithmeticOperator | AssignmentOperator)
-  | Not conditionExpBlockItem TypeSpec (ArithmeticOperator | AssignmentOperator)
   ;
 
 conditionExpBlockItem

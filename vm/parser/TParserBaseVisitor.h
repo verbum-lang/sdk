@@ -161,23 +161,19 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitConditionalExpressionElements2(TParser::ConditionalExpressionElements2Context *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitDefaultExpValues(TParser::DefaultExpValuesContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitDefaultExpValuesUnique(TParser::DefaultExpValuesUniqueContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) override {
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitConditionExpValue(TParser::ConditionExpValueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitConditionExpBlock(TParser::ConditionExpBlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitConditionExpBlockItemValue(TParser::ConditionExpBlockItemValueContext *ctx) override {
     return visitChildren(ctx);
   }
 

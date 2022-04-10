@@ -126,20 +126,17 @@ public:
   virtual void enterConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext * /*ctx*/) override { }
   virtual void exitConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext * /*ctx*/) override { }
 
-  virtual void enterConditionalExpressionElements2(TParser::ConditionalExpressionElements2Context * /*ctx*/) override { }
-  virtual void exitConditionalExpressionElements2(TParser::ConditionalExpressionElements2Context * /*ctx*/) override { }
-
-  virtual void enterDefaultExpValues(TParser::DefaultExpValuesContext * /*ctx*/) override { }
-  virtual void exitDefaultExpValues(TParser::DefaultExpValuesContext * /*ctx*/) override { }
-
-  virtual void enterDefaultExpValuesUnique(TParser::DefaultExpValuesUniqueContext * /*ctx*/) override { }
-  virtual void exitDefaultExpValuesUnique(TParser::DefaultExpValuesUniqueContext * /*ctx*/) override { }
-
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
 
+  virtual void enterConditionExpValue(TParser::ConditionExpValueContext * /*ctx*/) override { }
+  virtual void exitConditionExpValue(TParser::ConditionExpValueContext * /*ctx*/) override { }
+
   virtual void enterConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
   virtual void exitConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
+
+  virtual void enterConditionExpBlockItemValue(TParser::ConditionExpBlockItemValueContext * /*ctx*/) override { }
+  virtual void exitConditionExpBlockItemValue(TParser::ConditionExpBlockItemValueContext * /*ctx*/) override { }
 
   virtual void enterConditionExpBlockItem(TParser::ConditionExpBlockItemContext * /*ctx*/) override { }
   virtual void exitConditionExpBlockItem(TParser::ConditionExpBlockItemContext * /*ctx*/) override { }

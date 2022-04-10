@@ -306,15 +306,14 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         ** Valores das expressões condicionais.
         */
 
+        // Bloco 'not'.
+        else if (node.type == VERBUM_CONDITIONAL_EXPR_NOT) {
+            this->tab();
+            cout << "-> not !\n";
+        }
+
         // Bloco de expressão.
         else if (node.type == VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN) {
-            
-            // Not.
-            if (node.conditional_not) {
-                this->tab();
-                cout << "-> not (conditional)\n";
-            }
-
             this->tab();
             cout << "-> c.expression-block (open)\n";
             
