@@ -282,19 +282,27 @@ defaultExpValuesUnique
 
 // +++
 conditionalExpressionElements
+  // : Not conditionalExpValue
+  // | Not conditionExpBlock
   : conditionalExpValue
   | conditionalExpValue conditionalExpressionElements
   | conditionExpBlock
   | conditionExpBlock conditionalExpressionElements
-  | Not conditionalExpressionElements
   ;
 
 conditionExpBlock
-  : OpenOp conditionalExpressionElements CloseOp
-  | conditionExpBlock AssignmentOperator
-  | conditionExpBlock TypeSpec AssignmentOperator
+  : conditionExpBlockItem
+  | conditionExpBlockItem          (ArithmeticOperator | AssignmentOperator)
+  | conditionExpBlockItem TypeSpec (ArithmeticOperator | AssignmentOperator)
+
+  | Not conditionExpBlockItem
+  | Not conditionExpBlockItem          (ArithmeticOperator | AssignmentOperator)
+  | Not conditionExpBlockItem TypeSpec (ArithmeticOperator | AssignmentOperator)
   ;
 
+conditionExpBlockItem
+  : OpenOp conditionalExpressionElements CloseOp
+  ;
 
 // Valores padrões.
 conditionalExpValue

@@ -751,10 +751,10 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
 ** Controle dos valores utilizado nas expressões.
 */
 
-// Bloco "not".
 antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionElements (TParser::ConditionalExpressionElementsContext *ctx)
 {
-    /*if (ctx->Not()) {
+    /*
+    if (ctx->Not()) {
         verbum_ast_node node = this->zero_data();
         
         node.type = VERBUM_CONDITIONAL_EXPR_NOT;
@@ -765,8 +765,14 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionElements (TParser::C
         this->node_block_counter--;
 
         return result;
-    }*/
+    }
+    */
 
+    return visitChildren(ctx);
+}
+
+antlrcpp::Any verbum_ast_visitor::visitConditionExpBlockItem (TParser::ConditionExpBlockItemContext *ctx)
+{
     return visitChildren(ctx);
 }
 
@@ -780,11 +786,8 @@ antlrcpp::Any verbum_ast_visitor::visitDefaultExpValuesUnique (TParser::DefaultE
     return result;
 }
 
-/*
 antlrcpp::Any verbum_ast_visitor::visitConditionExpBlock (TParser::ConditionExpBlockContext *ctx)
 {
-    return visitChildren(ctx);
-
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN;
@@ -827,6 +830,11 @@ antlrcpp::Any verbum_ast_visitor::visitConditionExpBlock (TParser::ConditionExpB
         else if (op.compare("!")  == 0)
             node.conditional_operator = VERBUM_OPERATOR_NOT;
     }
+    
+    // Not.
+    node.conditional_not = false;
+    if (ctx->Not()) 
+        node.conditional_not = true;
 
     this->ast = this->add_node(node, this->ast);
     
@@ -836,7 +844,6 @@ antlrcpp::Any verbum_ast_visitor::visitConditionExpBlock (TParser::ConditionExpB
 
     return result;
 }
-*/
 
 // Valores padrões da expressão condicional.
 antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::ConditionalExpValueContext *ctx)

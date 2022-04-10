@@ -102,6 +102,8 @@ public:
 
     virtual antlrcpp::Any visitConditionExpBlock(TParser::ConditionExpBlockContext *context) = 0;
 
+    virtual antlrcpp::Any visitConditionExpBlockItem(TParser::ConditionExpBlockItemContext *context) = 0;
+
     virtual antlrcpp::Any visitConditionalExpValue(TParser::ConditionalExpValueContext *context) = 0;
 
     virtual antlrcpp::Any visitIdentifierAttrFn(TParser::IdentifierAttrFnContext *context) = 0;

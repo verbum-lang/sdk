@@ -306,30 +306,24 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         ** Valores das expressões condicionais.
         */
 
-        // Not.
-        else if (node.type == VERBUM_CONDITIONAL_EXPR_NOT) {
-            this->tab();
-            cout << "( <---| c.not-block (open)\n";
-            
-            this->block_counter++;
-            this->verbum_recursive_ast(node.nodes);
-            this->block_counter--;
-
-            this->tab();
-            cout << ") <---| c.not-block (close)\n";
-        }
-
         // Bloco de expressão.
         else if (node.type == VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN) {
+            
+            // Not.
+            if (node.conditional_not) {
+                this->tab();
+                cout << "-> not (conditional)\n";
+            }
+
             this->tab();
-            cout << "( <---| c.expression-block (open)\n";
+            cout << "-> c.expression-block (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
             this->tab();
-            cout << ") <---| c.expression-block (close)\n";
+            cout << "-> c.expression-block (close)\n";
 
             // Verifica se há conversão de tipo.
             if (node.conditional_type_conversion) {
@@ -357,8 +351,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     case VERBUM_OPERATOR_NOT_EQUAL:   cout << "!=\n"; break;
                     case VERBUM_OPERATOR_NOT:         cout <<  "!\n"; break;
                 }
-                
-                cout << "\n";
             }
         } 
 

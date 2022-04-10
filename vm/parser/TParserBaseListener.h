@@ -141,6 +141,9 @@ public:
   virtual void enterConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
   virtual void exitConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
 
+  virtual void enterConditionExpBlockItem(TParser::ConditionExpBlockItemContext * /*ctx*/) override { }
+  virtual void exitConditionExpBlockItem(TParser::ConditionExpBlockItemContext * /*ctx*/) override { }
+
   virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext * /*ctx*/) override { }
   virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext * /*ctx*/) override { }
 

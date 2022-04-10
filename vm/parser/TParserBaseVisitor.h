@@ -181,6 +181,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitConditionExpBlockItem(TParser::ConditionExpBlockItemContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitConditionalExpValue(TParser::ConditionalExpValueContext *ctx) override {
     return visitChildren(ctx);
   }

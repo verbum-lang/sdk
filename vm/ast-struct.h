@@ -321,6 +321,8 @@ typedef struct verbum_ast_node
                                                     // Utilizado para o tratamento dos blocos de operações.
                                                     // Valor padrão: VERBUM_UNKNOWN.
     
+    int conditional_not;                            // Verifica se o bloco possui 'not'.
+
     /*
     ** Nodes internos (árvore) do elemento em questão.
     */

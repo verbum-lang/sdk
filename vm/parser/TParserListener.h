@@ -139,6 +139,9 @@ public:
   virtual void enterConditionExpBlock(TParser::ConditionExpBlockContext *ctx) = 0;
   virtual void exitConditionExpBlock(TParser::ConditionExpBlockContext *ctx) = 0;
 
+  virtual void enterConditionExpBlockItem(TParser::ConditionExpBlockItemContext *ctx) = 0;
+  virtual void exitConditionExpBlockItem(TParser::ConditionExpBlockItemContext *ctx) = 0;
+
   virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
   virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
 
