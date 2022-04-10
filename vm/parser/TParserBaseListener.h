@@ -126,17 +126,26 @@ public:
   virtual void enterConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext * /*ctx*/) override { }
   virtual void exitConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext * /*ctx*/) override { }
 
+  virtual void enterConditionalExpressionElements2(TParser::ConditionalExpressionElements2Context * /*ctx*/) override { }
+  virtual void exitConditionalExpressionElements2(TParser::ConditionalExpressionElements2Context * /*ctx*/) override { }
+
+  virtual void enterDefaultExpValues(TParser::DefaultExpValuesContext * /*ctx*/) override { }
+  virtual void exitDefaultExpValues(TParser::DefaultExpValuesContext * /*ctx*/) override { }
+
+  virtual void enterDefaultExpValuesUnique(TParser::DefaultExpValuesUniqueContext * /*ctx*/) override { }
+  virtual void exitDefaultExpValuesUnique(TParser::DefaultExpValuesUniqueContext * /*ctx*/) override { }
+
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
-
-  virtual void enterConditionalExpElementsValue(TParser::ConditionalExpElementsValueContext * /*ctx*/) override { }
-  virtual void exitConditionalExpElementsValue(TParser::ConditionalExpElementsValueContext * /*ctx*/) override { }
 
   virtual void enterConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
   virtual void exitConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
 
   virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext * /*ctx*/) override { }
   virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext * /*ctx*/) override { }
+
+  virtual void enterIdentifierAttrFn(TParser::IdentifierAttrFnContext * /*ctx*/) override { }
+  virtual void exitIdentifierAttrFn(TParser::IdentifierAttrFnContext * /*ctx*/) override { }
 
   virtual void enterLoop(TParser::LoopContext * /*ctx*/) override { }
   virtual void exitLoop(TParser::LoopContext * /*ctx*/) override { }

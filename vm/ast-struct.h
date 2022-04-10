@@ -51,6 +51,7 @@ using namespace std;
 #define VERBUM_CONDITIONAL_ELSE                         21
 
 #define VERBUM_CONDITIONAL_EXPR_NOT                     22
+#define VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN              23
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
@@ -72,29 +73,29 @@ using namespace std;
 #define VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER           2
 #define VERBUM_ACCESS_ARRAY_TINDEX_OPERATION            3
 
-// Operadores.
-#define VERBUM_OPERATOR_ATTR                            1
-#define VERBUM_OPERATOR_ADD_EQUAL                       2
-#define VERBUM_OPERATOR_SUB_EQUAL                       3
-#define VERBUM_OPERATOR_MUL_EQUAL                       4
-#define VERBUM_OPERATOR_DIV_EQUAL                       5
-#define VERBUM_OPERATOR_PERC_EQUAL                      6
-#define VERBUM_OPERATOR_MAJOR                           7
-#define VERBUM_OPERATOR_MINOR                           8
-#define VERBUM_OPERATOR_MAJOR_EQUAL                     9
-#define VERBUM_OPERATOR_MINOR_EQUAL                    10
-#define VERBUM_OPERATOR_AND                            11
-#define VERBUM_OPERATOR_OR                             12
-#define VERBUM_OPERATOR_EQUAL                          13
-#define VERBUM_OPERATOR_NOT_EQUAL                      14
-#define VERBUM_OPERATOR_NOT                            15
-
 // Aritméticos.
 #define VERBUM_OPERATOR_ADD                             1
 #define VERBUM_OPERATOR_SUB                             2
 #define VERBUM_OPERATOR_DIV                             3
 #define VERBUM_OPERATOR_PERC                            4
 #define VERBUM_OPERATOR_MUL                             5
+
+// Operadores.
+#define VERBUM_OPERATOR_ATTR                            6
+#define VERBUM_OPERATOR_ADD_EQUAL                       7
+#define VERBUM_OPERATOR_SUB_EQUAL                       8
+#define VERBUM_OPERATOR_MUL_EQUAL                       9
+#define VERBUM_OPERATOR_DIV_EQUAL                      10
+#define VERBUM_OPERATOR_PERC_EQUAL                     11
+#define VERBUM_OPERATOR_MAJOR                          12
+#define VERBUM_OPERATOR_MINOR                          13
+#define VERBUM_OPERATOR_MAJOR_EQUAL                    14
+#define VERBUM_OPERATOR_MINOR_EQUAL                    15
+#define VERBUM_OPERATOR_AND                            16
+#define VERBUM_OPERATOR_OR                             17
+#define VERBUM_OPERATOR_EQUAL                          18
+#define VERBUM_OPERATOR_NOT_EQUAL                      19
+#define VERBUM_OPERATOR_NOT                            20
 
 #define VERBUM_MOD_OP_SIMPLE                            1
 #define VERBUM_MOD_OP_OBJ_INSTANCE                      2
@@ -313,9 +314,13 @@ typedef struct verbum_ast_node
     ** Condicionais.
     ** VERBUM_CONDITIONAL_*
     */
-    int conditional_type;                           // Tipo da expressão condicional.
-                                                    //      VERBUM_CONDITIONAL_EXPR_NOT
+    bool conditional_type_conversion;               // Verifica se há conversão de tipo no elemento em questão.
+    string conditional_type_conversion_data;        // Nome do tipo a ser convertido.
 
+    int conditional_operator;                       // Verifica se há uso de operadores.
+                                                    // Utilizado para o tratamento dos blocos de operações.
+                                                    // Valor padrão: VERBUM_UNKNOWN.
+    
     /*
     ** Nodes internos (árvore) do elemento em questão.
     */

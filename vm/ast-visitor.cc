@@ -660,7 +660,7 @@ antlrcpp::Any verbum_ast_visitor::visitCallingFunction (TParser::CallingFunction
 // Bloco completo do condicional.
 antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionStructBlock (TParser::ConditionalExpressionStructBlockContext *ctx)
 {
-    verbum_ast_node node;
+    verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_STRUCT_BLOCK;
     this->ast = this->add_node(node, this->ast);
@@ -675,7 +675,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionStructBlock (TParser
 // Bloco da expressão condicional.
 antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionItems (TParser::ConditionalExpressionItemsContext *ctx)
 {
-    verbum_ast_node node;
+    verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_EXPRESSION_BLOCK;
     this->ast = this->add_node(node, this->ast);
@@ -690,7 +690,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionItems (TParser::Cond
 // Bloco de código do condicional.
 antlrcpp::Any verbum_ast_visitor::visitConditionalBlockElements (TParser::ConditionalBlockElementsContext *ctx)
 {
-    verbum_ast_node node;
+    verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_CODE_BLOCK;
     this->ast = this->add_node(node, this->ast);
@@ -705,7 +705,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalBlockElements (TParser::Condit
 // If.
 antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUniqueContext *ctx)
 {
-    verbum_ast_node node;
+    verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_IF;
     this->ast = this->add_node(node, this->ast);
@@ -720,7 +720,7 @@ antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUnique
 // Elif.
 antlrcpp::Any verbum_ast_visitor::visitElifElementUnique (TParser::ElifElementUniqueContext *ctx)
 {
-    verbum_ast_node node;
+    verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_ELIF;
     this->ast = this->add_node(node, this->ast);
@@ -735,7 +735,7 @@ antlrcpp::Any verbum_ast_visitor::visitElifElementUnique (TParser::ElifElementUn
 // Else.
 antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUniqueContext *ctx)
 {
-    verbum_ast_node node;
+    verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_ELSE;
     this->ast = this->add_node(node, this->ast);
@@ -754,8 +754,8 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
 // Bloco "not".
 antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionElements (TParser::ConditionalExpressionElementsContext *ctx)
 {
-    if (ctx->Not()) {
-        verbum_ast_node node;
+    /*if (ctx->Not()) {
+        verbum_ast_node node = this->zero_data();
         
         node.type = VERBUM_CONDITIONAL_EXPR_NOT;
         this->ast = this->add_node(node, this->ast);
@@ -765,14 +765,321 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionElements (TParser::C
         this->node_block_counter--;
 
         return result;
-    }
+    }*/
 
     return visitChildren(ctx);
 }
 
-
-// Dados gerais.
-
 // Bloco de expressão.
+antlrcpp::Any verbum_ast_visitor::visitDefaultExpValuesUnique (TParser::DefaultExpValuesUniqueContext *ctx)
+{
+    //this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    //this->node_block_counter--;
+
+    return result;
+}
+
+/*
+antlrcpp::Any verbum_ast_visitor::visitConditionExpBlock (TParser::ConditionExpBlockContext *ctx)
+{
+    return visitChildren(ctx);
+
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN;
+
+    // Verifica se há conversão de tipo.
+    node.conditional_type_conversion = false;
+    if (ctx->TypeSpec()) {
+        node.conditional_type_conversion = true;
+        node.conditional_type_conversion_data = ctx->TypeSpec()->getText();
+    }
+
+    // Verifica se há operador utilizado com o bloco da expressão.
+    if (ctx->AssignmentOperator()) {
+        string op = ctx->AssignmentOperator()->getText();
+
+        if (op.compare("+=") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_ADD_EQUAL;
+        else if (op.compare("-=") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_SUB_EQUAL;
+        else if (op.compare("*=") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_MUL_EQUAL;
+        else if (op.compare("/=") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_DIV_EQUAL;
+        else if (op.compare("%=") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_PERC_EQUAL;
+        else if (op.compare(">")  == 0)
+            node.conditional_operator = VERBUM_OPERATOR_MAJOR;
+        else if (op.compare("<")  == 0)
+            node.conditional_operator = VERBUM_OPERATOR_MINOR;
+        else if (op.compare(">=") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_MAJOR_EQUAL;
+        else if (op.compare("<=") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_MINOR_EQUAL;
+        else if (op.compare("&&") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_AND;
+        else if (op.compare("==") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_EQUAL;
+        else if (op.compare("!=") == 0)
+            node.conditional_operator = VERBUM_OPERATOR_NOT_EQUAL;
+        else if (op.compare("!")  == 0)
+            node.conditional_operator = VERBUM_OPERATOR_NOT;
+    }
+
+    this->ast = this->add_node(node, this->ast);
+    
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+*/
+
+// Valores padrões da expressão condicional.
+antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::ConditionalExpValueContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    antlrcpp::Any result;
+    bool block = false;
+
+    node.type = VERBUM_OPERATION_BLOCK;
+    node.operation_type_conversion = false;
+
+    if (ctx->TypeSpec()) {
+        node.operation_type_conversion = true;
+        node.operation_type_conversion_data = ctx->TypeSpec()->getText();
+    }
+
+    // Bloco de operações.
+    if (ctx->operationBlock()) {
+        node.operation_type = VERBUM_OPERATION_TYPE_BLOCK;
+        block = true;
+
+        // Operador aritmético relacionado à operação.
+        if (ctx->ArithmeticOperator()) {
+            string op = ctx->ArithmeticOperator()->getText();
+            node.operation_op = this->check_block_arithmeic_operator(op);
+        }
+        
+        // Operador relacional.
+        if (ctx->AssignmentOperator()) {
+            string op = ctx->AssignmentOperator()->getText();
+
+            if (op.compare("+=") == 0)
+                node.operation_op = VERBUM_OPERATOR_ADD_EQUAL;
+            else if (op.compare("-=") == 0)
+                node.operation_op = VERBUM_OPERATOR_SUB_EQUAL;
+            else if (op.compare("*=") == 0)
+                node.operation_op = VERBUM_OPERATOR_MUL_EQUAL;
+            else if (op.compare("/=") == 0)
+                node.operation_op = VERBUM_OPERATOR_DIV_EQUAL;
+            else if (op.compare("%=") == 0)
+                node.operation_op = VERBUM_OPERATOR_PERC_EQUAL;
+            else if (op.compare(">")  == 0)
+                node.operation_op = VERBUM_OPERATOR_MAJOR;
+            else if (op.compare("<")  == 0)
+                node.operation_op = VERBUM_OPERATOR_MINOR;
+            else if (op.compare(">=") == 0)
+                node.operation_op = VERBUM_OPERATOR_MAJOR_EQUAL;
+            else if (op.compare("<=") == 0)
+                node.operation_op = VERBUM_OPERATOR_MINOR_EQUAL;
+            else if (op.compare("&&") == 0)
+                node.operation_op = VERBUM_OPERATOR_AND;
+            else if (op.compare("==") == 0)
+                node.operation_op = VERBUM_OPERATOR_EQUAL;
+            else if (op.compare("!=") == 0)
+                node.operation_op = VERBUM_OPERATOR_NOT_EQUAL;
+            else if (op.compare("!")  == 0)
+                node.operation_op = VERBUM_OPERATOR_NOT;
+        }
+
+        // Adiciona no array de controle.
+        this->ast = this->add_node(node, this->ast);
+
+        // Entra em nodes (filhos).
+        this->node_block_counter++;
+        result = visitChildren(ctx);
+        this->node_block_counter--;
+    }
+    
+    // Expressões simples.
+    else {
+        node.operation_type = VERBUM_OPERATION_TYPE_SIMPLE;
+
+        // Atribuição com chamada a função.
+        if (ctx->identifierAttrFn() && ctx->Attr() && ctx->functionCall()) {
+
+        }
+
+        // Identificadores.
+        else if (ctx->Identifier()) {
+            string currentData = ctx->Identifier()->getText();
+            node.operation_data.type = VERBUM_DATA_IDENTIFIER;
+            node.operation_data.identifier = currentData;
+
+            node.operation_data.mod_inc_dec  = VERBUM_UNKNOWN;
+            node.operation_data.type_inc_dec = VERBUM_UNKNOWN;
+
+            // Processa pré-incremento/decremento.
+            if (ctx->firstIncDec()) {
+                string item = ctx->firstIncDec()->getText();
+                node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_PRE;
+
+                if (item.compare("++") == 0)
+                    node.operation_data.type_inc_dec = VERBUM_OP_TYPE_INC;
+                else if (item.compare("--") == 0)
+                    node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
+            }
+
+            // Processa pós-incremento/decremento.
+            if (ctx->lastIncDec()) {
+                string item = ctx->lastIncDec()->getText();
+                node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_POS;
+
+                if (item.compare("++") == 0)
+                    node.operation_data.type_inc_dec = VERBUM_OP_TYPE_INC;
+                else if (item.compare("--") == 0)
+                    node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
+            }
+        }
+    
+        // Números inteiros.
+        else if (ctx->Integer()) {
+            string currentData = ctx->Integer()->getText();
+            node.operation_data.type = VERBUM_DATA_INTEGER;
+            node.operation_data.integer = currentData;
+        }
+    
+        // Números de ponto flutuante.
+        else if (ctx->Float()) {
+            string currentData = ctx->Float()->getText();
+            node.operation_data.type = VERBUM_DATA_FLOAT;
+            node.operation_data.floating = currentData;
+        }
+
+        // Chamadas a funções e méthod.
+        else if (ctx->functionCall()) {
+            node.operation_type = VERBUM_OPERATION_FUNC_BLOCK;
+
+            // Método de objeto instanciado.
+            if (ctx->functionCall()->Point()) {
+                node.operation_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
+                node.operation_data.object_name = ctx->functionCall()->Identifier()->getText();
+                node.operation_data.method_name = ctx->functionCall()->identifierB()->getText();
+            }
+
+            // Método static.
+            else if (ctx->functionCall()->TwoTwoPoint()) {
+                node.operation_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
+                node.operation_data.object_name = ctx->functionCall()->Identifier()->getText();
+                node.operation_data.method_name = ctx->functionCall()->identifierB()->getText();
+            }
+
+            // Função comum.
+            else {
+                node.operation_data.type = VERBUM_DATA_FUNCTION_CALL;
+                node.operation_data.function_name = ctx->functionCall()->Identifier()->getText();
+            }
+
+
+            // Operador aritmético relacionado à operação.
+            if (ctx->ArithmeticOperator()) {
+                string op = ctx->ArithmeticOperator()->getText();
+                node.operation_op = this->check_block_arithmeic_operator(op);
+            }
+
+            // Operador relacional.
+            if (ctx->AssignmentOperator()) {
+                string op = ctx->AssignmentOperator()->getText();
+
+                if (op.compare("+=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_ADD_EQUAL;
+                else if (op.compare("-=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_SUB_EQUAL;
+                else if (op.compare("*=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_MUL_EQUAL;
+                else if (op.compare("/=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_DIV_EQUAL;
+                else if (op.compare("%=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_PERC_EQUAL;
+                else if (op.compare(">")  == 0)
+                    node.operation_op = VERBUM_OPERATOR_MAJOR;
+                else if (op.compare("<")  == 0)
+                    node.operation_op = VERBUM_OPERATOR_MINOR;
+                else if (op.compare(">=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_MAJOR_EQUAL;
+                else if (op.compare("<=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_MINOR_EQUAL;
+                else if (op.compare("&&") == 0)
+                    node.operation_op = VERBUM_OPERATOR_AND;
+                else if (op.compare("==") == 0)
+                    node.operation_op = VERBUM_OPERATOR_EQUAL;
+                else if (op.compare("!=") == 0)
+                    node.operation_op = VERBUM_OPERATOR_NOT_EQUAL;
+                else if (op.compare("!")  == 0)
+                    node.operation_op = VERBUM_OPERATOR_NOT;
+            }
+
+            // Adiciona no array de controle.
+            this->ast = this->add_node(node, this->ast);
+
+            // Entra em nodes (filhos).
+            this->node_block_counter++;
+            result = visitChildren(ctx);
+            this->node_block_counter--;
+            
+            return result;
+        }
+
+        // Operador aritmético relacionado à operação.
+        if (ctx->ArithmeticOperator()) {
+            string op = ctx->ArithmeticOperator()->getText();
+            node.operation_op = this->check_block_arithmeic_operator(op);
+        }
+
+        // Operador relacional.
+        if (ctx->AssignmentOperator()) {
+            string op = ctx->AssignmentOperator()->getText();
+
+            if (op.compare("+=") == 0)
+                node.operation_op = VERBUM_OPERATOR_ADD_EQUAL;
+            else if (op.compare("-=") == 0)
+                node.operation_op = VERBUM_OPERATOR_SUB_EQUAL;
+            else if (op.compare("*=") == 0)
+                node.operation_op = VERBUM_OPERATOR_MUL_EQUAL;
+            else if (op.compare("/=") == 0)
+                node.operation_op = VERBUM_OPERATOR_DIV_EQUAL;
+            else if (op.compare("%=") == 0)
+                node.operation_op = VERBUM_OPERATOR_PERC_EQUAL;
+            else if (op.compare(">")  == 0)
+                node.operation_op = VERBUM_OPERATOR_MAJOR;
+            else if (op.compare("<")  == 0)
+                node.operation_op = VERBUM_OPERATOR_MINOR;
+            else if (op.compare(">=") == 0)
+                node.operation_op = VERBUM_OPERATOR_MAJOR_EQUAL;
+            else if (op.compare("<=") == 0)
+                node.operation_op = VERBUM_OPERATOR_MINOR_EQUAL;
+            else if (op.compare("&&") == 0)
+                node.operation_op = VERBUM_OPERATOR_AND;
+            else if (op.compare("==") == 0)
+                node.operation_op = VERBUM_OPERATOR_EQUAL;
+            else if (op.compare("!=") == 0)
+                node.operation_op = VERBUM_OPERATOR_NOT_EQUAL;
+            else if (op.compare("!")  == 0)
+                node.operation_op = VERBUM_OPERATOR_NOT;
+        }
+
+        // Adiciona no array de controle.
+        this->ast = this->add_node(node, this->ast);
+    }
+
+    if (!block)
+        result = visitChildren(ctx);
+
+    return result;
+}
 
 

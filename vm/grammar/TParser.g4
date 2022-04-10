@@ -265,6 +265,22 @@ conditionalBlockElsItems
   ;
 
 // Controle do bloco das expressões.
+conditionalExpressionElements2
+  : defaultExpValues
+  ;
+
+// Valores padrões (uso recursivo).
+defaultExpValues
+  : defaultExpValuesUnique
+  | defaultExpValuesUnique defaultExpValues
+  ;
+
+defaultExpValuesUnique
+  : conditionalExpValue
+  | OpenOp conditionalExpValue CloseOp
+  ;
+
+// +++
 conditionalExpressionElements
   : conditionalExpValue
   | conditionalExpValue conditionalExpressionElements
@@ -276,15 +292,13 @@ conditionalExpressionElements
 conditionExpBlock
   : OpenOp conditionalExpressionElements CloseOp
   | conditionExpBlock AssignmentOperator
+  | conditionExpBlock TypeSpec AssignmentOperator
   ;
 
-conditionalExpValue
-  : Identifier 
-  | Identifier          (ArithmeticOperator | AssignmentOperator)
-  | Identifier TypeSpec
-  | Identifier TypeSpec (ArithmeticOperator | AssignmentOperator)
 
-  | firstIncDec Identifier
+// Valores padrões.
+conditionalExpValue
+  : firstIncDec Identifier
   | firstIncDec Identifier          (ArithmeticOperator | AssignmentOperator)
   | firstIncDec Identifier TypeSpec
   | firstIncDec Identifier TypeSpec (ArithmeticOperator | AssignmentOperator)
@@ -309,20 +323,33 @@ conditionalExpValue
   | functionCall TypeSpec
   | functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
 
-  | Identifier Attr functionCall
-  | Identifier Attr functionCall          (ArithmeticOperator | AssignmentOperator)
-  | Identifier Attr functionCall TypeSpec
-  | Identifier Attr functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
+  | identifierAttrFn Attr functionCall
+  | identifierAttrFn Attr functionCall          (ArithmeticOperator | AssignmentOperator)
+  | identifierAttrFn Attr functionCall TypeSpec
+  | identifierAttrFn Attr functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | operationBlock
   | operationBlock          (ArithmeticOperator | AssignmentOperator)
   | operationBlock TypeSpec
   | operationBlock TypeSpec (ArithmeticOperator | AssignmentOperator)
+  
+  | Identifier 
+  | Identifier          (ArithmeticOperator | AssignmentOperator)
+  | Identifier TypeSpec
+  | Identifier TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | arrayAccessElements 
   | arrayAccessElements          (ArithmeticOperator | AssignmentOperator)
   | arrayAccessElements TypeSpec
   | arrayAccessElements TypeSpec (ArithmeticOperator | AssignmentOperator)
+  ;
+
+identifierAttrFn
+  : arrayAccessElements 
+  | arrayAccessElements TypeSpec
+  
+  | Identifier 
+  | Identifier TypeSpec
   ;
 
 // Loops.

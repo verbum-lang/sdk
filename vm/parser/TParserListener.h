@@ -124,17 +124,26 @@ public:
   virtual void enterConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext *ctx) = 0;
   virtual void exitConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext *ctx) = 0;
 
+  virtual void enterConditionalExpressionElements2(TParser::ConditionalExpressionElements2Context *ctx) = 0;
+  virtual void exitConditionalExpressionElements2(TParser::ConditionalExpressionElements2Context *ctx) = 0;
+
+  virtual void enterDefaultExpValues(TParser::DefaultExpValuesContext *ctx) = 0;
+  virtual void exitDefaultExpValues(TParser::DefaultExpValuesContext *ctx) = 0;
+
+  virtual void enterDefaultExpValuesUnique(TParser::DefaultExpValuesUniqueContext *ctx) = 0;
+  virtual void exitDefaultExpValuesUnique(TParser::DefaultExpValuesUniqueContext *ctx) = 0;
+
   virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
   virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext *ctx) = 0;
-
-  virtual void enterConditionalExpElementsValue(TParser::ConditionalExpElementsValueContext *ctx) = 0;
-  virtual void exitConditionalExpElementsValue(TParser::ConditionalExpElementsValueContext *ctx) = 0;
 
   virtual void enterConditionExpBlock(TParser::ConditionExpBlockContext *ctx) = 0;
   virtual void exitConditionExpBlock(TParser::ConditionExpBlockContext *ctx) = 0;
 
   virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
   virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
+
+  virtual void enterIdentifierAttrFn(TParser::IdentifierAttrFnContext *ctx) = 0;
+  virtual void exitIdentifierAttrFn(TParser::IdentifierAttrFnContext *ctx) = 0;
 
   virtual void enterLoop(TParser::LoopContext *ctx) = 0;
   virtual void exitLoop(TParser::LoopContext *ctx) = 0;

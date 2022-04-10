@@ -76,6 +76,9 @@ namespace verbum {
 
             // Valores das expressões.
             antlrcpp::Any visitConditionalExpressionElements (TParser::ConditionalExpressionElementsContext *ctx);
+            antlrcpp::Any visitDefaultExpValuesUnique (TParser::DefaultExpValuesUniqueContext *ctx);
+            //antlrcpp::Any visitConditionExpBlock (TParser::ConditionExpBlockContext *ctx);
+            antlrcpp::Any visitConditionalExpValue (TParser::ConditionalExpValueContext *ctx);
 
         private:
         

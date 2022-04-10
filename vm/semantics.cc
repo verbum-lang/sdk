@@ -224,7 +224,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         ** Condicionais.
         */
 
-        // Bloco completo do condicional.
+        // Bloco completo do condicional (unificação do bloco).
         else if (node.type == VERBUM_CONDITIONAL_STRUCT_BLOCK) {
             this->tab();
             cout << "-> conditional-block-open\n";
@@ -237,7 +237,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << "-> conditional-block-close\n";
         }
 
-        // Bloco de operações do condicional.
+        // Bloco de operações do condicional (unificação do bloco).
         else if (node.type == VERBUM_CONDITIONAL_EXPRESSION_BLOCK) {
             this->tab();
             cout << "-> c.expression-block-open\n";
@@ -250,7 +250,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << "-> c.expression-block-close\n";
         }
 
-        // Bloco de código do condicional.
+        // Bloco de código do condicional (unificação do bloco).
         else if (node.type == VERBUM_CONDITIONAL_CODE_BLOCK) {
             this->tab();
             cout << "-> c.code-block-open\n";
@@ -319,6 +319,49 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << ") <---| c.not-block (close)\n";
         }
 
+        // Bloco de expressão.
+        else if (node.type == VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN) {
+            this->tab();
+            cout << "( <---| c.expression-block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << ") <---| c.expression-block (close)\n";
+
+            // Verifica se há conversão de tipo.
+            if (node.conditional_type_conversion) {
+                this->tab();
+                cout << node.conditional_type_conversion_data << " (type conversion)\n";
+            }
+
+            // Operação.
+            if (node.conditional_operator != VERBUM_UNKNOWN) {
+                this->tab();
+
+                switch (node.conditional_operator) {
+                    case VERBUM_OPERATOR_ATTR:        cout <<  "=\n"; break;
+                    case VERBUM_OPERATOR_ADD_EQUAL:   cout << "+=\n"; break;
+                    case VERBUM_OPERATOR_SUB_EQUAL:   cout << "-=\n"; break;
+                    case VERBUM_OPERATOR_MUL_EQUAL:   cout << "*=\n"; break;
+                    case VERBUM_OPERATOR_DIV_EQUAL:   cout << "/=\n"; break;
+                    case VERBUM_OPERATOR_PERC_EQUAL:  cout << "%=\n"; break;
+                    case VERBUM_OPERATOR_MAJOR:       cout <<  ">\n"; break;
+                    case VERBUM_OPERATOR_MINOR:       cout <<  "<\n"; break;
+                    case VERBUM_OPERATOR_MAJOR_EQUAL: cout << ">=\n"; break;
+                    case VERBUM_OPERATOR_MINOR_EQUAL: cout << "<=\n"; break;
+                    case VERBUM_OPERATOR_AND:         cout << "&&\n"; break;
+                    case VERBUM_OPERATOR_EQUAL:       cout << "==\n"; break;
+                    case VERBUM_OPERATOR_NOT_EQUAL:   cout << "!=\n"; break;
+                    case VERBUM_OPERATOR_NOT:         cout <<  "!\n"; break;
+                }
+                
+                cout << "\n";
+            }
+        } 
+
         /*
         ** Bloco de operações.
         */
@@ -349,11 +392,27 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     this->tab();
 
                     switch (node.operation_op) {
-                        case VERBUM_OPERATOR_ADD:  cout << "+\n"; break;
-                        case VERBUM_OPERATOR_SUB:  cout << "-\n"; break;
-                        case VERBUM_OPERATOR_DIV:  cout << "/\n"; break;
-                        case VERBUM_OPERATOR_MUL:  cout << "*\n"; break;
-                        case VERBUM_OPERATOR_PERC: cout << "%\n"; break;
+                        case VERBUM_OPERATOR_ADD:         cout <<  "+\n"; break;
+                        case VERBUM_OPERATOR_SUB:         cout <<  "-\n"; break;
+                        case VERBUM_OPERATOR_DIV:         cout <<  "/\n"; break;
+                        case VERBUM_OPERATOR_MUL:         cout <<  "*\n"; break;
+                        case VERBUM_OPERATOR_PERC:        cout <<  "%\n"; break;
+
+                        // Utilizado nas expressões condicionais.
+                        case VERBUM_OPERATOR_ATTR:        cout <<  "=\n"; break;
+                        case VERBUM_OPERATOR_ADD_EQUAL:   cout << "+=\n"; break;
+                        case VERBUM_OPERATOR_SUB_EQUAL:   cout << "-=\n"; break;
+                        case VERBUM_OPERATOR_MUL_EQUAL:   cout << "*=\n"; break;
+                        case VERBUM_OPERATOR_DIV_EQUAL:   cout << "/=\n"; break;
+                        case VERBUM_OPERATOR_PERC_EQUAL:  cout << "%=\n"; break;
+                        case VERBUM_OPERATOR_MAJOR:       cout <<  ">\n"; break;
+                        case VERBUM_OPERATOR_MINOR:       cout <<  "<\n"; break;
+                        case VERBUM_OPERATOR_MAJOR_EQUAL: cout << ">=\n"; break;
+                        case VERBUM_OPERATOR_MINOR_EQUAL: cout << "<=\n"; break;
+                        case VERBUM_OPERATOR_AND:         cout << "&&\n"; break;
+                        case VERBUM_OPERATOR_EQUAL:       cout << "==\n"; break;
+                        case VERBUM_OPERATOR_NOT_EQUAL:   cout << "!=\n"; break;
+                        case VERBUM_OPERATOR_NOT:         cout <<  "!\n"; break;
                     }
                 }
             }
@@ -400,11 +459,27 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     this->tab();
 
                     switch (node.operation_op) {
-                        case VERBUM_OPERATOR_ADD:  cout << "+\n"; break;
-                        case VERBUM_OPERATOR_SUB:  cout << "-\n"; break;
-                        case VERBUM_OPERATOR_DIV:  cout << "/\n"; break;
-                        case VERBUM_OPERATOR_MUL:  cout << "*\n"; break;
-                        case VERBUM_OPERATOR_PERC: cout << "%\n"; break;
+                        case VERBUM_OPERATOR_ADD:         cout <<  "+\n"; break;
+                        case VERBUM_OPERATOR_SUB:         cout <<  "-\n"; break;
+                        case VERBUM_OPERATOR_DIV:         cout <<  "/\n"; break;
+                        case VERBUM_OPERATOR_MUL:         cout <<  "*\n"; break;
+                        case VERBUM_OPERATOR_PERC:        cout <<  "%\n"; break;
+
+                        // Utilizado nas expressões condicionais.
+                        case VERBUM_OPERATOR_ATTR:        cout <<  "=\n"; break;
+                        case VERBUM_OPERATOR_ADD_EQUAL:   cout << "+=\n"; break;
+                        case VERBUM_OPERATOR_SUB_EQUAL:   cout << "-=\n"; break;
+                        case VERBUM_OPERATOR_MUL_EQUAL:   cout << "*=\n"; break;
+                        case VERBUM_OPERATOR_DIV_EQUAL:   cout << "/=\n"; break;
+                        case VERBUM_OPERATOR_PERC_EQUAL:  cout << "%=\n"; break;
+                        case VERBUM_OPERATOR_MAJOR:       cout <<  ">\n"; break;
+                        case VERBUM_OPERATOR_MINOR:       cout <<  "<\n"; break;
+                        case VERBUM_OPERATOR_MAJOR_EQUAL: cout << ">=\n"; break;
+                        case VERBUM_OPERATOR_MINOR_EQUAL: cout << "<=\n"; break;
+                        case VERBUM_OPERATOR_AND:         cout << "&&\n"; break;
+                        case VERBUM_OPERATOR_EQUAL:       cout << "==\n"; break;
+                        case VERBUM_OPERATOR_NOT_EQUAL:   cout << "!=\n"; break;
+                        case VERBUM_OPERATOR_NOT:         cout <<  "!\n"; break;
                     }
                 }
             }
@@ -462,11 +537,27 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     this->tab();
 
                     switch (node.operation_op) {
-                        case VERBUM_OPERATOR_ADD:  cout << "+\n"; break;
-                        case VERBUM_OPERATOR_SUB:  cout << "-\n"; break;
-                        case VERBUM_OPERATOR_DIV:  cout << "/\n"; break;
-                        case VERBUM_OPERATOR_MUL:  cout << "*\n"; break;
-                        case VERBUM_OPERATOR_PERC: cout << "%\n"; break;
+                        case VERBUM_OPERATOR_ADD:         cout <<  "+\n"; break;
+                        case VERBUM_OPERATOR_SUB:         cout <<  "-\n"; break;
+                        case VERBUM_OPERATOR_DIV:         cout <<  "/\n"; break;
+                        case VERBUM_OPERATOR_MUL:         cout <<  "*\n"; break;
+                        case VERBUM_OPERATOR_PERC:        cout <<  "%\n"; break;
+
+                        // Utilizado nas expressões condicionais.
+                        case VERBUM_OPERATOR_ATTR:        cout <<  "=\n"; break;
+                        case VERBUM_OPERATOR_ADD_EQUAL:   cout << "+=\n"; break;
+                        case VERBUM_OPERATOR_SUB_EQUAL:   cout << "-=\n"; break;
+                        case VERBUM_OPERATOR_MUL_EQUAL:   cout << "*=\n"; break;
+                        case VERBUM_OPERATOR_DIV_EQUAL:   cout << "/=\n"; break;
+                        case VERBUM_OPERATOR_PERC_EQUAL:  cout << "%=\n"; break;
+                        case VERBUM_OPERATOR_MAJOR:       cout <<  ">\n"; break;
+                        case VERBUM_OPERATOR_MINOR:       cout <<  "<\n"; break;
+                        case VERBUM_OPERATOR_MAJOR_EQUAL: cout << ">=\n"; break;
+                        case VERBUM_OPERATOR_MINOR_EQUAL: cout << "<=\n"; break;
+                        case VERBUM_OPERATOR_AND:         cout << "&&\n"; break;
+                        case VERBUM_OPERATOR_EQUAL:       cout << "==\n"; break;
+                        case VERBUM_OPERATOR_NOT_EQUAL:   cout << "!=\n"; break;
+                        case VERBUM_OPERATOR_NOT:         cout <<  "!\n"; break;
                     }
                 }
             }
