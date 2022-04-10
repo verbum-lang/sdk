@@ -78,7 +78,13 @@ namespace verbum {
             antlrcpp::Any visitConditionExpValue (TParser::ConditionExpValueContext *ctx);
             antlrcpp::Any visitConditionExpBlockItemValue (TParser::ConditionExpBlockItemValueContext *ctx);
 
-            // Valores das expressões condicionais.
+            // Atribuição com chamada a função
+            antlrcpp::Any visitFunctionCallAndAttr (TParser::FunctionCallAndAttrContext *ctx);
+            antlrcpp::Any visitIdentifierAttrFn (TParser::IdentifierAttrFnContext *ctx);
+            antlrcpp::Any visitFunctionCallAttrFn (TParser::FunctionCallAttrFnContext *ctx);
+            antlrcpp::Any visitFunctionCallAttrFnItem (TParser::FunctionCallAttrFnItemContext *ctx);
+
+            // Valores das expressões condicionais.            
             antlrcpp::Any visitConditionalExpValue (TParser::ConditionalExpValueContext *ctx);
 
         private:

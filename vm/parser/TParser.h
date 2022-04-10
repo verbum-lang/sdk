@@ -44,19 +44,20 @@ public:
     RuleConditionalExpressionItems = 33, RuleConditionalBlockElements = 34, 
     RuleConditionalBlockElsItems = 35, RuleConditionalExpressionElements = 36, 
     RuleConditionExpValue = 37, RuleConditionExpBlock = 38, RuleConditionExpBlockItemValue = 39, 
-    RuleConditionExpBlockItem = 40, RuleConditionalExpValue = 41, RuleIdentifierAttrFn = 42, 
-    RuleLoop = 43, RuleLoopExpression = 44, RuleLoopOneMembers = 45, RuleLoopTwoMembers = 46, 
-    RuleLoopThreeMembers = 47, RuleLoopThreeMembersValues = 48, RuleLoopBlockElements = 49, 
-    RuleLoopBlockElementsLimited = 50, RuleRet = 51, RuleRetValues = 52, 
-    RuleFunctions = 53, RuleFunctionGeneralModes = 54, RuleFunctionsModes = 55, 
-    RuleFunctionMethodsModes = 56, RuleMethodPerm = 57, RuleConstructClassMethod = 58, 
-    RuleInterfaceMethod = 59, RuleFunctionCodeBlock = 60, RuleFunctionParams = 61, 
-    RuleFunctionParamElements = 62, RuleOopGeneral = 63, RuleInterfaceClass = 64, 
-    RuleInterfaceClassDefinition = 65, RuleAbstractClass = 66, RuleAbstractClassDefinition = 67, 
-    RuleClassDefination = 68, RuleClassModesGeneral = 69, RuleClassModes = 70, 
-    RuleArrayAccessElements = 71, RuleArrayAccessElementsItems = 72, RuleAccessBlockAr = 73, 
-    RuleArrayIndexAccess = 74, RuleGeneralValue = 75, RuleObjIdentifierA = 76, 
-    RuleObjIdentifierB = 77
+    RuleConditionExpBlockItem = 40, RuleConditionalExpValue = 41, RuleFunctionCallAndAttr = 42, 
+    RuleIdentifierAttrFn = 43, RuleFunctionCallAttrFn = 44, RuleFunctionCallAttrFnItem = 45, 
+    RuleLoop = 46, RuleLoopExpression = 47, RuleLoopOneMembers = 48, RuleLoopTwoMembers = 49, 
+    RuleLoopThreeMembers = 50, RuleLoopThreeMembersValues = 51, RuleLoopBlockElements = 52, 
+    RuleLoopBlockElementsLimited = 53, RuleRet = 54, RuleRetValues = 55, 
+    RuleFunctions = 56, RuleFunctionGeneralModes = 57, RuleFunctionsModes = 58, 
+    RuleFunctionMethodsModes = 59, RuleMethodPerm = 60, RuleConstructClassMethod = 61, 
+    RuleInterfaceMethod = 62, RuleFunctionCodeBlock = 63, RuleFunctionParams = 64, 
+    RuleFunctionParamElements = 65, RuleOopGeneral = 66, RuleInterfaceClass = 67, 
+    RuleInterfaceClassDefinition = 68, RuleAbstractClass = 69, RuleAbstractClassDefinition = 70, 
+    RuleClassDefination = 71, RuleClassModesGeneral = 72, RuleClassModes = 73, 
+    RuleArrayAccessElements = 74, RuleArrayAccessElementsItems = 75, RuleAccessBlockAr = 76, 
+    RuleArrayIndexAccess = 77, RuleGeneralValue = 78, RuleObjIdentifierA = 79, 
+    RuleObjIdentifierB = 80
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -111,7 +112,10 @@ public:
   class ConditionExpBlockItemValueContext;
   class ConditionExpBlockItemContext;
   class ConditionalExpValueContext;
+  class FunctionCallAndAttrContext;
   class IdentifierAttrFnContext;
+  class FunctionCallAttrFnContext;
+  class FunctionCallAttrFnItemContext;
   class LoopContext;
   class LoopExpressionContext;
   class LoopOneMembersContext;
@@ -865,9 +869,8 @@ public:
     LastIncDecContext *lastIncDec();
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
+    FunctionCallAndAttrContext *functionCallAndAttr();
     FunctionCallContext *functionCall();
-    IdentifierAttrFnContext *identifierAttrFn();
-    antlr4::tree::TerminalNode *Attr();
     OperationBlockContext *operationBlock();
     ArrayAccessElementsContext *arrayAccessElements();
 
@@ -880,12 +883,28 @@ public:
 
   ConditionalExpValueContext* conditionalExpValue();
 
+  class  FunctionCallAndAttrContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCallAndAttrContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentifierAttrFnContext *identifierAttrFn();
+    antlr4::tree::TerminalNode *Attr();
+    FunctionCallAttrFnContext *functionCallAttrFn();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCallAndAttrContext* functionCallAndAttr();
+
   class  IdentifierAttrFnContext : public antlr4::ParserRuleContext {
   public:
     IdentifierAttrFnContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     ArrayAccessElementsContext *arrayAccessElements();
-    antlr4::tree::TerminalNode *TypeSpec();
     antlr4::tree::TerminalNode *Identifier();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -896,6 +915,39 @@ public:
   };
 
   IdentifierAttrFnContext* identifierAttrFn();
+
+  class  FunctionCallAttrFnContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCallAttrFnContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionCallAttrFnItemContext *functionCallAttrFnItem();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCallAttrFnContext* functionCallAttrFn();
+
+  class  FunctionCallAttrFnItemContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCallAttrFnItemContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionCallContext *functionCall();
+    antlr4::tree::TerminalNode *ArithmeticOperator();
+    antlr4::tree::TerminalNode *AssignmentOperator();
+    antlr4::tree::TerminalNode *TypeSpec();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCallAttrFnItemContext* functionCallAttrFnItem();
 
   class  LoopContext : public antlr4::ParserRuleContext {
   public:

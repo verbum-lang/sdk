@@ -104,7 +104,13 @@ public:
 
     virtual antlrcpp::Any visitConditionalExpValue(TParser::ConditionalExpValueContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunctionCallAndAttr(TParser::FunctionCallAndAttrContext *context) = 0;
+
     virtual antlrcpp::Any visitIdentifierAttrFn(TParser::IdentifierAttrFnContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCallAttrFn(TParser::FunctionCallAttrFnContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCallAttrFnItem(TParser::FunctionCallAttrFnItemContext *context) = 0;
 
     virtual antlrcpp::Any visitLoop(TParser::LoopContext *context) = 0;
 

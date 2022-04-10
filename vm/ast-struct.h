@@ -53,6 +53,10 @@ using namespace std;
 #define VERBUM_CONDITIONAL_EXPR_NOT                     22
 #define VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN              23
 
+#define VERBUM_EXPRESSION_ATTR_FUNC_CALL                24
+#define VERBUM_EXPRESSION_ATTR_FUNC_CALL_DESTINATION    25
+#define VERBUM_EXPRESSION_ATTR_FUNC_CALL_BLOCK          26
+
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
 #define VERBUM_USE_MODULE                               1
@@ -321,7 +325,10 @@ typedef struct verbum_ast_node
                                                     // Utilizado para o tratamento dos blocos de operações.
                                                     // Valor padrão: VERBUM_UNKNOWN.
     
-    int conditional_not;                            // Verifica se o bloco possui 'not'.
+    /*
+    ** Atribuição com chamada a função (usado em expressões condicionais).
+    */
+    int attr_function_call_operator;                // Operador utilizado na atribuição.
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

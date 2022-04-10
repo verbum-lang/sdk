@@ -142,8 +142,17 @@ public:
   virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
   virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext *ctx) = 0;
 
+  virtual void enterFunctionCallAndAttr(TParser::FunctionCallAndAttrContext *ctx) = 0;
+  virtual void exitFunctionCallAndAttr(TParser::FunctionCallAndAttrContext *ctx) = 0;
+
   virtual void enterIdentifierAttrFn(TParser::IdentifierAttrFnContext *ctx) = 0;
   virtual void exitIdentifierAttrFn(TParser::IdentifierAttrFnContext *ctx) = 0;
+
+  virtual void enterFunctionCallAttrFn(TParser::FunctionCallAttrFnContext *ctx) = 0;
+  virtual void exitFunctionCallAttrFn(TParser::FunctionCallAttrFnContext *ctx) = 0;
+
+  virtual void enterFunctionCallAttrFnItem(TParser::FunctionCallAttrFnItemContext *ctx) = 0;
+  virtual void exitFunctionCallAttrFnItem(TParser::FunctionCallAttrFnItemContext *ctx) = 0;
 
   virtual void enterLoop(TParser::LoopContext *ctx) = 0;
   virtual void exitLoop(TParser::LoopContext *ctx) = 0;

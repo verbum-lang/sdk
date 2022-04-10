@@ -185,7 +185,19 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitFunctionCallAndAttr(TParser::FunctionCallAndAttrContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitIdentifierAttrFn(TParser::IdentifierAttrFnContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallAttrFn(TParser::FunctionCallAttrFnContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallAttrFnItem(TParser::FunctionCallAttrFnItemContext *ctx) override {
     return visitChildren(ctx);
   }
 

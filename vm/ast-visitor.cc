@@ -130,11 +130,19 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.general_value_type_conversion_data  = "";
     
     // VERBUM_FUNCTION_CALL
-    ast.function_call.type                      = false;
-    ast.function_call.function_name             = "";
-    ast.function_call.object_name               = "";
-    ast.function_call.method_name               = "";
+    ast.function_call.type                  = false;
+    ast.function_call.function_name         = "";
+    ast.function_call.object_name           = "";
+    ast.function_call.method_name           = "";
     
+    // VERBUM_CONDITIONAL_*
+    ast.conditional_type_conversion         = false;
+    ast.conditional_type_conversion_data    = "";
+    ast.conditional_operator                = VERBUM_UNKNOWN;
+
+    // VERBUM_EXPRESSION_ATTR_FUNC_CALL
+    ast.attr_function_call_operator         = VERBUM_UNKNOWN;
+
     // Limpa estruturas de controle.
     ast.nodes.clear();
 
@@ -840,7 +848,139 @@ antlrcpp::Any verbum_ast_visitor::visitConditionExpBlockItemValue (TParser::Cond
     return result;
 }
 
-// Valores padrões da expressão condicional.
+/*
+** Atribuição com chamada a função.
+*/
+
+// Bloco inicial.
+antlrcpp::Any verbum_ast_visitor::visitFunctionCallAndAttr (TParser::FunctionCallAndAttrContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_EXPRESSION_ATTR_FUNC_CALL;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco do destinatário (quem vai receber a atribuição).
+antlrcpp::Any verbum_ast_visitor::visitIdentifierAttrFn (TParser::IdentifierAttrFnContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_EXPRESSION_ATTR_FUNC_CALL_DESTINATION;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco da chamada da função.
+antlrcpp::Any verbum_ast_visitor::visitFunctionCallAttrFn (TParser::FunctionCallAttrFnContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_EXPRESSION_ATTR_FUNC_CALL_BLOCK;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Chamda de função propriamente dita.
+antlrcpp::Any verbum_ast_visitor::visitFunctionCallAttrFnItem (TParser::FunctionCallAttrFnItemContext *ctx)
+{
+    if (ctx->functionCall()) {
+        verbum_ast_node node = this->zero_data();
+        node.type = VERBUM_OPERATION_BLOCK;
+        node.operation_type = VERBUM_OPERATION_FUNC_BLOCK;
+
+        // Método de objeto instanciado.
+        if (ctx->functionCall()->Point()) {
+            node.operation_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
+            node.operation_data.object_name = ctx->functionCall()->Identifier()->getText();
+            node.operation_data.method_name = ctx->functionCall()->identifierB()->getText();
+        }
+
+        // Método static.
+        else if (ctx->functionCall()->TwoTwoPoint()) {
+            node.operation_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
+            node.operation_data.object_name = ctx->functionCall()->Identifier()->getText();
+            node.operation_data.method_name = ctx->functionCall()->identifierB()->getText();
+        }
+
+        // Função comum.
+        else {
+            node.operation_data.type = VERBUM_DATA_FUNCTION_CALL;
+            node.operation_data.function_name = ctx->functionCall()->Identifier()->getText();
+        }
+
+
+        // Operador aritmético relacionado à operação.
+        if (ctx->ArithmeticOperator()) {
+            string op = ctx->ArithmeticOperator()->getText();
+            node.operation_op = this->check_block_arithmeic_operator(op);
+        }
+
+        // Operador relacional.
+        if (ctx->AssignmentOperator()) {
+            string op = ctx->AssignmentOperator()->getText();
+
+            if (op.compare("+=") == 0)
+                node.operation_op = VERBUM_OPERATOR_ADD_EQUAL;
+            else if (op.compare("-=") == 0)
+                node.operation_op = VERBUM_OPERATOR_SUB_EQUAL;
+            else if (op.compare("*=") == 0)
+                node.operation_op = VERBUM_OPERATOR_MUL_EQUAL;
+            else if (op.compare("/=") == 0)
+                node.operation_op = VERBUM_OPERATOR_DIV_EQUAL;
+            else if (op.compare("%=") == 0)
+                node.operation_op = VERBUM_OPERATOR_PERC_EQUAL;
+            else if (op.compare(">")  == 0)
+                node.operation_op = VERBUM_OPERATOR_MAJOR;
+            else if (op.compare("<")  == 0)
+                node.operation_op = VERBUM_OPERATOR_MINOR;
+            else if (op.compare(">=") == 0)
+                node.operation_op = VERBUM_OPERATOR_MAJOR_EQUAL;
+            else if (op.compare("<=") == 0)
+                node.operation_op = VERBUM_OPERATOR_MINOR_EQUAL;
+            else if (op.compare("&&") == 0)
+                node.operation_op = VERBUM_OPERATOR_AND;
+            else if (op.compare("==") == 0)
+                node.operation_op = VERBUM_OPERATOR_EQUAL;
+            else if (op.compare("!=") == 0)
+                node.operation_op = VERBUM_OPERATOR_NOT_EQUAL;
+            else if (op.compare("!")  == 0)
+                node.operation_op = VERBUM_OPERATOR_NOT;
+        }
+
+        // Adiciona no array de controle.
+        this->ast = this->add_node(node, this->ast);
+
+        // Entra em nodes (filhos).
+        this->node_block_counter++;
+        antlrcpp::Any result = visitChildren(ctx);
+        this->node_block_counter--;
+        
+        return result;
+    }
+
+    return visitChildren(ctx);
+}
+
+/*
+** Valores padrões da expressão condicional.
+*/
 antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::ConditionalExpValueContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
@@ -906,18 +1046,14 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::Conditional
         result = visitChildren(ctx);
         this->node_block_counter--;
     }
-    
+
     // Expressões simples.
     else {
         node.operation_type = VERBUM_OPERATION_TYPE_SIMPLE;
 
-        // Atribuição com chamada a função.
-        if (ctx->identifierAttrFn() && ctx->Attr() && ctx->functionCall()) {
-
-        }
-
         // Identificadores.
-        else if (ctx->Identifier()) {
+        if (ctx->Identifier())
+        {
             string currentData = ctx->Identifier()->getText();
             node.operation_data.type = VERBUM_DATA_IDENTIFIER;
             node.operation_data.identifier = currentData;

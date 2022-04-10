@@ -4,11 +4,13 @@
 //if (func1() > 10) && a>20
 //if !a
 //if !(10 > a) && !x
-if (!(10 > a)) && !x > ( !x || !(z++) ) <= 10
+//if (!(10 > a)) && !x > ( !x || !(z++) ) <= 10
+//if a[1][2][3] = func() != null 
+//if (a[1][2][3] = func()) != null 
+//if (a = io.func()) <= 10 && b = func( [1, 2, 3] )
 
-//if a = func() 
+if ++a[1] > 10
 //if a[1] > 10
-//if ++a[1] > 10
     func2();
 elif (b)
     func3();

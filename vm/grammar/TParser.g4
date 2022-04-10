@@ -319,15 +319,12 @@ conditionalExpValue
   | Float TypeSpec
   | Float TypeSpec (ArithmeticOperator | AssignmentOperator)
 
+  | functionCallAndAttr
+
   | functionCall
   | functionCall          (ArithmeticOperator | AssignmentOperator)
   | functionCall TypeSpec
   | functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
-
-  | identifierAttrFn Attr functionCall
-  | identifierAttrFn Attr functionCall          (ArithmeticOperator | AssignmentOperator)
-  | identifierAttrFn Attr functionCall TypeSpec
-  | identifierAttrFn Attr functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
 
   | operationBlock
   | operationBlock          (ArithmeticOperator | AssignmentOperator)
@@ -345,12 +342,26 @@ conditionalExpValue
   | arrayAccessElements TypeSpec (ArithmeticOperator | AssignmentOperator)
   ;
 
+// Atribuição com chamada de função.
+// Utilizada nos blocos de expressão condicionais.
+functionCallAndAttr
+  : identifierAttrFn Attr functionCallAttrFn
+  ;
+
 identifierAttrFn
-  : arrayAccessElements 
-  | arrayAccessElements TypeSpec
-  
-  | Identifier 
-  | Identifier TypeSpec
+  : arrayAccessElements   
+  | Identifier
+  ;
+
+functionCallAttrFn
+  : functionCallAttrFnItem
+  ;
+
+functionCallAttrFnItem
+  : functionCall
+  | functionCall          (ArithmeticOperator | AssignmentOperator)
+  | functionCall TypeSpec
+  | functionCall TypeSpec (ArithmeticOperator | AssignmentOperator)
   ;
 
 // Loops.

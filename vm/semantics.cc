@@ -351,7 +351,50 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     case VERBUM_OPERATOR_NOT:         cout <<  "!\n"; break;
                 }
             }
-        } 
+        }
+
+        /*
+        ** Bloco de atribuição com chamada a função.
+        */
+
+        // Bloco inicial.
+        else if (node.type == VERBUM_EXPRESSION_ATTR_FUNC_CALL) {
+            this->tab();
+            cout << "-> c.att-func-call (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> c.att-func-call (close)\n";
+        }
+
+        // Destinatário (quem vai receber a atribuição).
+        else if (node.type == VERBUM_EXPRESSION_ATTR_FUNC_CALL_DESTINATION) {
+            this->tab();
+            cout << "-> c.att-func-call-destination (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> c.att-func-call-destination (close)\n";
+        }
+
+        // Destinatário (quem vai receber a atribuição).
+        else if (node.type == VERBUM_EXPRESSION_ATTR_FUNC_CALL_BLOCK) {
+            this->tab();
+            cout << "-> c.att-func-call-block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> c.att-func-call-block (close)\n";
+        }
 
         /*
         ** Bloco de operações.
@@ -414,17 +457,17 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
                 // Chamada a função (simples).
                 if (node.operation_data.type == VERBUM_DATA_FUNCTION_CALL) 
-                    cout << node.operation_data.function_name << " (function-call)\n";
+                    cout << node.operation_data.function_name << " (o.function-call)\n";
                 
                 // Chamada a método de objeto (instanciado).
                 else if (node.operation_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL)
                     cout << node.operation_data.object_name << " . " << 
-                        node.operation_data.method_name << " (instance-method-call)\n";
+                        node.operation_data.method_name << " (o.instance-method-call)\n";
 
                 // Chamada a método de objeto (estático).
                 else if (node.operation_data.type == VERBUM_DATA_STATIC_METHOD_CALL)
                     cout << node.operation_data.object_name << " :: " << 
-                        node.operation_data.method_name << " (static-method-call)\n";
+                        node.operation_data.method_name << " (o.static-method-call)\n";
 
 
                 // Processamento dos nodes (filhos).
