@@ -1317,16 +1317,16 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::Conditional
     return result;
 }
 
-// Bloco completo do loop.
+/*
+** Loops.
+*/
+
+// Bloco completo do loop, e identificação do tipo do mesmo.
 antlrcpp::Any verbum_ast_visitor::visitLoopExpressionItems (TParser::LoopExpressionItemsContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_LOOP;
     node.loop_type       = VERBUM_UNKNOWN;
-
-    /*
-    ** Identifica tipo do loop.
-    */
 
     // Loop completo.
     if (ctx->loopExpression()->loopComplete())
@@ -1349,9 +1349,68 @@ antlrcpp::Any verbum_ast_visitor::visitLoopExpressionItems (TParser::LoopExpress
     return result;
 }
 
-antlrcpp::Any verbum_ast_visitor::visitLoopExpression (TParser::LoopExpressionContext *ctx)
+// Área de inicialização.
+antlrcpp::Any verbum_ast_visitor::visitLoopOneMembers (TParser::LoopOneMembersContext *ctx)
 {
-    return visitChildren(ctx);
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_LOOP_BLOCK;
+    node.loop_block_type = VERBUM_LOOP_INITIALIZATION;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Área de expressão.
+antlrcpp::Any verbum_ast_visitor::visitLoopTwoMembers (TParser::LoopTwoMembersContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_LOOP_BLOCK;
+    node.loop_block_type = VERBUM_LOOP_EXPRESSION;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Área de incremento/decremento.
+antlrcpp::Any verbum_ast_visitor::visitLoopThreeMembers (TParser::LoopThreeMembersContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_LOOP_BLOCK;
+    node.loop_block_type = VERBUM_LOOP_INCDEC;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Área do bloco de código.
+antlrcpp::Any verbum_ast_visitor::visitLoopBlockElementsLimited (TParser::LoopBlockElementsLimitedContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_LOOP_BLOCK;
+    node.loop_block_type = VERBUM_LOOP_CODE_BLOCK;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
 }
 
 

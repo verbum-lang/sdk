@@ -89,7 +89,10 @@ namespace verbum {
 
             // Loop.
             antlrcpp::Any visitLoopExpressionItems (TParser::LoopExpressionItemsContext *ctx);
-            antlrcpp::Any visitLoopExpression (TParser::LoopExpressionContext *ctx);
+            antlrcpp::Any visitLoopOneMembers (TParser::LoopOneMembersContext *ctx);
+            antlrcpp::Any visitLoopTwoMembers (TParser::LoopTwoMembersContext *ctx);
+            antlrcpp::Any visitLoopThreeMembers (TParser::LoopThreeMembersContext *ctx);
+            antlrcpp::Any visitLoopBlockElementsLimited (TParser::LoopBlockElementsLimitedContext *ctx);
 
         private:
         

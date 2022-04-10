@@ -62,6 +62,12 @@ using namespace std;
 #define VERBUM_LOOP_COMPLETE                            30
 #define VERBUM_LOOP_CONDITIONAL                         31
 #define VERBUM_LOOP_INFINITE                            32
+#define VERBUM_LOOP_BLOCK                               33
+
+#define VERBUM_LOOP_INITIALIZATION                      1
+#define VERBUM_LOOP_EXPRESSION                          2
+#define VERBUM_LOOP_INCDEC                              3
+#define VERBUM_LOOP_CODE_BLOCK                          4
 
 // Modalidades do comando 'use'.
 #define VERBUM_USE_UNKNOWN                              0
@@ -352,6 +358,13 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_LOOP_COMPLETE
                                                     //      VERBUM_LOOP_CONDITIONAL
                                                     //      VERBUM_LOOP_INFINITE
+
+    // Tipo do bloco interno do loop.
+    // VERBUM_LOOP_BLOCK
+    int loop_block_type;                            //      VERBUM_LOOP_INITIALIZATION
+                                                    //      VERBUM_LOOP_EXPRESSION
+                                                    //      VERBUM_LOOP_INCDEC
+                                                    //      VERBUM_LOOP_CODE_BLOCK
 
     /*
     ** Nodes internos (árvore) do elemento em questão.
