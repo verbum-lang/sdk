@@ -149,6 +149,19 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.loop_type                           = VERBUM_UNKNOWN;
     ast.loop_block_type                     = VERBUM_UNKNOWN;
 
+    // VERBUM_FUNCTION_*
+    ast.function_declaration.type           = VERBUM_UNKNOWN; 
+    ast.function_declaration.identifier     = ""; 
+    ast.function_declaration.ret_found      = false; 
+    ast.function_declaration.ret_data       = ""; 
+    ast.function_visibility.vfinal          = false;
+    ast.function_visibility.priv            = false;
+    ast.function_visibility.pro             = false;
+    ast.function_visibility.pub             = false;
+    ast.function_visibility.vstatic         = false;
+    ast.function_param_item                 = "";
+    ast.function_param_type                 = "";
+
     // Limpa estruturas de controle.
     ast.nodes.clear();
 
@@ -1457,9 +1470,25 @@ antlrcpp::Any verbum_ast_visitor::visitFunctions (TParser::FunctionsContext *ctx
 // Funções comuns.
 antlrcpp::Any verbum_ast_visitor::visitFunctionsModes (TParser::FunctionsModesContext *ctx)
 {
-    verbum_ast_node node            = this->zero_data();
-    node.type                       = VERBUM_FUNCTION_DECLARATION;
-    node.function_declaration.type  = VERBUM_FUNCTION_SIMPLE;
+    verbum_ast_node node = this->zero_data();
+
+    node.type                            = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type       = VERBUM_FUNCTION_SIMPLE;
+    node.function_declaration.identifier = ctx->functionGeneralModes()->Identifier()->getText();
+
+    // Verifica se há retorno de tipo.
+    node.function_declaration.ret_found  = false;
+    if (ctx->functionGeneralModes()->ArrowRight()) {
+        node.function_declaration.ret_found  = true;
+
+        if (ctx->functionGeneralModes()->identifierRet()) {
+            node.function_declaration.ret_data =
+                ctx->functionGeneralModes()->identifierRet()->Identifier()->getText();
+        } else if (ctx->functionGeneralModes()->TypeSpec()) {
+            node.function_declaration.ret_data =
+                ctx->functionGeneralModes()->TypeSpec()->getText();
+        }
+    }
 
     this->ast = this->add_node(node, this->ast);
 
@@ -1473,9 +1502,41 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionsModes (TParser::FunctionsModesCo
 // Métodos de classes.
 antlrcpp::Any verbum_ast_visitor::visitFunctionMethodsModes (TParser::FunctionMethodsModesContext *ctx)
 {
-    verbum_ast_node node            = this->zero_data();
-    node.type                       = VERBUM_FUNCTION_DECLARATION;
-    node.function_declaration.type  = VERBUM_FUNCTION_METHOD;
+    verbum_ast_node node = this->zero_data();
+    
+    node.type                            = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type       = VERBUM_FUNCTION_METHOD;
+    node.function_declaration.identifier = ctx->functionGeneralModes()->Identifier()->getText();
+
+    // Verifica se há retorno de tipo.
+    node.function_declaration.ret_found  = false;
+    if (ctx->functionGeneralModes()->ArrowRight()) {
+        node.function_declaration.ret_found  = true;
+
+        if (ctx->functionGeneralModes()->identifierRet()) {
+            node.function_declaration.ret_data =
+                ctx->functionGeneralModes()->identifierRet()->Identifier()->getText();
+        } else if (ctx->functionGeneralModes()->TypeSpec()) {
+            node.function_declaration.ret_data =
+                ctx->functionGeneralModes()->TypeSpec()->getText();
+        }
+    }
+
+    // Informações de visibilidade.
+    if (ctx->Final())
+        node.function_visibility.vfinal   = true;
+    if (ctx->Static())
+        node.function_visibility.vstatic  = true;
+
+    if (ctx->methodPerm()) {
+        if (ctx->methodPerm()->Pub())
+            node.function_visibility.pub  = true;
+        else if (ctx->methodPerm()->Priv())
+            node.function_visibility.priv = true;
+        else if (ctx->methodPerm()->Pro())
+            node.function_visibility.pro  = true;
+    }
+
 
     this->ast = this->add_node(node, this->ast);
 
@@ -1489,9 +1550,11 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionMethodsModes (TParser::FunctionMe
 // Construtores de classes.
 antlrcpp::Any verbum_ast_visitor::visitConstructClassMethod (TParser::ConstructClassMethodContext *ctx)
 {
-    verbum_ast_node node            = this->zero_data();
-    node.type                       = VERBUM_FUNCTION_DECLARATION;
-    node.function_declaration.type  = VERBUM_FUNCTION_CLASS_CONSTRUCTOR;
+    verbum_ast_node node = this->zero_data();
+
+    node.type                            = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type       = VERBUM_FUNCTION_CLASS_CONSTRUCTOR;
+    node.function_declaration.identifier = ctx->Identifier()->getText();
 
     this->ast = this->add_node(node, this->ast);
 
@@ -1510,6 +1573,54 @@ antlrcpp::Any verbum_ast_visitor::visitInterfaceMethod (TParser::InterfaceMethod
     node.function_declaration.type  = VERBUM_FUNCTION_INTERFACE_ABSTRACT;
 
     this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
+** Processa parâmetros da declaração da função / método.
+*/
+
+// Bloco geral.
+antlrcpp::Any verbum_ast_visitor::visitFunctionParams (TParser::FunctionParamsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_FUNCTION_PARAM_BLOCK;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Itens do bloco de parâmetros das funções / métodos.
+antlrcpp::Any verbum_ast_visitor::visitFunctionParamElements (TParser::FunctionParamElementsContext *ctx)
+{
+    verbum_ast_node node     = this->zero_data();
+
+    node.type                = VERBUM_FUNCTION_PARAM_ITEM;    
+    node.function_param_item = ctx->Identifier()->getText();
+    node.function_param_type = ctx->TypeSpec()->getText();
+
+    this->ast = this->add_node(node, this->ast);
+    return visitChildren(ctx);
+}
+
+/*
+** Bloco de código da função (declaração da função).
+*/
+antlrcpp::Any verbum_ast_visitor::visitFunctionCodeBlock (TParser::FunctionCodeBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_FUNCTION_CODE_BLOCK;
+    this->ast            = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);

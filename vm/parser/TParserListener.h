@@ -211,6 +211,9 @@ public:
   virtual void enterFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) = 0;
   virtual void exitFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) = 0;
 
+  virtual void enterIdentifierRet(TParser::IdentifierRetContext *ctx) = 0;
+  virtual void exitIdentifierRet(TParser::IdentifierRetContext *ctx) = 0;
+
   virtual void enterFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) = 0;
   virtual void exitFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) = 0;
 
@@ -226,8 +229,14 @@ public:
   virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
   virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
 
+  virtual void enterFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext *ctx) = 0;
+  virtual void exitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext *ctx) = 0;
+
   virtual void enterFunctionParams(TParser::FunctionParamsContext *ctx) = 0;
   virtual void exitFunctionParams(TParser::FunctionParamsContext *ctx) = 0;
+
+  virtual void enterFunctionParamsControl(TParser::FunctionParamsControlContext *ctx) = 0;
+  virtual void exitFunctionParamsControl(TParser::FunctionParamsControlContext *ctx) = 0;
 
   virtual void enterFunctionParamElements(TParser::FunctionParamElementsContext *ctx) = 0;
   virtual void exitFunctionParamElements(TParser::FunctionParamElementsContext *ctx) = 0;

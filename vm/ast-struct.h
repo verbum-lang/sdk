@@ -75,6 +75,10 @@ using namespace std;
 #define VERBUM_FUNCTION_CLASS_CONSTRUCTOR               40
 #define VERBUM_FUNCTION_INTERFACE_ABSTRACT              41
 
+#define VERBUM_FUNCTION_PARAM_BLOCK                     42
+#define VERBUM_FUNCTION_PARAM_ITEM                      43
+#define VERBUM_FUNCTION_CODE_BLOCK                      44
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2
@@ -380,6 +384,7 @@ typedef struct verbum_ast_node
 
     /*
     ** Funções.
+    ** VERBUM_FUNCTION_*
     */
 
     // Informações da declaração da função / método.
@@ -397,9 +402,16 @@ typedef struct verbum_ast_node
     } function_declaration;
 
     // Informações das permissões / visibilidade do método.
-    struct {
-        
+    struct {                                        
+        bool vfinal;                                // final.
+        bool priv;                                  // private.
+        bool pro;                                   // protected.
+        bool pub;                                   // public.
+        bool vstatic;                               // static.
     } function_visibility;
+
+    string function_param_item;                     // Nome da variável passada como parâmetro.
+    string function_param_type;                     // Especificação do tipo da variável.
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

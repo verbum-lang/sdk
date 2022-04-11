@@ -424,6 +424,16 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->tab();
                 cout << "-> function (simple block) - (open)\n";
                 
+                // Informações da função.
+                this->tab();
+                cout << "-> function name: " << node.function_declaration.identifier << "\n";
+                
+                if (node.function_declaration.ret_found) {
+                    this->tab();
+                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                }
+
+
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
@@ -437,6 +447,34 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->tab();
                 cout << "-> function (method block) - (open)\n";
                 
+                // Informações da função.
+                this->tab();
+                cout << "-> function name: " << node.function_declaration.identifier << "\n";
+                
+                if (node.function_declaration.ret_found) {
+                    this->tab();
+                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                }
+
+                // Configurações de acessibilidade.
+                this->tab();
+                cout << "-> visibility: ";
+
+                if (node.function_visibility.vfinal)
+                    cout << " final ";
+                if (node.function_visibility.vstatic)
+                    cout << " static ";
+
+                if (node.function_visibility.pub)
+                    cout << " pub ";
+                else if (node.function_visibility.priv)
+                    cout << " priv ";
+                else if (node.function_visibility.pro)
+                    cout << " pro ";
+
+                cout << "\n";
+
+
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
@@ -449,6 +487,10 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             else if (node.function_declaration.type == VERBUM_FUNCTION_CLASS_CONSTRUCTOR) {
                 this->tab();
                 cout << "-> function (class constructor) - (open)\n";
+                
+                // Informações da função.
+                this->tab();
+                cout << "-> function name: " << node.function_declaration.identifier << "\n";
                 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
@@ -470,6 +512,42 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->tab();
                 cout << "-> function (interface-abstract method) - (close)\n";
             }
+        }
+
+        //
+        // Parâmetros da declaração da função / método.
+        //
+        else if (node.type == VERBUM_FUNCTION_PARAM_BLOCK) {
+            this->tab();
+            cout << "-> function-param block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> function-param block (close)\n";
+        }
+
+        // Itens do parâmetros da declaração das funções / métodos.
+        else if (node.type == VERBUM_FUNCTION_PARAM_ITEM) {
+            this->tab();
+            cout << node.function_param_item << " -> " << node.function_param_type << "\n";
+        }
+
+        //
+        // Bloco de código da declaração da função.
+        //
+        else if (node.type == VERBUM_FUNCTION_CODE_BLOCK) {
+            this->tab();
+            cout << "-> function code block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> function code block (close)\n";
         }
 
         /*

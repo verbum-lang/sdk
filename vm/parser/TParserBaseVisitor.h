@@ -277,6 +277,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitIdentifierRet(TParser::IdentifierRetContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -297,7 +301,15 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitFunctionParams(TParser::FunctionParamsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionParamsControl(TParser::FunctionParamsControlContext *ctx) override {
     return visitChildren(ctx);
   }
 

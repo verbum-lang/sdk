@@ -103,6 +103,9 @@ namespace verbum {
             antlrcpp::Any visitFunctionMethodsModes (TParser::FunctionMethodsModesContext *ctx);
             antlrcpp::Any visitConstructClassMethod (TParser::ConstructClassMethodContext *ctx);
             antlrcpp::Any visitInterfaceMethod (TParser::InterfaceMethodContext *ctx);
+            antlrcpp::Any visitFunctionParams (TParser::FunctionParamsContext *ctx);
+            antlrcpp::Any visitFunctionParamElements (TParser::FunctionParamElementsContext *ctx);
+            antlrcpp::Any visitFunctionCodeBlock (TParser::FunctionCodeBlockContext *ctx);
 
         private:
         

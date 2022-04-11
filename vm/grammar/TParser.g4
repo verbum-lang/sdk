@@ -473,9 +473,13 @@ functionsModes
 
 functionGeneralModes
   : Function Identifier OpenOp                CloseOp
-  | Function Identifier OpenOp                CloseOp ArrowRight (Identifier | TypeSpec)
+  | Function Identifier OpenOp                CloseOp ArrowRight (identifierRet | TypeSpec)
   | Function Identifier OpenOp functionParams CloseOp
-  | Function Identifier OpenOp functionParams CloseOp ArrowRight (Identifier | TypeSpec)
+  | Function Identifier OpenOp functionParams CloseOp ArrowRight (identifierRet | TypeSpec)
+  ;
+
+identifierRet
+  : Identifier
   ;
 
 // Métodos.
@@ -506,15 +510,28 @@ interfaceMethod
   | functionMethodsModes
   ;
 
+//
 // Controles gerais.
+//
+
+// Bloco de código da declaração da função.
 functionCodeBlock
-  : sentence
-  | sentence functionCodeBlock
+  : functionCodeBlockElements
   ;
 
+functionCodeBlockElements
+  : sentence
+  | sentence functionCodeBlockElements
+  ;
+
+// Parâmetros da declaração da função.
 functionParams
+  : functionParamsControl
+  ;
+
+functionParamsControl
   : functionParamElements
-  | functionParamElements Separator functionParams
+  | functionParamElements Separator functionParamsControl
   ;
 
 functionParamElements

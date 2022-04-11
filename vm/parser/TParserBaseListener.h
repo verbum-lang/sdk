@@ -213,6 +213,9 @@ public:
   virtual void enterFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
   virtual void exitFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
 
+  virtual void enterIdentifierRet(TParser::IdentifierRetContext * /*ctx*/) override { }
+  virtual void exitIdentifierRet(TParser::IdentifierRetContext * /*ctx*/) override { }
+
   virtual void enterFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }
   virtual void exitFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }
 
@@ -228,8 +231,14 @@ public:
   virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
   virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
 
+  virtual void enterFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext * /*ctx*/) override { }
+  virtual void exitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext * /*ctx*/) override { }
+
   virtual void enterFunctionParams(TParser::FunctionParamsContext * /*ctx*/) override { }
   virtual void exitFunctionParams(TParser::FunctionParamsContext * /*ctx*/) override { }
+
+  virtual void enterFunctionParamsControl(TParser::FunctionParamsControlContext * /*ctx*/) override { }
+  virtual void exitFunctionParamsControl(TParser::FunctionParamsControlContext * /*ctx*/) override { }
 
   virtual void enterFunctionParamElements(TParser::FunctionParamElementsContext * /*ctx*/) override { }
   virtual void exitFunctionParamElements(TParser::FunctionParamElementsContext * /*ctx*/) override { }

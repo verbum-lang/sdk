@@ -150,6 +150,8 @@ public:
 
     virtual antlrcpp::Any visitFunctionGeneralModes(TParser::FunctionGeneralModesContext *context) = 0;
 
+    virtual antlrcpp::Any visitIdentifierRet(TParser::IdentifierRetContext *context) = 0;
+
     virtual antlrcpp::Any visitFunctionMethodsModes(TParser::FunctionMethodsModesContext *context) = 0;
 
     virtual antlrcpp::Any visitMethodPerm(TParser::MethodPermContext *context) = 0;
@@ -160,7 +162,11 @@ public:
 
     virtual antlrcpp::Any visitFunctionCodeBlock(TParser::FunctionCodeBlockContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext *context) = 0;
+
     virtual antlrcpp::Any visitFunctionParams(TParser::FunctionParamsContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionParamsControl(TParser::FunctionParamsControlContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionParamElements(TParser::FunctionParamElementsContext *context) = 0;
 

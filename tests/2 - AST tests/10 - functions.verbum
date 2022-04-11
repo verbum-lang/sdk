@@ -13,7 +13,6 @@ pub fn example (a :int) -> int { ret 333; }
 fn example (a :int) -> int;
 final pro fn example (a :int) -> int;
 
-/*
 final pro fn example (a :int) -> int { ret 333; }
 
 final pro static fn example (a :int) -> int { ret 333; }
@@ -44,6 +43,16 @@ pub fn getValues () -> array;
 pub fn getValues (index :int) -> int;
 pub fn checkString (string :string);
     pro fn abstractMethod ();
-*/
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
 
 

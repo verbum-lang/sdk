@@ -52,14 +52,15 @@ public:
     RuleLoopThreeMembers = 56, RuleLoopThreeMembersValues = 57, RuleLoopBlockElements = 58, 
     RuleLoopBlockElementsLimited = 59, RuleRet = 60, RuleRetValues = 61, 
     RuleFunctions = 62, RuleFunctionsModes = 63, RuleFunctionGeneralModes = 64, 
-    RuleFunctionMethodsModes = 65, RuleMethodPerm = 66, RuleConstructClassMethod = 67, 
-    RuleInterfaceMethod = 68, RuleFunctionCodeBlock = 69, RuleFunctionParams = 70, 
-    RuleFunctionParamElements = 71, RuleOopGeneral = 72, RuleInterfaceClass = 73, 
-    RuleInterfaceClassDefinition = 74, RuleAbstractClass = 75, RuleAbstractClassDefinition = 76, 
-    RuleClassDefination = 77, RuleClassModesGeneral = 78, RuleClassModes = 79, 
-    RuleArrayAccessElements = 80, RuleArrayAccessElementsItems = 81, RuleAccessBlockAr = 82, 
-    RuleArrayIndexAccess = 83, RuleGeneralValue = 84, RuleObjIdentifierA = 85, 
-    RuleObjIdentifierB = 86
+    RuleIdentifierRet = 65, RuleFunctionMethodsModes = 66, RuleMethodPerm = 67, 
+    RuleConstructClassMethod = 68, RuleInterfaceMethod = 69, RuleFunctionCodeBlock = 70, 
+    RuleFunctionCodeBlockElements = 71, RuleFunctionParams = 72, RuleFunctionParamsControl = 73, 
+    RuleFunctionParamElements = 74, RuleOopGeneral = 75, RuleInterfaceClass = 76, 
+    RuleInterfaceClassDefinition = 77, RuleAbstractClass = 78, RuleAbstractClassDefinition = 79, 
+    RuleClassDefination = 80, RuleClassModesGeneral = 81, RuleClassModes = 82, 
+    RuleArrayAccessElements = 83, RuleArrayAccessElementsItems = 84, RuleAccessBlockAr = 85, 
+    RuleArrayIndexAccess = 86, RuleGeneralValue = 87, RuleObjIdentifierA = 88, 
+    RuleObjIdentifierB = 89
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -137,12 +138,15 @@ public:
   class FunctionsContext;
   class FunctionsModesContext;
   class FunctionGeneralModesContext;
+  class IdentifierRetContext;
   class FunctionMethodsModesContext;
   class MethodPermContext;
   class ConstructClassMethodContext;
   class InterfaceMethodContext;
   class FunctionCodeBlockContext;
+  class FunctionCodeBlockElementsContext;
   class FunctionParamsContext;
+  class FunctionParamsControlContext;
   class FunctionParamElementsContext;
   class OopGeneralContext;
   class InterfaceClassContext;
@@ -1264,11 +1268,11 @@ public:
     FunctionGeneralModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *Function();
-    std::vector<antlr4::tree::TerminalNode *> Identifier();
-    antlr4::tree::TerminalNode* Identifier(size_t i);
+    antlr4::tree::TerminalNode *Identifier();
     antlr4::tree::TerminalNode *OpenOp();
     antlr4::tree::TerminalNode *CloseOp();
     antlr4::tree::TerminalNode *ArrowRight();
+    IdentifierRetContext *identifierRet();
     antlr4::tree::TerminalNode *TypeSpec();
     FunctionParamsContext *functionParams();
 
@@ -1280,6 +1284,21 @@ public:
   };
 
   FunctionGeneralModesContext* functionGeneralModes();
+
+  class  IdentifierRetContext : public antlr4::ParserRuleContext {
+  public:
+    IdentifierRetContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Identifier();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IdentifierRetContext* identifierRet();
 
   class  FunctionMethodsModesContext : public antlr4::ParserRuleContext {
   public:
@@ -1354,8 +1373,7 @@ public:
   public:
     FunctionCodeBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    SentenceContext *sentence();
-    FunctionCodeBlockContext *functionCodeBlock();
+    FunctionCodeBlockElementsContext *functionCodeBlockElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1366,13 +1384,27 @@ public:
 
   FunctionCodeBlockContext* functionCodeBlock();
 
+  class  FunctionCodeBlockElementsContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCodeBlockElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    SentenceContext *sentence();
+    FunctionCodeBlockElementsContext *functionCodeBlockElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCodeBlockElementsContext* functionCodeBlockElements();
+
   class  FunctionParamsContext : public antlr4::ParserRuleContext {
   public:
     FunctionParamsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    FunctionParamElementsContext *functionParamElements();
-    antlr4::tree::TerminalNode *Separator();
-    FunctionParamsContext *functionParams();
+    FunctionParamsControlContext *functionParamsControl();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1382,6 +1414,23 @@ public:
   };
 
   FunctionParamsContext* functionParams();
+
+  class  FunctionParamsControlContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionParamsControlContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionParamElementsContext *functionParamElements();
+    antlr4::tree::TerminalNode *Separator();
+    FunctionParamsControlContext *functionParamsControl();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionParamsControlContext* functionParamsControl();
 
   class  FunctionParamElementsContext : public antlr4::ParserRuleContext {
   public:
