@@ -28,6 +28,12 @@ public:
   virtual void enterLiveToken(TParser::LiveTokenContext *ctx) = 0;
   virtual void exitLiveToken(TParser::LiveTokenContext *ctx) = 0;
 
+  virtual void enterBreakFor(TParser::BreakForContext *ctx) = 0;
+  virtual void exitBreakFor(TParser::BreakForContext *ctx) = 0;
+
+  virtual void enterNextFor(TParser::NextForContext *ctx) = 0;
+  virtual void exitNextFor(TParser::NextForContext *ctx) = 0;
+
   virtual void enterUse(TParser::UseContext *ctx) = 0;
   virtual void exitUse(TParser::UseContext *ctx) = 0;
 

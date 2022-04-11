@@ -116,6 +116,7 @@ namespace verbum {
             antlrcpp::Any visitClassDefination (TParser::ClassDefinationContext *ctx);
 
             // Gerais.
+            antlrcpp::Any visitLiveToken (TParser::LiveTokenContext *ctx);
             antlrcpp::Any visitVisibilityItems (TParser::VisibilityItemsContext *ctx);
 
         private:

@@ -33,6 +33,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBreakFor(TParser::BreakForContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitNextFor(TParser::NextForContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitUse(TParser::UseContext *ctx) override {
     return visitChildren(ctx);
   }

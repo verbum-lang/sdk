@@ -175,6 +175,24 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
 }
 
 /*
+** Live tokens: tokens especiais.
+*/
+antlrcpp::Any verbum_ast_visitor::visitLiveToken (TParser::LiveTokenContext *ctx) 
+{
+    verbum_ast_node node = this->zero_data();
+
+    if (ctx->breakFor())
+        node.type = VERBUM_TOKEN_BREAK;
+    else if (ctx->nextFor())
+        node.type = VERBUM_TOKEN_NEXT;
+
+    if (!ctx->Newline())
+        this->ast = this->add_node(node, this->ast);
+
+    return visitChildren(ctx);
+}
+
+/*
 ** Importações: use.
 */
 antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx) 

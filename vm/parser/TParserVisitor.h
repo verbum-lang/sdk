@@ -28,6 +28,10 @@ public:
 
     virtual antlrcpp::Any visitLiveToken(TParser::LiveTokenContext *context) = 0;
 
+    virtual antlrcpp::Any visitBreakFor(TParser::BreakForContext *context) = 0;
+
+    virtual antlrcpp::Any visitNextFor(TParser::NextForContext *context) = 0;
+
     virtual antlrcpp::Any visitUse(TParser::UseContext *context) = 0;
 
     virtual antlrcpp::Any visitUseValue(TParser::UseValueContext *context) = 0;

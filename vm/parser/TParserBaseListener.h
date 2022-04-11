@@ -30,6 +30,12 @@ public:
   virtual void enterLiveToken(TParser::LiveTokenContext * /*ctx*/) override { }
   virtual void exitLiveToken(TParser::LiveTokenContext * /*ctx*/) override { }
 
+  virtual void enterBreakFor(TParser::BreakForContext * /*ctx*/) override { }
+  virtual void exitBreakFor(TParser::BreakForContext * /*ctx*/) override { }
+
+  virtual void enterNextFor(TParser::NextForContext * /*ctx*/) override { }
+  virtual void exitNextFor(TParser::NextForContext * /*ctx*/) override { }
+
   virtual void enterUse(TParser::UseContext * /*ctx*/) override { }
   virtual void exitUse(TParser::UseContext * /*ctx*/) override { }
 

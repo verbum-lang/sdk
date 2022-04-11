@@ -37,6 +37,17 @@ sentence
 // Tokens que podem ir soltos no código.
 liveToken
   : Newline // Utilizar para contagem de linhas lidas.
+  | breakFor
+  | nextFor
+  ;
+
+// Controles do comando for.
+breakFor
+  : Break End
+  ;
+
+nextFor
+  : Next End
   ;
 
 // Importações.

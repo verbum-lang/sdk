@@ -1,0 +1,8 @@
+
+for a {
+    print("Verbum");
+    break;
+    next;
+}
+
+

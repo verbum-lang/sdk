@@ -90,6 +90,9 @@ using namespace std;
 
 #define VERBUM_ITEMS_VISIBILITY                         51
 
+#define VERBUM_TOKEN_BREAK                              52
+#define VERBUM_TOKEN_NEXT                               53
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2

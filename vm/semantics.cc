@@ -79,6 +79,19 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Tokens: break e next (for).
+        */
+        else if (node.type == VERBUM_TOKEN_BREAK) {
+            this->tab();
+            cout << "break (for)\n";
+        }
+
+        else if (node.type == VERBUM_TOKEN_NEXT) {
+            this->tab();
+            cout << "next (for)\n";
+        }
+
+        /*
         ** Variáveis: tipagem e atribuição.
         */
         else if (node.type == VERBUM_VARIABLE_USE_TYPES) {
