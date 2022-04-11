@@ -169,6 +169,12 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.abstract.identifier_a               = "";
     ast.abstract.identifier_b               = "";
     ast.abstract.extends                    = false;
+    ast.vclass.identifier_a                 = "";
+    ast.vclass.identifier_b                 = "";
+    ast.vclass.identifier_c                 = "";
+    ast.vclass.extends                      = false;
+    ast.vclass.implements                   = false;
+    ast.vclass.vfinal                       = false;
 
     // Limpa estruturas de controle.
     ast.nodes.clear();
@@ -1707,6 +1713,44 @@ antlrcpp::Any verbum_ast_visitor::visitAbstractCodeBlock (TParser::AbstractCodeB
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_OOP_ABSTRACT_CODE_BLOCK;
     this->ast            = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Declaração da classe.
+antlrcpp::Any verbum_ast_visitor::visitClassDefination (TParser::ClassDefinationContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_OOP_CLASS;
+
+    // Nome da classe.
+    node.vclass.identifier_a = 
+        ctx->classModes()->Identifier()->getText();
+
+    // Verifica se há herança.
+    if (ctx->classModes()->Extends()) {
+        node.vclass.extends = true;
+        node.vclass.identifier_b = 
+            ctx->classModes()->identifierB()->getText();
+    }
+
+    // Verifica se há implementação de interface.
+    if (ctx->classModes()->Implements()) {
+        node.vclass.implements = true;
+        node.vclass.identifier_c = 
+            ctx->classModes()->identifierC()->getText();
+    }
+
+    // Verifica se é uma classe 'final'.
+    if (ctx->classModes()->Final()) 
+        node.vclass.vfinal = true;
+
+
+    this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);

@@ -84,6 +84,9 @@ using namespace std;
 #define VERBUM_OOP_ABSTRACT                             47
 #define VERBUM_OOP_ABSTRACT_CODE_BLOCK                  48
 
+#define VERBUM_OOP_CLASS                                49
+#define VERBUM_OOP_CLASS_CODE_BLOCK                     50
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2
@@ -437,6 +440,16 @@ typedef struct verbum_ast_node
         string identifier_b;                        // Nome do identificador (em caso de herança).
         bool extends;                               // Verifica se há herança.
     } abstract;
+
+    // VERBUM_OOP_CLASS
+    struct {
+        string identifier_a;                        // Nome da classe (identificador).
+        string identifier_b;                        // Nome do identificador (herança).
+        string identifier_c;                        // Nome do identificador (implementação de interface).
+        bool extends;                               // Verifica se há herança.
+        bool implements;                            // Verifica se há implementação de interface.
+        bool vfinal;                                // Verifica se possui atribuito 'final'.
+    } vclass;
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

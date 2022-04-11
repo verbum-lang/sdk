@@ -270,11 +270,11 @@ public:
   virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
   virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
 
-  virtual void enterClassModesGeneral(TParser::ClassModesGeneralContext * /*ctx*/) override { }
-  virtual void exitClassModesGeneral(TParser::ClassModesGeneralContext * /*ctx*/) override { }
-
   virtual void enterClassModes(TParser::ClassModesContext * /*ctx*/) override { }
   virtual void exitClassModes(TParser::ClassModesContext * /*ctx*/) override { }
+
+  virtual void enterIdentifierC(TParser::IdentifierCContext * /*ctx*/) override { }
+  virtual void exitIdentifierC(TParser::IdentifierCContext * /*ctx*/) override { }
 
   virtual void enterArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }
   virtual void exitArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }

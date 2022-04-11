@@ -563,7 +563,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             this->tab();
             cout << "-> name: " << node.interface.identifier_a << "\n";
 
-            // Verifia se há herança.
+            // Verifica se há herança.
             if (node.interface.extends) {
                 this->tab();
                 cout << "-> inheritance: " << node.interface.identifier_b << "\n";
@@ -598,7 +598,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             this->tab();
             cout << "-> name: " << node.abstract.identifier_a << "\n";
 
-            // Verifia se há herança.
+            // Verifica se há herança.
             if (node.abstract.extends) {
                 this->tab();
                 cout << "-> inheritance: " << node.abstract.identifier_b << "\n";
@@ -622,6 +622,44 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             this->tab();
             cout << "-> abstract code block (close)\n";
+        }
+
+        /*
+        ** Classe.
+        */
+        else if (node.type == VERBUM_OOP_CLASS) {
+            this->tab();
+            cout << "-> class (open)\n";
+            
+            // Nome da classe.
+            this->tab();
+            cout << "-> name: " << node.vclass.identifier_a << "\n";
+
+            // Verifica se há herança.
+            if (node.vclass.extends) {
+                this->tab();
+                cout << "-> inheritance: " << node.vclass.identifier_b << "\n";
+            }
+
+            // Verifica se há implementação de interface.
+            if (node.vclass.implements) {
+                this->tab();
+                cout << "-> implements: " << node.vclass.identifier_c << "\n";
+            }
+
+            // Verifica se é uma classe 'final'.
+            if (node.vclass.vfinal) {
+                this->tab();
+                cout << "-> final: yes\n";
+            }
+
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> class (close)\n";
         }
 
         /*

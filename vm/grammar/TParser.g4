@@ -584,24 +584,28 @@ abstractCodeBlock
 
 // Definição de classe.
 classDefination
-  : classModesGeneral OpenBlock                CloseBlock
-  | classModesGeneral OpenBlock classCodeBlock CloseBlock
+  : classModes OpenBlock                CloseBlock
+  | classModes OpenBlock classCodeBlock CloseBlock
   ;
 
 classCodeBlock
   : functionCodeBlockElements
   ;
 
-classModesGeneral
-  : classModes
-  | Final classModes
+classModes
+  :       Class Identifier
+  |       Class Identifier Extends    identifierB
+  |       Class Identifier Implements identifierB
+  |       Class Identifier Extends    identifierB Implements identifierC
+
+  | Final Class Identifier
+  | Final Class Identifier Extends    identifierB
+  | Final Class Identifier Implements identifierB
+  | Final Class Identifier Extends    identifierB Implements identifierC
   ;
 
-classModes
-  : Class Identifier
-  | Class Identifier Extends    identifierB
-  | Class Identifier Implements identifierB
-  | Class Identifier Extends    identifierB Implements Identifier
+identifierC
+  : Identifier
   ;
 
 /*

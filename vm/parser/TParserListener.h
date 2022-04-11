@@ -268,11 +268,11 @@ public:
   virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
   virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
 
-  virtual void enterClassModesGeneral(TParser::ClassModesGeneralContext *ctx) = 0;
-  virtual void exitClassModesGeneral(TParser::ClassModesGeneralContext *ctx) = 0;
-
   virtual void enterClassModes(TParser::ClassModesContext *ctx) = 0;
   virtual void exitClassModes(TParser::ClassModesContext *ctx) = 0;
+
+  virtual void enterIdentifierC(TParser::IdentifierCContext *ctx) = 0;
+  virtual void exitIdentifierC(TParser::IdentifierCContext *ctx) = 0;
 
   virtual void enterArrayAccessElements(TParser::ArrayAccessElementsContext *ctx) = 0;
   virtual void exitArrayAccessElements(TParser::ArrayAccessElementsContext *ctx) = 0;

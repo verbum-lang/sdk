@@ -112,6 +112,7 @@ namespace verbum {
             antlrcpp::Any visitInterfaceCodeBlock (TParser::InterfaceCodeBlockContext *ctx);
             antlrcpp::Any visitAbstractClass (TParser::AbstractClassContext *ctx);
             antlrcpp::Any visitAbstractCodeBlock (TParser::AbstractCodeBlockContext *ctx);
+            antlrcpp::Any visitClassDefination (TParser::ClassDefinationContext *ctx);
 
         private:
         

@@ -188,9 +188,9 @@ public:
 
     virtual antlrcpp::Any visitClassCodeBlock(TParser::ClassCodeBlockContext *context) = 0;
 
-    virtual antlrcpp::Any visitClassModesGeneral(TParser::ClassModesGeneralContext *context) = 0;
-
     virtual antlrcpp::Any visitClassModes(TParser::ClassModesContext *context) = 0;
+
+    virtual antlrcpp::Any visitIdentifierC(TParser::IdentifierCContext *context) = 0;
 
     virtual antlrcpp::Any visitArrayAccessElements(TParser::ArrayAccessElementsContext *context) = 0;
 
