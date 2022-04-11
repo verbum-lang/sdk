@@ -87,11 +87,26 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 
+  virtual void enterMethodCascadingModes(TParser::MethodCascadingModesContext * /*ctx*/) override { }
+  virtual void exitMethodCascadingModes(TParser::MethodCascadingModesContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCallCascading(TParser::FunctionCallCascadingContext * /*ctx*/) override { }
+  virtual void exitFunctionCallCascading(TParser::FunctionCallCascadingContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCallCascadingItem(TParser::FunctionCallCascadingItemContext * /*ctx*/) override { }
+  virtual void exitFunctionCallCascadingItem(TParser::FunctionCallCascadingItemContext * /*ctx*/) override { }
+
   virtual void enterIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
   virtual void exitIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
 
   virtual void enterPointSeparator(TParser::PointSeparatorContext * /*ctx*/) override { }
   virtual void exitPointSeparator(TParser::PointSeparatorContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCallParamCM(TParser::FunctionCallParamCMContext * /*ctx*/) override { }
+  virtual void exitFunctionCallParamCM(TParser::FunctionCallParamCMContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext * /*ctx*/) override { }
+  virtual void exitFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext * /*ctx*/) override { }
 
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }

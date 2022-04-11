@@ -109,11 +109,31 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitMethodCascadingModes(TParser::MethodCascadingModesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallCascading(TParser::FunctionCallCascadingContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallCascadingItem(TParser::FunctionCallCascadingItemContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitIdentifierB(TParser::IdentifierBContext *ctx) override {
     return visitChildren(ctx);
   }
 
   virtual antlrcpp::Any visitPointSeparator(TParser::PointSeparatorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallParamCM(TParser::FunctionCallParamCMContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext *ctx) override {
     return visitChildren(ctx);
   }
 

@@ -43,6 +43,7 @@ using namespace std;
 #define VERBUM_DATA_ASSOC_ARRAY_ELEMENT                 15
 
 #define VERBUM_FUNCTION_CALL                            16
+#define VERBUM_FUNCTION_CALL_CASCADING_METHOD           161
 
 #define VERBUM_CONDITIONAL_STRUCT_BLOCK                 17
 #define VERBUM_CONDITIONAL_EXPRESSION_BLOCK             18
@@ -166,6 +167,7 @@ using namespace std;
 #define VERBUM_FUNCTION_CALL_SIMPLE                     1
 #define VERBUM_FUNCTION_CALL_INSTANCE                   2   
 #define VERBUM_FUNCTION_CALL_STATIC                     3
+#define VERBUM_FUNCTION_CALL_CASCADING                  4
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 

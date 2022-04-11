@@ -85,11 +85,26 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
   virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
 
+  virtual void enterMethodCascadingModes(TParser::MethodCascadingModesContext *ctx) = 0;
+  virtual void exitMethodCascadingModes(TParser::MethodCascadingModesContext *ctx) = 0;
+
+  virtual void enterFunctionCallCascading(TParser::FunctionCallCascadingContext *ctx) = 0;
+  virtual void exitFunctionCallCascading(TParser::FunctionCallCascadingContext *ctx) = 0;
+
+  virtual void enterFunctionCallCascadingItem(TParser::FunctionCallCascadingItemContext *ctx) = 0;
+  virtual void exitFunctionCallCascadingItem(TParser::FunctionCallCascadingItemContext *ctx) = 0;
+
   virtual void enterIdentifierB(TParser::IdentifierBContext *ctx) = 0;
   virtual void exitIdentifierB(TParser::IdentifierBContext *ctx) = 0;
 
   virtual void enterPointSeparator(TParser::PointSeparatorContext *ctx) = 0;
   virtual void exitPointSeparator(TParser::PointSeparatorContext *ctx) = 0;
+
+  virtual void enterFunctionCallParamCM(TParser::FunctionCallParamCMContext *ctx) = 0;
+  virtual void exitFunctionCallParamCM(TParser::FunctionCallParamCMContext *ctx) = 0;
+
+  virtual void enterFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext *ctx) = 0;
+  virtual void exitFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext *ctx) = 0;
 
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;

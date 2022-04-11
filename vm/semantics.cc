@@ -209,6 +209,8 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         /*
         ** Chamada a função.
         */
+
+        // Uso geral.
         else if (node.type == VERBUM_FUNCTION_CALL) {
             this->tab();
             
@@ -226,6 +228,10 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << node.function_call.object_name << " :: " << 
                     node.function_call.method_name << " (static-method-call)\n";
 
+            // Chamada utilizando de cascading method.
+            else if (node.function_call.type == VERBUM_FUNCTION_CALL_CASCADING)
+                cout << node.function_call.function_name << " . (cascading-method-call)\n";
+
             // Processamento dos nodes (filhos).
             this->tab();
             cout << "( <---| open function-block\n";
@@ -236,6 +242,23 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             this->tab();
             cout << ") <---| close function-block\n";
+        }
+
+        // Cascading method.
+        else if (node.type == VERBUM_FUNCTION_CALL_CASCADING_METHOD) {
+            this->tab();
+            cout << "-> cascading item - open\n";
+            this->tab();
+            cout << "-> function-name: " << node.function_call.function_name << "\n";
+            this->tab();
+            cout << "-> function-params: \n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> cascading item - close\n";
         }
 
         /*

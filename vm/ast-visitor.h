@@ -65,6 +65,7 @@ namespace verbum {
 
             // Chamada a função.
             antlrcpp::Any visitCallingFunction (TParser::CallingFunctionContext *ctx);
+            antlrcpp::Any visitFunctionCallCascadingItem (TParser::FunctionCallCascadingItemContext *ctx);
 
             // Condicionais.
             antlrcpp::Any visitConditionalExpressionStructBlock (TParser::ConditionalExpressionStructBlockContext *ctx);

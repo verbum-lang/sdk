@@ -182,18 +182,32 @@ callingFunction
   : functionCall End
   ;
 
+// Chamdas comuns.
 functionCall
   : Identifier                         functionCallParam
   | Identifier Point       identifierB functionCallParam
   | Identifier TwoTwoPoint identifierB functionCallParam
-
-  // Acesso a método concatenado (de objeto instanciado).
-  | Identifier Point identifierB functionCallParam pointSeparator functionCall
+  | methodCascadingModes
   ;
 
-identifierB : Identifier;
+// Método concatenado.
+methodCascadingModes
+  : Identifier Point functionCallCascading
+  ;
+
+functionCallCascading
+  : functionCallCascadingItem 
+  | functionCallCascadingItem Point functionCallCascading
+  ;
+
+functionCallCascadingItem
+  : Identifier functionCallParam
+  ;
+
+identifierB    : Identifier;
 pointSeparator : Point;
 
+// Parâmetros das funções.
 functionCallParam
   : OpenOp CloseOp
   | OpenOp functionCallParamElements CloseOp

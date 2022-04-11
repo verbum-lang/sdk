@@ -66,9 +66,19 @@ public:
 
     virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *context) = 0;
 
+    virtual antlrcpp::Any visitMethodCascadingModes(TParser::MethodCascadingModesContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCallCascading(TParser::FunctionCallCascadingContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCallCascadingItem(TParser::FunctionCallCascadingItemContext *context) = 0;
+
     virtual antlrcpp::Any visitIdentifierB(TParser::IdentifierBContext *context) = 0;
 
     virtual antlrcpp::Any visitPointSeparator(TParser::PointSeparatorContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCallParamCM(TParser::FunctionCallParamCMContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCallParam(TParser::FunctionCallParamContext *context) = 0;
 
