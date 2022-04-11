@@ -79,6 +79,11 @@ using namespace std;
 #define VERBUM_FUNCTION_PARAM_ITEM                      43
 #define VERBUM_FUNCTION_CODE_BLOCK                      44
 
+#define VERBUM_OOP_INTERFACE                            45
+#define VERBUM_OOP_INTERFACE_CODE_BLOCK                 46
+#define VERBUM_OOP_ABSTRACT                             47
+#define VERBUM_OOP_ABSTRACT_CODE_BLOCK                  48
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2
@@ -412,6 +417,26 @@ typedef struct verbum_ast_node
 
     string function_param_item;                     // Nome da variável passada como parâmetro.
     string function_param_type;                     // Especificação do tipo da variável.
+
+    /*
+    ** OOP.
+    */
+
+    //
+    // Interface.
+    // VERBUM_OOP_INTERFACE
+    struct {
+        string identifier_a;                        // Nome da interface (identificador).
+        string identifier_b;                        // Nome do identificador (em caso de herança).
+        bool extends;                               // Verifica se há herança.
+    } interface;
+
+    // VERBUM_OOP_ABSTRACT
+    struct {
+        string identifier_a;                        // Nome da classe abstrata (identificador).
+        string identifier_b;                        // Nome do identificador (em caso de herança).
+        bool extends;                               // Verifica se há herança.
+    } abstract;
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

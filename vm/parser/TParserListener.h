@@ -250,14 +250,23 @@ public:
   virtual void enterInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *ctx) = 0;
   virtual void exitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *ctx) = 0;
 
+  virtual void enterInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *ctx) = 0;
+  virtual void exitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *ctx) = 0;
+
   virtual void enterAbstractClass(TParser::AbstractClassContext *ctx) = 0;
   virtual void exitAbstractClass(TParser::AbstractClassContext *ctx) = 0;
 
   virtual void enterAbstractClassDefinition(TParser::AbstractClassDefinitionContext *ctx) = 0;
   virtual void exitAbstractClassDefinition(TParser::AbstractClassDefinitionContext *ctx) = 0;
 
+  virtual void enterAbstractCodeBlock(TParser::AbstractCodeBlockContext *ctx) = 0;
+  virtual void exitAbstractCodeBlock(TParser::AbstractCodeBlockContext *ctx) = 0;
+
   virtual void enterClassDefination(TParser::ClassDefinationContext *ctx) = 0;
   virtual void exitClassDefination(TParser::ClassDefinationContext *ctx) = 0;
+
+  virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
+  virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
 
   virtual void enterClassModesGeneral(TParser::ClassModesGeneralContext *ctx) = 0;
   virtual void exitClassModesGeneral(TParser::ClassModesGeneralContext *ctx) = 0;

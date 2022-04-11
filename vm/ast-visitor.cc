@@ -162,6 +162,14 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.function_param_item                 = "";
     ast.function_param_type                 = "";
 
+    // VERBUM_OOP_*
+    ast.interface.identifier_a              = "";
+    ast.interface.identifier_b              = "";
+    ast.interface.extends                   = false;
+    ast.abstract.identifier_a               = "";
+    ast.abstract.identifier_b               = "";
+    ast.abstract.extends                    = false;
+
     // Limpa estruturas de controle.
     ast.nodes.clear();
 
@@ -1620,6 +1628,84 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCodeBlock (TParser::FunctionCodeB
 {
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_FUNCTION_CODE_BLOCK;
+    this->ast            = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
+** OOP.
+*/
+
+// Declaração das interfaces.
+antlrcpp::Any verbum_ast_visitor::visitInterfaceClass (TParser::InterfaceClassContext *ctx)
+{
+    verbum_ast_node node        = this->zero_data();    
+    node.type                   = VERBUM_OOP_INTERFACE;
+    node.interface.identifier_a = ctx->interfaceClassDefinition()->Identifier()->getText();
+
+    // Verifica se há herança.
+    if (ctx->interfaceClassDefinition()->Extends()) {
+        node.interface.extends      = true;
+        node.interface.identifier_b = 
+            ctx->interfaceClassDefinition()->identifierB()->getText();
+    }
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código da interface.
+antlrcpp::Any verbum_ast_visitor::visitInterfaceCodeBlock (TParser::InterfaceCodeBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_OOP_INTERFACE_CODE_BLOCK;
+    this->ast            = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Declaração das abstrações.
+antlrcpp::Any verbum_ast_visitor::visitAbstractClass (TParser::AbstractClassContext *ctx)
+{
+    verbum_ast_node node        = this->zero_data();    
+    node.type                   = VERBUM_OOP_ABSTRACT;
+    node.abstract.identifier_a  = ctx->abstractClassDefinition()->Identifier()->getText();
+
+    // Verifica se há herança.
+    if (ctx->abstractClassDefinition()->Extends()) {
+        node.abstract.extends      = true;
+        node.abstract.identifier_b = 
+            ctx->abstractClassDefinition()->identifierB()->getText();
+    }
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código da abstração.
+antlrcpp::Any verbum_ast_visitor::visitAbstractCodeBlock (TParser::AbstractCodeBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_OOP_ABSTRACT_CODE_BLOCK;
     this->ast            = this->add_node(node, this->ast);
 
     this->node_block_counter++;

@@ -252,14 +252,23 @@ public:
   virtual void enterInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext * /*ctx*/) override { }
   virtual void exitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext * /*ctx*/) override { }
 
+  virtual void enterInterfaceCodeBlock(TParser::InterfaceCodeBlockContext * /*ctx*/) override { }
+  virtual void exitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext * /*ctx*/) override { }
+
   virtual void enterAbstractClass(TParser::AbstractClassContext * /*ctx*/) override { }
   virtual void exitAbstractClass(TParser::AbstractClassContext * /*ctx*/) override { }
 
   virtual void enterAbstractClassDefinition(TParser::AbstractClassDefinitionContext * /*ctx*/) override { }
   virtual void exitAbstractClassDefinition(TParser::AbstractClassDefinitionContext * /*ctx*/) override { }
 
+  virtual void enterAbstractCodeBlock(TParser::AbstractCodeBlockContext * /*ctx*/) override { }
+  virtual void exitAbstractCodeBlock(TParser::AbstractCodeBlockContext * /*ctx*/) override { }
+
   virtual void enterClassDefination(TParser::ClassDefinationContext * /*ctx*/) override { }
   virtual void exitClassDefination(TParser::ClassDefinationContext * /*ctx*/) override { }
+
+  virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
+  virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
 
   virtual void enterClassModesGeneral(TParser::ClassModesGeneralContext * /*ctx*/) override { }
   virtual void exitClassModesGeneral(TParser::ClassModesGeneralContext * /*ctx*/) override { }

@@ -551,6 +551,80 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** OOP.
+        */
+
+        //
+        // Interfaces.
+        //
+        else if (node.type == VERBUM_OOP_INTERFACE) {
+            this->tab();
+            cout << "-> interface (open)\n";
+            this->tab();
+            cout << "-> name: " << node.interface.identifier_a << "\n";
+
+            // Verifia se há herança.
+            if (node.interface.extends) {
+                this->tab();
+                cout << "-> inheritance: " << node.interface.identifier_b << "\n";
+            }
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> interface (close)\n";
+        }
+
+        else if (node.type == VERBUM_OOP_INTERFACE_CODE_BLOCK) {
+            this->tab();
+            cout << "-> interface code block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> interface code block (close)\n";
+        }
+
+        //
+        // Abstrações.
+        //
+        else if (node.type == VERBUM_OOP_ABSTRACT) {
+            this->tab();
+            cout << "-> abstract (open)\n";
+            this->tab();
+            cout << "-> name: " << node.abstract.identifier_a << "\n";
+
+            // Verifia se há herança.
+            if (node.abstract.extends) {
+                this->tab();
+                cout << "-> inheritance: " << node.abstract.identifier_b << "\n";
+            }
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> abstract (close)\n";
+        }
+
+        else if (node.type == VERBUM_OOP_ABSTRACT_CODE_BLOCK) {
+            this->tab();
+            cout << "-> abstract code block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> abstract code block (close)\n";
+        }
+
+        /*
         ** Valores das expressões condicionais.
         */
 

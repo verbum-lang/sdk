@@ -1,0 +1,25 @@
+
+// In principio erat Verbum
+
+/*
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+*/
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+

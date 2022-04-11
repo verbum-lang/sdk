@@ -556,10 +556,14 @@ interfaceClass
   ;
 
 interfaceClassDefinition
-  : Interface Identifier                    OpenBlock                   CloseBlock
-  | Interface Identifier                    OpenBlock functionCodeBlock CloseBlock
-  | Interface Identifier Extends Identifier OpenBlock                   CloseBlock
-  | Interface Identifier Extends Identifier OpenBlock functionCodeBlock CloseBlock
+  : Interface Identifier                     OpenBlock                    CloseBlock
+  | Interface Identifier                     OpenBlock interfaceCodeBlock CloseBlock
+  | Interface Identifier Extends identifierB OpenBlock                    CloseBlock
+  | Interface Identifier Extends identifierB OpenBlock interfaceCodeBlock CloseBlock
+  ;
+
+interfaceCodeBlock
+  : functionCodeBlockElements
   ;
 
 // Classe abstrata.
@@ -568,16 +572,24 @@ abstractClass
   ;
 
 abstractClassDefinition
-  : Abstract Identifier                    OpenBlock                   CloseBlock
-  | Abstract Identifier                    OpenBlock functionCodeBlock CloseBlock
-  | Abstract Identifier Extends Identifier OpenBlock                   CloseBlock
-  | Abstract Identifier Extends Identifier OpenBlock functionCodeBlock CloseBlock
+  : Abstract Identifier                     OpenBlock                   CloseBlock
+  | Abstract Identifier                     OpenBlock abstractCodeBlock CloseBlock
+  | Abstract Identifier Extends identifierB OpenBlock                   CloseBlock
+  | Abstract Identifier Extends identifierB OpenBlock abstractCodeBlock CloseBlock
+  ;
+
+abstractCodeBlock
+  : functionCodeBlockElements
   ;
 
 // Definição de classe.
 classDefination
-  : classModesGeneral OpenBlock                   CloseBlock
-  | classModesGeneral OpenBlock functionCodeBlock CloseBlock
+  : classModesGeneral OpenBlock                CloseBlock
+  | classModesGeneral OpenBlock classCodeBlock CloseBlock
+  ;
+
+classCodeBlock
+  : functionCodeBlockElements
   ;
 
 classModesGeneral
@@ -587,9 +599,9 @@ classModesGeneral
 
 classModes
   : Class Identifier
-  | Class Identifier Extends    Identifier
-  | Class Identifier Implements Identifier
-  | Class Identifier Extends    Identifier Implements Identifier
+  | Class Identifier Extends    identifierB
+  | Class Identifier Implements identifierB
+  | Class Identifier Extends    identifierB Implements Identifier
   ;
 
 /*

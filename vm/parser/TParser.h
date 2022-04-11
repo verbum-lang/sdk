@@ -56,11 +56,12 @@ public:
     RuleConstructClassMethod = 68, RuleInterfaceMethod = 69, RuleFunctionCodeBlock = 70, 
     RuleFunctionCodeBlockElements = 71, RuleFunctionParams = 72, RuleFunctionParamsControl = 73, 
     RuleFunctionParamElements = 74, RuleOopGeneral = 75, RuleInterfaceClass = 76, 
-    RuleInterfaceClassDefinition = 77, RuleAbstractClass = 78, RuleAbstractClassDefinition = 79, 
-    RuleClassDefination = 80, RuleClassModesGeneral = 81, RuleClassModes = 82, 
-    RuleArrayAccessElements = 83, RuleArrayAccessElementsItems = 84, RuleAccessBlockAr = 85, 
-    RuleArrayIndexAccess = 86, RuleGeneralValue = 87, RuleObjIdentifierA = 88, 
-    RuleObjIdentifierB = 89
+    RuleInterfaceClassDefinition = 77, RuleInterfaceCodeBlock = 78, RuleAbstractClass = 79, 
+    RuleAbstractClassDefinition = 80, RuleAbstractCodeBlock = 81, RuleClassDefination = 82, 
+    RuleClassCodeBlock = 83, RuleClassModesGeneral = 84, RuleClassModes = 85, 
+    RuleArrayAccessElements = 86, RuleArrayAccessElementsItems = 87, RuleAccessBlockAr = 88, 
+    RuleArrayIndexAccess = 89, RuleGeneralValue = 90, RuleObjIdentifierA = 91, 
+    RuleObjIdentifierB = 92
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -151,9 +152,12 @@ public:
   class OopGeneralContext;
   class InterfaceClassContext;
   class InterfaceClassDefinitionContext;
+  class InterfaceCodeBlockContext;
   class AbstractClassContext;
   class AbstractClassDefinitionContext;
+  class AbstractCodeBlockContext;
   class ClassDefinationContext;
+  class ClassCodeBlockContext;
   class ClassModesGeneralContext;
   class ClassModesContext;
   class ArrayAccessElementsContext;
@@ -1485,12 +1489,12 @@ public:
     InterfaceClassDefinitionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *Interface();
-    std::vector<antlr4::tree::TerminalNode *> Identifier();
-    antlr4::tree::TerminalNode* Identifier(size_t i);
+    antlr4::tree::TerminalNode *Identifier();
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
-    FunctionCodeBlockContext *functionCodeBlock();
+    InterfaceCodeBlockContext *interfaceCodeBlock();
     antlr4::tree::TerminalNode *Extends();
+    IdentifierBContext *identifierB();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1500,6 +1504,21 @@ public:
   };
 
   InterfaceClassDefinitionContext* interfaceClassDefinition();
+
+  class  InterfaceCodeBlockContext : public antlr4::ParserRuleContext {
+  public:
+    InterfaceCodeBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionCodeBlockElementsContext *functionCodeBlockElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  InterfaceCodeBlockContext* interfaceCodeBlock();
 
   class  AbstractClassContext : public antlr4::ParserRuleContext {
   public:
@@ -1521,12 +1540,12 @@ public:
     AbstractClassDefinitionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *Abstract();
-    std::vector<antlr4::tree::TerminalNode *> Identifier();
-    antlr4::tree::TerminalNode* Identifier(size_t i);
+    antlr4::tree::TerminalNode *Identifier();
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
-    FunctionCodeBlockContext *functionCodeBlock();
+    AbstractCodeBlockContext *abstractCodeBlock();
     antlr4::tree::TerminalNode *Extends();
+    IdentifierBContext *identifierB();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1537,6 +1556,21 @@ public:
 
   AbstractClassDefinitionContext* abstractClassDefinition();
 
+  class  AbstractCodeBlockContext : public antlr4::ParserRuleContext {
+  public:
+    AbstractCodeBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionCodeBlockElementsContext *functionCodeBlockElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AbstractCodeBlockContext* abstractCodeBlock();
+
   class  ClassDefinationContext : public antlr4::ParserRuleContext {
   public:
     ClassDefinationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1544,7 +1578,7 @@ public:
     ClassModesGeneralContext *classModesGeneral();
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
-    FunctionCodeBlockContext *functionCodeBlock();
+    ClassCodeBlockContext *classCodeBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1554,6 +1588,21 @@ public:
   };
 
   ClassDefinationContext* classDefination();
+
+  class  ClassCodeBlockContext : public antlr4::ParserRuleContext {
+  public:
+    ClassCodeBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionCodeBlockElementsContext *functionCodeBlockElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ClassCodeBlockContext* classCodeBlock();
 
   class  ClassModesGeneralContext : public antlr4::ParserRuleContext {
   public:
@@ -1579,6 +1628,7 @@ public:
     std::vector<antlr4::tree::TerminalNode *> Identifier();
     antlr4::tree::TerminalNode* Identifier(size_t i);
     antlr4::tree::TerminalNode *Extends();
+    IdentifierBContext *identifierB();
     antlr4::tree::TerminalNode *Implements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;

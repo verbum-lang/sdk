@@ -329,6 +329,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitAbstractClass(TParser::AbstractClassContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -337,7 +341,15 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitAbstractCodeBlock(TParser::AbstractCodeBlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitClassDefination(TParser::ClassDefinationContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitClassCodeBlock(TParser::ClassCodeBlockContext *ctx) override {
     return visitChildren(ctx);
   }
 

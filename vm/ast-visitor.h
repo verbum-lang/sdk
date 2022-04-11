@@ -107,6 +107,12 @@ namespace verbum {
             antlrcpp::Any visitFunctionParamElements (TParser::FunctionParamElementsContext *ctx);
             antlrcpp::Any visitFunctionCodeBlock (TParser::FunctionCodeBlockContext *ctx);
 
+            // OOP.
+            antlrcpp::Any visitInterfaceClass (TParser::InterfaceClassContext *ctx);
+            antlrcpp::Any visitInterfaceCodeBlock (TParser::InterfaceCodeBlockContext *ctx);
+            antlrcpp::Any visitAbstractClass (TParser::AbstractClassContext *ctx);
+            antlrcpp::Any visitAbstractCodeBlock (TParser::AbstractCodeBlockContext *ctx);
+
         private:
         
             // Contadores e flags de controle da adição dos nodes.

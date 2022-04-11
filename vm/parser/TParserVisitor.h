@@ -176,11 +176,17 @@ public:
 
     virtual antlrcpp::Any visitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *context) = 0;
 
+    virtual antlrcpp::Any visitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *context) = 0;
+
     virtual antlrcpp::Any visitAbstractClass(TParser::AbstractClassContext *context) = 0;
 
     virtual antlrcpp::Any visitAbstractClassDefinition(TParser::AbstractClassDefinitionContext *context) = 0;
 
+    virtual antlrcpp::Any visitAbstractCodeBlock(TParser::AbstractCodeBlockContext *context) = 0;
+
     virtual antlrcpp::Any visitClassDefination(TParser::ClassDefinationContext *context) = 0;
+
+    virtual antlrcpp::Any visitClassCodeBlock(TParser::ClassCodeBlockContext *context) = 0;
 
     virtual antlrcpp::Any visitClassModesGeneral(TParser::ClassModesGeneralContext *context) = 0;
 
