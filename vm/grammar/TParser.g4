@@ -466,16 +466,16 @@ functions
   | interfaceMethod End
   ;
 
+// Funções.
+functionsModes
+  : functionGeneralModes
+  ;
+
 functionGeneralModes
   : Function Identifier OpenOp                CloseOp
   | Function Identifier OpenOp                CloseOp ArrowRight Identifier
   | Function Identifier OpenOp functionParams CloseOp
   | Function Identifier OpenOp functionParams CloseOp ArrowRight Identifier
-  ;
-
-// Funções.
-functionsModes
-  : functionGeneralModes
   ;
 
 // Métodos.
@@ -499,7 +499,8 @@ constructClassMethod
   | Identifier OpenOp functionParams CloseOp
   ;
 
-// Métodos de interfaces e classes abstratas.
+// Métodos de interfaces, e métodos de classes abstratas.
+// Os mesmos são finalizados com ponto-e-vírgula.
 interfaceMethod
   : functionsModes
   | functionMethodsModes

@@ -145,6 +145,10 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     // VERBUM_EXPRESSION_ATTR_FUNC_CALL
     ast.attr_function_call_operator         = VERBUM_UNKNOWN;
 
+    // VERBUM_LOOP
+    ast.loop_type                           = VERBUM_UNKNOWN;
+    ast.loop_block_type                     = VERBUM_UNKNOWN;
+
     // Limpa estruturas de controle.
     ast.nodes.clear();
 
@@ -1429,5 +1433,11 @@ antlrcpp::Any verbum_ast_visitor::visitRet (TParser::RetContext *ctx)
 
     return result;
 }
+
+/*
+**
+*/
+
+
 
 

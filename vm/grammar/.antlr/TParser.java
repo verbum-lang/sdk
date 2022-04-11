@@ -46,7 +46,7 @@ public class TParser extends Parser {
 		RULE_endOne = 52, RULE_endTwo = 53, RULE_loopOneMembers = 54, RULE_loopTwoMembers = 55, 
 		RULE_loopThreeMembers = 56, RULE_loopThreeMembersValues = 57, RULE_loopBlockElements = 58, 
 		RULE_loopBlockElementsLimited = 59, RULE_ret = 60, RULE_retValues = 61, 
-		RULE_functions = 62, RULE_functionGeneralModes = 63, RULE_functionsModes = 64, 
+		RULE_functions = 62, RULE_functionsModes = 63, RULE_functionGeneralModes = 64, 
 		RULE_functionMethodsModes = 65, RULE_methodPerm = 66, RULE_constructClassMethod = 67, 
 		RULE_interfaceMethod = 68, RULE_functionCodeBlock = 69, RULE_functionParams = 70, 
 		RULE_functionParamElements = 71, RULE_oopGeneral = 72, RULE_interfaceClass = 73, 
@@ -72,7 +72,7 @@ public class TParser extends Parser {
 			"loopExpressionItems", "loopExpression", "loopInfinite", "loopComplete", 
 			"loopConditional", "endOne", "endTwo", "loopOneMembers", "loopTwoMembers", 
 			"loopThreeMembers", "loopThreeMembersValues", "loopBlockElements", "loopBlockElementsLimited", 
-			"ret", "retValues", "functions", "functionGeneralModes", "functionsModes", 
+			"ret", "retValues", "functions", "functionsModes", "functionGeneralModes", 
 			"functionMethodsModes", "methodPerm", "constructClassMethod", "interfaceMethod", 
 			"functionCodeBlock", "functionParams", "functionParamElements", "oopGeneral", 
 			"interfaceClass", "interfaceClassDefinition", "abstractClass", "abstractClassDefinition", 
@@ -4320,6 +4320,37 @@ public class TParser extends Parser {
 		return _localctx;
 	}
 
+	public static class FunctionsModesContext extends ParserRuleContext {
+		public FunctionGeneralModesContext functionGeneralModes() {
+			return getRuleContext(FunctionGeneralModesContext.class,0);
+		}
+		public FunctionsModesContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_functionsModes; }
+	}
+
+	public final FunctionsModesContext functionsModes() throws RecognitionException {
+		FunctionsModesContext _localctx = new FunctionsModesContext(_ctx, getState());
+		enterRule(_localctx, 126, RULE_functionsModes);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(811);
+			functionGeneralModes();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class FunctionGeneralModesContext extends ParserRuleContext {
 		public TerminalNode Function() { return getToken(TParser.Function, 0); }
 		public List<TerminalNode> Identifier() { return getTokens(TParser.Identifier); }
@@ -4340,106 +4371,75 @@ public class TParser extends Parser {
 
 	public final FunctionGeneralModesContext functionGeneralModes() throws RecognitionException {
 		FunctionGeneralModesContext _localctx = new FunctionGeneralModesContext(_ctx, getState());
-		enterRule(_localctx, 126, RULE_functionGeneralModes);
+		enterRule(_localctx, 128, RULE_functionGeneralModes);
 		try {
-			setState(835);
+			setState(837);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,40,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(811);
-				match(Function);
-				setState(812);
-				match(Identifier);
 				setState(813);
-				match(OpenOp);
+				match(Function);
 				setState(814);
+				match(Identifier);
+				setState(815);
+				match(OpenOp);
+				setState(816);
 				match(CloseOp);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(815);
-				match(Function);
-				setState(816);
-				match(Identifier);
 				setState(817);
-				match(OpenOp);
+				match(Function);
 				setState(818);
-				match(CloseOp);
+				match(Identifier);
 				setState(819);
-				match(ArrowRight);
+				match(OpenOp);
 				setState(820);
+				match(CloseOp);
+				setState(821);
+				match(ArrowRight);
+				setState(822);
 				match(Identifier);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(821);
-				match(Function);
-				setState(822);
-				match(Identifier);
 				setState(823);
-				match(OpenOp);
+				match(Function);
 				setState(824);
-				functionParams();
+				match(Identifier);
 				setState(825);
+				match(OpenOp);
+				setState(826);
+				functionParams();
+				setState(827);
 				match(CloseOp);
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(827);
-				match(Function);
-				setState(828);
-				match(Identifier);
 				setState(829);
-				match(OpenOp);
+				match(Function);
 				setState(830);
-				functionParams();
+				match(Identifier);
 				setState(831);
-				match(CloseOp);
+				match(OpenOp);
 				setState(832);
-				match(ArrowRight);
+				functionParams();
 				setState(833);
+				match(CloseOp);
+				setState(834);
+				match(ArrowRight);
+				setState(835);
 				match(Identifier);
 				}
 				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class FunctionsModesContext extends ParserRuleContext {
-		public FunctionGeneralModesContext functionGeneralModes() {
-			return getRuleContext(FunctionGeneralModesContext.class,0);
-		}
-		public FunctionsModesContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_functionsModes; }
-	}
-
-	public final FunctionsModesContext functionsModes() throws RecognitionException {
-		FunctionsModesContext _localctx = new FunctionsModesContext(_ctx, getState());
-		enterRule(_localctx, 128, RULE_functionsModes);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(837);
-			functionGeneralModes();
 			}
 		}
 		catch (RecognitionException re) {
@@ -5948,8 +5948,8 @@ public class TParser extends Parser {
 		"\n9\3:\3:\5:\u02eb\n:\3;\3;\3;\3;\3;\5;\u02f2\n;\3<\3<\3<\3<\5<\u02f8"+
 		"\n<\3=\3=\3=\3=\3=\3=\3=\3=\3=\3=\5=\u0304\n=\3>\3>\3>\3>\3?\3?\5?\u030c"+
 		"\n?\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@\3@"+
-		"\3@\3@\3@\3@\3@\3@\3@\3@\5@\u032c\n@\3A\3A\3A\3A\3A\3A\3A\3A\3A\3A\3A"+
-		"\3A\3A\3A\3A\3A\3A\3A\3A\3A\3A\3A\3A\3A\5A\u0346\nA\3B\3B\3C\3C\3C\3C"+
+		"\3@\3@\3@\3@\3@\3@\3@\3@\5@\u032c\n@\3A\3A\3B\3B\3B\3B\3B\3B\3B\3B\3B"+
+		"\3B\3B\3B\3B\3B\3B\3B\3B\3B\3B\3B\3B\3B\3B\3B\5B\u0348\nB\3C\3C\3C\3C"+
 		"\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\3C\5C\u0361\nC"+
 		"\3D\3D\3E\3E\3E\3E\3E\3E\3E\3E\5E\u036d\nE\3F\3F\5F\u0371\nF\3G\3G\3G"+
 		"\3G\5G\u0377\nG\3H\3H\3H\3H\3H\5H\u037e\nH\3I\3I\3I\3J\3J\3J\5J\u0386"+
@@ -5979,7 +5979,7 @@ public class TParser extends Parser {
 		"`\u02ba\3\2\2\2b\u02c1\3\2\2\2d\u02c6\3\2\2\2f\u02d6\3\2\2\2h\u02d8\3"+
 		"\2\2\2j\u02da\3\2\2\2l\u02dc\3\2\2\2n\u02e2\3\2\2\2p\u02e6\3\2\2\2r\u02ea"+
 		"\3\2\2\2t\u02f1\3\2\2\2v\u02f7\3\2\2\2x\u0303\3\2\2\2z\u0305\3\2\2\2|"+
-		"\u030b\3\2\2\2~\u032b\3\2\2\2\u0080\u0345\3\2\2\2\u0082\u0347\3\2\2\2"+
+		"\u030b\3\2\2\2~\u032b\3\2\2\2\u0080\u032d\3\2\2\2\u0082\u0347\3\2\2\2"+
 		"\u0084\u0360\3\2\2\2\u0086\u0362\3\2\2\2\u0088\u036c\3\2\2\2\u008a\u0370"+
 		"\3\2\2\2\u008c\u0376\3\2\2\2\u008e\u037d\3\2\2\2\u0090\u037f\3\2\2\2\u0092"+
 		"\u0385\3\2\2\2\u0094\u0387\3\2\2\2\u0096\u03a1\3\2\2\2\u0098\u03a3\3\2"+
@@ -6193,8 +6193,8 @@ public class TParser extends Parser {
 		"\3\2\2\2\u0303\u0302\3\2\2\2\u0304y\3\2\2\2\u0305\u0306\7\t\2\2\u0306"+
 		"\u0307\5|?\2\u0307\u0308\7\27\2\2\u0308{\3\2\2\2\u0309\u030c\5\u00aaV"+
 		"\2\u030a\u030c\5$\23\2\u030b\u0309\3\2\2\2\u030b\u030a\3\2\2\2\u030c}"+
-		"\3\2\2\2\u030d\u030e\5\u0082B\2\u030e\u030f\7\37\2\2\u030f\u0310\7 \2"+
-		"\2\u0310\u032c\3\2\2\2\u0311\u0312\5\u0082B\2\u0312\u0313\7\37\2\2\u0313"+
+		"\3\2\2\2\u030d\u030e\5\u0080A\2\u030e\u030f\7\37\2\2\u030f\u0310\7 \2"+
+		"\2\u0310\u032c\3\2\2\2\u0311\u0312\5\u0080A\2\u0312\u0313\7\37\2\2\u0313"+
 		"\u0314\5\u008cG\2\u0314\u0315\7 \2\2\u0315\u032c\3\2\2\2\u0316\u0317\5"+
 		"\u0084C\2\u0317\u0318\7\37\2\2\u0318\u0319\7 \2\2\u0319\u032c\3\2\2\2"+
 		"\u031a\u031b\5\u0084C\2\u031b\u031c\7\37\2\2\u031c\u031d\5\u008cG\2\u031d"+
@@ -6204,29 +6204,29 @@ public class TParser extends Parser {
 		"\u032c\3\2\2\2\u0328\u0329\5\u008aF\2\u0329\u032a\7\27\2\2\u032a\u032c"+
 		"\3\2\2\2\u032b\u030d\3\2\2\2\u032b\u0311\3\2\2\2\u032b\u0316\3\2\2\2\u032b"+
 		"\u031a\3\2\2\2\u032b\u031f\3\2\2\2\u032b\u0323\3\2\2\2\u032b\u0328\3\2"+
-		"\2\2\u032c\177\3\2\2\2\u032d\u032e\7\n\2\2\u032e\u032f\7\'\2\2\u032f\u0330"+
-		"\7!\2\2\u0330\u0346\7\"\2\2\u0331\u0332\7\n\2\2\u0332\u0333\7\'\2\2\u0333"+
-		"\u0334\7!\2\2\u0334\u0335\7\"\2\2\u0335\u0336\7\26\2\2\u0336\u0346\7\'"+
-		"\2\2\u0337\u0338\7\n\2\2\u0338\u0339\7\'\2\2\u0339\u033a\7!\2\2\u033a"+
-		"\u033b\5\u008eH\2\u033b\u033c\7\"\2\2\u033c\u0346\3\2\2\2\u033d\u033e"+
-		"\7\n\2\2\u033e\u033f\7\'\2\2\u033f\u0340\7!\2\2\u0340\u0341\5\u008eH\2"+
-		"\u0341\u0342\7\"\2\2\u0342\u0343\7\26\2\2\u0343\u0344\7\'\2\2\u0344\u0346"+
-		"\3\2\2\2\u0345\u032d\3\2\2\2\u0345\u0331\3\2\2\2\u0345\u0337\3\2\2\2\u0345"+
-		"\u033d\3\2\2\2\u0346\u0081\3\2\2\2\u0347\u0348\5\u0080A\2\u0348\u0083"+
-		"\3\2\2\2\u0349\u034a\5\u0086D\2\u034a\u034b\5\u0080A\2\u034b\u0361\3\2"+
-		"\2\2\u034c\u034d\7\16\2\2\u034d\u0361\5\u0080A\2\u034e\u034f\5\u0086D"+
-		"\2\u034f\u0350\7\16\2\2\u0350\u0351\5\u0080A\2\u0351\u0361\3\2\2\2\u0352"+
+		"\2\2\u032c\177\3\2\2\2\u032d\u032e\5\u0082B\2\u032e\u0081\3\2\2\2\u032f"+
+		"\u0330\7\n\2\2\u0330\u0331\7\'\2\2\u0331\u0332\7!\2\2\u0332\u0348\7\""+
+		"\2\2\u0333\u0334\7\n\2\2\u0334\u0335\7\'\2\2\u0335\u0336\7!\2\2\u0336"+
+		"\u0337\7\"\2\2\u0337\u0338\7\26\2\2\u0338\u0348\7\'\2\2\u0339\u033a\7"+
+		"\n\2\2\u033a\u033b\7\'\2\2\u033b\u033c\7!\2\2\u033c\u033d\5\u008eH\2\u033d"+
+		"\u033e\7\"\2\2\u033e\u0348\3\2\2\2\u033f\u0340\7\n\2\2\u0340\u0341\7\'"+
+		"\2\2\u0341\u0342\7!\2\2\u0342\u0343\5\u008eH\2\u0343\u0344\7\"\2\2\u0344"+
+		"\u0345\7\26\2\2\u0345\u0346\7\'\2\2\u0346\u0348\3\2\2\2\u0347\u032f\3"+
+		"\2\2\2\u0347\u0333\3\2\2\2\u0347\u0339\3\2\2\2\u0347\u033f\3\2\2\2\u0348"+
+		"\u0083\3\2\2\2\u0349\u034a\5\u0086D\2\u034a\u034b\5\u0082B\2\u034b\u0361"+
+		"\3\2\2\2\u034c\u034d\7\16\2\2\u034d\u0361\5\u0082B\2\u034e\u034f\5\u0086"+
+		"D\2\u034f\u0350\7\16\2\2\u0350\u0351\5\u0082B\2\u0351\u0361\3\2\2\2\u0352"+
 		"\u0353\7\17\2\2\u0353\u0354\5\u0086D\2\u0354\u0355\7\16\2\2\u0355\u0356"+
-		"\5\u0080A\2\u0356\u0361\3\2\2\2\u0357\u0358\7\17\2\2\u0358\u0359\5\u0086"+
-		"D\2\u0359\u035a\5\u0080A\2\u035a\u0361\3\2\2\2\u035b\u035c\7\17\2\2\u035c"+
-		"\u0361\5\u0080A\2\u035d\u035e\7\17\2\2\u035e\u035f\7\16\2\2\u035f\u0361"+
-		"\5\u0080A\2\u0360\u0349\3\2\2\2\u0360\u034c\3\2\2\2\u0360\u034e\3\2\2"+
+		"\5\u0082B\2\u0356\u0361\3\2\2\2\u0357\u0358\7\17\2\2\u0358\u0359\5\u0086"+
+		"D\2\u0359\u035a\5\u0082B\2\u035a\u0361\3\2\2\2\u035b\u035c\7\17\2\2\u035c"+
+		"\u0361\5\u0082B\2\u035d\u035e\7\17\2\2\u035e\u035f\7\16\2\2\u035f\u0361"+
+		"\5\u0082B\2\u0360\u0349\3\2\2\2\u0360\u034c\3\2\2\2\u0360\u034e\3\2\2"+
 		"\2\u0360\u0352\3\2\2\2\u0360\u0357\3\2\2\2\u0360\u035b\3\2\2\2\u0360\u035d"+
 		"\3\2\2\2\u0361\u0085\3\2\2\2\u0362\u0363\t\4\2\2\u0363\u0087\3\2\2\2\u0364"+
 		"\u0365\7\'\2\2\u0365\u0366\7!\2\2\u0366\u036d\7\"\2\2\u0367\u0368\7\'"+
 		"\2\2\u0368\u0369\7!\2\2\u0369\u036a\5\u008eH\2\u036a\u036b\7\"\2\2\u036b"+
 		"\u036d\3\2\2\2\u036c\u0364\3\2\2\2\u036c\u0367\3\2\2\2\u036d\u0089\3\2"+
-		"\2\2\u036e\u0371\5\u0082B\2\u036f\u0371\5\u0084C\2\u0370\u036e\3\2\2\2"+
+		"\2\2\u036e\u0371\5\u0080A\2\u036f\u0371\5\u0084C\2\u0370\u036e\3\2\2\2"+
 		"\u0370\u036f\3\2\2\2\u0371\u008b\3\2\2\2\u0372\u0377\5\6\4\2\u0373\u0374"+
 		"\5\6\4\2\u0374\u0375\5\u008cG\2\u0375\u0377\3\2\2\2\u0376\u0372\3\2\2"+
 		"\2\u0376\u0373\3\2\2\2\u0377\u008d\3\2\2\2\u0378\u037e\5\u0090I\2\u0379"+
@@ -6299,7 +6299,7 @@ public class TParser extends Parser {
 		"\u00af\3\2\2\2:\u00b8\u00c4\u00d1\u0106\u010d\u011e\u012c\u0134\u013b"+
 		"\u0143\u014e\u0158\u01b2\u01ce\u01da\u01e6\u01ec\u01f9\u0203\u0218\u021e"+
 		"\u0228\u022d\u0232\u023c\u029b\u02a3\u02b2\u02b8\u02c1\u02c6\u02d6\u02e2"+
-		"\u02e6\u02ea\u02f1\u02f7\u0303\u030b\u032b\u0345\u0360\u036c\u0370\u0376"+
+		"\u02e6\u02ea\u02f1\u02f7\u0303\u030b\u032b\u0347\u0360\u036c\u0370\u0376"+
 		"\u037d\u0385\u03a1\u03bd\u03c8\u03cd\u03df\u03e5\u0409\u0414\u042f";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
