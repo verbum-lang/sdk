@@ -76,10 +76,6 @@ public:
 
     virtual antlrcpp::Any visitPointSeparator(TParser::PointSeparatorContext *context) = 0;
 
-    virtual antlrcpp::Any visitFunctionCallParamCM(TParser::FunctionCallParamCMContext *context) = 0;
-
-    virtual antlrcpp::Any visitFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext *context) = 0;
-
     virtual antlrcpp::Any visitFunctionCallParam(TParser::FunctionCallParamContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCallParamElements(TParser::FunctionCallParamElementsContext *context) = 0;
@@ -164,7 +160,13 @@ public:
 
     virtual antlrcpp::Any visitFunctionMethodsModes(TParser::FunctionMethodsModesContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunctionMethodsModesBkp(TParser::FunctionMethodsModesBkpContext *context) = 0;
+
     virtual antlrcpp::Any visitMethodPerm(TParser::MethodPermContext *context) = 0;
+
+    virtual antlrcpp::Any visitVisibilityItems(TParser::VisibilityItemsContext *context) = 0;
+
+    virtual antlrcpp::Any visitMethodVisibility(TParser::MethodVisibilityContext *context) = 0;
 
     virtual antlrcpp::Any visitConstructClassMethod(TParser::ConstructClassMethodContext *context) = 0;
 

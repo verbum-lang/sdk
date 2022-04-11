@@ -499,6 +499,10 @@ identifierRet
 
 // Métodos.
 functionMethodsModes
+  : methodVisibility functionGeneralModes
+  ;
+
+functionMethodsModesBkp
   :       methodPerm        functionGeneralModes
   |                  Static functionGeneralModes
   |       methodPerm Static functionGeneralModes
@@ -508,8 +512,18 @@ functionMethodsModes
   | Final            Static functionGeneralModes 
   ;
 
+// Visibilidade.
 methodPerm
   : Pub | Pro | Priv
+  ;
+
+visibilityItems
+  : Pub | Pro | Priv | Final | Static
+  ;
+
+methodVisibility
+  : visibilityItems
+  | visibilityItems methodVisibility
   ;
 
 // Método construtor da classe.

@@ -100,12 +100,6 @@ public:
   virtual void enterPointSeparator(TParser::PointSeparatorContext *ctx) = 0;
   virtual void exitPointSeparator(TParser::PointSeparatorContext *ctx) = 0;
 
-  virtual void enterFunctionCallParamCM(TParser::FunctionCallParamCMContext *ctx) = 0;
-  virtual void exitFunctionCallParamCM(TParser::FunctionCallParamCMContext *ctx) = 0;
-
-  virtual void enterFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext *ctx) = 0;
-  virtual void exitFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext *ctx) = 0;
-
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
 
@@ -232,8 +226,17 @@ public:
   virtual void enterFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) = 0;
   virtual void exitFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) = 0;
 
+  virtual void enterFunctionMethodsModesBkp(TParser::FunctionMethodsModesBkpContext *ctx) = 0;
+  virtual void exitFunctionMethodsModesBkp(TParser::FunctionMethodsModesBkpContext *ctx) = 0;
+
   virtual void enterMethodPerm(TParser::MethodPermContext *ctx) = 0;
   virtual void exitMethodPerm(TParser::MethodPermContext *ctx) = 0;
+
+  virtual void enterVisibilityItems(TParser::VisibilityItemsContext *ctx) = 0;
+  virtual void exitVisibilityItems(TParser::VisibilityItemsContext *ctx) = 0;
+
+  virtual void enterMethodVisibility(TParser::MethodVisibilityContext *ctx) = 0;
+  virtual void exitMethodVisibility(TParser::MethodVisibilityContext *ctx) = 0;
 
   virtual void enterConstructClassMethod(TParser::ConstructClassMethodContext *ctx) = 0;
   virtual void exitConstructClassMethod(TParser::ConstructClassMethodContext *ctx) = 0;

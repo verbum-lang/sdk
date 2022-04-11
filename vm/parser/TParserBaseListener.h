@@ -102,12 +102,6 @@ public:
   virtual void enterPointSeparator(TParser::PointSeparatorContext * /*ctx*/) override { }
   virtual void exitPointSeparator(TParser::PointSeparatorContext * /*ctx*/) override { }
 
-  virtual void enterFunctionCallParamCM(TParser::FunctionCallParamCMContext * /*ctx*/) override { }
-  virtual void exitFunctionCallParamCM(TParser::FunctionCallParamCMContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext * /*ctx*/) override { }
-  virtual void exitFunctionCallParamCMElements(TParser::FunctionCallParamCMElementsContext * /*ctx*/) override { }
-
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
 
@@ -234,8 +228,17 @@ public:
   virtual void enterFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }
   virtual void exitFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }
 
+  virtual void enterFunctionMethodsModesBkp(TParser::FunctionMethodsModesBkpContext * /*ctx*/) override { }
+  virtual void exitFunctionMethodsModesBkp(TParser::FunctionMethodsModesBkpContext * /*ctx*/) override { }
+
   virtual void enterMethodPerm(TParser::MethodPermContext * /*ctx*/) override { }
   virtual void exitMethodPerm(TParser::MethodPermContext * /*ctx*/) override { }
+
+  virtual void enterVisibilityItems(TParser::VisibilityItemsContext * /*ctx*/) override { }
+  virtual void exitVisibilityItems(TParser::VisibilityItemsContext * /*ctx*/) override { }
+
+  virtual void enterMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
+  virtual void exitMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
 
   virtual void enterConstructClassMethod(TParser::ConstructClassMethodContext * /*ctx*/) override { }
   virtual void exitConstructClassMethod(TParser::ConstructClassMethodContext * /*ctx*/) override { }

@@ -88,6 +88,8 @@ using namespace std;
 #define VERBUM_OOP_CLASS                                49
 #define VERBUM_OOP_CLASS_CODE_BLOCK                     50
 
+#define VERBUM_ITEMS_VISIBILITY                         51
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2
@@ -168,6 +170,13 @@ using namespace std;
 #define VERBUM_FUNCTION_CALL_INSTANCE                   2   
 #define VERBUM_FUNCTION_CALL_STATIC                     3
 #define VERBUM_FUNCTION_CALL_CASCADING                  4
+
+// Tipos de itens (visibilidade).
+#define VERBUM_ITEMS_VISIBILITY_PUB                     1
+#define VERBUM_ITEMS_VISIBILITY_PRIV                    2   
+#define VERBUM_ITEMS_VISIBILITY_PRO                     3
+#define VERBUM_ITEMS_VISIBILITY_FINAL                   4   
+#define VERBUM_ITEMS_VISIBILITY_STATIC                  5   
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
@@ -411,15 +420,6 @@ typedef struct verbum_ast_node
         string ret_data;                            // Tipo a ser retornado (dados).
     } function_declaration;
 
-    // Informações das permissões / visibilidade do método.
-    struct {                                        
-        bool vfinal;                                // final.
-        bool priv;                                  // private.
-        bool pro;                                   // protected.
-        bool pub;                                   // public.
-        bool vstatic;                               // static.
-    } function_visibility;
-
     string function_param_item;                     // Nome da variável passada como parâmetro.
     string function_param_type;                     // Especificação do tipo da variável.
 
@@ -452,6 +452,18 @@ typedef struct verbum_ast_node
         bool implements;                            // Verifica se há implementação de interface.
         bool vfinal;                                // Verifica se possui atribuito 'final'.
     } vclass;
+
+
+    /*
+    ** Visibilidade.
+    ** VERBUM_ITEMS_VISIBILITY
+    */
+    int item_visibility;                            // Tipo do item (pub, priv, etc).
+                                                    //      VERBUM_ITEMS_VISIBILITY_PUB
+                                                    //      VERBUM_ITEMS_VISIBILITY_PRIV
+                                                    //      VERBUM_ITEMS_VISIBILITY_PRO
+                                                    //      VERBUM_ITEMS_VISIBILITY_FINAL
+                                                    //      VERBUM_ITEMS_VISIBILITY_STATIC
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

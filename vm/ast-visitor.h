@@ -115,6 +115,9 @@ namespace verbum {
             antlrcpp::Any visitAbstractCodeBlock (TParser::AbstractCodeBlockContext *ctx);
             antlrcpp::Any visitClassDefination (TParser::ClassDefinationContext *ctx);
 
+            // Gerais.
+            antlrcpp::Any visitVisibilityItems (TParser::VisibilityItemsContext *ctx);
+
         private:
         
             // Contadores e flags de controle da adição dos nodes.

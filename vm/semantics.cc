@@ -439,6 +439,22 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << "-> function (general block) - (close)\n";
         }
 
+        // Visibilidade dos itens (variáveis e métodos).
+        else if (node.type == VERBUM_ITEMS_VISIBILITY) {
+            this->tab();
+            cout << "-> Item visibility: ";
+
+            switch (node.item_visibility) {
+                case VERBUM_ITEMS_VISIBILITY_PUB:    cout << "pub";    break;
+                case VERBUM_ITEMS_VISIBILITY_PRIV:   cout << "priv";   break;
+                case VERBUM_ITEMS_VISIBILITY_PRO:    cout << "pro";    break;
+                case VERBUM_ITEMS_VISIBILITY_FINAL:  cout << "final";  break;
+                case VERBUM_ITEMS_VISIBILITY_STATIC: cout << "static"; break;
+            }
+
+            cout << "\n";
+        }
+
         // Declaração das funções.
         else if (node.type == VERBUM_FUNCTION_DECLARATION) {
 
@@ -481,22 +497,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
                 // Configurações de acessibilidade.
                 this->tab();
-                cout << "-> visibility: ";
-
-                if (node.function_visibility.vfinal)
-                    cout << " final ";
-                if (node.function_visibility.vstatic)
-                    cout << " static ";
-
-                if (node.function_visibility.pub)
-                    cout << " pub ";
-                else if (node.function_visibility.priv)
-                    cout << " priv ";
-                else if (node.function_visibility.pro)
-                    cout << " pro ";
-
-                cout << "\n";
-
+                cout << "-> visibility: \n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);

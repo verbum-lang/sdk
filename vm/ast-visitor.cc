@@ -154,11 +154,6 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.function_declaration.identifier     = ""; 
     ast.function_declaration.ret_found      = false; 
     ast.function_declaration.ret_data       = ""; 
-    ast.function_visibility.vfinal          = false;
-    ast.function_visibility.priv            = false;
-    ast.function_visibility.pro             = false;
-    ast.function_visibility.pub             = false;
-    ast.function_visibility.vstatic         = false;
     ast.function_param_item                 = "";
     ast.function_param_type                 = "";
 
@@ -175,6 +170,9 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.vclass.extends                      = false;
     ast.vclass.implements                   = false;
     ast.vclass.vfinal                       = false;
+
+    // VERBUM_ITEMS_VISIBILITY
+    ast.item_visibility                     = VERBUM_UNKNOWN;
 
     // Limpa estruturas de controle.
     ast.nodes.clear();
@@ -1562,21 +1560,6 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionMethodsModes (TParser::FunctionMe
         }
     }
 
-    // Informações de visibilidade.
-    if (ctx->Final())
-        node.function_visibility.vfinal   = true;
-    if (ctx->Static())
-        node.function_visibility.vstatic  = true;
-
-    if (ctx->methodPerm()) {
-        if (ctx->methodPerm()->Pub())
-            node.function_visibility.pub  = true;
-        else if (ctx->methodPerm()->Priv())
-            node.function_visibility.priv = true;
-        else if (ctx->methodPerm()->Pro())
-            node.function_visibility.pro  = true;
-    }
-
 
     this->ast = this->add_node(node, this->ast);
 
@@ -1585,6 +1568,28 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionMethodsModes (TParser::FunctionMe
     this->node_block_counter--;
 
     return result;
+}
+
+// Controla visibilidade dos itens (variáveis e métodos).
+antlrcpp::Any verbum_ast_visitor::visitVisibilityItems (TParser::VisibilityItemsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_ITEMS_VISIBILITY;
+
+    if (ctx->Pub())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PUB;
+    else if (ctx->Priv())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PRIV;
+    else if (ctx->Pro())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PRO;
+    else if (ctx->Final())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_FINAL;
+    else if (ctx->Static())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_STATIC;
+
+    this->ast = this->add_node(node, this->ast);
+
+    return visitChildren(ctx);
 }
 
 // Construtores de classes.

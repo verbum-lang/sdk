@@ -1,6 +1,12 @@
 
 // In principio erat Verbum.
 
+ final pub static fn test (a :int) -> string {
+     print("Verbum!\n");
+}
 
+priv var attributeA :uint = 31337;
+pub var attributeB :string  = "Verbum 😃";
+pub static var subVersion :string = "1337";
 
 
