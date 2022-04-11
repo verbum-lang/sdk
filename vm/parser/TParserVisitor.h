@@ -38,6 +38,8 @@ public:
 
     virtual antlrcpp::Any visitVariableModes(TParser::VariableModesContext *context) = 0;
 
+    virtual antlrcpp::Any visitVariableModesBkp(TParser::VariableModesBkpContext *context) = 0;
+
     virtual antlrcpp::Any visitVariableMembers(TParser::VariableMembersContext *context) = 0;
 
     virtual antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *context) = 0;

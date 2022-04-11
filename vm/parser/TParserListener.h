@@ -43,6 +43,9 @@ public:
   virtual void enterVariableModes(TParser::VariableModesContext *ctx) = 0;
   virtual void exitVariableModes(TParser::VariableModesContext *ctx) = 0;
 
+  virtual void enterVariableModesBkp(TParser::VariableModesBkpContext *ctx) = 0;
+  virtual void exitVariableModesBkp(TParser::VariableModesBkpContext *ctx) = 0;
+
   virtual void enterVariableMembers(TParser::VariableMembersContext *ctx) = 0;
   virtual void exitVariableMembers(TParser::VariableMembersContext *ctx) = 0;
 

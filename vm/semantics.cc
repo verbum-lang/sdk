@@ -63,28 +63,19 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             // Modo.
             if (node.variable_type == VERBUM_VARIABLE_ATTRIBUTION)
-                cout << "attr -> ";
+                cout << "attr -> \n";
             else
-                cout << "declaration -> ";
+                cout << "declaration -> \n";
 
             // Configurações de acessibilidade.
-            if (node.variable_settings.vfinal)
-                cout << " final ";
-            if (node.variable_settings.vstatic)
-                cout << " static ";
-
-            if (node.variable_settings.pub)
-                cout << " pub ";
-            else if (node.variable_settings.priv)
-                cout << " priv ";
-            else if (node.variable_settings.pro)
-                cout << " pro ";
-
-            cout << "\n";
+            this->tab();
+            cout << "visibility: \n";
 
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
+
+            cout << "\n";
         }
 
         /*

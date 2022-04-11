@@ -1,0 +1,29 @@
+// Operações como valores.
+// Obs: caso não seja especificado tipo na variável, em operações aritméticas
+// o valor final é automaticamente convertido para inteiro. Caso queira converter
+// o valor final para outro, é obrigatório especificar o tipo da variável, ex.: :float
+var variable = (10 + (variable++) + (3.14 * 3) / --abc);
+
+var variable = [
+    1, 2, 3,
+    (10 + ( 20 * 3 ) / 4),
+    'str 1', "str 2"
+];
+
+var variable :array = [
+    { name:  "Verbum" },
+    {
+        value: 'Divino',
+        operation:  (3 + ( 3 ) + 3)
+    }
+];
+
+var variable = [
+    1, 2, 3,
+    (10 + 20),
+    'str 1', "str 2"
+];
+
+variable[3]  = 10;   // Contêm valor 30.
+
+

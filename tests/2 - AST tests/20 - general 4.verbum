@@ -1,0 +1,19 @@
+// Exemplo de acessos em arrays associativos.
+variable.items[0].name      = 10;        // Verbum
+variable.items[1].name           = 10;   // Divinus
+variable.items[2].values[0]        = 10; // 10
+variable.items[2].values[3].name   = 10; // Member
+variable.items[3]                  = 10; // 31337
+
+// Outros exemplos.
+var variable :array = [
+    { name: "Verbum" },
+    10, 20, 30,
+    {
+        values: [
+            31337 :double, { name: "Divinus" }
+        ] 
+    }
+];
+
+

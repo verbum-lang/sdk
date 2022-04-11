@@ -210,15 +210,6 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_DECLARATION
                                                     //      VERBUM_ATTRIBUTION
 
-    struct {                                        // Configurações de acessibilidade.
-        bool vfinal;                                // final.
-        bool priv;                                  // private.
-        bool pro;                                   // protected.
-        bool pub;                                   // public.
-        bool vstatic;                               // static.
-        bool simple;                                // Identifica se é uma declaração simples, sem a prefixação de atributos especiais.
-    } variable_settings;
-
     /*
     ** Tipo das variáveis utilizadas.
     ** type: VERBUM_VARIABLE_USE_TYPES

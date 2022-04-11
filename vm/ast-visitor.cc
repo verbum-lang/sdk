@@ -81,12 +81,6 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     
     // VERBUM_VARIABLE_INITIALIZATION
     ast.variable_type                       = VERBUM_UNKNOWN;
-    ast.variable_settings.vfinal            = false;
-    ast.variable_settings.priv              = false;
-    ast.variable_settings.pro               = false;
-    ast.variable_settings.pub               = false;
-    ast.variable_settings.vstatic           = false;
-    ast.variable_settings.simple            = false;
 
     // VERBUM_VARIABLE_USE_TYPES
     ast.variable_definition_type            = VERBUM_UNKNOWN;
@@ -206,23 +200,8 @@ antlrcpp::Any verbum_ast_visitor::visitVariableModes (TParser::VariableModesCont
         node.variable_type = VERBUM_VARIABLE_ATTRIBUTION;
 
     // Declaração.
-    else {
+    else 
         node.variable_type = VERBUM_VARIABLE_DECLARATION;
-
-        if (ctx->Final())
-            node.variable_settings.vfinal   = true;
-        if (ctx->Static())
-            node.variable_settings.vstatic  = true;
-
-        if (ctx->methodPerm()) {
-            if (ctx->methodPerm()->Pub())
-                node.variable_settings.pub  = true;
-            else if (ctx->methodPerm()->Priv())
-                node.variable_settings.priv = true;
-            else if (ctx->methodPerm()->Pro())
-                node.variable_settings.pro  = true;
-        }
-    }
     
     this->ast = this->add_node(node, this->ast);
 

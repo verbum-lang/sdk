@@ -45,6 +45,9 @@ public:
   virtual void enterVariableModes(TParser::VariableModesContext * /*ctx*/) override { }
   virtual void exitVariableModes(TParser::VariableModesContext * /*ctx*/) override { }
 
+  virtual void enterVariableModesBkp(TParser::VariableModesBkpContext * /*ctx*/) override { }
+  virtual void exitVariableModesBkp(TParser::VariableModesBkpContext * /*ctx*/) override { }
+
   virtual void enterVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
   virtual void exitVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
 

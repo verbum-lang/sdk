@@ -1,0 +1,22 @@
+var value = variable.callback(10, 20);
+
+// Tipos de valores recebidos em variáveis.
+var variable = true;
+var variable = 'a';
+var variable = 'string 1';
+var variable = "string 2";
+var variable = 123;
+var variable = 3.14;
+var variable = 0.12345;
+var variable = [ 1, 2, 3 ];
+var variable = { values: [ 1, 2, 3 ] };
+var variable = anotherVariable;
+
+var variable = functionName(10, 20, 30);
+var variable = obj::functionName(10, 20, 30);
+var variable = obj.functionName(10, 20, 30);
+
+var variable = (10 + 20);
+var variable = (variable * 10 + 20 / 30);
+
+

@@ -5,8 +5,8 @@
      print("Verbum!\n");
 }
 
-priv var attributeA :uint = 31337;
-pub var attributeB :string  = "Verbum 😃";
+priv var attr = 31337;
+pub final static var attrB :string  = "Verbum 😃";
 pub static var subVersion :string = "1337";
 
 

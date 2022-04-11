@@ -60,6 +60,15 @@ variable
 
 variableModes
   // Declarações.
+  :                  Var variableMembers End
+  | methodVisibility Var variableMembers End
+
+  // Atribuições.
+  | variableMembers End
+  ;
+
+variableModesBkp
+  // Declarações.
   :                         Var variableMembers End
   |       methodPerm        Var variableMembers End
   |                  Static Var variableMembers End

@@ -53,6 +53,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitVariableModesBkp(TParser::VariableModesBkpContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitVariableMembers(TParser::VariableMembersContext *ctx) override {
     return visitChildren(ctx);
   }
