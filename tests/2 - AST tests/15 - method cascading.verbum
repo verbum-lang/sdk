@@ -1,6 +1,9 @@
 
 // In principio erat Verbum.
 
-obj.foo(10);
+obj.foo(10).show()
+    .bar(20).show()
+    .bar(20).show()
+    ;
 
 
