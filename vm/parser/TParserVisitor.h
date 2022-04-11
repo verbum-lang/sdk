@@ -146,9 +146,9 @@ public:
 
     virtual antlrcpp::Any visitFunctions(TParser::FunctionsContext *context) = 0;
 
-    virtual antlrcpp::Any visitFunctionGeneralModes(TParser::FunctionGeneralModesContext *context) = 0;
-
     virtual antlrcpp::Any visitFunctionsModes(TParser::FunctionsModesContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionGeneralModes(TParser::FunctionGeneralModesContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionMethodsModes(TParser::FunctionMethodsModesContext *context) = 0;
 

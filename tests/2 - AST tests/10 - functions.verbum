@@ -1,6 +1,49 @@
 
 // In principio erat Verbum
 
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
 
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+/*
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+*/
 
 

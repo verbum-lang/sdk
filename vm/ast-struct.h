@@ -66,6 +66,15 @@ using namespace std;
 
 #define VERBUM_RET                                      34
 
+#define VERBUM_FUNCTION_GENERAL_BLOCK                   35
+#define VERBUM_FUNCTION_SPEC_BLOCK                      36
+
+#define VERBUM_FUNCTION_DECLARATION                     37
+#define VERBUM_FUNCTION_SIMPLE                          38
+#define VERBUM_FUNCTION_METHOD                          39
+#define VERBUM_FUNCTION_CLASS_CONSTRUCTOR               40
+#define VERBUM_FUNCTION_INTERFACE_ABSTRACT              41
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2
@@ -368,6 +377,29 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_LOOP_EXPRESSION
                                                     //      VERBUM_LOOP_INCDEC
                                                     //      VERBUM_LOOP_CODE_BLOCK
+
+    /*
+    ** Funções.
+    */
+
+    // Informações da declaração da função / método.
+    struct {                                        
+        int type;                                   // Tipo:
+                                                    //      VERBUM_FUNCTION_SIMPLE
+                                                    //      VERBUM_FUNCTION_METHOD
+                                                    //      VERBUM_FUNCTION_CLASS_CONSTRUCTOR
+                                                    //      VERBUM_FUNCTION_INTERFACE_ABSTRACT
+
+        string identifier;                          // Nome da função.
+        
+        bool ret_found;                             // Verifica se existe retorno (ret).
+        string ret_data;                            // Tipo a ser retornado (dados).
+    } function_declaration;
+
+    // Informações das permissões / visibilidade do método.
+    struct {
+        
+    } function_visibility;
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

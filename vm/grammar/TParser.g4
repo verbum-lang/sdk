@@ -473,9 +473,9 @@ functionsModes
 
 functionGeneralModes
   : Function Identifier OpenOp                CloseOp
-  | Function Identifier OpenOp                CloseOp ArrowRight Identifier
+  | Function Identifier OpenOp                CloseOp ArrowRight (Identifier | TypeSpec)
   | Function Identifier OpenOp functionParams CloseOp
-  | Function Identifier OpenOp functionParams CloseOp ArrowRight Identifier
+  | Function Identifier OpenOp functionParams CloseOp ArrowRight (Identifier | TypeSpec)
   ;
 
 // Métodos.

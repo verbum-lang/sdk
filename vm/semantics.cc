@@ -400,6 +400,79 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Funções e métodos em geral.
+        */
+
+        // Bloco de controle geral.
+        else if (node.type == VERBUM_FUNCTION_GENERAL_BLOCK) {
+            this->tab();
+            cout << "-> function (general block) - (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> function (general block) - (close)\n";
+        }
+
+        // Declaração das funções.
+        else if (node.type == VERBUM_FUNCTION_DECLARATION) {
+
+            // Funções simples.
+            if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE) {
+                this->tab();
+                cout << "-> function (simple block) - (open)\n";
+                
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+
+                this->tab();
+                cout << "-> function (simple block) - (close)\n";
+            }
+
+            // Métodos de classes.
+            else if (node.function_declaration.type == VERBUM_FUNCTION_METHOD) {
+                this->tab();
+                cout << "-> function (method block) - (open)\n";
+                
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+                
+                this->tab();
+                cout << "-> function (method block) - (close)\n";
+            }
+
+            // Construtores de classes.
+            else if (node.function_declaration.type == VERBUM_FUNCTION_CLASS_CONSTRUCTOR) {
+                this->tab();
+                cout << "-> function (class constructor) - (open)\n";
+                
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+                
+                this->tab();
+                cout << "-> function (class constructor) - (close)\n";
+            }
+
+            // Métodos de interface e classes abstratas.
+            else if (node.function_declaration.type == VERBUM_FUNCTION_INTERFACE_ABSTRACT) {
+                this->tab();
+                cout << "-> function (interface-abstract method) - (open)\n";
+                
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+                
+                this->tab();
+                cout << "-> function (interface-abstract method) - (close)\n";
+            }
+        }
+
+        /*
         ** Valores das expressões condicionais.
         */
 

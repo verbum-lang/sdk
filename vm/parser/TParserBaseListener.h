@@ -207,11 +207,11 @@ public:
   virtual void enterFunctions(TParser::FunctionsContext * /*ctx*/) override { }
   virtual void exitFunctions(TParser::FunctionsContext * /*ctx*/) override { }
 
-  virtual void enterFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
-  virtual void exitFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
-
   virtual void enterFunctionsModes(TParser::FunctionsModesContext * /*ctx*/) override { }
   virtual void exitFunctionsModes(TParser::FunctionsModesContext * /*ctx*/) override { }
+
+  virtual void enterFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
+  virtual void exitFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
 
   virtual void enterFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }
   virtual void exitFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }

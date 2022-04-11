@@ -51,7 +51,7 @@ public:
     RuleEndOne = 52, RuleEndTwo = 53, RuleLoopOneMembers = 54, RuleLoopTwoMembers = 55, 
     RuleLoopThreeMembers = 56, RuleLoopThreeMembersValues = 57, RuleLoopBlockElements = 58, 
     RuleLoopBlockElementsLimited = 59, RuleRet = 60, RuleRetValues = 61, 
-    RuleFunctions = 62, RuleFunctionGeneralModes = 63, RuleFunctionsModes = 64, 
+    RuleFunctions = 62, RuleFunctionsModes = 63, RuleFunctionGeneralModes = 64, 
     RuleFunctionMethodsModes = 65, RuleMethodPerm = 66, RuleConstructClassMethod = 67, 
     RuleInterfaceMethod = 68, RuleFunctionCodeBlock = 69, RuleFunctionParams = 70, 
     RuleFunctionParamElements = 71, RuleOopGeneral = 72, RuleInterfaceClass = 73, 
@@ -135,8 +135,8 @@ public:
   class RetContext;
   class RetValuesContext;
   class FunctionsContext;
-  class FunctionGeneralModesContext;
   class FunctionsModesContext;
+  class FunctionGeneralModesContext;
   class FunctionMethodsModesContext;
   class MethodPermContext;
   class ConstructClassMethodContext;
@@ -1244,27 +1244,6 @@ public:
 
   FunctionsContext* functions();
 
-  class  FunctionGeneralModesContext : public antlr4::ParserRuleContext {
-  public:
-    FunctionGeneralModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *Function();
-    std::vector<antlr4::tree::TerminalNode *> Identifier();
-    antlr4::tree::TerminalNode* Identifier(size_t i);
-    antlr4::tree::TerminalNode *OpenOp();
-    antlr4::tree::TerminalNode *CloseOp();
-    antlr4::tree::TerminalNode *ArrowRight();
-    FunctionParamsContext *functionParams();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  FunctionGeneralModesContext* functionGeneralModes();
-
   class  FunctionsModesContext : public antlr4::ParserRuleContext {
   public:
     FunctionsModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1279,6 +1258,28 @@ public:
   };
 
   FunctionsModesContext* functionsModes();
+
+  class  FunctionGeneralModesContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionGeneralModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Function();
+    std::vector<antlr4::tree::TerminalNode *> Identifier();
+    antlr4::tree::TerminalNode* Identifier(size_t i);
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+    antlr4::tree::TerminalNode *ArrowRight();
+    antlr4::tree::TerminalNode *TypeSpec();
+    FunctionParamsContext *functionParams();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionGeneralModesContext* functionGeneralModes();
 
   class  FunctionMethodsModesContext : public antlr4::ParserRuleContext {
   public:

@@ -269,11 +269,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) override {
+  virtual antlrcpp::Any visitFunctionsModes(TParser::FunctionsModesContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFunctionsModes(TParser::FunctionsModesContext *ctx) override {
+  virtual antlrcpp::Any visitFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) override {
     return visitChildren(ctx);
   }
 

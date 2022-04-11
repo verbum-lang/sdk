@@ -1435,9 +1435,87 @@ antlrcpp::Any verbum_ast_visitor::visitRet (TParser::RetContext *ctx)
 }
 
 /*
-**
+** Funções e métodos.
 */
 
+// Bloco principal das funções, metodos, construtores de classes
+// métodos de interfaces, e métodos de classes abstratas.
+antlrcpp::Any verbum_ast_visitor::visitFunctions (TParser::FunctionsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_FUNCTION_GENERAL_BLOCK;
 
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Funções comuns.
+antlrcpp::Any verbum_ast_visitor::visitFunctionsModes (TParser::FunctionsModesContext *ctx)
+{
+    verbum_ast_node node            = this->zero_data();
+    node.type                       = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type  = VERBUM_FUNCTION_SIMPLE;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Métodos de classes.
+antlrcpp::Any verbum_ast_visitor::visitFunctionMethodsModes (TParser::FunctionMethodsModesContext *ctx)
+{
+    verbum_ast_node node            = this->zero_data();
+    node.type                       = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type  = VERBUM_FUNCTION_METHOD;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Construtores de classes.
+antlrcpp::Any verbum_ast_visitor::visitConstructClassMethod (TParser::ConstructClassMethodContext *ctx)
+{
+    verbum_ast_node node            = this->zero_data();
+    node.type                       = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type  = VERBUM_FUNCTION_CLASS_CONSTRUCTOR;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Métodos de interfaces e classes abstratas.
+antlrcpp::Any verbum_ast_visitor::visitInterfaceMethod (TParser::InterfaceMethodContext *ctx)
+{
+    verbum_ast_node node            = this->zero_data();
+    node.type                       = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type  = VERBUM_FUNCTION_INTERFACE_ABSTRACT;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
 
 

@@ -97,6 +97,13 @@ namespace verbum {
             // Ret.
             antlrcpp::Any visitRet (TParser::RetContext *ctx);
 
+            // Funções e métodos em geral.
+            antlrcpp::Any visitFunctions (TParser::FunctionsContext *ctx);
+            antlrcpp::Any visitFunctionsModes (TParser::FunctionsModesContext *ctx);
+            antlrcpp::Any visitFunctionMethodsModes (TParser::FunctionMethodsModesContext *ctx);
+            antlrcpp::Any visitConstructClassMethod (TParser::ConstructClassMethodContext *ctx);
+            antlrcpp::Any visitInterfaceMethod (TParser::InterfaceMethodContext *ctx);
+
         private:
         
             // Contadores e flags de controle da adição dos nodes.

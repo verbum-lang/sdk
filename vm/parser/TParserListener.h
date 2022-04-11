@@ -205,11 +205,11 @@ public:
   virtual void enterFunctions(TParser::FunctionsContext *ctx) = 0;
   virtual void exitFunctions(TParser::FunctionsContext *ctx) = 0;
 
-  virtual void enterFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) = 0;
-  virtual void exitFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) = 0;
-
   virtual void enterFunctionsModes(TParser::FunctionsModesContext *ctx) = 0;
   virtual void exitFunctionsModes(TParser::FunctionsModesContext *ctx) = 0;
+
+  virtual void enterFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) = 0;
+  virtual void exitFunctionGeneralModes(TParser::FunctionGeneralModesContext *ctx) = 0;
 
   virtual void enterFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) = 0;
   virtual void exitFunctionMethodsModes(TParser::FunctionMethodsModesContext *ctx) = 0;
