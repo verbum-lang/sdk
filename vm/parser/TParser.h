@@ -184,8 +184,8 @@ public:
   public:
     FileContentContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    FileContentContext *fileContent();
     SentenceContext *sentence();
+    FileContentContext *fileContent();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -195,7 +195,7 @@ public:
   };
 
   FileContentContext* fileContent();
-  FileContentContext* fileContent(int precedence);
+
   class  SentenceContext : public antlr4::ParserRuleContext {
   public:
     SentenceContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1716,9 +1716,6 @@ public:
 
   ObjIdentifierBContext* objIdentifierB();
 
-
-  virtual bool sempred(antlr4::RuleContext *_localctx, size_t ruleIndex, size_t predicateIndex) override;
-  bool fileContentSempred(FileContentContext *_localctx, size_t predicateIndex);
 
 private:
   static std::vector<antlr4::dfa::DFA> _decisionToDFA;

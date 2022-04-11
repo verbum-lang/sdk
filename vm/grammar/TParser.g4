@@ -16,7 +16,8 @@ main
   ;
 
 fileContent
-  : fileContent sentence
+  : sentence
+  | sentence fileContent
   |
   ;
 
@@ -549,7 +550,7 @@ oopGeneral
   | classDefination
   ;
 
-// Interface e classe abstrata.
+// Interface.
 interfaceClass
   : interfaceClassDefinition
   ;
@@ -561,6 +562,7 @@ interfaceClassDefinition
   | Interface Identifier Extends Identifier OpenBlock functionCodeBlock CloseBlock
   ;
 
+// Classe abstrata.
 abstractClass
   : abstractClassDefinition
   ;
