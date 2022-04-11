@@ -1,0 +1,29 @@
+class Example {
+    priv var value :int = 0;
+
+    pub fn foo (a :int) -> this {
+        this.value += a;
+        ret this;
+    }
+
+    pub fn bar (a :int) -> this {
+        this.value += a;
+        ret this;
+    }
+
+    pub fn show () {
+        print("Value: {}\n", this.value);
+    }
+}
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
+
+

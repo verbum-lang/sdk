@@ -1,0 +1,24 @@
+
+// Instanciamento e uso.
+var obj     :Example  = new Example(31337, "Verbum");
+var resultA :array    = obj.getValues();
+var resultB :int      = obj::getValues(1);
+var resultC :int      = obj.checkString("Verbum Divinus");
+
+print("Version: {}\n", Example::getVersion());
+print("Sub version: {}\n", Example::subVersion);
+print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
+print("resultB = {}\n", resultB);
+print("Check String = {}\n", resultC);
+
+// Exemplo com "parent".
+var obj1 = new Common();
+obj1.exampleA();            // Verbum
+obj1.getExampleA();         // Verbum
+
+var obj2 = new Example();
+obj2.exampleA();            // Divinus
+obj2.getExampleA();         // Divinus
+obj2.getExampleB();         // Verbum
+
+

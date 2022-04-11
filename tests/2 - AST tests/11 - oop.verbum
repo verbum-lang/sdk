@@ -1,7 +1,6 @@
 
 // In principio erat Verbum
 
-/*
 interface FirstTemplate {
     pub fn getValues () -> array;
     pub fn getValues (index :int) -> int;
@@ -41,6 +40,12 @@ final class ExampleN {
     var e = 50;
 }
 
-*/
+class A {
+    var a = 10;
+
+    class B {
+        var b = 20;
+    }
+}
 
 
