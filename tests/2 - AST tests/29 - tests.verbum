@@ -1,6 +1,33 @@
 
 // In principio erat Verbum.
 
+// Função anônima como valor em variável.
+var variable = (fn () {
+    ret 10;
+});
 
+var variable = (fn (a :int) {
+    ret a + 10;
+});
+
+var variable = (fn (a :int) -> int {
+    ret a + 10;
+});
+
+// Função anônima com array indexado.
+var variable = [
+    31337,
+    (fn (a :int, b :int) -> int {
+        ret a + b;   
+    })
+];
+
+// Função anônima com array associativo.
+var variable = {
+    identifier : 'onclick',
+    callback   : (fn (a :int, b :int) -> int {
+        ret a + b;
+    })
+};
 
 
