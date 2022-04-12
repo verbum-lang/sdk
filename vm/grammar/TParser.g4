@@ -695,6 +695,8 @@ arrayIndexAccess
 */
 anonymousFunction
   : OpenOp anFnItems CloseOp
+  | OpenOp anFnItems CloseOp OpenOp CloseOp
+  | OpenOp anFnItems CloseOp OpenOp operationElements CloseOp
   ;
 
 // O mesmo que 'function'.

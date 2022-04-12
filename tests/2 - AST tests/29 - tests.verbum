@@ -36,3 +36,11 @@ var variable = {
 };
 
 
+print("Value: {}\n",
+    (fn (value :int) -> int {
+        var a = value * 333;
+        ret value * 3 + a;
+    })( 10 * ar[1].a.v[1][2] / (x*z) - func() )
+);
+
+

@@ -1880,9 +1880,12 @@ public:
   public:
     AnonymousFunctionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *OpenOp();
+    std::vector<antlr4::tree::TerminalNode *> OpenOp();
+    antlr4::tree::TerminalNode* OpenOp(size_t i);
     AnFnItemsContext *anFnItems();
-    antlr4::tree::TerminalNode *CloseOp();
+    std::vector<antlr4::tree::TerminalNode *> CloseOp();
+    antlr4::tree::TerminalNode* CloseOp(size_t i);
+    OperationElementsContext *operationElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
