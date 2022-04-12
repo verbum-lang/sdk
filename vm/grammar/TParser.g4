@@ -691,6 +691,27 @@ arrayIndexAccess
   ;
 
 /*
+** Funções anônimas.
+*/
+anonymousFunction
+  : OpenOp anFnItems CloseOp
+  ;
+
+// O mesmo que 'function'.
+anFnItems
+  : functionsModesFn OpenBlock                   CloseBlock
+  | functionsModesFn OpenBlock functionCodeBlock CloseBlock
+  ;
+
+// Funções.
+functionsModesFn
+  : Function OpenOp                CloseOp
+  | Function OpenOp                CloseOp ArrowRight (identifierRet | TypeSpec)
+  | Function OpenOp functionParams CloseOp
+  | Function OpenOp functionParams CloseOp ArrowRight (identifierRet | TypeSpec)
+  ;
+
+/*
 ** Regras de uso geral.
 **
 ** Utilizada por:
@@ -718,6 +739,9 @@ generalValue
 
   // Acesso a elementos de arrays.
   | arrayAccessElements
+
+  // Funções anônimas.
+  | anonymousFunction
   ;
 
 objIdentifierA : Identifier;
