@@ -94,6 +94,8 @@ using namespace std;
 #define VERBUM_TOKEN_BREAK                              52
 #define VERBUM_TOKEN_NEXT                               53
 
+#define VERBUM_ANONYMOUS_FUNCTION                       54
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2
@@ -409,6 +411,7 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_FUNCTION_CLASS_CONSTRUCTOR
                                                     //      VERBUM_FUNCTION_INTERFACE_ABSTRACT
 
+        bool anonymous;                             // Identifica se é uma função anônima.
         string identifier;                          // Nome da função.
         
         bool ret_found;                             // Verifica se existe retorno (ret).

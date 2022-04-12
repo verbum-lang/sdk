@@ -63,8 +63,9 @@ public:
     RuleAbstractClassDefinition = 89, RuleAbstractCodeBlock = 90, RuleClassDefination = 91, 
     RuleClassCodeBlock = 92, RuleClassModes = 93, RuleIdentifierC = 94, 
     RuleArrayAccessElements = 95, RuleArrayAccessElementsItems = 96, RuleAccessBlockAr = 97, 
-    RuleArrayIndexAccess = 98, RuleGeneralValue = 99, RuleObjIdentifierA = 100, 
-    RuleObjIdentifierB = 101
+    RuleArrayIndexAccess = 98, RuleAnonymousFunction = 99, RuleAnFnItems = 100, 
+    RuleFunctionsModesFn = 101, RuleGeneralValue = 102, RuleObjIdentifierA = 103, 
+    RuleObjIdentifierB = 104
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -176,6 +177,9 @@ public:
   class ArrayAccessElementsItemsContext;
   class AccessBlockArContext;
   class ArrayIndexAccessContext;
+  class AnonymousFunctionContext;
+  class AnFnItemsContext;
+  class FunctionsModesFnContext;
   class GeneralValueContext;
   class ObjIdentifierAContext;
   class ObjIdentifierBContext; 
@@ -1872,6 +1876,62 @@ public:
 
   ArrayIndexAccessContext* arrayIndexAccess();
 
+  class  AnonymousFunctionContext : public antlr4::ParserRuleContext {
+  public:
+    AnonymousFunctionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenOp();
+    AnFnItemsContext *anFnItems();
+    antlr4::tree::TerminalNode *CloseOp();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AnonymousFunctionContext* anonymousFunction();
+
+  class  AnFnItemsContext : public antlr4::ParserRuleContext {
+  public:
+    AnFnItemsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionsModesFnContext *functionsModesFn();
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    FunctionCodeBlockContext *functionCodeBlock();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AnFnItemsContext* anFnItems();
+
+  class  FunctionsModesFnContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionsModesFnContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Function();
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+    antlr4::tree::TerminalNode *ArrowRight();
+    IdentifierRetContext *identifierRet();
+    antlr4::tree::TerminalNode *TypeSpec();
+    FunctionParamsContext *functionParams();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionsModesFnContext* functionsModesFn();
+
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:
     GeneralValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1890,6 +1950,7 @@ public:
     ObjIdentifierBContext *objIdentifierB();
     antlr4::tree::TerminalNode *TwoTwoPoint();
     ArrayAccessElementsContext *arrayAccessElements();
+    AnonymousFunctionContext *anonymousFunction();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

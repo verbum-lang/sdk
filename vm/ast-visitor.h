@@ -115,6 +115,10 @@ namespace verbum {
             antlrcpp::Any visitAbstractCodeBlock (TParser::AbstractCodeBlockContext *ctx);
             antlrcpp::Any visitClassDefination (TParser::ClassDefinationContext *ctx);
 
+            // Funções anônimas.
+            antlrcpp::Any visitAnonymousFunction (TParser::AnonymousFunctionContext *ctx);
+            antlrcpp::Any visitFunctionsModesFn (TParser::FunctionsModesFnContext *ctx);
+
             // Gerais.
             antlrcpp::Any visitLiveToken (TParser::LiveTokenContext *ctx);
             antlrcpp::Any visitVisibilityItems (TParser::VisibilityItemsContext *ctx);

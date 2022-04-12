@@ -462,8 +462,32 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         // Declaração das funções.
         else if (node.type == VERBUM_FUNCTION_DECLARATION) {
 
+            // Funções anônimas.
+            if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE &&
+                node.function_declaration.anonymous == true)
+            {
+                this->tab();
+                cout << "-> anonymous-function (simple block) - (open)\n";
+                
+                // Informações da função.
+                if (node.function_declaration.ret_found) {
+                    this->tab();
+                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                }
+
+
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+
+                this->tab();
+                cout << "-> anonymous-function (simple block) - (close)\n";
+            }
+
             // Funções simples.
-            if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE) {
+            else if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE &&
+                node.function_declaration.anonymous == false)
+            {
                 this->tab();
                 cout << "-> function (simple block) - (open)\n";
                 
@@ -688,6 +712,23 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             this->tab();
             cout << "-> class (close)\n";
+        }
+
+        /*
+        ** Funções anônimas.
+        */
+
+        // Bloco geral.
+        else if (node.type == VERBUM_ANONYMOUS_FUNCTION) {
+            this->tab();
+            cout << "-> anonymous-function block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> anonymous-function block (close)\n";
         }
 
         /*

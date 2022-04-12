@@ -413,6 +413,18 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitAnonymousFunction(TParser::AnonymousFunctionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAnFnItems(TParser::AnFnItemsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionsModesFn(TParser::FunctionsModesFnContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }

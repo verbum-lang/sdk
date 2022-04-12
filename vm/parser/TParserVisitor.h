@@ -218,6 +218,12 @@ public:
 
     virtual antlrcpp::Any visitArrayIndexAccess(TParser::ArrayIndexAccessContext *context) = 0;
 
+    virtual antlrcpp::Any visitAnonymousFunction(TParser::AnonymousFunctionContext *context) = 0;
+
+    virtual antlrcpp::Any visitAnFnItems(TParser::AnFnItemsContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionsModesFn(TParser::FunctionsModesFnContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
     virtual antlrcpp::Any visitObjIdentifierA(TParser::ObjIdentifierAContext *context) = 0;

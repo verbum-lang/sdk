@@ -147,7 +147,8 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.function_declaration.type           = VERBUM_UNKNOWN; 
     ast.function_declaration.identifier     = ""; 
     ast.function_declaration.ret_found      = false; 
-    ast.function_declaration.ret_data       = ""; 
+    ast.function_declaration.ret_data       = "";
+    ast.function_declaration.anonymous      = false;
     ast.function_param_item                 = "";
     ast.function_param_type                 = "";
 
@@ -1777,6 +1778,56 @@ antlrcpp::Any verbum_ast_visitor::visitClassDefination (TParser::ClassDefination
     if (ctx->classModes()->Final()) 
         node.vclass.vfinal = true;
 
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
+** Funções anônimas.
+*/
+
+// Bloco geral.
+antlrcpp::Any verbum_ast_visitor::visitAnonymousFunction (TParser::AnonymousFunctionContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_ANONYMOUS_FUNCTION;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Protótipo da função.
+antlrcpp::Any verbum_ast_visitor::visitFunctionsModesFn (TParser::FunctionsModesFnContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+
+    node.type                            = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type       = VERBUM_FUNCTION_SIMPLE;
+    node.function_declaration.anonymous  = true;
+
+    // Verifica se há retorno de tipo.
+    node.function_declaration.ret_found  = false;
+    if (ctx->ArrowRight()) {
+        node.function_declaration.ret_found  = true;
+
+        if (ctx->identifierRet()) {
+            node.function_declaration.ret_data =
+                ctx->identifierRet()->Identifier()->getText();
+        } else if (ctx->TypeSpec()) {
+            node.function_declaration.ret_data =
+                ctx->TypeSpec()->getText();
+        }
+    }
 
     this->ast = this->add_node(node, this->ast);
 

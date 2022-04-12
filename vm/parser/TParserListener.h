@@ -313,6 +313,15 @@ public:
   virtual void enterArrayIndexAccess(TParser::ArrayIndexAccessContext *ctx) = 0;
   virtual void exitArrayIndexAccess(TParser::ArrayIndexAccessContext *ctx) = 0;
 
+  virtual void enterAnonymousFunction(TParser::AnonymousFunctionContext *ctx) = 0;
+  virtual void exitAnonymousFunction(TParser::AnonymousFunctionContext *ctx) = 0;
+
+  virtual void enterAnFnItems(TParser::AnFnItemsContext *ctx) = 0;
+  virtual void exitAnFnItems(TParser::AnFnItemsContext *ctx) = 0;
+
+  virtual void enterFunctionsModesFn(TParser::FunctionsModesFnContext *ctx) = 0;
+  virtual void exitFunctionsModesFn(TParser::FunctionsModesFnContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

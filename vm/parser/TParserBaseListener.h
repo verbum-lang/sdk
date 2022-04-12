@@ -315,6 +315,15 @@ public:
   virtual void enterArrayIndexAccess(TParser::ArrayIndexAccessContext * /*ctx*/) override { }
   virtual void exitArrayIndexAccess(TParser::ArrayIndexAccessContext * /*ctx*/) override { }
 
+  virtual void enterAnonymousFunction(TParser::AnonymousFunctionContext * /*ctx*/) override { }
+  virtual void exitAnonymousFunction(TParser::AnonymousFunctionContext * /*ctx*/) override { }
+
+  virtual void enterAnFnItems(TParser::AnFnItemsContext * /*ctx*/) override { }
+  virtual void exitAnFnItems(TParser::AnFnItemsContext * /*ctx*/) override { }
+
+  virtual void enterFunctionsModesFn(TParser::FunctionsModesFnContext * /*ctx*/) override { }
+  virtual void exitFunctionsModesFn(TParser::FunctionsModesFnContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

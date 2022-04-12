@@ -1,12 +1,12 @@
 
 // In principio erat Verbum.
 
+/*
 // Função anônima como valor em variável.
 var variable = (fn () {
     ret 10;
 });
 
-/*
 var variable = (fn (a :int) {
     ret a + 10;
 });
@@ -14,13 +14,17 @@ var variable = (fn (a :int) {
 var variable = (fn (a :int) -> int {
     ret a + 10;
 });
+*/
 
 // Função anônima com array indexado.
 var variable = [
     31337,
     (fn (a :int, b :int) -> int {
-        ret a + b;   
-    })
+        var n = [ 1, 2, 3 ];
+        ret a + b * n[2];   
+    }),
+    'Verbum',
+    333
 ];
 
 // Função anônima com array associativo.
@@ -30,6 +34,5 @@ var variable = {
         ret a + b;
     })
 };
-*/
 
 
