@@ -94,6 +94,9 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
   virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
 
+  virtual void enterFunctionCallParamAC(TParser::FunctionCallParamACContext *ctx) = 0;
+  virtual void exitFunctionCallParamAC(TParser::FunctionCallParamACContext *ctx) = 0;
+
   virtual void enterMethodCascadingModes(TParser::MethodCascadingModesContext *ctx) = 0;
   virtual void exitMethodCascadingModes(TParser::MethodCascadingModesContext *ctx) = 0;
 

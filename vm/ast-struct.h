@@ -45,6 +45,8 @@ using namespace std;
 
 #define VERBUM_FUNCTION_CALL                            16
 #define VERBUM_FUNCTION_CALL_CASCADING_METHOD           161
+#define VERBUM_FUNCTION_CALL_ARRAY_ACCESS               162
+#define VERBUM_FUNCTION_CALL_ARRAY_ACCESS_BLOCK         163
 
 #define VERBUM_CONDITIONAL_STRUCT_BLOCK                 17
 #define VERBUM_CONDITIONAL_EXPRESSION_BLOCK             18

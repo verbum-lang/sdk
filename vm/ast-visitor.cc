@@ -728,12 +728,16 @@ antlrcpp::Any verbum_ast_visitor::visitCallingFunction (TParser::CallingFunction
             ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
     }
 
+    // Chamada a função, a partir de acesso a elementos de array.
+    else if (ctx->functionCall()->arrayAccessElements()) {
+        node.function_call.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
+    }
+
     // Função comum.
     else {
         node.function_call.type = VERBUM_FUNCTION_CALL_SIMPLE;
         node.function_call.function_name = ctx->functionCall()->Identifier()->getText();
     }
-
 
     this->ast = this->add_node(node, this->ast);
 
@@ -742,6 +746,21 @@ antlrcpp::Any verbum_ast_visitor::visitCallingFunction (TParser::CallingFunction
     this->node_block_counter--;
 
     return result;
+}
+
+// Chamda a funções a partir de acesso a elemento de array.
+antlrcpp::Any verbum_ast_visitor::visitFunctionCallParamAC (TParser::FunctionCallParamACContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS_BLOCK;
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result; 
 }
 
 // Funções do cascading method.

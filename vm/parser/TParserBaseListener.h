@@ -96,6 +96,9 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 
+  virtual void enterFunctionCallParamAC(TParser::FunctionCallParamACContext * /*ctx*/) override { }
+  virtual void exitFunctionCallParamAC(TParser::FunctionCallParamACContext * /*ctx*/) override { }
+
   virtual void enterMethodCascadingModes(TParser::MethodCascadingModesContext * /*ctx*/) override { }
   virtual void exitMethodCascadingModes(TParser::MethodCascadingModesContext * /*ctx*/) override { }
 

@@ -37,35 +37,35 @@ public:
     RuleIndexArray = 15, RuleIndexArrayElements = 16, RuleAssociativeArray = 17, 
     RuleAssociativeArrayElements = 18, RuleOperationBlock = 19, RuleOperationElements = 20, 
     RuleOperationValue = 21, RuleFirstIncDec = 22, RuleLastIncDec = 23, 
-    RuleCallingFunction = 24, RuleFunctionCall = 25, RuleMethodCascadingModes = 26, 
-    RuleFunctionCallCascading = 27, RuleFunctionCallCascadingItem = 28, 
-    RuleIdentifierB = 29, RulePointSeparator = 30, RuleFunctionCallParam = 31, 
-    RuleFunctionCallParamElements = 32, RuleConditionalExpression = 33, 
-    RuleConditionalExpressionStructBlock = 34, RuleIfElementUnique = 35, 
-    RuleElifElements = 36, RuleElifElementUnique = 37, RuleElseElementUnique = 38, 
-    RuleConditionalExpressionItems = 39, RuleConditionalBlockElements = 40, 
-    RuleConditionalBlockElsItems = 41, RuleConditionalExpressionElements = 42, 
-    RuleConditionExpValue = 43, RuleConditionExpBlock = 44, RuleConditionExpBlockItemValue = 45, 
-    RuleConditionExpBlockItem = 46, RuleConditionalExpValue = 47, RuleFunctionCallAndAttr = 48, 
-    RuleIdentifierAttrFn = 49, RuleFunctionCallAttrFn = 50, RuleFunctionCallAttrFnItem = 51, 
-    RuleLoop = 52, RuleLoopExpressionItems = 53, RuleLoopExpression = 54, 
-    RuleLoopInfinite = 55, RuleLoopComplete = 56, RuleLoopConditional = 57, 
-    RuleEndOne = 58, RuleEndTwo = 59, RuleLoopOneMembers = 60, RuleLoopTwoMembers = 61, 
-    RuleLoopThreeMembers = 62, RuleLoopThreeMembersValues = 63, RuleLoopBlockElements = 64, 
-    RuleLoopBlockElementsLimited = 65, RuleRet = 66, RuleRetValues = 67, 
-    RuleFunctions = 68, RuleFunctionsModes = 69, RuleFunctionGeneralModes = 70, 
-    RuleIdentifierRet = 71, RuleFunctionMethodsModes = 72, RuleFunctionMethodsModesBkp = 73, 
-    RuleMethodPerm = 74, RuleVisibilityItems = 75, RuleMethodVisibility = 76, 
-    RuleConstructClassMethod = 77, RuleInterfaceMethod = 78, RuleFunctionCodeBlock = 79, 
-    RuleFunctionCodeBlockElements = 80, RuleFunctionParams = 81, RuleFunctionParamsControl = 82, 
-    RuleFunctionParamElements = 83, RuleOopGeneral = 84, RuleInterfaceClass = 85, 
-    RuleInterfaceClassDefinition = 86, RuleInterfaceCodeBlock = 87, RuleAbstractClass = 88, 
-    RuleAbstractClassDefinition = 89, RuleAbstractCodeBlock = 90, RuleClassDefination = 91, 
-    RuleClassCodeBlock = 92, RuleClassModes = 93, RuleIdentifierC = 94, 
-    RuleArrayAccessElements = 95, RuleArrayAccessElementsItems = 96, RuleAccessBlockAr = 97, 
-    RuleArrayIndexAccess = 98, RuleAnonymousFunction = 99, RuleAnFnItems = 100, 
-    RuleFunctionsModesFn = 101, RuleGeneralValue = 102, RuleObjIdentifierA = 103, 
-    RuleObjIdentifierB = 104
+    RuleCallingFunction = 24, RuleFunctionCall = 25, RuleFunctionCallParamAC = 26, 
+    RuleMethodCascadingModes = 27, RuleFunctionCallCascading = 28, RuleFunctionCallCascadingItem = 29, 
+    RuleIdentifierB = 30, RulePointSeparator = 31, RuleFunctionCallParam = 32, 
+    RuleFunctionCallParamElements = 33, RuleConditionalExpression = 34, 
+    RuleConditionalExpressionStructBlock = 35, RuleIfElementUnique = 36, 
+    RuleElifElements = 37, RuleElifElementUnique = 38, RuleElseElementUnique = 39, 
+    RuleConditionalExpressionItems = 40, RuleConditionalBlockElements = 41, 
+    RuleConditionalBlockElsItems = 42, RuleConditionalExpressionElements = 43, 
+    RuleConditionExpValue = 44, RuleConditionExpBlock = 45, RuleConditionExpBlockItemValue = 46, 
+    RuleConditionExpBlockItem = 47, RuleConditionalExpValue = 48, RuleFunctionCallAndAttr = 49, 
+    RuleIdentifierAttrFn = 50, RuleFunctionCallAttrFn = 51, RuleFunctionCallAttrFnItem = 52, 
+    RuleLoop = 53, RuleLoopExpressionItems = 54, RuleLoopExpression = 55, 
+    RuleLoopInfinite = 56, RuleLoopComplete = 57, RuleLoopConditional = 58, 
+    RuleEndOne = 59, RuleEndTwo = 60, RuleLoopOneMembers = 61, RuleLoopTwoMembers = 62, 
+    RuleLoopThreeMembers = 63, RuleLoopThreeMembersValues = 64, RuleLoopBlockElements = 65, 
+    RuleLoopBlockElementsLimited = 66, RuleRet = 67, RuleRetValues = 68, 
+    RuleFunctions = 69, RuleFunctionsModes = 70, RuleFunctionGeneralModes = 71, 
+    RuleIdentifierRet = 72, RuleFunctionMethodsModes = 73, RuleFunctionMethodsModesBkp = 74, 
+    RuleMethodPerm = 75, RuleVisibilityItems = 76, RuleMethodVisibility = 77, 
+    RuleConstructClassMethod = 78, RuleInterfaceMethod = 79, RuleFunctionCodeBlock = 80, 
+    RuleFunctionCodeBlockElements = 81, RuleFunctionParams = 82, RuleFunctionParamsControl = 83, 
+    RuleFunctionParamElements = 84, RuleOopGeneral = 85, RuleInterfaceClass = 86, 
+    RuleInterfaceClassDefinition = 87, RuleInterfaceCodeBlock = 88, RuleAbstractClass = 89, 
+    RuleAbstractClassDefinition = 90, RuleAbstractCodeBlock = 91, RuleClassDefination = 92, 
+    RuleClassCodeBlock = 93, RuleClassModes = 94, RuleIdentifierC = 95, 
+    RuleArrayAccessElements = 96, RuleArrayAccessElementsItems = 97, RuleAccessBlockAr = 98, 
+    RuleArrayIndexAccess = 99, RuleAnonymousFunction = 100, RuleAnFnItems = 101, 
+    RuleFunctionsModesFn = 102, RuleGeneralValue = 103, RuleObjIdentifierA = 104, 
+    RuleObjIdentifierB = 105
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -104,6 +104,7 @@ public:
   class LastIncDecContext;
   class CallingFunctionContext;
   class FunctionCallContext;
+  class FunctionCallParamACContext;
   class MethodCascadingModesContext;
   class FunctionCallCascadingContext;
   class FunctionCallCascadingItemContext;
@@ -630,6 +631,8 @@ public:
     IdentifierBContext *identifierB();
     antlr4::tree::TerminalNode *TwoTwoPoint();
     MethodCascadingModesContext *methodCascadingModes();
+    ArrayAccessElementsContext *arrayAccessElements();
+    FunctionCallParamACContext *functionCallParamAC();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -639,6 +642,21 @@ public:
   };
 
   FunctionCallContext* functionCall();
+
+  class  FunctionCallParamACContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCallParamACContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FunctionCallParamContext *functionCallParam();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCallParamACContext* functionCallParamAC();
 
   class  MethodCascadingModesContext : public antlr4::ParserRuleContext {
   public:
@@ -1952,8 +1970,8 @@ public:
     antlr4::tree::TerminalNode *Point();
     ObjIdentifierBContext *objIdentifierB();
     antlr4::tree::TerminalNode *TwoTwoPoint();
-    ArrayAccessElementsContext *arrayAccessElements();
     AnonymousFunctionContext *anonymousFunction();
+    ArrayAccessElementsContext *arrayAccessElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

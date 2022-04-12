@@ -248,6 +248,19 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << ") <---| close function-block\n";
         }
 
+        // Chamda a funções a partir de acesso a elemento de array.
+        else if (node.type == VERBUM_FUNCTION_CALL_ARRAY_ACCESS_BLOCK) {
+            this->tab();
+            cout << "-> function-call array-access - open\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> function-call array-access - close\n";
+        }
+
         // Cascading method.
         else if (node.type == VERBUM_FUNCTION_CALL_CASCADING_METHOD) {
             this->tab();

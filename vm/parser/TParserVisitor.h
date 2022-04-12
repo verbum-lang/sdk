@@ -72,6 +72,8 @@ public:
 
     virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunctionCallParamAC(TParser::FunctionCallParamACContext *context) = 0;
+
     virtual antlrcpp::Any visitMethodCascadingModes(TParser::MethodCascadingModesContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCallCascading(TParser::FunctionCallCascadingContext *context) = 0;

@@ -1,0 +1,19 @@
+
+// In principio erat Verbum.
+
+//test[1].a.v[3][3](10, 20, 30);
+//x.d.e[1][2].e.g(10, 20);
+
+var value = variable[1](10, 20);
+
+/*
+var value = [
+    1, 2, 3,
+
+        variable[1](10, 20),    
+
+    1, 2, 3
+];
+*/
+
+
