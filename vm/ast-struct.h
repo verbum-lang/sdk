@@ -21,6 +21,7 @@
 
 using namespace std;
 
+#define VERBUM_IESUS_HOMINUM_SALVATOR                   333
 #define VERBUM_UNKNOWN                                  0
 
 // Lista de tipos de elementos da AST.

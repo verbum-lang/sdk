@@ -24,7 +24,7 @@ using namespace std;
 void verbum_ast_visitor::prepare_data ()
 {
     this->ast = this->zero_data();
-    this->ast.type = VERBUM_UNKNOWN;
+    this->ast.type = VERBUM_IESUS_HOMINUM_SALVATOR;
     this->node_block_counter = 0;
     this->node_run_counter = 0;
 }
