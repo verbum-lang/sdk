@@ -177,7 +177,7 @@ using namespace std;
 #define VERBUM_FUNCTION_CALL_SIMPLE                     1
 #define VERBUM_FUNCTION_CALL_INSTANCE                   2   
 #define VERBUM_FUNCTION_CALL_STATIC                     3
-#define VERBUM_FUNCTION_CALL_CASCADING                  4
+#define VERBUM_FUNCTION_CALL_CASCADING                  60
 
 // Tipos de itens (visibilidade).
 #define VERBUM_ITEMS_VISIBILITY_PUB                     1

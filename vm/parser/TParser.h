@@ -1962,16 +1962,16 @@ public:
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
     antlr4::tree::TerminalNode *String();
+    FunctionCallContext *functionCall();
     IndexArrayContext *indexArray();
     AssociativeArrayContext *associativeArray();
     OperationElementsContext *operationElements();
-    FunctionCallContext *functionCall();
     ObjIdentifierAContext *objIdentifierA();
     antlr4::tree::TerminalNode *Point();
     ObjIdentifierBContext *objIdentifierB();
     antlr4::tree::TerminalNode *TwoTwoPoint();
-    AnonymousFunctionContext *anonymousFunction();
     ArrayAccessElementsContext *arrayAccessElements();
+    AnonymousFunctionContext *anonymousFunction();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

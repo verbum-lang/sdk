@@ -737,11 +737,11 @@ generalValue
   | Float       TypeSpec
   | String                  // Strings com aspas simples e duplas.
   
-  | functionCall            // Chamada de função.
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.
   | operationElements       // Elementos de operações (suportando blocos de operações).
-  
+  | functionCall            // Chamada de função.
+
   // Acesso a componentes de objeto.
   | objIdentifierA Point       objIdentifierB
   | objIdentifierA TwoTwoPoint objIdentifierB

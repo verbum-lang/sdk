@@ -649,6 +649,18 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
             node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
         }
 
+        // Cascading method.
+        else if (ctx->functionCall()->methodCascadingModes()) {
+            node.general_value_data.type = VERBUM_FUNCTION_CALL_CASCADING;
+            node.general_value_data.function_name = 
+                ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
+        }
+        
+        // Chamada a função, a partir de acesso a elementos de array.
+        else if (ctx->functionCall()->arrayAccessElements()) {
+            node.general_value_data.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
+        }
+
         // Função comum.
         else {
             node.general_value_data.type = VERBUM_DATA_FUNCTION_CALL;

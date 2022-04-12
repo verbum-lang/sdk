@@ -6642,9 +6642,6 @@ public class TParser extends Parser {
 		public TerminalNode Integer() { return getToken(TParser.Integer, 0); }
 		public TerminalNode Float() { return getToken(TParser.Float, 0); }
 		public TerminalNode String() { return getToken(TParser.String, 0); }
-		public FunctionCallContext functionCall() {
-			return getRuleContext(FunctionCallContext.class,0);
-		}
 		public IndexArrayContext indexArray() {
 			return getRuleContext(IndexArrayContext.class,0);
 		}
@@ -6653,6 +6650,9 @@ public class TParser extends Parser {
 		}
 		public OperationElementsContext operationElements() {
 			return getRuleContext(OperationElementsContext.class,0);
+		}
+		public FunctionCallContext functionCall() {
+			return getRuleContext(FunctionCallContext.class,0);
 		}
 		public ObjIdentifierAContext objIdentifierA() {
 			return getRuleContext(ObjIdentifierAContext.class,0);
@@ -6740,28 +6740,28 @@ public class TParser extends Parser {
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(1235);
-				functionCall();
+				indexArray();
 				}
 				break;
 			case 9:
 				enterOuterAlt(_localctx, 9);
 				{
 				setState(1236);
-				indexArray();
+				associativeArray();
 				}
 				break;
 			case 10:
 				enterOuterAlt(_localctx, 10);
 				{
 				setState(1237);
-				associativeArray();
+				operationElements();
 				}
 				break;
 			case 11:
 				enterOuterAlt(_localctx, 11);
 				{
 				setState(1238);
-				operationElements();
+				functionCall();
 				}
 				break;
 			case 12:
@@ -7325,8 +7325,8 @@ public class TParser extends Parser {
 		"\3\2\2\2\u04c9\u04c0\3\2\2\2\u04ca\u00cf\3\2\2\2\u04cb\u04e4\7)\2\2\u04cc"+
 		"\u04cd\7)\2\2\u04cd\u04e4\7+\2\2\u04ce\u04e4\7-\2\2\u04cf\u04d0\7-\2\2"+
 		"\u04d0\u04e4\7+\2\2\u04d1\u04e4\7.\2\2\u04d2\u04d3\7.\2\2\u04d3\u04e4"+
-		"\7+\2\2\u04d4\u04e4\7,\2\2\u04d5\u04e4\5\64\33\2\u04d6\u04e4\5 \21\2\u04d7"+
-		"\u04e4\5$\23\2\u04d8\u04e4\5*\26\2\u04d9\u04da\5\u00d2j\2\u04da\u04db"+
+		"\7+\2\2\u04d4\u04e4\7,\2\2\u04d5\u04e4\5 \21\2\u04d6\u04e4\5$\23\2\u04d7"+
+		"\u04e4\5*\26\2\u04d8\u04e4\5\64\33\2\u04d9\u04da\5\u00d2j\2\u04da\u04db"+
 		"\7\33\2\2\u04db\u04dc\5\u00d4k\2\u04dc\u04e4\3\2\2\2\u04dd\u04de\5\u00d2"+
 		"j\2\u04de\u04df\7\35\2\2\u04df\u04e0\5\u00d4k\2\u04e0\u04e4\3\2\2\2\u04e1"+
 		"\u04e4\5\u00c2b\2\u04e2\u04e4\5\u00caf\2\u04e3\u04cb\3\2\2\2\u04e3\u04cc"+
