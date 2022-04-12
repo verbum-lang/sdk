@@ -52,6 +52,15 @@ public:
   virtual void enterVariableModesBkp(TParser::VariableModesBkpContext *ctx) = 0;
   virtual void exitVariableModesBkp(TParser::VariableModesBkpContext *ctx) = 0;
 
+  virtual void enterVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *ctx) = 0;
+  virtual void exitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *ctx) = 0;
+
+  virtual void enterVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext *ctx) = 0;
+  virtual void exitVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext *ctx) = 0;
+
+  virtual void enterVariableDefinitionMA(TParser::VariableDefinitionMAContext *ctx) = 0;
+  virtual void exitVariableDefinitionMA(TParser::VariableDefinitionMAContext *ctx) = 0;
+
   virtual void enterVariableMembers(TParser::VariableMembersContext *ctx) = 0;
   virtual void exitVariableMembers(TParser::VariableMembersContext *ctx) = 0;
 

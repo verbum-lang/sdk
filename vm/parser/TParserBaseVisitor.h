@@ -65,6 +65,18 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitVariableDefinitionMA(TParser::VariableDefinitionMAContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitVariableMembers(TParser::VariableMembersContext *ctx) override {
     return visitChildren(ctx);
   }

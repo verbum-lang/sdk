@@ -44,6 +44,12 @@ public:
 
     virtual antlrcpp::Any visitVariableModesBkp(TParser::VariableModesBkpContext *context) = 0;
 
+    virtual antlrcpp::Any visitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *context) = 0;
+
+    virtual antlrcpp::Any visitVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext *context) = 0;
+
+    virtual antlrcpp::Any visitVariableDefinitionMA(TParser::VariableDefinitionMAContext *context) = 0;
+
     virtual antlrcpp::Any visitVariableMembers(TParser::VariableMembersContext *context) = 0;
 
     virtual antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *context) = 0;

@@ -76,6 +76,9 @@ variableModes
 
   // Atribuições.
   | variableMembers End
+
+  // Múltiplas atribuições (a = b = c = d).
+  | variableMultipleAssignments End
   ;
 
 variableModesBkp
@@ -91,6 +94,19 @@ variableModesBkp
   
   // Atribuições.
   | variableMembers End
+  ;
+
+variableMultipleAssignments
+  : variableMultipleAssignmentsExpr
+  ;
+
+variableMultipleAssignmentsExpr
+  : variableDefinitionMA
+  | variableDefinitionMA Attr variableMultipleAssignmentsExpr
+  ;
+
+variableDefinitionMA
+  : variableDefinition
   ;
 
 variableMembers

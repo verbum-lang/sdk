@@ -54,6 +54,15 @@ public:
   virtual void enterVariableModesBkp(TParser::VariableModesBkpContext * /*ctx*/) override { }
   virtual void exitVariableModesBkp(TParser::VariableModesBkpContext * /*ctx*/) override { }
 
+  virtual void enterVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext * /*ctx*/) override { }
+  virtual void exitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext * /*ctx*/) override { }
+
+  virtual void enterVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext * /*ctx*/) override { }
+  virtual void exitVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext * /*ctx*/) override { }
+
+  virtual void enterVariableDefinitionMA(TParser::VariableDefinitionMAContext * /*ctx*/) override { }
+  virtual void exitVariableDefinitionMA(TParser::VariableDefinitionMAContext * /*ctx*/) override { }
+
   virtual void enterVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
   virtual void exitVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
 

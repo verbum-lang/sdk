@@ -85,6 +85,9 @@ namespace verbum {
             antlrcpp::Any visitFunctionCallAttrFn (TParser::FunctionCallAttrFnContext *ctx);
             antlrcpp::Any visitFunctionCallAttrFnItem (TParser::FunctionCallAttrFnItemContext *ctx);
 
+            // Atribuição múltipla (a = b = c= d).
+            antlrcpp::Any visitVariableMultipleAssignments (TParser::VariableMultipleAssignmentsContext *ctx);
+
             // Valores das expressões condicionais.            
             antlrcpp::Any visitConditionalExpValue (TParser::ConditionalExpValueContext *ctx);
 
