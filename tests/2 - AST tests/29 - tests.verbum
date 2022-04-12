@@ -6,6 +6,7 @@ var variable = (fn () {
     ret 10;
 });
 
+/*
 var variable = (fn (a :int) {
     ret a + 10;
 });
@@ -29,5 +30,6 @@ var variable = {
         ret a + b;
     })
 };
+*/
 
 
