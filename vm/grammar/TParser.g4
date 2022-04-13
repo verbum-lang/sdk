@@ -245,7 +245,8 @@ functionCallCascading
   ;
 
 functionCallCascadingItem
-  : Identifier functionCallParam
+  : identifierB functionCallParam
+  | arrayAccessElements functionCallParamAC
   | Identifier
   ;
 

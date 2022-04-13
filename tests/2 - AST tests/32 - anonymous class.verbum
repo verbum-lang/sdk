@@ -1,7 +1,6 @@
 
 // In principio erat Verbum.
 
-/*
 obj.a.b.c.setLogger(
     new class {
         pub fn log (msg :string) {
@@ -42,7 +41,6 @@ var variable = (new class {
         print("Verbum\n");
     }
 }).foo();
-*/
 
 var variable = (new class {
     pub fn show () {
@@ -52,12 +50,13 @@ var variable = (new class {
 
 variable.show();
 
-/*
 var variable = (new class {
     pub fn show () {
         print("Verbum\n");
     }
 }).foo().bar().value;
+
+a.foo().b.c[1][2].d.bar([1, func()]).x;
 
 
 (new class {
@@ -65,7 +64,5 @@ var variable = (new class {
         print("Verbum\n");
     }
 }).foo().a.b.bar().e[1][2].show().end().a.b.c;
-
-*/
 
 

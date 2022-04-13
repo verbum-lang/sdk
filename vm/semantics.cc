@@ -266,7 +266,11 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             this->tab();
             cout << "-> cascading item - open\n";
             this->tab();
+
+            // Tipos de acesso.
             cout << "-> function-name: " << node.function_call.function_name << "\n";
+            this->tab();
+            cout << "-> method-name: " << node.function_call.method_name << "\n";
             this->tab();
             cout << "-> function-params: \n";
 

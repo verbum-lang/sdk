@@ -780,7 +780,12 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCallCascadingItem (TParser::Funct
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_FUNCTION_CALL_CASCADING_METHOD;
-    node.function_call.function_name = ctx->Identifier()->getText();
+
+    // Chamada a função/método.
+    if (ctx->identifierB())
+        node.function_call.function_name = ctx->identifierB()->Identifier()->getText();
+    else if (ctx->Identifier())
+        node.function_call.method_name = ctx->Identifier()->getText();
 
     this->ast = this->add_node(node, this->ast);
 
