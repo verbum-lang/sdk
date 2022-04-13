@@ -236,16 +236,17 @@ functionCallParamAC
 
 // Método concatenado.
 methodCascadingModes
-  : Identifier Point functionCallCascading
+  : Identifier (Point | TwoTwoPoint) functionCallCascading
   ;
 
 functionCallCascading
   : functionCallCascadingItem 
-  | functionCallCascadingItem Point functionCallCascading
+  | functionCallCascadingItem (Point | TwoTwoPoint) functionCallCascading
   ;
 
 functionCallCascadingItem
   : Identifier functionCallParam
+  | Identifier
   ;
 
 identifierB    : Identifier;
@@ -693,7 +694,8 @@ anonymousClassCall
   ;
 
 anonymousClassCallExpr
-  : OpenOp anonymousClass CloseOp Point functionCallCascading
+  : OpenOp anonymousClass CloseOp (Point | TwoTwoPoint) functionCallCascading
+  | OpenOp anonymousClass CloseOp
   ;
 
 anonymousClass

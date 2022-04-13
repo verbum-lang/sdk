@@ -721,8 +721,9 @@ public:
     MethodCascadingModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *Identifier();
-    antlr4::tree::TerminalNode *Point();
     FunctionCallCascadingContext *functionCallCascading();
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -738,8 +739,9 @@ public:
     FunctionCallCascadingContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     FunctionCallCascadingItemContext *functionCallCascadingItem();
-    antlr4::tree::TerminalNode *Point();
     FunctionCallCascadingContext *functionCallCascading();
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1908,8 +1910,9 @@ public:
     antlr4::tree::TerminalNode *OpenOp();
     AnonymousClassContext *anonymousClass();
     antlr4::tree::TerminalNode *CloseOp();
-    antlr4::tree::TerminalNode *Point();
     FunctionCallCascadingContext *functionCallCascading();
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

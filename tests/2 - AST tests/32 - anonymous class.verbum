@@ -9,7 +9,6 @@ obj.a.b.c.setLogger(
         }
     }
 );
-*/
 
 (new class {
     pub fn show () {
@@ -17,12 +16,13 @@ obj.a.b.c.setLogger(
     }
 }).show().a(10 * 3 / (func() - 1)).b().d();
 
-/*
+a::b().c().d()::e()::f().x().v();
+
 (new class {
     static pub fn show () {
         print("Verbum\n");
     }
-})::show();
+})::show()::foo().bar()::show();
 
 (new class {
     static pub fn show () {
@@ -35,13 +35,14 @@ obj.a.b.c.setLogger(
     pub fn show () {
         print("Verbum\n");
     }
-}).for().bar().show().end();
+}).foo().bar().show().end();
 
-(new class {
+var variable = (new class {
     pub fn show () {
         print("Verbum\n");
     }
-}).for().a.b.bar().e[1][2].show().end().a.b.c;
+}).foo();
+*/
 
 var variable = (new class {
     pub fn show () {
@@ -51,11 +52,20 @@ var variable = (new class {
 
 variable.show();
 
+/*
 var variable = (new class {
     pub fn show () {
         print("Verbum\n");
     }
 }).foo().bar().value;
+
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo().a.b.bar().e[1][2].show().end().a.b.c;
+
 */
 
 
