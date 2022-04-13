@@ -33,6 +33,7 @@ sentence
   | ret
   | oopGeneral
   | anonymousClassCall
+  | anonymousObjectCall
   ;
 
 // Tokens que podem ir soltos no código.
@@ -767,6 +768,23 @@ functionsModesFn
   ;
 
 /*
+** Instanciamento anônimo de objetos.
+*/
+anonymousObjectCall
+  : anonymousObjectCallExpr End
+  ;
+
+anonymousObjectCallExpr
+  : OpenOp anonymousObject CloseOp (Point | TwoTwoPoint) functionCallCascading
+  | OpenOp anonymousObject CloseOp
+  ;
+
+anonymousObject
+  : New Identifier functionCallParam
+  | New Identifier functionCallParam (Point | TwoTwoPoint) functionCallCascading
+  ;
+
+/*
 ** Regras de uso geral.
 **
 ** Utilizada por:
@@ -801,6 +819,9 @@ generalValue
   // Classes anônimas.
   | anonymousClassCallExpr
   | anonymousClass
+
+  // Instanciamento anônimo de objetos.
+  | anonymousObjectCallExpr
   ;
 
 objIdentifierA : Identifier;

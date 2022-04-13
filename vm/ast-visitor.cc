@@ -1924,4 +1924,39 @@ antlrcpp::Any verbum_ast_visitor::visitAnonymousClassCallExpr (TParser::Anonymou
     return result;
 }
 
+/*
+** Instanciamento anônimo.
+*/
+
+// Definição.
+antlrcpp::Any verbum_ast_visitor::visitAnonymousObject (TParser::AnonymousObjectContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+
+    node.type = VERBUM_ANONYMOUS_OBJECT;
+    node.function_call.object_name = ctx->Identifier()->getText();
+
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Chamada.
+antlrcpp::Any verbum_ast_visitor::visitAnonymousObjectCallExpr (TParser::AnonymousObjectCallExprContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_ANONYMOUS_OBJECT_CALL;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 

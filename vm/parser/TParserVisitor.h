@@ -240,6 +240,12 @@ public:
 
     virtual antlrcpp::Any visitFunctionsModesFn(TParser::FunctionsModesFnContext *context) = 0;
 
+    virtual antlrcpp::Any visitAnonymousObjectCall(TParser::AnonymousObjectCallContext *context) = 0;
+
+    virtual antlrcpp::Any visitAnonymousObjectCallExpr(TParser::AnonymousObjectCallExprContext *context) = 0;
+
+    virtual antlrcpp::Any visitAnonymousObject(TParser::AnonymousObjectContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
     virtual antlrcpp::Any visitObjIdentifierA(TParser::ObjIdentifierAContext *context) = 0;

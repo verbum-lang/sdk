@@ -127,6 +127,10 @@ namespace verbum {
             antlrcpp::Any visitAnonymousClass (TParser::AnonymousClassContext *ctx);
             antlrcpp::Any visitAnonymousClassCallExpr (TParser::AnonymousClassCallExprContext *ctx);
 
+            // Objetos anônimos.
+            antlrcpp::Any visitAnonymousObjectCallExpr (TParser::AnonymousObjectCallExprContext *ctx);
+            antlrcpp::Any visitAnonymousObject (TParser::AnonymousObjectContext *ctx);
+
             // Gerais.
             antlrcpp::Any visitLiveToken (TParser::LiveTokenContext *ctx);
             antlrcpp::Any visitVisibilityItems (TParser::VisibilityItemsContext *ctx);

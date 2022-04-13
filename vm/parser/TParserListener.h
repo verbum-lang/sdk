@@ -346,6 +346,15 @@ public:
   virtual void enterFunctionsModesFn(TParser::FunctionsModesFnContext *ctx) = 0;
   virtual void exitFunctionsModesFn(TParser::FunctionsModesFnContext *ctx) = 0;
 
+  virtual void enterAnonymousObjectCall(TParser::AnonymousObjectCallContext *ctx) = 0;
+  virtual void exitAnonymousObjectCall(TParser::AnonymousObjectCallContext *ctx) = 0;
+
+  virtual void enterAnonymousObjectCallExpr(TParser::AnonymousObjectCallExprContext *ctx) = 0;
+  virtual void exitAnonymousObjectCallExpr(TParser::AnonymousObjectCallExprContext *ctx) = 0;
+
+  virtual void enterAnonymousObject(TParser::AnonymousObjectContext *ctx) = 0;
+  virtual void exitAnonymousObject(TParser::AnonymousObjectContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

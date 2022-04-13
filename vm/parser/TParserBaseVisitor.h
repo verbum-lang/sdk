@@ -457,6 +457,18 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitAnonymousObjectCall(TParser::AnonymousObjectCallContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAnonymousObjectCallExpr(TParser::AnonymousObjectCallExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAnonymousObject(TParser::AnonymousObjectContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }

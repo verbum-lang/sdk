@@ -1,0 +1,39 @@
+
+// In principio erat Verbum.
+
+
+// Instanciamento comum.
+var a = new b;
+var a = new b();
+var a = new b(10, 20, 30);
+var a = new b(10, [1,2,3], 30);
+var a = new b(10, [1,func(),3], 30);
+var a = new b(10, [1,func()/10,3], 30);
+
+// Instanciamento anônimo.
+
+(new StringBuffer()
+    .add1('In principio')
+    .add2('erat Verbum')
+);
+
+(new StringBuffer()
+    .add1('In principio')
+    .add2('erat Verbum')
+).method().a.b.c();
+
+var s = (new StringBuffer()
+    .add1('In principio')
+    .add2('erat Verbum')
+).toString();
+
+var s = (new StringBuffer()
+    .add('In principio')
+    .add('erat Verbum')
+);
+
+var s = (new StringBuffer());
+
+var s = new StringBuffer();
+
+

@@ -348,6 +348,15 @@ public:
   virtual void enterFunctionsModesFn(TParser::FunctionsModesFnContext * /*ctx*/) override { }
   virtual void exitFunctionsModesFn(TParser::FunctionsModesFnContext * /*ctx*/) override { }
 
+  virtual void enterAnonymousObjectCall(TParser::AnonymousObjectCallContext * /*ctx*/) override { }
+  virtual void exitAnonymousObjectCall(TParser::AnonymousObjectCallContext * /*ctx*/) override { }
+
+  virtual void enterAnonymousObjectCallExpr(TParser::AnonymousObjectCallExprContext * /*ctx*/) override { }
+  virtual void exitAnonymousObjectCallExpr(TParser::AnonymousObjectCallExprContext * /*ctx*/) override { }
+
+  virtual void enterAnonymousObject(TParser::AnonymousObjectContext * /*ctx*/) override { }
+  virtual void exitAnonymousObject(TParser::AnonymousObjectContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

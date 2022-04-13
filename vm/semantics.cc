@@ -796,6 +796,40 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Objeto anônimo - instanciamento.
+        */
+
+        // Bloco geral (e definição).
+        else if (node.type == VERBUM_ANONYMOUS_OBJECT) {
+            this->tab();
+            cout << "-> anonymous-object def block (open)\n";
+            
+            this->tab();
+            cout << "-> object name: " <<
+                node.function_call.object_name << "\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> anonymous-object def block (close)\n";
+        }
+
+        // Chamada a método/função a partir de objeto anônimo instanciado.
+        else if (node.type == VERBUM_ANONYMOUS_OBJECT_CALL) {
+            this->tab();
+            cout << "-> anonymous-object call block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> anonymous-object call block (close)\n";
+        }
+
+        /*
         ** Valores das expressões condicionais.
         */
 
