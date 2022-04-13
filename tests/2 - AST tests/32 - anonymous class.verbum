@@ -1,0 +1,42 @@
+
+// In principio erat Verbum.
+
+obj.setLogger(new class {
+    pub fn log (msg :string) {
+        print("{}\n", msg);
+    }
+});
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).show();
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).for().bar().show().end();
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).for().a.b.bar().e[1][2].show().end().a.b.c;
+
+var variable = (new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+});
+
+variable.show();
+
+var variable = (new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo().bar().value;
+
+
