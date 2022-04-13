@@ -813,7 +813,6 @@ generalValue
   
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.
-  | operationElements       // Elementos de operações (suportando blocos de operações).
   | functionCall            // Chamada de função.
 
   // Acesso a componentes de objeto.
@@ -832,6 +831,8 @@ generalValue
 
   // Instanciamento anônimo de objetos.
   | anonymousObjectCallExpr
+
+  | operationElements       // Elementos de operações (suportando blocos de operações).
   ;
 
 objIdentifierA : Identifier;

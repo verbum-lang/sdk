@@ -7300,9 +7300,6 @@ public class TParser extends Parser {
 		public AssociativeArrayContext associativeArray() {
 			return getRuleContext(AssociativeArrayContext.class,0);
 		}
-		public OperationElementsContext operationElements() {
-			return getRuleContext(OperationElementsContext.class,0);
-		}
 		public FunctionCallContext functionCall() {
 			return getRuleContext(FunctionCallContext.class,0);
 		}
@@ -7328,6 +7325,9 @@ public class TParser extends Parser {
 		}
 		public AnonymousObjectCallExprContext anonymousObjectCallExpr() {
 			return getRuleContext(AnonymousObjectCallExprContext.class,0);
+		}
+		public OperationElementsContext operationElements() {
+			return getRuleContext(OperationElementsContext.class,0);
 		}
 		public GeneralValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -7415,71 +7415,71 @@ public class TParser extends Parser {
 				enterOuterAlt(_localctx, 10);
 				{
 				setState(1345);
-				operationElements();
+				functionCall();
 				}
 				break;
 			case 11:
 				enterOuterAlt(_localctx, 11);
 				{
 				setState(1346);
-				functionCall();
+				objIdentifierA();
+				setState(1347);
+				match(Point);
+				setState(1348);
+				objIdentifierB();
 				}
 				break;
 			case 12:
 				enterOuterAlt(_localctx, 12);
 				{
-				setState(1347);
+				setState(1350);
 				objIdentifierA();
-				setState(1348);
-				match(Point);
-				setState(1349);
+				setState(1351);
+				match(TwoTwoPoint);
+				setState(1352);
 				objIdentifierB();
 				}
 				break;
 			case 13:
 				enterOuterAlt(_localctx, 13);
 				{
-				setState(1351);
-				objIdentifierA();
-				setState(1352);
-				match(TwoTwoPoint);
-				setState(1353);
-				objIdentifierB();
+				setState(1354);
+				arrayAccessElements();
 				}
 				break;
 			case 14:
 				enterOuterAlt(_localctx, 14);
 				{
 				setState(1355);
-				arrayAccessElements();
+				anonymousFunction();
 				}
 				break;
 			case 15:
 				enterOuterAlt(_localctx, 15);
 				{
 				setState(1356);
-				anonymousFunction();
+				anonymousClassCallExpr();
 				}
 				break;
 			case 16:
 				enterOuterAlt(_localctx, 16);
 				{
 				setState(1357);
-				anonymousClassCallExpr();
+				anonymousClass();
 				}
 				break;
 			case 17:
 				enterOuterAlt(_localctx, 17);
 				{
 				setState(1358);
-				anonymousClass();
+				anonymousObjectCallExpr();
 				}
 				break;
 			case 18:
 				enterOuterAlt(_localctx, 18);
 				{
 				setState(1359);
-				anonymousObjectCallExpr();
+				operationElements();
 				}
 				break;
 			}
@@ -8046,15 +8046,15 @@ public class TParser extends Parser {
 		"\3\2\2\2\u0536\u00e3\3\2\2\2\u0537\u0553\7)\2\2\u0538\u0539\7)\2\2\u0539"+
 		"\u0553\7+\2\2\u053a\u0553\7-\2\2\u053b\u053c\7-\2\2\u053c\u0553\7+\2\2"+
 		"\u053d\u0553\7.\2\2\u053e\u053f\7.\2\2\u053f\u0553\7+\2\2\u0540\u0553"+
-		"\7,\2\2\u0541\u0553\5 \21\2\u0542\u0553\5$\23\2\u0543\u0553\5*\26\2\u0544"+
-		"\u0553\5\64\33\2\u0545\u0546\5\u00e6t\2\u0546\u0547\7\33\2\2\u0547\u0548"+
-		"\5\u00e8u\2\u0548\u0553\3\2\2\2\u0549\u054a\5\u00e6t\2\u054a\u054b\7\35"+
-		"\2\2\u054b\u054c\5\u00e8u\2\u054c\u0553\3\2\2\2\u054d\u0553\5\u00caf\2"+
-		"\u054e\u0553\5\u00d2j\2\u054f\u0553\5\u00c4c\2\u0550\u0553\5\u00c6d\2"+
-		"\u0551\u0553\5\u00dan\2\u0552\u0537\3\2\2\2\u0552\u0538\3\2\2\2\u0552"+
+		"\7,\2\2\u0541\u0553\5 \21\2\u0542\u0553\5$\23\2\u0543\u0553\5\64\33\2"+
+		"\u0544\u0545\5\u00e6t\2\u0545\u0546\7\33\2\2\u0546\u0547\5\u00e8u\2\u0547"+
+		"\u0553\3\2\2\2\u0548\u0549\5\u00e6t\2\u0549\u054a\7\35\2\2\u054a\u054b"+
+		"\5\u00e8u\2\u054b\u0553\3\2\2\2\u054c\u0553\5\u00caf\2\u054d\u0553\5\u00d2"+
+		"j\2\u054e\u0553\5\u00c4c\2\u054f\u0553\5\u00c6d\2\u0550\u0553\5\u00da"+
+		"n\2\u0551\u0553\5*\26\2\u0552\u0537\3\2\2\2\u0552\u0538\3\2\2\2\u0552"+
 		"\u053a\3\2\2\2\u0552\u053b\3\2\2\2\u0552\u053d\3\2\2\2\u0552\u053e\3\2"+
 		"\2\2\u0552\u0540\3\2\2\2\u0552\u0541\3\2\2\2\u0552\u0542\3\2\2\2\u0552"+
-		"\u0543\3\2\2\2\u0552\u0544\3\2\2\2\u0552\u0545\3\2\2\2\u0552\u0549\3\2"+
+		"\u0543\3\2\2\2\u0552\u0544\3\2\2\2\u0552\u0548\3\2\2\2\u0552\u054c\3\2"+
 		"\2\2\u0552\u054d\3\2\2\2\u0552\u054e\3\2\2\2\u0552\u054f\3\2\2\2\u0552"+
 		"\u0550\3\2\2\2\u0552\u0551\3\2\2\2\u0553\u00e5\3\2\2\2\u0554\u0555\7)"+
 		"\2\2\u0555\u00e7\3\2\2\2\u0556\u0557\7)\2\2\u0557\u00e9\3\2\2\2L\u00f2"+

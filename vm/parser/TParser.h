@@ -2166,7 +2166,6 @@ public:
     antlr4::tree::TerminalNode *String();
     IndexArrayContext *indexArray();
     AssociativeArrayContext *associativeArray();
-    OperationElementsContext *operationElements();
     FunctionCallContext *functionCall();
     ObjIdentifierAContext *objIdentifierA();
     antlr4::tree::TerminalNode *Point();
@@ -2177,6 +2176,7 @@ public:
     AnonymousClassCallExprContext *anonymousClassCallExpr();
     AnonymousClassContext *anonymousClass();
     AnonymousObjectCallExprContext *anonymousObjectCallExpr();
+    OperationElementsContext *operationElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
