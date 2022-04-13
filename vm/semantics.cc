@@ -762,6 +762,23 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Classe anônima.
+        */
+
+        // Bloco geral.
+        else if (node.type == VERBUM_ANONYMOUS_CLASS) {
+            this->tab();
+            cout << "-> anonymous-class block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> anonymous-class block (close)\n";
+        }
+
+        /*
         ** Valores das expressões condicionais.
         */
 

@@ -36,7 +36,7 @@ sentence
 
 // Tokens que podem ir soltos no código.
 liveToken
-  : Newline // Utilizar para contagem de linhas lidas.
+  : Newline
   | breakFor
   | nextFor
   ;
@@ -616,9 +616,14 @@ functionParamElements
 
 // Regras que vão no controlador geral.
 oopGeneral
+
+  // Modos de uso gerais.
   : interfaceClass
   | abstractClass
   | classDefination
+  
+  // Classe anônima.
+  | anonymousClass
   ;
 
 // Interface.
@@ -677,6 +682,19 @@ classModes
 
 identifierC
   : Identifier
+  ;
+
+/*
+** Classes anônimas.
+*/
+anonymousClass
+  : New Class OpenBlock CloseBlock
+  | New Class OpenBlock anonymousClassElements CloseBlock
+  ;
+
+anonymousClassElements
+  : sentence
+  | sentence anonymousClassElements
   ;
 
 /*
@@ -767,6 +785,9 @@ generalValue
 
   // Funções anônimas.
   | anonymousFunction
+
+  // Classes anônimas.
+  | anonymousClass
   ;
 
 objIdentifierA : Identifier;

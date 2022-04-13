@@ -1887,4 +1887,21 @@ antlrcpp::Any verbum_ast_visitor::visitVariableMultipleAssignments (TParser::Var
     return result;
 }
 
+/*
+** Classes anônimas.
+*/
+
+antlrcpp::Any verbum_ast_visitor::visitAnonymousClass (TParser::AnonymousClassContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_ANONYMOUS_CLASS;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 

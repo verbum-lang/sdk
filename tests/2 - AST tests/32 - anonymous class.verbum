@@ -1,17 +1,33 @@
 
 // In principio erat Verbum.
 
-obj.setLogger(new class {
-    pub fn log (msg :string) {
-        print("{}\n", msg);
+obj.a.b.c.setLogger(
+    new class {
+        pub fn log (msg :string) {
+            print("{}\n", msg);
+        }
     }
-});
+);
 
+/*
 (new class {
     pub fn show () {
         print("Verbum\n");
     }
 }).show();
+
+(new class {
+    static pub fn show () {
+        print("Verbum\n");
+    }
+})::show();
+
+(new class {
+    static pub fn show () {
+        print("Verbum\n");
+        ret this;
+    }
+})::show().foo().bar();
 
 (new class {
     pub fn show () {
@@ -38,5 +54,6 @@ var variable = (new class {
         print("Verbum\n");
     }
 }).foo().bar().value;
+*/
 
 

@@ -218,6 +218,10 @@ public:
 
     virtual antlrcpp::Any visitIdentifierC(TParser::IdentifierCContext *context) = 0;
 
+    virtual antlrcpp::Any visitAnonymousClass(TParser::AnonymousClassContext *context) = 0;
+
+    virtual antlrcpp::Any visitAnonymousClassElements(TParser::AnonymousClassElementsContext *context) = 0;
+
     virtual antlrcpp::Any visitArrayAccessElements(TParser::ArrayAccessElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext *context) = 0;
