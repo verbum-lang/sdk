@@ -54,15 +54,6 @@ public:
   virtual void enterVariableModesBkp(TParser::VariableModesBkpContext * /*ctx*/) override { }
   virtual void exitVariableModesBkp(TParser::VariableModesBkpContext * /*ctx*/) override { }
 
-  virtual void enterVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext * /*ctx*/) override { }
-  virtual void exitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext * /*ctx*/) override { }
-
-  virtual void enterVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext * /*ctx*/) override { }
-  virtual void exitVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext * /*ctx*/) override { }
-
-  virtual void enterVariableDefinitionMA(TParser::VariableDefinitionMAContext * /*ctx*/) override { }
-  virtual void exitVariableDefinitionMA(TParser::VariableDefinitionMAContext * /*ctx*/) override { }
-
   virtual void enterVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
   virtual void exitVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
 
@@ -356,6 +347,15 @@ public:
 
   virtual void enterAnonymousObject(TParser::AnonymousObjectContext * /*ctx*/) override { }
   virtual void exitAnonymousObject(TParser::AnonymousObjectContext * /*ctx*/) override { }
+
+  virtual void enterVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext * /*ctx*/) override { }
+  virtual void exitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext * /*ctx*/) override { }
+
+  virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
+  virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
+
+  virtual void enterVariableMultipleAItems(TParser::VariableMultipleAItemsContext * /*ctx*/) override { }
+  virtual void exitVariableMultipleAItems(TParser::VariableMultipleAItemsContext * /*ctx*/) override { }
 
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }

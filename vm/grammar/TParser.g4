@@ -34,6 +34,9 @@ sentence
   | oopGeneral
   | anonymousClassCall
   | anonymousObjectCall
+  
+  // Múltiplas atribuições (a = b = c = d).
+  //| variableMultipleAssignments
   ;
 
 // Tokens que podem ir soltos no código.
@@ -78,9 +81,6 @@ variableModes
 
   // Atribuições.
   | variableMembers End
-
-  // Múltiplas atribuições (a = b = c = d).
-  | variableMultipleAssignments End
   ;
 
 variableModesBkp
@@ -96,19 +96,6 @@ variableModesBkp
   
   // Atribuições.
   | variableMembers End
-  ;
-
-variableMultipleAssignments
-  : variableMultipleAssignmentsExpr
-  ;
-
-variableMultipleAssignmentsExpr
-  : variableDefinitionMA
-  | variableDefinitionMA Attr variableMultipleAssignmentsExpr
-  ;
-
-variableDefinitionMA
-  : variableDefinition
   ;
 
 variableMembers
@@ -782,6 +769,29 @@ anonymousObjectCallExpr
 anonymousObject
   : New Identifier functionCallParam
   | New Identifier functionCallParam (Point | TwoTwoPoint) functionCallCascading
+  ;
+
+/*
+** Atribuições múltiplas (a = b = c = d).
+*/
+variableMultipleAssignments
+  : variableMultipleAssignmentsModes Attr generalValue End
+  ;
+
+variableMultipleAssignmentsModes
+  : variableMultipleAItems  
+  | variableMultipleAItems Attr variableMultipleAssignmentsModes
+  ;
+
+variableMultipleAItems
+  : Identifier              // Identificadores: nome de tipos de variáveis, nome de variáveis, funções e métodos, classes / objetos, interface, abstração.
+  | Identifier  TypeSpec
+  
+  | functionCall            // Chamada de função.
+                            // Especificado para fazer uso do cascading method. 
+
+  // Acesso a elementos de arrays.
+  | arrayAccessElements
   ;
 
 /*

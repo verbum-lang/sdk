@@ -52,15 +52,6 @@ public:
   virtual void enterVariableModesBkp(TParser::VariableModesBkpContext *ctx) = 0;
   virtual void exitVariableModesBkp(TParser::VariableModesBkpContext *ctx) = 0;
 
-  virtual void enterVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *ctx) = 0;
-  virtual void exitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *ctx) = 0;
-
-  virtual void enterVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext *ctx) = 0;
-  virtual void exitVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext *ctx) = 0;
-
-  virtual void enterVariableDefinitionMA(TParser::VariableDefinitionMAContext *ctx) = 0;
-  virtual void exitVariableDefinitionMA(TParser::VariableDefinitionMAContext *ctx) = 0;
-
   virtual void enterVariableMembers(TParser::VariableMembersContext *ctx) = 0;
   virtual void exitVariableMembers(TParser::VariableMembersContext *ctx) = 0;
 
@@ -354,6 +345,15 @@ public:
 
   virtual void enterAnonymousObject(TParser::AnonymousObjectContext *ctx) = 0;
   virtual void exitAnonymousObject(TParser::AnonymousObjectContext *ctx) = 0;
+
+  virtual void enterVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *ctx) = 0;
+  virtual void exitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *ctx) = 0;
+
+  virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) = 0;
+  virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) = 0;
+
+  virtual void enterVariableMultipleAItems(TParser::VariableMultipleAItemsContext *ctx) = 0;
+  virtual void exitVariableMultipleAItems(TParser::VariableMultipleAItemsContext *ctx) = 0;
 
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;

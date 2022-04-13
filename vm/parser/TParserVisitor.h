@@ -44,12 +44,6 @@ public:
 
     virtual antlrcpp::Any visitVariableModesBkp(TParser::VariableModesBkpContext *context) = 0;
 
-    virtual antlrcpp::Any visitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *context) = 0;
-
-    virtual antlrcpp::Any visitVariableMultipleAssignmentsExpr(TParser::VariableMultipleAssignmentsExprContext *context) = 0;
-
-    virtual antlrcpp::Any visitVariableDefinitionMA(TParser::VariableDefinitionMAContext *context) = 0;
-
     virtual antlrcpp::Any visitVariableMembers(TParser::VariableMembersContext *context) = 0;
 
     virtual antlrcpp::Any visitVariableDefinition(TParser::VariableDefinitionContext *context) = 0;
@@ -245,6 +239,12 @@ public:
     virtual antlrcpp::Any visitAnonymousObjectCallExpr(TParser::AnonymousObjectCallExprContext *context) = 0;
 
     virtual antlrcpp::Any visitAnonymousObject(TParser::AnonymousObjectContext *context) = 0;
+
+    virtual antlrcpp::Any visitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext *context) = 0;
+
+    virtual antlrcpp::Any visitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *context) = 0;
+
+    virtual antlrcpp::Any visitVariableMultipleAItems(TParser::VariableMultipleAItemsContext *context) = 0;
 
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
