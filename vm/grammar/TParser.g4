@@ -36,7 +36,7 @@ sentence
   | anonymousObjectCall
   
   // Múltiplas atribuições (a = b = c = d).
-  //| variableMultipleAssignments
+  | variableMultipleAssignments
   ;
 
 // Tokens que podem ir soltos no código.
