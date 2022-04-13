@@ -315,6 +315,12 @@ public:
   virtual void enterIdentifierC(TParser::IdentifierCContext * /*ctx*/) override { }
   virtual void exitIdentifierC(TParser::IdentifierCContext * /*ctx*/) override { }
 
+  virtual void enterAnonymousClassCall(TParser::AnonymousClassCallContext * /*ctx*/) override { }
+  virtual void exitAnonymousClassCall(TParser::AnonymousClassCallContext * /*ctx*/) override { }
+
+  virtual void enterAnonymousClassCallExpr(TParser::AnonymousClassCallExprContext * /*ctx*/) override { }
+  virtual void exitAnonymousClassCallExpr(TParser::AnonymousClassCallExprContext * /*ctx*/) override { }
+
   virtual void enterAnonymousClass(TParser::AnonymousClassContext * /*ctx*/) override { }
   virtual void exitAnonymousClass(TParser::AnonymousClassContext * /*ctx*/) override { }
 

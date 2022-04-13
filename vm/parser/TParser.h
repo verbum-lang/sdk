@@ -63,10 +63,11 @@ public:
     RuleInterfaceClassDefinition = 90, RuleInterfaceCodeBlock = 91, RuleAbstractClass = 92, 
     RuleAbstractClassDefinition = 93, RuleAbstractCodeBlock = 94, RuleClassDefination = 95, 
     RuleClassCodeBlock = 96, RuleClassModes = 97, RuleIdentifierC = 98, 
-    RuleAnonymousClass = 99, RuleAnonymousClassElements = 100, RuleArrayAccessElements = 101, 
-    RuleArrayAccessElementsItems = 102, RuleAccessBlockAr = 103, RuleArrayIndexAccess = 104, 
-    RuleAnonymousFunction = 105, RuleAnFnItems = 106, RuleFunctionsModesFn = 107, 
-    RuleGeneralValue = 108, RuleObjIdentifierA = 109, RuleObjIdentifierB = 110
+    RuleAnonymousClassCall = 99, RuleAnonymousClassCallExpr = 100, RuleAnonymousClass = 101, 
+    RuleAnonymousClassElements = 102, RuleArrayAccessElements = 103, RuleArrayAccessElementsItems = 104, 
+    RuleAccessBlockAr = 105, RuleArrayIndexAccess = 106, RuleAnonymousFunction = 107, 
+    RuleAnFnItems = 108, RuleFunctionsModesFn = 109, RuleGeneralValue = 110, 
+    RuleObjIdentifierA = 111, RuleObjIdentifierB = 112
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -178,6 +179,8 @@ public:
   class ClassCodeBlockContext;
   class ClassModesContext;
   class IdentifierCContext;
+  class AnonymousClassCallContext;
+  class AnonymousClassCallExprContext;
   class AnonymousClassContext;
   class AnonymousClassElementsContext;
   class ArrayAccessElementsContext;
@@ -236,6 +239,7 @@ public:
     FunctionsContext *functions();
     RetContext *ret();
     OopGeneralContext *oopGeneral();
+    AnonymousClassCallContext *anonymousClassCall();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1881,6 +1885,41 @@ public:
 
   IdentifierCContext* identifierC();
 
+  class  AnonymousClassCallContext : public antlr4::ParserRuleContext {
+  public:
+    AnonymousClassCallContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    AnonymousClassCallExprContext *anonymousClassCallExpr();
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AnonymousClassCallContext* anonymousClassCall();
+
+  class  AnonymousClassCallExprContext : public antlr4::ParserRuleContext {
+  public:
+    AnonymousClassCallExprContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenOp();
+    AnonymousClassContext *anonymousClass();
+    antlr4::tree::TerminalNode *CloseOp();
+    antlr4::tree::TerminalNode *Point();
+    FunctionCallCascadingContext *functionCallCascading();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AnonymousClassCallExprContext* anonymousClassCallExpr();
+
   class  AnonymousClassContext : public antlr4::ParserRuleContext {
   public:
     AnonymousClassContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -2062,6 +2101,7 @@ public:
     antlr4::tree::TerminalNode *TwoTwoPoint();
     ArrayAccessElementsContext *arrayAccessElements();
     AnonymousFunctionContext *anonymousFunction();
+    AnonymousClassCallExprContext *anonymousClassCallExpr();
     AnonymousClassContext *anonymousClass();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;

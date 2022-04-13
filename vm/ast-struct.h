@@ -101,6 +101,7 @@ using namespace std;
 #define VERBUM_MULTIPLE_ATTRIBUTION                     61
 
 #define VERBUM_ANONYMOUS_CLASS                          62
+#define VERBUM_ANONYMOUS_CLASS_CALL                     63
 
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1

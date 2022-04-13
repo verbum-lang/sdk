@@ -313,6 +313,12 @@ public:
   virtual void enterIdentifierC(TParser::IdentifierCContext *ctx) = 0;
   virtual void exitIdentifierC(TParser::IdentifierCContext *ctx) = 0;
 
+  virtual void enterAnonymousClassCall(TParser::AnonymousClassCallContext *ctx) = 0;
+  virtual void exitAnonymousClassCall(TParser::AnonymousClassCallContext *ctx) = 0;
+
+  virtual void enterAnonymousClassCallExpr(TParser::AnonymousClassCallExprContext *ctx) = 0;
+  virtual void exitAnonymousClassCallExpr(TParser::AnonymousClassCallExprContext *ctx) = 0;
+
   virtual void enterAnonymousClass(TParser::AnonymousClassContext *ctx) = 0;
   virtual void exitAnonymousClass(TParser::AnonymousClassContext *ctx) = 0;
 

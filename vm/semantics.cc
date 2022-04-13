@@ -765,17 +765,30 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         ** Classe anônima.
         */
 
-        // Bloco geral.
+        // Bloco geral (e definição).
         else if (node.type == VERBUM_ANONYMOUS_CLASS) {
             this->tab();
-            cout << "-> anonymous-class block (open)\n";
+            cout << "-> anonymous-class def block (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
             this->tab();
-            cout << "-> anonymous-class block (close)\n";
+            cout << "-> anonymous-class def block (close)\n";
+        }
+
+        // Chamada a método/função a partir de classe anônima.
+        else if (node.type == VERBUM_ANONYMOUS_CLASS_CALL) {
+            this->tab();
+            cout << "-> anonymous-class call block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> anonymous-class call block (close)\n";
         }
 
         /*

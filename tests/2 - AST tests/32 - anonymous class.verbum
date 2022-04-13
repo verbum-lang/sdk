@@ -1,6 +1,7 @@
 
 // In principio erat Verbum.
 
+/*
 obj.a.b.c.setLogger(
     new class {
         pub fn log (msg :string) {
@@ -8,14 +9,15 @@ obj.a.b.c.setLogger(
         }
     }
 );
+*/
 
-/*
 (new class {
     pub fn show () {
         print("Verbum\n");
     }
-}).show();
+}).show().a(10 * 3 / (func() - 1)).b().d();
 
+/*
 (new class {
     static pub fn show () {
         print("Verbum\n");

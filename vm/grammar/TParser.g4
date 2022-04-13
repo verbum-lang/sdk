@@ -32,6 +32,7 @@ sentence
   | functions
   | ret
   | oopGeneral
+  | anonymousClassCall
   ;
 
 // Tokens que podem ir soltos no código.
@@ -687,6 +688,14 @@ identifierC
 /*
 ** Classes anônimas.
 */
+anonymousClassCall
+  : anonymousClassCallExpr End
+  ;
+
+anonymousClassCallExpr
+  : OpenOp anonymousClass CloseOp Point functionCallCascading
+  ;
+
 anonymousClass
   : New Class OpenBlock CloseBlock
   | New Class OpenBlock anonymousClassElements CloseBlock
@@ -787,6 +796,7 @@ generalValue
   | anonymousFunction
 
   // Classes anônimas.
+  | anonymousClassCallExpr
   | anonymousClass
   ;
 
