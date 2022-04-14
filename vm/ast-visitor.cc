@@ -1959,4 +1959,78 @@ antlrcpp::Any verbum_ast_visitor::visitAnonymousObjectCallExpr (TParser::Anonymo
     return result;
 }
 
+/*
+** Lambda functions.
+*/
+
+// Declaração.
+antlrcpp::Any verbum_ast_visitor::visitLambdaFunctions (TParser::LambdaFunctionsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_LAMBDA_FUNCTION_BLOCK;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco dos parâmetros.
+antlrcpp::Any verbum_ast_visitor::visitLambdaFnParams (TParser::LambdaFnParamsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_LAMBDA_FUNCTION_PARAM;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Itens dos parâmetros da função.
+antlrcpp::Any verbum_ast_visitor::visitLambdaFnParamsElements (TParser::LambdaFnParamsElementsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_LAMBDA_FUNCTION_PARAM_ITEM;
+    node.function_param_item = ctx->Identifier()->getText();
+
+    if (ctx->TypeSpec())
+        node.function_param_type = ctx->TypeSpec()->getText();
+
+    this->ast = this->add_node(node, this->ast);
+    return visitChildren(ctx);
+}
+
+// Bloco de código - expressão simples.
+antlrcpp::Any verbum_ast_visitor::visitLambdaFnCodeBlockSimple (TParser::LambdaFnCodeBlockSimpleContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código - chaves.
+antlrcpp::Any verbum_ast_visitor::visitLambdaFnCodeBlockKey (TParser::LambdaFnCodeBlockKeyContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 

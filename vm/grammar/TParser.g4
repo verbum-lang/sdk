@@ -802,7 +802,7 @@ lambdaFunctions
   ;
 
 lambdaFnParams
-  : functionParams
+  : lambdaFnParamsItems
   |
   ;
 
@@ -812,14 +812,41 @@ lambdaFnRet
   ;
 
 lambdaFnCodeBlock
-  : ARightLB operationElements
-  | ARightLB OpenBlock CloseBlock
-  | ARightLB OpenBlock lambdaFnCodeBlockItems CloseBlock
+  : ARightLB lambdaFnCodeBlockSimple
+  | ARightLB lambdaFnCodeBlockKey 
+  ;
+
+lambdaFnCodeBlockSimple
+  : operationElements
+  ;
+
+lambdaFnCodeBlockKey
+  : OpenBlock CloseBlock
+  | OpenBlock lambdaFnCodeBlockItemsControl CloseBlock
+  ;
+
+lambdaFnCodeBlockItemsControl
+  : lambdaFnCodeBlockItems
   ;
 
 lambdaFnCodeBlockItems
   : sentence
   | sentence lambdaFnCodeBlockItems
+  ;
+
+// Parâmetros.
+lambdaFnParamsItems
+  : lambdaFnParamsControl
+  ;
+
+lambdaFnParamsControl
+  : lambdaFnParamsElements
+  | lambdaFnParamsElements Separator lambdaFnParamsControl
+  ;
+
+lambdaFnParamsElements
+  : Identifier TypeSpec
+  | Identifier
   ;
 
 /*

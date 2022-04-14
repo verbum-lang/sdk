@@ -355,6 +355,33 @@ public:
   virtual void enterVariableMultipleAItems(TParser::VariableMultipleAItemsContext *ctx) = 0;
   virtual void exitVariableMultipleAItems(TParser::VariableMultipleAItemsContext *ctx) = 0;
 
+  virtual void enterLambdaFunctions(TParser::LambdaFunctionsContext *ctx) = 0;
+  virtual void exitLambdaFunctions(TParser::LambdaFunctionsContext *ctx) = 0;
+
+  virtual void enterLambdaFnParams(TParser::LambdaFnParamsContext *ctx) = 0;
+  virtual void exitLambdaFnParams(TParser::LambdaFnParamsContext *ctx) = 0;
+
+  virtual void enterLambdaFnRet(TParser::LambdaFnRetContext *ctx) = 0;
+  virtual void exitLambdaFnRet(TParser::LambdaFnRetContext *ctx) = 0;
+
+  virtual void enterLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) = 0;
+  virtual void exitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) = 0;
+
+  virtual void enterLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext *ctx) = 0;
+  virtual void exitLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext *ctx) = 0;
+
+  virtual void enterLambdaFnCodeBlockItems(TParser::LambdaFnCodeBlockItemsContext *ctx) = 0;
+  virtual void exitLambdaFnCodeBlockItems(TParser::LambdaFnCodeBlockItemsContext *ctx) = 0;
+
+  virtual void enterLambdaFnParamsItems(TParser::LambdaFnParamsItemsContext *ctx) = 0;
+  virtual void exitLambdaFnParamsItems(TParser::LambdaFnParamsItemsContext *ctx) = 0;
+
+  virtual void enterLambdaFnParamsControl(TParser::LambdaFnParamsControlContext *ctx) = 0;
+  virtual void exitLambdaFnParamsControl(TParser::LambdaFnParamsControlContext *ctx) = 0;
+
+  virtual void enterLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext *ctx) = 0;
+  virtual void exitLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

@@ -131,6 +131,13 @@ namespace verbum {
             antlrcpp::Any visitAnonymousObjectCallExpr (TParser::AnonymousObjectCallExprContext *ctx);
             antlrcpp::Any visitAnonymousObject (TParser::AnonymousObjectContext *ctx);
 
+            // Lambda functions.
+            antlrcpp::Any visitLambdaFunctions (TParser::LambdaFunctionsContext *ctx);
+            antlrcpp::Any visitLambdaFnParams (TParser::LambdaFnParamsContext *ctx);
+            antlrcpp::Any visitLambdaFnParamsElements (TParser::LambdaFnParamsElementsContext *ctx);
+            antlrcpp::Any visitLambdaFnCodeBlockKey (TParser::LambdaFnCodeBlockKeyContext *ctx);
+            antlrcpp::Any visitLambdaFnCodeBlockSimple (TParser::LambdaFnCodeBlockSimpleContext *ctx);
+
             // Gerais.
             antlrcpp::Any visitLiveToken (TParser::LiveTokenContext *ctx);
             antlrcpp::Any visitVisibilityItems (TParser::VisibilityItemsContext *ctx);

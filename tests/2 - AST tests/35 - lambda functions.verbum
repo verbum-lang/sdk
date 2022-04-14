@@ -3,6 +3,8 @@
 
 var func = () => a * b;
 
+var func = (a, b :int) => a * b;
+
 /*
 var func = () -> int => a * b;
 

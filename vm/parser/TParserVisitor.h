@@ -246,6 +246,24 @@ public:
 
     virtual antlrcpp::Any visitVariableMultipleAItems(TParser::VariableMultipleAItemsContext *context) = 0;
 
+    virtual antlrcpp::Any visitLambdaFunctions(TParser::LambdaFunctionsContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnParams(TParser::LambdaFnParamsContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnRet(TParser::LambdaFnRetContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnCodeBlockItems(TParser::LambdaFnCodeBlockItemsContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnParamsItems(TParser::LambdaFnParamsItemsContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnParamsControl(TParser::LambdaFnParamsControlContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
     virtual antlrcpp::Any visitObjIdentifierA(TParser::ObjIdentifierAContext *context) = 0;

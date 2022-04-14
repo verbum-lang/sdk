@@ -469,6 +469,42 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitLambdaFunctions(TParser::LambdaFunctionsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnParams(TParser::LambdaFnParamsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnRet(TParser::LambdaFnRetContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnCodeBlockItems(TParser::LambdaFnCodeBlockItemsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnParamsItems(TParser::LambdaFnParamsItemsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnParamsControl(TParser::LambdaFnParamsControlContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }

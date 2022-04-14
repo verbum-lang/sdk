@@ -106,6 +106,12 @@ using namespace std;
 #define VERBUM_ANONYMOUS_OBJECT                         64
 #define VERBUM_ANONYMOUS_OBJECT_CALL                    65
 
+#define VERBUM_LAMBDA_FUNCTION_BLOCK                    66
+#define VERBUM_LAMBDA_FUNCTION_PARAM                    67
+#define VERBUM_LAMBDA_FUNCTION_PARAM_ITEM               68
+#define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY           69
+#define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE        70
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2

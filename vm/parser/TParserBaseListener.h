@@ -357,6 +357,33 @@ public:
   virtual void enterVariableMultipleAItems(TParser::VariableMultipleAItemsContext * /*ctx*/) override { }
   virtual void exitVariableMultipleAItems(TParser::VariableMultipleAItemsContext * /*ctx*/) override { }
 
+  virtual void enterLambdaFunctions(TParser::LambdaFunctionsContext * /*ctx*/) override { }
+  virtual void exitLambdaFunctions(TParser::LambdaFunctionsContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnParams(TParser::LambdaFnParamsContext * /*ctx*/) override { }
+  virtual void exitLambdaFnParams(TParser::LambdaFnParamsContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnRet(TParser::LambdaFnRetContext * /*ctx*/) override { }
+  virtual void exitLambdaFnRet(TParser::LambdaFnRetContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
+  virtual void exitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext * /*ctx*/) override { }
+  virtual void exitLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnCodeBlockItems(TParser::LambdaFnCodeBlockItemsContext * /*ctx*/) override { }
+  virtual void exitLambdaFnCodeBlockItems(TParser::LambdaFnCodeBlockItemsContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnParamsItems(TParser::LambdaFnParamsItemsContext * /*ctx*/) override { }
+  virtual void exitLambdaFnParamsItems(TParser::LambdaFnParamsItemsContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnParamsControl(TParser::LambdaFnParamsControlContext * /*ctx*/) override { }
+  virtual void exitLambdaFnParamsControl(TParser::LambdaFnParamsControlContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext * /*ctx*/) override { }
+  virtual void exitLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 
