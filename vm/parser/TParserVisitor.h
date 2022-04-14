@@ -254,6 +254,10 @@ public:
 
     virtual antlrcpp::Any visitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *context) = 0;
 
+    virtual antlrcpp::Any visitLambdaFnCodeBlockSimple(TParser::LambdaFnCodeBlockSimpleContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnCodeBlockKey(TParser::LambdaFnCodeBlockKeyContext *context) = 0;
+
     virtual antlrcpp::Any visitLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext *context) = 0;
 
     virtual antlrcpp::Any visitLambdaFnCodeBlockItems(TParser::LambdaFnCodeBlockItemsContext *context) = 0;

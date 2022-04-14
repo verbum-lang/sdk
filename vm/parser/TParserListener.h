@@ -367,6 +367,12 @@ public:
   virtual void enterLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) = 0;
   virtual void exitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) = 0;
 
+  virtual void enterLambdaFnCodeBlockSimple(TParser::LambdaFnCodeBlockSimpleContext *ctx) = 0;
+  virtual void exitLambdaFnCodeBlockSimple(TParser::LambdaFnCodeBlockSimpleContext *ctx) = 0;
+
+  virtual void enterLambdaFnCodeBlockKey(TParser::LambdaFnCodeBlockKeyContext *ctx) = 0;
+  virtual void exitLambdaFnCodeBlockKey(TParser::LambdaFnCodeBlockKeyContext *ctx) = 0;
+
   virtual void enterLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext *ctx) = 0;
   virtual void exitLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext *ctx) = 0;
 

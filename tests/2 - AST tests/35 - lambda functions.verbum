@@ -1,11 +1,12 @@
 
 // In principio erat Verbum.
 
-var func = () => a * b;
+var func = ()          => a * b;
+var func = () -> float => a * b;
+var func = () -> :int  => a * b;
 
 var func = (a, b :int) => a * b;
 
-/*
 var func = () -> int => a * b;
 
 var func = (a :int, b :int) -> int => a * b; // Explícito
@@ -20,22 +21,26 @@ var func :float = (a, b) => a * b; // Inferido como float.
 
 var func = (a :float, b) => a * b; // Inferido como float.
 
-var func = (a, b, c:float) -> int => var a * b + c :int;
+var func = (a, b, c:float) -> int => r a * b + c :int;
 
 var func = (a) => a * 10;
-
 
 fn myfunc (a :int, n :int) -> int {
     var lb = (a) => a * n;
     ret lb(a);
 }
 
+var func = (a) -> int => {
+    var b = rand();
+    ret a * b;
+};
 
 var func = (a) -> int => {
     var b = rand();
     ret a * b;
 };
 
+/*
 event.callback((a) => {
     print('Event value: {}', a);
 });

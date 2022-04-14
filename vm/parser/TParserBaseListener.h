@@ -369,6 +369,12 @@ public:
   virtual void enterLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
   virtual void exitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
 
+  virtual void enterLambdaFnCodeBlockSimple(TParser::LambdaFnCodeBlockSimpleContext * /*ctx*/) override { }
+  virtual void exitLambdaFnCodeBlockSimple(TParser::LambdaFnCodeBlockSimpleContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnCodeBlockKey(TParser::LambdaFnCodeBlockKeyContext * /*ctx*/) override { }
+  virtual void exitLambdaFnCodeBlockKey(TParser::LambdaFnCodeBlockKeyContext * /*ctx*/) override { }
+
   virtual void enterLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext * /*ctx*/) override { }
   virtual void exitLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext * /*ctx*/) override { }
 

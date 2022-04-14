@@ -70,10 +70,10 @@ public:
     RuleAnonymousObjectCallExpr = 108, RuleAnonymousObject = 109, RuleVariableMultipleAssignments = 110, 
     RuleVariableMultipleAssignmentsModes = 111, RuleVariableMultipleAItems = 112, 
     RuleLambdaFunctions = 113, RuleLambdaFnParams = 114, RuleLambdaFnRet = 115, 
-    RuleLambdaFnCodeBlock = 116, RuleLambdaFnCodeBlockItemsControl = 117, 
-    RuleLambdaFnCodeBlockItems = 118, RuleLambdaFnParamsItems = 119, RuleLambdaFnParamsControl = 120, 
-    RuleLambdaFnParamsElements = 121, RuleGeneralValue = 122, RuleObjIdentifierA = 123, 
-    RuleObjIdentifierB = 124
+    RuleLambdaFnCodeBlock = 116, RuleLambdaFnCodeBlockSimple = 117, RuleLambdaFnCodeBlockKey = 118, 
+    RuleLambdaFnCodeBlockItemsControl = 119, RuleLambdaFnCodeBlockItems = 120, 
+    RuleLambdaFnParamsItems = 121, RuleLambdaFnParamsControl = 122, RuleLambdaFnParamsElements = 123, 
+    RuleGeneralValue = 124, RuleObjIdentifierA = 125, RuleObjIdentifierB = 126
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -203,6 +203,8 @@ public:
   class LambdaFnParamsContext;
   class LambdaFnRetContext;
   class LambdaFnCodeBlockContext;
+  class LambdaFnCodeBlockSimpleContext;
+  class LambdaFnCodeBlockKeyContext;
   class LambdaFnCodeBlockItemsControlContext;
   class LambdaFnCodeBlockItemsContext;
   class LambdaFnParamsItemsContext;
@@ -2225,7 +2227,37 @@ public:
     LambdaFnCodeBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *ARightLB();
+    LambdaFnCodeBlockSimpleContext *lambdaFnCodeBlockSimple();
+    LambdaFnCodeBlockKeyContext *lambdaFnCodeBlockKey();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LambdaFnCodeBlockContext* lambdaFnCodeBlock();
+
+  class  LambdaFnCodeBlockSimpleContext : public antlr4::ParserRuleContext {
+  public:
+    LambdaFnCodeBlockSimpleContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
     OperationElementsContext *operationElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LambdaFnCodeBlockSimpleContext* lambdaFnCodeBlockSimple();
+
+  class  LambdaFnCodeBlockKeyContext : public antlr4::ParserRuleContext {
+  public:
+    LambdaFnCodeBlockKeyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
     LambdaFnCodeBlockItemsControlContext *lambdaFnCodeBlockItemsControl();
@@ -2237,7 +2269,7 @@ public:
    
   };
 
-  LambdaFnCodeBlockContext* lambdaFnCodeBlock();
+  LambdaFnCodeBlockKeyContext* lambdaFnCodeBlockKey();
 
   class  LambdaFnCodeBlockItemsControlContext : public antlr4::ParserRuleContext {
   public:

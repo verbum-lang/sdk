@@ -485,6 +485,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitLambdaFnCodeBlockSimple(TParser::LambdaFnCodeBlockSimpleContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnCodeBlockKey(TParser::LambdaFnCodeBlockKeyContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext *ctx) override {
     return visitChildren(ctx);
   }

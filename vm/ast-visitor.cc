@@ -1968,6 +1968,21 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFunctions (TParser::LambdaFunctions
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_LAMBDA_FUNCTION_BLOCK;
+
+    // Verifica se há retorno.
+    node.operation_type_conversion = false;
+    if (ctx->lambdaFnRet()->ArrowRight()) {
+        node.operation_type_conversion = true;
+
+        if (ctx->lambdaFnRet()->Identifier())
+            node.operation_type_conversion_data = 
+                ctx->lambdaFnRet()->Identifier()->getText();
+
+        if (ctx->lambdaFnRet()->TypeSpec())
+            node.operation_type_conversion_data = 
+                ctx->lambdaFnRet()->TypeSpec()->getText();
+    }
+
     this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;

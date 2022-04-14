@@ -838,6 +838,12 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             this->tab();
             cout << "-> lambda-function block (open)\n";
             
+            // Verifica se há tipo de retorno.
+            if (node.operation_type_conversion) {
+                this->tab();
+                cout << "-> ret type: " << node.operation_type_conversion_data << "\n";
+            }
+
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
@@ -866,7 +872,20 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << " - typespec: " << node.function_param_type << "\n";
         }
 
-        // Bloco da código.
+        // Bloco da código - simples.
+        else if (node.type == VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE) {
+            this->tab();
+            cout << "-> lambda-function code block - simple (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> lambda-function code block - simple (close)\n";
+        }
+        
+        // Bloco da código - chaves.
         else if (node.type == VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY) {
             this->tab();
             cout << "-> lambda-function code block - key (open)\n";
@@ -878,6 +897,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             this->tab();
             cout << "-> lambda-function code block - key (close)\n";
         }
+
         /*
         ** Valores das expressões condicionais.
         */
