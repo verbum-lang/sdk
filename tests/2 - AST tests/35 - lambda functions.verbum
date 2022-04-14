@@ -40,7 +40,6 @@ var func = (a) -> int => {
     ret a * b;
 };
 
-/*
 event.callback((a) => {
     print('Event value: {}', a);
 });
@@ -48,7 +47,5 @@ event.callback((a) => {
 event.callback((a :int) => {
     print('Event value: {}', a);
 });
-
-*/
 
 
