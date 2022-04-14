@@ -31,6 +31,7 @@ Next         : 'next';
 
 // Operadores.
 ArrowRight   : '->';
+ARightLB     : '=>';
 End          : ';' ;
 Attr         : '=' ;
 Point        : '.';

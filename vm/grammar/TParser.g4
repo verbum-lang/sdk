@@ -795,6 +795,34 @@ variableMultipleAItems
   ;
 
 /*
+** Funções lambda
+*/
+lambdaFunctions
+  : OpenOp lambdaFnParams CloseOp lambdaFnRet lambdaFnCodeBlock
+  ;
+
+lambdaFnParams
+  : functionParams
+  |
+  ;
+
+lambdaFnRet
+  : ArrowRight (Identifier | TypeSpec)
+  |
+  ;
+
+lambdaFnCodeBlock
+  : ARightLB operationElements
+  | ARightLB OpenBlock CloseBlock
+  | ARightLB OpenBlock lambdaFnCodeBlockItems CloseBlock
+  ;
+
+lambdaFnCodeBlockItems
+  : sentence
+  | sentence lambdaFnCodeBlockItems
+  ;
+
+/*
 ** Regras de uso geral.
 **
 ** Utilizada por:
@@ -832,7 +860,11 @@ generalValue
   // Instanciamento anônimo de objetos.
   | anonymousObjectCallExpr
 
-  | operationElements       // Elementos de operações (suportando blocos de operações).
+  // Elementos de operações (suportando blocos de operações).
+  | operationElements
+
+  // Funções lambdas.
+  | lambdaFunctions
   ;
 
 objIdentifierA : Identifier;
