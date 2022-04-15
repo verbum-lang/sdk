@@ -21,13 +21,13 @@ public:
     Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, Ret = 7, Function = 8, 
     Pub = 9, Pro = 10, Priv = 11, Static = 12, Final = 13, Interface = 14, 
     Abstract = 15, Extends = 16, Class = 17, Implements = 18, New = 19, 
-    Break = 20, Next = 21, Async = 22, Await = 23, ArrowRight = 24, ARightLB = 25, 
-    End = 26, Attr = 27, Point = 28, TwoPoint = 29, TwoTwoPoint = 30, Separator = 31, 
-    OpenArIndex = 32, CloseArIndex = 33, OpenBlock = 34, CloseBlock = 35, 
-    OpenOp = 36, CloseOp = 37, ArithmeticOperator = 38, AssignmentOperator = 39, 
-    Not = 40, IncDecOperators = 41, Identifier = 42, IDPrefix = 43, TypeSpec = 44, 
-    String = 45, Integer = 46, Float = 47, Whitespace = 48, Newline = 49, 
-    Words = 50, BlockComment = 51, LineComment = 52
+    Break = 20, Next = 21, Async = 22, Await = 23, Try = 24, Catch = 25, 
+    ArrowRight = 26, ARightLB = 27, End = 28, Attr = 29, Point = 30, TwoPoint = 31, 
+    TwoTwoPoint = 32, Separator = 33, OpenArIndex = 34, CloseArIndex = 35, 
+    OpenBlock = 36, CloseBlock = 37, OpenOp = 38, CloseOp = 39, ArithmeticOperator = 40, 
+    AssignmentOperator = 41, Not = 42, IncDecOperators = 43, Identifier = 44, 
+    IDPrefix = 45, TypeSpec = 46, String = 47, Integer = 48, Float = 49, 
+    Whitespace = 50, Newline = 51, Words = 52, BlockComment = 53, LineComment = 54
   };
 
   enum {
@@ -73,7 +73,10 @@ public:
     RuleLambdaFnCodeBlock = 116, RuleLambdaFnCodeBlockSimple = 117, RuleLambdaFnCodeBlockKey = 118, 
     RuleLambdaFnCodeBlockItemsControl = 119, RuleLambdaFnCodeBlockItems = 120, 
     RuleLambdaFnParamsItems = 121, RuleLambdaFnParamsControl = 122, RuleLambdaFnParamsElements = 123, 
-    RuleGeneralValue = 124, RuleObjIdentifierA = 125, RuleObjIdentifierB = 126
+    RuleTryCatch = 124, RuleTryCatchBlock = 125, RuleTryCatchElements = 126, 
+    RuleTryUniqueElement = 127, RuleCatchUniqueElement = 128, RuleTryCatchElementsLimited = 129, 
+    RuleTryCatchBlockElements = 130, RuleGeneralValue = 131, RuleObjIdentifierA = 132, 
+    RuleObjIdentifierB = 133
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -210,6 +213,13 @@ public:
   class LambdaFnParamsItemsContext;
   class LambdaFnParamsControlContext;
   class LambdaFnParamsElementsContext;
+  class TryCatchContext;
+  class TryCatchBlockContext;
+  class TryCatchElementsContext;
+  class TryUniqueElementContext;
+  class CatchUniqueElementContext;
+  class TryCatchElementsLimitedContext;
+  class TryCatchBlockElementsContext;
   class GeneralValueContext;
   class ObjIdentifierAContext;
   class ObjIdentifierBContext; 
@@ -261,6 +271,7 @@ public:
     OopGeneralContext *oopGeneral();
     AnonymousClassCallContext *anonymousClassCall();
     AnonymousObjectCallContext *anonymousObjectCall();
+    TryCatchContext *tryCatch();
     VariableMultipleAssignmentsContext *variableMultipleAssignments();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -936,6 +947,7 @@ public:
     CallingFunctionContext *callingFunction();
     LoopContext *loop();
     RetContext *ret();
+    TryCatchContext *tryCatch();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1360,6 +1372,7 @@ public:
     CallingFunctionContext *callingFunction();
     LoopContext *loop();
     RetContext *ret();
+    TryCatchContext *tryCatch();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -2351,6 +2364,125 @@ public:
   };
 
   LambdaFnParamsElementsContext* lambdaFnParamsElements();
+
+  class  TryCatchContext : public antlr4::ParserRuleContext {
+  public:
+    TryCatchContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    TryCatchBlockContext *tryCatchBlock();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  TryCatchContext* tryCatch();
+
+  class  TryCatchBlockContext : public antlr4::ParserRuleContext {
+  public:
+    TryCatchBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    TryCatchElementsContext *tryCatchElements();
+    TryCatchContext *tryCatch();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  TryCatchBlockContext* tryCatchBlock();
+
+  class  TryCatchElementsContext : public antlr4::ParserRuleContext {
+  public:
+    TryCatchElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    TryUniqueElementContext *tryUniqueElement();
+    CatchUniqueElementContext *catchUniqueElement();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  TryCatchElementsContext* tryCatchElements();
+
+  class  TryUniqueElementContext : public antlr4::ParserRuleContext {
+  public:
+    TryUniqueElementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Try();
+    TryCatchElementsLimitedContext *tryCatchElementsLimited();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  TryUniqueElementContext* tryUniqueElement();
+
+  class  CatchUniqueElementContext : public antlr4::ParserRuleContext {
+  public:
+    CatchUniqueElementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Catch();
+    antlr4::tree::TerminalNode *Identifier();
+    TryCatchElementsLimitedContext *tryCatchElementsLimited();
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  CatchUniqueElementContext* catchUniqueElement();
+
+  class  TryCatchElementsLimitedContext : public antlr4::ParserRuleContext {
+  public:
+    TryCatchElementsLimitedContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    TryCatchBlockElementsContext *tryCatchBlockElements();
+    ConditionalExpressionContext *conditionalExpression();
+    CallingFunctionContext *callingFunction();
+    LoopContext *loop();
+    TryCatchContext *tryCatch();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  TryCatchElementsLimitedContext* tryCatchElementsLimited();
+
+  class  TryCatchBlockElementsContext : public antlr4::ParserRuleContext {
+  public:
+    TryCatchBlockElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    SentenceContext *sentence();
+    TryCatchBlockElementsContext *tryCatchBlockElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  TryCatchBlockElementsContext* tryCatchBlockElements();
 
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:

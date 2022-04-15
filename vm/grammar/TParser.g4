@@ -34,6 +34,7 @@ sentence
   | oopGeneral
   | anonymousClassCall
   | anonymousObjectCall
+  | tryCatch
   
   // Múltiplas atribuições (a = b = c = d).
   | variableMultipleAssignments
@@ -305,6 +306,7 @@ conditionalBlockElements
   | callingFunction
   | loop
   | ret
+  | tryCatch
   ;
 
 // Código dentro dos blocos.
@@ -487,6 +489,7 @@ loopBlockElementsLimited
   | callingFunction
   | loop
   | ret
+  | tryCatch
   ;
 
 /*
@@ -847,6 +850,46 @@ lambdaFnParamsControl
 lambdaFnParamsElements
   : Identifier TypeSpec
   | Identifier
+  ;
+
+/*
+** Bloco try catch.
+*/
+tryCatch
+  : tryCatchBlock
+  ;
+
+tryCatchBlock
+  : tryCatchElements
+  | tryCatchElements tryCatch
+  ;
+
+tryCatchElements
+  : tryUniqueElement
+  | tryUniqueElement catchUniqueElement
+  ;
+
+tryUniqueElement
+  : Try tryCatchElementsLimited
+  ;
+
+catchUniqueElement
+  : Catch        Identifier         tryCatchElementsLimited
+  | Catch OpenOp Identifier CloseOp tryCatchElementsLimited
+  ;
+
+tryCatchElementsLimited
+  : OpenBlock CloseBlock
+  | OpenBlock tryCatchBlockElements CloseBlock
+  | conditionalExpression
+  | callingFunction
+  | loop
+  | tryCatch
+  ;
+
+tryCatchBlockElements
+  : sentence
+  | sentence tryCatchBlockElements
   ;
 
 /*

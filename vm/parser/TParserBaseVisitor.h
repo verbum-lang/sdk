@@ -513,6 +513,34 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitTryCatch(TParser::TryCatchContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitTryCatchBlock(TParser::TryCatchBlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitTryCatchElements(TParser::TryCatchElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitTryUniqueElement(TParser::TryUniqueElementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitCatchUniqueElement(TParser::CatchUniqueElementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitTryCatchElementsLimited(TParser::TryCatchElementsLimitedContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitTryCatchBlockElements(TParser::TryCatchBlockElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }

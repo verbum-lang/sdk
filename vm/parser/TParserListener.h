@@ -388,6 +388,27 @@ public:
   virtual void enterLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext *ctx) = 0;
   virtual void exitLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext *ctx) = 0;
 
+  virtual void enterTryCatch(TParser::TryCatchContext *ctx) = 0;
+  virtual void exitTryCatch(TParser::TryCatchContext *ctx) = 0;
+
+  virtual void enterTryCatchBlock(TParser::TryCatchBlockContext *ctx) = 0;
+  virtual void exitTryCatchBlock(TParser::TryCatchBlockContext *ctx) = 0;
+
+  virtual void enterTryCatchElements(TParser::TryCatchElementsContext *ctx) = 0;
+  virtual void exitTryCatchElements(TParser::TryCatchElementsContext *ctx) = 0;
+
+  virtual void enterTryUniqueElement(TParser::TryUniqueElementContext *ctx) = 0;
+  virtual void exitTryUniqueElement(TParser::TryUniqueElementContext *ctx) = 0;
+
+  virtual void enterCatchUniqueElement(TParser::CatchUniqueElementContext *ctx) = 0;
+  virtual void exitCatchUniqueElement(TParser::CatchUniqueElementContext *ctx) = 0;
+
+  virtual void enterTryCatchElementsLimited(TParser::TryCatchElementsLimitedContext *ctx) = 0;
+  virtual void exitTryCatchElementsLimited(TParser::TryCatchElementsLimitedContext *ctx) = 0;
+
+  virtual void enterTryCatchBlockElements(TParser::TryCatchBlockElementsContext *ctx) = 0;
+  virtual void exitTryCatchBlockElements(TParser::TryCatchBlockElementsContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

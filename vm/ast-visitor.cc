@@ -169,6 +169,9 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     // VERBUM_ITEMS_VISIBILITY
     ast.item_visibility                     = VERBUM_UNKNOWN;
 
+    // VERBUM_TRY_*
+    ast.catch_identifier                    = "";
+
     // Limpa estruturas de controle.
     ast.nodes.clear();
 
@@ -2043,6 +2046,67 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFnCodeBlockKey (TParser::LambdaFnCo
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
+** Try, catch.
+*/
+
+// Bloco geral.
+antlrcpp::Any verbum_ast_visitor::visitTryCatch (TParser::TryCatchContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_TRY_BLOCK;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco try.
+antlrcpp::Any verbum_ast_visitor::visitTryUniqueElement (TParser::TryUniqueElementContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_TRY_TRY;
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco catch.
+antlrcpp::Any verbum_ast_visitor::visitCatchUniqueElement (TParser::CatchUniqueElementContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_TRY_CATCH;
+    node.catch_identifier = ctx->Identifier()->getText();
+    this->ast = this->add_node(node, this->ast);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código.
+antlrcpp::Any verbum_ast_visitor::visitTryCatchElementsLimited (TParser::TryCatchElementsLimitedContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_TRY_CODE_BLOCK;
     this->ast = this->add_node(node, this->ast);
 
     this->node_block_counter++;

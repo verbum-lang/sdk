@@ -1,0 +1,49 @@
+
+// In principio erat Verbum.
+try {
+    print('Verbum');
+}
+
+try 
+    print('Verbum');
+
+try {
+    print('Verbum');
+} catch (err) {
+    print('Error: {}', err);
+}
+
+try 
+    print('Verbum');
+catch (err) 
+    print('Error: {}', err);
+
+try 
+    try 
+        print('Verbum');
+    catch (err) 
+        print('Error: {}', err);
+
+catch (err) 
+    print('Error: {}', err);
+
+
+try print("Verbum");
+catch (err1) 
+    try 
+        print('Verbum');
+    catch (err2) 
+        print('Error: {}', err);
+    
+if a 
+    try 
+        print("Verbum");
+    catch (err) 
+        print('Error: {}', err);
+
+for 
+    try 
+        print("Verbum");
+    catch (err) 
+        print('Error: {}', err);
+

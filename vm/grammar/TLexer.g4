@@ -30,6 +30,8 @@ Break        : 'break';
 Next         : 'next';
 Async        : 'async';
 Await        : 'await';
+Try          : 'try';
+Catch        : 'catch';
 
 // Operadores.
 ArrowRight   : '->';

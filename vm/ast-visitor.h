@@ -138,6 +138,12 @@ namespace verbum {
             antlrcpp::Any visitLambdaFnCodeBlockKey (TParser::LambdaFnCodeBlockKeyContext *ctx);
             antlrcpp::Any visitLambdaFnCodeBlockSimple (TParser::LambdaFnCodeBlockSimpleContext *ctx);
 
+            // Try, catch.
+            antlrcpp::Any visitTryCatch (TParser::TryCatchContext *ctx);
+            antlrcpp::Any visitTryUniqueElement (TParser::TryUniqueElementContext *ctx);
+            antlrcpp::Any visitCatchUniqueElement (TParser::CatchUniqueElementContext *ctx);
+            antlrcpp::Any visitTryCatchElementsLimited (TParser::TryCatchElementsLimitedContext *ctx);
+
             // Gerais.
             antlrcpp::Any visitLiveToken (TParser::LiveTokenContext *ctx);
             antlrcpp::Any visitVisibilityItems (TParser::VisibilityItemsContext *ctx);

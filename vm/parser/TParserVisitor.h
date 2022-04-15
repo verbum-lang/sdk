@@ -268,6 +268,20 @@ public:
 
     virtual antlrcpp::Any visitLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitTryCatch(TParser::TryCatchContext *context) = 0;
+
+    virtual antlrcpp::Any visitTryCatchBlock(TParser::TryCatchBlockContext *context) = 0;
+
+    virtual antlrcpp::Any visitTryCatchElements(TParser::TryCatchElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitTryUniqueElement(TParser::TryUniqueElementContext *context) = 0;
+
+    virtual antlrcpp::Any visitCatchUniqueElement(TParser::CatchUniqueElementContext *context) = 0;
+
+    virtual antlrcpp::Any visitTryCatchElementsLimited(TParser::TryCatchElementsLimitedContext *context) = 0;
+
+    virtual antlrcpp::Any visitTryCatchBlockElements(TParser::TryCatchBlockElementsContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
     virtual antlrcpp::Any visitObjIdentifierA(TParser::ObjIdentifierAContext *context) = 0;

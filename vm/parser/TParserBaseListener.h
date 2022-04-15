@@ -390,6 +390,27 @@ public:
   virtual void enterLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext * /*ctx*/) override { }
   virtual void exitLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext * /*ctx*/) override { }
 
+  virtual void enterTryCatch(TParser::TryCatchContext * /*ctx*/) override { }
+  virtual void exitTryCatch(TParser::TryCatchContext * /*ctx*/) override { }
+
+  virtual void enterTryCatchBlock(TParser::TryCatchBlockContext * /*ctx*/) override { }
+  virtual void exitTryCatchBlock(TParser::TryCatchBlockContext * /*ctx*/) override { }
+
+  virtual void enterTryCatchElements(TParser::TryCatchElementsContext * /*ctx*/) override { }
+  virtual void exitTryCatchElements(TParser::TryCatchElementsContext * /*ctx*/) override { }
+
+  virtual void enterTryUniqueElement(TParser::TryUniqueElementContext * /*ctx*/) override { }
+  virtual void exitTryUniqueElement(TParser::TryUniqueElementContext * /*ctx*/) override { }
+
+  virtual void enterCatchUniqueElement(TParser::CatchUniqueElementContext * /*ctx*/) override { }
+  virtual void exitCatchUniqueElement(TParser::CatchUniqueElementContext * /*ctx*/) override { }
+
+  virtual void enterTryCatchElementsLimited(TParser::TryCatchElementsLimitedContext * /*ctx*/) override { }
+  virtual void exitTryCatchElementsLimited(TParser::TryCatchElementsLimitedContext * /*ctx*/) override { }
+
+  virtual void enterTryCatchBlockElements(TParser::TryCatchBlockElementsContext * /*ctx*/) override { }
+  virtual void exitTryCatchBlockElements(TParser::TryCatchBlockElementsContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

@@ -112,6 +112,11 @@ using namespace std;
 #define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY           69
 #define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE        70
 
+#define VERBUM_TRY_BLOCK                                71
+#define VERBUM_TRY_TRY                                  72
+#define VERBUM_TRY_CATCH                                73
+#define VERBUM_TRY_CODE_BLOCK                           74
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2
@@ -480,6 +485,12 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_ITEMS_VISIBILITY_PRO
                                                     //      VERBUM_ITEMS_VISIBILITY_FINAL
                                                     //      VERBUM_ITEMS_VISIBILITY_STATIC
+
+    /*
+    ** Try, catch.
+    ** VERBUM_TRY_*
+    */
+    string catch_identifier;                        // Nome do parâmetro no bloco catch.
 
     /*
     ** Nodes internos (árvore) do elemento em questão.
