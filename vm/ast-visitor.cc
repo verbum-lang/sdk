@@ -1620,6 +1620,8 @@ antlrcpp::Any verbum_ast_visitor::visitVisibilityItems (TParser::VisibilityItems
         node.item_visibility = VERBUM_ITEMS_VISIBILITY_FINAL;
     else if (ctx->Static())
         node.item_visibility = VERBUM_ITEMS_VISIBILITY_STATIC;
+    else if (ctx->Async())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_ASYNC;
 
     this->ast = this->add_node(node, this->ast);
 

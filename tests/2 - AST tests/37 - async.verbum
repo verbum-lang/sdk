@@ -1,0 +1,9 @@
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+

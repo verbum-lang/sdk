@@ -471,6 +471,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 case VERBUM_ITEMS_VISIBILITY_PRO:    cout << "pro";    break;
                 case VERBUM_ITEMS_VISIBILITY_FINAL:  cout << "final";  break;
                 case VERBUM_ITEMS_VISIBILITY_STATIC: cout << "static"; break;
+                case VERBUM_ITEMS_VISIBILITY_ASYNC:  cout << "async"; break;
             }
 
             cout << "\n";

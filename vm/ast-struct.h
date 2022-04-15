@@ -198,7 +198,8 @@ using namespace std;
 #define VERBUM_ITEMS_VISIBILITY_PRIV                    2   
 #define VERBUM_ITEMS_VISIBILITY_PRO                     3
 #define VERBUM_ITEMS_VISIBILITY_FINAL                   4   
-#define VERBUM_ITEMS_VISIBILITY_STATIC                  5   
+#define VERBUM_ITEMS_VISIBILITY_STATIC                  5  
+#define VERBUM_ITEMS_VISIBILITY_ASYNC                   6 
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 

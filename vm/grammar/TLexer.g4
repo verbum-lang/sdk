@@ -28,6 +28,7 @@ Implements   : 'implements';
 New          : 'new';
 Break        : 'break';
 Next         : 'next';
+Async        : 'async';
 
 // Operadores.
 ArrowRight   : '->';

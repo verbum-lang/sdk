@@ -552,7 +552,7 @@ methodPerm
   ;
 
 visibilityItems
-  : Pub | Pro | Priv | Final | Static
+  : Pub | Pro | Priv | Final | Static | Async
   ;
 
 methodVisibility
