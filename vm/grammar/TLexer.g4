@@ -29,6 +29,7 @@ New          : 'new';
 Break        : 'break';
 Next         : 'next';
 Async        : 'async';
+Await        : 'await';
 
 // Operadores.
 ArrowRight   : '->';

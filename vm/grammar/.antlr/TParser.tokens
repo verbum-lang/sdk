@@ -49,6 +49,7 @@ Newline=48
 Words=49
 BlockComment=50
 LineComment=51
+Await=52
 'use'=1
 'var'=2
 'if'=3

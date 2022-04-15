@@ -21,13 +21,13 @@ public:
     Use = 1, Var = 2, If = 3, Elif = 4, Else = 5, For = 6, Ret = 7, Function = 8, 
     Pub = 9, Pro = 10, Priv = 11, Static = 12, Final = 13, Interface = 14, 
     Abstract = 15, Extends = 16, Class = 17, Implements = 18, New = 19, 
-    Break = 20, Next = 21, Async = 22, ArrowRight = 23, ARightLB = 24, End = 25, 
-    Attr = 26, Point = 27, TwoPoint = 28, TwoTwoPoint = 29, Separator = 30, 
-    OpenArIndex = 31, CloseArIndex = 32, OpenBlock = 33, CloseBlock = 34, 
-    OpenOp = 35, CloseOp = 36, ArithmeticOperator = 37, AssignmentOperator = 38, 
-    Not = 39, IncDecOperators = 40, Identifier = 41, IDPrefix = 42, TypeSpec = 43, 
-    String = 44, Integer = 45, Float = 46, Whitespace = 47, Newline = 48, 
-    Words = 49, BlockComment = 50, LineComment = 51
+    Break = 20, Next = 21, Async = 22, Await = 23, ArrowRight = 24, ARightLB = 25, 
+    End = 26, Attr = 27, Point = 28, TwoPoint = 29, TwoTwoPoint = 30, Separator = 31, 
+    OpenArIndex = 32, CloseArIndex = 33, OpenBlock = 34, CloseBlock = 35, 
+    OpenOp = 36, CloseOp = 37, ArithmeticOperator = 38, AssignmentOperator = 39, 
+    Not = 40, IncDecOperators = 41, Identifier = 42, IDPrefix = 43, TypeSpec = 44, 
+    String = 45, Integer = 46, Float = 47, Whitespace = 48, Newline = 49, 
+    Words = 50, BlockComment = 51, LineComment = 52
   };
 
   explicit TLexer(antlr4::CharStream *input);

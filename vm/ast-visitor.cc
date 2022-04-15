@@ -307,6 +307,8 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
     // Verifica se há instanciamento de objeto.
     if (ctx->variableDefinitionGeneral()->New())
         node.variable_mod_operation = VERBUM_MOD_OP_OBJ_INSTANCE;
+    else if (ctx->variableDefinitionGeneral()->Await())
+        node.variable_mod_operation = VERBUM_MOD_OP_AWAIT;
     else
         node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
 

@@ -164,6 +164,7 @@ using namespace std;
 
 #define VERBUM_MOD_OP_SIMPLE                            1
 #define VERBUM_MOD_OP_OBJ_INSTANCE                      2
+#define VERBUM_MOD_OP_AWAIT                             4
 
 // Tipos de dados.
 #define VERBUM_DATA_IDENTIFIER                          1

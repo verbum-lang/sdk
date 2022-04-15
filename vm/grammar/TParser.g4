@@ -117,12 +117,12 @@ variableDefinition
 
 variableDefinitionGeneral
   // Uso geral.
-  :          (Attr | AssignmentOperator)     generalValue
-  | TypeSpec (Attr | AssignmentOperator)     generalValue
+  :          (Attr | AssignmentOperator)               generalValue
+  | TypeSpec (Attr | AssignmentOperator)               generalValue
 
-  // Instanciamento de objeto.
-  |          (Attr | AssignmentOperator) New generalValue
-  | TypeSpec (Attr | AssignmentOperator) New generalValue
+  // Instanciamento de objeto ou espera de chamada à funções assíncronas.
+  |          (Attr | AssignmentOperator) (New | Await) generalValue
+  | TypeSpec (Attr | AssignmentOperator) (New | Await) generalValue
   ;
 
 // Array indexado.
