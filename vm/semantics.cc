@@ -147,6 +147,8 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             // Verifica se há instanciamento de objeto.
             if (node.variable_mod_operation == VERBUM_MOD_OP_OBJ_INSTANCE)
                 cout << " (new object) ";
+            else if (node.variable_mod_operation == VERBUM_MOD_OP_AWAIT)
+                cout << " (await) ";
 
             cout << "\n";
         }

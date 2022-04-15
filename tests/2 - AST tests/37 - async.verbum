@@ -6,6 +6,7 @@ async fn http_get (link :string) -> string {
     ret response;
 }
 
+var a =       example();
 var a = await example();
 
 
