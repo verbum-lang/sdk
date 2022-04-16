@@ -39,23 +39,14 @@ public:
   virtual void enterUseString(TParser::UseStringContext * /*ctx*/) override { }
   virtual void exitUseString(TParser::UseStringContext * /*ctx*/) override { }
 
-  virtual void enterBlockOop(TParser::BlockOopContext * /*ctx*/) override { }
-  virtual void exitBlockOop(TParser::BlockOopContext * /*ctx*/) override { }
+  virtual void enterBlockVariable(TParser::BlockVariableContext * /*ctx*/) override { }
+  virtual void exitBlockVariable(TParser::BlockVariableContext * /*ctx*/) override { }
 
-  virtual void enterInterfaceClass(TParser::InterfaceClassContext * /*ctx*/) override { }
-  virtual void exitInterfaceClass(TParser::InterfaceClassContext * /*ctx*/) override { }
+  virtual void enterVariableItem(TParser::VariableItemContext * /*ctx*/) override { }
+  virtual void exitVariableItem(TParser::VariableItemContext * /*ctx*/) override { }
 
-  virtual void enterInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext * /*ctx*/) override { }
-  virtual void exitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext * /*ctx*/) override { }
-
-  virtual void enterInterfaceCodeBlock(TParser::InterfaceCodeBlockContext * /*ctx*/) override { }
-  virtual void exitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext * /*ctx*/) override { }
-  virtual void exitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext * /*ctx*/) override { }
-
-  virtual void enterIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
-  virtual void exitIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
+  virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
+  virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 
   virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }
   virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }

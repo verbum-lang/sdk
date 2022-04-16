@@ -34,17 +34,11 @@ public:
 
     virtual antlrcpp::Any visitUseString(TParser::UseStringContext *context) = 0;
 
-    virtual antlrcpp::Any visitBlockOop(TParser::BlockOopContext *context) = 0;
+    virtual antlrcpp::Any visitBlockVariable(TParser::BlockVariableContext *context) = 0;
 
-    virtual antlrcpp::Any visitInterfaceClass(TParser::InterfaceClassContext *context) = 0;
+    virtual antlrcpp::Any visitVariableItem(TParser::VariableItemContext *context) = 0;
 
-    virtual antlrcpp::Any visitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *context) = 0;
-
-    virtual antlrcpp::Any visitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *context) = 0;
-
-    virtual antlrcpp::Any visitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext *context) = 0;
-
-    virtual antlrcpp::Any visitIdentifierB(TParser::IdentifierBContext *context) = 0;
+    virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockLiveTokens(TParser::BlockLiveTokensContext *context) = 0;
 

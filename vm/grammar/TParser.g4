@@ -26,7 +26,7 @@ sentences
 statements
   : blockComments
   | blockUse
-  | blockOop
+  | blockVariable
   | blockLiveTokens
   ;
 
@@ -54,50 +54,24 @@ useString
   ;
 
 /*
-** Orientação à objetos.
+** Variáveis.
 */
-
-// Regras que vão no controlador geral.
-blockOop
-
-  // Modos de uso gerais.
-  : interfaceClass
-  //| abstractClass
-  //| classDefination
-  
-  // Classe anônima.
-  //| anonymousClass
+blockVariable
+  : Var variableItem End
   ;
 
-// Interface.
-interfaceClass
-  : interfaceClassDefinition
+variableItem
+  : (Identifier | Identifier TypeSpec) Attr generalValue
+  | (Identifier | Identifier TypeSpec) Attr generalValue Separator variableItem
   ;
 
-interfaceClassDefinition
-  : Interface Identifier                     OpenBlock                    CloseBlock
-  | Interface Identifier                     OpenBlock interfaceCodeBlock CloseBlock
-  | Interface Identifier Extends identifierB OpenBlock                    CloseBlock
-  | Interface Identifier Extends identifierB OpenBlock interfaceCodeBlock CloseBlock
-  ;
-
-interfaceCodeBlock
-  : functionCodeBlockElements
-  | functionCodeBlockElements interfaceCodeBlock
-  ;
-
-functionCodeBlockElements
-  : blockComments
-  | blockUse
-  | blockLiveTokens
-  ;
-
-/*
-** Controles gerais.
-*/
-
-identifierB
-  : Identifier
+generalValue
+  : (
+      Identifier |
+      Integer |
+      Float |
+      String
+    )
   ;
 
 /*
@@ -105,7 +79,7 @@ identifierB
 */
 blockLiveTokens
   : (
-      Var |
+      //Var |
       If |
       Elif |
       Else |
@@ -117,7 +91,7 @@ blockLiveTokens
       Priv |
       Static |
       Final |
-      //Interface |
+      Interface |
       Abstract |
       Extends |
       Class |

@@ -9,7 +9,7 @@ rm -rf verbum.o ast-visitor.o
 
 echo "Generate grammar files."
 cd grammar
-$JAVA_PATH -jar ../../dependencies/ANTLR4/jar/antlr-4.9.2-complete.jar -Werror -Dlanguage=Cpp -visitor -o ../parser/ -package verbum ./TLexer.g4 ./TParser.g4
+$JAVA_PATH -jar ../../dependencies/ANTLR4/jar/antlr-4.9.2-complete.jar -Werror -Dlanguage=Cpp -listener -visitor -o ../parser/ -package verbum ./TLexer.g4 ./TParser.g4
 
 cd ../parser/
 echo "Compile: TLexer.cpp"

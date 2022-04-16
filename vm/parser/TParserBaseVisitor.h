@@ -45,27 +45,15 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitBlockOop(TParser::BlockOopContext *ctx) override {
+  virtual antlrcpp::Any visitBlockVariable(TParser::BlockVariableContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitInterfaceClass(TParser::InterfaceClassContext *ctx) override {
+  virtual antlrcpp::Any visitVariableItem(TParser::VariableItemContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitIdentifierB(TParser::IdentifierBContext *ctx) override {
+  virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }
 

@@ -37,23 +37,14 @@ public:
   virtual void enterUseString(TParser::UseStringContext *ctx) = 0;
   virtual void exitUseString(TParser::UseStringContext *ctx) = 0;
 
-  virtual void enterBlockOop(TParser::BlockOopContext *ctx) = 0;
-  virtual void exitBlockOop(TParser::BlockOopContext *ctx) = 0;
+  virtual void enterBlockVariable(TParser::BlockVariableContext *ctx) = 0;
+  virtual void exitBlockVariable(TParser::BlockVariableContext *ctx) = 0;
 
-  virtual void enterInterfaceClass(TParser::InterfaceClassContext *ctx) = 0;
-  virtual void exitInterfaceClass(TParser::InterfaceClassContext *ctx) = 0;
+  virtual void enterVariableItem(TParser::VariableItemContext *ctx) = 0;
+  virtual void exitVariableItem(TParser::VariableItemContext *ctx) = 0;
 
-  virtual void enterInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *ctx) = 0;
-  virtual void exitInterfaceClassDefinition(TParser::InterfaceClassDefinitionContext *ctx) = 0;
-
-  virtual void enterInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *ctx) = 0;
-  virtual void exitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *ctx) = 0;
-
-  virtual void enterFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext *ctx) = 0;
-  virtual void exitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext *ctx) = 0;
-
-  virtual void enterIdentifierB(TParser::IdentifierBContext *ctx) = 0;
-  virtual void exitIdentifierB(TParser::IdentifierBContext *ctx) = 0;
+  virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
+  virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 
   virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;
   virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;
