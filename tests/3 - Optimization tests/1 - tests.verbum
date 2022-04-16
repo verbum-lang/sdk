@@ -1,0 +1,3199 @@
+
+// In principio erat Verbum.
+
+// Todos arquivos dentro de um pacote instalado, ou de diretório específico.
+use 'std:*';
+use 'path/*';
+
+// Importações únicas.
+use 'std:io';
+use 'std:io/file';
+use 'test';
+use 'path/path/test';
+
+// Importações múltiplas (dentro de um único módulo ou diretório).
+use 'std:<io, net, os, string>';
+use 'path/<file1, file2, file3>';
+
+// Importações múltiplas em uma única linha.
+use 'std:<io,net>', 'path/test', 'util';
+use 'path2/*', 'mysql:*', 'json:unicode';
+
+// Todos arquivos dentro de um pacote instalado, ou de diretório específico.
+use 'std:*';
+use 'path/*';
+
+// Importações únicas.
+use 'std:io';
+use 'std:io/file';
+use 'test';
+use 'path/path/test';
+
+// Importações múltiplas (dentro de um único módulo ou diretório).
+use 'std:<io, net, os, string>';
+use 'path/<file1, file2, file3>';
+
+// Importações múltiplas em uma única linha.
+use 'std:<io,net>', 'path/test', 'util';
+use 'path2/*', 'mysql:*', 'json:unicode';
+
+// Para valores comuns o tipo é inferido automaticamente.
+// Os caracteres e strings são UNICODE.
+// É aceito aspas simples ou duplas para as strings e caracteres.
+var variable :int       = 31337;
+var variable :int       = -1337;
+var variable :float     = 0.1337;
+var variable :double    = 3.1337;
+var variable :double    = -1.337;
+var variable :bool      = true;
+var variable :char      = '♥';
+var variable :string    = 'Verbum 😍';
+var variavle :stream    = file.open('archive.bin');
+
+// O UNICODE é aceito no uso comum da linguagem.
+var λ = "Verbum ♥";
+var π = 3.14;
+
+// String de múltiplass linhas.
+var variable = "
+    In princípio
+    erat Verbum!
+";
+
+// Para valores comuns o tipo é inferido automaticamente.
+// Os caracteres e strings são UNICODE.
+// É aceito aspas simples ou duplas para as strings e caracteres.
+var variable :int       = 31337;
+var variable :int       = -1337;
+var variable :float     = 0.1337;
+var variable :double    = 3.1337;
+var variable :double    = -1.337;
+var variable :bool      = true;
+var variable :char      = '♥';
+var variable :string    = 'Verbum 😍';
+var variavle :stream    = file.open('archive.bin');
+
+// O UNICODE é aceito no uso comum da linguagem.
+var λ = "Verbum ♥";
+var π = 3.14;
+
+// String de múltiplass linhas.
+var variable = "
+    In princípio
+    erat Verbum!
+";
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+// Constantes aceitam apenas valores comuns.
+var variable :const     = 31337;
+var variable :const     = 3.1337;
+var variable :const     = true;
+var variable :const     = "Verbum 😍";
+
+// Indexados, com acesso via número do index.
+var variable :array = [ 3, 1, 3, 3, 7 ];
+var variable :array = [ 'V', '♥', true, "Verbum 😍" ];
+var variable :array = [ 10 :int, 20 :int, 30.3, 40 :float, true, n ];
+var variable :array = [ ];
+
+var variable :array = [
+    1, 2, 3,
+    [
+        'a', 'b', 'c',
+        "Verbum", "Divinus",
+        3.1337
+    ],
+    [
+        a, b, c,
+        10 :int, 20 :int, 30 :float
+    ]
+];
+
+// Associativos, com acesso via chave/hash.
+var variable :array = {
+    items: [
+        { name: "Verbum"  },
+        { name: "Divinus" },
+        {
+            values: [
+                10, 20, 30:float, { name: "Member" }
+            ]
+        },
+        31337
+    ]
+};
+
+var variable = {
+    value: 1.337 :double
+};
+
+// Exemplo de acessos em arrays associativos.
+variable.items[0].name             = 10; // Verbum
+variable.items[1].name             = 10; // Divinus
+variable.items[2].values[0]        = 10; // 10
+variable.items[2].values[3].name   = 10; // Member
+variable.items[3]                  = 10; // 31337
+
+// Outros exemplos.
+var variable :array = [
+    { name: "Verbum" },
+    10, 20, 30,
+    {
+        values: [
+            31337 :double, { name: "Divinus" }
+        ] 
+    }
+];
+
+
+// Operações como valores.
+// Obs: caso não seja especificado tipo na variável, em operações aritméticas
+// o valor final é automaticamente convertido para inteiro. Caso queira converter
+// o valor final para outro, é obrigatório especificar o tipo da variável, ex.: :float
+var variable = (10 + (variable++) + (3.14 * 3) / --abc);
+
+var variable = [
+    1, 2, 3,
+    (10 + ( 20 * 3 ) / 4),
+    'str 1', "str 2"
+];
+
+var variable :array = [
+    { name:  "Verbum" },
+    {
+        value: 'Divino',
+        operation:  (3 + ( 3 ) + 3)
+    }
+];
+
+var variable = [
+    1, 2, 3,
+    (10 + 20),
+    'str 1', "str 2"
+];
+
+variable[3]  = 333;   // Contêm valor 30.
+
+// Função anônima como valor em variável.
+var variable = (fn (a :int) -> int {
+    ret a + 10;
+});
+
+// Função anônima com array indexado.
+var variable = [
+    31337,
+    (fn (a :int, b :int) -> int {
+        ret a + b;   
+    })
+];
+
+var value = variable[1](10, 20);
+
+// Função anônima com array associativo.
+var variable = {
+    identifier : 'onclick',
+    callback   : (fn (a :int, b :int) -> int {
+        ret a + b;   
+    })
+};
+
+var value = variable.callback(10, 20);
+
+// Tipos de valores recebidos em variáveis.
+var variable = true;
+var variable = 'a';
+var variable = 'string 1';
+var variable = "string 2";
+var variable = 123;
+var variable = 3.14;
+var variable = 0.12345;
+var variable = [ 1, 2, 3 ];
+var variable = { values: [ 1, 2, 3 ] };
+var variable = anotherVariable;
+
+var variable = functionName(10, 20, 30);
+var variable = obj::functionName(10, 20, 30);
+var variable = obj.functionName(10, 20, 30);
+
+var variable = (10 + 20);
+var variable = (variable * 10 + 20 / 30);
+
+if (expression) 
+    print("value 1");
+elif (expression)
+    print("value 2");
+else
+    print("value 3");
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+var a =       example();
+var a = await example();
+
+
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+var a =       example();
+var a = await example();
+
+
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+var a =       example();
+var a = await example();
+
+
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
+    }
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
+
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
+
+if (n)
+    print("Jesus <3");
+
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
+    }
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
+
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
+
+if (n)
+    print("Jesus <3");
+
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
+    }
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
+
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
+
+if (n)
+    print("Jesus <3");
+
+
+
+if 10 >= (3*3) && 10 < b
+if a >= (3*3) && (10 < b)
+if (func1() > 10) && a>20
+if !a
+if !(10 > a) && !x
+if (!(10 > a)) && !x > ( !x || !(z++) ) <= 10
+if a[1][2][3] = func() != null 
+if (a[1][2][3] = func()) != null 
+if (a = io.func()) <= 10 && b = func( [1, 2, 3] )
+if ++a[1] > 10
+if a[1]++ > 10 {
+    a[1][2] = a.b[1].c[2][3];
+}
+if x[1] > 10
+if (x[1] > 10 && (k[ 1 ] == 20))
+if (x[1] > 10 && (k[ func() - 10 ] == 20))
+if (a.b[1].c.d.e[1][2][3] == 10)
+if ! ar[1][2][3] == 10 && !(yy[1][2] >= ar2.c.d[1].d.e)
+{
+var a = [
+    1,[
+         ar[a][b][3][4] + x - ( 
+
+            a - 333
+
+        ) / 20
+    ],3
+];
+}
+
+if a
+    func2();
+elif (b)
+    func3();
+else
+    func4();
+
+    for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for (var a = 0; a<100; a++)
+    print("Hello world\n");
+
+for (var a = 0; ; a++) {
+    if (a >= 100)
+        break;
+}
+
+for (var a = 0; ; a++) {
+    if (a < 100)
+        next;
+}
+
+// Equivalente ao while.
+for (a < 10)
+    print("a: {}\n", a);
+
+// Loop infinito.
+for ()
+    print("Infinite...\n");
+
+// Uso comum.
+fn example (a:int, b:int) -> int {
+    ret (a * b) + 31337;
+}
+
+// Concatenação de funções.
+fn primary (a:int, b:int) -> int {
+    var value = 31337;
+
+    fn secondary (a:int, b:int) -> int {
+        ret (a * b) + value;
+    }
+
+    ret secondary(a, b);
+}
+
+// Funções anonimas.
+print("Value: {}\n", 
+    (fn (value :int) -> int { 
+        ret value * 3; 
+    })(31337)
+);
+
+// Função sem retorno.
+fn function () {
+    print("Verbum\n");
+}
+
+
+// In principio erat Verbum
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+// In principio erat Verbum
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+    var a = 10;
+}
+
+class Common extends AbstractClass {
+    var b = 20;
+}
+
+class Example2 extends Common implements ExampleInterface {
+    var c = 30;
+}
+
+final class Example2 extends Common implements ExampleInterface {
+    var d = 40;
+}
+
+final class ExampleN {
+    var e = 50;
+}
+
+class A {
+    var a = 10;
+
+    class B {
+        var b = 20;
+    }
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+    var a = 10;
+}
+
+class Common extends AbstractClass {
+    var b = 20;
+}
+
+class Example2 extends Common implements ExampleInterface {
+    var c = 30;
+}
+
+final class Example2 extends Common implements ExampleInterface {
+    var d = 40;
+}
+
+final class ExampleN {
+    var e = 50;
+}
+
+class A {
+    var a = 10;
+
+    class B {
+        var b = 20;
+    }
+}
+
+// Interface comum...
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+// Classe.
+class Common extends AbstractClass {
+    // ...
+    pub fn checkString (string :string) -> int { /* ... */ }
+
+    // Implementa método abstrato.
+    pro fn abstractMethod (){
+        // ...
+    }
+
+    // Testa "parent" na classe herdeira.
+    pub fn exampleA () -> str {
+        ret "Verbum";
+    }
+
+    pub fn getExampleA () -> str {
+        ret this.exampleA();
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Atributos.
+    priv var attributeA :uint = 31337;
+    pub var attributeB :string  = "Verbum 😃";
+    pub static var subVersion :string = "1337";
+
+    // Construtor.
+    Example (a :uint, b :string) {
+        this.attributeA = a;
+        this.attributeB = b;
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+        ret "1.0.0";
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+        if (flag)
+            ret self::getVersion();
+        ret self::subVersion;
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+        ret [
+            this.attributeA,
+            this.attributeB
+        ];
+    }
+
+    pub fn getValues (index :int) -> int {
+        if (index == 1)
+            ret this.attributeA;
+        ret -1;
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+        print("Verbum\n");
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+        ret "Divinus";
+    }
+
+    pub fn getExampleB () -> str {
+        ret parent::exampleA();
+    }
+}
+
+// Instanciamento e uso.
+var obj     :Example  = new Example(31337, "Verbum");
+var resultA :array    = obj.getValues();
+var resultB :int      = obj.getValues(1);
+var resultC :int      = obj.checkString("Verbum Divinus");
+
+print("Version: {}\n", Example::getVersion());
+print("Sub version: {}\n", Example::subVersion);
+print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
+print("resultB = {}\n", resultB);
+print("Check String = {}\n", resultC);
+
+// Exemplo com "parent".
+var obj1 = new Common();
+obj1.exampleA();            // Verbum
+obj1.getExampleA();         // Verbum
+
+var obj2 = new Example();
+obj2.exampleA();            // Divinus
+obj2.getExampleA();         // Divinus
+obj2.getExampleB();         // Verbum
+
+class Example {
+    priv var value :int = 0;
+
+    pub fn foo (a :int) -> this {
+        this.value += a;
+        ret this;
+    }
+
+    pub fn bar (a :int) -> this {
+        this.value += a;
+        ret this;
+    }
+
+    pub fn show () {
+        print("Value: {}\n", this.value);
+    }
+}
+
+var obj = new Example();
+obj.foo(10).show().bar(20).show();
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Atributos.
+    priv var attributeA :uint = 31337;
+    pub var attributeB :string  = "Verbum 😃";
+    pub static var subVersion :string = "1337";
+
+    // Construtor.
+    Example (a :uint, b :string) {
+        this.attributeA = a;
+        this.attributeB = b;
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+        ret "1.0.0";
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+        if (flag)
+            ret self::getVersion();
+        ret self::subVersion;
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+        ret [
+            this.attributeA,
+            this.attributeB
+        ];
+    }
+
+    pub fn getValues (index :int) -> int {
+        if (index == 1)
+            ret this.attributeA;
+        ret -1;
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+        print("Verbum\n");
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+        ret "Divinus";
+    }
+
+    pub fn getExampleB () -> str {
+        ret parent::exampleA();
+    }
+}
+
+
+// In principio erat Verbum.
+
+obj.foo(10).show()
+    .bar(20).show()
+    .bar(20).show()
+    ;
+
+
+// In principio erat Verbum.
+
+ final pub static fn test (a :int) -> string {
+     print("Verbum!\n");
+}
+
+priv var attr = 31337;
+pub final static var attrB :string  = "Verbum 😃";
+pub static var subVersion :string = "1337";
+
+
+for a {
+    print("Verbum");
+    break;
+    next;
+}
+
+
+
+for a {
+    print("Verbum");
+    break;
+    next;
+}
+
+
+
+
+for a {
+    print("Verbum");
+    break;
+    next;
+
+for a {
+    print("Verbum");
+    break;
+    next;
+
+for a {
+    print("Verbum");
+    break;
+    next;
+}
+
+
+}
+
+
+}
+
+
+
+for a {
+    print("Verbum");
+    break;
+    next;
+}
+
+
+obj.setLogger(new class {
+    pub fn log (msg :string) {
+        print("{}\n", msg);
+    }
+});
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).show();
+obj.setLogger(new class {
+    pub fn log (msg :string) {
+        print("{}\n", msg);
+    }
+});
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).show();
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
+
+
+// In principio erat Verbum.
+
+// Função anônima como valor em variável.
+var variable = (fn () {
+    ret 10;
+});
+
+var variable = (fn (a :int) {
+    ret a + 10;
+});
+
+var variable = (fn (a :int) -> int {
+    ret a + 10;
+});
+
+// Função anônima com array indexado.
+var variable = [
+    31337,
+    (fn (a :int, b :int) -> int {
+        var n = [ 1, 2, 3 ];
+        ret a + b * n[2];   
+    }),
+    'Verbum',
+    333
+];
+
+// Função anônima com array associativo.
+var variable = {
+    identifier : 'onclick',
+    callback   : (fn (a :int, b :int) -> int {
+        ret a + b;
+    })
+};
+
+print("Value: {}\n",
+    (fn (value :int) -> int {
+        var a = value * 333;
+        ret value * 3 + a;
+    })( 10 * ar[1].a.v[1][2] / (x*z) - func() )
+);
+
+
+
+
+
+// In principio erat Verbum.
+
+test[1].a.v[3][3](10, 20, 30);
+x.d.e[1][2].e.g(10, 20);
+
+var v1 = a.v().c().d().e();
+a.v().c().d().e();
+
+var v2 = variable[1](10, 20);
+
+var value = [
+    1, 2, 3,
+
+        variable[1](10, 20),    
+
+    1, 2, 3
+];
+
+var value = [
+    1, 2, 3,
+
+        a.v().c().d().e(),
+
+    1, 2, 3
+];
+
+
+async fn http_get (link :string) -> string {
+    //...
+    ret response;
+}
+
+// Exemplo onde não aguardamos o retorno final de http_get().
+// Observe que o valor de 'response' será modificado no futuro, e
+// enquanto isso não ocorre, seu valor continua como vazio.
+var response = http_get('http://host/path');
+
+for {
+    if (response.size() <= 0)
+        next;
+
+    print("response: {}\n", response);
+    break;
+}
+
+// Exemplo onde aguardamos o retorno de http_get().
+var response = await http_get('http://host/path');
+
+
+
+a = b = c = d;
+
+
+
+// In principio erat Verbum.
+
+obj.a.b.c.setLogger(
+    new class {
+        pub fn log (msg :string) {
+            print("{}\n", msg);
+        }
+    }
+);
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).show().a(10 * 3 / (func() - 1)).b().d();
+
+a::b().c().d()::e()::f().x().v();
+
+(new class {
+    static pub fn show () {
+        print("Verbum\n");
+    }
+})::show()::foo().bar()::show();
+
+(new class {
+    static pub fn show () {
+        print("Verbum\n");
+        ret this;
+    }
+})::show().foo().bar();
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo().bar().show().end();
+
+var variable = (new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo();
+
+var variable = (new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+});
+
+variable.show();
+
+var variable = (new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo().bar().value;
+
+a.foo().b.c[1][2].d.bar([1, func()]).x;
+
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo().a.b.bar().e[1][2].show().end().a.b.c;
+
+
+
+
+// In principio erat Verbum.
+
+
+// Instanciamento comum.
+var a = new b;
+var a = new b();
+var a = new b(10, 20, 30);
+var a = new b(10, [1,2,3], 30);
+var a = new b(10, [1,func(),3], 30);
+var a = new b(10, [1,func()/10,3], 30);
+
+// Instanciamento anônimo.
+
+(new StringBuffer()
+    .add1('In principio')
+    .add2('erat Verbum')
+);
+
+(new StringBuffer()
+    .add1('In principio')
+    .add2('erat Verbum')
+).method().a.b.c();
+
+var s = (new StringBuffer()
+    .add1('In principio')
+    .add2('erat Verbum')
+).toString();
+
+var s = (new StringBuffer()
+    .add('In principio')
+    .add('erat Verbum')
+);
+
+var s = (new StringBuffer());
+
+var s = new StringBuffer();
+
+
+
+
+// In principio erat Verbum.
+
+
+a = b = c = x.v.y().j = d.c();
+x.v().x().y();
+x.d.e[1][2].e.g(10, 20);
+
+a = b = c;
+a = b = c = d.c();
+a = b = n = [1,2,3];
+
+a = b = 10;
+a = b = x.y.z();
+a = b = x.y.h().z();
+a = b = x.h.y().k[1][2][3].z();
+
+
+// In principio erat Verbum.
+
+var func = ()          => a * b;
+var func = () -> float => a * b;
+var func = () -> :int  => a * b;
+
+var func = (a, b :int) => a * b;
+
+var func = () -> int => a * b;
+
+var func = (a :int, b :int) -> int => a * b; // Explícito
+
+var func = (a, b) -> int => a * b + 1; // Inferido
+
+var func = (a, b) => a * b + 1; // Inferido
+
+var func = (a, b) => a * b; // Inferido como int, por padrão.
+
+var func :float = (a, b) => a * b; // Inferido como float.
+
+var func = (a :float, b) => a * b; // Inferido como float.
+
+var func = (a, b, c:float) -> int => r a * b + c :int;
+
+var func = (a) => a * 10;
+
+fn myfunc (a :int, n :int) -> int {
+    var lb = (a) => a * n;
+    ret lb(a);
+}
+
+var func = (a) -> int => {
+    var b = rand();
+    ret a * b;
+};
+
+var func = (a) -> int => {
+    var b = rand();
+    ret a * b;
+};
+
+event.callback((a) => {
+    print('Event value: {}', a);
+});
+
+event.callback((a :int) => {
+    print('Event value: {}', a);
+});
+
+
+
+// In principio erat Verbum.
+
+var func = ()          => a * b;
+var func = () -> float => a * b;
+var func = () -> :int  => a * b;
+
+var func = (a, b :int) => a * b;
+
+var func = () -> int => a * b;
+
+var func = (a :int, b :int) -> int => a * b; // Explícito
+
+var func = (a, b) -> int => a * b + 1; // Inferido
+
+var func = (a, b) => a * b + 1; // Inferido
+
+var func = (a, b) => a * b; // Inferido como int, por padrão.
+
+var func :float = (a, b) => a * b; // Inferido como float.
+
+var func = (a :float, b) => a * b; // Inferido como float.
+
+var func = (a, b, c:float) -> int => r a * b + c :int;
+
+var func = (a) => a * 10;
+
+fn myfunc (a :int, n :int) -> int {
+    var lb = (a) => a * n;
+    ret lb(a);
+}
+
+var func = (a) -> int => {
+    var b = rand();
+    ret a * b;
+};
+
+var func = (a) -> int => {
+    var b = rand();
+    ret a * b;
+};
+
+event.callback((a) => {
+    print('Event value: {}', a);
+});
+
+event.callback((a :int) => {
+    print('Event value: {}', a);
+});
+
+
+
+// In principio erat Verbum.
+
+a.b().c.d.e().f().g.h.x.y.z;
+a.b = h.b().c().a.d = x = b.show();
+
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+var a =       example();
+var a = await example();
+
+
+// In principio erat Verbum.
+try {
+    print('Verbum');
+}
+
+try 
+    print('Verbum');
+
+try {
+    print('Verbum');
+} catch (err) {
+    print('Error: {}', err);
+}
+
+try 
+    print('Verbum');
+catch (err) 
+    print('Error: {}', err);
+
+try 
+    try 
+        print('Verbum');
+    catch (err) 
+        print('Error: {}', err);
+
+catch (err) 
+    print('Error: {}', err);
+
+
+try print("Verbum");
+catch (err1) 
+    try 
+        print('Verbum');
+    catch (err2) 
+        print('Error: {}', err);
+    
+if a 
+    try 
+        print("Verbum");
+    catch (err) 
+        print('Error: {}', err);
+
+for 
+    try 
+        print("Verbum");
+    catch (err) 
+        print('Error: {}', err);
+
+
+
+// In principio erat Verbum.
+
+// Todos arquivos dentro de um pacote instalado, ou de diretório específico.
+use 'std:*';
+use 'path/*';
+
+// Importações únicas.
+use 'std:io';
+use 'std:io/file';
+use 'test';
+use 'path/path/test';
+
+// Importações múltiplas (dentro de um único módulo ou diretório).
+use 'std:<io, net, os, string>';
+use 'path/<file1, file2, file3>';
+
+// Importações múltiplas em uma única linha.
+use 'std:<io,net>', 'path/test', 'util';
+use 'path2/*', 'mysql:*', 'json:unicode';
+
+// Todos arquivos dentro de um pacote instalado, ou de diretório específico.
+use 'std:*';
+use 'path/*';
+
+// Importações únicas.
+use 'std:io';
+use 'std:io/file';
+use 'test';
+use 'path/path/test';
+
+// Importações múltiplas (dentro de um único módulo ou diretório).
+use 'std:<io, net, os, string>';
+use 'path/<file1, file2, file3>';
+
+// Importações múltiplas em uma única linha.
+use 'std:<io,net>', 'path/test', 'util';
+use 'path2/*', 'mysql:*', 'json:unicode';
+
+// Para valores comuns o tipo é inferido automaticamente.
+// Os caracteres e strings são UNICODE.
+// É aceito aspas simples ou duplas para as strings e caracteres.
+var variable :int       = 31337;
+var variable :int       = -1337;
+var variable :float     = 0.1337;
+var variable :double    = 3.1337;
+var variable :double    = -1.337;
+var variable :bool      = true;
+var variable :char      = '♥';
+var variable :string    = 'Verbum 😍';
+var variavle :stream    = file.open('archive.bin');
+
+// O UNICODE é aceito no uso comum da linguagem.
+var λ = "Verbum ♥";
+var π = 3.14;
+
+// String de múltiplass linhas.
+var variable = "
+    In princípio
+    erat Verbum!
+";
+
+// Para valores comuns o tipo é inferido automaticamente.
+// Os caracteres e strings são UNICODE.
+// É aceito aspas simples ou duplas para as strings e caracteres.
+var variable :int       = 31337;
+var variable :int       = -1337;
+var variable :float     = 0.1337;
+var variable :double    = 3.1337;
+var variable :double    = -1.337;
+var variable :bool      = true;
+var variable :char      = '♥';
+var variable :string    = 'Verbum 😍';
+var variavle :stream    = file.open('archive.bin');
+
+// O UNICODE é aceito no uso comum da linguagem.
+var λ = "Verbum ♥";
+var π = 3.14;
+
+// String de múltiplass linhas.
+var variable = "
+    In princípio
+    erat Verbum!
+";
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+// Constantes aceitam apenas valores comuns.
+var variable :const     = 31337;
+var variable :const     = 3.1337;
+var variable :const     = true;
+var variable :const     = "Verbum 😍";
+
+// Indexados, com acesso via número do index.
+var variable :array = [ 3, 1, 3, 3, 7 ];
+var variable :array = [ 'V', '♥', true, "Verbum 😍" ];
+var variable :array = [ 10 :int, 20 :int, 30.3, 40 :float, true, n ];
+var variable :array = [ ];
+
+var variable :array = [
+    1, 2, 3,
+    [
+        'a', 'b', 'c',
+        "Verbum", "Divinus",
+        3.1337
+    ],
+    [
+        a, b, c,
+        10 :int, 20 :int, 30 :float
+    ]
+];
+
+// Associativos, com acesso via chave/hash.
+var variable :array = {
+    items: [
+        { name: "Verbum"  },
+        { name: "Divinus" },
+        {
+            values: [
+                10, 20, 30:float, { name: "Member" }
+            ]
+        },
+        31337
+    ]
+};
+
+var variable = {
+    value: 1.337 :double
+};
+
+// Exemplo de acessos em arrays associativos.
+variable.items[0].name             = 10; // Verbum
+variable.items[1].name             = 10; // Divinus
+variable.items[2].values[0]        = 10; // 10
+variable.items[2].values[3].name   = 10; // Member
+variable.items[3]                  = 10; // 31337
+
+// Outros exemplos.
+var variable :array = [
+    { name: "Verbum" },
+    10, 20, 30,
+    {
+        values: [
+            31337 :double, { name: "Divinus" }
+        ] 
+    }
+];
+
+
+// Operações como valores.
+// Obs: caso não seja especificado tipo na variável, em operações aritméticas
+// o valor final é automaticamente convertido para inteiro. Caso queira converter
+// o valor final para outro, é obrigatório especificar o tipo da variável, ex.: :float
+var variable = (10 + (variable++) + (3.14 * 3) / --abc);
+
+var variable = [
+    1, 2, 3,
+    (10 + ( 20 * 3 ) / 4),
+    'str 1', "str 2"
+];
+
+var variable :array = [
+    { name:  "Verbum" },
+    {
+        value: 'Divino',
+        operation:  (3 + ( 3 ) + 3)
+    }
+];
+
+var variable = [
+    1, 2, 3,
+    (10 + 20),
+    'str 1', "str 2"
+];
+
+variable[3]  = 333;   // Contêm valor 30.
+
+// Função anônima como valor em variável.
+var variable = (fn (a :int) -> int {
+    ret a + 10;
+});
+
+// Função anônima com array indexado.
+var variable = [
+    31337,
+    (fn (a :int, b :int) -> int {
+        ret a + b;   
+    })
+];
+
+var value = variable[1](10, 20);
+
+// Função anônima com array associativo.
+var variable = {
+    identifier : 'onclick',
+    callback   : (fn (a :int, b :int) -> int {
+        ret a + b;   
+    })
+};
+
+var value = variable.callback(10, 20);
+
+// Tipos de valores recebidos em variáveis.
+var variable = true;
+var variable = 'a';
+var variable = 'string 1';
+var variable = "string 2";
+var variable = 123;
+var variable = 3.14;
+var variable = 0.12345;
+var variable = [ 1, 2, 3 ];
+var variable = { values: [ 1, 2, 3 ] };
+var variable = anotherVariable;
+
+var variable = functionName(10, 20, 30);
+var variable = obj::functionName(10, 20, 30);
+var variable = obj.functionName(10, 20, 30);
+
+var variable = (10 + 20);
+var variable = (variable * 10 + 20 / 30);
+
+if (expression) 
+    print("value 1");
+elif (expression)
+    print("value 2");
+else
+    print("value 3");
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+var a =       example();
+var a = await example();
+
+
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+var a =       example();
+var a = await example();
+
+
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+var a =       example();
+var a = await example();
+
+
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
+    }
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
+
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
+
+if (n)
+    print("Jesus <3");
+
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
+    }
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
+
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
+
+if (n)
+    print("Jesus <3");
+
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
+    }
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
+
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
+
+if (n)
+    print("Jesus <3");
+
+
+
+if 10 >= (3*3) && 10 < b
+if a >= (3*3) && (10 < b)
+if (func1() > 10) && a>20
+if !a
+if !(10 > a) && !x
+if (!(10 > a)) && !x > ( !x || !(z++) ) <= 10
+if a[1][2][3] = func() != null 
+if (a[1][2][3] = func()) != null 
+if (a = io.func()) <= 10 && b = func( [1, 2, 3] )
+if ++a[1] > 10
+if a[1]++ > 10 {
+    a[1][2] = a.b[1].c[2][3];
+}
+if x[1] > 10
+if (x[1] > 10 && (k[ 1 ] == 20))
+if (x[1] > 10 && (k[ func() - 10 ] == 20))
+if (a.b[1].c.d.e[1][2][3] == 10)
+if ! ar[1][2][3] == 10 && !(yy[1][2] >= ar2.c.d[1].d.e)
+{
+var a = [
+    1,[
+         ar[a][b][3][4] + x - ( 
+
+            a - 333
+
+        ) / 20
+    ],3
+];
+}
+
+if a
+    func2();
+elif (b)
+    func3();
+else
+    func4();
+
+    for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for var a=0, b=0; a<10; a++, b--
+
+for  
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+ret 10;
+
+for (var a = 0; a<100; a++)
+    print("Hello world\n");
+
+for (var a = 0; ; a++) {
+    if (a >= 100)
+        break;
+}
+
+for (var a = 0; ; a++) {
+    if (a < 100)
+        next;
+}
+
+// Equivalente ao while.
+for (a < 10)
+    print("a: {}\n", a);
+
+// Loop infinito.
+for ()
+    print("Infinite...\n");
+
+// Uso comum.
+fn example (a:int, b:int) -> int {
+    ret (a * b) + 31337;
+}
+
+// Concatenação de funções.
+fn primary (a:int, b:int) -> int {
+    var value = 31337;
+
+    fn secondary (a:int, b:int) -> int {
+        ret (a * b) + value;
+    }
+
+    ret secondary(a, b);
+}
+
+// Funções anonimas.
+print("Value: {}\n", 
+    (fn (value :int) -> int { 
+        ret value * 3; 
+    })(31337)
+);
+
+// Função sem retorno.
+fn function () {
+    print("Verbum\n");
+}
+
+
+// In principio erat Verbum
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+// In principio erat Verbum
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+    var a = 10;
+}
+
+class Common extends AbstractClass {
+    var b = 20;
+}
+
+class Example2 extends Common implements ExampleInterface {
+    var c = 30;
+}
+
+final class Example2 extends Common implements ExampleInterface {
+    var d = 40;
+}
+
+final class ExampleN {
+    var e = 50;
+}
+
+class A {
+    var a = 10;
+
+    class B {
+        var b = 20;
+    }
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+    var a = 10;
+}
+
+class Common extends AbstractClass {
+    var b = 20;
+}
+
+class Example2 extends Common implements ExampleInterface {
+    var c = 30;
+}
+
+final class Example2 extends Common implements ExampleInterface {
+    var d = 40;
+}
+
+final class ExampleN {
+    var e = 50;
+}
+
+class A {
+    var a = 10;
+
+    class B {
+        var b = 20;
+    }
+}
+
+// Interface comum...
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+// Classe.
+class Common extends AbstractClass {
+    // ...
+    pub fn checkString (string :string) -> int { /* ... */ }
+
+    // Implementa método abstrato.
+    pro fn abstractMethod (){
+        // ...
+    }
+
+    // Testa "parent" na classe herdeira.
+    pub fn exampleA () -> str {
+        ret "Verbum";
+    }
+
+    pub fn getExampleA () -> str {
+        ret this.exampleA();
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Atributos.
+    priv var attributeA :uint = 31337;
+    pub var attributeB :string  = "Verbum 😃";
+    pub static var subVersion :string = "1337";
+
+    // Construtor.
+    Example (a :uint, b :string) {
+        this.attributeA = a;
+        this.attributeB = b;
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+        ret "1.0.0";
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+        if (flag)
+            ret self::getVersion();
+        ret self::subVersion;
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+        ret [
+            this.attributeA,
+            this.attributeB
+        ];
+    }
+
+    pub fn getValues (index :int) -> int {
+        if (index == 1)
+            ret this.attributeA;
+        ret -1;
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+        print("Verbum\n");
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+        ret "Divinus";
+    }
+
+    pub fn getExampleB () -> str {
+        ret parent::exampleA();
+    }
+}
+
+// Instanciamento e uso.
+var obj     :Example  = new Example(31337, "Verbum");
+var resultA :array    = obj.getValues();
+var resultB :int      = obj.getValues(1);
+var resultC :int      = obj.checkString("Verbum Divinus");
+
+print("Version: {}\n", Example::getVersion());
+print("Sub version: {}\n", Example::subVersion);
+print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
+print("resultB = {}\n", resultB);
+print("Check String = {}\n", resultC);
+
+// Exemplo com "parent".
+var obj1 = new Common();
+obj1.exampleA();            // Verbum
+obj1.getExampleA();         // Verbum
+
+var obj2 = new Example();
+obj2.exampleA();            // Divinus
+obj2.getExampleA();         // Divinus
+obj2.getExampleB();         // Verbum
+
+class Example {
+    priv var value :int = 0;
+
+    pub fn foo (a :int) -> this {
+        this.value += a;
+        ret this;
+    }
+
+    pub fn bar (a :int) -> this {
+        this.value += a;
+        ret this;
+    }
+
+    pub fn show () {
+        print("Value: {}\n", this.value);
+    }
+}
+
+var obj = new Example();
+obj.foo(10).show().bar(20).show();
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Atributos.
+    priv var attributeA :uint = 31337;
+    pub var attributeB :string  = "Verbum 😃";
+    pub static var subVersion :string = "1337";
+
+    // Construtor.
+    Example (a :uint, b :string) {
+        this.attributeA = a;
+        this.attributeB = b;
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+        ret "1.0.0";
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+        if (flag)
+            ret self::getVersion();
+        ret self::subVersion;
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+        ret [
+            this.attributeA,
+            this.attributeB
+        ];
+    }
+
+    pub fn getValues (index :int) -> int {
+        if (index == 1)
+            ret this.attributeA;
+        ret -1;
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+        print("Verbum\n");
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+        ret "Divinus";
+    }
+
+    pub fn getExampleB () -> str {
+        ret parent::exampleA();
+    }
+}
+
+
+// In principio erat Verbum.
+
+obj.foo(10).show()
+    .bar(20).show()
+    .bar(20).show()
+    ;
+
+
+// In principio erat Verbum.
+
+ final pub static fn test (a :int) -> string {
+     print("Verbum!\n");
+}
+
+priv var attr = 31337;
+pub final static var attrB :string  = "Verbum 😃";
+pub static var subVersion :string = "1337";
+
+
+for a {
+    print("Verbum");
+    break;
+    next;
+}
+
+
+
+for a {
+    print("Verbum");
+    break;
+    next;
+}
+
+
+
+
+for a {
+    print("Verbum");
+    break;
+    next;
+
+for a {
+    print("Verbum");
+    break;
+    next;
+
+for a {
+    print("Verbum");
+    break;
+    next;
+}
+
+
+}
+
+
+}
+
+
+
+for a {
+    print("Verbum");
+    break;
+    next;
+}
+
+
+obj.setLogger(new class {
+    pub fn log (msg :string) {
+        print("{}\n", msg);
+    }
+});
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).show();
+obj.setLogger(new class {
+    pub fn log (msg :string) {
+        print("{}\n", msg);
+    }
+});
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).show();
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
+
+
+// In principio erat Verbum.
+
+// Função anônima como valor em variável.
+var variable = (fn () {
+    ret 10;
+});
+
+var variable = (fn (a :int) {
+    ret a + 10;
+});
+
+var variable = (fn (a :int) -> int {
+    ret a + 10;
+});
+
+// Função anônima com array indexado.
+var variable = [
+    31337,
+    (fn (a :int, b :int) -> int {
+        var n = [ 1, 2, 3 ];
+        ret a + b * n[2];   
+    }),
+    'Verbum',
+    333
+];
+
+// Função anônima com array associativo.
+var variable = {
+    identifier : 'onclick',
+    callback   : (fn (a :int, b :int) -> int {
+        ret a + b;
+    })
+};
+
+print("Value: {}\n",
+    (fn (value :int) -> int {
+        var a = value * 333;
+        ret value * 3 + a;
+    })( 10 * ar[1].a.v[1][2] / (x*z) - func() )
+);
+
+
+
+
+
+// In principio erat Verbum.
+
+test[1].a.v[3][3](10, 20, 30);
+x.d.e[1][2].e.g(10, 20);
+
+var v1 = a.v().c().d().e();
+a.v().c().d().e();
+
+var v2 = variable[1](10, 20);
+
+var value = [
+    1, 2, 3,
+
+        variable[1](10, 20),    
+
+    1, 2, 3
+];
+
+var value = [
+    1, 2, 3,
+
+        a.v().c().d().e(),
+
+    1, 2, 3
+];
+
+
+async fn http_get (link :string) -> string {
+    //...
+    ret response;
+}
+
+// Exemplo onde não aguardamos o retorno final de http_get().
+// Observe que o valor de 'response' será modificado no futuro, e
+// enquanto isso não ocorre, seu valor continua como vazio.
+var response = http_get('http://host/path');
+
+for {
+    if (response.size() <= 0)
+        next;
+
+    print("response: {}\n", response);
+    break;
+}
+
+// Exemplo onde aguardamos o retorno de http_get().
+var response = await http_get('http://host/path');
+
+
+
+a = b = c = d;
+
+
+
+// In principio erat Verbum.
+
+obj.a.b.c.setLogger(
+    new class {
+        pub fn log (msg :string) {
+            print("{}\n", msg);
+        }
+    }
+);
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).show().a(10 * 3 / (func() - 1)).b().d();
+
+a::b().c().d()::e()::f().x().v();
+
+(new class {
+    static pub fn show () {
+        print("Verbum\n");
+    }
+})::show()::foo().bar()::show();
+
+(new class {
+    static pub fn show () {
+        print("Verbum\n");
+        ret this;
+    }
+})::show().foo().bar();
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo().bar().show().end();
+
+var variable = (new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo();
+
+var variable = (new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+});
+
+variable.show();
+
+var variable = (new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo().bar().value;
+
+a.foo().b.c[1][2].d.bar([1, func()]).x;
+
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).foo().a.b.bar().e[1][2].show().end().a.b.c;
+
+
+
+
+// In principio erat Verbum.
+
+
+// Instanciamento comum.
+var a = new b;
+var a = new b();
+var a = new b(10, 20, 30);
+var a = new b(10, [1,2,3], 30);
+var a = new b(10, [1,func(),3], 30);
+var a = new b(10, [1,func()/10,3], 30);
+
+// Instanciamento anônimo.
+
+(new StringBuffer()
+    .add1('In principio')
+    .add2('erat Verbum')
+);
+
+(new StringBuffer()
+    .add1('In principio')
+    .add2('erat Verbum')
+).method().a.b.c();
+
+var s = (new StringBuffer()
+    .add1('In principio')
+    .add2('erat Verbum')
+).toString();
+
+var s = (new StringBuffer()
+    .add('In principio')
+    .add('erat Verbum')
+);
+
+var s = (new StringBuffer());
+
+var s = new StringBuffer();
+
+
+
+
+// In principio erat Verbum.
+
+
+a = b = c = x.v.y().j = d.c();
+x.v().x().y();
+x.d.e[1][2].e.g(10, 20);
+
+a = b = c;
+a = b = c = d.c();
+a = b = n = [1,2,3];
+
+a = b = 10;
+a = b = x.y.z();
+a = b = x.y.h().z();
+a = b = x.h.y().k[1][2][3].z();
+
+
+// In principio erat Verbum.
+
+var func = ()          => a * b;
+var func = () -> float => a * b;
+var func = () -> :int  => a * b;
+
+var func = (a, b :int) => a * b;
+
+var func = () -> int => a * b;
+
+var func = (a :int, b :int) -> int => a * b; // Explícito
+
+var func = (a, b) -> int => a * b + 1; // Inferido
+
+var func = (a, b) => a * b + 1; // Inferido
+
+var func = (a, b) => a * b; // Inferido como int, por padrão.
+
+var func :float = (a, b) => a * b; // Inferido como float.
+
+var func = (a :float, b) => a * b; // Inferido como float.
+
+var func = (a, b, c:float) -> int => r a * b + c :int;
+
+var func = (a) => a * 10;
+
+fn myfunc (a :int, n :int) -> int {
+    var lb = (a) => a * n;
+    ret lb(a);
+}
+
+var func = (a) -> int => {
+    var b = rand();
+    ret a * b;
+};
+
+var func = (a) -> int => {
+    var b = rand();
+    ret a * b;
+};
+
+event.callback((a) => {
+    print('Event value: {}', a);
+});
+
+event.callback((a :int) => {
+    print('Event value: {}', a);
+});
+
+
+
+// In principio erat Verbum.
+
+var func = ()          => a * b;
+var func = () -> float => a * b;
+var func = () -> :int  => a * b;
+
+var func = (a, b :int) => a * b;
+
+var func = () -> int => a * b;
+
+var func = (a :int, b :int) -> int => a * b; // Explícito
+
+var func = (a, b) -> int => a * b + 1; // Inferido
+
+var func = (a, b) => a * b + 1; // Inferido
+
+var func = (a, b) => a * b; // Inferido como int, por padrão.
+
+var func :float = (a, b) => a * b; // Inferido como float.
+
+var func = (a :float, b) => a * b; // Inferido como float.
+
+var func = (a, b, c:float) -> int => r a * b + c :int;
+
+var func = (a) => a * 10;
+
+fn myfunc (a :int, n :int) -> int {
+    var lb = (a) => a * n;
+    ret lb(a);
+}
+
+var func = (a) -> int => {
+    var b = rand();
+    ret a * b;
+};
+
+var func = (a) -> int => {
+    var b = rand();
+    ret a * b;
+};
+
+event.callback((a) => {
+    print('Event value: {}', a);
+});
+
+event.callback((a :int) => {
+    print('Event value: {}', a);
+});
+
+
+
+// In principio erat Verbum.
+
+a.b().c.d.e().f().g.h.x.y.z;
+a.b = h.b().c().a.d = x = b.show();
+
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+var a =       example();
+var a = await example();
+
+
+// In principio erat Verbum.
+try {
+    print('Verbum');
+}
+
+try 
+    print('Verbum');
+
+try {
+    print('Verbum');
+} catch (err) {
+    print('Error: {}', err);
+}
+
+try 
+    print('Verbum');
+catch (err) 
+    print('Error: {}', err);
+
+try 
+    try 
+        print('Verbum');
+    catch (err) 
+        print('Error: {}', err);
+
+catch (err) 
+    print('Error: {}', err);
+
+
+try print("Verbum");
+catch (err1) 
+    try 
+        print('Verbum');
+    catch (err2) 
+        print('Error: {}', err);
+    
+if a 
+    try 
+        print("Verbum");
+    catch (err) 
+        print('Error: {}', err);
+
+for 
+    try 
+        print("Verbum");
+    catch (err) 
+        print('Error: {}', err);
+
+        
+        
