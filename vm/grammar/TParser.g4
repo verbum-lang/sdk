@@ -62,7 +62,7 @@ blockVariable
 
 // Declaração.
 variableItem
-  : variablePrefixModes (New | Await)? generalValue (Separator variableItem)*
+  : variablePrefixModes (New | Await)? variableValue (Separator variableItem)*
   ;
 
 variablePrefixModes
@@ -75,6 +75,10 @@ visibilityItems
 
 methodVisibility
   : visibilityItems (methodVisibility)*
+  ;
+
+variableValue
+  : generalValue (variableValue)*
   ;
 
 /*
@@ -101,15 +105,27 @@ functionCallParamElements
 
 /*
 ** Valores de uso geral.
+** Utilizado para:
+**    Valores comuns
+**    Operações
 */
 generalValue
   : (
-      identifier (TypeSpec)? |
-      Integer (TypeSpec)? |
-      Float (TypeSpec)? |
-      String 
+      (IncDecOperators)? identifier (IncDecOperators)? (TypeSpec)? (ArithmeticOperator)? |
+      Integer (TypeSpec)? (ArithmeticOperator)? |
+      Float (TypeSpec)? (ArithmeticOperator)? |
+      String (ArithmeticOperator)?
     )
-  | functionCall
+  | functionCall (TypeSpec)? (ArithmeticOperator)? 
+  | generalValueBlock (TypeSpec)? (ArithmeticOperator)? 
+  ;
+
+generalValueBlock
+  : OpenOp generalValueItems CloseOp
+  ;
+
+generalValueItems
+  : generalValue (generalValueItems)*
   ;
 
 /*

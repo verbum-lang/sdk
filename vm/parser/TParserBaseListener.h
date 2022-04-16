@@ -54,6 +54,9 @@ public:
   virtual void enterMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
   virtual void exitMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
 
+  virtual void enterVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
+  virtual void exitVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
+
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 
@@ -68,6 +71,12 @@ public:
 
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
+
+  virtual void enterGeneralValueBlock(TParser::GeneralValueBlockContext * /*ctx*/) override { }
+  virtual void exitGeneralValueBlock(TParser::GeneralValueBlockContext * /*ctx*/) override { }
+
+  virtual void enterGeneralValueItems(TParser::GeneralValueItemsContext * /*ctx*/) override { }
+  virtual void exitGeneralValueItems(TParser::GeneralValueItemsContext * /*ctx*/) override { }
 
   virtual void enterIdentifier(TParser::IdentifierContext * /*ctx*/) override { }
   virtual void exitIdentifier(TParser::IdentifierContext * /*ctx*/) override { }

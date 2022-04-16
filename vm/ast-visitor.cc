@@ -219,19 +219,12 @@ antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx
 ** Variáveis.
 */
 
-// Variáveis: identifica se é declaração ou atribuição (uso).
+// Variáveis: declaração.
 antlrcpp::Any verbum_ast_visitor::visitBlockVariable (TParser::BlockVariableContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_VARIABLE_INITIALIZATION;
-
-    // Atribuição.
-    if (!ctx->Var())
-        node.variable_type = VERBUM_VARIABLE_ATTRIBUTION;
-
-    // Declaração.
-    else 
-        node.variable_type = VERBUM_VARIABLE_DECLARATION;
+    node.variable_type = VERBUM_VARIABLE_DECLARATION;
     
     this->add_node(node);
 
@@ -242,6 +235,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockVariable (TParser::BlockVariableCont
     return result;
 }
 
+// Variáveis declaradas e suas respectivas informações.
 antlrcpp::Any verbum_ast_visitor::visitVariableItem (TParser::VariableItemContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
