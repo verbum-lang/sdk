@@ -441,7 +441,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
         node.operation_type_conversion = true;
         node.operation_type_conversion_data = ctx->TypeSpec()->getText();
     }
-
+    
     // Bloco de operações.
     if (ctx->operationBlock()) {
         node.operation_type = VERBUM_OPERATION_TYPE_BLOCK;
@@ -463,7 +463,8 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
     }
     
     // Expressões simples.
-    else {
+    else 
+    {
         node.operation_type = VERBUM_OPERATION_TYPE_SIMPLE;
 
         // Identificadores.
@@ -700,7 +701,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
         block = true;
     }
-    
+
     this->add_node(node);
 
     if (block) {

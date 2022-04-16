@@ -32,6 +32,10 @@ using namespace verbum;
 
 int main (int argc, const char **argv) 
 {
+  #ifdef DBG_CLOCK
+    auto start = chrono::steady_clock::now();
+  #endif
+
   // Inicialização.
   verbum_help help(argc, argv);
   help.check();
@@ -45,6 +49,15 @@ int main (int argc, const char **argv)
   // Realiz análise semântica.
   verbum_semantics semantics(lexer_syntactic.get_verbum_ast());
 
+  #ifdef DBG_CLOCK
+    auto end = chrono::steady_clock::now();
+    auto diff = end - start;
+    auto milisecs = chrono::duration <double, milli> (diff).count();
+    auto secs = milisecs / 1000;
+
+    cout << "\nExecution time: " << milisecs << " ms | " << secs << " secs\n";
+  #endif
+  
   return 0;
 }
 

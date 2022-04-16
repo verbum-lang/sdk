@@ -57,7 +57,7 @@ var resultC :int      = obj.checkString("Verbum Divinus");
 
 print("Version: {}\n", Example::getVersion());
 print("Sub version: {}\n", Example::subVersion);
-print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
+print("ResultA = a: {}, b: {}\n", resultA, resultA);
 print("resultB = {}\n", resultB);
 print("Check String = {}\n", resultC);
 
@@ -257,11 +257,12 @@ var variable = {
 };
 
 // Exemplo de acessos em arrays associativos.
-variable.items[0].name      = 10;        // Verbum
+/*variable.items[0].name      = 10;        // Verbum
 variable.items[1].name           = 10;   // Divinus
 variable.items[2].values[0]        = 10; // 10
 variable.items[2].values[3].name   = 10; // Member
 variable.items[3]                  = 10; // 31337
+*/
 
 // Outros exemplos.
 var variable :array = [
@@ -300,7 +301,7 @@ var variable = [
     'str 1', "str 2"
 ];
 
-variable[3]  = 10;   // Contêm valor 30.
+//variable[3]  = 10;   // Contêm valor 30.
 
 var value = variable.callback(10, 20);
 
@@ -473,7 +474,7 @@ var resultC :int      = obj.checkString("Verbum Divinus");
 
 print("Version: {}\n", Example::getVersion());
 print("Sub version: {}\n", Example::subVersion);
-print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
+//print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
 print("resultB = {}\n", resultB);
 print("Check String = {}\n", resultC);
 
@@ -527,7 +528,7 @@ var variable = [
     31337,
     (fn (a :int, b :int) -> int {
         var n = [ 1, 2, 3 ];
-        ret a + b * n[2];   
+        ret a + b * n;   
     }),
     'Verbum',
     333
@@ -545,7 +546,7 @@ print("Value: {}\n",
     (fn (value :int) -> int {
         var a = value * 333;
         ret value * 3 + a;
-    })( 10 * ar[1].a.v[1][2] / (x*z) - func() )
+    })( 10 * /*ar[1].a.v[1][2]*/ a / (x*z) - func() )
 );
 
 

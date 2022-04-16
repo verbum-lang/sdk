@@ -911,7 +911,7 @@ generalValue
   | Float                   // Número de ponto flutuante, incluindo, por exemplo: 0.123.
   | Float       TypeSpec
   | String                  // Strings com aspas simples e duplas.
-  
+
   | indexArray              // Array indexado.
   | associativeArray        // Array associativo.
   | functionCall            // Chamada de função.
