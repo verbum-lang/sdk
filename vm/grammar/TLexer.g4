@@ -1,3 +1,4 @@
+
 lexer grammar TLexer;
 
 @lexer::postinclude {
@@ -68,15 +69,6 @@ IncDecOperators
   : ( '++' | '--' )
   ;
 
-//
-// Identificador:
-//     nome de tipos de variáveis
-//    nome de variáveis
-//    funções e métodos
-//    classes / objetos
-//    interface
-//    abstração
-//
 Identifier
   : IDPrefix
   | IDPrefix ( Words | [0-9]+ | [_] )*
@@ -90,16 +82,33 @@ TypeSpec
   : [:] ( Identifier )
   ;
 
-// Strings.
+Words
+  : [a-zA-Z\u0080-\u{10FFFF}]+
+  ;
+
+Integer
+  : [0-9]+ | [-][0-9]+
+  ; 
+
+Float
+  : FloatLiteral | [-] FloatLiteral
+  ;
+
 String
   : '"'  ( ~('"')  | ('\\' '"') )*  '"'
   | '\'' ( ~('\'') | ('\\' '\'') )* '\''
   ;
 
-// Tokens gerais
-Integer : [0-9]+ | [-][0-9]+; 
-Float : FloatLiteral | [-] FloatLiteral;
+// Comentários.
+BlockComment
+    : '/*' .*? '*/'
+    ;
 
+LineComment
+    : '//' ~[\r\n]*
+    ;
+
+// Espaço em branco e nova-linha.
 Whitespace
     : [ \t]+
     -> skip
@@ -110,21 +119,6 @@ Newline
       |   '\n'
       )
       -> skip
-    ;
-
-Words
-  : [a-zA-Z\u0080-\u{10FFFF}]+
-  ;
-
-// Comentários.
-BlockComment
-    : '/*' .*? '*/'
-    -> skip
-    ;
-
-LineComment
-    : '//' ~[\r\n]*
-    -> skip
     ;
 
 /*
@@ -160,6 +154,6 @@ fragment OCTAL_DIGITS: '0' '0'..'7'+;
 fragment HEX_DIGITS: '0x' ('0'..'9' | 'a'..'f' | 'A'..'F')+;
 
 /* Tokens desconhecidos. */
-//Unknown  : . ;
+//Unknown : . ;
 
 

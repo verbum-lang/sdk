@@ -16,8 +16,9 @@
 #define LANGUAGE_VERSION "1.0"
 
 // Debug flag - comentar linha para desabilitar o modo debug.
-//#define DBG       // Debug geral.
-#define DBG_CLOCK   // Debug do tempo de execução da VM
+#define DBG         // Debug geral.
+#define DBG_TOKENS  // Debug dos tokens (exibe-os).
+#define DBG_CLOCK   // Debug do tempo de execução da VM.
 
 // Número máximo de linhas de código que se pode imprimir nas mensagens de erro de sintaxe.
 #define VERBUM_MAX_ERROR_PRINT_LINES 10

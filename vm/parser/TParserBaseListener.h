@@ -21,23 +21,17 @@ public:
   virtual void enterMain(TParser::MainContext * /*ctx*/) override { }
   virtual void exitMain(TParser::MainContext * /*ctx*/) override { }
 
-  virtual void enterFileContent(TParser::FileContentContext * /*ctx*/) override { }
-  virtual void exitFileContent(TParser::FileContentContext * /*ctx*/) override { }
+  virtual void enterSentences(TParser::SentencesContext * /*ctx*/) override { }
+  virtual void exitSentences(TParser::SentencesContext * /*ctx*/) override { }
 
-  virtual void enterSentence(TParser::SentenceContext * /*ctx*/) override { }
-  virtual void exitSentence(TParser::SentenceContext * /*ctx*/) override { }
+  virtual void enterStatements(TParser::StatementsContext * /*ctx*/) override { }
+  virtual void exitStatements(TParser::StatementsContext * /*ctx*/) override { }
 
-  virtual void enterLiveToken(TParser::LiveTokenContext * /*ctx*/) override { }
-  virtual void exitLiveToken(TParser::LiveTokenContext * /*ctx*/) override { }
+  virtual void enterBlockComments(TParser::BlockCommentsContext * /*ctx*/) override { }
+  virtual void exitBlockComments(TParser::BlockCommentsContext * /*ctx*/) override { }
 
-  virtual void enterBreakFor(TParser::BreakForContext * /*ctx*/) override { }
-  virtual void exitBreakFor(TParser::BreakForContext * /*ctx*/) override { }
-
-  virtual void enterNextFor(TParser::NextForContext * /*ctx*/) override { }
-  virtual void exitNextFor(TParser::NextForContext * /*ctx*/) override { }
-
-  virtual void enterUse(TParser::UseContext * /*ctx*/) override { }
-  virtual void exitUse(TParser::UseContext * /*ctx*/) override { }
+  virtual void enterBlockUse(TParser::BlockUseContext * /*ctx*/) override { }
+  virtual void exitBlockUse(TParser::BlockUseContext * /*ctx*/) override { }
 
   virtual void enterUseValue(TParser::UseValueContext * /*ctx*/) override { }
   virtual void exitUseValue(TParser::UseValueContext * /*ctx*/) override { }
@@ -45,236 +39,8 @@ public:
   virtual void enterUseString(TParser::UseStringContext * /*ctx*/) override { }
   virtual void exitUseString(TParser::UseStringContext * /*ctx*/) override { }
 
-  virtual void enterVariable(TParser::VariableContext * /*ctx*/) override { }
-  virtual void exitVariable(TParser::VariableContext * /*ctx*/) override { }
-
-  virtual void enterVariableModes(TParser::VariableModesContext * /*ctx*/) override { }
-  virtual void exitVariableModes(TParser::VariableModesContext * /*ctx*/) override { }
-
-  virtual void enterVariableModesBkp(TParser::VariableModesBkpContext * /*ctx*/) override { }
-  virtual void exitVariableModesBkp(TParser::VariableModesBkpContext * /*ctx*/) override { }
-
-  virtual void enterVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
-  virtual void exitVariableMembers(TParser::VariableMembersContext * /*ctx*/) override { }
-
-  virtual void enterVariableDefinition(TParser::VariableDefinitionContext * /*ctx*/) override { }
-  virtual void exitVariableDefinition(TParser::VariableDefinitionContext * /*ctx*/) override { }
-
-  virtual void enterVariableDefinitionGeneral(TParser::VariableDefinitionGeneralContext * /*ctx*/) override { }
-  virtual void exitVariableDefinitionGeneral(TParser::VariableDefinitionGeneralContext * /*ctx*/) override { }
-
-  virtual void enterIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
-  virtual void exitIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
-
-  virtual void enterIndexArrayElements(TParser::IndexArrayElementsContext * /*ctx*/) override { }
-  virtual void exitIndexArrayElements(TParser::IndexArrayElementsContext * /*ctx*/) override { }
-
-  virtual void enterAssociativeArray(TParser::AssociativeArrayContext * /*ctx*/) override { }
-  virtual void exitAssociativeArray(TParser::AssociativeArrayContext * /*ctx*/) override { }
-
-  virtual void enterAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
-  virtual void exitAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
-
-  virtual void enterOperationBlock(TParser::OperationBlockContext * /*ctx*/) override { }
-  virtual void exitOperationBlock(TParser::OperationBlockContext * /*ctx*/) override { }
-
-  virtual void enterOperationElements(TParser::OperationElementsContext * /*ctx*/) override { }
-  virtual void exitOperationElements(TParser::OperationElementsContext * /*ctx*/) override { }
-
-  virtual void enterOperationValue(TParser::OperationValueContext * /*ctx*/) override { }
-  virtual void exitOperationValue(TParser::OperationValueContext * /*ctx*/) override { }
-
-  virtual void enterFirstIncDec(TParser::FirstIncDecContext * /*ctx*/) override { }
-  virtual void exitFirstIncDec(TParser::FirstIncDecContext * /*ctx*/) override { }
-
-  virtual void enterLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
-  virtual void exitLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
-
-  virtual void enterCallingFunction(TParser::CallingFunctionContext * /*ctx*/) override { }
-  virtual void exitCallingFunction(TParser::CallingFunctionContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
-  virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCallParamAC(TParser::FunctionCallParamACContext * /*ctx*/) override { }
-  virtual void exitFunctionCallParamAC(TParser::FunctionCallParamACContext * /*ctx*/) override { }
-
-  virtual void enterMethodCascadingModes(TParser::MethodCascadingModesContext * /*ctx*/) override { }
-  virtual void exitMethodCascadingModes(TParser::MethodCascadingModesContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCallCascading(TParser::FunctionCallCascadingContext * /*ctx*/) override { }
-  virtual void exitFunctionCallCascading(TParser::FunctionCallCascadingContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCallCascadingItem(TParser::FunctionCallCascadingItemContext * /*ctx*/) override { }
-  virtual void exitFunctionCallCascadingItem(TParser::FunctionCallCascadingItemContext * /*ctx*/) override { }
-
-  virtual void enterIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
-  virtual void exitIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
-
-  virtual void enterPointSeparator(TParser::PointSeparatorContext * /*ctx*/) override { }
-  virtual void exitPointSeparator(TParser::PointSeparatorContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
-  virtual void exitFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCallParamElements(TParser::FunctionCallParamElementsContext * /*ctx*/) override { }
-  virtual void exitFunctionCallParamElements(TParser::FunctionCallParamElementsContext * /*ctx*/) override { }
-
-  virtual void enterConditionalExpression(TParser::ConditionalExpressionContext * /*ctx*/) override { }
-  virtual void exitConditionalExpression(TParser::ConditionalExpressionContext * /*ctx*/) override { }
-
-  virtual void enterConditionalExpressionStructBlock(TParser::ConditionalExpressionStructBlockContext * /*ctx*/) override { }
-  virtual void exitConditionalExpressionStructBlock(TParser::ConditionalExpressionStructBlockContext * /*ctx*/) override { }
-
-  virtual void enterIfElementUnique(TParser::IfElementUniqueContext * /*ctx*/) override { }
-  virtual void exitIfElementUnique(TParser::IfElementUniqueContext * /*ctx*/) override { }
-
-  virtual void enterElifElements(TParser::ElifElementsContext * /*ctx*/) override { }
-  virtual void exitElifElements(TParser::ElifElementsContext * /*ctx*/) override { }
-
-  virtual void enterElifElementUnique(TParser::ElifElementUniqueContext * /*ctx*/) override { }
-  virtual void exitElifElementUnique(TParser::ElifElementUniqueContext * /*ctx*/) override { }
-
-  virtual void enterElseElementUnique(TParser::ElseElementUniqueContext * /*ctx*/) override { }
-  virtual void exitElseElementUnique(TParser::ElseElementUniqueContext * /*ctx*/) override { }
-
-  virtual void enterConditionalExpressionItems(TParser::ConditionalExpressionItemsContext * /*ctx*/) override { }
-  virtual void exitConditionalExpressionItems(TParser::ConditionalExpressionItemsContext * /*ctx*/) override { }
-
-  virtual void enterConditionalBlockElements(TParser::ConditionalBlockElementsContext * /*ctx*/) override { }
-  virtual void exitConditionalBlockElements(TParser::ConditionalBlockElementsContext * /*ctx*/) override { }
-
-  virtual void enterConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext * /*ctx*/) override { }
-  virtual void exitConditionalBlockElsItems(TParser::ConditionalBlockElsItemsContext * /*ctx*/) override { }
-
-  virtual void enterConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
-  virtual void exitConditionalExpressionElements(TParser::ConditionalExpressionElementsContext * /*ctx*/) override { }
-
-  virtual void enterConditionExpValue(TParser::ConditionExpValueContext * /*ctx*/) override { }
-  virtual void exitConditionExpValue(TParser::ConditionExpValueContext * /*ctx*/) override { }
-
-  virtual void enterConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
-  virtual void exitConditionExpBlock(TParser::ConditionExpBlockContext * /*ctx*/) override { }
-
-  virtual void enterConditionExpBlockItemValue(TParser::ConditionExpBlockItemValueContext * /*ctx*/) override { }
-  virtual void exitConditionExpBlockItemValue(TParser::ConditionExpBlockItemValueContext * /*ctx*/) override { }
-
-  virtual void enterConditionExpBlockItem(TParser::ConditionExpBlockItemContext * /*ctx*/) override { }
-  virtual void exitConditionExpBlockItem(TParser::ConditionExpBlockItemContext * /*ctx*/) override { }
-
-  virtual void enterConditionalExpValue(TParser::ConditionalExpValueContext * /*ctx*/) override { }
-  virtual void exitConditionalExpValue(TParser::ConditionalExpValueContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCallAndAttr(TParser::FunctionCallAndAttrContext * /*ctx*/) override { }
-  virtual void exitFunctionCallAndAttr(TParser::FunctionCallAndAttrContext * /*ctx*/) override { }
-
-  virtual void enterIdentifierAttrFn(TParser::IdentifierAttrFnContext * /*ctx*/) override { }
-  virtual void exitIdentifierAttrFn(TParser::IdentifierAttrFnContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCallAttrFn(TParser::FunctionCallAttrFnContext * /*ctx*/) override { }
-  virtual void exitFunctionCallAttrFn(TParser::FunctionCallAttrFnContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCallAttrFnItem(TParser::FunctionCallAttrFnItemContext * /*ctx*/) override { }
-  virtual void exitFunctionCallAttrFnItem(TParser::FunctionCallAttrFnItemContext * /*ctx*/) override { }
-
-  virtual void enterLoop(TParser::LoopContext * /*ctx*/) override { }
-  virtual void exitLoop(TParser::LoopContext * /*ctx*/) override { }
-
-  virtual void enterLoopExpressionItems(TParser::LoopExpressionItemsContext * /*ctx*/) override { }
-  virtual void exitLoopExpressionItems(TParser::LoopExpressionItemsContext * /*ctx*/) override { }
-
-  virtual void enterLoopExpression(TParser::LoopExpressionContext * /*ctx*/) override { }
-  virtual void exitLoopExpression(TParser::LoopExpressionContext * /*ctx*/) override { }
-
-  virtual void enterLoopInfinite(TParser::LoopInfiniteContext * /*ctx*/) override { }
-  virtual void exitLoopInfinite(TParser::LoopInfiniteContext * /*ctx*/) override { }
-
-  virtual void enterLoopComplete(TParser::LoopCompleteContext * /*ctx*/) override { }
-  virtual void exitLoopComplete(TParser::LoopCompleteContext * /*ctx*/) override { }
-
-  virtual void enterLoopConditional(TParser::LoopConditionalContext * /*ctx*/) override { }
-  virtual void exitLoopConditional(TParser::LoopConditionalContext * /*ctx*/) override { }
-
-  virtual void enterEndOne(TParser::EndOneContext * /*ctx*/) override { }
-  virtual void exitEndOne(TParser::EndOneContext * /*ctx*/) override { }
-
-  virtual void enterEndTwo(TParser::EndTwoContext * /*ctx*/) override { }
-  virtual void exitEndTwo(TParser::EndTwoContext * /*ctx*/) override { }
-
-  virtual void enterLoopOneMembers(TParser::LoopOneMembersContext * /*ctx*/) override { }
-  virtual void exitLoopOneMembers(TParser::LoopOneMembersContext * /*ctx*/) override { }
-
-  virtual void enterLoopTwoMembers(TParser::LoopTwoMembersContext * /*ctx*/) override { }
-  virtual void exitLoopTwoMembers(TParser::LoopTwoMembersContext * /*ctx*/) override { }
-
-  virtual void enterLoopThreeMembers(TParser::LoopThreeMembersContext * /*ctx*/) override { }
-  virtual void exitLoopThreeMembers(TParser::LoopThreeMembersContext * /*ctx*/) override { }
-
-  virtual void enterLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext * /*ctx*/) override { }
-  virtual void exitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext * /*ctx*/) override { }
-
-  virtual void enterLoopBlockElements(TParser::LoopBlockElementsContext * /*ctx*/) override { }
-  virtual void exitLoopBlockElements(TParser::LoopBlockElementsContext * /*ctx*/) override { }
-
-  virtual void enterLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext * /*ctx*/) override { }
-  virtual void exitLoopBlockElementsLimited(TParser::LoopBlockElementsLimitedContext * /*ctx*/) override { }
-
-  virtual void enterRet(TParser::RetContext * /*ctx*/) override { }
-  virtual void exitRet(TParser::RetContext * /*ctx*/) override { }
-
-  virtual void enterRetValues(TParser::RetValuesContext * /*ctx*/) override { }
-  virtual void exitRetValues(TParser::RetValuesContext * /*ctx*/) override { }
-
-  virtual void enterFunctions(TParser::FunctionsContext * /*ctx*/) override { }
-  virtual void exitFunctions(TParser::FunctionsContext * /*ctx*/) override { }
-
-  virtual void enterFunctionsModes(TParser::FunctionsModesContext * /*ctx*/) override { }
-  virtual void exitFunctionsModes(TParser::FunctionsModesContext * /*ctx*/) override { }
-
-  virtual void enterFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
-  virtual void exitFunctionGeneralModes(TParser::FunctionGeneralModesContext * /*ctx*/) override { }
-
-  virtual void enterIdentifierRet(TParser::IdentifierRetContext * /*ctx*/) override { }
-  virtual void exitIdentifierRet(TParser::IdentifierRetContext * /*ctx*/) override { }
-
-  virtual void enterFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }
-  virtual void exitFunctionMethodsModes(TParser::FunctionMethodsModesContext * /*ctx*/) override { }
-
-  virtual void enterFunctionMethodsModesBkp(TParser::FunctionMethodsModesBkpContext * /*ctx*/) override { }
-  virtual void exitFunctionMethodsModesBkp(TParser::FunctionMethodsModesBkpContext * /*ctx*/) override { }
-
-  virtual void enterMethodPerm(TParser::MethodPermContext * /*ctx*/) override { }
-  virtual void exitMethodPerm(TParser::MethodPermContext * /*ctx*/) override { }
-
-  virtual void enterVisibilityItems(TParser::VisibilityItemsContext * /*ctx*/) override { }
-  virtual void exitVisibilityItems(TParser::VisibilityItemsContext * /*ctx*/) override { }
-
-  virtual void enterMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
-  virtual void exitMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
-
-  virtual void enterConstructClassMethod(TParser::ConstructClassMethodContext * /*ctx*/) override { }
-  virtual void exitConstructClassMethod(TParser::ConstructClassMethodContext * /*ctx*/) override { }
-
-  virtual void enterInterfaceMethod(TParser::InterfaceMethodContext * /*ctx*/) override { }
-  virtual void exitInterfaceMethod(TParser::InterfaceMethodContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
-  virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
-
-  virtual void enterFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext * /*ctx*/) override { }
-  virtual void exitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext * /*ctx*/) override { }
-
-  virtual void enterFunctionParams(TParser::FunctionParamsContext * /*ctx*/) override { }
-  virtual void exitFunctionParams(TParser::FunctionParamsContext * /*ctx*/) override { }
-
-  virtual void enterFunctionParamsControl(TParser::FunctionParamsControlContext * /*ctx*/) override { }
-  virtual void exitFunctionParamsControl(TParser::FunctionParamsControlContext * /*ctx*/) override { }
-
-  virtual void enterFunctionParamElements(TParser::FunctionParamElementsContext * /*ctx*/) override { }
-  virtual void exitFunctionParamElements(TParser::FunctionParamElementsContext * /*ctx*/) override { }
-
-  virtual void enterOopGeneral(TParser::OopGeneralContext * /*ctx*/) override { }
-  virtual void exitOopGeneral(TParser::OopGeneralContext * /*ctx*/) override { }
+  virtual void enterBlockOop(TParser::BlockOopContext * /*ctx*/) override { }
+  virtual void exitBlockOop(TParser::BlockOopContext * /*ctx*/) override { }
 
   virtual void enterInterfaceClass(TParser::InterfaceClassContext * /*ctx*/) override { }
   virtual void exitInterfaceClass(TParser::InterfaceClassContext * /*ctx*/) override { }
@@ -285,140 +51,14 @@ public:
   virtual void enterInterfaceCodeBlock(TParser::InterfaceCodeBlockContext * /*ctx*/) override { }
   virtual void exitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext * /*ctx*/) override { }
 
-  virtual void enterAbstractClass(TParser::AbstractClassContext * /*ctx*/) override { }
-  virtual void exitAbstractClass(TParser::AbstractClassContext * /*ctx*/) override { }
+  virtual void enterFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext * /*ctx*/) override { }
+  virtual void exitFunctionCodeBlockElements(TParser::FunctionCodeBlockElementsContext * /*ctx*/) override { }
 
-  virtual void enterAbstractClassDefinition(TParser::AbstractClassDefinitionContext * /*ctx*/) override { }
-  virtual void exitAbstractClassDefinition(TParser::AbstractClassDefinitionContext * /*ctx*/) override { }
+  virtual void enterIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
+  virtual void exitIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
 
-  virtual void enterAbstractCodeBlock(TParser::AbstractCodeBlockContext * /*ctx*/) override { }
-  virtual void exitAbstractCodeBlock(TParser::AbstractCodeBlockContext * /*ctx*/) override { }
-
-  virtual void enterClassDefination(TParser::ClassDefinationContext * /*ctx*/) override { }
-  virtual void exitClassDefination(TParser::ClassDefinationContext * /*ctx*/) override { }
-
-  virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
-  virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
-
-  virtual void enterClassModes(TParser::ClassModesContext * /*ctx*/) override { }
-  virtual void exitClassModes(TParser::ClassModesContext * /*ctx*/) override { }
-
-  virtual void enterIdentifierC(TParser::IdentifierCContext * /*ctx*/) override { }
-  virtual void exitIdentifierC(TParser::IdentifierCContext * /*ctx*/) override { }
-
-  virtual void enterAnonymousClassCall(TParser::AnonymousClassCallContext * /*ctx*/) override { }
-  virtual void exitAnonymousClassCall(TParser::AnonymousClassCallContext * /*ctx*/) override { }
-
-  virtual void enterAnonymousClassCallExpr(TParser::AnonymousClassCallExprContext * /*ctx*/) override { }
-  virtual void exitAnonymousClassCallExpr(TParser::AnonymousClassCallExprContext * /*ctx*/) override { }
-
-  virtual void enterAnonymousClass(TParser::AnonymousClassContext * /*ctx*/) override { }
-  virtual void exitAnonymousClass(TParser::AnonymousClassContext * /*ctx*/) override { }
-
-  virtual void enterAnonymousClassElements(TParser::AnonymousClassElementsContext * /*ctx*/) override { }
-  virtual void exitAnonymousClassElements(TParser::AnonymousClassElementsContext * /*ctx*/) override { }
-
-  virtual void enterArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }
-  virtual void exitArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }
-
-  virtual void enterArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext * /*ctx*/) override { }
-  virtual void exitArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext * /*ctx*/) override { }
-
-  virtual void enterAccessBlockAr(TParser::AccessBlockArContext * /*ctx*/) override { }
-  virtual void exitAccessBlockAr(TParser::AccessBlockArContext * /*ctx*/) override { }
-
-  virtual void enterArrayIndexAccess(TParser::ArrayIndexAccessContext * /*ctx*/) override { }
-  virtual void exitArrayIndexAccess(TParser::ArrayIndexAccessContext * /*ctx*/) override { }
-
-  virtual void enterAnonymousFunction(TParser::AnonymousFunctionContext * /*ctx*/) override { }
-  virtual void exitAnonymousFunction(TParser::AnonymousFunctionContext * /*ctx*/) override { }
-
-  virtual void enterAnFnItems(TParser::AnFnItemsContext * /*ctx*/) override { }
-  virtual void exitAnFnItems(TParser::AnFnItemsContext * /*ctx*/) override { }
-
-  virtual void enterFunctionsModesFn(TParser::FunctionsModesFnContext * /*ctx*/) override { }
-  virtual void exitFunctionsModesFn(TParser::FunctionsModesFnContext * /*ctx*/) override { }
-
-  virtual void enterAnonymousObjectCall(TParser::AnonymousObjectCallContext * /*ctx*/) override { }
-  virtual void exitAnonymousObjectCall(TParser::AnonymousObjectCallContext * /*ctx*/) override { }
-
-  virtual void enterAnonymousObjectCallExpr(TParser::AnonymousObjectCallExprContext * /*ctx*/) override { }
-  virtual void exitAnonymousObjectCallExpr(TParser::AnonymousObjectCallExprContext * /*ctx*/) override { }
-
-  virtual void enterAnonymousObject(TParser::AnonymousObjectContext * /*ctx*/) override { }
-  virtual void exitAnonymousObject(TParser::AnonymousObjectContext * /*ctx*/) override { }
-
-  virtual void enterVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext * /*ctx*/) override { }
-  virtual void exitVariableMultipleAssignments(TParser::VariableMultipleAssignmentsContext * /*ctx*/) override { }
-
-  virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
-  virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
-
-  virtual void enterVariableMultipleAItems(TParser::VariableMultipleAItemsContext * /*ctx*/) override { }
-  virtual void exitVariableMultipleAItems(TParser::VariableMultipleAItemsContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFunctions(TParser::LambdaFunctionsContext * /*ctx*/) override { }
-  virtual void exitLambdaFunctions(TParser::LambdaFunctionsContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnParams(TParser::LambdaFnParamsContext * /*ctx*/) override { }
-  virtual void exitLambdaFnParams(TParser::LambdaFnParamsContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnRet(TParser::LambdaFnRetContext * /*ctx*/) override { }
-  virtual void exitLambdaFnRet(TParser::LambdaFnRetContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
-  virtual void exitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnCodeBlockSimple(TParser::LambdaFnCodeBlockSimpleContext * /*ctx*/) override { }
-  virtual void exitLambdaFnCodeBlockSimple(TParser::LambdaFnCodeBlockSimpleContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnCodeBlockKey(TParser::LambdaFnCodeBlockKeyContext * /*ctx*/) override { }
-  virtual void exitLambdaFnCodeBlockKey(TParser::LambdaFnCodeBlockKeyContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext * /*ctx*/) override { }
-  virtual void exitLambdaFnCodeBlockItemsControl(TParser::LambdaFnCodeBlockItemsControlContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnCodeBlockItems(TParser::LambdaFnCodeBlockItemsContext * /*ctx*/) override { }
-  virtual void exitLambdaFnCodeBlockItems(TParser::LambdaFnCodeBlockItemsContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnParamsItems(TParser::LambdaFnParamsItemsContext * /*ctx*/) override { }
-  virtual void exitLambdaFnParamsItems(TParser::LambdaFnParamsItemsContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnParamsControl(TParser::LambdaFnParamsControlContext * /*ctx*/) override { }
-  virtual void exitLambdaFnParamsControl(TParser::LambdaFnParamsControlContext * /*ctx*/) override { }
-
-  virtual void enterLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext * /*ctx*/) override { }
-  virtual void exitLambdaFnParamsElements(TParser::LambdaFnParamsElementsContext * /*ctx*/) override { }
-
-  virtual void enterTryCatch(TParser::TryCatchContext * /*ctx*/) override { }
-  virtual void exitTryCatch(TParser::TryCatchContext * /*ctx*/) override { }
-
-  virtual void enterTryCatchBlock(TParser::TryCatchBlockContext * /*ctx*/) override { }
-  virtual void exitTryCatchBlock(TParser::TryCatchBlockContext * /*ctx*/) override { }
-
-  virtual void enterTryCatchElements(TParser::TryCatchElementsContext * /*ctx*/) override { }
-  virtual void exitTryCatchElements(TParser::TryCatchElementsContext * /*ctx*/) override { }
-
-  virtual void enterTryUniqueElement(TParser::TryUniqueElementContext * /*ctx*/) override { }
-  virtual void exitTryUniqueElement(TParser::TryUniqueElementContext * /*ctx*/) override { }
-
-  virtual void enterCatchUniqueElement(TParser::CatchUniqueElementContext * /*ctx*/) override { }
-  virtual void exitCatchUniqueElement(TParser::CatchUniqueElementContext * /*ctx*/) override { }
-
-  virtual void enterTryCatchElementsLimited(TParser::TryCatchElementsLimitedContext * /*ctx*/) override { }
-  virtual void exitTryCatchElementsLimited(TParser::TryCatchElementsLimitedContext * /*ctx*/) override { }
-
-  virtual void enterTryCatchBlockElements(TParser::TryCatchBlockElementsContext * /*ctx*/) override { }
-  virtual void exitTryCatchBlockElements(TParser::TryCatchBlockElementsContext * /*ctx*/) override { }
-
-  virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
-  virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
-
-  virtual void enterObjIdentifierA(TParser::ObjIdentifierAContext * /*ctx*/) override { }
-  virtual void exitObjIdentifierA(TParser::ObjIdentifierAContext * /*ctx*/) override { }
-
-  virtual void enterObjIdentifierB(TParser::ObjIdentifierBContext * /*ctx*/) override { }
-  virtual void exitObjIdentifierB(TParser::ObjIdentifierBContext * /*ctx*/) override { }
+  virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }
+  virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }
 
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }
