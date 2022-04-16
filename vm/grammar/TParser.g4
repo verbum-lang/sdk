@@ -865,7 +865,6 @@ tryCatch
 
 tryCatchBlock
   : tryCatchElements
-  | tryCatchElements tryCatch
   ;
 
 tryCatchElements
