@@ -68,6 +68,9 @@ namespace verbum {
             void add_node (verbum_ast_node source);
             void add_node_internal_ptr (verbum_ast_node source, verbum_ast_node *ast);
             verbum_ast_node add_node_internal_copy (verbum_ast_node source, verbum_ast_node destination);
+
+            // Processa operador aritmético.
+            int check_block_arithmeic_operator (string op);
     };
 }
 

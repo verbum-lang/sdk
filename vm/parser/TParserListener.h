@@ -79,6 +79,12 @@ public:
   virtual void enterIdentifier(TParser::IdentifierContext *ctx) = 0;
   virtual void exitIdentifier(TParser::IdentifierContext *ctx) = 0;
 
+  virtual void enterIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) = 0;
+  virtual void exitIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) = 0;
+
+  virtual void enterIncDecOperatorsB(TParser::IncDecOperatorsBContext *ctx) = 0;
+  virtual void exitIncDecOperatorsB(TParser::IncDecOperatorsBContext *ctx) = 0;
+
   virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;
   virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;
 

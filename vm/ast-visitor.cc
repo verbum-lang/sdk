@@ -203,6 +203,27 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
 }
 
 /*
+** Verifica operador aritmético utilizado no bloco de operações.
+*/
+int verbum_ast_visitor::check_block_arithmeic_operator (string op)
+{
+    int result = VERBUM_UNKNOWN;
+
+    if (op.compare("+") == 0)
+        result = VERBUM_OPERATOR_ADD;
+    else if (op.compare("-") == 0)
+        result = VERBUM_OPERATOR_SUB;
+    else if (op.compare("*") == 0)
+        result = VERBUM_OPERATOR_MUL;
+    else if (op.compare("/") == 0)
+        result = VERBUM_OPERATOR_DIV;
+    else if (op.compare("%") == 0)
+        result = VERBUM_OPERATOR_PERC;
+
+    return result;
+}
+
+/*
 ** Importações: use.
 */
 antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx) 
@@ -311,12 +332,39 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
     node.type = VERBUM_GENERAL_VALUE;
     node.general_value_type_conversion = false;
 
+    // Verifica se há conversão de tipo.
     if (ctx->TypeSpec()) {
         node.general_value_type_conversion = true;
         node.general_value_type_conversion_data = ctx->TypeSpec()->getText();
     }
 
+    // Verifica se há incremento prefixado.
+    string incDecStr = "";
+
+    if (ctx->incDecOperatorsA()) {
+        node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_PRE;
+        incDecStr = ctx->incDecOperatorsA()->getText();
+    } else if (ctx->incDecOperatorsB()) {
+        node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_POS;
+        incDecStr = ctx->incDecOperatorsB()->getText();
+    }
+
+    if (ctx->incDecOperatorsA() || ctx->incDecOperatorsB()) {        
+        if (incDecStr.compare("++") == 0)
+            node.operation_data.type_inc_dec = VERBUM_OP_TYPE_INC;
+        else if (incDecStr.compare("--") == 0)
+            node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
+    }
+
+    // Captura operador aritmético.
+    if (ctx->ArithmeticOperator()) {
+        string op = ctx->ArithmeticOperator()->getText();
+        node.operation_op = this->check_block_arithmeic_operator(op);
+    }
+
+    //
     // Dados simples.
+    //
     if (ctx->identifier()) {
         node.general_value_data.type = VERBUM_DATA_IDENTIFIER;
         node.general_value_data.identifier = ctx->identifier()->getText();
@@ -336,10 +384,10 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
     */
 
     // Bloco de operações.
-    // else if (ctx->operationElements()) {
-    //     node.general_value_data.type = VERBUM_DATA_OPERATION_BLOCK;
-    //     block = true;
-    // }
+    else if (ctx->generalValueBlock()) {
+        node.general_value_data.type = VERBUM_DATA_OPERATION_BLOCK;
+        block = true;
+    }
 
     // Chamadas a funções.
     else if (ctx->functionCall()) {

@@ -37,7 +37,8 @@ public:
     RuleMethodVisibility = 11, RuleVariableValue = 12, RuleFunctionCall = 13, 
     RuleFunctionCallPrefix = 14, RuleFunctionCallParam = 15, RuleFunctionCallParamElements = 16, 
     RuleGeneralValue = 17, RuleGeneralValueBlock = 18, RuleGeneralValueItems = 19, 
-    RuleIdentifier = 20, RuleBlockLiveTokens = 21
+    RuleIdentifier = 20, RuleIncDecOperatorsA = 21, RuleIncDecOperatorsB = 22, 
+    RuleBlockLiveTokens = 23
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -71,6 +72,8 @@ public:
   class GeneralValueBlockContext;
   class GeneralValueItemsContext;
   class IdentifierContext;
+  class IncDecOperatorsAContext;
+  class IncDecOperatorsBContext;
   class BlockLiveTokensContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
@@ -378,8 +381,8 @@ public:
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
     antlr4::tree::TerminalNode *String();
-    std::vector<antlr4::tree::TerminalNode *> IncDecOperators();
-    antlr4::tree::TerminalNode* IncDecOperators(size_t i);
+    IncDecOperatorsAContext *incDecOperatorsA();
+    IncDecOperatorsBContext *incDecOperatorsB();
     antlr4::tree::TerminalNode *TypeSpec();
     antlr4::tree::TerminalNode *ArithmeticOperator();
     FunctionCallContext *functionCall();
@@ -442,6 +445,36 @@ public:
   };
 
   IdentifierContext* identifier();
+
+  class  IncDecOperatorsAContext : public antlr4::ParserRuleContext {
+  public:
+    IncDecOperatorsAContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IncDecOperators();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IncDecOperatorsAContext* incDecOperatorsA();
+
+  class  IncDecOperatorsBContext : public antlr4::ParserRuleContext {
+  public:
+    IncDecOperatorsBContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IncDecOperators();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IncDecOperatorsBContext* incDecOperatorsB();
 
   class  BlockLiveTokensContext : public antlr4::ParserRuleContext {
   public:

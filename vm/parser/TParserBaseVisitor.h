@@ -101,6 +101,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitIncDecOperatorsB(TParser::IncDecOperatorsBContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) override {
     return visitChildren(ctx);
   }

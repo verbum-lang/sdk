@@ -111,7 +111,7 @@ functionCallParamElements
 */
 generalValue
   : (
-      (IncDecOperators)? identifier (IncDecOperators)? (TypeSpec)? (ArithmeticOperator)? |
+      (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? |
       Integer (TypeSpec)? (ArithmeticOperator)? |
       Float (TypeSpec)? (ArithmeticOperator)? |
       String (ArithmeticOperator)?
@@ -132,6 +132,8 @@ generalValueItems
 ** Controladores gerais.
 */
 identifier : Identifier;
+incDecOperatorsA : IncDecOperators;
+incDecOperatorsB : IncDecOperators;
 
 /*
 ** Live tokens...

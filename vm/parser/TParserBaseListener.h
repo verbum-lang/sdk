@@ -81,6 +81,12 @@ public:
   virtual void enterIdentifier(TParser::IdentifierContext * /*ctx*/) override { }
   virtual void exitIdentifier(TParser::IdentifierContext * /*ctx*/) override { }
 
+  virtual void enterIncDecOperatorsA(TParser::IncDecOperatorsAContext * /*ctx*/) override { }
+  virtual void exitIncDecOperatorsA(TParser::IncDecOperatorsAContext * /*ctx*/) override { }
+
+  virtual void enterIncDecOperatorsB(TParser::IncDecOperatorsBContext * /*ctx*/) override { }
+  virtual void exitIncDecOperatorsB(TParser::IncDecOperatorsBContext * /*ctx*/) override { }
+
   virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }
   virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }
 

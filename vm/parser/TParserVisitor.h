@@ -62,6 +62,10 @@ public:
 
     virtual antlrcpp::Any visitIdentifier(TParser::IdentifierContext *context) = 0;
 
+    virtual antlrcpp::Any visitIncDecOperatorsA(TParser::IncDecOperatorsAContext *context) = 0;
+
+    virtual antlrcpp::Any visitIncDecOperatorsB(TParser::IncDecOperatorsBContext *context) = 0;
+
     virtual antlrcpp::Any visitBlockLiveTokens(TParser::BlockLiveTokensContext *context) = 0;
 
 

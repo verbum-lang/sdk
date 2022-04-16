@@ -147,21 +147,47 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             // Dados simples.
             if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER      ||
-                     node.general_value_data.type == VERBUM_DATA_INTEGER         ||
-                     node.general_value_data.type == VERBUM_DATA_STRING          ||
-                     node.general_value_data.type == VERBUM_DATA_FLOAT            )
+                node.general_value_data.type == VERBUM_DATA_INTEGER         ||
+                node.general_value_data.type == VERBUM_DATA_STRING          ||
+                node.general_value_data.type == VERBUM_DATA_FLOAT            )
             {
-                this->tab();
-                cout << "-> value: ";
+                if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) {
 
-                if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) 
+                    // Pré inc/dec.
+                    if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
+                        this->tab();
+
+                        switch (node.operation_data.type_inc_dec) {
+                            case VERBUM_OP_TYPE_INC: cout << "++ (pre)\n"; break;
+                            case VERBUM_OP_TYPE_DEC: cout << "-- (pre)\n"; break;
+                        }
+                    }
+
+                    this->tab();
                     cout << node.general_value_data.identifier << " (s.identifier)\n";
-                else if (node.general_value_data.type == VERBUM_DATA_INTEGER) 
-                    cout << node.general_value_data.integer << " (s.integer)\n";
-                else if (node.general_value_data.type == VERBUM_DATA_STRING) 
-                    cout << node.general_value_data.vstring << " (s.string)\n";
-                else if (node.general_value_data.type == VERBUM_DATA_FLOAT) 
-                    cout << node.general_value_data.floating << " (s.float)\n";
+
+                    // Pós inc/dec.
+                    if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
+                        this->tab();
+
+                        switch (node.operation_data.type_inc_dec) {
+                            case VERBUM_OP_TYPE_INC: cout << "++ (pos)\n"; break;
+                            case VERBUM_OP_TYPE_DEC: cout << "-- (pos)\n"; break;
+                        }
+                    }
+                } 
+
+                else {
+                    this->tab();
+                    cout << "-> value: ";
+
+                    if (node.general_value_data.type == VERBUM_DATA_INTEGER) 
+                        cout << node.general_value_data.integer << " (s.integer)\n";
+                    else if (node.general_value_data.type == VERBUM_DATA_STRING) 
+                        cout << node.general_value_data.vstring << " (s.string)\n";
+                    else if (node.general_value_data.type == VERBUM_DATA_FLOAT) 
+                        cout << node.general_value_data.floating << " (s.float)\n";
+                }
             }
 
             /*
@@ -171,11 +197,14 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             // Operações e sub-elementos.
             else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
                 this->tab();
-                cout << "-> operation-block:\n";
+                cout << "-> operation-block (open)\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
+
+                this->tab();
+                cout << "-> operation-block (close)\n";
             }
 
             // Array indexado.
@@ -276,6 +305,35 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             if (node.general_value_type_conversion) {
                 this->tab();
                 cout << node.general_value_type_conversion_data << " (type conversion)\n";
+            }
+
+            // Operação.
+            if (node.operation_op != VERBUM_UNKNOWN) {
+                this->tab();
+
+                switch (node.operation_op) {
+                    case VERBUM_OPERATOR_ADD:         cout <<  "+\n"; break;
+                    case VERBUM_OPERATOR_SUB:         cout <<  "-\n"; break;
+                    case VERBUM_OPERATOR_DIV:         cout <<  "/\n"; break;
+                    case VERBUM_OPERATOR_MUL:         cout <<  "*\n"; break;
+                    case VERBUM_OPERATOR_PERC:        cout <<  "%\n"; break;
+
+                    // Utilizado nas expressões condicionais.
+                    case VERBUM_OPERATOR_ATTR:        cout <<  "=\n"; break;
+                    case VERBUM_OPERATOR_ADD_EQUAL:   cout << "+=\n"; break;
+                    case VERBUM_OPERATOR_SUB_EQUAL:   cout << "-=\n"; break;
+                    case VERBUM_OPERATOR_MUL_EQUAL:   cout << "*=\n"; break;
+                    case VERBUM_OPERATOR_DIV_EQUAL:   cout << "/=\n"; break;
+                    case VERBUM_OPERATOR_PERC_EQUAL:  cout << "%=\n"; break;
+                    case VERBUM_OPERATOR_MAJOR:       cout <<  ">\n"; break;
+                    case VERBUM_OPERATOR_MINOR:       cout <<  "<\n"; break;
+                    case VERBUM_OPERATOR_MAJOR_EQUAL: cout << ">=\n"; break;
+                    case VERBUM_OPERATOR_MINOR_EQUAL: cout << "<=\n"; break;
+                    case VERBUM_OPERATOR_AND:         cout << "&&\n"; break;
+                    case VERBUM_OPERATOR_EQUAL:       cout << "==\n"; break;
+                    case VERBUM_OPERATOR_NOT_EQUAL:   cout << "!=\n"; break;
+                    case VERBUM_OPERATOR_NOT:         cout <<  "!\n"; break;
+                }
             }
 
         }
