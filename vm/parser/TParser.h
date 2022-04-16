@@ -948,6 +948,8 @@ public:
     LoopContext *loop();
     RetContext *ret();
     TryCatchContext *tryCatch();
+    BreakForContext *breakFor();
+    NextForContext *nextFor();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1373,6 +1375,8 @@ public:
     LoopContext *loop();
     RetContext *ret();
     TryCatchContext *tryCatch();
+    BreakForContext *breakFor();
+    NextForContext *nextFor();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

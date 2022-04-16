@@ -496,6 +496,8 @@ typedef struct verbum_ast_node
     ** Nodes internos (árvore) do elemento em questão.
     */
     vector <struct verbum_ast_node> nodes;
+    
+    //struct verbum_ast_node **nodes;
 
 }  verbum_ast_node;
 

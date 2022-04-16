@@ -1,0 +1,2150 @@
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+fn example (a:int, b:int) -> int { ret 'Verbum'; }
+
+Example (a :int, b :string) {
+    // code...
+}
+
+pub fn example (a :int) -> int { ret 333; }
+
+// Métodos de interfaces e classes abstratas.
+fn example (a :int) -> int;
+final pro fn example (a :int) -> int;
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+pro fn example (a :int) -> int { ret 333; }
+
+final pro fn example (a :int) -> int { ret 333; }
+
+final pro static fn example (a :int) -> int { ret 333; }
+
+pub static fn example (a :int) -> int { ret 333; }
+
+static fn example (a :int) -> int { ret 333; }
+
+final fn example (a :int) -> int { ret 333; }
+
+fn example (a :int) -> int { ret 333; }
+
+// Construtor.
+Example (a :int, b :string) {
+    // code...
+}
+
+// Metodos de interface e clases abstratas
+pub fn getValues () -> array;
+pub fn getValues (index :int) -> int;
+pub fn checkString (string :string);
+    pro fn abstractMethod ();
+
+
+fn func1 (a:int, b:int) -> string { 
+
+    fn func2 (c :int) -> string { 
+        
+        ret 'Verbum';
+    }
+    
+    ret 'Verbum';
+}
+
+
+
+// In principio erat Verbum
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
+
+class Example {
+}
+
+class Common extends AbstractClass {
+}
+
+class Example2 extends Common implements ExampleInterface {
+}
+
+final class Example2 extends Common implements ExampleInterface {
+}
+
+final class ExampleN {
+}
+
+class A {
+
+    class B {
+    }
+}
+
+
+// Classe com herança e implementação de interface.
+final class Example extends Common implements ExampleTemplate {
+
+    // Construtor.
+    Example (a :uint, b :string) {
+    }
+
+    // Método estático.
+    pub static fn getVersion () -> str {
+    }
+
+    pub static fn getVersion (flag :bool) -> str {
+    }
+
+    // Declaração dos métodos e sobrecarga.
+    pub fn getValues () -> array {
+       
+    }
+
+    pub fn getValues (index :int) -> int {
+        
+    }
+
+    // Sobrescreve método herdado (polimorfismo).
+    final pro fn abstractMethod () {
+    }
+
+    // Acessando uma implementação da classe base e não da atual (parent).
+    pub fn exampleA () -> str {
+    }
+
+    pub fn getExampleB () -> str {
+    }
+}
+
+

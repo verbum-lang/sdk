@@ -161,8 +161,9 @@ namespace verbum {
             verbum_ast_node zero_data ();
 
             // Realiza controle de adição de node em node central.
-            verbum_ast_node add_node (verbum_ast_node source, verbum_ast_node destination);
-            verbum_ast_node add_node_internal (verbum_ast_node source, verbum_ast_node destination);
+            void add_node (verbum_ast_node source);
+            void add_node_internal_ptr (verbum_ast_node source, verbum_ast_node *ast);
+            verbum_ast_node add_node_internal_copy (verbum_ast_node source, verbum_ast_node destination);
 
             // Verifica se trata-se de operador...
             int check_block_arithmeic_operator (string op);

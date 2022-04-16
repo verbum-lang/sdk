@@ -37,13 +37,32 @@ vector <verbum_ast_node> verbum_ast_visitor::get_verbum_ast ()
 /*
 ** Adiciona node no respectivo nível hierárquico.
 */
-verbum_ast_node verbum_ast_visitor::add_node (verbum_ast_node source, verbum_ast_node destination)
+void verbum_ast_visitor::add_node (verbum_ast_node source)
 {
     this->node_run_counter = 0;
-    return this->add_node_internal(source, destination);
+    
+    this->add_node_internal_ptr(source, &this->ast);
+    //this->ast = this->add_node_internal_copy(source, this->ast);
 }
 
-verbum_ast_node verbum_ast_visitor::add_node_internal (verbum_ast_node source, verbum_ast_node destination)
+void verbum_ast_visitor::add_node_internal_ptr (verbum_ast_node source, verbum_ast_node *destination)
+{
+    int last = destination->nodes.size() - 1;
+    if (last < 0)
+        last = 0;
+
+    if (this->node_run_counter == this->node_block_counter) 
+        destination->nodes.push_back(source);
+    else {
+        this->node_run_counter++;
+
+        if (destination->nodes.size() > 0) {
+            this->add_node_internal_ptr(source, &destination->nodes[ last ] );
+        }
+    }
+}
+
+verbum_ast_node verbum_ast_visitor::add_node_internal_copy (verbum_ast_node source, verbum_ast_node destination)
 {
     int last = destination.nodes.size() - 1;
     if (last < 0)
@@ -55,10 +74,7 @@ verbum_ast_node verbum_ast_visitor::add_node_internal (verbum_ast_node source, v
         this->node_run_counter++;
 
         if (destination.nodes.size() > 0) {
-            verbum_ast_node node = this->add_node_internal(source, 
-                destination.nodes[ last ]
-            );
-
+            verbum_ast_node node = this->add_node_internal_copy(source, destination.nodes[ last ] );
             destination.nodes[ last ] = node;
         }
     }
@@ -191,7 +207,7 @@ antlrcpp::Any verbum_ast_visitor::visitLiveToken (TParser::LiveTokenContext *ctx
         node.type = VERBUM_TOKEN_NEXT;
 
     if (!ctx->Newline())
-        this->ast = this->add_node(node, this->ast);
+        this->add_node(node);
 
     return visitChildren(ctx);
 }
@@ -225,7 +241,7 @@ antlrcpp::Any verbum_ast_visitor::visitVariableModes (TParser::VariableModesCont
     else 
         node.variable_type = VERBUM_VARIABLE_DECLARATION;
     
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -315,7 +331,7 @@ antlrcpp::Any verbum_ast_visitor::visitVariableDefinition (TParser::VariableDefi
     else
         node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     // Quando é acesso a elemento de array, adiciona-o como node filho.
     if (ctx->arrayAccessElements()) {
@@ -376,7 +392,7 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElementsItems (TParser::ArrayA
             node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_DEC;
     }
     
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     // Caso seja bloco de acesso, torna-o node filho do membro em questão.
     if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT ||
@@ -400,7 +416,7 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_ACCESS_ARRAY_INDEX_BLOCK;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -438,7 +454,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
         }
 
         // Adiciona no array de controle.
-        this->ast = this->add_node(node, this->ast);
+        this->add_node(node);
 
         // Entra em nodes (filhos).
         this->node_block_counter++;
@@ -528,7 +544,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
             }
 
             // Adiciona no array de controle.
-            this->ast = this->add_node(node, this->ast);
+            this->add_node(node);
 
             // Entra em nodes (filhos).
             this->node_block_counter++;
@@ -548,7 +564,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
                 node.operation_op = this->check_block_arithmeic_operator(op);
             }
 
-            this->ast = this->add_node(node, this->ast);
+            this->add_node(node);
 
             this->node_block_counter++;
             result = visitChildren(ctx);
@@ -564,7 +580,7 @@ antlrcpp::Any verbum_ast_visitor::visitOperationValue (TParser::OperationValueCo
         }
 
         // Adiciona no array de controle.
-        this->ast = this->add_node(node, this->ast);
+        this->add_node(node);
     }
 
     if (!block)
@@ -685,7 +701,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         block = true;
     }
     
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     if (block) {
       this->node_block_counter++;
@@ -709,7 +725,7 @@ antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements (TParser::Associ
     node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_ELEMENT;
     node.general_value_data.identifier = ctx->Identifier()->getText();
     
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     return visitChildren(ctx);
 }
@@ -756,7 +772,7 @@ antlrcpp::Any verbum_ast_visitor::visitCallingFunction (TParser::CallingFunction
         node.function_call.function_name = ctx->functionCall()->Identifier()->getText();
     }
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -771,7 +787,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCallParamAC (TParser::FunctionCal
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS_BLOCK;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -792,7 +808,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCallCascadingItem (TParser::Funct
     else if (ctx->Identifier())
         node.function_call.method_name = ctx->Identifier()->getText();
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -811,7 +827,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionStructBlock (TParser
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_STRUCT_BLOCK;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -826,7 +842,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpressionItems (TParser::Cond
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_EXPRESSION_BLOCK;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -841,7 +857,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalBlockElements (TParser::Condit
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_CODE_BLOCK;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -856,7 +872,7 @@ antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUnique
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_IF;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -871,7 +887,7 @@ antlrcpp::Any verbum_ast_visitor::visitElifElementUnique (TParser::ElifElementUn
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_ELIF;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -886,7 +902,7 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_ELSE;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -906,7 +922,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionExpBlock (TParser::ConditionExpB
         verbum_ast_node node = this->zero_data();
         
         node.type = VERBUM_CONDITIONAL_EXPR_NOT;
-        this->ast = this->add_node(node, this->ast);
+        this->add_node(node);
 
         antlrcpp::Any result = visitChildren(ctx);
 
@@ -923,7 +939,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionExpValue (TParser::ConditionExpV
         verbum_ast_node node = this->zero_data();
         
         node.type = VERBUM_CONDITIONAL_EXPR_NOT;
-        this->ast = this->add_node(node, this->ast);
+        this->add_node(node);
 
         antlrcpp::Any result = visitChildren(ctx);
 
@@ -979,7 +995,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionExpBlockItemValue (TParser::Cond
             node.conditional_operator = VERBUM_OPERATOR_NOT;
     }
     
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
     
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -998,7 +1014,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCallAndAttr (TParser::FunctionCal
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_EXPRESSION_ATTR_FUNC_CALL;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1013,7 +1029,7 @@ antlrcpp::Any verbum_ast_visitor::visitIdentifierAttrFn (TParser::IdentifierAttr
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_EXPRESSION_ATTR_FUNC_CALL_DESTINATION;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1028,7 +1044,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCallAttrFn (TParser::FunctionCall
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_EXPRESSION_ATTR_FUNC_CALL_BLOCK;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1105,7 +1121,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCallAttrFnItem (TParser::Function
         }
 
         // Adiciona no array de controle.
-        this->ast = this->add_node(node, this->ast);
+        this->add_node(node);
 
         // Entra em nodes (filhos).
         this->node_block_counter++;
@@ -1179,7 +1195,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::Conditional
         }
 
         // Adiciona no array de controle.
-        this->ast = this->add_node(node, this->ast);
+        this->add_node(node);
 
         // Entra em nodes (filhos).
         this->node_block_counter++;
@@ -1302,7 +1318,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::Conditional
             }
 
             // Adiciona no array de controle.
-            this->ast = this->add_node(node, this->ast);
+            this->add_node(node);
 
             // Entra em nodes (filhos).
             this->node_block_counter++;
@@ -1354,7 +1370,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::Conditional
                     node.operation_op = VERBUM_OPERATOR_NOT;
             }
 
-            this->ast = this->add_node(node, this->ast);
+            this->add_node(node);
 
             this->node_block_counter++;
             result = visitChildren(ctx);
@@ -1402,7 +1418,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalExpValue (TParser::Conditional
         }
 
         // Adiciona no array de controle.
-        this->ast = this->add_node(node, this->ast);
+        this->add_node(node);
     }
 
     if (!block)
@@ -1434,7 +1450,7 @@ antlrcpp::Any verbum_ast_visitor::visitLoopExpressionItems (TParser::LoopExpress
     else if (ctx->loopExpression()->loopInfinite())
         node.loop_type = VERBUM_LOOP_INFINITE;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1450,7 +1466,7 @@ antlrcpp::Any verbum_ast_visitor::visitLoopOneMembers (TParser::LoopOneMembersCo
     node.type            = VERBUM_LOOP_BLOCK;
     node.loop_block_type = VERBUM_LOOP_INITIALIZATION;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1466,7 +1482,7 @@ antlrcpp::Any verbum_ast_visitor::visitLoopTwoMembers (TParser::LoopTwoMembersCo
     node.type            = VERBUM_LOOP_BLOCK;
     node.loop_block_type = VERBUM_LOOP_EXPRESSION;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1482,7 +1498,7 @@ antlrcpp::Any verbum_ast_visitor::visitLoopThreeMembers (TParser::LoopThreeMembe
     node.type            = VERBUM_LOOP_BLOCK;
     node.loop_block_type = VERBUM_LOOP_INCDEC;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1498,7 +1514,7 @@ antlrcpp::Any verbum_ast_visitor::visitLoopBlockElementsLimited (TParser::LoopBl
     node.type            = VERBUM_LOOP_BLOCK;
     node.loop_block_type = VERBUM_LOOP_CODE_BLOCK;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1515,7 +1531,7 @@ antlrcpp::Any verbum_ast_visitor::visitRet (TParser::RetContext *ctx)
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_RET;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1535,7 +1551,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctions (TParser::FunctionsContext *ctx
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_FUNCTION_GENERAL_BLOCK;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1567,7 +1583,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionsModes (TParser::FunctionsModesCo
         }
     }
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1600,7 +1616,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionMethodsModes (TParser::FunctionMe
     }
 
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1628,7 +1644,7 @@ antlrcpp::Any verbum_ast_visitor::visitVisibilityItems (TParser::VisibilityItems
     else if (ctx->Async())
         node.item_visibility = VERBUM_ITEMS_VISIBILITY_ASYNC;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     return visitChildren(ctx);
 }
@@ -1642,7 +1658,7 @@ antlrcpp::Any verbum_ast_visitor::visitConstructClassMethod (TParser::ConstructC
     node.function_declaration.type       = VERBUM_FUNCTION_CLASS_CONSTRUCTOR;
     node.function_declaration.identifier = ctx->Identifier()->getText();
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1658,7 +1674,7 @@ antlrcpp::Any verbum_ast_visitor::visitInterfaceMethod (TParser::InterfaceMethod
     node.type                       = VERBUM_FUNCTION_DECLARATION;
     node.function_declaration.type  = VERBUM_FUNCTION_INTERFACE_ABSTRACT;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1677,7 +1693,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionParams (TParser::FunctionParamsCo
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_FUNCTION_PARAM_BLOCK;
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1695,7 +1711,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionParamElements (TParser::FunctionP
     node.function_param_item = ctx->Identifier()->getText();
     node.function_param_type = ctx->TypeSpec()->getText();
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
     return visitChildren(ctx);
 }
 
@@ -1706,7 +1722,8 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCodeBlock (TParser::FunctionCodeB
 {
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_FUNCTION_CODE_BLOCK;
-    this->ast            = this->add_node(node, this->ast);
+    
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1733,7 +1750,7 @@ antlrcpp::Any verbum_ast_visitor::visitInterfaceClass (TParser::InterfaceClassCo
             ctx->interfaceClassDefinition()->identifierB()->getText();
     }
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1747,7 +1764,8 @@ antlrcpp::Any verbum_ast_visitor::visitInterfaceCodeBlock (TParser::InterfaceCod
 {
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_OOP_INTERFACE_CODE_BLOCK;
-    this->ast            = this->add_node(node, this->ast);
+    
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1770,7 +1788,7 @@ antlrcpp::Any verbum_ast_visitor::visitAbstractClass (TParser::AbstractClassCont
             ctx->abstractClassDefinition()->identifierB()->getText();
     }
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1784,7 +1802,8 @@ antlrcpp::Any verbum_ast_visitor::visitAbstractCodeBlock (TParser::AbstractCodeB
 {
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_OOP_ABSTRACT_CODE_BLOCK;
-    this->ast            = this->add_node(node, this->ast);
+    
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1822,7 +1841,7 @@ antlrcpp::Any verbum_ast_visitor::visitClassDefination (TParser::ClassDefination
         node.vclass.vfinal = true;
 
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1840,7 +1859,7 @@ antlrcpp::Any verbum_ast_visitor::visitAnonymousFunction (TParser::AnonymousFunc
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_ANONYMOUS_FUNCTION;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1872,7 +1891,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionsModesFn (TParser::FunctionsModes
         }
     }
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1890,7 +1909,7 @@ antlrcpp::Any verbum_ast_visitor::visitVariableMultipleAssignments (TParser::Var
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_MULTIPLE_ATTRIBUTION;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1908,7 +1927,7 @@ antlrcpp::Any verbum_ast_visitor::visitAnonymousClass (TParser::AnonymousClassCo
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_ANONYMOUS_CLASS;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1922,7 +1941,7 @@ antlrcpp::Any verbum_ast_visitor::visitAnonymousClassCallExpr (TParser::Anonymou
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_ANONYMOUS_CLASS_CALL;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1943,7 +1962,7 @@ antlrcpp::Any verbum_ast_visitor::visitAnonymousObject (TParser::AnonymousObject
     node.type = VERBUM_ANONYMOUS_OBJECT;
     node.function_call.object_name = ctx->Identifier()->getText();
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1957,7 +1976,7 @@ antlrcpp::Any verbum_ast_visitor::visitAnonymousObjectCallExpr (TParser::Anonymo
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_ANONYMOUS_OBJECT_CALL;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -1990,7 +2009,7 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFunctions (TParser::LambdaFunctions
                 ctx->lambdaFnRet()->TypeSpec()->getText();
     }
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -2004,7 +2023,7 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFnParams (TParser::LambdaFnParamsCo
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_LAMBDA_FUNCTION_PARAM;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -2023,7 +2042,7 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFnParamsElements (TParser::LambdaFn
     if (ctx->TypeSpec())
         node.function_param_type = ctx->TypeSpec()->getText();
 
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
     return visitChildren(ctx);
 }
 
@@ -2032,7 +2051,7 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFnCodeBlockSimple (TParser::LambdaF
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -2046,7 +2065,7 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFnCodeBlockKey (TParser::LambdaFnCo
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -2064,7 +2083,7 @@ antlrcpp::Any verbum_ast_visitor::visitTryCatch (TParser::TryCatchContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_TRY_BLOCK;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -2078,7 +2097,7 @@ antlrcpp::Any verbum_ast_visitor::visitTryUniqueElement (TParser::TryUniqueEleme
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_TRY_TRY;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -2093,7 +2112,7 @@ antlrcpp::Any verbum_ast_visitor::visitCatchUniqueElement (TParser::CatchUniqueE
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_TRY_CATCH;
     node.catch_identifier = ctx->Identifier()->getText();
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
@@ -2107,7 +2126,7 @@ antlrcpp::Any verbum_ast_visitor::visitTryCatchElementsLimited (TParser::TryCatc
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_TRY_CODE_BLOCK;
-    this->ast = this->add_node(node, this->ast);
+    this->add_node(node);
 
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);

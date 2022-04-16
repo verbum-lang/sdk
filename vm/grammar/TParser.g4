@@ -307,6 +307,8 @@ conditionalBlockElements
   | loop
   | ret
   | tryCatch
+  | breakFor
+  | nextFor
   ;
 
 // Código dentro dos blocos.
@@ -490,6 +492,8 @@ loopBlockElementsLimited
   | loop
   | ret
   | tryCatch
+  | breakFor
+  | nextFor
   ;
 
 /*

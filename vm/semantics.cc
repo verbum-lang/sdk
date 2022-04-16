@@ -55,6 +55,11 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Tokens de identificação.
+        */
+        
+
+        /*
         ** Variáveis: declações e inicializações.
         */
         else if (node.type == VERBUM_VARIABLE_INITIALIZATION) {

@@ -1,0 +1,15 @@
+
+for (; ; )
+
+for ;; {
+}
+
+for (;;) {
+}
+
+// Equivalente ao while.
+for (;;) {
+
+}
+
+
