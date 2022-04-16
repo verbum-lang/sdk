@@ -60,19 +60,62 @@ blockVariable
   : Var variableItem End
   ;
 
+// Declaração.
 variableItem
-  : (Identifier | Identifier TypeSpec) Attr generalValue
-  | (Identifier | Identifier TypeSpec) Attr generalValue Separator variableItem
+  : variablePrefixModes (New | Await)? generalValue (Separator variableItem)*
   ;
 
+variablePrefixModes
+  : (methodVisibility)? (identifier | identifier TypeSpec) (Attr | AssignmentOperator)
+  ; 
+
+visibilityItems
+  : Pub | Pro | Priv | Final | Static | Async
+  ;
+
+methodVisibility
+  : visibilityItems (methodVisibility)*
+  ;
+
+/*
+** Chamadas a funções.
+*/
+functionCall
+  : functionCallPrefix (identifier)? functionCallParam
+  ;
+
+functionCallPrefix
+  : identifier
+  | identifier Point
+  | identifier TwoTwoPoint
+  ;
+
+functionCallParam
+  : OpenOp CloseOp
+  | OpenOp functionCallParamElements CloseOp
+  ;
+
+functionCallParamElements
+  : generalValue (Separator functionCallParamElements)*
+  ;
+
+/*
+** Valores de uso geral.
+*/
 generalValue
   : (
-      Identifier |
-      Integer |
-      Float |
-      String
+      identifier (TypeSpec)? |
+      Integer (TypeSpec)? |
+      Float (TypeSpec)? |
+      String 
     )
+  | functionCall
   ;
+
+/*
+** Controladores gerais.
+*/
+identifier : Identifier;
 
 /*
 ** Live tokens...

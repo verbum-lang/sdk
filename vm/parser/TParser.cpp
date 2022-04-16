@@ -90,9 +90,9 @@ TParser::MainContext* TParser::main() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(22);
+    setState(38);
     sentences();
-    setState(23);
+    setState(39);
     match(TParser::EOF);
    
   }
@@ -156,21 +156,21 @@ TParser::SentencesContext* TParser::sentences() {
     exitRule();
   });
   try {
-    setState(30);
+    setState(46);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 0, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(25);
+      setState(41);
       statements();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(26);
+      setState(42);
       statements();
-      setState(27);
+      setState(43);
       sentences();
       break;
     }
@@ -254,27 +254,27 @@ TParser::StatementsContext* TParser::statements() {
     exitRule();
   });
   try {
-    setState(36);
+    setState(52);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case TParser::BlockComment:
       case TParser::LineComment: {
         enterOuterAlt(_localctx, 1);
-        setState(32);
+        setState(48);
         blockComments();
         break;
       }
 
       case TParser::Use: {
         enterOuterAlt(_localctx, 2);
-        setState(33);
+        setState(49);
         blockUse();
         break;
       }
 
       case TParser::Var: {
         enterOuterAlt(_localctx, 3);
-        setState(34);
+        setState(50);
         blockVariable();
         break;
       }
@@ -328,7 +328,7 @@ TParser::StatementsContext* TParser::statements() {
       case TParser::Float:
       case TParser::String: {
         enterOuterAlt(_localctx, 4);
-        setState(35);
+        setState(51);
         blockLiveTokens();
         break;
       }
@@ -400,7 +400,7 @@ TParser::BlockCommentsContext* TParser::blockComments() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(38);
+    setState(54);
     _la = _input->LA(1);
     if (!(_la == TParser::BlockComment
 
@@ -478,11 +478,11 @@ TParser::BlockUseContext* TParser::blockUse() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(40);
+    setState(56);
     match(TParser::Use);
-    setState(41);
+    setState(57);
     useValue();
-    setState(42);
+    setState(58);
     match(TParser::End);
    
   }
@@ -550,23 +550,23 @@ TParser::UseValueContext* TParser::useValue() {
     exitRule();
   });
   try {
-    setState(49);
+    setState(65);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 2, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(44);
+      setState(60);
       useString();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(45);
+      setState(61);
       useString();
-      setState(46);
+      setState(62);
       match(TParser::Separator);
-      setState(47);
+      setState(63);
       useValue();
       break;
     }
@@ -633,7 +633,7 @@ TParser::UseStringContext* TParser::useString() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(51);
+    setState(67);
     match(TParser::String);
    
   }
@@ -702,11 +702,11 @@ TParser::BlockVariableContext* TParser::blockVariable() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(53);
+    setState(69);
     match(TParser::Var);
-    setState(54);
+    setState(70);
     variableItem();
-    setState(55);
+    setState(71);
     match(TParser::End);
    
   }
@@ -725,28 +725,36 @@ TParser::VariableItemContext::VariableItemContext(ParserRuleContext *parent, siz
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* TParser::VariableItemContext::Attr() {
-  return getToken(TParser::Attr, 0);
+TParser::VariablePrefixModesContext* TParser::VariableItemContext::variablePrefixModes() {
+  return getRuleContext<TParser::VariablePrefixModesContext>(0);
 }
 
 TParser::GeneralValueContext* TParser::VariableItemContext::generalValue() {
   return getRuleContext<TParser::GeneralValueContext>(0);
 }
 
-tree::TerminalNode* TParser::VariableItemContext::Identifier() {
-  return getToken(TParser::Identifier, 0);
+std::vector<tree::TerminalNode *> TParser::VariableItemContext::Separator() {
+  return getTokens(TParser::Separator);
 }
 
-tree::TerminalNode* TParser::VariableItemContext::TypeSpec() {
-  return getToken(TParser::TypeSpec, 0);
+tree::TerminalNode* TParser::VariableItemContext::Separator(size_t i) {
+  return getToken(TParser::Separator, i);
 }
 
-tree::TerminalNode* TParser::VariableItemContext::Separator() {
-  return getToken(TParser::Separator, 0);
+std::vector<TParser::VariableItemContext *> TParser::VariableItemContext::variableItem() {
+  return getRuleContexts<TParser::VariableItemContext>();
 }
 
-TParser::VariableItemContext* TParser::VariableItemContext::variableItem() {
-  return getRuleContext<TParser::VariableItemContext>(0);
+TParser::VariableItemContext* TParser::VariableItemContext::variableItem(size_t i) {
+  return getRuleContext<TParser::VariableItemContext>(i);
+}
+
+tree::TerminalNode* TParser::VariableItemContext::New() {
+  return getToken(TParser::New, 0);
+}
+
+tree::TerminalNode* TParser::VariableItemContext::Await() {
+  return getToken(TParser::Await, 0);
 }
 
 
@@ -777,6 +785,7 @@ antlrcpp::Any TParser::VariableItemContext::accept(tree::ParseTreeVisitor *visit
 TParser::VariableItemContext* TParser::variableItem() {
   VariableItemContext *_localctx = _tracker.createInstance<VariableItemContext>(_ctx, getState());
   enterRule(_localctx, 16, TParser::RuleVariableItem);
+  size_t _la = 0;
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -786,73 +795,703 @@ TParser::VariableItemContext* TParser::variableItem() {
     exitRule();
   });
   try {
-    setState(74);
+    size_t alt;
+    enterOuterAlt(_localctx, 1);
+    setState(73);
+    variablePrefixModes();
+    setState(75);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx)) {
-    case 1: {
-      enterOuterAlt(_localctx, 1);
-      setState(60);
+
+    _la = _input->LA(1);
+    if (_la == TParser::New
+
+    || _la == TParser::Await) {
+      setState(74);
+      _la = _input->LA(1);
+      if (!(_la == TParser::New
+
+      || _la == TParser::Await)) {
+      _errHandler->recoverInline(this);
+      }
+      else {
+        _errHandler->reportMatch(this);
+        consume();
+      }
+    }
+    setState(77);
+    generalValue();
+    setState(82);
+    _errHandler->sync(this);
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx);
+    while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
+      if (alt == 1) {
+        setState(78);
+        match(TParser::Separator);
+        setState(79);
+        variableItem(); 
+      }
+      setState(84);
       _errHandler->sync(this);
-      switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx)) {
-      case 1: {
-        setState(57);
-        match(TParser::Identifier);
-        break;
-      }
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx);
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
 
-      case 2: {
-        setState(58);
-        match(TParser::Identifier);
-        setState(59);
-        match(TParser::TypeSpec);
-        break;
-      }
+  return _localctx;
+}
 
-      default:
-        break;
-      }
-      setState(62);
-      match(TParser::Attr);
-      setState(63);
-      generalValue();
+//----------------- VariablePrefixModesContext ------------------------------------------------------------------
+
+TParser::VariablePrefixModesContext::VariablePrefixModesContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* TParser::VariablePrefixModesContext::Attr() {
+  return getToken(TParser::Attr, 0);
+}
+
+tree::TerminalNode* TParser::VariablePrefixModesContext::AssignmentOperator() {
+  return getToken(TParser::AssignmentOperator, 0);
+}
+
+TParser::IdentifierContext* TParser::VariablePrefixModesContext::identifier() {
+  return getRuleContext<TParser::IdentifierContext>(0);
+}
+
+tree::TerminalNode* TParser::VariablePrefixModesContext::TypeSpec() {
+  return getToken(TParser::TypeSpec, 0);
+}
+
+TParser::MethodVisibilityContext* TParser::VariablePrefixModesContext::methodVisibility() {
+  return getRuleContext<TParser::MethodVisibilityContext>(0);
+}
+
+
+size_t TParser::VariablePrefixModesContext::getRuleIndex() const {
+  return TParser::RuleVariablePrefixModes;
+}
+
+void TParser::VariablePrefixModesContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterVariablePrefixModes(this);
+}
+
+void TParser::VariablePrefixModesContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitVariablePrefixModes(this);
+}
+
+
+antlrcpp::Any TParser::VariablePrefixModesContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitVariablePrefixModes(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::VariablePrefixModesContext* TParser::variablePrefixModes() {
+  VariablePrefixModesContext *_localctx = _tracker.createInstance<VariablePrefixModesContext>(_ctx, getState());
+  enterRule(_localctx, 18, TParser::RuleVariablePrefixModes);
+  size_t _la = 0;
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(86);
+    _errHandler->sync(this);
+
+    _la = _input->LA(1);
+    if ((((_la & ~ 0x3fULL) == 0) &&
+      ((1ULL << _la) & ((1ULL << TParser::Pub)
+      | (1ULL << TParser::Pro)
+      | (1ULL << TParser::Priv)
+      | (1ULL << TParser::Static)
+      | (1ULL << TParser::Final)
+      | (1ULL << TParser::Async))) != 0)) {
+      setState(85);
+      methodVisibility();
+    }
+    setState(92);
+    _errHandler->sync(this);
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx)) {
+    case 1: {
+      setState(88);
+      identifier();
       break;
     }
 
     case 2: {
-      enterOuterAlt(_localctx, 2);
-      setState(67);
-      _errHandler->sync(this);
-      switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
-      case 1: {
-        setState(64);
-        match(TParser::Identifier);
-        break;
-      }
-
-      case 2: {
-        setState(65);
-        match(TParser::Identifier);
-        setState(66);
-        match(TParser::TypeSpec);
-        break;
-      }
-
-      default:
-        break;
-      }
-      setState(69);
-      match(TParser::Attr);
-      setState(70);
-      generalValue();
-      setState(71);
-      match(TParser::Separator);
-      setState(72);
-      variableItem();
+      setState(89);
+      identifier();
+      setState(90);
+      match(TParser::TypeSpec);
       break;
     }
 
     default:
       break;
+    }
+    setState(94);
+    _la = _input->LA(1);
+    if (!(_la == TParser::Attr
+
+    || _la == TParser::AssignmentOperator)) {
+    _errHandler->recoverInline(this);
+    }
+    else {
+      _errHandler->reportMatch(this);
+      consume();
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- VisibilityItemsContext ------------------------------------------------------------------
+
+TParser::VisibilityItemsContext::VisibilityItemsContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* TParser::VisibilityItemsContext::Pub() {
+  return getToken(TParser::Pub, 0);
+}
+
+tree::TerminalNode* TParser::VisibilityItemsContext::Pro() {
+  return getToken(TParser::Pro, 0);
+}
+
+tree::TerminalNode* TParser::VisibilityItemsContext::Priv() {
+  return getToken(TParser::Priv, 0);
+}
+
+tree::TerminalNode* TParser::VisibilityItemsContext::Final() {
+  return getToken(TParser::Final, 0);
+}
+
+tree::TerminalNode* TParser::VisibilityItemsContext::Static() {
+  return getToken(TParser::Static, 0);
+}
+
+tree::TerminalNode* TParser::VisibilityItemsContext::Async() {
+  return getToken(TParser::Async, 0);
+}
+
+
+size_t TParser::VisibilityItemsContext::getRuleIndex() const {
+  return TParser::RuleVisibilityItems;
+}
+
+void TParser::VisibilityItemsContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterVisibilityItems(this);
+}
+
+void TParser::VisibilityItemsContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitVisibilityItems(this);
+}
+
+
+antlrcpp::Any TParser::VisibilityItemsContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitVisibilityItems(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::VisibilityItemsContext* TParser::visibilityItems() {
+  VisibilityItemsContext *_localctx = _tracker.createInstance<VisibilityItemsContext>(_ctx, getState());
+  enterRule(_localctx, 20, TParser::RuleVisibilityItems);
+  size_t _la = 0;
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(96);
+    _la = _input->LA(1);
+    if (!((((_la & ~ 0x3fULL) == 0) &&
+      ((1ULL << _la) & ((1ULL << TParser::Pub)
+      | (1ULL << TParser::Pro)
+      | (1ULL << TParser::Priv)
+      | (1ULL << TParser::Static)
+      | (1ULL << TParser::Final)
+      | (1ULL << TParser::Async))) != 0))) {
+    _errHandler->recoverInline(this);
+    }
+    else {
+      _errHandler->reportMatch(this);
+      consume();
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- MethodVisibilityContext ------------------------------------------------------------------
+
+TParser::MethodVisibilityContext::MethodVisibilityContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+TParser::VisibilityItemsContext* TParser::MethodVisibilityContext::visibilityItems() {
+  return getRuleContext<TParser::VisibilityItemsContext>(0);
+}
+
+std::vector<TParser::MethodVisibilityContext *> TParser::MethodVisibilityContext::methodVisibility() {
+  return getRuleContexts<TParser::MethodVisibilityContext>();
+}
+
+TParser::MethodVisibilityContext* TParser::MethodVisibilityContext::methodVisibility(size_t i) {
+  return getRuleContext<TParser::MethodVisibilityContext>(i);
+}
+
+
+size_t TParser::MethodVisibilityContext::getRuleIndex() const {
+  return TParser::RuleMethodVisibility;
+}
+
+void TParser::MethodVisibilityContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterMethodVisibility(this);
+}
+
+void TParser::MethodVisibilityContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitMethodVisibility(this);
+}
+
+
+antlrcpp::Any TParser::MethodVisibilityContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitMethodVisibility(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::MethodVisibilityContext* TParser::methodVisibility() {
+  MethodVisibilityContext *_localctx = _tracker.createInstance<MethodVisibilityContext>(_ctx, getState());
+  enterRule(_localctx, 22, TParser::RuleMethodVisibility);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    size_t alt;
+    enterOuterAlt(_localctx, 1);
+    setState(98);
+    visibilityItems();
+    setState(102);
+    _errHandler->sync(this);
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx);
+    while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
+      if (alt == 1) {
+        setState(99);
+        methodVisibility(); 
+      }
+      setState(104);
+      _errHandler->sync(this);
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx);
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- FunctionCallContext ------------------------------------------------------------------
+
+TParser::FunctionCallContext::FunctionCallContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+TParser::FunctionCallPrefixContext* TParser::FunctionCallContext::functionCallPrefix() {
+  return getRuleContext<TParser::FunctionCallPrefixContext>(0);
+}
+
+TParser::FunctionCallParamContext* TParser::FunctionCallContext::functionCallParam() {
+  return getRuleContext<TParser::FunctionCallParamContext>(0);
+}
+
+TParser::IdentifierContext* TParser::FunctionCallContext::identifier() {
+  return getRuleContext<TParser::IdentifierContext>(0);
+}
+
+
+size_t TParser::FunctionCallContext::getRuleIndex() const {
+  return TParser::RuleFunctionCall;
+}
+
+void TParser::FunctionCallContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterFunctionCall(this);
+}
+
+void TParser::FunctionCallContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitFunctionCall(this);
+}
+
+
+antlrcpp::Any TParser::FunctionCallContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitFunctionCall(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::FunctionCallContext* TParser::functionCall() {
+  FunctionCallContext *_localctx = _tracker.createInstance<FunctionCallContext>(_ctx, getState());
+  enterRule(_localctx, 24, TParser::RuleFunctionCall);
+  size_t _la = 0;
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(105);
+    functionCallPrefix();
+    setState(107);
+    _errHandler->sync(this);
+
+    _la = _input->LA(1);
+    if (_la == TParser::Identifier) {
+      setState(106);
+      identifier();
+    }
+    setState(109);
+    functionCallParam();
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- FunctionCallPrefixContext ------------------------------------------------------------------
+
+TParser::FunctionCallPrefixContext::FunctionCallPrefixContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+TParser::IdentifierContext* TParser::FunctionCallPrefixContext::identifier() {
+  return getRuleContext<TParser::IdentifierContext>(0);
+}
+
+tree::TerminalNode* TParser::FunctionCallPrefixContext::Point() {
+  return getToken(TParser::Point, 0);
+}
+
+tree::TerminalNode* TParser::FunctionCallPrefixContext::TwoTwoPoint() {
+  return getToken(TParser::TwoTwoPoint, 0);
+}
+
+
+size_t TParser::FunctionCallPrefixContext::getRuleIndex() const {
+  return TParser::RuleFunctionCallPrefix;
+}
+
+void TParser::FunctionCallPrefixContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterFunctionCallPrefix(this);
+}
+
+void TParser::FunctionCallPrefixContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitFunctionCallPrefix(this);
+}
+
+
+antlrcpp::Any TParser::FunctionCallPrefixContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitFunctionCallPrefix(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::FunctionCallPrefixContext* TParser::functionCallPrefix() {
+  FunctionCallPrefixContext *_localctx = _tracker.createInstance<FunctionCallPrefixContext>(_ctx, getState());
+  enterRule(_localctx, 26, TParser::RuleFunctionCallPrefix);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    setState(118);
+    _errHandler->sync(this);
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 9, _ctx)) {
+    case 1: {
+      enterOuterAlt(_localctx, 1);
+      setState(111);
+      identifier();
+      break;
+    }
+
+    case 2: {
+      enterOuterAlt(_localctx, 2);
+      setState(112);
+      identifier();
+      setState(113);
+      match(TParser::Point);
+      break;
+    }
+
+    case 3: {
+      enterOuterAlt(_localctx, 3);
+      setState(115);
+      identifier();
+      setState(116);
+      match(TParser::TwoTwoPoint);
+      break;
+    }
+
+    default:
+      break;
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- FunctionCallParamContext ------------------------------------------------------------------
+
+TParser::FunctionCallParamContext::FunctionCallParamContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* TParser::FunctionCallParamContext::OpenOp() {
+  return getToken(TParser::OpenOp, 0);
+}
+
+tree::TerminalNode* TParser::FunctionCallParamContext::CloseOp() {
+  return getToken(TParser::CloseOp, 0);
+}
+
+TParser::FunctionCallParamElementsContext* TParser::FunctionCallParamContext::functionCallParamElements() {
+  return getRuleContext<TParser::FunctionCallParamElementsContext>(0);
+}
+
+
+size_t TParser::FunctionCallParamContext::getRuleIndex() const {
+  return TParser::RuleFunctionCallParam;
+}
+
+void TParser::FunctionCallParamContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterFunctionCallParam(this);
+}
+
+void TParser::FunctionCallParamContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitFunctionCallParam(this);
+}
+
+
+antlrcpp::Any TParser::FunctionCallParamContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitFunctionCallParam(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::FunctionCallParamContext* TParser::functionCallParam() {
+  FunctionCallParamContext *_localctx = _tracker.createInstance<FunctionCallParamContext>(_ctx, getState());
+  enterRule(_localctx, 28, TParser::RuleFunctionCallParam);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    setState(126);
+    _errHandler->sync(this);
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 10, _ctx)) {
+    case 1: {
+      enterOuterAlt(_localctx, 1);
+      setState(120);
+      match(TParser::OpenOp);
+      setState(121);
+      match(TParser::CloseOp);
+      break;
+    }
+
+    case 2: {
+      enterOuterAlt(_localctx, 2);
+      setState(122);
+      match(TParser::OpenOp);
+      setState(123);
+      functionCallParamElements();
+      setState(124);
+      match(TParser::CloseOp);
+      break;
+    }
+
+    default:
+      break;
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- FunctionCallParamElementsContext ------------------------------------------------------------------
+
+TParser::FunctionCallParamElementsContext::FunctionCallParamElementsContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+TParser::GeneralValueContext* TParser::FunctionCallParamElementsContext::generalValue() {
+  return getRuleContext<TParser::GeneralValueContext>(0);
+}
+
+std::vector<tree::TerminalNode *> TParser::FunctionCallParamElementsContext::Separator() {
+  return getTokens(TParser::Separator);
+}
+
+tree::TerminalNode* TParser::FunctionCallParamElementsContext::Separator(size_t i) {
+  return getToken(TParser::Separator, i);
+}
+
+std::vector<TParser::FunctionCallParamElementsContext *> TParser::FunctionCallParamElementsContext::functionCallParamElements() {
+  return getRuleContexts<TParser::FunctionCallParamElementsContext>();
+}
+
+TParser::FunctionCallParamElementsContext* TParser::FunctionCallParamElementsContext::functionCallParamElements(size_t i) {
+  return getRuleContext<TParser::FunctionCallParamElementsContext>(i);
+}
+
+
+size_t TParser::FunctionCallParamElementsContext::getRuleIndex() const {
+  return TParser::RuleFunctionCallParamElements;
+}
+
+void TParser::FunctionCallParamElementsContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterFunctionCallParamElements(this);
+}
+
+void TParser::FunctionCallParamElementsContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitFunctionCallParamElements(this);
+}
+
+
+antlrcpp::Any TParser::FunctionCallParamElementsContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitFunctionCallParamElements(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::FunctionCallParamElementsContext* TParser::functionCallParamElements() {
+  FunctionCallParamElementsContext *_localctx = _tracker.createInstance<FunctionCallParamElementsContext>(_ctx, getState());
+  enterRule(_localctx, 30, TParser::RuleFunctionCallParamElements);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    size_t alt;
+    enterOuterAlt(_localctx, 1);
+    setState(128);
+    generalValue();
+    setState(133);
+    _errHandler->sync(this);
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 11, _ctx);
+    while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
+      if (alt == 1) {
+        setState(129);
+        match(TParser::Separator);
+        setState(130);
+        functionCallParamElements(); 
+      }
+      setState(135);
+      _errHandler->sync(this);
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 11, _ctx);
     }
    
   }
@@ -871,8 +1510,8 @@ TParser::GeneralValueContext::GeneralValueContext(ParserRuleContext *parent, siz
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* TParser::GeneralValueContext::Identifier() {
-  return getToken(TParser::Identifier, 0);
+TParser::IdentifierContext* TParser::GeneralValueContext::identifier() {
+  return getRuleContext<TParser::IdentifierContext>(0);
 }
 
 tree::TerminalNode* TParser::GeneralValueContext::Integer() {
@@ -885,6 +1524,14 @@ tree::TerminalNode* TParser::GeneralValueContext::Float() {
 
 tree::TerminalNode* TParser::GeneralValueContext::String() {
   return getToken(TParser::String, 0);
+}
+
+tree::TerminalNode* TParser::GeneralValueContext::TypeSpec() {
+  return getToken(TParser::TypeSpec, 0);
+}
+
+TParser::FunctionCallContext* TParser::GeneralValueContext::functionCall() {
+  return getRuleContext<TParser::FunctionCallContext>(0);
 }
 
 
@@ -914,7 +1561,7 @@ antlrcpp::Any TParser::GeneralValueContext::accept(tree::ParseTreeVisitor *visit
 
 TParser::GeneralValueContext* TParser::generalValue() {
   GeneralValueContext *_localctx = _tracker.createInstance<GeneralValueContext>(_ctx, getState());
-  enterRule(_localctx, 18, TParser::RuleGeneralValue);
+  enterRule(_localctx, 32, TParser::RuleGeneralValue);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -925,20 +1572,139 @@ TParser::GeneralValueContext* TParser::generalValue() {
     exitRule();
   });
   try {
+    setState(152);
+    _errHandler->sync(this);
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 16, _ctx)) {
+    case 1: {
+      enterOuterAlt(_localctx, 1);
+      setState(149);
+      _errHandler->sync(this);
+      switch (_input->LA(1)) {
+        case TParser::Identifier: {
+          setState(136);
+          identifier();
+          setState(138);
+          _errHandler->sync(this);
+
+          _la = _input->LA(1);
+          if (_la == TParser::TypeSpec) {
+            setState(137);
+            match(TParser::TypeSpec);
+          }
+          break;
+        }
+
+        case TParser::Integer: {
+          setState(140);
+          match(TParser::Integer);
+          setState(142);
+          _errHandler->sync(this);
+
+          _la = _input->LA(1);
+          if (_la == TParser::TypeSpec) {
+            setState(141);
+            match(TParser::TypeSpec);
+          }
+          break;
+        }
+
+        case TParser::Float: {
+          setState(144);
+          match(TParser::Float);
+          setState(146);
+          _errHandler->sync(this);
+
+          _la = _input->LA(1);
+          if (_la == TParser::TypeSpec) {
+            setState(145);
+            match(TParser::TypeSpec);
+          }
+          break;
+        }
+
+        case TParser::String: {
+          setState(148);
+          match(TParser::String);
+          break;
+        }
+
+      default:
+        throw NoViableAltException(this);
+      }
+      break;
+    }
+
+    case 2: {
+      enterOuterAlt(_localctx, 2);
+      setState(151);
+      functionCall();
+      break;
+    }
+
+    default:
+      break;
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- IdentifierContext ------------------------------------------------------------------
+
+TParser::IdentifierContext::IdentifierContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* TParser::IdentifierContext::Identifier() {
+  return getToken(TParser::Identifier, 0);
+}
+
+
+size_t TParser::IdentifierContext::getRuleIndex() const {
+  return TParser::RuleIdentifier;
+}
+
+void TParser::IdentifierContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterIdentifier(this);
+}
+
+void TParser::IdentifierContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<TParserListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitIdentifier(this);
+}
+
+
+antlrcpp::Any TParser::IdentifierContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
+    return parserVisitor->visitIdentifier(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+TParser::IdentifierContext* TParser::identifier() {
+  IdentifierContext *_localctx = _tracker.createInstance<IdentifierContext>(_ctx, getState());
+  enterRule(_localctx, 34, TParser::RuleIdentifier);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
     enterOuterAlt(_localctx, 1);
-    setState(76);
-    _la = _input->LA(1);
-    if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << TParser::Identifier)
-      | (1ULL << TParser::Integer)
-      | (1ULL << TParser::Float)
-      | (1ULL << TParser::String))) != 0))) {
-    _errHandler->recoverInline(this);
-    }
-    else {
-      _errHandler->reportMatch(this);
-      consume();
-    }
+    setState(154);
+    match(TParser::Identifier);
    
   }
   catch (RecognitionException &e) {
@@ -1175,7 +1941,7 @@ antlrcpp::Any TParser::BlockLiveTokensContext::accept(tree::ParseTreeVisitor *vi
 
 TParser::BlockLiveTokensContext* TParser::blockLiveTokens() {
   BlockLiveTokensContext *_localctx = _tracker.createInstance<BlockLiveTokensContext>(_ctx, getState());
-  enterRule(_localctx, 20, TParser::RuleBlockLiveTokens);
+  enterRule(_localctx, 36, TParser::RuleBlockLiveTokens);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1187,7 +1953,7 @@ TParser::BlockLiveTokensContext* TParser::blockLiveTokens() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(78);
+    setState(156);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
       ((1ULL << _la) & ((1ULL << TParser::If)
@@ -1265,7 +2031,9 @@ std::vector<uint16_t> TParser::_serializedATN;
 
 std::vector<std::string> TParser::_ruleNames = {
   "main", "sentences", "statements", "blockComments", "blockUse", "useValue", 
-  "useString", "blockVariable", "variableItem", "generalValue", "blockLiveTokens"
+  "useString", "blockVariable", "variableItem", "variablePrefixModes", "visibilityItems", 
+  "methodVisibility", "functionCall", "functionCallPrefix", "functionCallParam", 
+  "functionCallParamElements", "generalValue", "identifier", "blockLiveTokens"
 };
 
 std::vector<std::string> TParser::_literalNames = {
@@ -1309,60 +2077,116 @@ TParser::Initializer::Initializer() {
 
   static const uint16_t serializedATNSegment0[] = {
     0x3, 0x608b, 0xa72a, 0x8133, 0xb9ed, 0x417c, 0x3be7, 0x7786, 0x5964, 
-       0x3, 0x38, 0x53, 0x4, 0x2, 0x9, 0x2, 0x4, 0x3, 0x9, 0x3, 0x4, 0x4, 
+       0x3, 0x38, 0xa1, 0x4, 0x2, 0x9, 0x2, 0x4, 0x3, 0x9, 0x3, 0x4, 0x4, 
        0x9, 0x4, 0x4, 0x5, 0x9, 0x5, 0x4, 0x6, 0x9, 0x6, 0x4, 0x7, 0x9, 
        0x7, 0x4, 0x8, 0x9, 0x8, 0x4, 0x9, 0x9, 0x9, 0x4, 0xa, 0x9, 0xa, 
-       0x4, 0xb, 0x9, 0xb, 0x4, 0xc, 0x9, 0xc, 0x3, 0x2, 0x3, 0x2, 0x3, 
-       0x2, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x5, 0x3, 
-       0x21, 0xa, 0x3, 0x3, 0x4, 0x3, 0x4, 0x3, 0x4, 0x3, 0x4, 0x5, 0x4, 
-       0x27, 0xa, 0x4, 0x3, 0x5, 0x3, 0x5, 0x3, 0x6, 0x3, 0x6, 0x3, 0x6, 
-       0x3, 0x6, 0x3, 0x7, 0x3, 0x7, 0x3, 0x7, 0x3, 0x7, 0x3, 0x7, 0x5, 
-       0x7, 0x34, 0xa, 0x7, 0x3, 0x8, 0x3, 0x8, 0x3, 0x9, 0x3, 0x9, 0x3, 
-       0x9, 0x3, 0x9, 0x3, 0xa, 0x3, 0xa, 0x3, 0xa, 0x5, 0xa, 0x3f, 0xa, 
-       0xa, 0x3, 0xa, 0x3, 0xa, 0x3, 0xa, 0x3, 0xa, 0x3, 0xa, 0x5, 0xa, 
-       0x46, 0xa, 0xa, 0x3, 0xa, 0x3, 0xa, 0x3, 0xa, 0x3, 0xa, 0x3, 0xa, 
-       0x5, 0xa, 0x4d, 0xa, 0xa, 0x3, 0xb, 0x3, 0xb, 0x3, 0xc, 0x3, 0xc, 
-       0x3, 0xc, 0x2, 0x2, 0xd, 0x2, 0x4, 0x6, 0x8, 0xa, 0xc, 0xe, 0x10, 
-       0x12, 0x14, 0x16, 0x2, 0x5, 0x3, 0x2, 0x35, 0x36, 0x4, 0x2, 0x2e, 
-       0x2e, 0x32, 0x34, 0x3, 0x2, 0x5, 0x34, 0x2, 0x50, 0x2, 0x18, 0x3, 
-       0x2, 0x2, 0x2, 0x4, 0x20, 0x3, 0x2, 0x2, 0x2, 0x6, 0x26, 0x3, 0x2, 
-       0x2, 0x2, 0x8, 0x28, 0x3, 0x2, 0x2, 0x2, 0xa, 0x2a, 0x3, 0x2, 0x2, 
-       0x2, 0xc, 0x33, 0x3, 0x2, 0x2, 0x2, 0xe, 0x35, 0x3, 0x2, 0x2, 0x2, 
-       0x10, 0x37, 0x3, 0x2, 0x2, 0x2, 0x12, 0x4c, 0x3, 0x2, 0x2, 0x2, 0x14, 
-       0x4e, 0x3, 0x2, 0x2, 0x2, 0x16, 0x50, 0x3, 0x2, 0x2, 0x2, 0x18, 0x19, 
-       0x5, 0x4, 0x3, 0x2, 0x19, 0x1a, 0x7, 0x2, 0x2, 0x3, 0x1a, 0x3, 0x3, 
-       0x2, 0x2, 0x2, 0x1b, 0x21, 0x5, 0x6, 0x4, 0x2, 0x1c, 0x1d, 0x5, 0x6, 
-       0x4, 0x2, 0x1d, 0x1e, 0x5, 0x4, 0x3, 0x2, 0x1e, 0x21, 0x3, 0x2, 0x2, 
-       0x2, 0x1f, 0x21, 0x3, 0x2, 0x2, 0x2, 0x20, 0x1b, 0x3, 0x2, 0x2, 0x2, 
-       0x20, 0x1c, 0x3, 0x2, 0x2, 0x2, 0x20, 0x1f, 0x3, 0x2, 0x2, 0x2, 0x21, 
-       0x5, 0x3, 0x2, 0x2, 0x2, 0x22, 0x27, 0x5, 0x8, 0x5, 0x2, 0x23, 0x27, 
-       0x5, 0xa, 0x6, 0x2, 0x24, 0x27, 0x5, 0x10, 0x9, 0x2, 0x25, 0x27, 
-       0x5, 0x16, 0xc, 0x2, 0x26, 0x22, 0x3, 0x2, 0x2, 0x2, 0x26, 0x23, 
-       0x3, 0x2, 0x2, 0x2, 0x26, 0x24, 0x3, 0x2, 0x2, 0x2, 0x26, 0x25, 0x3, 
-       0x2, 0x2, 0x2, 0x27, 0x7, 0x3, 0x2, 0x2, 0x2, 0x28, 0x29, 0x9, 0x2, 
-       0x2, 0x2, 0x29, 0x9, 0x3, 0x2, 0x2, 0x2, 0x2a, 0x2b, 0x7, 0x3, 0x2, 
-       0x2, 0x2b, 0x2c, 0x5, 0xc, 0x7, 0x2, 0x2c, 0x2d, 0x7, 0x1e, 0x2, 
-       0x2, 0x2d, 0xb, 0x3, 0x2, 0x2, 0x2, 0x2e, 0x34, 0x5, 0xe, 0x8, 0x2, 
-       0x2f, 0x30, 0x5, 0xe, 0x8, 0x2, 0x30, 0x31, 0x7, 0x23, 0x2, 0x2, 
-       0x31, 0x32, 0x5, 0xc, 0x7, 0x2, 0x32, 0x34, 0x3, 0x2, 0x2, 0x2, 0x33, 
-       0x2e, 0x3, 0x2, 0x2, 0x2, 0x33, 0x2f, 0x3, 0x2, 0x2, 0x2, 0x34, 0xd, 
-       0x3, 0x2, 0x2, 0x2, 0x35, 0x36, 0x7, 0x34, 0x2, 0x2, 0x36, 0xf, 0x3, 
-       0x2, 0x2, 0x2, 0x37, 0x38, 0x7, 0x4, 0x2, 0x2, 0x38, 0x39, 0x5, 0x12, 
-       0xa, 0x2, 0x39, 0x3a, 0x7, 0x1e, 0x2, 0x2, 0x3a, 0x11, 0x3, 0x2, 
-       0x2, 0x2, 0x3b, 0x3f, 0x7, 0x2e, 0x2, 0x2, 0x3c, 0x3d, 0x7, 0x2e, 
-       0x2, 0x2, 0x3d, 0x3f, 0x7, 0x30, 0x2, 0x2, 0x3e, 0x3b, 0x3, 0x2, 
-       0x2, 0x2, 0x3e, 0x3c, 0x3, 0x2, 0x2, 0x2, 0x3f, 0x40, 0x3, 0x2, 0x2, 
-       0x2, 0x40, 0x41, 0x7, 0x1f, 0x2, 0x2, 0x41, 0x4d, 0x5, 0x14, 0xb, 
-       0x2, 0x42, 0x46, 0x7, 0x2e, 0x2, 0x2, 0x43, 0x44, 0x7, 0x2e, 0x2, 
-       0x2, 0x44, 0x46, 0x7, 0x30, 0x2, 0x2, 0x45, 0x42, 0x3, 0x2, 0x2, 
-       0x2, 0x45, 0x43, 0x3, 0x2, 0x2, 0x2, 0x46, 0x47, 0x3, 0x2, 0x2, 0x2, 
-       0x47, 0x48, 0x7, 0x1f, 0x2, 0x2, 0x48, 0x49, 0x5, 0x14, 0xb, 0x2, 
-       0x49, 0x4a, 0x7, 0x23, 0x2, 0x2, 0x4a, 0x4b, 0x5, 0x12, 0xa, 0x2, 
-       0x4b, 0x4d, 0x3, 0x2, 0x2, 0x2, 0x4c, 0x3e, 0x3, 0x2, 0x2, 0x2, 0x4c, 
-       0x45, 0x3, 0x2, 0x2, 0x2, 0x4d, 0x13, 0x3, 0x2, 0x2, 0x2, 0x4e, 0x4f, 
-       0x9, 0x3, 0x2, 0x2, 0x4f, 0x15, 0x3, 0x2, 0x2, 0x2, 0x50, 0x51, 0x9, 
-       0x4, 0x2, 0x2, 0x51, 0x17, 0x3, 0x2, 0x2, 0x2, 0x8, 0x20, 0x26, 0x33, 
-       0x3e, 0x45, 0x4c, 
+       0x4, 0xb, 0x9, 0xb, 0x4, 0xc, 0x9, 0xc, 0x4, 0xd, 0x9, 0xd, 0x4, 
+       0xe, 0x9, 0xe, 0x4, 0xf, 0x9, 0xf, 0x4, 0x10, 0x9, 0x10, 0x4, 0x11, 
+       0x9, 0x11, 0x4, 0x12, 0x9, 0x12, 0x4, 0x13, 0x9, 0x13, 0x4, 0x14, 
+       0x9, 0x14, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x3, 0x3, 0x3, 0x3, 0x3, 
+       0x3, 0x3, 0x3, 0x3, 0x3, 0x5, 0x3, 0x31, 0xa, 0x3, 0x3, 0x4, 0x3, 
+       0x4, 0x3, 0x4, 0x3, 0x4, 0x5, 0x4, 0x37, 0xa, 0x4, 0x3, 0x5, 0x3, 
+       0x5, 0x3, 0x6, 0x3, 0x6, 0x3, 0x6, 0x3, 0x6, 0x3, 0x7, 0x3, 0x7, 
+       0x3, 0x7, 0x3, 0x7, 0x3, 0x7, 0x5, 0x7, 0x44, 0xa, 0x7, 0x3, 0x8, 
+       0x3, 0x8, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0x9, 0x3, 0xa, 0x3, 
+       0xa, 0x5, 0xa, 0x4e, 0xa, 0xa, 0x3, 0xa, 0x3, 0xa, 0x3, 0xa, 0x7, 
+       0xa, 0x53, 0xa, 0xa, 0xc, 0xa, 0xe, 0xa, 0x56, 0xb, 0xa, 0x3, 0xb, 
+       0x5, 0xb, 0x59, 0xa, 0xb, 0x3, 0xb, 0x3, 0xb, 0x3, 0xb, 0x3, 0xb, 
+       0x5, 0xb, 0x5f, 0xa, 0xb, 0x3, 0xb, 0x3, 0xb, 0x3, 0xc, 0x3, 0xc, 
+       0x3, 0xd, 0x3, 0xd, 0x7, 0xd, 0x67, 0xa, 0xd, 0xc, 0xd, 0xe, 0xd, 
+       0x6a, 0xb, 0xd, 0x3, 0xe, 0x3, 0xe, 0x5, 0xe, 0x6e, 0xa, 0xe, 0x3, 
+       0xe, 0x3, 0xe, 0x3, 0xf, 0x3, 0xf, 0x3, 0xf, 0x3, 0xf, 0x3, 0xf, 
+       0x3, 0xf, 0x3, 0xf, 0x5, 0xf, 0x79, 0xa, 0xf, 0x3, 0x10, 0x3, 0x10, 
+       0x3, 0x10, 0x3, 0x10, 0x3, 0x10, 0x3, 0x10, 0x5, 0x10, 0x81, 0xa, 
+       0x10, 0x3, 0x11, 0x3, 0x11, 0x3, 0x11, 0x7, 0x11, 0x86, 0xa, 0x11, 
+       0xc, 0x11, 0xe, 0x11, 0x89, 0xb, 0x11, 0x3, 0x12, 0x3, 0x12, 0x5, 
+       0x12, 0x8d, 0xa, 0x12, 0x3, 0x12, 0x3, 0x12, 0x5, 0x12, 0x91, 0xa, 
+       0x12, 0x3, 0x12, 0x3, 0x12, 0x5, 0x12, 0x95, 0xa, 0x12, 0x3, 0x12, 
+       0x5, 0x12, 0x98, 0xa, 0x12, 0x3, 0x12, 0x5, 0x12, 0x9b, 0xa, 0x12, 
+       0x3, 0x13, 0x3, 0x13, 0x3, 0x14, 0x3, 0x14, 0x3, 0x14, 0x2, 0x2, 
+       0x15, 0x2, 0x4, 0x6, 0x8, 0xa, 0xc, 0xe, 0x10, 0x12, 0x14, 0x16, 
+       0x18, 0x1a, 0x1c, 0x1e, 0x20, 0x22, 0x24, 0x26, 0x2, 0x7, 0x3, 0x2, 
+       0x35, 0x36, 0x4, 0x2, 0x15, 0x15, 0x19, 0x19, 0x4, 0x2, 0x1f, 0x1f, 
+       0x2b, 0x2b, 0x4, 0x2, 0xb, 0xf, 0x18, 0x18, 0x3, 0x2, 0x5, 0x34, 
+       0x2, 0xa4, 0x2, 0x28, 0x3, 0x2, 0x2, 0x2, 0x4, 0x30, 0x3, 0x2, 0x2, 
+       0x2, 0x6, 0x36, 0x3, 0x2, 0x2, 0x2, 0x8, 0x38, 0x3, 0x2, 0x2, 0x2, 
+       0xa, 0x3a, 0x3, 0x2, 0x2, 0x2, 0xc, 0x43, 0x3, 0x2, 0x2, 0x2, 0xe, 
+       0x45, 0x3, 0x2, 0x2, 0x2, 0x10, 0x47, 0x3, 0x2, 0x2, 0x2, 0x12, 0x4b, 
+       0x3, 0x2, 0x2, 0x2, 0x14, 0x58, 0x3, 0x2, 0x2, 0x2, 0x16, 0x62, 0x3, 
+       0x2, 0x2, 0x2, 0x18, 0x64, 0x3, 0x2, 0x2, 0x2, 0x1a, 0x6b, 0x3, 0x2, 
+       0x2, 0x2, 0x1c, 0x78, 0x3, 0x2, 0x2, 0x2, 0x1e, 0x80, 0x3, 0x2, 0x2, 
+       0x2, 0x20, 0x82, 0x3, 0x2, 0x2, 0x2, 0x22, 0x9a, 0x3, 0x2, 0x2, 0x2, 
+       0x24, 0x9c, 0x3, 0x2, 0x2, 0x2, 0x26, 0x9e, 0x3, 0x2, 0x2, 0x2, 0x28, 
+       0x29, 0x5, 0x4, 0x3, 0x2, 0x29, 0x2a, 0x7, 0x2, 0x2, 0x3, 0x2a, 0x3, 
+       0x3, 0x2, 0x2, 0x2, 0x2b, 0x31, 0x5, 0x6, 0x4, 0x2, 0x2c, 0x2d, 0x5, 
+       0x6, 0x4, 0x2, 0x2d, 0x2e, 0x5, 0x4, 0x3, 0x2, 0x2e, 0x31, 0x3, 0x2, 
+       0x2, 0x2, 0x2f, 0x31, 0x3, 0x2, 0x2, 0x2, 0x30, 0x2b, 0x3, 0x2, 0x2, 
+       0x2, 0x30, 0x2c, 0x3, 0x2, 0x2, 0x2, 0x30, 0x2f, 0x3, 0x2, 0x2, 0x2, 
+       0x31, 0x5, 0x3, 0x2, 0x2, 0x2, 0x32, 0x37, 0x5, 0x8, 0x5, 0x2, 0x33, 
+       0x37, 0x5, 0xa, 0x6, 0x2, 0x34, 0x37, 0x5, 0x10, 0x9, 0x2, 0x35, 
+       0x37, 0x5, 0x26, 0x14, 0x2, 0x36, 0x32, 0x3, 0x2, 0x2, 0x2, 0x36, 
+       0x33, 0x3, 0x2, 0x2, 0x2, 0x36, 0x34, 0x3, 0x2, 0x2, 0x2, 0x36, 0x35, 
+       0x3, 0x2, 0x2, 0x2, 0x37, 0x7, 0x3, 0x2, 0x2, 0x2, 0x38, 0x39, 0x9, 
+       0x2, 0x2, 0x2, 0x39, 0x9, 0x3, 0x2, 0x2, 0x2, 0x3a, 0x3b, 0x7, 0x3, 
+       0x2, 0x2, 0x3b, 0x3c, 0x5, 0xc, 0x7, 0x2, 0x3c, 0x3d, 0x7, 0x1e, 
+       0x2, 0x2, 0x3d, 0xb, 0x3, 0x2, 0x2, 0x2, 0x3e, 0x44, 0x5, 0xe, 0x8, 
+       0x2, 0x3f, 0x40, 0x5, 0xe, 0x8, 0x2, 0x40, 0x41, 0x7, 0x23, 0x2, 
+       0x2, 0x41, 0x42, 0x5, 0xc, 0x7, 0x2, 0x42, 0x44, 0x3, 0x2, 0x2, 0x2, 
+       0x43, 0x3e, 0x3, 0x2, 0x2, 0x2, 0x43, 0x3f, 0x3, 0x2, 0x2, 0x2, 0x44, 
+       0xd, 0x3, 0x2, 0x2, 0x2, 0x45, 0x46, 0x7, 0x34, 0x2, 0x2, 0x46, 0xf, 
+       0x3, 0x2, 0x2, 0x2, 0x47, 0x48, 0x7, 0x4, 0x2, 0x2, 0x48, 0x49, 0x5, 
+       0x12, 0xa, 0x2, 0x49, 0x4a, 0x7, 0x1e, 0x2, 0x2, 0x4a, 0x11, 0x3, 
+       0x2, 0x2, 0x2, 0x4b, 0x4d, 0x5, 0x14, 0xb, 0x2, 0x4c, 0x4e, 0x9, 
+       0x3, 0x2, 0x2, 0x4d, 0x4c, 0x3, 0x2, 0x2, 0x2, 0x4d, 0x4e, 0x3, 0x2, 
+       0x2, 0x2, 0x4e, 0x4f, 0x3, 0x2, 0x2, 0x2, 0x4f, 0x54, 0x5, 0x22, 
+       0x12, 0x2, 0x50, 0x51, 0x7, 0x23, 0x2, 0x2, 0x51, 0x53, 0x5, 0x12, 
+       0xa, 0x2, 0x52, 0x50, 0x3, 0x2, 0x2, 0x2, 0x53, 0x56, 0x3, 0x2, 0x2, 
+       0x2, 0x54, 0x52, 0x3, 0x2, 0x2, 0x2, 0x54, 0x55, 0x3, 0x2, 0x2, 0x2, 
+       0x55, 0x13, 0x3, 0x2, 0x2, 0x2, 0x56, 0x54, 0x3, 0x2, 0x2, 0x2, 0x57, 
+       0x59, 0x5, 0x18, 0xd, 0x2, 0x58, 0x57, 0x3, 0x2, 0x2, 0x2, 0x58, 
+       0x59, 0x3, 0x2, 0x2, 0x2, 0x59, 0x5e, 0x3, 0x2, 0x2, 0x2, 0x5a, 0x5f, 
+       0x5, 0x24, 0x13, 0x2, 0x5b, 0x5c, 0x5, 0x24, 0x13, 0x2, 0x5c, 0x5d, 
+       0x7, 0x30, 0x2, 0x2, 0x5d, 0x5f, 0x3, 0x2, 0x2, 0x2, 0x5e, 0x5a, 
+       0x3, 0x2, 0x2, 0x2, 0x5e, 0x5b, 0x3, 0x2, 0x2, 0x2, 0x5f, 0x60, 0x3, 
+       0x2, 0x2, 0x2, 0x60, 0x61, 0x9, 0x4, 0x2, 0x2, 0x61, 0x15, 0x3, 0x2, 
+       0x2, 0x2, 0x62, 0x63, 0x9, 0x5, 0x2, 0x2, 0x63, 0x17, 0x3, 0x2, 0x2, 
+       0x2, 0x64, 0x68, 0x5, 0x16, 0xc, 0x2, 0x65, 0x67, 0x5, 0x18, 0xd, 
+       0x2, 0x66, 0x65, 0x3, 0x2, 0x2, 0x2, 0x67, 0x6a, 0x3, 0x2, 0x2, 0x2, 
+       0x68, 0x66, 0x3, 0x2, 0x2, 0x2, 0x68, 0x69, 0x3, 0x2, 0x2, 0x2, 0x69, 
+       0x19, 0x3, 0x2, 0x2, 0x2, 0x6a, 0x68, 0x3, 0x2, 0x2, 0x2, 0x6b, 0x6d, 
+       0x5, 0x1c, 0xf, 0x2, 0x6c, 0x6e, 0x5, 0x24, 0x13, 0x2, 0x6d, 0x6c, 
+       0x3, 0x2, 0x2, 0x2, 0x6d, 0x6e, 0x3, 0x2, 0x2, 0x2, 0x6e, 0x6f, 0x3, 
+       0x2, 0x2, 0x2, 0x6f, 0x70, 0x5, 0x1e, 0x10, 0x2, 0x70, 0x1b, 0x3, 
+       0x2, 0x2, 0x2, 0x71, 0x79, 0x5, 0x24, 0x13, 0x2, 0x72, 0x73, 0x5, 
+       0x24, 0x13, 0x2, 0x73, 0x74, 0x7, 0x20, 0x2, 0x2, 0x74, 0x79, 0x3, 
+       0x2, 0x2, 0x2, 0x75, 0x76, 0x5, 0x24, 0x13, 0x2, 0x76, 0x77, 0x7, 
+       0x22, 0x2, 0x2, 0x77, 0x79, 0x3, 0x2, 0x2, 0x2, 0x78, 0x71, 0x3, 
+       0x2, 0x2, 0x2, 0x78, 0x72, 0x3, 0x2, 0x2, 0x2, 0x78, 0x75, 0x3, 0x2, 
+       0x2, 0x2, 0x79, 0x1d, 0x3, 0x2, 0x2, 0x2, 0x7a, 0x7b, 0x7, 0x28, 
+       0x2, 0x2, 0x7b, 0x81, 0x7, 0x29, 0x2, 0x2, 0x7c, 0x7d, 0x7, 0x28, 
+       0x2, 0x2, 0x7d, 0x7e, 0x5, 0x20, 0x11, 0x2, 0x7e, 0x7f, 0x7, 0x29, 
+       0x2, 0x2, 0x7f, 0x81, 0x3, 0x2, 0x2, 0x2, 0x80, 0x7a, 0x3, 0x2, 0x2, 
+       0x2, 0x80, 0x7c, 0x3, 0x2, 0x2, 0x2, 0x81, 0x1f, 0x3, 0x2, 0x2, 0x2, 
+       0x82, 0x87, 0x5, 0x22, 0x12, 0x2, 0x83, 0x84, 0x7, 0x23, 0x2, 0x2, 
+       0x84, 0x86, 0x5, 0x20, 0x11, 0x2, 0x85, 0x83, 0x3, 0x2, 0x2, 0x2, 
+       0x86, 0x89, 0x3, 0x2, 0x2, 0x2, 0x87, 0x85, 0x3, 0x2, 0x2, 0x2, 0x87, 
+       0x88, 0x3, 0x2, 0x2, 0x2, 0x88, 0x21, 0x3, 0x2, 0x2, 0x2, 0x89, 0x87, 
+       0x3, 0x2, 0x2, 0x2, 0x8a, 0x8c, 0x5, 0x24, 0x13, 0x2, 0x8b, 0x8d, 
+       0x7, 0x30, 0x2, 0x2, 0x8c, 0x8b, 0x3, 0x2, 0x2, 0x2, 0x8c, 0x8d, 
+       0x3, 0x2, 0x2, 0x2, 0x8d, 0x98, 0x3, 0x2, 0x2, 0x2, 0x8e, 0x90, 0x7, 
+       0x32, 0x2, 0x2, 0x8f, 0x91, 0x7, 0x30, 0x2, 0x2, 0x90, 0x8f, 0x3, 
+       0x2, 0x2, 0x2, 0x90, 0x91, 0x3, 0x2, 0x2, 0x2, 0x91, 0x98, 0x3, 0x2, 
+       0x2, 0x2, 0x92, 0x94, 0x7, 0x33, 0x2, 0x2, 0x93, 0x95, 0x7, 0x30, 
+       0x2, 0x2, 0x94, 0x93, 0x3, 0x2, 0x2, 0x2, 0x94, 0x95, 0x3, 0x2, 0x2, 
+       0x2, 0x95, 0x98, 0x3, 0x2, 0x2, 0x2, 0x96, 0x98, 0x7, 0x34, 0x2, 
+       0x2, 0x97, 0x8a, 0x3, 0x2, 0x2, 0x2, 0x97, 0x8e, 0x3, 0x2, 0x2, 0x2, 
+       0x97, 0x92, 0x3, 0x2, 0x2, 0x2, 0x97, 0x96, 0x3, 0x2, 0x2, 0x2, 0x98, 
+       0x9b, 0x3, 0x2, 0x2, 0x2, 0x99, 0x9b, 0x5, 0x1a, 0xe, 0x2, 0x9a, 
+       0x97, 0x3, 0x2, 0x2, 0x2, 0x9a, 0x99, 0x3, 0x2, 0x2, 0x2, 0x9b, 0x23, 
+       0x3, 0x2, 0x2, 0x2, 0x9c, 0x9d, 0x7, 0x2e, 0x2, 0x2, 0x9d, 0x25, 
+       0x3, 0x2, 0x2, 0x2, 0x9e, 0x9f, 0x9, 0x6, 0x2, 0x2, 0x9f, 0x27, 0x3, 
+       0x2, 0x2, 0x2, 0x13, 0x30, 0x36, 0x43, 0x4d, 0x54, 0x58, 0x5e, 0x68, 
+       0x6d, 0x78, 0x80, 0x87, 0x8c, 0x90, 0x94, 0x97, 0x9a, 
   };
 
   _serializedATN.insert(_serializedATN.end(), serializedATNSegment0,

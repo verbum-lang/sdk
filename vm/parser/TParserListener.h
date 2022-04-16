@@ -43,8 +43,32 @@ public:
   virtual void enterVariableItem(TParser::VariableItemContext *ctx) = 0;
   virtual void exitVariableItem(TParser::VariableItemContext *ctx) = 0;
 
+  virtual void enterVariablePrefixModes(TParser::VariablePrefixModesContext *ctx) = 0;
+  virtual void exitVariablePrefixModes(TParser::VariablePrefixModesContext *ctx) = 0;
+
+  virtual void enterVisibilityItems(TParser::VisibilityItemsContext *ctx) = 0;
+  virtual void exitVisibilityItems(TParser::VisibilityItemsContext *ctx) = 0;
+
+  virtual void enterMethodVisibility(TParser::MethodVisibilityContext *ctx) = 0;
+  virtual void exitMethodVisibility(TParser::MethodVisibilityContext *ctx) = 0;
+
+  virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
+  virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
+
+  virtual void enterFunctionCallPrefix(TParser::FunctionCallPrefixContext *ctx) = 0;
+  virtual void exitFunctionCallPrefix(TParser::FunctionCallPrefixContext *ctx) = 0;
+
+  virtual void enterFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
+  virtual void exitFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
+
+  virtual void enterFunctionCallParamElements(TParser::FunctionCallParamElementsContext *ctx) = 0;
+  virtual void exitFunctionCallParamElements(TParser::FunctionCallParamElementsContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
+
+  virtual void enterIdentifier(TParser::IdentifierContext *ctx) = 0;
+  virtual void exitIdentifier(TParser::IdentifierContext *ctx) = 0;
 
   virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;
   virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;

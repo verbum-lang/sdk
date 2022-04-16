@@ -46,6 +46,12 @@ namespace verbum {
             // Processa importações (use).
             antlrcpp::Any visitUseString (TParser::UseStringContext *ctx);
 
+            // Variáveis.
+            antlrcpp::Any visitBlockVariable (TParser::BlockVariableContext *ctx);
+            antlrcpp::Any visitVariableItem (TParser::VariableItemContext *ctx);
+
+            antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
+
         private:
         
             // Contadores e flags de controle da adição dos nodes.

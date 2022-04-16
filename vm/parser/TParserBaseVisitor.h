@@ -53,7 +53,39 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitVariablePrefixModes(TParser::VariablePrefixModesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitVisibilityItems(TParser::VisibilityItemsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitMethodVisibility(TParser::MethodVisibilityContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallPrefix(TParser::FunctionCallPrefixContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallParam(TParser::FunctionCallParamContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallParamElements(TParser::FunctionCallParamElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitIdentifier(TParser::IdentifierContext *ctx) override {
     return visitChildren(ctx);
   }
 
