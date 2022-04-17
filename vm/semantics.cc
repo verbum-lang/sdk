@@ -141,6 +141,21 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Ret.
+        */
+        else if (node.type == VERBUM_RET) {
+            this->tab();
+            cout << "-> ret block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> ret block (close)\n";
+        }
+
+        /*
         ** Valores gerais.
         */
         else if (node.type == VERBUM_GENERAL_VALUE) {

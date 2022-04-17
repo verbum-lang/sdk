@@ -50,6 +50,10 @@ namespace verbum {
             antlrcpp::Any visitBlockVariable (TParser::BlockVariableContext *ctx);
             antlrcpp::Any visitVariableItem (TParser::VariableItemContext *ctx);
 
+            // Ret (return).
+            antlrcpp::Any visitBlockRet (TParser::BlockRetContext *ctx) ;
+
+            // Valores gerais.
             antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
 
         private:

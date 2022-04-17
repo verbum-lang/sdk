@@ -321,6 +321,23 @@ antlrcpp::Any verbum_ast_visitor::visitVariableItem (TParser::VariableItemContex
 }
 
 /*
+** Ret (return).
+*/
+antlrcpp::Any verbum_ast_visitor::visitBlockRet (TParser::BlockRetContext *ctx) 
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_RET;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
 ** Controle dos valores gerais.
 */
 antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContext *ctx) 
