@@ -286,6 +286,10 @@ public:
     VariableItemContext* variableItem(size_t i);
     antlr4::tree::TerminalNode *New();
     antlr4::tree::TerminalNode *Await();
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    antlr4::tree::TerminalNode *OpenArIndex();
+    antlr4::tree::TerminalNode *CloseArIndex();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -975,8 +979,8 @@ public:
     IndexArrayContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *OpenArIndex();
-    antlr4::tree::TerminalNode *CloseArIndex();
     IndexArrayElementsContext *indexArrayElements();
+    antlr4::tree::TerminalNode *CloseArIndex();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1011,8 +1015,8 @@ public:
     AssociativeArrayContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *OpenBlock();
-    antlr4::tree::TerminalNode *CloseBlock();
     AssociativeArrayElementsContext *associativeArrayElements();
+    antlr4::tree::TerminalNode *CloseBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1116,10 +1120,10 @@ public:
     antlr4::tree::TerminalNode *ArithmeticOperator();
     antlr4::tree::TerminalNode *AssignmentOperator();
     FunctionCallContext *functionCall();
-    BlockArrayContext *blockArray();
     antlr4::tree::TerminalNode *OpenOp();
     BlockFunctionContext *blockFunction();
     antlr4::tree::TerminalNode *CloseOp();
+    BlockArrayContext *blockArray();
     GeneralValueBlockContext *generalValueBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;

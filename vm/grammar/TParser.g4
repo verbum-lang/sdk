@@ -75,6 +75,7 @@ blockVariable
 // Declaração.
 variableItem
   : variablePrefixModes (New | Await)? generalValueElements (Separator variableItem)*
+  | variablePrefixModes (New | Await)? (OpenBlock CloseBlock | OpenArIndex CloseArIndex) (Separator variableItem)*
   ;
 
 variablePrefixModes
@@ -280,7 +281,7 @@ blockArray
 
 // Array indexado.
 indexArray
-  : OpenArIndex (indexArrayElements)? CloseArIndex
+  : OpenArIndex indexArrayElements CloseArIndex
   ;
 
 indexArrayElements
@@ -289,7 +290,7 @@ indexArrayElements
 
 // Array associativo.
 associativeArray
-  : OpenBlock (associativeArrayElements)? CloseBlock
+  : OpenBlock associativeArrayElements CloseBlock
   ;
 
 associativeArrayElements
@@ -339,8 +340,8 @@ generalValue
       (Not)? String (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
     )
   | (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
-  | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? OpenOp blockFunction CloseOp (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? generalValueBlock (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   ;
 

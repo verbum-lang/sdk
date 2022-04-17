@@ -579,17 +579,21 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         }
     }
 
-    // Array indexado.
-    // else if (ctx->indexArray()) {
-    //     node.general_value_data.type = VERBUM_DATA_INDEX_ARRAY_BLOCK;
-    //     block = true;
-    // }
-    
-    // // Array associativo.
-    // else if (ctx->associativeArray()) {
-    //     node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
-    //     block = true;
-    // }
+    // Array.
+    else if (ctx->blockArray()) {
+
+        // Array indexado.
+        if (ctx->blockArray()->indexArray()) {
+            node.general_value_data.type = VERBUM_DATA_INDEX_ARRAY_BLOCK;
+            block = true;
+        }
+        
+        // Array associativo.
+        else if (ctx->blockArray()->associativeArray()) {
+            node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
+            block = true;
+        }
+    }
 
     this->add_node(node);
 
@@ -601,6 +605,23 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
       result = visitChildren(ctx);
 
     return result;
+}
+
+/*
+** Array associativo.
+*/
+antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+
+    node.type = VERBUM_GENERAL_VALUE;
+    node.general_value_type_conversion = false;
+    node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_ELEMENT;
+    node.general_value_data.identifier = ctx->identifier()->getText();
+    
+    this->add_node(node);
+
+    return visitChildren(ctx);
 }
 
 /*

@@ -20,10 +20,34 @@ var variable :array = [
 ];
 
 var a = [
-    10 - 10, [ 333 ], 20
+    10 - 10, 
+    [ 333 ], 
+    20 / func(
+        [1, 2, 3]
+    )
 ];
 
 
-if a < 10 && (10 / (33 - b) - 20) {}
+if a < 10 && (10 / (33 - b) - 20) {
+
+}
 
 
+if [1,2,3] {}
+
+var variable :array = {
+    items: [
+        { name: "Verbum"  },
+        { name: "Divinus" },
+        {
+            values: [
+                10, 20, 30:float, { name: "Member" }
+            ]
+        },
+        31337
+    ]
+};
+
+var variable = {
+    valor: 1.337 :double
+};
