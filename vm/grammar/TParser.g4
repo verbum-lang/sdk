@@ -503,15 +503,15 @@ blockLiveTokens
       // ArrowRight |
       // Not |
       // New |
-      // ARightLB |
+      // OpenArIndex |
+      // CloseArIndex |
+      ARightLB |
       End |
       Attr |
       Point |
       TwoPoint |
       TwoTwoPoint |
       Separator |
-      // OpenArIndex |
-      // CloseArIndex |
       Pub |
       Pro |
       Priv |

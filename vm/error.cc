@@ -36,6 +36,10 @@ void verbum_error_listener::syntaxError(
     if (found != std::string::npos)
         message = "Syntax error.";
 
+    // Corta mensagem, caso ela for muito grande.
+    if (message.length() > 50)
+      message = message.substr(0, 50) + "...";
+
     // Informações gerais.
     std::cout << "\n Verbum Programming Language\n\n";
     std::cout << " Filename: " << this->file_path << "\n";

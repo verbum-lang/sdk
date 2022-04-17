@@ -1486,6 +1486,7 @@ public:
   public:
     BlockLiveTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *ARightLB();
     antlr4::tree::TerminalNode *End();
     antlr4::tree::TerminalNode *Attr();
     antlr4::tree::TerminalNode *Point();

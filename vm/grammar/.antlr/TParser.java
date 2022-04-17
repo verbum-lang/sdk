@@ -4817,6 +4817,7 @@ public class TParser extends Parser {
 	}
 
 	public static class BlockLiveTokensContext extends ParserRuleContext {
+		public TerminalNode ARightLB() { return getToken(TParser.ARightLB, 0); }
 		public TerminalNode End() { return getToken(TParser.End, 0); }
 		public TerminalNode Attr() { return getToken(TParser.Attr, 0); }
 		public TerminalNode Point() { return getToken(TParser.Point, 0); }
@@ -4854,7 +4855,7 @@ public class TParser extends Parser {
 			{
 			setState(840);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Pub) | (1L << Pro) | (1L << Priv) | (1L << Static) | (1L << Final) | (1L << Async) | (1L << End) | (1L << Attr) | (1L << Point) | (1L << TwoPoint) | (1L << TwoTwoPoint) | (1L << Separator) | (1L << OpenOp) | (1L << CloseOp) | (1L << ArithmeticOperator) | (1L << AssignmentOperator) | (1L << IncDecOperators) | (1L << Identifier) | (1L << TypeSpec) | (1L << Integer) | (1L << Float) | (1L << String))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Pub) | (1L << Pro) | (1L << Priv) | (1L << Static) | (1L << Final) | (1L << Async) | (1L << ARightLB) | (1L << End) | (1L << Attr) | (1L << Point) | (1L << TwoPoint) | (1L << TwoTwoPoint) | (1L << Separator) | (1L << OpenOp) | (1L << CloseOp) | (1L << ArithmeticOperator) | (1L << AssignmentOperator) | (1L << IncDecOperators) | (1L << Identifier) | (1L << TypeSpec) | (1L << Integer) | (1L << Float) | (1L << String))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -4937,7 +4938,7 @@ public class TParser extends Parser {
 		"\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRT"+
 		"VXZ\\^`bdfhjlnprtvxz|~\u0080\u0082\u0084\u0086\u0088\u008a\u008c\u008e"+
 		"\u0090\u0092\u0094\u0096\u0098\2\7\4\2\25\25\31\31\4\2\37\37++\4\2  \""+
-		"\"\4\2..\60\60\t\2\13\17\30\30\36#(+-.\60\60\62\64\2\u039a\2\u009a\3\2"+
+		"\"\4\2..\60\60\t\2\13\17\30\30\35#(+-.\60\60\62\64\2\u039a\2\u009a\3\2"+
 		"\2\2\4\u00a2\3\2\2\2\6\u00b2\3\2\2\2\b\u00ba\3\2\2\2\n\u00bc\3\2\2\2\f"+
 		"\u00c5\3\2\2\2\16\u00c7\3\2\2\2\20\u00c9\3\2\2\2\22\u00cd\3\2\2\2\24\u00dd"+
 		"\3\2\2\2\26\u00e1\3\2\2\2\30\u00ee\3\2\2\2\32\u00f6\3\2\2\2\34\u00f8\3"+
