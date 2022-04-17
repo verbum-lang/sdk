@@ -650,19 +650,17 @@ antlrcpp::Any verbum_ast_visitor::visitCodeBlockFlowControlElements (TParser::Co
             node.general_value_data.function_name = 
                 ctx->functionCall()->functionCallPrefix()->identifier()->getText();
         }
+
+        this->add_node(node);
+    
+        this->node_block_counter++;
+        antlrcpp::Any result = visitChildren(ctx);
+        this->node_block_counter--;
+
+        return result;
     }
 
-    // Bloco ret (return).
-    else if (ctx->blockRet())
-        node.type = VERBUM_RET;
-
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
+    return visitChildren(ctx);
 }
 
 /*
