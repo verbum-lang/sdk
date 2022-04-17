@@ -925,6 +925,23 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCodeBlock (TParser::FunctionCodeB
 }
 
 /*
+** Parâmetros da função anônima.
+*/
+antlrcpp::Any verbum_ast_visitor::visitFunctionAnonymousParam (TParser::FunctionAnonymousParamContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_ANONYMOUS_FUNCTION_PARAM;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
 ** OOP.
 */
 

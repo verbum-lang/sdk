@@ -185,6 +185,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitFunctionAnonymousParam(TParser::FunctionAnonymousParamContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) override {
     return visitChildren(ctx);
   }

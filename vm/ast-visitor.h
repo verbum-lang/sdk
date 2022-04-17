@@ -83,6 +83,9 @@ namespace verbum {
             antlrcpp::Any visitFunctionParam (TParser::FunctionParamContext *ctx);
             antlrcpp::Any visitFunctionCodeBlock (TParser::FunctionCodeBlockContext *ctx);
 
+            // Funções anônimas.
+            antlrcpp::Any visitFunctionAnonymousParam (TParser::FunctionAnonymousParamContext *ctx);
+
             // OOP.
             antlrcpp::Any visitBlockInterface (TParser::BlockInterfaceContext *ctx);
             antlrcpp::Any visitInterfaceCodeBlock (TParser::InterfaceCodeBlockContext *ctx);

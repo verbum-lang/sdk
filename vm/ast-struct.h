@@ -98,6 +98,7 @@ using namespace std;
 #define VERBUM_TOKEN_NEXT                               53
 
 #define VERBUM_ANONYMOUS_FUNCTION                       54
+#define VERBUM_ANONYMOUS_FUNCTION_PARAM                 541
 
 #define VERBUM_MULTIPLE_ATTRIBUTION                     61
 

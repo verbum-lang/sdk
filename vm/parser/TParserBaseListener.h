@@ -144,6 +144,9 @@ public:
   virtual void enterFunctionParam(TParser::FunctionParamContext * /*ctx*/) override { }
   virtual void exitFunctionParam(TParser::FunctionParamContext * /*ctx*/) override { }
 
+  virtual void enterFunctionAnonymousParam(TParser::FunctionAnonymousParamContext * /*ctx*/) override { }
+  virtual void exitFunctionAnonymousParam(TParser::FunctionAnonymousParamContext * /*ctx*/) override { }
+
   virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
   virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
 

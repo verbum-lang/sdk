@@ -104,6 +104,8 @@ public:
 
     virtual antlrcpp::Any visitFunctionParam(TParser::FunctionParamContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunctionAnonymousParam(TParser::FunctionAnonymousParamContext *context) = 0;
+
     virtual antlrcpp::Any visitFunctionCodeBlock(TParser::FunctionCodeBlockContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockInterface(TParser::BlockInterfaceContext *context) = 0;

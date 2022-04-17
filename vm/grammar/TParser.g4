@@ -234,18 +234,44 @@ tryCatchElements
 ** Declaração das funções.
 */
 blockFunction
-  : Function (identifier)? OpenOp (functionParam)? CloseOp 
+  // Chamada com passagem de parâmetros.
+  : OpenOp
+      Function (identifier)? OpenOp (functionParam)? CloseOp 
+      (ArrowRight (identifierB | TypeSpec) )? functionCodeBlock
+    CloseOp
+    OpenOp
+      (functionAnonymousParam)?
+    CloseOp
+    End
+
+  // Funções comuns e anônimas (incluindo definição para interfaces e classes abstratas).
+  | Function (identifier)? OpenOp (functionParam)? CloseOp 
       (ArrowRight (identifierB | TypeSpec) )? (functionCodeBlock | End)
   ;
 
 // Utilizado na atribuição de valores a variáveis.
 blockFunctionAttr
-  : Function (identifier)? OpenOp (functionParam)? CloseOp 
+
+  // Chamada com passagem de parâmetros.
+  : OpenOp
+      Function (identifier)? OpenOp (functionParam)? CloseOp 
+      (ArrowRight (identifierB | TypeSpec) )? functionCodeBlock
+    CloseOp
+    OpenOp
+      (functionAnonymousParam)?
+    CloseOp
+
+  // Chamada comum.
+  | Function (identifier)? OpenOp (functionParam)? CloseOp 
       (ArrowRight (identifierB | TypeSpec) )? functionCodeBlock
   ;
 
 functionParam
   : Identifier TypeSpec (Separator functionParam)?
+  ;
+
+functionAnonymousParam
+  : generalValueElements
   ;
 
 functionCodeBlock

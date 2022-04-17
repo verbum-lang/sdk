@@ -142,6 +142,9 @@ public:
   virtual void enterFunctionParam(TParser::FunctionParamContext *ctx) = 0;
   virtual void exitFunctionParam(TParser::FunctionParamContext *ctx) = 0;
 
+  virtual void enterFunctionAnonymousParam(TParser::FunctionAnonymousParamContext *ctx) = 0;
+  virtual void exitFunctionAnonymousParam(TParser::FunctionAnonymousParamContext *ctx) = 0;
+
   virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
   virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
 

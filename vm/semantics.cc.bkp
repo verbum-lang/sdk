@@ -97,6 +97,21 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Parâmetros da função anônima.
+        */
+        else if (node.type == VERBUM_ANONYMOUS_FUNCTION_PARAM) {
+            this->tab();
+            cout << "-> anonymous-function-param - open\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> anonymous-function-param - close\n";
+        }
+
+        /*
         ** Variáveis: tipagem e atribuição.
         */
         else if (node.type == VERBUM_VARIABLE_USE_TYPES) {

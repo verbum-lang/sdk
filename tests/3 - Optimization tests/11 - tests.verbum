@@ -80,3 +80,76 @@ var variable = {
 };
 
 
+// Tipos de valores recebidos em variáveis.
+var variable = true;
+var variable = 'a';
+var variable = 'string 1';
+var variable = "string 2";
+var variable = 123;
+var variable = 3.14;
+var variable = 0.12345;
+var variable = [ 1, 2, 3 ];
+var variable = { values: [ 1, 2, 3 ] };
+var variable = anotherVariable;
+
+var variable = functionName(10, 20, 30);
+var variable = obj::functionName(10, 20, 30);
+var variable = obj.functionName(10, 20, 30);
+
+var variable = (10 + 20);
+var variable = (variable * 10 + 20 / 30);
+if (expression) 
+    print("value 1");
+elif (expression)
+    print("value 2");
+else
+    print("value 3");
+// Comum.
+for (var a = 0; a<100; a++)
+    print("Hello world\n");
+
+for (var a = 0; ; a++) {
+    if (a >= 100)
+        break;
+}
+
+for (var a = 0; ; a++) {
+    if (a < 100)
+        next;
+}
+
+// Equivalente ao while.
+for (a < 10)
+    print("a: {}\n", a);
+
+// Loop infinito.
+for ()
+    print("Infinite...\n");
+
+fn example (a:int, b:int) -> int {
+    ret (a * b) + 31337;
+}
+
+// Concatenação de funções.
+fn primary (a:int, b:int) -> int {
+    var value = 31337;
+
+    fn secondary (a:int, b:int) -> int {
+        ret (a * b) + value;
+    }
+
+    ret secondary(a, b);
+}
+
+// Funções anonimas.
+print("Value: {}\n", 
+    (fn (value :int) -> int { 
+        ret value * 3; 
+    })(31337)
+);
+
+(fn (value :int) -> int { 
+    ret value * 3; 
+})(31337);
+
+
