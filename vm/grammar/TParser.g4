@@ -221,7 +221,8 @@ codeBlockFlowControl
 ** Utilizado para:
 **    Valores comuns (atribuições)
 **    Operações aritméticas
-**    Operações relacionais
+**    Operações relacionais/condicionais
+**    Operações de incremento/decremento
 */
 generalValue
   : (
