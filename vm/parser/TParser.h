@@ -289,10 +289,6 @@ public:
     VariableItemContext* variableItem(size_t i);
     antlr4::tree::TerminalNode *New();
     antlr4::tree::TerminalNode *Await();
-    antlr4::tree::TerminalNode *OpenBlock();
-    antlr4::tree::TerminalNode *CloseBlock();
-    antlr4::tree::TerminalNode *OpenArIndex();
-    antlr4::tree::TerminalNode *CloseArIndex();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1173,6 +1169,10 @@ public:
     BlockArrayContext *blockArray();
     BlockFunctionAttrContext *blockFunctionAttr();
     BlockClassContext *blockClass();
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    antlr4::tree::TerminalNode *OpenArIndex();
+    antlr4::tree::TerminalNode *CloseArIndex();
     GeneralValueBlockContext *generalValueBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;

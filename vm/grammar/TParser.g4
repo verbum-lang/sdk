@@ -77,9 +77,6 @@ variableItem
 
   // Inicialização com valor geral.
   : variablePrefixModes (New | Await)? generalValueElements (Separator variableItem)*
-
-  // Inicialização de array vazio (indexado e associativo).
-  | variablePrefixModes (New | Await)? (OpenBlock CloseBlock | OpenArIndex CloseArIndex) (Separator variableItem)*
   ;
 
 // Expressões.
@@ -372,17 +369,26 @@ codeBlockControl
 **    Operações de incremento/decremento
 */
 generalValue
+
+  // Valores simples.
   : (
       (Not)? (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? Integer (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? Float (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? String (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
     )
+
+  // Valores complexos.
   | (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? OpenOp blockFunction CloseOp (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | blockFunctionAttr
   | blockClass
+
+  // Inicialização de array vazio (indexado e associativo).
+  | (OpenBlock CloseBlock | OpenArIndex CloseArIndex)
+  
+  // Bloco de valores gerais.
   | (Not)? generalValueBlock (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   ;
 
