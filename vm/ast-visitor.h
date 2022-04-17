@@ -74,6 +74,11 @@ namespace verbum {
             antlrcpp::Any visitCatchUniqueElement (TParser::CatchUniqueElementContext *ctx);
             antlrcpp::Any visitTryCatchElements (TParser::TryCatchElementsContext *ctx);
 
+            // Funções.
+            antlrcpp::Any visitBlockFunction (TParser::BlockFunctionContext *ctx);
+            antlrcpp::Any visitFunctionParam (TParser::FunctionParamContext *ctx);
+            antlrcpp::Any visitFunctionCodeBlock (TParser::FunctionCodeBlockContext *ctx);
+
             // Valores gerais.
             antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
 

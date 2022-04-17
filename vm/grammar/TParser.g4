@@ -31,6 +31,7 @@ statements
   | blockConditional
   | blockLoop
   | blockTryCatch
+  | blockFunction
 
   | blockCode
   | blockLiveTokens
@@ -225,8 +226,25 @@ tryCatchElements
   ;
 
 /*
-** Bloco de código das expressões condicionais e loops.
+** Declaração das funções.
 */
+blockFunction
+  : Function (identifier)? OpenOp (functionParam)? CloseOp (ArrowRight (identifierB | TypeSpec) )? (functionCodeBlock | End)
+  ;
+
+functionParam
+  : Identifier TypeSpec (Separator functionParam)?
+  ;
+
+functionCodeBlock
+  : codeBlockControl
+  ;
+
+/*
+** Controles de blocos de código.
+*/
+
+// Bloco de código das expressões condicionais e loops.
 codeBlockFlowControl
   : OpenBlock CloseBlock
   | OpenBlock sentences CloseBlock
@@ -239,6 +257,12 @@ codeBlockFlowControlElements
   | blockConditional
   | blockLoop
   | blockTryCatch
+  ;
+
+// Funções, classes, etc.
+codeBlockControl
+  : OpenBlock CloseBlock
+  | OpenBlock sentences CloseBlock
   ;
 
 /*
@@ -277,6 +301,7 @@ generalValueElements
 ** Controladores gerais.
 */
 identifier : Identifier;
+identifierB : Identifier;
 incDecOperatorsA : IncDecOperators;
 incDecOperatorsB : IncDecOperators;
 
@@ -291,24 +316,20 @@ blockLiveTokens
       // Else |
       // For |
       // Ret |
-      Function |
-      Pub |
-      Pro |
-      Priv |
-      Static |
-      Final |
+      //Function |
       Interface |
       Abstract |
-      Extends |
       Class |
       Implements |
-      New |
+      Extends |
       Break |
       Next |
-      Async |
       //Await |
       // Try |
       // Catch |
+      // OpenBlock |
+      // CloseBlock |
+      New |
       ArrowRight |
       ARightLB |
       End |
@@ -319,8 +340,12 @@ blockLiveTokens
       Separator |
       OpenArIndex |
       CloseArIndex |
-      // OpenBlock |
-      // CloseBlock |
+      Pub |
+      Pro |
+      Priv |
+      Static |
+      Final |
+      Async |
       OpenOp |
       CloseOp |
       ArithmeticOperator |

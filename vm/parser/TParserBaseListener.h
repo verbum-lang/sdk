@@ -138,11 +138,23 @@ public:
   virtual void enterTryCatchElements(TParser::TryCatchElementsContext * /*ctx*/) override { }
   virtual void exitTryCatchElements(TParser::TryCatchElementsContext * /*ctx*/) override { }
 
+  virtual void enterBlockFunction(TParser::BlockFunctionContext * /*ctx*/) override { }
+  virtual void exitBlockFunction(TParser::BlockFunctionContext * /*ctx*/) override { }
+
+  virtual void enterFunctionParam(TParser::FunctionParamContext * /*ctx*/) override { }
+  virtual void exitFunctionParam(TParser::FunctionParamContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
+  virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
 
   virtual void enterCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext * /*ctx*/) override { }
+
+  virtual void enterCodeBlockControl(TParser::CodeBlockControlContext * /*ctx*/) override { }
+  virtual void exitCodeBlockControl(TParser::CodeBlockControlContext * /*ctx*/) override { }
 
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
@@ -158,6 +170,9 @@ public:
 
   virtual void enterIdentifier(TParser::IdentifierContext * /*ctx*/) override { }
   virtual void exitIdentifier(TParser::IdentifierContext * /*ctx*/) override { }
+
+  virtual void enterIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
+  virtual void exitIdentifierB(TParser::IdentifierBContext * /*ctx*/) override { }
 
   virtual void enterIncDecOperatorsA(TParser::IncDecOperatorsAContext * /*ctx*/) override { }
   virtual void exitIncDecOperatorsA(TParser::IncDecOperatorsAContext * /*ctx*/) override { }

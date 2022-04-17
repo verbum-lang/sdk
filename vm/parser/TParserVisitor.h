@@ -100,9 +100,17 @@ public:
 
     virtual antlrcpp::Any visitTryCatchElements(TParser::TryCatchElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockFunction(TParser::BlockFunctionContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionParam(TParser::FunctionParamContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCodeBlock(TParser::FunctionCodeBlockContext *context) = 0;
+
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitCodeBlockControl(TParser::CodeBlockControlContext *context) = 0;
 
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
@@ -113,6 +121,8 @@ public:
     virtual antlrcpp::Any visitGeneralValueElements(TParser::GeneralValueElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitIdentifier(TParser::IdentifierContext *context) = 0;
+
+    virtual antlrcpp::Any visitIdentifierB(TParser::IdentifierBContext *context) = 0;
 
     virtual antlrcpp::Any visitIncDecOperatorsA(TParser::IncDecOperatorsAContext *context) = 0;
 

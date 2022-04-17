@@ -820,4 +820,87 @@ antlrcpp::Any verbum_ast_visitor::visitTryCatchElements (TParser::TryCatchElemen
     return result;
 }
 
+/*
+** Declaração das funções.
+*/
+
+// Declaração
+antlrcpp::Any verbum_ast_visitor::visitBlockFunction (TParser::BlockFunctionContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_FUNCTION_DECLARATION;
+
+    //
+    // Funções comuns e anônimas.
+    //
+    node.function_declaration.type = VERBUM_FUNCTION_SIMPLE;
+
+    // Função anônima.
+    if (!ctx->identifier())
+        node.function_declaration.anonymous = true;
+
+    // Verifica se é função comum.
+    if (ctx->identifier())
+        node.function_declaration.identifier = ctx->identifier()->getText();
+
+    // Verifica se é método de interfaces ou classes abstratas.
+    if (ctx->End())
+        node.function_declaration.type = VERBUM_FUNCTION_INTERFACE_ABSTRACT;
+
+    // Verifica se há retorno de tipo.
+    node.function_declaration.ret_found = false;
+    if (ctx->ArrowRight()) {
+        node.function_declaration.ret_found = true;
+        cout << "ret found!\n";
+
+        if (ctx->identifierB()) 
+            node.function_declaration.ret_data = ctx->identifierB()->getText();
+        else if (ctx->TypeSpec()) 
+            node.function_declaration.ret_data = ctx->TypeSpec()->getText();
+    }
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Parâmetros.
+antlrcpp::Any verbum_ast_visitor::visitFunctionParam (TParser::FunctionParamContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_FUNCTION_PARAM_ITEM;
+
+    node.function_param_item = ctx->Identifier()->getText();
+    node.function_param_type = ctx->TypeSpec()->getText();
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+
+}
+
+// Bloco de código.
+antlrcpp::Any verbum_ast_visitor::visitFunctionCodeBlock (TParser::FunctionCodeBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_FUNCTION_CODE_BLOCK;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+
+}
+
 

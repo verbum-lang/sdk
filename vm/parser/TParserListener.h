@@ -136,11 +136,23 @@ public:
   virtual void enterTryCatchElements(TParser::TryCatchElementsContext *ctx) = 0;
   virtual void exitTryCatchElements(TParser::TryCatchElementsContext *ctx) = 0;
 
+  virtual void enterBlockFunction(TParser::BlockFunctionContext *ctx) = 0;
+  virtual void exitBlockFunction(TParser::BlockFunctionContext *ctx) = 0;
+
+  virtual void enterFunctionParam(TParser::FunctionParamContext *ctx) = 0;
+  virtual void exitFunctionParam(TParser::FunctionParamContext *ctx) = 0;
+
+  virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
+  virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
 
   virtual void enterCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *ctx) = 0;
   virtual void exitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *ctx) = 0;
+
+  virtual void enterCodeBlockControl(TParser::CodeBlockControlContext *ctx) = 0;
+  virtual void exitCodeBlockControl(TParser::CodeBlockControlContext *ctx) = 0;
 
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
@@ -156,6 +168,9 @@ public:
 
   virtual void enterIdentifier(TParser::IdentifierContext *ctx) = 0;
   virtual void exitIdentifier(TParser::IdentifierContext *ctx) = 0;
+
+  virtual void enterIdentifierB(TParser::IdentifierBContext *ctx) = 0;
+  virtual void exitIdentifierB(TParser::IdentifierBContext *ctx) = 0;
 
   virtual void enterIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) = 0;
   virtual void exitIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) = 0;

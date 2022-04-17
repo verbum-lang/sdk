@@ -1879,3 +1879,10 @@ catch (err)
     print('Verbum!', err);
 
 
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
+
+
