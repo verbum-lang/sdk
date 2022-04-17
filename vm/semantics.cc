@@ -468,7 +468,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     this->tab();
                     cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
                 }
-                
+
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
@@ -575,6 +575,63 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             this->tab();
             cout << "-> abstract code block (close)\n";
+        }
+
+        /*
+        ** Classe.
+        */
+        else if (node.type == VERBUM_OOP_CLASS) {
+            this->tab();
+            cout << "-> class (open)\n";
+            
+            // Nome da classe.
+            this->tab();
+            cout << "-> name: " << node.vclass.identifier_a << "\n";
+
+            // Verifica se há herança.
+            if (node.vclass.extends) {
+                this->tab();
+                cout << "-> inheritance: " << node.vclass.identifier_b << "\n";
+            }
+
+            // Verifica se há implementação de interface.
+            if (node.vclass.implements) {
+                this->tab();
+                cout << "-> implements: " << node.vclass.identifier_c << "\n";
+            }
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> class (close)\n";
+        }
+
+        // Classe anônima.
+        else if (node.type == VERBUM_OOP_CLASS_ANONYMOUS) {
+            this->tab();
+            cout << "-> class-anonymous (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> class-anonymous (close)\n";
+        }
+
+        // Bloco de código.
+        else if (node.type == VERBUM_OOP_CLASS_CODE_BLOCK) {
+            this->tab();
+            cout << "-> class code block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> class code block (close)\n";
         }
 
         /*

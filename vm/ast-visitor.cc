@@ -981,4 +981,58 @@ antlrcpp::Any verbum_ast_visitor::visitAbstractionCodeBlock (TParser::Abstractio
     return result;
 }
 
+/*
+** Classes.
+*/
+
+// Declaração da classe.
+antlrcpp::Any verbum_ast_visitor::visitBlockClass (TParser::BlockClassContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_OOP_CLASS;
+
+    // Nome da classe.
+    if (ctx->identifier())
+        node.vclass.identifier_a = ctx->identifier()->getText();
+
+    // Classe anônima.
+    else 
+        node.type = VERBUM_OOP_CLASS_ANONYMOUS;
+
+    // Verifica se há herança.
+    if (ctx->Extends()) {
+        node.vclass.extends = true;
+        node.vclass.identifier_b = ctx->identifierB()->getText();
+    }
+
+    // Verifica se há implementação de interface.
+    if (ctx->Implements()) {
+        node.vclass.implements = true;
+        node.vclass.identifier_c = ctx->identifierC()->getText();
+    }
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código.
+antlrcpp::Any verbum_ast_visitor::visitClassCodeBlock (TParser::ClassCodeBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_OOP_CLASS_CODE_BLOCK;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 

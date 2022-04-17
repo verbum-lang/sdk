@@ -1,0 +1,36 @@
+
+// Verbum!
+
+class Example {
+    var a = 10;
+}
+
+class Common extends AbstractClass {
+    var b = 20;
+}
+
+class Example2 extends Common implements ExampleInterface {
+    var c = 30;
+}
+
+final class Example2 extends Common implements ExampleInterface {
+    var d = 40;
+}
+
+final class ExampleN {
+    var e = 50;
+}
+
+class A {
+    var a = 10;
+
+    class B {
+        var b = 20;
+    }
+}
+
+class {
+    var a = 33;
+}
+
+

@@ -110,6 +110,10 @@ public:
 
     virtual antlrcpp::Any visitAbstractionCodeBlock(TParser::AbstractionCodeBlockContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockClass(TParser::BlockClassContext *context) = 0;
+
+    virtual antlrcpp::Any visitClassCodeBlock(TParser::ClassCodeBlockContext *context) = 0;
+
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *context) = 0;
@@ -127,6 +131,8 @@ public:
     virtual antlrcpp::Any visitIdentifier(TParser::IdentifierContext *context) = 0;
 
     virtual antlrcpp::Any visitIdentifierB(TParser::IdentifierBContext *context) = 0;
+
+    virtual antlrcpp::Any visitIdentifierC(TParser::IdentifierCContext *context) = 0;
 
     virtual antlrcpp::Any visitIncDecOperatorsA(TParser::IncDecOperatorsAContext *context) = 0;
 

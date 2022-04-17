@@ -90,6 +90,7 @@ using namespace std;
 
 #define VERBUM_OOP_CLASS                                49
 #define VERBUM_OOP_CLASS_CODE_BLOCK                     50
+#define VERBUM_OOP_CLASS_ANONYMOUS                      501
 
 #define VERBUM_ITEMS_VISIBILITY                         51
 

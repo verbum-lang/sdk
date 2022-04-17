@@ -34,6 +34,7 @@ statements
   | blockFunction
   | blockInterface
   | blockAbstraction
+  | blockClass
 
   | blockCode
   | blockLiveTokens
@@ -120,7 +121,6 @@ blockRet
 /*
 ** Condicionais.
 */
-
 blockConditional
   : ifElementUnique (elifElements)? (elseElementUnique)?
   ;
@@ -258,6 +258,17 @@ abstractionCodeBlock
   ;
 
 /*
+** Declaração das classes.
+*/
+blockClass
+  : Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
+  ;
+
+classCodeBlock
+  : codeBlockControl
+  ;  
+
+/*
 ** Controles de blocos de código.
 */
 
@@ -321,6 +332,7 @@ generalValueElements
 // Uso geral.
 identifier : Identifier;
 identifierB : Identifier;
+identifierC : Identifier;
 incDecOperatorsA : IncDecOperators;
 incDecOperatorsB : IncDecOperators;
 
@@ -338,9 +350,9 @@ blockLiveTokens
       // Function |
       // Interface |
       // Abstract |
-      Class |
-      Implements |
-      Extends |
+      //Class |
+      //Implements |
+      //Extends |
       Break |
       Next |
       // Await |

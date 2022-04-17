@@ -151,6 +151,12 @@ public:
   virtual void enterAbstractionCodeBlock(TParser::AbstractionCodeBlockContext *ctx) = 0;
   virtual void exitAbstractionCodeBlock(TParser::AbstractionCodeBlockContext *ctx) = 0;
 
+  virtual void enterBlockClass(TParser::BlockClassContext *ctx) = 0;
+  virtual void exitBlockClass(TParser::BlockClassContext *ctx) = 0;
+
+  virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
+  virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
 
@@ -177,6 +183,9 @@ public:
 
   virtual void enterIdentifierB(TParser::IdentifierBContext *ctx) = 0;
   virtual void exitIdentifierB(TParser::IdentifierBContext *ctx) = 0;
+
+  virtual void enterIdentifierC(TParser::IdentifierCContext *ctx) = 0;
+  virtual void exitIdentifierC(TParser::IdentifierCContext *ctx) = 0;
 
   virtual void enterIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) = 0;
   virtual void exitIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) = 0;
