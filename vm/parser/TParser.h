@@ -43,7 +43,7 @@ public:
     RuleLoopOneMembers = 29, RuleLoopTwoMembers = 30, RuleLoopThreeMembers = 31, 
     RuleLoopThreeMembersValues = 32, RuleBlockBreak = 33, RuleBlockNext = 34, 
     RuleBlockTryCatch = 35, RuleTryUniqueElement = 36, RuleCatchUniqueElement = 37, 
-    RuleTryCatchElements = 38, RuleBlockFunction = 39, RuleBlockFunctionAttr = 40, 
+    RuleTryCatchElements = 38, RuleBlockFunction = 39, RuleBlockFunctionDeclarationAttr = 40, 
     RuleFunctionParam = 41, RuleFunctionAnonymousParam = 42, RuleFunctionCodeBlock = 43, 
     RuleBlockInterface = 44, RuleInterfaceCodeBlock = 45, RuleBlockAbstraction = 46, 
     RuleAbstractionCodeBlock = 47, RuleBlockClass = 48, RuleClassCodeBlock = 49, 
@@ -105,7 +105,7 @@ public:
   class CatchUniqueElementContext;
   class TryCatchElementsContext;
   class BlockFunctionContext;
-  class BlockFunctionAttrContext;
+  class BlockFunctionDeclarationAttrContext;
   class FunctionParamContext;
   class FunctionAnonymousParamContext;
   class FunctionCodeBlockContext;
@@ -823,9 +823,9 @@ public:
 
   BlockFunctionContext* blockFunction();
 
-  class  BlockFunctionAttrContext : public antlr4::ParserRuleContext {
+  class  BlockFunctionDeclarationAttrContext : public antlr4::ParserRuleContext {
   public:
-    BlockFunctionAttrContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    BlockFunctionDeclarationAttrContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<antlr4::tree::TerminalNode *> OpenOp();
     antlr4::tree::TerminalNode* OpenOp(size_t i);
@@ -847,7 +847,7 @@ public:
    
   };
 
-  BlockFunctionAttrContext* blockFunctionAttr();
+  BlockFunctionDeclarationAttrContext* blockFunctionDeclarationAttr();
 
   class  FunctionParamContext : public antlr4::ParserRuleContext {
   public:
@@ -1167,12 +1167,15 @@ public:
     BlockFunctionContext *blockFunction();
     antlr4::tree::TerminalNode *CloseOp();
     BlockArrayContext *blockArray();
-    BlockFunctionAttrContext *blockFunctionAttr();
+    BlockFunctionDeclarationAttrContext *blockFunctionDeclarationAttr();
     BlockClassContext *blockClass();
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
     antlr4::tree::TerminalNode *OpenArIndex();
     antlr4::tree::TerminalNode *CloseArIndex();
+    IdentifierBContext *identifierB();
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
     GeneralValueBlockContext *generalValueBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;

@@ -100,7 +100,7 @@ public:
 
     virtual antlrcpp::Any visitBlockFunction(TParser::BlockFunctionContext *context) = 0;
 
-    virtual antlrcpp::Any visitBlockFunctionAttr(TParser::BlockFunctionAttrContext *context) = 0;
+    virtual antlrcpp::Any visitBlockFunctionDeclarationAttr(TParser::BlockFunctionDeclarationAttrContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionParam(TParser::FunctionParamContext *context) = 0;
 

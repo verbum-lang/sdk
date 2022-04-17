@@ -579,7 +579,23 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         }
     }
 
-    // Array.
+    //
+    // Array - sem valores.
+    //
+
+    // Indexado.
+    else if (ctx->OpenArIndex() && ctx->CloseArIndex()) {
+        node.general_value_data.type = VERBUM_DATA_INDEX_ARRAY_BLOCK;
+        block = true;
+    }
+
+    // Associativo.
+    else if (ctx->OpenBlock() && ctx->CloseBlock()) {
+        node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
+        block = true;
+    }
+
+    // Array - com valores.
     else if (ctx->blockArray()) {
 
         // Array indexado.
@@ -593,6 +609,21 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
             node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
             block = true;
         }
+    }
+
+    // Declaração de função - atribuição da mesma à variável.
+    else if (ctx->blockFunctionDeclarationAttr()) {
+    }
+
+    // Declaração de classe - atribuição da mesma à variável.
+    else if (ctx->blockClass()) {
+    }
+
+    // Chamada a atributo de objeto - simples (a.b).
+    else if (ctx->identifier() && ctx->identifierB()   &&
+            (ctx->Point() || ctx->TwoTwoPoint())        )
+    {
+
     }
 
     this->add_node(node);

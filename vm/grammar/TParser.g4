@@ -247,7 +247,7 @@ blockFunction
   ;
 
 // Utilizado na atribuição de valores a variáveis.
-blockFunctionAttr
+blockFunctionDeclarationAttr
 
   // Chamada com passagem de parâmetros.
   : OpenOp
@@ -382,12 +382,15 @@ generalValue
   | (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? OpenOp blockFunction CloseOp (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
-  | blockFunctionAttr
+  | blockFunctionDeclarationAttr
   | blockClass
 
   // Inicialização de array vazio (indexado e associativo).
   | (OpenBlock CloseBlock | OpenArIndex CloseArIndex)
-  
+
+  // Chamada simples a atributos de objetos - simples.
+  | (Not)? identifier (Point | TwoTwoPoint) identifierB (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+    
   // Bloco de valores gerais.
   | (Not)? generalValueBlock (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   ;

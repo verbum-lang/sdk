@@ -338,3 +338,7 @@ obj2.getExampleA();         // Divinus
 obj2.getExampleB();         // Verbum
 
 
+var a = [];
+var a = {};
+
+
