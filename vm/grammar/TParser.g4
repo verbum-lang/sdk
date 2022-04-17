@@ -32,6 +32,8 @@ statements
   | blockLoop
   | blockTryCatch
   | blockFunction
+  | blockInterface
+  | blockAbstraction
 
   | blockCode
   | blockLiveTokens
@@ -81,16 +83,8 @@ variableItem
   ;
 
 variablePrefixModes
-  : (methodVisibility)? (identifier | identifier TypeSpec) (Attr | AssignmentOperator)
+  : (identifier | identifier TypeSpec) (Attr | AssignmentOperator)
   ; 
-
-visibilityItems
-  : Pub | Pro | Priv | Final | Static | Async
-  ;
-
-methodVisibility
-  : visibilityItems (methodVisibility)*
-  ;
 
 /*
 ** Chamadas a funções.
@@ -229,7 +223,8 @@ tryCatchElements
 ** Declaração das funções.
 */
 blockFunction
-  : Function (identifier)? OpenOp (functionParam)? CloseOp (ArrowRight (identifierB | TypeSpec) )? (functionCodeBlock | End)
+  : Function (identifier)? OpenOp (functionParam)? CloseOp 
+      (ArrowRight (identifierB | TypeSpec) )? (functionCodeBlock | End)
   ;
 
 functionParam
@@ -237,6 +232,28 @@ functionParam
   ;
 
 functionCodeBlock
+  : codeBlockControl
+  ;
+
+/*
+** Declaração das interfaces, abstrações.
+*/
+
+// Interface.
+blockInterface
+  : Interface identifier (Extends identifierB)? interfaceCodeBlock
+  ;
+
+interfaceCodeBlock
+  : codeBlockControl
+  ;
+
+// Abstrações.
+blockAbstraction
+  : Abstract identifier (Extends identifierB)? abstractionCodeBlock
+  ;
+
+abstractionCodeBlock
   : codeBlockControl
   ;
 
@@ -300,6 +317,8 @@ generalValueElements
 /*
 ** Controladores gerais.
 */
+
+// Uso geral.
 identifier : Identifier;
 identifierB : Identifier;
 incDecOperatorsA : IncDecOperators;
@@ -316,15 +335,15 @@ blockLiveTokens
       // Else |
       // For |
       // Ret |
-      //Function |
-      Interface |
-      Abstract |
+      // Function |
+      // Interface |
+      // Abstract |
       Class |
       Implements |
       Extends |
       Break |
       Next |
-      //Await |
+      // Await |
       // Try |
       // Catch |
       // OpenBlock |

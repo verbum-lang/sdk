@@ -42,10 +42,6 @@ public:
 
     virtual antlrcpp::Any visitVariablePrefixModes(TParser::VariablePrefixModesContext *context) = 0;
 
-    virtual antlrcpp::Any visitVisibilityItems(TParser::VisibilityItemsContext *context) = 0;
-
-    virtual antlrcpp::Any visitMethodVisibility(TParser::MethodVisibilityContext *context) = 0;
-
     virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCallPrefix(TParser::FunctionCallPrefixContext *context) = 0;
@@ -105,6 +101,14 @@ public:
     virtual antlrcpp::Any visitFunctionParam(TParser::FunctionParamContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCodeBlock(TParser::FunctionCodeBlockContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockInterface(TParser::BlockInterfaceContext *context) = 0;
+
+    virtual antlrcpp::Any visitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockAbstraction(TParser::BlockAbstractionContext *context) = 0;
+
+    virtual antlrcpp::Any visitAbstractionCodeBlock(TParser::AbstractionCodeBlockContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 

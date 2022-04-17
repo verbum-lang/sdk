@@ -1,14 +1,39 @@
 
 // Verbum!
 
+(fn (a :int) {
+    ret 10;
+})
+
 async fn http_get (link :string) -> string {
     // ...
     ret response;
 }
 
-(fn (a :int) {
-    ret 10;
-})
+async pub static final fn http_get (link :string) -> string {
+    // ...
+    ret response;
+}
 
+// +++
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+abstract Abs extends AbstrationCommon {
+    pro fn abstractMethod (value :int) -> string;
+}
 
 

@@ -51,12 +51,6 @@ public:
   virtual void enterVariablePrefixModes(TParser::VariablePrefixModesContext * /*ctx*/) override { }
   virtual void exitVariablePrefixModes(TParser::VariablePrefixModesContext * /*ctx*/) override { }
 
-  virtual void enterVisibilityItems(TParser::VisibilityItemsContext * /*ctx*/) override { }
-  virtual void exitVisibilityItems(TParser::VisibilityItemsContext * /*ctx*/) override { }
-
-  virtual void enterMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
-  virtual void exitMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
-
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 
@@ -146,6 +140,18 @@ public:
 
   virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
   virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext * /*ctx*/) override { }
+
+  virtual void enterBlockInterface(TParser::BlockInterfaceContext * /*ctx*/) override { }
+  virtual void exitBlockInterface(TParser::BlockInterfaceContext * /*ctx*/) override { }
+
+  virtual void enterInterfaceCodeBlock(TParser::InterfaceCodeBlockContext * /*ctx*/) override { }
+  virtual void exitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext * /*ctx*/) override { }
+
+  virtual void enterBlockAbstraction(TParser::BlockAbstractionContext * /*ctx*/) override { }
+  virtual void exitBlockAbstraction(TParser::BlockAbstractionContext * /*ctx*/) override { }
+
+  virtual void enterAbstractionCodeBlock(TParser::AbstractionCodeBlockContext * /*ctx*/) override { }
+  virtual void exitAbstractionCodeBlock(TParser::AbstractionCodeBlockContext * /*ctx*/) override { }
 
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }

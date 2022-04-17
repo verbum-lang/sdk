@@ -79,6 +79,12 @@ namespace verbum {
             antlrcpp::Any visitFunctionParam (TParser::FunctionParamContext *ctx);
             antlrcpp::Any visitFunctionCodeBlock (TParser::FunctionCodeBlockContext *ctx);
 
+            // OOP.
+            antlrcpp::Any visitBlockInterface (TParser::BlockInterfaceContext *ctx);
+            antlrcpp::Any visitInterfaceCodeBlock (TParser::InterfaceCodeBlockContext *ctx);
+            antlrcpp::Any visitBlockAbstraction (TParser::BlockAbstractionContext *ctx);
+            antlrcpp::Any visitAbstractionCodeBlock (TParser::AbstractionCodeBlockContext *ctx);
+
             // Valores gerais.
             antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
 

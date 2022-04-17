@@ -61,14 +61,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitVisibilityItems(TParser::VisibilityItemsContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitMethodVisibility(TParser::MethodVisibilityContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -186,6 +178,22 @@ public:
   }
 
   virtual antlrcpp::Any visitFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockInterface(TParser::BlockInterfaceContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockAbstraction(TParser::BlockAbstractionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAbstractionCodeBlock(TParser::AbstractionCodeBlockContext *ctx) override {
     return visitChildren(ctx);
   }
 

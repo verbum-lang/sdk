@@ -903,4 +903,82 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCodeBlock (TParser::FunctionCodeB
 
 }
 
+/*
+** OOP.
+*/
+
+// Declaração das interfaces.
+antlrcpp::Any verbum_ast_visitor::visitBlockInterface (TParser::BlockInterfaceContext *ctx)
+{
+    verbum_ast_node node        = this->zero_data();    
+    node.type                   = VERBUM_OOP_INTERFACE;
+    node.interface.identifier_a = ctx->identifier()->getText();
+
+    // Verifica se há herança.
+    if (ctx->Extends()) {
+        node.interface.extends      = true;
+        node.interface.identifier_b = ctx->identifierB()->getText();
+    }
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código da interface.
+antlrcpp::Any verbum_ast_visitor::visitInterfaceCodeBlock (TParser::InterfaceCodeBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_OOP_INTERFACE_CODE_BLOCK;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Declaração das abstrações.
+antlrcpp::Any verbum_ast_visitor::visitBlockAbstraction (TParser::BlockAbstractionContext *ctx)
+{
+    verbum_ast_node node        = this->zero_data();    
+    node.type                   = VERBUM_OOP_ABSTRACT;
+    node.abstract.identifier_a  = ctx->identifier()->getText();
+
+    // Verifica se há herança.
+    if (ctx->Extends()) {
+        node.abstract.extends      = true;
+        node.abstract.identifier_b = ctx->identifierB()->getText();
+    }
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código da abstração.
+antlrcpp::Any verbum_ast_visitor::visitAbstractionCodeBlock (TParser::AbstractionCodeBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_OOP_ABSTRACT_CODE_BLOCK;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 

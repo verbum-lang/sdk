@@ -49,12 +49,6 @@ public:
   virtual void enterVariablePrefixModes(TParser::VariablePrefixModesContext *ctx) = 0;
   virtual void exitVariablePrefixModes(TParser::VariablePrefixModesContext *ctx) = 0;
 
-  virtual void enterVisibilityItems(TParser::VisibilityItemsContext *ctx) = 0;
-  virtual void exitVisibilityItems(TParser::VisibilityItemsContext *ctx) = 0;
-
-  virtual void enterMethodVisibility(TParser::MethodVisibilityContext *ctx) = 0;
-  virtual void exitMethodVisibility(TParser::MethodVisibilityContext *ctx) = 0;
-
   virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
   virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
 
@@ -144,6 +138,18 @@ public:
 
   virtual void enterFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
   virtual void exitFunctionCodeBlock(TParser::FunctionCodeBlockContext *ctx) = 0;
+
+  virtual void enterBlockInterface(TParser::BlockInterfaceContext *ctx) = 0;
+  virtual void exitBlockInterface(TParser::BlockInterfaceContext *ctx) = 0;
+
+  virtual void enterInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *ctx) = 0;
+  virtual void exitInterfaceCodeBlock(TParser::InterfaceCodeBlockContext *ctx) = 0;
+
+  virtual void enterBlockAbstraction(TParser::BlockAbstractionContext *ctx) = 0;
+  virtual void exitBlockAbstraction(TParser::BlockAbstractionContext *ctx) = 0;
+
+  virtual void enterAbstractionCodeBlock(TParser::AbstractionCodeBlockContext *ctx) = 0;
+  virtual void exitAbstractionCodeBlock(TParser::AbstractionCodeBlockContext *ctx) = 0;
 
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
