@@ -341,4 +341,22 @@ obj2.getExampleB();         // Verbum
 var a = [];
 var a = {};
 
+ret [];
+ret {};
+
+var a = self.attr1;
+var a = self::attr1;
+
+
+ret self.attr1;
+ret self::attr1;
+
+var a = 10 * a.b;
+
+var a = a.b();
+
+var a = a::b();
+
+var a = a();
+
 

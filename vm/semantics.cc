@@ -803,6 +803,24 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << ") <---| close function-block\n";
             }
 
+            // Acesso a atributo de objeto.
+            else if (node.general_value_data.type == VERBUM_ATTRIBUTE_OBJECT) {
+                this->tab();
+                cout << "-> attribute-object-access: ";
+                
+                cout << "[obj]: " << node.general_value_data.object_name;
+
+                // Tipo do acesso.
+                if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_INSTANCE)
+                    cout << " . ";
+                else if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_STATIC)
+                    cout << " :: ";
+                else 
+                    cout << " ?(unknown access) ";
+
+                cout << "[attr]: "<< node.general_value_data.method_name << "\n";
+            }
+
             // Cascading method.
             else if (node.general_value_data.type == VERBUM_FUNCTION_CALL_CASCADING) {
                 this->tab();

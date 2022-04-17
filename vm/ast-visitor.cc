@@ -197,6 +197,9 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     // VERBUM_TRY_*
     ast.catch_identifier                    = "";
 
+    // VERBUM_ATTRIBUTE_OBJECT
+    ast.attribute_object_type               = VERBUM_UNKNOWN;
+
     // Limpa estruturas de controle.
     ast.nodes.clear();
 
@@ -511,9 +514,30 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         node.general_value_not = true;
 
     //
+    // Processa valores.
+    //
+
+    // Chamada a atributo de objeto - simples (a.b).
+    else if (ctx->identifier() && ctx->identifierB()   &&
+            (ctx->Point() || ctx->TwoTwoPoint())        )
+    {
+        // Identifica tipo do acesso.
+        node.general_value_data.type = VERBUM_ATTRIBUTE_OBJECT;
+
+        if (ctx->Point())
+            node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;
+        else if (ctx->TwoTwoPoint())
+            node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
+
+        // Nome dos elementos.
+        node.general_value_data.object_name = ctx->identifier()->getText();
+        node.general_value_data.method_name = ctx->identifierB()->getText();
+    }
+
+    //
     // Dados simples.
     //
-    if (ctx->identifier()) {
+    else if (ctx->identifier()) {
         node.general_value_data.type = VERBUM_DATA_IDENTIFIER;
         node.general_value_data.identifier = ctx->identifier()->getText();
     } else if (ctx->String()) {
@@ -617,13 +641,6 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
 
     // Declaração de classe - atribuição da mesma à variável.
     else if (ctx->blockClass()) {
-    }
-
-    // Chamada a atributo de objeto - simples (a.b).
-    else if (ctx->identifier() && ctx->identifierB()   &&
-            (ctx->Point() || ctx->TwoTwoPoint())        )
-    {
-
     }
 
     this->add_node(node);

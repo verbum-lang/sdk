@@ -1153,15 +1153,18 @@ public:
     GeneralValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     IdentifierContext *identifier();
-    antlr4::tree::TerminalNode *Integer();
-    antlr4::tree::TerminalNode *Float();
-    antlr4::tree::TerminalNode *String();
+    IdentifierBContext *identifierB();
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
     antlr4::tree::TerminalNode *Not();
-    IncDecOperatorsAContext *incDecOperatorsA();
-    IncDecOperatorsBContext *incDecOperatorsB();
     antlr4::tree::TerminalNode *TypeSpec();
     antlr4::tree::TerminalNode *ArithmeticOperator();
     antlr4::tree::TerminalNode *AssignmentOperator();
+    antlr4::tree::TerminalNode *Integer();
+    antlr4::tree::TerminalNode *Float();
+    antlr4::tree::TerminalNode *String();
+    IncDecOperatorsAContext *incDecOperatorsA();
+    IncDecOperatorsBContext *incDecOperatorsB();
     FunctionCallContext *functionCall();
     antlr4::tree::TerminalNode *OpenOp();
     BlockFunctionContext *blockFunction();
@@ -1173,9 +1176,6 @@ public:
     antlr4::tree::TerminalNode *CloseBlock();
     antlr4::tree::TerminalNode *OpenArIndex();
     antlr4::tree::TerminalNode *CloseArIndex();
-    IdentifierBContext *identifierB();
-    antlr4::tree::TerminalNode *Point();
-    antlr4::tree::TerminalNode *TwoTwoPoint();
     GeneralValueBlockContext *generalValueBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;

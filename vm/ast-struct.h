@@ -119,6 +119,8 @@ using namespace std;
 #define VERBUM_TRY_CATCH                                73
 #define VERBUM_TRY_CODE_BLOCK                           74
 
+#define VERBUM_ATTRIBUTE_OBJECT                         75
+
 // Tipos de blocos internos do loop.
 #define VERBUM_LOOP_INITIALIZATION                      1
 #define VERBUM_LOOP_EXPRESSION                          2
@@ -208,6 +210,9 @@ using namespace std;
 #define VERBUM_ITEMS_VISIBILITY_FINAL                   4   
 #define VERBUM_ITEMS_VISIBILITY_STATIC                  5  
 #define VERBUM_ITEMS_VISIBILITY_ASYNC                   6 
+
+#define VERBUM_ATTRIBUTE_OBJECT_STATIC                  1  
+#define VERBUM_ATTRIBUTE_OBJECT_INSTANCE                2   
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
@@ -494,6 +499,14 @@ typedef struct verbum_ast_node
     ** VERBUM_TRY_*
     */
     string catch_identifier;                        // Nome do parâmetro no bloco catch.
+
+    /*
+    ** Atributo de objeto.
+    ** VERBUM_ATTRIBUTE_OBJECT
+    */
+    int attribute_object_type;                      // Tipo do atributo acesso:
+                                                    //      VERBUM_ATTRIBUTE_OBJECT_STATIC  
+                                                    //      VERBUM_ATTRIBUTE_OBJECT_INSTANCE
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

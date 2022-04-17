@@ -370,8 +370,11 @@ codeBlockControl
 */
 generalValue
 
+  // Chamada simples a atributos de objetos - simples.
+  : (Not)? identifier (Point | TwoTwoPoint) identifierB (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  
   // Valores simples.
-  : (
+  | (
       (Not)? (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? Integer (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? Float (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
@@ -388,9 +391,6 @@ generalValue
   // Inicialização de array vazio (indexado e associativo).
   | (OpenBlock CloseBlock | OpenArIndex CloseArIndex)
 
-  // Chamada simples a atributos de objetos - simples.
-  | (Not)? identifier (Point | TwoTwoPoint) identifierB (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
-    
   // Bloco de valores gerais.
   | (Not)? generalValueBlock (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   ;
