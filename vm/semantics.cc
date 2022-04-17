@@ -238,6 +238,70 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Loops.
+        */
+
+        // Bloco completo.
+        else if (node.type == VERBUM_LOOP) {
+            this->tab();
+            cout << "-> loop-block open\n";
+            
+            // Tipo do loop.
+            this->tab();
+
+            if (node.loop_type == VERBUM_LOOP_COMPLETE)
+                cout << "-> loop-type: complete\n";
+            else if (node.loop_type == VERBUM_LOOP_CONDITIONAL)
+                cout << "-> loop-type: conditional\n";
+            else if (node.loop_type == VERBUM_LOOP_INFINITE)
+                cout << "-> loop-type: infinite\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> loop-block close\n";
+        }
+
+        // Blocos internos do loop.
+        else if (node.type == VERBUM_LOOP_BLOCK) {
+            this->tab();
+
+            // Inicialização.
+            if (node.loop_block_type == VERBUM_LOOP_INITIALIZATION)
+                cout << "-> loop-block: initialization (open)\n";
+            // Expressão.
+            else if (node.loop_block_type == VERBUM_LOOP_EXPRESSION)
+                cout << "-> loop-block: expression (open)\n";
+            // Incremento/decremento.
+            else if (node.loop_block_type == VERBUM_LOOP_INCDEC)
+                cout << "-> loop-block: inc/dec area (open)\n";
+            // Bloco de código.
+            else if (node.loop_block_type == VERBUM_LOOP_CODE_BLOCK)
+                cout << "-> loop-block: code block (open)\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+
+            // Inicialização.
+            if (node.loop_block_type == VERBUM_LOOP_INITIALIZATION)
+                cout << "-> loop-block: initialization (close)\n";
+            // Expressão.
+            else if (node.loop_block_type == VERBUM_LOOP_EXPRESSION)
+                cout << "-> loop-block: expression (close)\n";
+            // Incremento/decremento.
+            else if (node.loop_block_type == VERBUM_LOOP_INCDEC)
+                cout << "-> loop-block: inc/dec area (close)\n";
+            // Bloco de código.
+            else if (node.loop_block_type == VERBUM_LOOP_CODE_BLOCK)
+                cout << "-> loop-block: code block (close)\n";
+        }
+
+        /*
         ** Valores gerais.
         */
         else if (node.type == VERBUM_GENERAL_VALUE) {

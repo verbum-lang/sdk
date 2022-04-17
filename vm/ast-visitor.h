@@ -61,6 +61,13 @@ namespace verbum {
             antlrcpp::Any visitElifElementUnique (TParser::ElifElementUniqueContext *ctx);
             antlrcpp::Any visitElseElementUnique (TParser::ElseElementUniqueContext *ctx);
 
+            // Loop.
+            antlrcpp::Any visitBlockLoop (TParser::BlockLoopContext *ctx);
+            antlrcpp::Any visitLoopOneMembers (TParser::LoopOneMembersContext *ctx);
+            antlrcpp::Any visitLoopTwoMembers (TParser::LoopTwoMembersContext *ctx);
+            antlrcpp::Any visitLoopThreeMembers (TParser::LoopThreeMembersContext *ctx);
+            antlrcpp::Any visitLoopBlockElements (TParser::LoopBlockElementsContext *ctx);
+
             // Valores gerais.
             antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
 
