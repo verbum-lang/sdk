@@ -65,10 +65,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitVariableValue(TParser::VariableValueContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -85,6 +81,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockRet(TParser::BlockRetContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -94,6 +94,10 @@ public:
   }
 
   virtual antlrcpp::Any visitGeneralValueItems(TParser::GeneralValueItemsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitGeneralValueElements(TParser::GeneralValueElementsContext *ctx) override {
     return visitChildren(ctx);
   }
 

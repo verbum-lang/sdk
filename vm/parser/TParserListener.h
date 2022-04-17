@@ -52,9 +52,6 @@ public:
   virtual void enterMethodVisibility(TParser::MethodVisibilityContext *ctx) = 0;
   virtual void exitMethodVisibility(TParser::MethodVisibilityContext *ctx) = 0;
 
-  virtual void enterVariableValue(TParser::VariableValueContext *ctx) = 0;
-  virtual void exitVariableValue(TParser::VariableValueContext *ctx) = 0;
-
   virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
   virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
 
@@ -67,6 +64,9 @@ public:
   virtual void enterFunctionCallParamElements(TParser::FunctionCallParamElementsContext *ctx) = 0;
   virtual void exitFunctionCallParamElements(TParser::FunctionCallParamElementsContext *ctx) = 0;
 
+  virtual void enterBlockRet(TParser::BlockRetContext *ctx) = 0;
+  virtual void exitBlockRet(TParser::BlockRetContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 
@@ -75,6 +75,9 @@ public:
 
   virtual void enterGeneralValueItems(TParser::GeneralValueItemsContext *ctx) = 0;
   virtual void exitGeneralValueItems(TParser::GeneralValueItemsContext *ctx) = 0;
+
+  virtual void enterGeneralValueElements(TParser::GeneralValueElementsContext *ctx) = 0;
+  virtual void exitGeneralValueElements(TParser::GeneralValueElementsContext *ctx) = 0;
 
   virtual void enterIdentifier(TParser::IdentifierContext *ctx) = 0;
   virtual void exitIdentifier(TParser::IdentifierContext *ctx) = 0;

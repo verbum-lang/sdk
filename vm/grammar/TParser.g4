@@ -27,6 +27,7 @@ statements
   : blockComments
   | blockUse
   | blockVariable
+  | blockRet
   | blockLiveTokens
   ;
 
@@ -62,7 +63,7 @@ blockVariable
 
 // Declaração.
 variableItem
-  : variablePrefixModes (New | Await)? variableValue (Separator variableItem)*
+  : variablePrefixModes (New | Await)? generalValueElements (Separator variableItem)*
   ;
 
 variablePrefixModes
@@ -77,13 +78,11 @@ methodVisibility
   : visibilityItems (methodVisibility)*
   ;
 
-variableValue
-  : generalValue (variableValue)*
-  ;
-
 /*
 ** Chamadas a funções.
 */
+
+// Atribuição de valor.
 functionCall
   : functionCallPrefix (identifier)? functionCallParam
   ;
@@ -104,10 +103,18 @@ functionCallParamElements
   ;
 
 /*
+** Ret (return).
+*/
+blockRet
+  : Ret generalValueElements End
+  ;
+
+/*
 ** Valores de uso geral.
 ** Utilizado para:
-**    Valores comuns
-**    Operações
+**    Valores comuns (atribuições)
+**    Operações aritméticas
+**    Operações relacionais
 */
 generalValue
   : (
@@ -128,6 +135,11 @@ generalValueItems
   : generalValue (generalValueItems)*
   ;
 
+// Utiliza valores gerais N vezes.
+generalValueElements
+  : generalValue (generalValueElements)*
+  ;
+
 /*
 ** Controladores gerais.
 */
@@ -145,7 +157,7 @@ blockLiveTokens
       Elif |
       Else |
       For |
-      Ret |
+      //Ret |
       Function |
       Pub |
       Pro |

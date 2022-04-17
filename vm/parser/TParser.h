@@ -34,11 +34,11 @@ public:
     RuleMain = 0, RuleSentences = 1, RuleStatements = 2, RuleBlockComments = 3, 
     RuleBlockUse = 4, RuleUseValue = 5, RuleUseString = 6, RuleBlockVariable = 7, 
     RuleVariableItem = 8, RuleVariablePrefixModes = 9, RuleVisibilityItems = 10, 
-    RuleMethodVisibility = 11, RuleVariableValue = 12, RuleFunctionCall = 13, 
-    RuleFunctionCallPrefix = 14, RuleFunctionCallParam = 15, RuleFunctionCallParamElements = 16, 
+    RuleMethodVisibility = 11, RuleFunctionCall = 12, RuleFunctionCallPrefix = 13, 
+    RuleFunctionCallParam = 14, RuleFunctionCallParamElements = 15, RuleBlockRet = 16, 
     RuleGeneralValue = 17, RuleGeneralValueBlock = 18, RuleGeneralValueItems = 19, 
-    RuleIdentifier = 20, RuleIncDecOperatorsA = 21, RuleIncDecOperatorsB = 22, 
-    RuleBlockLiveTokens = 23
+    RuleGeneralValueElements = 20, RuleIdentifier = 21, RuleIncDecOperatorsA = 22, 
+    RuleIncDecOperatorsB = 23, RuleBlockLiveTokens = 24
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -63,14 +63,15 @@ public:
   class VariablePrefixModesContext;
   class VisibilityItemsContext;
   class MethodVisibilityContext;
-  class VariableValueContext;
   class FunctionCallContext;
   class FunctionCallPrefixContext;
   class FunctionCallParamContext;
   class FunctionCallParamElementsContext;
+  class BlockRetContext;
   class GeneralValueContext;
   class GeneralValueBlockContext;
   class GeneralValueItemsContext;
+  class GeneralValueElementsContext;
   class IdentifierContext;
   class IncDecOperatorsAContext;
   class IncDecOperatorsBContext;
@@ -115,6 +116,7 @@ public:
     BlockCommentsContext *blockComments();
     BlockUseContext *blockUse();
     BlockVariableContext *blockVariable();
+    BlockRetContext *blockRet();
     BlockLiveTokensContext *blockLiveTokens();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -213,7 +215,7 @@ public:
     VariableItemContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     VariablePrefixModesContext *variablePrefixModes();
-    VariableValueContext *variableValue();
+    GeneralValueElementsContext *generalValueElements();
     std::vector<antlr4::tree::TerminalNode *> Separator();
     antlr4::tree::TerminalNode* Separator(size_t i);
     std::vector<VariableItemContext *> variableItem();
@@ -286,23 +288,6 @@ public:
 
   MethodVisibilityContext* methodVisibility();
 
-  class  VariableValueContext : public antlr4::ParserRuleContext {
-  public:
-    VariableValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    GeneralValueContext *generalValue();
-    std::vector<VariableValueContext *> variableValue();
-    VariableValueContext* variableValue(size_t i);
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  VariableValueContext* variableValue();
-
   class  FunctionCallContext : public antlr4::ParserRuleContext {
   public:
     FunctionCallContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -373,6 +358,23 @@ public:
 
   FunctionCallParamElementsContext* functionCallParamElements();
 
+  class  BlockRetContext : public antlr4::ParserRuleContext {
+  public:
+    BlockRetContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Ret();
+    GeneralValueElementsContext *generalValueElements();
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockRetContext* blockRet();
+
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:
     GeneralValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -432,6 +434,23 @@ public:
 
   GeneralValueItemsContext* generalValueItems();
 
+  class  GeneralValueElementsContext : public antlr4::ParserRuleContext {
+  public:
+    GeneralValueElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueContext *generalValue();
+    std::vector<GeneralValueElementsContext *> generalValueElements();
+    GeneralValueElementsContext* generalValueElements(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  GeneralValueElementsContext* generalValueElements();
+
   class  IdentifierContext : public antlr4::ParserRuleContext {
   public:
     IdentifierContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -485,7 +504,6 @@ public:
     antlr4::tree::TerminalNode *Elif();
     antlr4::tree::TerminalNode *Else();
     antlr4::tree::TerminalNode *For();
-    antlr4::tree::TerminalNode *Ret();
     antlr4::tree::TerminalNode *Function();
     antlr4::tree::TerminalNode *Pub();
     antlr4::tree::TerminalNode *Pro();

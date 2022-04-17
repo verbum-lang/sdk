@@ -54,9 +54,6 @@ public:
   virtual void enterMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
   virtual void exitMethodVisibility(TParser::MethodVisibilityContext * /*ctx*/) override { }
 
-  virtual void enterVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
-  virtual void exitVariableValue(TParser::VariableValueContext * /*ctx*/) override { }
-
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 
@@ -69,6 +66,9 @@ public:
   virtual void enterFunctionCallParamElements(TParser::FunctionCallParamElementsContext * /*ctx*/) override { }
   virtual void exitFunctionCallParamElements(TParser::FunctionCallParamElementsContext * /*ctx*/) override { }
 
+  virtual void enterBlockRet(TParser::BlockRetContext * /*ctx*/) override { }
+  virtual void exitBlockRet(TParser::BlockRetContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 
@@ -77,6 +77,9 @@ public:
 
   virtual void enterGeneralValueItems(TParser::GeneralValueItemsContext * /*ctx*/) override { }
   virtual void exitGeneralValueItems(TParser::GeneralValueItemsContext * /*ctx*/) override { }
+
+  virtual void enterGeneralValueElements(TParser::GeneralValueElementsContext * /*ctx*/) override { }
+  virtual void exitGeneralValueElements(TParser::GeneralValueElementsContext * /*ctx*/) override { }
 
   virtual void enterIdentifier(TParser::IdentifierContext * /*ctx*/) override { }
   virtual void exitIdentifier(TParser::IdentifierContext * /*ctx*/) override { }

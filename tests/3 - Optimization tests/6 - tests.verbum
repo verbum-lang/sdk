@@ -201,14 +201,14 @@ variable[3]  = 333;   // Contêm valor 30.
 
 // // Função anônima como valor em variável.
 // var variable = (fn (a :int) -> int {
-//     ret a + 10;
+    ret a + 10;
 // });
 
 // // Função anônima com array indexado.
 // var variable = [
 //     31337,
 //     (fn (a :int, b :int) -> int {
-//         ret a + b;   
+        ret a + b;   
 //     })
 // ];
 
@@ -218,7 +218,7 @@ variable[3]  = 333;   // Contêm valor 30.
 // var variable = {
 //     identifier : 'onclick',
 //     callback   : (fn (a :int, b :int) -> int {
-//         ret a + b;   
+        ret a + b;   
 //     })
 // };
 
@@ -951,22 +951,22 @@ final class Example extends Common implements ExampleTemplate {
     }
 
     pub static fn getVersion (flag :bool) -> str {
-        if (flag)
-            ret self::getVersion();
-        ret self::subVersion;
+        if (flag) {}
+            // ret self::getVersion();
+        // ret self::subVersion;
     }
 
     // Declaração dos métodos e sobrecarga.
     pub fn getValues () -> array {
-        ret [
-            this.attributeA,
-            this.attributeB
-        ];
+        // ret [
+        //     this.attributeA,
+        //     this.attributeB
+        // ];
     }
 
     pub fn getValues (index :int) -> int {
-        if (index == 1)
-            ret this.attributeA;
+        if (index == 1) {}
+            // ret this.attributeA;
         ret -1;
     }
 
@@ -981,7 +981,7 @@ final class Example extends Common implements ExampleTemplate {
     }
 
     pub fn getExampleB () -> str {
-        ret parent::exampleA();
+        // ret parent::exampleA();
     }
 }
 
@@ -1048,22 +1048,22 @@ final class Example extends Common implements ExampleTemplate {
     }
 
     pub static fn getVersion (flag :bool) -> str {
-        if (flag)
-            ret self::getVersion();
-        ret self::subVersion;
+        if (flag) {}
+            // ret self::getVersion();
+        // ret self::subVersion;
     }
 
     // Declaração dos métodos e sobrecarga.
     pub fn getValues () -> array {
-        ret [
-            this.attributeA,
-            this.attributeB
-        ];
+        // ret [
+        //     this.attributeA,
+        //     this.attributeB
+        // ];
     }
 
     pub fn getValues (index :int) -> int {
-        if (index == 1)
-            ret this.attributeA;
+        if (index == 1) {}
+            // ret this.attributeA;
         ret -1;
     }
 
@@ -1078,7 +1078,7 @@ final class Example extends Common implements ExampleTemplate {
     }
 
     pub fn getExampleB () -> str {
-        ret parent::exampleA();
+        // ret parent::exampleA();
     }
 }
 
@@ -1238,12 +1238,12 @@ var objN :ClassName = unserialize(stringObject);
 //     })
 // };
 
-print("Value: {}\n",
-    (fn (value :int) -> int {
-        var a = value * 333;
-        ret value * 3 + a;
-    })( 10 * ar[1].a.v[1][2] / (x*z) - func() )
-);
+// print("Value: {}\n",
+//     (fn (value :int) -> int {
+//         var a = value * 333;
+//         ret value * 3 + a;
+//     })( 10 * ar[1].a.v[1][2] / (x*z) - func() )
+// );
 
 
 
@@ -1407,7 +1407,7 @@ var a = new b(10, 20, 30);
 
 // var s = (new StringBuffer());
 
-var s = new StringBuffer();
+// var s = new StringBuffer();
 
 
 
@@ -1595,138 +1595,5 @@ for
         print("Verbum");
     catch (err) 
         print('Error: {}', err);
-
-var a = (10 * 20 / ( func() - 333 ) + 12345 );
-
-var a = (10 * 20 / ( func() /
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) + 10
- - 333 ) + 12345 );
-
-
-var a = (10 * 20 / ( func() /
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) + 10
- - 333 ) + 12345 );
-
-var a = (10 * 20 / ( func() /
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) + 10
- - 333 ) + 12345 );
-
-
-var a = (10 * 20 / ( func() /
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) + 10
- - 333 ) + 12345 );
-
-
-var a = (10 * 20 / ( func() /
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) + 10
- - 333 ) + 12345 );
-
-var a = (10 * 20 / ( func() /
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) + 10
- - 333 ) + 12345 );
-
-
-var a = (10 * 20 / ( func() /
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) + 10
- - 333 ) + 12345 );
-
-
-var a = (10 * 20 / ( func() /
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) + 10
- - 333 ) + 12345 );
-
-var a = (10 * 20 / ( func() /
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) +
-(10 * 20 / ( func() - 333 ) + 12345 ) -
-(10 * 20 / ( func() - 333 ) + 12345 ) + 10
- - 333 ) + 12345 );
-
-var a = (10 * ( 333 * 333 ) / 20);
-var a = 10 * ( 333 == 333 ) && 20;
-
-
-var variable = (10 + (variable++) + (3.14 * 3) / --abc);
-
-
-if 10 >= (3*3) && 10 < b print("Verbum");
 
 
