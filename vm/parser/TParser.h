@@ -1166,7 +1166,7 @@ public:
     LambdaFnCodeBlockContext *lambdaFnCodeBlock();
     LambdaFnParamsContext *lambdaFnParams();
     antlr4::tree::TerminalNode *ArrowRight();
-    antlr4::tree::TerminalNode *Identifier();
+    IdentifierContext *identifier();
     antlr4::tree::TerminalNode *TypeSpec();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1182,7 +1182,7 @@ public:
   public:
     LambdaFnParamsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *Identifier();
+    IdentifierContext *identifier();
     antlr4::tree::TerminalNode *TypeSpec();
     std::vector<antlr4::tree::TerminalNode *> Separator();
     antlr4::tree::TerminalNode* Separator(size_t i);

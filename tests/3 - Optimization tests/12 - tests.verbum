@@ -565,3 +565,31 @@ a.b.c().e().f.g();
 a.b.c().e().f.g();
 
 
+
+var func = ()          => a * b;
+var func = () -> float => a * b;
+var func = () -> :int  => a * b;
+
+var func = (a, b :int) => a * b;
+
+var func = () -> int => a * b;
+
+var func = (a :int, b :int) -> int => a * b; // Explícito
+
+var func = (a, b) -> int => a * b + 1; // Inferido
+
+var func = (a, b) => a * b + 1; // Inferido
+
+var func = (a, b) => a * b; // Inferido como int, por padrão.
+
+var func :float = (a, b) => a * b; // Inferido como float.
+
+var func = (a :float, b) => a * b; // Inferido como float.
+
+var func = (a, b, c:float) -> int => r a * b + c :int;
+
+var func = (a) => a * 10;
+
+
+
+

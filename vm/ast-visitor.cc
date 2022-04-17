@@ -924,8 +924,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunction (TParser::BlockFunctionCont
     node.function_declaration.ret_found = false;
     if (ctx->ArrowRight()) {
         node.function_declaration.ret_found = true;
-        cout << "ret found!\n";
-
+        
         if (ctx->identifierB()) 
             node.function_declaration.ret_data = ctx->identifierB()->getText();
         else if (ctx->TypeSpec()) 
@@ -1164,4 +1163,67 @@ antlrcpp::Any verbum_ast_visitor::visitBlockNext (TParser::BlockNextContext *ctx
     return result;
 }
 
+/*
+** Lambda functions.
+*/
+
+// Bloco principal.
+antlrcpp::Any verbum_ast_visitor::visitBlockLambdaFunctions (TParser::BlockLambdaFunctionsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_LAMBDA_FUNCTION_BLOCK;
+
+    // Verifica se há retorno.
+    node.operation_type_conversion = false;
+    if (ctx->ArrowRight()) {
+        node.operation_type_conversion = true;
+
+        if (ctx->identifier())
+            node.operation_type_conversion_data = ctx->identifier()->getText();
+        else if (ctx->TypeSpec())
+            node.operation_type_conversion_data = ctx->TypeSpec()->getText();
+    }
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Parâmetros.
+antlrcpp::Any verbum_ast_visitor::visitLambdaFnParams (TParser::LambdaFnParamsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+
+    node.type = VERBUM_LAMBDA_FUNCTION_PARAM_ITEM;
+    
+    if (ctx->identifier())
+        node.function_param_item = ctx->identifier()->getText();
+    if (ctx->TypeSpec())
+        node.function_param_type = ctx->TypeSpec()->getText();
+
+    this->add_node(node);
+    return visitChildren(ctx);
+}
+
+// Bloco de código.
+antlrcpp::Any verbum_ast_visitor::visitLambdaFnCodeBlock (TParser::LambdaFnCodeBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE;
+
+    if (ctx->codeBlockControl())
+        node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
 

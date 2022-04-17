@@ -102,6 +102,11 @@ namespace verbum {
             // Array associativo.
             antlrcpp::Any visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx);
 
+            // Lambda functions.
+            antlrcpp::Any visitBlockLambdaFunctions (TParser::BlockLambdaFunctionsContext *ctx);
+            antlrcpp::Any visitLambdaFnParams (TParser::LambdaFnParamsContext *ctx);
+            antlrcpp::Any visitLambdaFnCodeBlock (TParser::LambdaFnCodeBlockContext *ctx);
+
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
 

@@ -374,11 +374,11 @@ associativeArrayElements
 ** Funções lambda
 */
 blockLambdaFunctions
-  : OpenOp (lambdaFnParams)? CloseOp (ArrowRight (Identifier | TypeSpec))? ARightLB lambdaFnCodeBlock
+  : OpenOp (lambdaFnParams)? CloseOp (ArrowRight (identifier | TypeSpec))? ARightLB lambdaFnCodeBlock
   ;
 
 lambdaFnParams
-  : Identifier (TypeSpec)? (Separator lambdaFnParams)*
+  : identifier (TypeSpec)? (Separator lambdaFnParams)*
   ;
 
 lambdaFnCodeBlock
