@@ -28,7 +28,18 @@ statements
   | blockUse
   | blockVariable
   | blockRet
+  | blockConditional
+
+  | blockCode
   | blockLiveTokens
+  ;
+
+/*
+** Bloco de código - { ... }
+*/
+blockCode
+  : ( OpenBlock CloseBlock |
+      OpenBlock sentences CloseBlock )
   ;
 
 /*
@@ -110,6 +121,47 @@ blockRet
   ;
 
 /*
+** Condicionais.
+*/
+
+blockConditional
+  : ifElementUnique (elifElements)? (elseElementUnique)?
+  ;
+
+// If.
+ifElementUnique
+  : If conditionalBlockExpression conditionalBlockElements
+  ;
+
+// Elif.
+elifElements
+  : elifElementUnique (elifElements)*
+  ;
+
+elifElementUnique
+  : Elif conditionalBlockExpression conditionalBlockElements
+  ;
+
+// Else.
+elseElementUnique
+  : Else conditionalBlockElements
+  ;
+
+// Bloco da expressão condicional.
+conditionalBlockExpression
+  : generalValueElements
+  ;
+
+// Bloco de código.
+conditionalBlockElements
+  : OpenBlock CloseBlock
+  | OpenBlock sentences CloseBlock
+  | blockConditional
+  | blockRet
+  | functionCall End
+  ;
+
+/*
 ** Valores de uso geral.
 ** Utilizado para:
 **    Valores comuns (atribuições)
@@ -128,16 +180,16 @@ generalValue
   ;
 
 generalValueBlock
-  : OpenOp generalValueItems CloseOp
+  : (Not)? OpenOp generalValueItems CloseOp
   ;
 
 generalValueItems
-  : generalValue (generalValueItems)*
+  : (Not)? generalValue (generalValueItems)*
   ;
 
 // Utiliza valores gerais N vezes.
 generalValueElements
-  : generalValue (generalValueElements)*
+  : (Not)? generalValue (generalValueElements)*
   ;
 
 /*
@@ -153,9 +205,9 @@ incDecOperatorsB : IncDecOperators;
 blockLiveTokens
   : (
       //Var |
-      If |
-      Elif |
-      Else |
+      // If |
+      // Elif |
+      // Else |
       For |
       //Ret |
       Function |
@@ -186,8 +238,8 @@ blockLiveTokens
       Separator |
       OpenArIndex |
       CloseArIndex |
-      OpenBlock |
-      CloseBlock |
+      // OpenBlock |
+      // CloseBlock |
       OpenOp |
       CloseOp |
       ArithmeticOperator |

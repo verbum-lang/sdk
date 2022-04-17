@@ -338,6 +338,100 @@ antlrcpp::Any verbum_ast_visitor::visitBlockRet (TParser::BlockRetContext *ctx)
 }
 
 /*
+** Condicionais.
+*/
+
+// Bloco completo do condicional.
+antlrcpp::Any verbum_ast_visitor::visitBlockConditional (TParser::BlockConditionalContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_CONDITIONAL_STRUCT_BLOCK;
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco da expressão condicional.
+antlrcpp::Any verbum_ast_visitor::visitConditionalBlockExpression (TParser::ConditionalBlockExpressionContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_CONDITIONAL_EXPRESSION_BLOCK;
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código do condicional.
+antlrcpp::Any verbum_ast_visitor::visitConditionalBlockElements (TParser::ConditionalBlockElementsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_CONDITIONAL_CODE_BLOCK;
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// If.
+antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUniqueContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_CONDITIONAL_IF;
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Elif.
+antlrcpp::Any verbum_ast_visitor::visitElifElementUnique (TParser::ElifElementUniqueContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_CONDITIONAL_ELIF;
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Else.
+antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUniqueContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    
+    node.type = VERBUM_CONDITIONAL_ELSE;
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
 ** Controle dos valores gerais.
 */
 antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContext *ctx) 

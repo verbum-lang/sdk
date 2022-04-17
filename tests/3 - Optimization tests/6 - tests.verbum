@@ -243,13 +243,13 @@ var variable = obj.functionName(10, 20, 30);
 var variable = (10 + 20);
 var variable = (variable * 10 + 20 / 30);
 
-if (expression) 
+if (expression) {
     print("value 1");
-elif (expression)
+} elif (expression) {
     print("value 2");
-else
+} else {
     print("value 3");
-
+}
 
 // In principio erat Verbum.
 try {
@@ -424,127 +424,156 @@ var a = await example();
 
 
 
-if (a) 
+if (a) {
     if (b) {
-        if (c) 
+        if (c) {
             print("Verbum = if\n");
-        elif (d)
+        } elif (d) {
             print("Verbum - elif\n");
+        }
 
         if (e) {
             print("Verbum - 3");
 
-            if (f)
+            if (f) {
                 print("Verbum - 3");
-            else
+            } else {
                 print("Verbum - else\n");
+            }
         }
 
-        if (f)
+        if (f) {
             print("Verbum - 3");
-    }
-    elif (d)
-        print("Verbum - elif\n");
-    else
-        print("Verbum - else\n");
-
-if (b)
-    print("Deus eh Bom");
-else
-    if (x)
-        print("Verbum - else\n");
-
-if (n)
-    print("Jesus <3");
-
-
-if (a) 
-    if (b) {
-        if (c) 
-            print("Verbum = if\n");
-        elif (d)
-            print("Verbum - elif\n");
-
-        if (e) {
-            print("Verbum - 3");
-
-            if (f)
-                print("Verbum - 3");
-            else
-                print("Verbum - else\n");
         }
-
-        if (f)
-            print("Verbum - 3");
     }
-    elif (d)
+    elif (d) {
         print("Verbum - elif\n");
-    else
+    } else {
         print("Verbum - else\n");
-
-if (b)
-    print("Deus eh Bom");
-else
-    if (x)
-        print("Verbum - else\n");
-
-if (n)
-    print("Jesus <3");
-
-
-if (a) 
-    if (b) {
-        if (c) 
-            print("Verbum = if\n");
-        elif (d)
-            print("Verbum - elif\n");
-
-        if (e) {
-            print("Verbum - 3");
-
-            if (f)
-                print("Verbum - 3");
-            else
-                print("Verbum - else\n");
-        }
-
-        if (f)
-            print("Verbum - 3");
     }
-    elif (d)
-        print("Verbum - elif\n");
-    else
-        print("Verbum - else\n");
-
-if (b)
-    print("Deus eh Bom");
-else
-    if (x)
-        print("Verbum - else\n");
-
-if (n)
-    print("Jesus <3");
-
-
-
-if 10 >= (3*3) && 10 < b
-if a >= (3*3) && (10 < b)
-if (func1() > 10) && a>20
-if !a
-if !(10 > a) && !x
-if (!(10 > a)) && !x > ( !x || !(z++) ) <= 10
-if a[1][2][3] = func() != null 
-if (a[1][2][3] = func()) != null 
-if (a = io.func()) <= 10 && b = func( [1, 2, 3] )
-if ++a[1] > 10
-if a[1]++ > 10 {
-    a[1][2] = a.b[1].c[2][3];
 }
-if x[1] > 10
-if (x[1] > 10 && (k[ 1 ] == 20))
-if (x[1] > 10 && (k[ func() - 10 ] == 20))
-if (a.b[1].c.d.e[1][2][3] == 10)
-if ! ar[1][2][3] == 10 && !(yy[1][2] >= ar2.c.d[1].d.e)
+
+if (b) {
+    print("Deus eh Bom");
+} else {
+    if (x) {
+        print("Verbum - else\n");
+    }
+}
+
+if (n) {
+    print("Jesus <3");
+}
+
+
+if (a) {
+    if (b) {
+        if (c) {
+            print("Verbum = if\n");
+        } elif (d) {
+            print("Verbum - elif\n");
+        }
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f) {
+                print("Verbum - 3");
+            } else {
+                print("Verbum - else\n");
+            }
+        }
+
+        if (f) {
+            print("Verbum - 3");
+        }
+    }
+    elif (d) {
+        print("Verbum - elif\n");
+    } else {
+        print("Verbum - else\n");
+    }
+}
+
+if (b) {
+    print("Deus eh Bom");
+} else {
+    if (x) {
+        print("Verbum - else\n");
+    }
+}
+
+if (n) {
+    print("Jesus <3");
+}
+
+
+if (a) {
+    if (b) {
+        if (c) {
+            print("Verbum = if\n");
+        } elif (d) {
+            print("Verbum - elif\n");
+        }
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f) {
+                print("Verbum - 3");
+            } else {
+                print("Verbum - else\n");
+            }
+        }
+
+        if (f) {
+            print("Verbum - 3");
+        }
+    }
+    elif (d) {
+        print("Verbum - elif\n");
+    } else {
+        print("Verbum - else\n");
+    }
+}
+
+if (b) {
+    print("Deus eh Bom");
+} else {
+    if (x) {
+        print("Verbum - else\n");
+    }
+}
+
+if (n) {
+    print("Jesus <3");
+}
+
+
+if (10 >= (3*3) && 10 < b) {
+if (a >= (3*3) && (10 < b)) {
+if ((func1() > 10) && a>20 ) {
+if (!a) {
+if (!(10 > a) && !x ){
+if (!(10 > a) && !x > ( !x || !(z++) ) <= 10) {}
+}
+}
+}
+}
+}
+
+// if a[1][2][3] = func() != null 
+// if (a[1][2][3] = func()) != null 
+// if (a = io.func()) <= 10 && b = func( [1, 2, 3] )
+// if ++a[1] > 10
+// if a[1]++ > 10 {
+    // a[1][2] = a.b[1].c[2][3];
+// }
+// if x[1] > 10
+// if (x[1] > 10 && (k[ 1 ] == 20))
+// if (x[1] > 10 && (k[ func() - 10 ] == 20))
+// if (a.b[1].c.d.e[1][2][3] == 10)
+// if ! ar[1][2][3] == 10 && !(yy[1][2] >= ar2.c.d[1].d.e)
 {
 // var a = [
 //     1,[
@@ -557,12 +586,13 @@ if ! ar[1][2][3] == 10 && !(yy[1][2] >= ar2.c.d[1].d.e)
 // ];
 }
 
-if a
+if (a ){
     func2();
-elif (b)
+} elif (b) {
     func3();
-else
+} else {
     func4();
+}
 
     for var a=0, b=0; a<10; a++, b--
 
@@ -633,13 +663,13 @@ for (var a = 0; a<100; a++)
     print("Hello world\n");
 
 for (var a = 0; ; a++) {
-    if (a >= 100)
-        break;
+    if (a >= 100) {}
+        // break;
 }
 
 for (var a = 0; ; a++) {
-    if (a < 100)
-        next;
+    if (a < 100) {}
+        // next;
 }
 
 // Equivalente ao while.
@@ -1288,7 +1318,7 @@ var response = http_get('http://host/path');
 
 for {
     if (response.size() <= 0)
-        next;
+       {} // next;
 
     print("response: {}\n", response);
     break;
@@ -1584,16 +1614,100 @@ catch (err1)
     catch (err2) 
         print('Error: {}', err);
     
-if a 
+if (a) {
     try 
         print("Verbum");
     catch (err) 
         print('Error: {}', err);
+}
 
 for 
     try 
         print("Verbum");
     catch (err) 
         print('Error: {}', err);
+
+
+
+if (a) {
+    if (b) {
+        if (c) {
+            print("Verbum = if\n");
+        } elif (d) {
+            print("Verbum - elif\n");
+        }
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f) {
+                print("Verbum - 3");
+            } else {
+                print("Verbum - else\n");
+            }
+        }
+
+        if (f) {
+            print("Verbum - 3");
+        }
+    }
+    elif (d) {
+        print("Verbum - elif\n");
+    } else {
+        print("Verbum - else\n");
+    }
+}
+
+if (b) {
+    print("Deus eh Bom");
+} else {
+    if (x) {
+        print("Verbum - else\n");
+    }
+}
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
+    }
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
+
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
+
+if (a)
+if (b)
+if (c)
+    print("Jesus <3");
+elif (d)
+    print("Jesus <3");
+elif (e)
+    print("Jesus <3");
+else
+    print("Jesus <3");
+
+if (f)
+    print("Jesus <3");
 
 

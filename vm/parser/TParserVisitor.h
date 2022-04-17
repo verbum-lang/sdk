@@ -26,6 +26,8 @@ public:
 
     virtual antlrcpp::Any visitStatements(TParser::StatementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockCode(TParser::BlockCodeContext *context) = 0;
+
     virtual antlrcpp::Any visitBlockComments(TParser::BlockCommentsContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockUse(TParser::BlockUseContext *context) = 0;
@@ -53,6 +55,20 @@ public:
     virtual antlrcpp::Any visitFunctionCallParamElements(TParser::FunctionCallParamElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockRet(TParser::BlockRetContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockConditional(TParser::BlockConditionalContext *context) = 0;
+
+    virtual antlrcpp::Any visitIfElementUnique(TParser::IfElementUniqueContext *context) = 0;
+
+    virtual antlrcpp::Any visitElifElements(TParser::ElifElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitElifElementUnique(TParser::ElifElementUniqueContext *context) = 0;
+
+    virtual antlrcpp::Any visitElseElementUnique(TParser::ElseElementUniqueContext *context) = 0;
+
+    virtual antlrcpp::Any visitConditionalBlockExpression(TParser::ConditionalBlockExpressionContext *context) = 0;
+
+    virtual antlrcpp::Any visitConditionalBlockElements(TParser::ConditionalBlockElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 

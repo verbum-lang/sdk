@@ -27,6 +27,9 @@ public:
   virtual void enterStatements(TParser::StatementsContext * /*ctx*/) override { }
   virtual void exitStatements(TParser::StatementsContext * /*ctx*/) override { }
 
+  virtual void enterBlockCode(TParser::BlockCodeContext * /*ctx*/) override { }
+  virtual void exitBlockCode(TParser::BlockCodeContext * /*ctx*/) override { }
+
   virtual void enterBlockComments(TParser::BlockCommentsContext * /*ctx*/) override { }
   virtual void exitBlockComments(TParser::BlockCommentsContext * /*ctx*/) override { }
 
@@ -68,6 +71,27 @@ public:
 
   virtual void enterBlockRet(TParser::BlockRetContext * /*ctx*/) override { }
   virtual void exitBlockRet(TParser::BlockRetContext * /*ctx*/) override { }
+
+  virtual void enterBlockConditional(TParser::BlockConditionalContext * /*ctx*/) override { }
+  virtual void exitBlockConditional(TParser::BlockConditionalContext * /*ctx*/) override { }
+
+  virtual void enterIfElementUnique(TParser::IfElementUniqueContext * /*ctx*/) override { }
+  virtual void exitIfElementUnique(TParser::IfElementUniqueContext * /*ctx*/) override { }
+
+  virtual void enterElifElements(TParser::ElifElementsContext * /*ctx*/) override { }
+  virtual void exitElifElements(TParser::ElifElementsContext * /*ctx*/) override { }
+
+  virtual void enterElifElementUnique(TParser::ElifElementUniqueContext * /*ctx*/) override { }
+  virtual void exitElifElementUnique(TParser::ElifElementUniqueContext * /*ctx*/) override { }
+
+  virtual void enterElseElementUnique(TParser::ElseElementUniqueContext * /*ctx*/) override { }
+  virtual void exitElseElementUnique(TParser::ElseElementUniqueContext * /*ctx*/) override { }
+
+  virtual void enterConditionalBlockExpression(TParser::ConditionalBlockExpressionContext * /*ctx*/) override { }
+  virtual void exitConditionalBlockExpression(TParser::ConditionalBlockExpressionContext * /*ctx*/) override { }
+
+  virtual void enterConditionalBlockElements(TParser::ConditionalBlockElementsContext * /*ctx*/) override { }
+  virtual void exitConditionalBlockElements(TParser::ConditionalBlockElementsContext * /*ctx*/) override { }
 
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }

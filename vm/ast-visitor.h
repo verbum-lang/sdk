@@ -53,6 +53,14 @@ namespace verbum {
             // Ret (return).
             antlrcpp::Any visitBlockRet (TParser::BlockRetContext *ctx) ;
 
+            // Condicionais.
+            antlrcpp::Any visitBlockConditional (TParser::BlockConditionalContext *ctx);
+            antlrcpp::Any visitConditionalBlockExpression (TParser::ConditionalBlockExpressionContext *ctx);
+            antlrcpp::Any visitConditionalBlockElements (TParser::ConditionalBlockElementsContext *ctx);
+            antlrcpp::Any visitIfElementUnique (TParser::IfElementUniqueContext *ctx);
+            antlrcpp::Any visitElifElementUnique (TParser::ElifElementUniqueContext *ctx);
+            antlrcpp::Any visitElseElementUnique (TParser::ElseElementUniqueContext *ctx);
+
             // Valores gerais.
             antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
 

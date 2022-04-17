@@ -29,6 +29,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockCode(TParser::BlockCodeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitBlockComments(TParser::BlockCommentsContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -82,6 +86,34 @@ public:
   }
 
   virtual antlrcpp::Any visitBlockRet(TParser::BlockRetContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockConditional(TParser::BlockConditionalContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitIfElementUnique(TParser::IfElementUniqueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitElifElements(TParser::ElifElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitElifElementUnique(TParser::ElifElementUniqueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitElseElementUnique(TParser::ElseElementUniqueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitConditionalBlockExpression(TParser::ConditionalBlockExpressionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) override {
     return visitChildren(ctx);
   }
 

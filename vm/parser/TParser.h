@@ -31,14 +31,17 @@ public:
   };
 
   enum {
-    RuleMain = 0, RuleSentences = 1, RuleStatements = 2, RuleBlockComments = 3, 
-    RuleBlockUse = 4, RuleUseValue = 5, RuleUseString = 6, RuleBlockVariable = 7, 
-    RuleVariableItem = 8, RuleVariablePrefixModes = 9, RuleVisibilityItems = 10, 
-    RuleMethodVisibility = 11, RuleFunctionCall = 12, RuleFunctionCallPrefix = 13, 
-    RuleFunctionCallParam = 14, RuleFunctionCallParamElements = 15, RuleBlockRet = 16, 
-    RuleGeneralValue = 17, RuleGeneralValueBlock = 18, RuleGeneralValueItems = 19, 
-    RuleGeneralValueElements = 20, RuleIdentifier = 21, RuleIncDecOperatorsA = 22, 
-    RuleIncDecOperatorsB = 23, RuleBlockLiveTokens = 24
+    RuleMain = 0, RuleSentences = 1, RuleStatements = 2, RuleBlockCode = 3, 
+    RuleBlockComments = 4, RuleBlockUse = 5, RuleUseValue = 6, RuleUseString = 7, 
+    RuleBlockVariable = 8, RuleVariableItem = 9, RuleVariablePrefixModes = 10, 
+    RuleVisibilityItems = 11, RuleMethodVisibility = 12, RuleFunctionCall = 13, 
+    RuleFunctionCallPrefix = 14, RuleFunctionCallParam = 15, RuleFunctionCallParamElements = 16, 
+    RuleBlockRet = 17, RuleBlockConditional = 18, RuleIfElementUnique = 19, 
+    RuleElifElements = 20, RuleElifElementUnique = 21, RuleElseElementUnique = 22, 
+    RuleConditionalBlockExpression = 23, RuleConditionalBlockElements = 24, 
+    RuleGeneralValue = 25, RuleGeneralValueBlock = 26, RuleGeneralValueItems = 27, 
+    RuleGeneralValueElements = 28, RuleIdentifier = 29, RuleIncDecOperatorsA = 30, 
+    RuleIncDecOperatorsB = 31, RuleBlockLiveTokens = 32
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -54,6 +57,7 @@ public:
   class MainContext;
   class SentencesContext;
   class StatementsContext;
+  class BlockCodeContext;
   class BlockCommentsContext;
   class BlockUseContext;
   class UseValueContext;
@@ -68,6 +72,13 @@ public:
   class FunctionCallParamContext;
   class FunctionCallParamElementsContext;
   class BlockRetContext;
+  class BlockConditionalContext;
+  class IfElementUniqueContext;
+  class ElifElementsContext;
+  class ElifElementUniqueContext;
+  class ElseElementUniqueContext;
+  class ConditionalBlockExpressionContext;
+  class ConditionalBlockElementsContext;
   class GeneralValueContext;
   class GeneralValueBlockContext;
   class GeneralValueItemsContext;
@@ -117,6 +128,8 @@ public:
     BlockUseContext *blockUse();
     BlockVariableContext *blockVariable();
     BlockRetContext *blockRet();
+    BlockConditionalContext *blockConditional();
+    BlockCodeContext *blockCode();
     BlockLiveTokensContext *blockLiveTokens();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -127,6 +140,23 @@ public:
   };
 
   StatementsContext* statements();
+
+  class  BlockCodeContext : public antlr4::ParserRuleContext {
+  public:
+    BlockCodeContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    SentencesContext *sentences();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockCodeContext* blockCode();
 
   class  BlockCommentsContext : public antlr4::ParserRuleContext {
   public:
@@ -375,6 +405,126 @@ public:
 
   BlockRetContext* blockRet();
 
+  class  BlockConditionalContext : public antlr4::ParserRuleContext {
+  public:
+    BlockConditionalContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IfElementUniqueContext *ifElementUnique();
+    ElifElementsContext *elifElements();
+    ElseElementUniqueContext *elseElementUnique();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockConditionalContext* blockConditional();
+
+  class  IfElementUniqueContext : public antlr4::ParserRuleContext {
+  public:
+    IfElementUniqueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *If();
+    ConditionalBlockExpressionContext *conditionalBlockExpression();
+    ConditionalBlockElementsContext *conditionalBlockElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IfElementUniqueContext* ifElementUnique();
+
+  class  ElifElementsContext : public antlr4::ParserRuleContext {
+  public:
+    ElifElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ElifElementUniqueContext *elifElementUnique();
+    std::vector<ElifElementsContext *> elifElements();
+    ElifElementsContext* elifElements(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ElifElementsContext* elifElements();
+
+  class  ElifElementUniqueContext : public antlr4::ParserRuleContext {
+  public:
+    ElifElementUniqueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Elif();
+    ConditionalBlockExpressionContext *conditionalBlockExpression();
+    ConditionalBlockElementsContext *conditionalBlockElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ElifElementUniqueContext* elifElementUnique();
+
+  class  ElseElementUniqueContext : public antlr4::ParserRuleContext {
+  public:
+    ElseElementUniqueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Else();
+    ConditionalBlockElementsContext *conditionalBlockElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ElseElementUniqueContext* elseElementUnique();
+
+  class  ConditionalBlockExpressionContext : public antlr4::ParserRuleContext {
+  public:
+    ConditionalBlockExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueElementsContext *generalValueElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ConditionalBlockExpressionContext* conditionalBlockExpression();
+
+  class  ConditionalBlockElementsContext : public antlr4::ParserRuleContext {
+  public:
+    ConditionalBlockElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    SentencesContext *sentences();
+    BlockConditionalContext *blockConditional();
+    BlockRetContext *blockRet();
+    FunctionCallContext *functionCall();
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ConditionalBlockElementsContext* conditionalBlockElements();
+
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:
     GeneralValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -407,6 +557,7 @@ public:
     antlr4::tree::TerminalNode *OpenOp();
     GeneralValueItemsContext *generalValueItems();
     antlr4::tree::TerminalNode *CloseOp();
+    antlr4::tree::TerminalNode *Not();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -422,6 +573,7 @@ public:
     GeneralValueItemsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     GeneralValueContext *generalValue();
+    antlr4::tree::TerminalNode *Not();
     std::vector<GeneralValueItemsContext *> generalValueItems();
     GeneralValueItemsContext* generalValueItems(size_t i);
 
@@ -439,6 +591,7 @@ public:
     GeneralValueElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     GeneralValueContext *generalValue();
+    antlr4::tree::TerminalNode *Not();
     std::vector<GeneralValueElementsContext *> generalValueElements();
     GeneralValueElementsContext* generalValueElements(size_t i);
 
@@ -500,9 +653,6 @@ public:
   public:
     BlockLiveTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *If();
-    antlr4::tree::TerminalNode *Elif();
-    antlr4::tree::TerminalNode *Else();
     antlr4::tree::TerminalNode *For();
     antlr4::tree::TerminalNode *Function();
     antlr4::tree::TerminalNode *Pub();
@@ -532,8 +682,6 @@ public:
     antlr4::tree::TerminalNode *Separator();
     antlr4::tree::TerminalNode *OpenArIndex();
     antlr4::tree::TerminalNode *CloseArIndex();
-    antlr4::tree::TerminalNode *OpenBlock();
-    antlr4::tree::TerminalNode *CloseBlock();
     antlr4::tree::TerminalNode *OpenOp();
     antlr4::tree::TerminalNode *CloseOp();
     antlr4::tree::TerminalNode *ArithmeticOperator();

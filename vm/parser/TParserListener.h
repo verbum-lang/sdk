@@ -25,6 +25,9 @@ public:
   virtual void enterStatements(TParser::StatementsContext *ctx) = 0;
   virtual void exitStatements(TParser::StatementsContext *ctx) = 0;
 
+  virtual void enterBlockCode(TParser::BlockCodeContext *ctx) = 0;
+  virtual void exitBlockCode(TParser::BlockCodeContext *ctx) = 0;
+
   virtual void enterBlockComments(TParser::BlockCommentsContext *ctx) = 0;
   virtual void exitBlockComments(TParser::BlockCommentsContext *ctx) = 0;
 
@@ -66,6 +69,27 @@ public:
 
   virtual void enterBlockRet(TParser::BlockRetContext *ctx) = 0;
   virtual void exitBlockRet(TParser::BlockRetContext *ctx) = 0;
+
+  virtual void enterBlockConditional(TParser::BlockConditionalContext *ctx) = 0;
+  virtual void exitBlockConditional(TParser::BlockConditionalContext *ctx) = 0;
+
+  virtual void enterIfElementUnique(TParser::IfElementUniqueContext *ctx) = 0;
+  virtual void exitIfElementUnique(TParser::IfElementUniqueContext *ctx) = 0;
+
+  virtual void enterElifElements(TParser::ElifElementsContext *ctx) = 0;
+  virtual void exitElifElements(TParser::ElifElementsContext *ctx) = 0;
+
+  virtual void enterElifElementUnique(TParser::ElifElementUniqueContext *ctx) = 0;
+  virtual void exitElifElementUnique(TParser::ElifElementUniqueContext *ctx) = 0;
+
+  virtual void enterElseElementUnique(TParser::ElseElementUniqueContext *ctx) = 0;
+  virtual void exitElseElementUnique(TParser::ElseElementUniqueContext *ctx) = 0;
+
+  virtual void enterConditionalBlockExpression(TParser::ConditionalBlockExpressionContext *ctx) = 0;
+  virtual void exitConditionalBlockExpression(TParser::ConditionalBlockExpressionContext *ctx) = 0;
+
+  virtual void enterConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
+  virtual void exitConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
 
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
