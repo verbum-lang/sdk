@@ -1734,3 +1734,148 @@ for (abc)
     ret 10;
 
 
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+
+try 
+    for 
+        if (1)
+            ret 10;
+catch (err)
+    print('Verbum!', err);
+
+

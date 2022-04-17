@@ -300,7 +300,66 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             else if (node.loop_block_type == VERBUM_LOOP_CODE_BLOCK)
                 cout << "-> loop-block: code block (close)\n";
         }
-        
+
+        /*
+        ** Try, catch.
+        */
+
+        // Bloco geral.
+        else if (node.type == VERBUM_TRY_BLOCK) {
+            this->tab();
+            cout << "-> try-catch (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> try-catch (close)\n";
+        }
+
+        // Bloco try.
+        else if (node.type == VERBUM_TRY_TRY) {
+            this->tab();
+            cout << "-> try-catch try (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> try-catch try (close)\n";
+        }
+
+        // Bloco catch.
+        else if (node.type == VERBUM_TRY_CATCH) {
+            this->tab();
+            cout << "-> try-catch catch (open)\n";
+            
+            this->tab();
+            cout << "-> identifier-name: " << node.catch_identifier << "\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> try-catch catch (close)\n";
+        }
+
+        // Bloco de código.
+        else if (node.type == VERBUM_TRY_CODE_BLOCK) {
+            this->tab();
+            cout << "-> try-catch code-block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> try-catch code-block (close)\n";
+        }
+
         /*
         ** Valores gerais.
         */

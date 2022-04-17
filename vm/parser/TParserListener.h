@@ -124,6 +124,18 @@ public:
   virtual void enterLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *ctx) = 0;
   virtual void exitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *ctx) = 0;
 
+  virtual void enterBlockTryCatch(TParser::BlockTryCatchContext *ctx) = 0;
+  virtual void exitBlockTryCatch(TParser::BlockTryCatchContext *ctx) = 0;
+
+  virtual void enterTryUniqueElement(TParser::TryUniqueElementContext *ctx) = 0;
+  virtual void exitTryUniqueElement(TParser::TryUniqueElementContext *ctx) = 0;
+
+  virtual void enterCatchUniqueElement(TParser::CatchUniqueElementContext *ctx) = 0;
+  virtual void exitCatchUniqueElement(TParser::CatchUniqueElementContext *ctx) = 0;
+
+  virtual void enterTryCatchElements(TParser::TryCatchElementsContext *ctx) = 0;
+  virtual void exitTryCatchElements(TParser::TryCatchElementsContext *ctx) = 0;
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
 

@@ -30,6 +30,7 @@ statements
   | blockRet
   | blockConditional
   | blockLoop
+  | blockTryCatch
 
   | blockCode
   | blockLiveTokens
@@ -205,6 +206,25 @@ loopThreeMembersValues
   ;
 
 /*
+** Try, catch.
+*/
+blockTryCatch
+  : tryUniqueElement (catchUniqueElement)?
+  ;
+
+tryUniqueElement
+  : Try tryCatchElements
+  ;
+
+catchUniqueElement
+  : Catch (OpenOp)? identifier (CloseOp)? tryCatchElements
+  ;
+
+tryCatchElements
+  : codeBlockFlowControl
+  ;
+
+/*
 ** Bloco de código das expressões condicionais e loops.
 */
 codeBlockFlowControl
@@ -218,6 +238,7 @@ codeBlockFlowControlElements
   | blockRet
   | blockConditional
   | blockLoop
+  | blockTryCatch
   ;
 
 /*
@@ -286,8 +307,8 @@ blockLiveTokens
       Next |
       Async |
       //Await |
-      Try |
-      Catch |
+      // Try |
+      // Catch |
       ArrowRight |
       ARightLB |
       End |

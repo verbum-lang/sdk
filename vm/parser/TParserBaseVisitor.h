@@ -161,6 +161,22 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockTryCatch(TParser::BlockTryCatchContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitTryUniqueElement(TParser::TryUniqueElementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitCatchUniqueElement(TParser::CatchUniqueElementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitTryCatchElements(TParser::TryCatchElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) override {
     return visitChildren(ctx);
   }

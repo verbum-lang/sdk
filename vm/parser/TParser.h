@@ -42,10 +42,11 @@ public:
     RuleBlockLoop = 25, RuleLoopBlockElements = 26, RuleLoopComplete = 27, 
     RuleLoopConditional = 28, RuleLoopInfinite = 29, RuleEndOne = 30, RuleEndTwo = 31, 
     RuleLoopOneMembers = 32, RuleLoopTwoMembers = 33, RuleLoopThreeMembers = 34, 
-    RuleLoopThreeMembersValues = 35, RuleCodeBlockFlowControl = 36, RuleCodeBlockFlowControlElements = 37, 
-    RuleGeneralValue = 38, RuleGeneralValueBlock = 39, RuleGeneralValueItems = 40, 
-    RuleGeneralValueElements = 41, RuleIdentifier = 42, RuleIncDecOperatorsA = 43, 
-    RuleIncDecOperatorsB = 44, RuleBlockLiveTokens = 45
+    RuleLoopThreeMembersValues = 35, RuleBlockTryCatch = 36, RuleTryUniqueElement = 37, 
+    RuleCatchUniqueElement = 38, RuleTryCatchElements = 39, RuleCodeBlockFlowControl = 40, 
+    RuleCodeBlockFlowControlElements = 41, RuleGeneralValue = 42, RuleGeneralValueBlock = 43, 
+    RuleGeneralValueItems = 44, RuleGeneralValueElements = 45, RuleIdentifier = 46, 
+    RuleIncDecOperatorsA = 47, RuleIncDecOperatorsB = 48, RuleBlockLiveTokens = 49
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -94,6 +95,10 @@ public:
   class LoopTwoMembersContext;
   class LoopThreeMembersContext;
   class LoopThreeMembersValuesContext;
+  class BlockTryCatchContext;
+  class TryUniqueElementContext;
+  class CatchUniqueElementContext;
+  class TryCatchElementsContext;
   class CodeBlockFlowControlContext;
   class CodeBlockFlowControlElementsContext;
   class GeneralValueContext;
@@ -147,6 +152,7 @@ public:
     BlockRetContext *blockRet();
     BlockConditionalContext *blockConditional();
     BlockLoopContext *blockLoop();
+    BlockTryCatchContext *blockTryCatch();
     BlockCodeContext *blockCode();
     BlockLiveTokensContext *blockLiveTokens();
 
@@ -717,6 +723,72 @@ public:
 
   LoopThreeMembersValuesContext* loopThreeMembersValues();
 
+  class  BlockTryCatchContext : public antlr4::ParserRuleContext {
+  public:
+    BlockTryCatchContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    TryUniqueElementContext *tryUniqueElement();
+    CatchUniqueElementContext *catchUniqueElement();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockTryCatchContext* blockTryCatch();
+
+  class  TryUniqueElementContext : public antlr4::ParserRuleContext {
+  public:
+    TryUniqueElementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Try();
+    TryCatchElementsContext *tryCatchElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  TryUniqueElementContext* tryUniqueElement();
+
+  class  CatchUniqueElementContext : public antlr4::ParserRuleContext {
+  public:
+    CatchUniqueElementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Catch();
+    IdentifierContext *identifier();
+    TryCatchElementsContext *tryCatchElements();
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  CatchUniqueElementContext* catchUniqueElement();
+
+  class  TryCatchElementsContext : public antlr4::ParserRuleContext {
+  public:
+    TryCatchElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    CodeBlockFlowControlContext *codeBlockFlowControl();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  TryCatchElementsContext* tryCatchElements();
+
   class  CodeBlockFlowControlContext : public antlr4::ParserRuleContext {
   public:
     CodeBlockFlowControlContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -744,6 +816,7 @@ public:
     BlockRetContext *blockRet();
     BlockConditionalContext *blockConditional();
     BlockLoopContext *blockLoop();
+    BlockTryCatchContext *blockTryCatch();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -895,8 +968,6 @@ public:
     antlr4::tree::TerminalNode *Break();
     antlr4::tree::TerminalNode *Next();
     antlr4::tree::TerminalNode *Async();
-    antlr4::tree::TerminalNode *Try();
-    antlr4::tree::TerminalNode *Catch();
     antlr4::tree::TerminalNode *ArrowRight();
     antlr4::tree::TerminalNode *ARightLB();
     antlr4::tree::TerminalNode *End();

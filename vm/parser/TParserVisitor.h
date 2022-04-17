@@ -92,6 +92,14 @@ public:
 
     virtual antlrcpp::Any visitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockTryCatch(TParser::BlockTryCatchContext *context) = 0;
+
+    virtual antlrcpp::Any visitTryUniqueElement(TParser::TryUniqueElementContext *context) = 0;
+
+    virtual antlrcpp::Any visitCatchUniqueElement(TParser::CatchUniqueElementContext *context) = 0;
+
+    virtual antlrcpp::Any visitTryCatchElements(TParser::TryCatchElementsContext *context) = 0;
+
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *context) = 0;

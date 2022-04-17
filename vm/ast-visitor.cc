@@ -759,4 +759,65 @@ antlrcpp::Any verbum_ast_visitor::visitLoopBlockElements (TParser::LoopBlockElem
     return result;
 }
 
+/*
+** Try, catch.
+*/
+
+// Bloco geral.
+antlrcpp::Any verbum_ast_visitor::visitBlockTryCatch (TParser::BlockTryCatchContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_TRY_BLOCK;
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco try.
+antlrcpp::Any verbum_ast_visitor::visitTryUniqueElement (TParser::TryUniqueElementContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_TRY_TRY;
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco catch.
+antlrcpp::Any verbum_ast_visitor::visitCatchUniqueElement (TParser::CatchUniqueElementContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_TRY_CATCH;
+    node.catch_identifier = ctx->identifier()->getText();
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Bloco de código.
+antlrcpp::Any verbum_ast_visitor::visitTryCatchElements (TParser::TryCatchElementsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_TRY_CODE_BLOCK;
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 

@@ -126,6 +126,18 @@ public:
   virtual void enterLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext * /*ctx*/) override { }
   virtual void exitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext * /*ctx*/) override { }
 
+  virtual void enterBlockTryCatch(TParser::BlockTryCatchContext * /*ctx*/) override { }
+  virtual void exitBlockTryCatch(TParser::BlockTryCatchContext * /*ctx*/) override { }
+
+  virtual void enterTryUniqueElement(TParser::TryUniqueElementContext * /*ctx*/) override { }
+  virtual void exitTryUniqueElement(TParser::TryUniqueElementContext * /*ctx*/) override { }
+
+  virtual void enterCatchUniqueElement(TParser::CatchUniqueElementContext * /*ctx*/) override { }
+  virtual void exitCatchUniqueElement(TParser::CatchUniqueElementContext * /*ctx*/) override { }
+
+  virtual void enterTryCatchElements(TParser::TryCatchElementsContext * /*ctx*/) override { }
+  virtual void exitTryCatchElements(TParser::TryCatchElementsContext * /*ctx*/) override { }
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
 
