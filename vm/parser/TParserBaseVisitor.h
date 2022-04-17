@@ -177,6 +177,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockFunctionAttr(TParser::BlockFunctionAttrContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitFunctionParam(TParser::FunctionParamContext *ctx) override {
     return visitChildren(ctx);
   }

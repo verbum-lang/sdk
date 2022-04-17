@@ -136,6 +136,9 @@ public:
   virtual void enterBlockFunction(TParser::BlockFunctionContext *ctx) = 0;
   virtual void exitBlockFunction(TParser::BlockFunctionContext *ctx) = 0;
 
+  virtual void enterBlockFunctionAttr(TParser::BlockFunctionAttrContext *ctx) = 0;
+  virtual void exitBlockFunctionAttr(TParser::BlockFunctionAttrContext *ctx) = 0;
+
   virtual void enterFunctionParam(TParser::FunctionParamContext *ctx) = 0;
   virtual void exitFunctionParam(TParser::FunctionParamContext *ctx) = 0;
 

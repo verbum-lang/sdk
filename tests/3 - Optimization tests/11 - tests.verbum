@@ -51,3 +51,32 @@ var variable :array = {
 var variable = {
     valor: 1.337 :double
 };
+
+if a < 10 && (10 / (33 - b) - 20) {}
+
+
+
+// Função anônima como valor em variável.
+var variable = (fn (a :int) -> int {
+    ret a + 10;
+});
+
+// Função anônima com array indexado.
+var variable = [
+    31337,
+    (fn (a :int, b :int) -> int {
+        ret a + b;   
+    })
+];
+
+// var value = variable[1](10, 20);
+
+// Função anônima com array associativo.
+var variable = {
+    identifier : 'onclick',
+    callback   : (fn (a :int, b :int) -> int {
+        ret a + b;   
+    })
+};
+
+

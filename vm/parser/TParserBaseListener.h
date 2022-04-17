@@ -138,6 +138,9 @@ public:
   virtual void enterBlockFunction(TParser::BlockFunctionContext * /*ctx*/) override { }
   virtual void exitBlockFunction(TParser::BlockFunctionContext * /*ctx*/) override { }
 
+  virtual void enterBlockFunctionAttr(TParser::BlockFunctionAttrContext * /*ctx*/) override { }
+  virtual void exitBlockFunctionAttr(TParser::BlockFunctionAttrContext * /*ctx*/) override { }
+
   virtual void enterFunctionParam(TParser::FunctionParamContext * /*ctx*/) override { }
   virtual void exitFunctionParam(TParser::FunctionParamContext * /*ctx*/) override { }
 

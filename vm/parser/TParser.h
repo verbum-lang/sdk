@@ -43,15 +43,16 @@ public:
     RuleLoopOneMembers = 29, RuleLoopTwoMembers = 30, RuleLoopThreeMembers = 31, 
     RuleLoopThreeMembersValues = 32, RuleBlockBreak = 33, RuleBlockNext = 34, 
     RuleBlockTryCatch = 35, RuleTryUniqueElement = 36, RuleCatchUniqueElement = 37, 
-    RuleTryCatchElements = 38, RuleBlockFunction = 39, RuleFunctionParam = 40, 
-    RuleFunctionCodeBlock = 41, RuleBlockInterface = 42, RuleInterfaceCodeBlock = 43, 
-    RuleBlockAbstraction = 44, RuleAbstractionCodeBlock = 45, RuleBlockClass = 46, 
-    RuleClassCodeBlock = 47, RuleBlockArray = 48, RuleIndexArray = 49, RuleIndexArrayElements = 50, 
-    RuleAssociativeArray = 51, RuleAssociativeArrayElements = 52, RuleCodeBlockFlowControl = 53, 
-    RuleCodeBlockFlowControlElements = 54, RuleCodeBlockControl = 55, RuleGeneralValue = 56, 
-    RuleGeneralValueBlock = 57, RuleGeneralValueItems = 58, RuleGeneralValueElements = 59, 
-    RuleIdentifier = 60, RuleIdentifierB = 61, RuleIdentifierC = 62, RuleIncDecOperatorsA = 63, 
-    RuleIncDecOperatorsB = 64, RuleBlockLiveTokens = 65
+    RuleTryCatchElements = 38, RuleBlockFunction = 39, RuleBlockFunctionAttr = 40, 
+    RuleFunctionParam = 41, RuleFunctionCodeBlock = 42, RuleBlockInterface = 43, 
+    RuleInterfaceCodeBlock = 44, RuleBlockAbstraction = 45, RuleAbstractionCodeBlock = 46, 
+    RuleBlockClass = 47, RuleClassCodeBlock = 48, RuleBlockArray = 49, RuleIndexArray = 50, 
+    RuleIndexArrayElements = 51, RuleAssociativeArray = 52, RuleAssociativeArrayElements = 53, 
+    RuleCodeBlockFlowControl = 54, RuleCodeBlockFlowControlElements = 55, 
+    RuleCodeBlockControl = 56, RuleGeneralValue = 57, RuleGeneralValueBlock = 58, 
+    RuleGeneralValueItems = 59, RuleGeneralValueElements = 60, RuleIdentifier = 61, 
+    RuleIdentifierB = 62, RuleIdentifierC = 63, RuleIncDecOperatorsA = 64, 
+    RuleIncDecOperatorsB = 65, RuleBlockLiveTokens = 66
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -104,6 +105,7 @@ public:
   class CatchUniqueElementContext;
   class TryCatchElementsContext;
   class BlockFunctionContext;
+  class BlockFunctionAttrContext;
   class FunctionParamContext;
   class FunctionCodeBlockContext;
   class BlockInterfaceContext;
@@ -821,6 +823,29 @@ public:
 
   BlockFunctionContext* blockFunction();
 
+  class  BlockFunctionAttrContext : public antlr4::ParserRuleContext {
+  public:
+    BlockFunctionAttrContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Function();
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+    FunctionCodeBlockContext *functionCodeBlock();
+    IdentifierContext *identifier();
+    FunctionParamContext *functionParam();
+    antlr4::tree::TerminalNode *ArrowRight();
+    IdentifierBContext *identifierB();
+    antlr4::tree::TerminalNode *TypeSpec();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockFunctionAttrContext* blockFunctionAttr();
+
   class  FunctionParamContext : public antlr4::ParserRuleContext {
   public:
     FunctionParamContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1124,6 +1149,8 @@ public:
     BlockFunctionContext *blockFunction();
     antlr4::tree::TerminalNode *CloseOp();
     BlockArrayContext *blockArray();
+    BlockFunctionAttrContext *blockFunctionAttr();
+    BlockClassContext *blockClass();
     GeneralValueBlockContext *generalValueBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1266,7 +1293,6 @@ public:
     BlockLiveTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *New();
-    antlr4::tree::TerminalNode *ArrowRight();
     antlr4::tree::TerminalNode *ARightLB();
     antlr4::tree::TerminalNode *End();
     antlr4::tree::TerminalNode *Attr();
@@ -1286,12 +1312,9 @@ public:
     antlr4::tree::TerminalNode *CloseOp();
     antlr4::tree::TerminalNode *ArithmeticOperator();
     antlr4::tree::TerminalNode *AssignmentOperator();
-    antlr4::tree::TerminalNode *Not();
     antlr4::tree::TerminalNode *IncDecOperators();
     antlr4::tree::TerminalNode *Identifier();
-    antlr4::tree::TerminalNode *IDPrefix();
     antlr4::tree::TerminalNode *TypeSpec();
-    antlr4::tree::TerminalNode *Words();
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
     antlr4::tree::TerminalNode *String();

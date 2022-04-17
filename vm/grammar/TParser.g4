@@ -74,11 +74,18 @@ blockVariable
 
 // Declaração.
 variableItem
+
+  // Inicialização com valor geral.
   : variablePrefixModes (New | Await)? generalValueElements (Separator variableItem)*
+
+  // Inicialização de array vazio (indexado e associativo).
   | variablePrefixModes (New | Await)? (OpenBlock CloseBlock | OpenArIndex CloseArIndex) (Separator variableItem)*
   ;
 
+// Expressões.
 variablePrefixModes
+
+  // Comum.
   : (identifier | identifier TypeSpec) (Attr | AssignmentOperator)
   ; 
 
@@ -231,6 +238,12 @@ blockFunction
       (ArrowRight (identifierB | TypeSpec) )? (functionCodeBlock | End)
   ;
 
+// Utilizado na atribuição de valores a variáveis.
+blockFunctionAttr
+  : Function (identifier)? OpenOp (functionParam)? CloseOp 
+      (ArrowRight (identifierB | TypeSpec) )? functionCodeBlock
+  ;
+
 functionParam
   : Identifier TypeSpec (Separator functionParam)?
   ;
@@ -342,6 +355,8 @@ generalValue
   | (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? OpenOp blockFunction CloseOp (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | blockFunctionAttr
+  | blockClass
   | (Not)? generalValueBlock (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   ;
 
@@ -393,8 +408,9 @@ blockLiveTokens
       // Catch |
       // OpenBlock |
       // CloseBlock |
+      // ArrowRight |
+      // Not |
       New |
-      ArrowRight |
       ARightLB |
       End |
       Attr |
@@ -414,12 +430,9 @@ blockLiveTokens
       CloseOp |
       ArithmeticOperator |
       AssignmentOperator |
-      Not |
       IncDecOperators |
       Identifier |
-      IDPrefix |
       TypeSpec |
-      Words |
       Integer |
       Float |
       String
