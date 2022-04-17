@@ -210,7 +210,11 @@ loopThreeMembersValues
 codeBlockFlowControl
   : OpenBlock CloseBlock
   | OpenBlock sentences CloseBlock
-  | functionCall End
+  | codeBlockFlowControlElements
+  ;
+
+codeBlockFlowControlElements
+  : functionCall End
   | blockRet
   | blockConditional
   | blockLoop
@@ -281,7 +285,7 @@ blockLiveTokens
       Break |
       Next |
       Async |
-      Await |
+      //Await |
       Try |
       Catch |
       ArrowRight |

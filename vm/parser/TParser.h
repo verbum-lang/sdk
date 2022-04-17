@@ -42,10 +42,10 @@ public:
     RuleBlockLoop = 25, RuleLoopBlockElements = 26, RuleLoopComplete = 27, 
     RuleLoopConditional = 28, RuleLoopInfinite = 29, RuleEndOne = 30, RuleEndTwo = 31, 
     RuleLoopOneMembers = 32, RuleLoopTwoMembers = 33, RuleLoopThreeMembers = 34, 
-    RuleLoopThreeMembersValues = 35, RuleCodeBlockFlowControl = 36, RuleGeneralValue = 37, 
-    RuleGeneralValueBlock = 38, RuleGeneralValueItems = 39, RuleGeneralValueElements = 40, 
-    RuleIdentifier = 41, RuleIncDecOperatorsA = 42, RuleIncDecOperatorsB = 43, 
-    RuleBlockLiveTokens = 44
+    RuleLoopThreeMembersValues = 35, RuleCodeBlockFlowControl = 36, RuleCodeBlockFlowControlElements = 37, 
+    RuleGeneralValue = 38, RuleGeneralValueBlock = 39, RuleGeneralValueItems = 40, 
+    RuleGeneralValueElements = 41, RuleIdentifier = 42, RuleIncDecOperatorsA = 43, 
+    RuleIncDecOperatorsB = 44, RuleBlockLiveTokens = 45
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -95,6 +95,7 @@ public:
   class LoopThreeMembersContext;
   class LoopThreeMembersValuesContext;
   class CodeBlockFlowControlContext;
+  class CodeBlockFlowControlElementsContext;
   class GeneralValueContext;
   class GeneralValueBlockContext;
   class GeneralValueItemsContext;
@@ -723,6 +724,21 @@ public:
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
     SentencesContext *sentences();
+    CodeBlockFlowControlElementsContext *codeBlockFlowControlElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  CodeBlockFlowControlContext* codeBlockFlowControl();
+
+  class  CodeBlockFlowControlElementsContext : public antlr4::ParserRuleContext {
+  public:
+    CodeBlockFlowControlElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
     FunctionCallContext *functionCall();
     antlr4::tree::TerminalNode *End();
     BlockRetContext *blockRet();
@@ -736,7 +752,7 @@ public:
    
   };
 
-  CodeBlockFlowControlContext* codeBlockFlowControl();
+  CodeBlockFlowControlElementsContext* codeBlockFlowControlElements();
 
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:
@@ -879,7 +895,6 @@ public:
     antlr4::tree::TerminalNode *Break();
     antlr4::tree::TerminalNode *Next();
     antlr4::tree::TerminalNode *Async();
-    antlr4::tree::TerminalNode *Await();
     antlr4::tree::TerminalNode *Try();
     antlr4::tree::TerminalNode *Catch();
     antlr4::tree::TerminalNode *ArrowRight();

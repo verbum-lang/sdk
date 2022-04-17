@@ -604,6 +604,68 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
 }
 
 /*
+** Bloco de código dos comandos condicionais e loops.
+*/
+antlrcpp::Any verbum_ast_visitor::visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_GENERAL_VALUE;
+
+    // Chamada a função.
+    if (ctx->functionCall()) {
+
+        // Método de objeto instanciado.
+        if (ctx->functionCall()->functionCallPrefix()->Point()) {
+            node.general_value_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
+            node.general_value_data.object_name = ctx->functionCall()->functionCallPrefix()->identifier()->getText();
+
+            if (ctx->functionCall()->identifier())
+                node.general_value_data.method_name = ctx->functionCall()->identifier()->getText();
+        }
+
+        // Método static.
+        else if (ctx->functionCall()->functionCallPrefix()->TwoTwoPoint()) {
+            node.general_value_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
+            node.general_value_data.object_name = ctx->functionCall()->functionCallPrefix()->identifier()->getText();
+            
+            if (ctx->functionCall()->identifier())
+                node.general_value_data.method_name = ctx->functionCall()->identifier()->getText();
+        }
+
+        // Cascading method.
+        // else if (ctx->functionCall()->methodCascadingModes()) {
+        //     node.general_value_data.type = VERBUM_FUNCTION_CALL_CASCADING;
+        //     node.general_value_data.function_name = 
+        //         ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
+        // }
+        
+        // Chamada a função, a partir de acesso a elementos de array.
+        // else if (ctx->functionCall()->arrayAccessElements()) {
+        //     node.general_value_data.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
+        // }
+
+        // Função comum.
+        else {
+            node.general_value_data.type = VERBUM_DATA_FUNCTION_CALL;
+            node.general_value_data.function_name = 
+                ctx->functionCall()->functionCallPrefix()->identifier()->getText();
+        }
+    }
+
+    // Bloco ret (return).
+    else if (ctx->blockRet())
+        node.type = VERBUM_RET;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
 ** Loops.
 */
 

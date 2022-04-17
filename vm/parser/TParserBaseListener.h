@@ -129,6 +129,9 @@ public:
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
 
+  virtual void enterCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext * /*ctx*/) override { }
+  virtual void exitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext * /*ctx*/) override { }
+
   virtual void enterGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
   virtual void exitGeneralValue(TParser::GeneralValueContext * /*ctx*/) override { }
 

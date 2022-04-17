@@ -94,6 +94,8 @@ public:
 
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 
+    virtual antlrcpp::Any visitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *context) = 0;
+
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;
 
     virtual antlrcpp::Any visitGeneralValueBlock(TParser::GeneralValueBlockContext *context) = 0;

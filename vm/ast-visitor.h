@@ -71,6 +71,9 @@ namespace verbum {
             // Valores gerais.
             antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
 
+            // Gerais.
+            antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
+
         private:
         
             // Contadores e flags de controle da adição dos nodes.

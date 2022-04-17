@@ -1729,3 +1729,8 @@ for a<10 {
     print("Verbum!");
 
     
+    for var a=0, b=0; a<10; a++, b--
+
+    ret 10;
+
+

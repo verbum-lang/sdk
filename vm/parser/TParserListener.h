@@ -127,6 +127,9 @@ public:
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
 
+  virtual void enterCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *ctx) = 0;
+  virtual void exitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

@@ -300,7 +300,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             else if (node.loop_block_type == VERBUM_LOOP_CODE_BLOCK)
                 cout << "-> loop-block: code block (close)\n";
         }
-
+        
         /*
         ** Valores gerais.
         */
