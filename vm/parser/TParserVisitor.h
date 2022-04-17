@@ -28,8 +28,6 @@ public:
 
     virtual antlrcpp::Any visitBlockCode(TParser::BlockCodeContext *context) = 0;
 
-    virtual antlrcpp::Any visitBlockComments(TParser::BlockCommentsContext *context) = 0;
-
     virtual antlrcpp::Any visitBlockUse(TParser::BlockUseContext *context) = 0;
 
     virtual antlrcpp::Any visitUseValue(TParser::UseValueContext *context) = 0;
@@ -117,6 +115,16 @@ public:
     virtual antlrcpp::Any visitBlockClass(TParser::BlockClassContext *context) = 0;
 
     virtual antlrcpp::Any visitClassCodeBlock(TParser::ClassCodeBlockContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockArray(TParser::BlockArrayContext *context) = 0;
+
+    virtual antlrcpp::Any visitIndexArray(TParser::IndexArrayContext *context) = 0;
+
+    virtual antlrcpp::Any visitIndexArrayElements(TParser::IndexArrayElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitAssociativeArray(TParser::AssociativeArrayContext *context) = 0;
+
+    virtual antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 

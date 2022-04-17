@@ -24,8 +24,7 @@ sentences
   ;
 
 statements
-  : blockComments
-  | blockUse
+  : blockUse
   | blockVariable
   | blockRet
   | blockConditional
@@ -48,13 +47,6 @@ statements
 blockCode
   : ( OpenBlock CloseBlock |
       OpenBlock sentences CloseBlock )
-  ;
-
-/*
-** Comentários.
-*/
-blockComments
-  : ( BlockComment | LineComment )
   ;
 
 /*
@@ -280,6 +272,31 @@ classCodeBlock
   ;  
 
 /*
+** Array indexado e associativo.
+*/
+blockArray
+  : ( indexArray | associativeArray )
+  ;
+
+// Array indexado.
+indexArray
+  : OpenArIndex (indexArrayElements)? CloseArIndex
+  ;
+
+indexArrayElements
+  : generalValueElements (Separator indexArrayElements)*
+  ;
+
+// Array associativo.
+associativeArray
+  : OpenBlock (associativeArrayElements)? CloseBlock
+  ;
+
+associativeArrayElements
+  : identifier TwoPoint generalValueElements (Separator associativeArrayElements)*
+  ;
+
+/*
 ** Controles de blocos de código.
 */
 
@@ -296,6 +313,8 @@ codeBlockFlowControlElements
   | blockConditional
   | blockLoop
   | blockTryCatch
+  | blockBreak
+  | blockNext
   ;
 
 // Funções, classes, etc.
@@ -317,9 +336,11 @@ generalValue
       (Not)? (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? Integer (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? Float (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
-      (Not)? String (ArithmeticOperator)? (AssignmentOperator)?
+      (Not)? String (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
     )
   | (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | (Not)? OpenOp blockFunction CloseOp (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? generalValueBlock (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   ;
 

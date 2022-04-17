@@ -30,9 +30,6 @@ public:
   virtual void enterBlockCode(TParser::BlockCodeContext * /*ctx*/) override { }
   virtual void exitBlockCode(TParser::BlockCodeContext * /*ctx*/) override { }
 
-  virtual void enterBlockComments(TParser::BlockCommentsContext * /*ctx*/) override { }
-  virtual void exitBlockComments(TParser::BlockCommentsContext * /*ctx*/) override { }
-
   virtual void enterBlockUse(TParser::BlockUseContext * /*ctx*/) override { }
   virtual void exitBlockUse(TParser::BlockUseContext * /*ctx*/) override { }
 
@@ -164,6 +161,21 @@ public:
 
   virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
   virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
+
+  virtual void enterBlockArray(TParser::BlockArrayContext * /*ctx*/) override { }
+  virtual void exitBlockArray(TParser::BlockArrayContext * /*ctx*/) override { }
+
+  virtual void enterIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
+  virtual void exitIndexArray(TParser::IndexArrayContext * /*ctx*/) override { }
+
+  virtual void enterIndexArrayElements(TParser::IndexArrayElementsContext * /*ctx*/) override { }
+  virtual void exitIndexArrayElements(TParser::IndexArrayElementsContext * /*ctx*/) override { }
+
+  virtual void enterAssociativeArray(TParser::AssociativeArrayContext * /*ctx*/) override { }
+  virtual void exitAssociativeArray(TParser::AssociativeArrayContext * /*ctx*/) override { }
+
+  virtual void enterAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
+  virtual void exitAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
 
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }

@@ -102,10 +102,12 @@ String
 // Comentários.
 BlockComment
     : '/*' .*? '*/'
+    -> skip
     ;
 
 LineComment
     : '//' ~[\r\n]*
+    -> skip
     ;
 
 // Espaço em branco e nova-linha.

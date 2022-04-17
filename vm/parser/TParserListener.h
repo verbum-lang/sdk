@@ -28,9 +28,6 @@ public:
   virtual void enterBlockCode(TParser::BlockCodeContext *ctx) = 0;
   virtual void exitBlockCode(TParser::BlockCodeContext *ctx) = 0;
 
-  virtual void enterBlockComments(TParser::BlockCommentsContext *ctx) = 0;
-  virtual void exitBlockComments(TParser::BlockCommentsContext *ctx) = 0;
-
   virtual void enterBlockUse(TParser::BlockUseContext *ctx) = 0;
   virtual void exitBlockUse(TParser::BlockUseContext *ctx) = 0;
 
@@ -162,6 +159,21 @@ public:
 
   virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
   virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
+
+  virtual void enterBlockArray(TParser::BlockArrayContext *ctx) = 0;
+  virtual void exitBlockArray(TParser::BlockArrayContext *ctx) = 0;
+
+  virtual void enterIndexArray(TParser::IndexArrayContext *ctx) = 0;
+  virtual void exitIndexArray(TParser::IndexArrayContext *ctx) = 0;
+
+  virtual void enterIndexArrayElements(TParser::IndexArrayElementsContext *ctx) = 0;
+  virtual void exitIndexArrayElements(TParser::IndexArrayElementsContext *ctx) = 0;
+
+  virtual void enterAssociativeArray(TParser::AssociativeArrayContext *ctx) = 0;
+  virtual void exitAssociativeArray(TParser::AssociativeArrayContext *ctx) = 0;
+
+  virtual void enterAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) = 0;
+  virtual void exitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) = 0;
 
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;

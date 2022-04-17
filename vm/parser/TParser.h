@@ -32,25 +32,26 @@ public:
 
   enum {
     RuleMain = 0, RuleSentences = 1, RuleStatements = 2, RuleBlockCode = 3, 
-    RuleBlockComments = 4, RuleBlockUse = 5, RuleUseValue = 6, RuleUseString = 7, 
-    RuleBlockVariable = 8, RuleVariableItem = 9, RuleVariablePrefixModes = 10, 
-    RuleFunctionCall = 11, RuleFunctionCallPrefix = 12, RuleFunctionCallParam = 13, 
-    RuleFunctionCallParamElements = 14, RuleBlockRet = 15, RuleBlockConditional = 16, 
-    RuleIfElementUnique = 17, RuleElifElements = 18, RuleElifElementUnique = 19, 
-    RuleElseElementUnique = 20, RuleConditionalBlockExpression = 21, RuleConditionalBlockElements = 22, 
-    RuleBlockLoop = 23, RuleLoopBlockElements = 24, RuleLoopComplete = 25, 
-    RuleLoopConditional = 26, RuleLoopInfinite = 27, RuleEndOne = 28, RuleEndTwo = 29, 
-    RuleLoopOneMembers = 30, RuleLoopTwoMembers = 31, RuleLoopThreeMembers = 32, 
-    RuleLoopThreeMembersValues = 33, RuleBlockBreak = 34, RuleBlockNext = 35, 
-    RuleBlockTryCatch = 36, RuleTryUniqueElement = 37, RuleCatchUniqueElement = 38, 
-    RuleTryCatchElements = 39, RuleBlockFunction = 40, RuleFunctionParam = 41, 
-    RuleFunctionCodeBlock = 42, RuleBlockInterface = 43, RuleInterfaceCodeBlock = 44, 
-    RuleBlockAbstraction = 45, RuleAbstractionCodeBlock = 46, RuleBlockClass = 47, 
-    RuleClassCodeBlock = 48, RuleCodeBlockFlowControl = 49, RuleCodeBlockFlowControlElements = 50, 
-    RuleCodeBlockControl = 51, RuleGeneralValue = 52, RuleGeneralValueBlock = 53, 
-    RuleGeneralValueItems = 54, RuleGeneralValueElements = 55, RuleIdentifier = 56, 
-    RuleIdentifierB = 57, RuleIdentifierC = 58, RuleIncDecOperatorsA = 59, 
-    RuleIncDecOperatorsB = 60, RuleBlockLiveTokens = 61
+    RuleBlockUse = 4, RuleUseValue = 5, RuleUseString = 6, RuleBlockVariable = 7, 
+    RuleVariableItem = 8, RuleVariablePrefixModes = 9, RuleFunctionCall = 10, 
+    RuleFunctionCallPrefix = 11, RuleFunctionCallParam = 12, RuleFunctionCallParamElements = 13, 
+    RuleBlockRet = 14, RuleBlockConditional = 15, RuleIfElementUnique = 16, 
+    RuleElifElements = 17, RuleElifElementUnique = 18, RuleElseElementUnique = 19, 
+    RuleConditionalBlockExpression = 20, RuleConditionalBlockElements = 21, 
+    RuleBlockLoop = 22, RuleLoopBlockElements = 23, RuleLoopComplete = 24, 
+    RuleLoopConditional = 25, RuleLoopInfinite = 26, RuleEndOne = 27, RuleEndTwo = 28, 
+    RuleLoopOneMembers = 29, RuleLoopTwoMembers = 30, RuleLoopThreeMembers = 31, 
+    RuleLoopThreeMembersValues = 32, RuleBlockBreak = 33, RuleBlockNext = 34, 
+    RuleBlockTryCatch = 35, RuleTryUniqueElement = 36, RuleCatchUniqueElement = 37, 
+    RuleTryCatchElements = 38, RuleBlockFunction = 39, RuleFunctionParam = 40, 
+    RuleFunctionCodeBlock = 41, RuleBlockInterface = 42, RuleInterfaceCodeBlock = 43, 
+    RuleBlockAbstraction = 44, RuleAbstractionCodeBlock = 45, RuleBlockClass = 46, 
+    RuleClassCodeBlock = 47, RuleBlockArray = 48, RuleIndexArray = 49, RuleIndexArrayElements = 50, 
+    RuleAssociativeArray = 51, RuleAssociativeArrayElements = 52, RuleCodeBlockFlowControl = 53, 
+    RuleCodeBlockFlowControlElements = 54, RuleCodeBlockControl = 55, RuleGeneralValue = 56, 
+    RuleGeneralValueBlock = 57, RuleGeneralValueItems = 58, RuleGeneralValueElements = 59, 
+    RuleIdentifier = 60, RuleIdentifierB = 61, RuleIdentifierC = 62, RuleIncDecOperatorsA = 63, 
+    RuleIncDecOperatorsB = 64, RuleBlockLiveTokens = 65
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -67,7 +68,6 @@ public:
   class SentencesContext;
   class StatementsContext;
   class BlockCodeContext;
-  class BlockCommentsContext;
   class BlockUseContext;
   class UseValueContext;
   class UseStringContext;
@@ -112,6 +112,11 @@ public:
   class AbstractionCodeBlockContext;
   class BlockClassContext;
   class ClassCodeBlockContext;
+  class BlockArrayContext;
+  class IndexArrayContext;
+  class IndexArrayElementsContext;
+  class AssociativeArrayContext;
+  class AssociativeArrayElementsContext;
   class CodeBlockFlowControlContext;
   class CodeBlockFlowControlElementsContext;
   class CodeBlockControlContext;
@@ -162,7 +167,6 @@ public:
   public:
     StatementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    BlockCommentsContext *blockComments();
     BlockUseContext *blockUse();
     BlockVariableContext *blockVariable();
     BlockRetContext *blockRet();
@@ -203,22 +207,6 @@ public:
   };
 
   BlockCodeContext* blockCode();
-
-  class  BlockCommentsContext : public antlr4::ParserRuleContext {
-  public:
-    BlockCommentsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *BlockComment();
-    antlr4::tree::TerminalNode *LineComment();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  BlockCommentsContext* blockComments();
 
   class  BlockUseContext : public antlr4::ParserRuleContext {
   public:
@@ -966,6 +954,96 @@ public:
 
   ClassCodeBlockContext* classCodeBlock();
 
+  class  BlockArrayContext : public antlr4::ParserRuleContext {
+  public:
+    BlockArrayContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IndexArrayContext *indexArray();
+    AssociativeArrayContext *associativeArray();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockArrayContext* blockArray();
+
+  class  IndexArrayContext : public antlr4::ParserRuleContext {
+  public:
+    IndexArrayContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenArIndex();
+    antlr4::tree::TerminalNode *CloseArIndex();
+    IndexArrayElementsContext *indexArrayElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IndexArrayContext* indexArray();
+
+  class  IndexArrayElementsContext : public antlr4::ParserRuleContext {
+  public:
+    IndexArrayElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueElementsContext *generalValueElements();
+    std::vector<antlr4::tree::TerminalNode *> Separator();
+    antlr4::tree::TerminalNode* Separator(size_t i);
+    std::vector<IndexArrayElementsContext *> indexArrayElements();
+    IndexArrayElementsContext* indexArrayElements(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IndexArrayElementsContext* indexArrayElements();
+
+  class  AssociativeArrayContext : public antlr4::ParserRuleContext {
+  public:
+    AssociativeArrayContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenBlock();
+    antlr4::tree::TerminalNode *CloseBlock();
+    AssociativeArrayElementsContext *associativeArrayElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AssociativeArrayContext* associativeArray();
+
+  class  AssociativeArrayElementsContext : public antlr4::ParserRuleContext {
+  public:
+    AssociativeArrayElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentifierContext *identifier();
+    antlr4::tree::TerminalNode *TwoPoint();
+    GeneralValueElementsContext *generalValueElements();
+    std::vector<antlr4::tree::TerminalNode *> Separator();
+    antlr4::tree::TerminalNode* Separator(size_t i);
+    std::vector<AssociativeArrayElementsContext *> associativeArrayElements();
+    AssociativeArrayElementsContext* associativeArrayElements(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AssociativeArrayElementsContext* associativeArrayElements();
+
   class  CodeBlockFlowControlContext : public antlr4::ParserRuleContext {
   public:
     CodeBlockFlowControlContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -994,6 +1072,8 @@ public:
     BlockConditionalContext *blockConditional();
     BlockLoopContext *blockLoop();
     BlockTryCatchContext *blockTryCatch();
+    BlockBreakContext *blockBreak();
+    BlockNextContext *blockNext();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1036,6 +1116,10 @@ public:
     antlr4::tree::TerminalNode *ArithmeticOperator();
     antlr4::tree::TerminalNode *AssignmentOperator();
     FunctionCallContext *functionCall();
+    BlockArrayContext *blockArray();
+    antlr4::tree::TerminalNode *OpenOp();
+    BlockFunctionContext *blockFunction();
+    antlr4::tree::TerminalNode *CloseOp();
     GeneralValueBlockContext *generalValueBlock();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
