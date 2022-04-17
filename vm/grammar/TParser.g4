@@ -300,27 +300,6 @@ abstractionCodeBlock
 /*
 ** Declaração das classes.
 */
-
-/*
-  (new class {
-      pub fn show () {
-          print("Verbum\n");
-      }
-  }).show();
-
-  (new class {
-      pub fn show () {
-          print("Verbum\n");
-      }
-  });
-
-  obj.setLogger(new class {
-      pub fn log (msg :string) {
-          print("{}\n", msg);
-      }
-  });
-*/
-
 blockClass
 
   // Classe anônima.
@@ -340,13 +319,31 @@ blockClass
   | Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
   ;
 
+blockClassDeclarationAttr
+
+  // Classe anônima.
+  : openOpA
+      New Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
+    closeOpA
+    (
+      ( Point | TwoTwoPoint )
+      identifierD
+      OpenOp
+      (generalValueElements)?
+      CloseOp
+    )?
+
+  // Definição comum.
+  | Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
+  ;
+
 classAnonymousParam
   : generalValueElements
   ;
 
 classCodeBlock
   : codeBlockControl
-  ;  
+  ;
 
 /*
 ** Array indexado e associativo.
@@ -371,6 +368,22 @@ associativeArray
 
 associativeArrayElements
   : identifier TwoPoint generalValueElements (Separator associativeArrayElements)*
+  ;
+
+/*
+** Funções lambda
+*/
+blockLambdaFunctions
+  : OpenOp (lambdaFnParams)? CloseOp (ArrowRight (Identifier | TypeSpec))? ARightLB lambdaFnCodeBlock
+  ;
+
+lambdaFnParams
+  : Identifier (TypeSpec)? (Separator lambdaFnParams)*
+  ;
+
+lambdaFnCodeBlock
+  : codeBlockControl
+  | generalValueElements
   ;
 
 /*
@@ -426,7 +439,8 @@ generalValue
   | (Not)? OpenOp blockFunction CloseOp (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | blockFunctionDeclarationAttr
-  | blockClass
+  | blockClassDeclarationAttr
+  | blockLambdaFunctions
 
   // Inicialização de array vazio (indexado e associativo).
   | (OpenBlock CloseBlock | OpenArIndex CloseArIndex)
@@ -489,15 +503,15 @@ blockLiveTokens
       // ArrowRight |
       // Not |
       // New |
-      ARightLB |
+      // ARightLB |
       End |
       Attr |
       Point |
       TwoPoint |
       TwoTwoPoint |
       Separator |
-      OpenArIndex |
-      CloseArIndex |
+      // OpenArIndex |
+      // CloseArIndex |
       Pub |
       Pro |
       Priv |

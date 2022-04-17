@@ -118,6 +118,8 @@ public:
 
     virtual antlrcpp::Any visitBlockClass(TParser::BlockClassContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *context) = 0;
+
     virtual antlrcpp::Any visitClassAnonymousParam(TParser::ClassAnonymousParamContext *context) = 0;
 
     virtual antlrcpp::Any visitClassCodeBlock(TParser::ClassCodeBlockContext *context) = 0;
@@ -131,6 +133,12 @@ public:
     virtual antlrcpp::Any visitAssociativeArray(TParser::AssociativeArrayContext *context) = 0;
 
     virtual antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockLambdaFunctions(TParser::BlockLambdaFunctionsContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnParams(TParser::LambdaFnParamsContext *context) = 0;
+
+    virtual antlrcpp::Any visitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 

@@ -163,6 +163,9 @@ public:
   virtual void enterBlockClass(TParser::BlockClassContext *ctx) = 0;
   virtual void exitBlockClass(TParser::BlockClassContext *ctx) = 0;
 
+  virtual void enterBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *ctx) = 0;
+  virtual void exitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *ctx) = 0;
+
   virtual void enterClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) = 0;
   virtual void exitClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) = 0;
 
@@ -183,6 +186,15 @@ public:
 
   virtual void enterAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) = 0;
   virtual void exitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) = 0;
+
+  virtual void enterBlockLambdaFunctions(TParser::BlockLambdaFunctionsContext *ctx) = 0;
+  virtual void exitBlockLambdaFunctions(TParser::BlockLambdaFunctionsContext *ctx) = 0;
+
+  virtual void enterLambdaFnParams(TParser::LambdaFnParamsContext *ctx) = 0;
+  virtual void exitLambdaFnParams(TParser::LambdaFnParamsContext *ctx) = 0;
+
+  virtual void enterLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) = 0;
+  virtual void exitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) = 0;
 
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;

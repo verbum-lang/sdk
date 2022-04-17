@@ -213,6 +213,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -238,6 +242,18 @@ public:
   }
 
   virtual antlrcpp::Any visitAssociativeArrayElements(TParser::AssociativeArrayElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockLambdaFunctions(TParser::BlockLambdaFunctionsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnParams(TParser::LambdaFnParamsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) override {
     return visitChildren(ctx);
   }
 

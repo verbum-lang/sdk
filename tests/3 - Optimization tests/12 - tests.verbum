@@ -1,5 +1,5 @@
 
-// Verbum
+// In principio erat Verbum.
 
 // Todos arquivos dentro de um pacote instalado, ou de diretório específico.
 use 'std:*';
@@ -19,6 +19,23 @@ use 'path/<file1, file2, file3>';
 use 'std:<io,net>', 'path/test', 'util';
 use 'path2/*', 'mysql:*', 'json:unicode';
 
+// Todos arquivos dentro de um pacote instalado, ou de diretório específico.
+use 'std:*';
+use 'path/*';
+
+// Importações únicas.
+use 'std:io';
+use 'std:io/file';
+use 'test';
+use 'path/path/test';
+
+// Importações múltiplas (dentro de um único módulo ou diretório).
+use 'std:<io, net, os, string>';
+use 'path/<file1, file2, file3>';
+
+// Importações múltiplas em uma única linha.
+use 'std:<io,net>', 'path/test', 'util';
+use 'path2/*', 'mysql:*', 'json:unicode';
 
 // Para valores comuns o tipo é inferido automaticamente.
 // Os caracteres e strings são UNICODE.
@@ -42,6 +59,56 @@ var variable = "
     In princípio
     erat Verbum!
 ";
+
+// Para valores comuns o tipo é inferido automaticamente.
+// Os caracteres e strings são UNICODE.
+// É aceito aspas simples ou duplas para as strings e caracteres.
+var variable :int       = 31337;
+var variable :int       = -1337;
+var variable :float     = 0.1337;
+var variable :double    = 3.1337;
+var variable :double    = -1.337;
+var variable :bool      = true;
+var variable :char      = '♥';
+var variable :string    = 'Verbum 😍';
+var variavle :stream    = file.open('archive.bin');
+
+// O UNICODE é aceito no uso comum da linguagem.
+var λ = "Verbum ♥";
+var π = 3.14;
+
+// String de múltiplass linhas.
+var variable = "
+    In princípio
+    erat Verbum!
+";
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
+variable = 10, b = 20, c = 30, d = 2.3, g = 'Verbum';
+
 // Constantes aceitam apenas valores comuns.
 var variable :const     = 31337;
 var variable :const     = 3.1337;
@@ -85,6 +152,12 @@ var variable = {
     value: 1.337 :double
 };
 
+// Exemplo de acessos em arrays associativos.
+// variable.items[0].name             = 10; // Verbum
+// variable.items[1].name             = 10; // Divinus
+// variable.items[2].values[0]        = 10; // 10
+// variable.items[2].values[3].name   = 10; // Member
+// variable.items[3]                  = 10; // 31337
 
 // Outros exemplos.
 var variable :array = [
@@ -124,6 +197,8 @@ var variable = [
     'str 1', "str 2"
 ];
 
+// variable[3]  = 333;   // Contêm valor 30.
+
 // Função anônima como valor em variável.
 var variable = (fn (a :int) -> int {
     ret a + 10;
@@ -137,6 +212,7 @@ var variable = [
     })
 ];
 
+// var value = variable[1](10, 20);
 
 // Função anônima com array associativo.
 var variable = {
@@ -147,7 +223,6 @@ var variable = {
 };
 
 var value = variable.callback(10, 20);
-
 
 // Tipos de valores recebidos em variáveis.
 var variable = true;
@@ -160,300 +235,333 @@ var variable = 0.12345;
 var variable = [ 1, 2, 3 ];
 var variable = { values: [ 1, 2, 3 ] };
 var variable = anotherVariable;
+
 var variable = functionName(10, 20, 30);
 var variable = obj::functionName(10, 20, 30);
 var variable = obj.functionName(10, 20, 30);
 
 var variable = (10 + 20);
 var variable = (variable * 10 + 20 / 30);
+
 if (expression) 
     print("value 1");
 elif (expression)
     print("value 2");
 else
     print("value 3");
-// Comum.
-for (var a = 0; a<100; a++)
-    print("Hello world\n");
 
-for (var a = 0; ; a++) {
-    if (a >= 100)
-        break;
+
+// In principio erat Verbum.
+try {
+
 }
 
-for (var a = 0; ; a++) {
-    if (a < 100)
-        next;
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
 }
 
-// Equivalente ao while.
-for (a < 10)
-    print("a: {}\n", a);
+try 
+    try {
 
-// Loop infinito.
-for ()
-    print("Infinite...\n");
+    } catch (err) {
+    }
 
-// Uso comum.
-fn example (a:int, b:int) -> int {
-    ret (a * b) + 31337;
+
+// In principio erat Verbum.
+try {
+
 }
 
-// Concatenação de funções.
-fn primary (a:int, b:int) -> int {
-    var value = 31337;
+try 
+    try {
 
-    fn secondary (a:int, b:int) -> int {
-        ret (a * b) + value;
+    } catch (err) {
     }
 
-    ret secondary(a, b);
+
+// In principio erat Verbum.
+try {
+
 }
 
-// Funções anonimas.
-print("Value: {}\n", 
-    (fn (value :int) -> int { 
-        ret value * 3; 
-    })(31337)
-);
+try 
+    try {
 
-// Função sem retorno.
-fn function () {
-    print("Verbum\n");
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+// In principio erat Verbum.
+try {
+
+}
+
+try 
+    try {
+
+    } catch (err) {
+    }
+
+
+// In principio erat Verbum.
+try {
+
 }
 
 
-
-
-// Interface comum...
-interface FirstTemplate {
-    pub fn getValues () -> array;
-    pub fn getValues (index :int) -> int;
-}
-
-// Interface com herança.
-interface ExampleTemplate extends FirstTemplate {
-    pub fn checkString (string :string);
-}
-
-// Classe abstrata.
-abstract AbstrationCommon {
-    pro fn abstractMethod ();
-}
-
-// Classe.
-class Common extends AbstractClass {
-    // ...
-    pub fn checkString (string :string) -> int { /* ... */ }
-
-    // Implementa método abstrato.
-    pro fn abstractMethod (){
-        // ...
-    }
-
-    // Testa "parent" na classe herdeira.
-    pub fn exampleA () -> str {
-        ret "Verbum";
-    }
-
-    pub fn getExampleA () -> str {
-        ret this.exampleA();
-    }
-}
-
-// Classe com herança e implementação de interface.
-final class Example extends Common implements ExampleTemplate {
-
-    // Atributos.
-    priv var attributeA :uint = 31337;
-    pub var attributeB :string  = "Verbum 😃";
-    pub static var subVersion :string = "1337";
-
-    // Construtor.
-    Example (a :uint, b :string) {
-        this.attributeA = a;
-        this.attributeB = b;
-    }
-
-    // Método estático.
-    pub static fn getVersion () -> str {
-        ret "1.0.0";
-    }
-
-    pub static fn getVersion (flag :bool) -> str {
-        // if (flag)
-        //     ret self::getVersion();
-        // ret self::subVersion;
-    }
-
-    // Declaração dos métodos e sobrecarga.
-    pub fn getValues () -> array {
-        ret [
-            // this.attributeA,
-            // this.attributeB
-        ];
-    }
-
-    pub fn getValues (index :int) -> int {
-        if (index == 1)
-            // ret this.attributeA;
-        ret -1;
-    }
-
-    // Sobrescreve método herdado (polimorfismo).
-    final pro fn abstractMethod () {
-        print("Verbum\n");
-    }
-
-    // Acessando uma implementação da classe base e não da atual (parent).
-    pub fn exampleA () -> str {
-        ret "Divinus";
-    }
-
-    pub fn getExampleB () -> str {
-        // ret parent::exampleA();
-    }
-}
-
-// Instanciamento e uso.
-var obj     :Example  = new Example(31337, "Verbum");
-var resultA :array    = obj.getValues();
-var resultB :int      = obj.getValues(1);
-var resultC :int      = obj.checkString("Verbum Divinus");
-
-print("Version: {}\n", Example::getVersion());
-print("Sub version: {}\n", Example::subVersion);
-print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
-print("resultB = {}\n", resultB);
-print("Check String = {}\n", resultC);
-
-// Exemplo com "parent".
-var obj1 = new Common();
-obj1.exampleA();            // Verbum
-obj1.getExampleA();         // Verbum
-
-var obj2 = new Example();
-obj2.exampleA();            // Divinus
-obj2.getExampleA();         // Divinus
-obj2.getExampleB();         // Verbum
-
-
-var a = [];
-var a = {};
-
-ret [];
-ret {};
-
-var a = self.attr1;
-var a = self::attr1;
-
-
-ret self.attr1;
-ret self::attr1;
-
-var a = 10 * a.b;
-
-var a = a.b();
-
-var a = a::b();
-
-var a = a();
-
-
-class Example {
-    priv var value :int = 0;
-
-    pub fn foo (a :int) -> this {
-        this.value += a;
-        ret this;
-    }
-
-    pub fn bar (a :int) -> this {
-        this.value += a;
-        ret this;
-    }
-
-    pub fn show () {
-        print("Value: {}\n", this.value);
-    }
-}
-
-var obj = new Example();
-obj.foo(10).show().bar(20).show();
-
-
-// obj.setLogger(new class {
-//     pub fn log (msg :string) {
-//         print("{}\n", msg);
-//     }
-// });
-
-// (new class {
-//     pub fn show () {
-//         print("Verbum\n");
-//     }
-// }).show();
-
-// Clona objeto.
-var objB :ClassName = clone(objA);
-
-// Destrói objeto.
-destroy(objA);
-
-// Serialization.
-var stringObject :string = serialize(objA);
-var objN :ClassName = unserialize(stringObject);
+// In principio erat Verbum.
 
 async fn http_get (link :string) -> string {
-    ...
+    // ...
     ret response;
 }
 
-// Exemplo onde não aguardamos o retorno final de http_get().
-// Observe que o valor de 'response' será modificado no futuro, e
-// enquanto isso não ocorre, seu valor continua como vazio.
-var response = http_get('http://host/path');
+var a =       example();
+var a = await example();
 
-for {
-    if (response.size() <= 0)
-        next;
 
-    print("response: {}\n", response);
-    break;
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
 }
 
-// Exemplo onde aguardamos o retorno de http_get().
-var response = await http_get('http://host/path');
+var a =       example();
+var a = await example();
 
-try {
-    var response = await http_get('http://host/path');
-} catch (err) {
-    print("Error: {}\n", err);
+
+
+// In principio erat Verbum.
+
+async fn http_get (link :string) -> string {
+    // ...
+    ret response;
 }
 
+var a =       example();
+var a = await example();
 
-var a = new Obj();
 
-(new class {
-    pub fn show () {
-        print("Verbum\n");
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
     }
-});
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
 
-(new class {
-    pub fn show () {
-        print("Verbum\n");
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
+
+if (n)
+    print("Jesus <3");
+
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
     }
-}).show();
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
 
-class Name {
-    
-}
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
 
-// obj.setLogger(new class {
-//     pub fn log (msg :string) {
-//         print("{}\n", msg);
-//     }
-// });
+if (n)
+    print("Jesus <3");
+
+
+if (a) 
+    if (b) {
+        if (c) 
+            print("Verbum = if\n");
+        elif (d)
+            print("Verbum - elif\n");
+
+        if (e) {
+            print("Verbum - 3");
+
+            if (f)
+                print("Verbum - 3");
+            else
+                print("Verbum - else\n");
+        }
+
+        if (f)
+            print("Verbum - 3");
+    }
+    elif (d)
+        print("Verbum - elif\n");
+    else
+        print("Verbum - else\n");
+
+if (b)
+    print("Deus eh Bom");
+else
+    if (x)
+        print("Verbum - else\n");
+
+if (n)
+    print("Jesus <3");
+
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
+a.b.c().e().f.g();
 
 

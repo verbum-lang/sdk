@@ -153,11 +153,11 @@ var variable = {
 };
 
 // Exemplo de acessos em arrays associativos.
-variable.items[0].name             = 10; // Verbum
-variable.items[1].name             = 10; // Divinus
-variable.items[2].values[0]        = 10; // 10
-variable.items[2].values[3].name   = 10; // Member
-variable.items[3]                  = 10; // 31337
+// variable.items[0].name             = 10; // Verbum
+// variable.items[1].name             = 10; // Divinus
+// variable.items[2].values[0]        = 10; // 10
+// variable.items[2].values[3].name   = 10; // Member
+// variable.items[3]                  = 10; // 31337
 
 // Outros exemplos.
 var variable :array = [
@@ -197,7 +197,7 @@ var variable = [
     'str 1', "str 2"
 ];
 
-variable[3]  = 333;   // Contêm valor 30.
+// variable[3]  = 333;   // Contêm valor 30.
 
 // Função anônima como valor em variável.
 var variable = (fn (a :int) -> int {
@@ -538,7 +538,7 @@ if (!(10 > a)) && !x > ( !x || !(z++) ) <= 10 {}
 // if (a = io.func()) <= 10 && b = func( [1, 2, 3] )
 if ++a[1] > 10
 if a[1]++ > 10 {
-    a[1][2] = a.b[1].c[2][3];
+    // a[1][2] = a.b[1].c[2][3];
 }
 // if x[1] > 10
 // if (x[1] > 10 && (k[ 1 ] == 20))
@@ -994,7 +994,7 @@ var resultC :int      = obj.checkString("Verbum Divinus");
 
 print("Version: {}\n", Example::getVersion());
 print("Sub version: {}\n", Example::subVersion);
-print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
+// print("ResultA = a: {}, b: {}\n", resultA[0], resultA[1]);
 print("resultB = {}\n", resultB);
 print("Check String = {}\n", resultC);
 
@@ -1157,22 +1157,23 @@ obj.setLogger(new class {
     }
 });
 
-(new class {
-    pub fn show () {
-        print("Verbum\n");
-    }
-}).show();
+// (new class {
+//     pub fn show () {
+//         print("Verbum\n");
+//     }
+// }).show();
+
 obj.setLogger(new class {
     pub fn log (msg :string) {
         print("{}\n", msg);
     }
 });
 
-(new class {
-    pub fn show () {
-        print("Verbum\n");
-    }
-}).show();
+// (new class {
+//     pub fn show () {
+//         print("Verbum\n");
+//     }
+// }).show();
 
 // Clona objeto.
 var objB :ClassName = clone(objA);
@@ -1243,7 +1244,8 @@ print("Value: {}\n",
     (fn (value :int) -> int {
         var a = value * 333;
         ret value * 3 + a;
-    })( 10 * ar[1].a.v[1][2] / (x*z) - func() )
+    })( 10 * ar / (x*z) - func() )
+    // })( 10 * ar[1].a.v[1][2] / (x*z) - func() )
 );
 
 
@@ -1252,8 +1254,8 @@ print("Value: {}\n",
 
 // In principio erat Verbum.
 
-test[1].a.v[3][3](10, 20, 30);
-x.d.e[1][2].e.g(10, 20);
+// test[1].a.v[3][3](10, 20, 30);
+// x.d.e[1][2].e.g(10, 20);
 
 // var v1 = a.v().c().d().e();
 a.v().c().d().e();
@@ -1314,32 +1316,32 @@ obj.a.b.c.setLogger(
     }
 );
 
-(new class {
-    pub fn show () {
-        print("Verbum\n");
-    }
-}).show().a(10 * 3 / (func() - 1)).b().d();
+// (new class {
+//     pub fn show () {
+//         print("Verbum\n");
+//     }
+// }).show().a(10 * 3 / (func() - 1)).b().d();
 
 a::b().c().d()::e()::f().x().v();
 
-(new class {
-    static pub fn show () {
-        print("Verbum\n");
-    }
-})::show()::foo().bar()::show();
+// (new class {
+//     static pub fn show () {
+//         print("Verbum\n");
+//     }
+// })::show()::foo().bar()::show();
 
-(new class {
-    static pub fn show () {
-        print("Verbum\n");
-        ret this;
-    }
-})::show().foo().bar();
+// (new class {
+//     static pub fn show () {
+//         print("Verbum\n");
+//         ret this;
+//     }
+// })::show().foo().bar();
 
-(new class {
-    pub fn show () {
-        print("Verbum\n");
-    }
-}).foo().bar().show().end();
+// (new class {
+//     pub fn show () {
+//         print("Verbum\n");
+//     }
+// }).foo().bar().show().end();
 
 // var variable = (new class {
 //     pub fn show () {
@@ -1361,14 +1363,14 @@ variable.show();
 //     }
 // }).foo().bar().value;
 
-a.foo().b.c[1][2].d.bar([1, func()]).x;
+// a.foo().b.c[1][2].d.bar([1, func()]).x;
 
 
-(new class {
-    pub fn show () {
-        print("Verbum\n");
-    }
-}).foo().a.b.bar().e[1][2].show().end().a.b.c;
+// (new class {
+//     pub fn show () {
+//         print("Verbum\n");
+//     }
+// }).foo().a.b.bar().e[1][2].show().end().a.b.c;
 
 
 
@@ -1386,15 +1388,15 @@ var a = new b(10, [1,func(),3], 30);
 
 // Instanciamento anônimo.
 
-(new StringBuffer()
-    .add1('In principio')
-    .add2('erat Verbum')
-);
+// (new StringBuffer()
+//     .add1('In principio')
+//     .add2('erat Verbum')
+// );
 
-(new StringBuffer()
-    .add1('In principio')
-    .add2('erat Verbum')
-).method().a.b.c();
+// (new StringBuffer()
+//     .add1('In principio')
+//     .add2('erat Verbum')
+// ).method().a.b.c();
 
 // var s = (new StringBuffer()
 //     .add1('In principio')
@@ -1418,16 +1420,16 @@ var a = new b(10, [1,func(),3], 30);
 
 a = b = c = x.v.y().j = d.c();
 x.v().x().y();
-x.d.e[1][2].e.g(10, 20);
+// x.d.e[1][2].e.g(10, 20);
 
 a = b = c;
 a = b = c = d.c();
-a = b = n = [1,2,3];
+// a = b = n = [1,2,3];
 
 a = b = 10;
 a = b = x.y.z();
 a = b = x.y.h().z();
-a = b = x.h.y().k[1][2][3].z();
+// a = b = x.h.y().k[1][2][3].z();
 
 
 // In principio erat Verbum.
@@ -1639,5 +1641,7 @@ for a {
     break;
     next;
 }
+
+a.b();
 
 

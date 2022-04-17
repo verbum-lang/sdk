@@ -644,7 +644,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
     }
 
     // Declaração de classe - atribuição da mesma à variável.
-    else if (ctx->blockClass()) {
+    else if (ctx->blockClassDeclarationAttr()) {
     }
 
     this->add_node(node);

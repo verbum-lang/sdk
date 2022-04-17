@@ -165,6 +165,9 @@ public:
   virtual void enterBlockClass(TParser::BlockClassContext * /*ctx*/) override { }
   virtual void exitBlockClass(TParser::BlockClassContext * /*ctx*/) override { }
 
+  virtual void enterBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext * /*ctx*/) override { }
+  virtual void exitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext * /*ctx*/) override { }
+
   virtual void enterClassAnonymousParam(TParser::ClassAnonymousParamContext * /*ctx*/) override { }
   virtual void exitClassAnonymousParam(TParser::ClassAnonymousParamContext * /*ctx*/) override { }
 
@@ -185,6 +188,15 @@ public:
 
   virtual void enterAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
   virtual void exitAssociativeArrayElements(TParser::AssociativeArrayElementsContext * /*ctx*/) override { }
+
+  virtual void enterBlockLambdaFunctions(TParser::BlockLambdaFunctionsContext * /*ctx*/) override { }
+  virtual void exitBlockLambdaFunctions(TParser::BlockLambdaFunctionsContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnParams(TParser::LambdaFnParamsContext * /*ctx*/) override { }
+  virtual void exitLambdaFnParams(TParser::LambdaFnParamsContext * /*ctx*/) override { }
+
+  virtual void enterLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
+  virtual void exitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
 
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
