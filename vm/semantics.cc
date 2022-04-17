@@ -312,13 +312,15 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->tab();
 
                 switch (node.operation_op) {
+
+                    // Operadores aritméticos.
                     case VERBUM_OPERATOR_ADD:         cout <<  "+\n"; break;
                     case VERBUM_OPERATOR_SUB:         cout <<  "-\n"; break;
                     case VERBUM_OPERATOR_DIV:         cout <<  "/\n"; break;
                     case VERBUM_OPERATOR_MUL:         cout <<  "*\n"; break;
                     case VERBUM_OPERATOR_PERC:        cout <<  "%\n"; break;
 
-                    // Utilizado nas expressões condicionais.
+                    // Operadores de atribuição (e outros).
                     case VERBUM_OPERATOR_ATTR:        cout <<  "=\n"; break;
                     case VERBUM_OPERATOR_ADD_EQUAL:   cout << "+=\n"; break;
                     case VERBUM_OPERATOR_SUB_EQUAL:   cout << "-=\n"; break;

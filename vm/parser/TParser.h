@@ -385,6 +385,7 @@ public:
     IncDecOperatorsBContext *incDecOperatorsB();
     antlr4::tree::TerminalNode *TypeSpec();
     antlr4::tree::TerminalNode *ArithmeticOperator();
+    antlr4::tree::TerminalNode *AssignmentOperator();
     FunctionCallContext *functionCall();
     GeneralValueBlockContext *generalValueBlock();
 

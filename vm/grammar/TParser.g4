@@ -111,13 +111,13 @@ functionCallParamElements
 */
 generalValue
   : (
-      (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? |
-      Integer (TypeSpec)? (ArithmeticOperator)? |
-      Float (TypeSpec)? (ArithmeticOperator)? |
-      String (ArithmeticOperator)?
+      (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
+      Integer (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
+      Float (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
+      String (ArithmeticOperator)? (AssignmentOperator)?
     )
-  | functionCall (TypeSpec)? (ArithmeticOperator)? 
-  | generalValueBlock (TypeSpec)? (ArithmeticOperator)? 
+  | functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | generalValueBlock (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   ;
 
 generalValueBlock

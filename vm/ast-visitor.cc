@@ -362,6 +362,38 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         node.operation_op = this->check_block_arithmeic_operator(op);
     }
 
+    // Verifica se há operador utilizado com o bloco da expressão.
+    if (ctx->AssignmentOperator()) {
+        string op = ctx->AssignmentOperator()->getText();
+
+        if (op.compare("+=") == 0)
+            node.operation_op = VERBUM_OPERATOR_ADD_EQUAL;
+        else if (op.compare("-=") == 0)
+            node.operation_op = VERBUM_OPERATOR_SUB_EQUAL;
+        else if (op.compare("*=") == 0)
+            node.operation_op = VERBUM_OPERATOR_MUL_EQUAL;
+        else if (op.compare("/=") == 0)
+            node.operation_op = VERBUM_OPERATOR_DIV_EQUAL;
+        else if (op.compare("%=") == 0)
+            node.operation_op = VERBUM_OPERATOR_PERC_EQUAL;
+        else if (op.compare(">")  == 0)
+            node.operation_op = VERBUM_OPERATOR_MAJOR;
+        else if (op.compare("<")  == 0)
+            node.operation_op = VERBUM_OPERATOR_MINOR;
+        else if (op.compare(">=") == 0)
+            node.operation_op = VERBUM_OPERATOR_MAJOR_EQUAL;
+        else if (op.compare("<=") == 0)
+            node.operation_op = VERBUM_OPERATOR_MINOR_EQUAL;
+        else if (op.compare("&&") == 0)
+            node.operation_op = VERBUM_OPERATOR_AND;
+        else if (op.compare("==") == 0)
+            node.operation_op = VERBUM_OPERATOR_EQUAL;
+        else if (op.compare("!=") == 0)
+            node.operation_op = VERBUM_OPERATOR_NOT_EQUAL;
+        else if (op.compare("!")  == 0)
+            node.operation_op = VERBUM_OPERATOR_NOT;
+    }
+    
     //
     // Dados simples.
     //
