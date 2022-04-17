@@ -91,6 +91,39 @@ public:
   virtual void enterConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
   virtual void exitConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
 
+  virtual void enterBlockLoop(TParser::BlockLoopContext *ctx) = 0;
+  virtual void exitBlockLoop(TParser::BlockLoopContext *ctx) = 0;
+
+  virtual void enterLoopBlockElements(TParser::LoopBlockElementsContext *ctx) = 0;
+  virtual void exitLoopBlockElements(TParser::LoopBlockElementsContext *ctx) = 0;
+
+  virtual void enterLoopComplete(TParser::LoopCompleteContext *ctx) = 0;
+  virtual void exitLoopComplete(TParser::LoopCompleteContext *ctx) = 0;
+
+  virtual void enterLoopConditional(TParser::LoopConditionalContext *ctx) = 0;
+  virtual void exitLoopConditional(TParser::LoopConditionalContext *ctx) = 0;
+
+  virtual void enterLoopInfinite(TParser::LoopInfiniteContext *ctx) = 0;
+  virtual void exitLoopInfinite(TParser::LoopInfiniteContext *ctx) = 0;
+
+  virtual void enterEndOne(TParser::EndOneContext *ctx) = 0;
+  virtual void exitEndOne(TParser::EndOneContext *ctx) = 0;
+
+  virtual void enterEndTwo(TParser::EndTwoContext *ctx) = 0;
+  virtual void exitEndTwo(TParser::EndTwoContext *ctx) = 0;
+
+  virtual void enterLoopOneMembers(TParser::LoopOneMembersContext *ctx) = 0;
+  virtual void exitLoopOneMembers(TParser::LoopOneMembersContext *ctx) = 0;
+
+  virtual void enterLoopTwoMembers(TParser::LoopTwoMembersContext *ctx) = 0;
+  virtual void exitLoopTwoMembers(TParser::LoopTwoMembersContext *ctx) = 0;
+
+  virtual void enterLoopThreeMembers(TParser::LoopThreeMembersContext *ctx) = 0;
+  virtual void exitLoopThreeMembers(TParser::LoopThreeMembersContext *ctx) = 0;
+
+  virtual void enterLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *ctx) = 0;
+  virtual void exitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *ctx) = 0;
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
 

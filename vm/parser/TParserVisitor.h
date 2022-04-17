@@ -70,6 +70,28 @@ public:
 
     virtual antlrcpp::Any visitConditionalBlockElements(TParser::ConditionalBlockElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockLoop(TParser::BlockLoopContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopBlockElements(TParser::LoopBlockElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopComplete(TParser::LoopCompleteContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopConditional(TParser::LoopConditionalContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopInfinite(TParser::LoopInfiniteContext *context) = 0;
+
+    virtual antlrcpp::Any visitEndOne(TParser::EndOneContext *context) = 0;
+
+    virtual antlrcpp::Any visitEndTwo(TParser::EndTwoContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopOneMembers(TParser::LoopOneMembersContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopTwoMembers(TParser::LoopTwoMembersContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopThreeMembers(TParser::LoopThreeMembersContext *context) = 0;
+
+    virtual antlrcpp::Any visitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *context) = 0;
+
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 
     virtual antlrcpp::Any visitGeneralValue(TParser::GeneralValueContext *context) = 0;

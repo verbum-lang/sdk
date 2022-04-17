@@ -29,6 +29,7 @@ statements
   | blockVariable
   | blockRet
   | blockConditional
+  | blockLoop
 
   | blockCode
   | blockLiveTokens
@@ -156,6 +157,52 @@ conditionalBlockElements
   : codeBlockFlowControl
   ;
 
+/*
+** Loop.
+*/
+blockLoop
+  : For (loopInfinite | loopConditional | loopComplete ) loopBlockElements
+  ;
+
+loopBlockElements
+  : codeBlockFlowControl
+  ;
+
+// Tipos de loop.
+loopComplete
+  : (OpenOp)? loopOneMembers endOne loopTwoMembers endTwo loopThreeMembers (CloseOp)?
+  ;
+
+loopConditional
+  : loopTwoMembers
+  ;
+
+loopInfinite
+  : OpenOp CloseOp
+  | 
+  ;
+
+endOne : End;
+endTwo : End;
+
+loopOneMembers
+  : Var variableItem
+  |
+  ;
+
+loopTwoMembers
+  : generalValueElements
+  |
+  ;
+
+loopThreeMembers
+  : loopThreeMembersValues
+  |
+  ;
+
+loopThreeMembersValues
+  : generalValueElements (Separator generalValueElements)*
+  ;
 
 /*
 ** Bloco de código das expressões condicionais e loops.
@@ -163,9 +210,10 @@ conditionalBlockElements
 codeBlockFlowControl
   : OpenBlock CloseBlock
   | OpenBlock sentences CloseBlock
-  | blockConditional
-  | blockRet
   | functionCall End
+  | blockRet
+  | blockConditional
+  | blockLoop
   ;
 
 /*
@@ -211,12 +259,12 @@ incDecOperatorsB : IncDecOperators;
 */
 blockLiveTokens
   : (
-      //Var |
+      // Var |
       // If |
       // Elif |
       // Else |
-      For |
-      //Ret |
+      // For |
+      // Ret |
       Function |
       Pub |
       Pro |

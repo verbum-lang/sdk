@@ -1621,12 +1621,12 @@ if (a) {
         print('Error: {}', err);
 }
 
-for 
+for {
     try 
         print("Verbum");
     catch (err) 
         print('Error: {}', err);
-
+}
 
 
 if (a) {

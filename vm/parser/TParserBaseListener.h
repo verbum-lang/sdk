@@ -93,6 +93,39 @@ public:
   virtual void enterConditionalBlockElements(TParser::ConditionalBlockElementsContext * /*ctx*/) override { }
   virtual void exitConditionalBlockElements(TParser::ConditionalBlockElementsContext * /*ctx*/) override { }
 
+  virtual void enterBlockLoop(TParser::BlockLoopContext * /*ctx*/) override { }
+  virtual void exitBlockLoop(TParser::BlockLoopContext * /*ctx*/) override { }
+
+  virtual void enterLoopBlockElements(TParser::LoopBlockElementsContext * /*ctx*/) override { }
+  virtual void exitLoopBlockElements(TParser::LoopBlockElementsContext * /*ctx*/) override { }
+
+  virtual void enterLoopComplete(TParser::LoopCompleteContext * /*ctx*/) override { }
+  virtual void exitLoopComplete(TParser::LoopCompleteContext * /*ctx*/) override { }
+
+  virtual void enterLoopConditional(TParser::LoopConditionalContext * /*ctx*/) override { }
+  virtual void exitLoopConditional(TParser::LoopConditionalContext * /*ctx*/) override { }
+
+  virtual void enterLoopInfinite(TParser::LoopInfiniteContext * /*ctx*/) override { }
+  virtual void exitLoopInfinite(TParser::LoopInfiniteContext * /*ctx*/) override { }
+
+  virtual void enterEndOne(TParser::EndOneContext * /*ctx*/) override { }
+  virtual void exitEndOne(TParser::EndOneContext * /*ctx*/) override { }
+
+  virtual void enterEndTwo(TParser::EndTwoContext * /*ctx*/) override { }
+  virtual void exitEndTwo(TParser::EndTwoContext * /*ctx*/) override { }
+
+  virtual void enterLoopOneMembers(TParser::LoopOneMembersContext * /*ctx*/) override { }
+  virtual void exitLoopOneMembers(TParser::LoopOneMembersContext * /*ctx*/) override { }
+
+  virtual void enterLoopTwoMembers(TParser::LoopTwoMembersContext * /*ctx*/) override { }
+  virtual void exitLoopTwoMembers(TParser::LoopTwoMembersContext * /*ctx*/) override { }
+
+  virtual void enterLoopThreeMembers(TParser::LoopThreeMembersContext * /*ctx*/) override { }
+  virtual void exitLoopThreeMembers(TParser::LoopThreeMembersContext * /*ctx*/) override { }
+
+  virtual void enterLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext * /*ctx*/) override { }
+  virtual void exitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext * /*ctx*/) override { }
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
 
