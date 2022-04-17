@@ -120,6 +120,12 @@ public:
   virtual void enterLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext * /*ctx*/) override { }
   virtual void exitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext * /*ctx*/) override { }
 
+  virtual void enterBlockBreak(TParser::BlockBreakContext * /*ctx*/) override { }
+  virtual void exitBlockBreak(TParser::BlockBreakContext * /*ctx*/) override { }
+
+  virtual void enterBlockNext(TParser::BlockNextContext * /*ctx*/) override { }
+  virtual void exitBlockNext(TParser::BlockNextContext * /*ctx*/) override { }
+
   virtual void enterBlockTryCatch(TParser::BlockTryCatchContext * /*ctx*/) override { }
   virtual void exitBlockTryCatch(TParser::BlockTryCatchContext * /*ctx*/) override { }
 

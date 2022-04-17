@@ -30,6 +30,8 @@ statements
   | blockRet
   | blockConditional
   | blockLoop
+  | blockBreak
+  | blockNext
   | blockTryCatch
   | blockFunction
   | blockInterface
@@ -200,6 +202,15 @@ loopThreeMembersValues
   : generalValueElements (Separator generalValueElements)*
   ;
 
+// Comandos complementares.
+blockBreak
+  : Break End
+  ;
+
+blockNext
+  : Next End
+  ;
+
 /*
 ** Try, catch.
 */
@@ -350,11 +361,11 @@ blockLiveTokens
       // Function |
       // Interface |
       // Abstract |
-      //Class |
-      //Implements |
-      //Extends |
-      Break |
-      Next |
+      // Class |
+      // Implements |
+      // Extends |
+      // Break |
+      // Next |
       // Await |
       // Try |
       // Catch |

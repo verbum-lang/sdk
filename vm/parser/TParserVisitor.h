@@ -88,6 +88,10 @@ public:
 
     virtual antlrcpp::Any visitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockBreak(TParser::BlockBreakContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockNext(TParser::BlockNextContext *context) = 0;
+
     virtual antlrcpp::Any visitBlockTryCatch(TParser::BlockTryCatchContext *context) = 0;
 
     virtual antlrcpp::Any visitTryUniqueElement(TParser::TryUniqueElementContext *context) = 0;

@@ -118,6 +118,12 @@ public:
   virtual void enterLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *ctx) = 0;
   virtual void exitLoopThreeMembersValues(TParser::LoopThreeMembersValuesContext *ctx) = 0;
 
+  virtual void enterBlockBreak(TParser::BlockBreakContext *ctx) = 0;
+  virtual void exitBlockBreak(TParser::BlockBreakContext *ctx) = 0;
+
+  virtual void enterBlockNext(TParser::BlockNextContext *ctx) = 0;
+  virtual void exitBlockNext(TParser::BlockNextContext *ctx) = 0;
+
   virtual void enterBlockTryCatch(TParser::BlockTryCatchContext *ctx) = 0;
   virtual void exitBlockTryCatch(TParser::BlockTryCatchContext *ctx) = 0;
 

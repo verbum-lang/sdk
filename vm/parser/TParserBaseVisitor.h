@@ -153,6 +153,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockBreak(TParser::BlockBreakContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockNext(TParser::BlockNextContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitBlockTryCatch(TParser::BlockTryCatchContext *ctx) override {
     return visitChildren(ctx);
   }

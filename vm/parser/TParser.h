@@ -41,15 +41,16 @@ public:
     RuleBlockLoop = 23, RuleLoopBlockElements = 24, RuleLoopComplete = 25, 
     RuleLoopConditional = 26, RuleLoopInfinite = 27, RuleEndOne = 28, RuleEndTwo = 29, 
     RuleLoopOneMembers = 30, RuleLoopTwoMembers = 31, RuleLoopThreeMembers = 32, 
-    RuleLoopThreeMembersValues = 33, RuleBlockTryCatch = 34, RuleTryUniqueElement = 35, 
-    RuleCatchUniqueElement = 36, RuleTryCatchElements = 37, RuleBlockFunction = 38, 
-    RuleFunctionParam = 39, RuleFunctionCodeBlock = 40, RuleBlockInterface = 41, 
-    RuleInterfaceCodeBlock = 42, RuleBlockAbstraction = 43, RuleAbstractionCodeBlock = 44, 
-    RuleBlockClass = 45, RuleClassCodeBlock = 46, RuleCodeBlockFlowControl = 47, 
-    RuleCodeBlockFlowControlElements = 48, RuleCodeBlockControl = 49, RuleGeneralValue = 50, 
-    RuleGeneralValueBlock = 51, RuleGeneralValueItems = 52, RuleGeneralValueElements = 53, 
-    RuleIdentifier = 54, RuleIdentifierB = 55, RuleIdentifierC = 56, RuleIncDecOperatorsA = 57, 
-    RuleIncDecOperatorsB = 58, RuleBlockLiveTokens = 59
+    RuleLoopThreeMembersValues = 33, RuleBlockBreak = 34, RuleBlockNext = 35, 
+    RuleBlockTryCatch = 36, RuleTryUniqueElement = 37, RuleCatchUniqueElement = 38, 
+    RuleTryCatchElements = 39, RuleBlockFunction = 40, RuleFunctionParam = 41, 
+    RuleFunctionCodeBlock = 42, RuleBlockInterface = 43, RuleInterfaceCodeBlock = 44, 
+    RuleBlockAbstraction = 45, RuleAbstractionCodeBlock = 46, RuleBlockClass = 47, 
+    RuleClassCodeBlock = 48, RuleCodeBlockFlowControl = 49, RuleCodeBlockFlowControlElements = 50, 
+    RuleCodeBlockControl = 51, RuleGeneralValue = 52, RuleGeneralValueBlock = 53, 
+    RuleGeneralValueItems = 54, RuleGeneralValueElements = 55, RuleIdentifier = 56, 
+    RuleIdentifierB = 57, RuleIdentifierC = 58, RuleIncDecOperatorsA = 59, 
+    RuleIncDecOperatorsB = 60, RuleBlockLiveTokens = 61
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -96,6 +97,8 @@ public:
   class LoopTwoMembersContext;
   class LoopThreeMembersContext;
   class LoopThreeMembersValuesContext;
+  class BlockBreakContext;
+  class BlockNextContext;
   class BlockTryCatchContext;
   class TryUniqueElementContext;
   class CatchUniqueElementContext;
@@ -165,6 +168,8 @@ public:
     BlockRetContext *blockRet();
     BlockConditionalContext *blockConditional();
     BlockLoopContext *blockLoop();
+    BlockBreakContext *blockBreak();
+    BlockNextContext *blockNext();
     BlockTryCatchContext *blockTryCatch();
     BlockFunctionContext *blockFunction();
     BlockInterfaceContext *blockInterface();
@@ -702,6 +707,38 @@ public:
 
   LoopThreeMembersValuesContext* loopThreeMembersValues();
 
+  class  BlockBreakContext : public antlr4::ParserRuleContext {
+  public:
+    BlockBreakContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Break();
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockBreakContext* blockBreak();
+
+  class  BlockNextContext : public antlr4::ParserRuleContext {
+  public:
+    BlockNextContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Next();
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockNextContext* blockNext();
+
   class  BlockTryCatchContext : public antlr4::ParserRuleContext {
   public:
     BlockTryCatchContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1140,8 +1177,6 @@ public:
   public:
     BlockLiveTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *Break();
-    antlr4::tree::TerminalNode *Next();
     antlr4::tree::TerminalNode *New();
     antlr4::tree::TerminalNode *ArrowRight();
     antlr4::tree::TerminalNode *ARightLB();

@@ -68,6 +68,10 @@ namespace verbum {
             antlrcpp::Any visitLoopThreeMembers (TParser::LoopThreeMembersContext *ctx);
             antlrcpp::Any visitLoopBlockElements (TParser::LoopBlockElementsContext *ctx);
 
+            // Break, next.
+            antlrcpp::Any visitBlockBreak (TParser::BlockBreakContext *ctx);
+            antlrcpp::Any visitBlockNext (TParser::BlockNextContext *ctx);
+
             // Try, catch.
             antlrcpp::Any visitBlockTryCatch (TParser::BlockTryCatchContext *ctx);
             antlrcpp::Any visitTryUniqueElement (TParser::TryUniqueElementContext *ctx);

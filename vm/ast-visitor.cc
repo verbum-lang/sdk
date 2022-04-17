@@ -1035,4 +1035,38 @@ antlrcpp::Any verbum_ast_visitor::visitClassCodeBlock (TParser::ClassCodeBlockCo
     return result;
 }
 
+/*
+** Comandos break e next.
+*/
+
+// Break.
+antlrcpp::Any verbum_ast_visitor::visitBlockBreak (TParser::BlockBreakContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_TOKEN_BREAK;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Next.
+antlrcpp::Any verbum_ast_visitor::visitBlockNext (TParser::BlockNextContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_TOKEN_NEXT;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 
