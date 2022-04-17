@@ -91,6 +91,9 @@ public:
   virtual void enterConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
   virtual void exitConditionalBlockElements(TParser::ConditionalBlockElementsContext *ctx) = 0;
 
+  virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
+  virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
+
   virtual void enterGeneralValue(TParser::GeneralValueContext *ctx) = 0;
   virtual void exitGeneralValue(TParser::GeneralValueContext *ctx) = 0;
 

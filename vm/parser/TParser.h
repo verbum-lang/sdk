@@ -39,9 +39,9 @@ public:
     RuleBlockRet = 17, RuleBlockConditional = 18, RuleIfElementUnique = 19, 
     RuleElifElements = 20, RuleElifElementUnique = 21, RuleElseElementUnique = 22, 
     RuleConditionalBlockExpression = 23, RuleConditionalBlockElements = 24, 
-    RuleGeneralValue = 25, RuleGeneralValueBlock = 26, RuleGeneralValueItems = 27, 
-    RuleGeneralValueElements = 28, RuleIdentifier = 29, RuleIncDecOperatorsA = 30, 
-    RuleIncDecOperatorsB = 31, RuleBlockLiveTokens = 32
+    RuleCodeBlockFlowControl = 25, RuleGeneralValue = 26, RuleGeneralValueBlock = 27, 
+    RuleGeneralValueItems = 28, RuleGeneralValueElements = 29, RuleIdentifier = 30, 
+    RuleIncDecOperatorsA = 31, RuleIncDecOperatorsB = 32, RuleBlockLiveTokens = 33
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -79,6 +79,7 @@ public:
   class ElseElementUniqueContext;
   class ConditionalBlockExpressionContext;
   class ConditionalBlockElementsContext;
+  class CodeBlockFlowControlContext;
   class GeneralValueContext;
   class GeneralValueBlockContext;
   class GeneralValueItemsContext;
@@ -508,6 +509,21 @@ public:
   public:
     ConditionalBlockElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    CodeBlockFlowControlContext *codeBlockFlowControl();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ConditionalBlockElementsContext* conditionalBlockElements();
+
+  class  CodeBlockFlowControlContext : public antlr4::ParserRuleContext {
+  public:
+    CodeBlockFlowControlContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
     SentencesContext *sentences();
@@ -523,7 +539,7 @@ public:
    
   };
 
-  ConditionalBlockElementsContext* conditionalBlockElements();
+  CodeBlockFlowControlContext* codeBlockFlowControl();
 
   class  GeneralValueContext : public antlr4::ParserRuleContext {
   public:

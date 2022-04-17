@@ -130,7 +130,7 @@ blockConditional
 
 // If.
 ifElementUnique
-  : If conditionalBlockExpression codeBlockFlowControl
+  : If conditionalBlockExpression conditionalBlockElements
   ;
 
 // Elif.
@@ -139,18 +139,23 @@ elifElements
   ;
 
 elifElementUnique
-  : Elif conditionalBlockExpression codeBlockFlowControl
+  : Elif conditionalBlockExpression conditionalBlockElements
   ;
 
 // Else.
 elseElementUnique
-  : Else codeBlockFlowControl
+  : Else conditionalBlockElements
   ;
 
 // Bloco da expressão condicional.
 conditionalBlockExpression
   : generalValueElements
   ;
+
+conditionalBlockElements
+  : codeBlockFlowControl
+  ;
+
 
 /*
 ** Bloco de código das expressões condicionais e loops.

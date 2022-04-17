@@ -1707,7 +1707,7 @@ elif (e)
 else
     print("Jesus <3");
 
-if !f
+if (!f)
     print("Jesus <3");
 
 
