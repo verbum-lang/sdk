@@ -460,6 +460,15 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->tab();
                 cout << "-> function (interface-abstract method) - (open)\n";
                 
+                // Informações da função.
+                this->tab();
+                cout << "-> function name: " << node.function_declaration.identifier << "\n";
+                
+                if (node.function_declaration.ret_found) {
+                    this->tab();
+                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                }
+                
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
