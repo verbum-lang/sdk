@@ -165,6 +165,9 @@ public:
   virtual void enterBlockClass(TParser::BlockClassContext * /*ctx*/) override { }
   virtual void exitBlockClass(TParser::BlockClassContext * /*ctx*/) override { }
 
+  virtual void enterClassAnonymousParam(TParser::ClassAnonymousParamContext * /*ctx*/) override { }
+  virtual void exitClassAnonymousParam(TParser::ClassAnonymousParamContext * /*ctx*/) override { }
+
   virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
   virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext * /*ctx*/) override { }
 
@@ -213,11 +216,20 @@ public:
   virtual void enterIdentifierC(TParser::IdentifierCContext * /*ctx*/) override { }
   virtual void exitIdentifierC(TParser::IdentifierCContext * /*ctx*/) override { }
 
+  virtual void enterIdentifierD(TParser::IdentifierDContext * /*ctx*/) override { }
+  virtual void exitIdentifierD(TParser::IdentifierDContext * /*ctx*/) override { }
+
   virtual void enterIncDecOperatorsA(TParser::IncDecOperatorsAContext * /*ctx*/) override { }
   virtual void exitIncDecOperatorsA(TParser::IncDecOperatorsAContext * /*ctx*/) override { }
 
   virtual void enterIncDecOperatorsB(TParser::IncDecOperatorsBContext * /*ctx*/) override { }
   virtual void exitIncDecOperatorsB(TParser::IncDecOperatorsBContext * /*ctx*/) override { }
+
+  virtual void enterOpenOpA(TParser::OpenOpAContext * /*ctx*/) override { }
+  virtual void exitOpenOpA(TParser::OpenOpAContext * /*ctx*/) override { }
+
+  virtual void enterCloseOpA(TParser::CloseOpAContext * /*ctx*/) override { }
+  virtual void exitCloseOpA(TParser::CloseOpAContext * /*ctx*/) override { }
 
   virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }
   virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }

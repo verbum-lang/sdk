@@ -118,6 +118,8 @@ public:
 
     virtual antlrcpp::Any visitBlockClass(TParser::BlockClassContext *context) = 0;
 
+    virtual antlrcpp::Any visitClassAnonymousParam(TParser::ClassAnonymousParamContext *context) = 0;
+
     virtual antlrcpp::Any visitClassCodeBlock(TParser::ClassCodeBlockContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockArray(TParser::BlockArrayContext *context) = 0;
@@ -150,9 +152,15 @@ public:
 
     virtual antlrcpp::Any visitIdentifierC(TParser::IdentifierCContext *context) = 0;
 
+    virtual antlrcpp::Any visitIdentifierD(TParser::IdentifierDContext *context) = 0;
+
     virtual antlrcpp::Any visitIncDecOperatorsA(TParser::IncDecOperatorsAContext *context) = 0;
 
     virtual antlrcpp::Any visitIncDecOperatorsB(TParser::IncDecOperatorsBContext *context) = 0;
+
+    virtual antlrcpp::Any visitOpenOpA(TParser::OpenOpAContext *context) = 0;
+
+    virtual antlrcpp::Any visitCloseOpA(TParser::CloseOpAContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockLiveTokens(TParser::BlockLiveTokensContext *context) = 0;
 

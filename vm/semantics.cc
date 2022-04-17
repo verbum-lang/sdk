@@ -603,6 +603,16 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             this->tab();
             cout << "-> name: " << node.vclass.identifier_a << "\n";
 
+            // Verifica se é classe anônima.
+            if (node.anonymous_class) {
+                this->tab();
+                cout << "-> anonymous class\n";
+
+                // Verifica se há chamada de método.
+                this->tab();
+                cout << "-> anonymous-method-call: " << node.anonymous_class_method << "\n";
+            }
+            
             // Verifica se há herança.
             if (node.vclass.extends) {
                 this->tab();
@@ -614,26 +624,13 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->tab();
                 cout << "-> implements: " << node.vclass.identifier_c << "\n";
             }
-            
+
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
             this->tab();
             cout << "-> class (close)\n";
-        }
-
-        // Classe anônima.
-        else if (node.type == VERBUM_OOP_CLASS_ANONYMOUS) {
-            this->tab();
-            cout << "-> class-anonymous (open)\n";
-            
-            this->block_counter++;
-            this->verbum_recursive_ast(node.nodes);
-            this->block_counter--;
-
-            this->tab();
-            cout << "-> class-anonymous (close)\n";
         }
 
         // Bloco de código.

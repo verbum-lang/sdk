@@ -200,6 +200,10 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     // VERBUM_ATTRIBUTE_OBJECT
     ast.attribute_object_type               = VERBUM_UNKNOWN;
 
+    // Outros.
+    ast.anonymous_class                     = false;
+    ast.anonymous_class_method              = "";
+
     // Limpa estruturas de controle.
     ast.nodes.clear();
 
@@ -1081,10 +1085,6 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClass (TParser::BlockClassContext *c
     if (ctx->identifier())
         node.vclass.identifier_a = ctx->identifier()->getText();
 
-    // Classe anônima.
-    else 
-        node.type = VERBUM_OOP_CLASS_ANONYMOUS;
-
     // Verifica se há herança.
     if (ctx->Extends()) {
         node.vclass.extends = true;
@@ -1095,6 +1095,15 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClass (TParser::BlockClassContext *c
     if (ctx->Implements()) {
         node.vclass.implements = true;
         node.vclass.identifier_c = ctx->identifierC()->getText();
+    }
+
+    // Verifica se é definição de classe anônima.
+    if (ctx->openOpA() && ctx->closeOpA()) {
+        node.anonymous_class = true;
+
+        // Verifica se há método chamado.
+        if (ctx->identifierD()) 
+            node.anonymous_class_method = ctx->identifierD()->getText();
     }
 
     this->add_node(node);

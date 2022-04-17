@@ -360,3 +360,100 @@ var a = a::b();
 var a = a();
 
 
+class Example {
+    priv var value :int = 0;
+
+    pub fn foo (a :int) -> this {
+        this.value += a;
+        ret this;
+    }
+
+    pub fn bar (a :int) -> this {
+        this.value += a;
+        ret this;
+    }
+
+    pub fn show () {
+        print("Value: {}\n", this.value);
+    }
+}
+
+var obj = new Example();
+obj.foo(10).show().bar(20).show();
+
+
+// obj.setLogger(new class {
+//     pub fn log (msg :string) {
+//         print("{}\n", msg);
+//     }
+// });
+
+// (new class {
+//     pub fn show () {
+//         print("Verbum\n");
+//     }
+// }).show();
+
+// Clona objeto.
+var objB :ClassName = clone(objA);
+
+// Destrói objeto.
+destroy(objA);
+
+// Serialization.
+var stringObject :string = serialize(objA);
+var objN :ClassName = unserialize(stringObject);
+
+async fn http_get (link :string) -> string {
+    ...
+    ret response;
+}
+
+// Exemplo onde não aguardamos o retorno final de http_get().
+// Observe que o valor de 'response' será modificado no futuro, e
+// enquanto isso não ocorre, seu valor continua como vazio.
+var response = http_get('http://host/path');
+
+for {
+    if (response.size() <= 0)
+        next;
+
+    print("response: {}\n", response);
+    break;
+}
+
+// Exemplo onde aguardamos o retorno de http_get().
+var response = await http_get('http://host/path');
+
+try {
+    var response = await http_get('http://host/path');
+} catch (err) {
+    print("Error: {}\n", err);
+}
+
+
+var a = new Obj();
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+});
+
+(new class {
+    pub fn show () {
+        print("Verbum\n");
+    }
+}).show();
+
+class Name {
+    
+}
+
+// obj.setLogger(new class {
+//     pub fn log (msg :string) {
+//         print("{}\n", msg);
+//     }
+// });
+
+

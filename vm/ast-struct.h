@@ -509,6 +509,12 @@ typedef struct verbum_ast_node
                                                     //      VERBUM_ATTRIBUTE_OBJECT_INSTANCE
 
     /*
+    ** Lida com chamada de classe anônima.
+    */
+    bool anonymous_class;                           // Identifica se é uma chamada de classe anônima.
+    string anonymous_class_method;                  // Identifica se há método chamado.
+
+    /*
     ** Nodes internos (árvore) do elemento em questão.
     */
     vector <struct verbum_ast_node> nodes;

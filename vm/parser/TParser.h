@@ -46,13 +46,14 @@ public:
     RuleTryCatchElements = 38, RuleBlockFunction = 39, RuleBlockFunctionDeclarationAttr = 40, 
     RuleFunctionParam = 41, RuleFunctionAnonymousParam = 42, RuleFunctionCodeBlock = 43, 
     RuleBlockInterface = 44, RuleInterfaceCodeBlock = 45, RuleBlockAbstraction = 46, 
-    RuleAbstractionCodeBlock = 47, RuleBlockClass = 48, RuleClassCodeBlock = 49, 
-    RuleBlockArray = 50, RuleIndexArray = 51, RuleIndexArrayElements = 52, 
-    RuleAssociativeArray = 53, RuleAssociativeArrayElements = 54, RuleCodeBlockFlowControl = 55, 
-    RuleCodeBlockFlowControlElements = 56, RuleCodeBlockControl = 57, RuleGeneralValue = 58, 
-    RuleGeneralValueBlock = 59, RuleGeneralValueItems = 60, RuleGeneralValueElements = 61, 
-    RuleIdentifier = 62, RuleIdentifierB = 63, RuleIdentifierC = 64, RuleIncDecOperatorsA = 65, 
-    RuleIncDecOperatorsB = 66, RuleBlockLiveTokens = 67
+    RuleAbstractionCodeBlock = 47, RuleBlockClass = 48, RuleClassAnonymousParam = 49, 
+    RuleClassCodeBlock = 50, RuleBlockArray = 51, RuleIndexArray = 52, RuleIndexArrayElements = 53, 
+    RuleAssociativeArray = 54, RuleAssociativeArrayElements = 55, RuleCodeBlockFlowControl = 56, 
+    RuleCodeBlockFlowControlElements = 57, RuleCodeBlockControl = 58, RuleGeneralValue = 59, 
+    RuleGeneralValueBlock = 60, RuleGeneralValueItems = 61, RuleGeneralValueElements = 62, 
+    RuleIdentifier = 63, RuleIdentifierB = 64, RuleIdentifierC = 65, RuleIdentifierD = 66, 
+    RuleIncDecOperatorsA = 67, RuleIncDecOperatorsB = 68, RuleOpenOpA = 69, 
+    RuleCloseOpA = 70, RuleBlockLiveTokens = 71
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -114,6 +115,7 @@ public:
   class BlockAbstractionContext;
   class AbstractionCodeBlockContext;
   class BlockClassContext;
+  class ClassAnonymousParamContext;
   class ClassCodeBlockContext;
   class BlockArrayContext;
   class IndexArrayContext;
@@ -130,8 +132,11 @@ public:
   class IdentifierContext;
   class IdentifierBContext;
   class IdentifierCContext;
+  class IdentifierDContext;
   class IncDecOperatorsAContext;
   class IncDecOperatorsBContext;
+  class OpenOpAContext;
+  class CloseOpAContext;
   class BlockLiveTokensContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
@@ -969,13 +974,23 @@ public:
   public:
     BlockClassContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    OpenOpAContext *openOpA();
+    antlr4::tree::TerminalNode *New();
     antlr4::tree::TerminalNode *Class();
     ClassCodeBlockContext *classCodeBlock();
+    CloseOpAContext *closeOpA();
+    antlr4::tree::TerminalNode *End();
     IdentifierContext *identifier();
     antlr4::tree::TerminalNode *Extends();
     IdentifierBContext *identifierB();
     antlr4::tree::TerminalNode *Implements();
     IdentifierCContext *identifierC();
+    IdentifierDContext *identifierD();
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
+    GeneralValueElementsContext *generalValueElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -985,6 +1000,21 @@ public:
   };
 
   BlockClassContext* blockClass();
+
+  class  ClassAnonymousParamContext : public antlr4::ParserRuleContext {
+  public:
+    ClassAnonymousParamContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueElementsContext *generalValueElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ClassAnonymousParamContext* classAnonymousParam();
 
   class  ClassCodeBlockContext : public antlr4::ParserRuleContext {
   public:
@@ -1283,6 +1313,21 @@ public:
 
   IdentifierCContext* identifierC();
 
+  class  IdentifierDContext : public antlr4::ParserRuleContext {
+  public:
+    IdentifierDContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Identifier();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IdentifierDContext* identifierD();
+
   class  IncDecOperatorsAContext : public antlr4::ParserRuleContext {
   public:
     IncDecOperatorsAContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1313,11 +1358,40 @@ public:
 
   IncDecOperatorsBContext* incDecOperatorsB();
 
+  class  OpenOpAContext : public antlr4::ParserRuleContext {
+  public:
+    OpenOpAContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenOp();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  OpenOpAContext* openOpA();
+
+  class  CloseOpAContext : public antlr4::ParserRuleContext {
+  public:
+    CloseOpAContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *CloseOp();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  CloseOpAContext* closeOpA();
+
   class  BlockLiveTokensContext : public antlr4::ParserRuleContext {
   public:
     BlockLiveTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *New();
     antlr4::tree::TerminalNode *ARightLB();
     antlr4::tree::TerminalNode *End();
     antlr4::tree::TerminalNode *Attr();

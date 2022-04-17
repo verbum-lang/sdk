@@ -213,6 +213,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitClassCodeBlock(TParser::ClassCodeBlockContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -277,11 +281,23 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitIdentifierD(TParser::IdentifierDContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) override {
     return visitChildren(ctx);
   }
 
   virtual antlrcpp::Any visitIncDecOperatorsB(TParser::IncDecOperatorsBContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitOpenOpA(TParser::OpenOpAContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitCloseOpA(TParser::CloseOpAContext *ctx) override {
     return visitChildren(ctx);
   }
 

@@ -163,6 +163,9 @@ public:
   virtual void enterBlockClass(TParser::BlockClassContext *ctx) = 0;
   virtual void exitBlockClass(TParser::BlockClassContext *ctx) = 0;
 
+  virtual void enterClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) = 0;
+  virtual void exitClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) = 0;
+
   virtual void enterClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
   virtual void exitClassCodeBlock(TParser::ClassCodeBlockContext *ctx) = 0;
 
@@ -211,11 +214,20 @@ public:
   virtual void enterIdentifierC(TParser::IdentifierCContext *ctx) = 0;
   virtual void exitIdentifierC(TParser::IdentifierCContext *ctx) = 0;
 
+  virtual void enterIdentifierD(TParser::IdentifierDContext *ctx) = 0;
+  virtual void exitIdentifierD(TParser::IdentifierDContext *ctx) = 0;
+
   virtual void enterIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) = 0;
   virtual void exitIncDecOperatorsA(TParser::IncDecOperatorsAContext *ctx) = 0;
 
   virtual void enterIncDecOperatorsB(TParser::IncDecOperatorsBContext *ctx) = 0;
   virtual void exitIncDecOperatorsB(TParser::IncDecOperatorsBContext *ctx) = 0;
+
+  virtual void enterOpenOpA(TParser::OpenOpAContext *ctx) = 0;
+  virtual void exitOpenOpA(TParser::OpenOpAContext *ctx) = 0;
+
+  virtual void enterCloseOpA(TParser::CloseOpAContext *ctx) = 0;
+  virtual void exitCloseOpA(TParser::CloseOpAContext *ctx) = 0;
 
   virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;
   virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;

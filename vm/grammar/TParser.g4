@@ -300,8 +300,48 @@ abstractionCodeBlock
 /*
 ** Declaração das classes.
 */
+
+/*
+  (new class {
+      pub fn show () {
+          print("Verbum\n");
+      }
+  }).show();
+
+  (new class {
+      pub fn show () {
+          print("Verbum\n");
+      }
+  });
+
+  obj.setLogger(new class {
+      pub fn log (msg :string) {
+          print("{}\n", msg);
+      }
+  });
+*/
+
 blockClass
-  : Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
+
+  // Classe anônima.
+  : openOpA
+      New Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
+    closeOpA
+    (
+      ( Point | TwoTwoPoint )
+      identifierD
+      OpenOp
+      (generalValueElements)?
+      CloseOp
+    )?
+    End
+
+  // Definição comum.
+  | Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
+  ;
+
+classAnonymousParam
+  : generalValueElements
   ;
 
 classCodeBlock
@@ -416,8 +456,11 @@ generalValueElements
 identifier : Identifier;
 identifierB : Identifier;
 identifierC : Identifier;
+identifierD : Identifier;
 incDecOperatorsA : IncDecOperators;
 incDecOperatorsB : IncDecOperators;
+openOpA: OpenOp;
+closeOpA: CloseOp;
 
 /*
 ** Live tokens...
@@ -445,7 +488,7 @@ blockLiveTokens
       // CloseBlock |
       // ArrowRight |
       // Not |
-      New |
+      // New |
       ARightLB |
       End |
       Attr |
