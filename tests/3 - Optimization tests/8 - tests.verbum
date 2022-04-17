@@ -6,4 +6,9 @@ async fn http_get (link :string) -> string {
     ret response;
 }
 
+(fn (a :int) {
+    ret 10;
+})
+
+
 
