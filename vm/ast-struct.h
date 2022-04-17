@@ -373,6 +373,7 @@ typedef struct verbum_ast_node
 
     bool general_value_type_conversion;             // Verifica se há conversão de tipo no elemento em questão.
     string general_value_type_conversion_data;      // Nome do tipo a ser convertido.
+    bool general_value_not;                         // Verifica se há uso do 'not'.
 
     /*
     ** Chamada a função.

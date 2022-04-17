@@ -533,6 +533,7 @@ public:
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
     antlr4::tree::TerminalNode *String();
+    antlr4::tree::TerminalNode *Not();
     IncDecOperatorsAContext *incDecOperatorsA();
     IncDecOperatorsBContext *incDecOperatorsB();
     antlr4::tree::TerminalNode *TypeSpec();
@@ -557,7 +558,6 @@ public:
     antlr4::tree::TerminalNode *OpenOp();
     GeneralValueItemsContext *generalValueItems();
     antlr4::tree::TerminalNode *CloseOp();
-    antlr4::tree::TerminalNode *Not();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -573,7 +573,6 @@ public:
     GeneralValueItemsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     GeneralValueContext *generalValue();
-    antlr4::tree::TerminalNode *Not();
     std::vector<GeneralValueItemsContext *> generalValueItems();
     GeneralValueItemsContext* generalValueItems(size_t i);
 
@@ -591,7 +590,6 @@ public:
     GeneralValueElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     GeneralValueContext *generalValue();
-    antlr4::tree::TerminalNode *Not();
     std::vector<GeneralValueElementsContext *> generalValueElements();
     GeneralValueElementsContext* generalValueElements(size_t i);
 

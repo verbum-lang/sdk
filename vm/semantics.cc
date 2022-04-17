@@ -242,6 +242,12 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         */
         else if (node.type == VERBUM_GENERAL_VALUE) {
 
+            // Verifica se há 'not'.
+            if (node.general_value_not) {
+                this->tab();
+                cout << "(not)\n";
+            }
+            
             // Dados simples.
             if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER      ||
                 node.general_value_data.type == VERBUM_DATA_INTEGER         ||
@@ -291,7 +297,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             ** Dados complexos.
             */
 
-            // Operações e sub-elementos.
+            // Bloco de operações / sub-elementos.
             else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
                 this->tab();
                 cout << "-> operation-block (open)\n";

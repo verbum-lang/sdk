@@ -148,6 +148,7 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.general_value_data.method_name      = "";
     ast.general_value_type_conversion       = false;
     ast.general_value_type_conversion_data  = "";
+    ast.general_value_not                   = false;
     
     // VERBUM_FUNCTION_CALL
     ast.function_call.type                  = false;
@@ -504,7 +505,11 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         else if (op.compare("!")  == 0)
             node.operation_op = VERBUM_OPERATOR_NOT;
     }
-    
+
+    // Verifica se há uso do 'not'.
+    if (ctx->Not())
+        node.general_value_not = true;
+
     //
     // Dados simples.
     //
@@ -528,8 +533,8 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
 
     // Bloco de operações.
     else if (ctx->generalValueBlock()) {
-        node.general_value_data.type = VERBUM_DATA_OPERATION_BLOCK;
         block = true;
+        node.general_value_data.type = VERBUM_DATA_OPERATION_BLOCK;
     }
 
     // Chamadas a funções.

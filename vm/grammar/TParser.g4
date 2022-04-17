@@ -130,7 +130,7 @@ blockConditional
 
 // If.
 ifElementUnique
-  : If conditionalBlockExpression conditionalBlockElements
+  : If conditionalBlockExpression codeBlockFlowControl
   ;
 
 // Elif.
@@ -139,12 +139,12 @@ elifElements
   ;
 
 elifElementUnique
-  : Elif conditionalBlockExpression conditionalBlockElements
+  : Elif conditionalBlockExpression codeBlockFlowControl
   ;
 
 // Else.
 elseElementUnique
-  : Else conditionalBlockElements
+  : Else codeBlockFlowControl
   ;
 
 // Bloco da expressão condicional.
@@ -152,8 +152,10 @@ conditionalBlockExpression
   : generalValueElements
   ;
 
-// Bloco de código.
-conditionalBlockElements
+/*
+** Bloco de código das expressões condicionais e loops.
+*/
+codeBlockFlowControl
   : OpenBlock CloseBlock
   | OpenBlock sentences CloseBlock
   | blockConditional
@@ -170,26 +172,26 @@ conditionalBlockElements
 */
 generalValue
   : (
-      (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
-      Integer (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
-      Float (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
-      String (ArithmeticOperator)? (AssignmentOperator)?
+      (Not)? (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
+      (Not)? Integer (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
+      (Not)? Float (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
+      (Not)? String (ArithmeticOperator)? (AssignmentOperator)?
     )
-  | functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
-  | generalValueBlock (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | (Not)? generalValueBlock (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   ;
 
 generalValueBlock
-  : (Not)? OpenOp generalValueItems CloseOp
+  : OpenOp generalValueItems CloseOp
   ;
 
 generalValueItems
-  : (Not)? generalValue (generalValueItems)*
+  : generalValue (generalValueItems)*
   ;
 
 // Utiliza valores gerais N vezes.
 generalValueElements
-  : (Not)? generalValue (generalValueElements)*
+  : generalValue (generalValueElements)*
   ;
 
 /*
