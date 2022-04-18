@@ -52,11 +52,11 @@ public:
     RuleAssociativeArrayElements = 56, RuleBlockLambdaFunctions = 57, RuleLambdaFnParams = 58, 
     RuleLambdaFnCodeBlock = 59, RuleBlockClassConstructor = 60, RuleBlockFunctionCall = 61, 
     RuleFunctionCallElements = 62, RuleBlockAttribution = 63, RuleAttributionElements = 64, 
-    RuleCodeBlockFlowControl = 65, RuleCodeBlockFlowControlElements = 66, 
-    RuleCodeBlockControl = 67, RuleGeneralValue = 68, RuleGeneralValueBlock = 69, 
-    RuleGeneralValueItems = 70, RuleGeneralValueElements = 71, RuleIdentifier = 72, 
-    RuleIdentifierB = 73, RuleIdentifierC = 74, RuleIdentifierD = 75, RuleIncDecOperatorsA = 76, 
-    RuleIncDecOperatorsB = 77, RuleOpenOpA = 78, RuleCloseOpA = 79, RuleBlockPermissionTokens = 80
+    RuleBlockPermissionTokens = 65, RuleCodeBlockFlowControl = 66, RuleCodeBlockFlowControlElements = 67, 
+    RuleCodeBlockControl = 68, RuleGeneralValue = 69, RuleGeneralValueBlock = 70, 
+    RuleGeneralValueItems = 71, RuleGeneralValueElements = 72, RuleIdentifier = 73, 
+    RuleIdentifierB = 74, RuleIdentifierC = 75, RuleIdentifierD = 76, RuleIncDecOperatorsA = 77, 
+    RuleIncDecOperatorsB = 78, RuleOpenOpA = 79, RuleCloseOpA = 80
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -134,6 +134,7 @@ public:
   class FunctionCallElementsContext;
   class BlockAttributionContext;
   class AttributionElementsContext;
+  class BlockPermissionTokensContext;
   class CodeBlockFlowControlContext;
   class CodeBlockFlowControlElementsContext;
   class CodeBlockControlContext;
@@ -148,8 +149,7 @@ public:
   class IncDecOperatorsAContext;
   class IncDecOperatorsBContext;
   class OpenOpAContext;
-  class CloseOpAContext;
-  class BlockPermissionTokensContext; 
+  class CloseOpAContext; 
 
   class  MainContext : public antlr4::ParserRuleContext {
   public:
@@ -1327,6 +1327,26 @@ public:
 
   AttributionElementsContext* attributionElements();
 
+  class  BlockPermissionTokensContext : public antlr4::ParserRuleContext {
+  public:
+    BlockPermissionTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Pub();
+    antlr4::tree::TerminalNode *Pro();
+    antlr4::tree::TerminalNode *Priv();
+    antlr4::tree::TerminalNode *Static();
+    antlr4::tree::TerminalNode *Final();
+    antlr4::tree::TerminalNode *Async();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockPermissionTokensContext* blockPermissionTokens();
+
   class  CodeBlockFlowControlContext : public antlr4::ParserRuleContext {
   public:
     CodeBlockFlowControlContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1594,26 +1614,6 @@ public:
   };
 
   CloseOpAContext* closeOpA();
-
-  class  BlockPermissionTokensContext : public antlr4::ParserRuleContext {
-  public:
-    BlockPermissionTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *Pub();
-    antlr4::tree::TerminalNode *Pro();
-    antlr4::tree::TerminalNode *Priv();
-    antlr4::tree::TerminalNode *Static();
-    antlr4::tree::TerminalNode *Final();
-    antlr4::tree::TerminalNode *Async();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  BlockPermissionTokensContext* blockPermissionTokens();
 
 
 private:

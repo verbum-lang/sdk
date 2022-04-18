@@ -213,6 +213,9 @@ public:
   virtual void enterAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
   virtual void exitAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
 
+  virtual void enterBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
+  virtual void exitBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
 
@@ -257,9 +260,6 @@ public:
 
   virtual void enterCloseOpA(TParser::CloseOpAContext * /*ctx*/) override { }
   virtual void exitCloseOpA(TParser::CloseOpAContext * /*ctx*/) override { }
-
-  virtual void enterBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
-  virtual void exitBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
 
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

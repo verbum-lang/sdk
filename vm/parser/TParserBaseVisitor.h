@@ -277,6 +277,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -334,10 +338,6 @@ public:
   }
 
   virtual antlrcpp::Any visitCloseOpA(TParser::CloseOpAContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) override {
     return visitChildren(ctx);
   }
 

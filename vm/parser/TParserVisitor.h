@@ -150,6 +150,8 @@ public:
 
     virtual antlrcpp::Any visitAttributionElements(TParser::AttributionElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *context) = 0;
+
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *context) = 0;
@@ -179,8 +181,6 @@ public:
     virtual antlrcpp::Any visitOpenOpA(TParser::OpenOpAContext *context) = 0;
 
     virtual antlrcpp::Any visitCloseOpA(TParser::CloseOpAContext *context) = 0;
-
-    virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *context) = 0;
 
 
 };

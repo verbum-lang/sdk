@@ -418,6 +418,20 @@ attributionElements
   ; 
 
 /*
+** Tokens de visibilidade das variáveis, métodos e configurações de classes (final).
+*/
+blockPermissionTokens
+  : (
+      Pub |
+      Pro |
+      Priv |
+      Static |
+      Final |
+      Async 
+    )
+  ;
+
+/*
 ** Controles de blocos de código.
 */
 
@@ -506,68 +520,5 @@ incDecOperatorsA : IncDecOperators;
 incDecOperatorsB : IncDecOperators;
 openOpA: OpenOp;
 closeOpA: CloseOp;
-
-/*
-** Tokens de visibilidade das variáveis, métodos e configurações de classes (final).
-*/
-blockPermissionTokens
-  : (
-      Pub |
-      Pro |
-      Priv |
-      Static |
-      Final |
-      Async 
-    )
-  ;
-
-/*
-** Live tokens...
-*/
-// blockLiveTokens
-//   : (
-      // Var |
-      // If |
-      // Elif |
-      // Else |
-      // For |
-      // Ret |
-      // Function |
-      // Interface |
-      // Abstract |
-      // Class |
-      // Implements |
-      // Extends |
-      // Break |
-      // Next |
-      // Await |
-      // Try |
-      // Catch |
-      // OpenBlock |
-      // CloseBlock |
-      // ArrowRight |
-      // Not |
-      // New |
-      // OpenArIndex |
-      // CloseArIndex |
-      // ARightLB |
-      // End |
-      // Attr |
-      // Point |
-      // TwoPoint |
-      // TwoTwoPoint |
-      // Separator |
-      // OpenOp |
-      // CloseOp |
-      // ArithmeticOperator |
-      // AssignmentOperator |
-      // IncDecOperators |
-      // Identifier 
-      // TypeSpec |
-      // Integer |
-      // Float |
-      // String
-  //   )
-  // ;
 
 

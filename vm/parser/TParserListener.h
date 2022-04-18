@@ -211,6 +211,9 @@ public:
   virtual void enterAttributionElements(TParser::AttributionElementsContext *ctx) = 0;
   virtual void exitAttributionElements(TParser::AttributionElementsContext *ctx) = 0;
 
+  virtual void enterBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) = 0;
+  virtual void exitBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) = 0;
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
 
@@ -255,9 +258,6 @@ public:
 
   virtual void enterCloseOpA(TParser::CloseOpAContext *ctx) = 0;
   virtual void exitCloseOpA(TParser::CloseOpAContext *ctx) = 0;
-
-  virtual void enterBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) = 0;
-  virtual void exitBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) = 0;
 
 
 };
