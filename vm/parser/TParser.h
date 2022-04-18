@@ -1599,20 +1599,12 @@ public:
   public:
     BlockLiveTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *New();
-    antlr4::tree::TerminalNode *End();
-    antlr4::tree::TerminalNode *Attr();
-    antlr4::tree::TerminalNode *Point();
-    antlr4::tree::TerminalNode *Separator();
     antlr4::tree::TerminalNode *Pub();
     antlr4::tree::TerminalNode *Pro();
     antlr4::tree::TerminalNode *Priv();
     antlr4::tree::TerminalNode *Static();
     antlr4::tree::TerminalNode *Final();
     antlr4::tree::TerminalNode *Async();
-    antlr4::tree::TerminalNode *ArithmeticOperator();
-    antlr4::tree::TerminalNode *AssignmentOperator();
-    antlr4::tree::TerminalNode *IncDecOperators();
     antlr4::tree::TerminalNode *Identifier();
     antlr4::tree::TerminalNode *TypeSpec();
     antlr4::tree::TerminalNode *Integer();

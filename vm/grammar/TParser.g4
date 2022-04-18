@@ -534,16 +534,16 @@ blockLiveTokens
       // CloseBlock |
       // ArrowRight |
       // Not |
-      New |
+      // New |
       // OpenArIndex |
       // CloseArIndex |
       // ARightLB |
-      End |
-      Attr |
-      Point |
+      // End |
+      // Attr |
+      // Point |
       // TwoPoint |
       // TwoTwoPoint |
-      Separator |
+      // Separator |
       Pub |
       Pro |
       Priv |
@@ -552,9 +552,9 @@ blockLiveTokens
       Async |
       // OpenOp |
       // CloseOp |
-      ArithmeticOperator |
-      AssignmentOperator |
-      IncDecOperators |
+      // ArithmeticOperator |
+      // AssignmentOperator |
+      // IncDecOperators |
       Identifier 
       TypeSpec |
       Integer |
