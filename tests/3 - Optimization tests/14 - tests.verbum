@@ -1675,3 +1675,11 @@ a = b = c = d.c();
 a = b = 10;
 
 
+ret self::subVersion;
+ret this.attributeA;
+
+example (a :int) {
+
+}
+
+

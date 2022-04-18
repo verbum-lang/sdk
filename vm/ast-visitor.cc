@@ -1417,19 +1417,24 @@ antlrcpp::Any verbum_ast_visitor::visitBlockMultipleAssignments (TParser::BlockM
     return result;  
 }
 
-// // Expressão de atribuição.
-// antlrcpp::Any verbum_ast_visitor::visitVariableMultipleAssignmentsModes (TParser::VariableMultipleAssignmentsModesContext *ctx)
-// {
-//     verbum_ast_node node = this->zero_data();
-//     node.type = VERBUM_MULTIPLE_ATTRIBUTION_;
-    
-    
-//     this->add_node(node);
+/*
+** Construtor de classe.
+*/
+antlrcpp::Any verbum_ast_visitor::visitBlockClassConstructor (TParser::BlockClassConstructorContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
 
-//     this->node_block_counter++;
-//     antlrcpp::Any result = visitChildren(ctx);
-//     this->node_block_counter--;
+    node.type                            = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type       = VERBUM_FUNCTION_CLASS_CONSTRUCTOR;
+    node.function_declaration.identifier = ctx->identifier()->getText();
 
-//     return result;  
-// }
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 

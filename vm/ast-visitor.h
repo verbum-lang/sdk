@@ -120,6 +120,9 @@ namespace verbum {
             // Atribuição múltipla (a = b = c = d).
             antlrcpp::Any visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx);
 
+            // Construtor de classe.
+            antlrcpp::Any visitBlockClassConstructor (TParser::BlockClassConstructorContext *ctx);
+
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
 
