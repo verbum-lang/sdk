@@ -133,6 +133,7 @@ namespace verbum {
 
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
+            antlrcpp::Any visitGeneralValueBlock (TParser::GeneralValueBlockContext *ctx);
 
         private:
         

@@ -733,6 +733,19 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << node.function_call.object_name << " :: " << 
                     node.function_call.method_name << " (static-method-call)\n";
 
+            // Chamada a função com acesso a elemento de array.
+            else if (node.function_call.type == VERBUM_FUNCTION_CALL_ARRAY_ACCESS) {
+                this->tab();
+                cout << "-> function-call array-access (open)\n";
+
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+
+                this->tab();
+                cout << "-> function-call array-access (close)\n";
+            }
+
             // Chamada utilizando de cascading method.
             // else if (node.function_call.type == VERBUM_FUNCTION_CALL_CASCADING)
             //     cout << node.function_call.function_name << " . (cascading-method-call)\n";
@@ -879,6 +892,21 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             this->tab();
             cout << "-> anonymous-object def block (close)\n";
         }
+
+        /*
+        ** Bloco de valores gerais.
+        */
+        else if (node.type == VERBUM_GENERAL_VALUE_BLOCK) {
+            this->tab();
+            cout << "-> general-value block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> general-value block (close)\n";
+        }
         
         /*
         ** Valores gerais.
@@ -943,14 +971,14 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             // Bloco de operações / sub-elementos.
             else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
                 this->tab();
-                cout << "-> operation-block (open)\n";
+                cout << "-> general-value-block (open)\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
 
                 this->tab();
-                cout << "-> operation-block (close)\n";
+                cout << "-> general-value-block (close)\n";
             }
 
             // Array indexado.
@@ -1007,7 +1035,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 else if (node.general_value_data.type == VERBUM_DATA_STATIC_METHOD_CALL)
                     cout << node.general_value_data.object_name << " :: " << 
                         node.general_value_data.method_name << " (static-method-call)\n";
-
 
                 // Processamento dos nodes (filhos).
                 this->tab();

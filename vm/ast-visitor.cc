@@ -595,7 +595,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         // }
         
         // Chamada a função, a partir de acesso a elementos de array.
-        // else if (ctx->functionCall()->arrayAccessElements()) {
+        // else if (ctx->functionCall()->blockAccessArrayElements()) {
         //     node.general_value_data.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
         // }
 
@@ -1599,6 +1599,23 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_ACCESS_ARRAY_INDEX_BLOCK;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
+** Bloco de valores
+*/
+antlrcpp::Any verbum_ast_visitor::visitGeneralValueBlock (TParser::GeneralValueBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_GENERAL_VALUE_BLOCK;
 
     this->add_node(node);
 
