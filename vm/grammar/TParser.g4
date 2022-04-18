@@ -52,6 +52,7 @@ statements
   | blockMultipleAssignments
   | blockCode
   | blockPermissionTokens
+  | blockCascadingMethod
   ;
 
 /*
@@ -419,6 +420,17 @@ functionCallElements
   ;
 
 /*
+** Cascading Method.
+*/
+blockCascadingMethod
+  : blockCascadingMethodAttr End
+  ;
+
+blockCascadingMethodAttr
+  : blockAccessArrayElements OpenOp (functionCallElements)? CloseOp ((Point | TwoTwoPoint) blockCascadingMethodAttr)*
+  ;
+
+/*
 ** Instanciamento anônimo de objetos.
 */
 blockAnonymousObject
@@ -553,6 +565,7 @@ generalValue
   | blockLambdaFunctions
   | blockAccessArrayElements
   | blockAnonymousObject
+  | blockCascadingMethodAttr
 
   // Inicialização de array vazio (indexado e associativo).
   | (OpenBlock CloseBlock | OpenArIndex CloseArIndex)

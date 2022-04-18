@@ -1,0 +1,37 @@
+
+// In principio erat Verbum!
+
+//a.v().c().d().e();
+
+a.b.c().e();
+
+// var a = (new Obj().show()).add('1').remove();
+
+obj.foo(10).show().bar(20).show();
+
+obj.foo(10).show()
+    .bar(20).show()
+    .bar(20).show()
+    ;
+
+a.v().c().d().e();
+
+a.b.c.d.e = 10;
+a.b.c().d().e.f();
+a.b.c().d().e.f().g();
+
+a.b().c().d()::e()::f().x().v();
+x.v().x().y();
+
+obj.a.b.c.setLogger((
+    new class {
+        pub fn log (msg :string) {
+            print("{}\n", msg);
+        }
+    }
+));
+
+// a.b().c.d.e().f().g.h.x.y.z = 10;
+
+a.b().c = 10;
+

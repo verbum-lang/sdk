@@ -146,6 +146,10 @@ public:
 
     virtual antlrcpp::Any visitFunctionCallElements(TParser::FunctionCallElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockCascadingMethod(TParser::BlockCascadingMethodContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext *context) = 0;
+
     virtual antlrcpp::Any visitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockAttribution(TParser::BlockAttributionContext *context) = 0;

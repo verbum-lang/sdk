@@ -67,10 +67,444 @@ var a = new Obj();
 
 var a = (new Obj()).show();
 
-// a[1][2][3].c.d      (10, 20);
-// a[1][2][3].c.d[1]   (10, 20);
+a[1][2][3].c.d      (10, 20);
+a[1][2][3].c.d[1]   (10, 20);
 
-//a.b.c = 10;
-a.b.c(10);
+a.b.c = 10;
+var x = a.b.c(10);
+
+
+
+a  = a.b = a.b() = 10 = a  = a.b = a.b() = 10;
+
+a::b= 10;
+a::b();
+
+a.b = 10;
+a.b();
+
+var a = new Obj();
+
+var a = new Obj(10, [1,2,3], 'Verbum');
+
+(new class {
+
+}).show(10 * 10);
+
+
+(fn () {
+
+})(10 * 10);
+
+var a = (fn () {
+
+})(10 * 10);
+
+var a = (new class {
+
+}).show();
+
+var a = (new Obj()).show();
+
+a[1][2][3] = 10;
+a.b.c = 10;
+a.b.c[1][2].d.e[10] = 10;
+
+
+var a = a[1][2][3];
+
+var a = a.b.c;
+
+var a = a.b.c[1][2].d.e[10];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c / 10,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = new Obj();
+
+var a = (new Obj()).show();
+
+a[1][2][3].c.d      (10, 20);
+a[1][2][3].c.d[1]   (10, 20);
+
+a.b.c = 10;
+var x = a.b.c(10);
+
+a  = a.b = a.b() = 10 = a  = a.b = a.b() = 10;
+
+a::b= 10;
+a::b();
+
+a.b = 10;
+a.b();
+
+var a = new Obj();
+
+var a = new Obj(10, [1,2,3], 'Verbum');
+
+(new class {
+
+}).show(10 * 10);
+
+
+(fn () {
+
+})(10 * 10);
+
+var a = (fn () {
+
+})(10 * 10);
+
+var a = (new class {
+
+}).show();
+
+var a = (new Obj()).show();
+
+a[1][2][3] = 10;
+a.b.c = 10;
+a.b.c[1][2].d.e[10] = 10;
+
+
+var a = a[1][2][3];
+
+var a = a.b.c;
+
+var a = a.b.c[1][2].d.e[10];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c / 10,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = new Obj();
+
+var a = (new Obj()).show();
+
+a[1][2][3].c.d      (10, 20);
+a[1][2][3].c.d[1]   (10, 20);
+
+a.b.c = 10;
+var x = a.b.c(10);
+
+a  = a.b = a.b() = 10 = a  = a.b = a.b() = 10;
+
+a::b= 10;
+a::b();
+
+a.b = 10;
+a.b();
+
+var a = new Obj();
+
+var a = new Obj(10, [1,2,3], 'Verbum');
+
+(new class {
+
+}).show(10 * 10);
+
+
+(fn () {
+
+})(10 * 10);
+
+var a = (fn () {
+
+})(10 * 10);
+
+var a = (new class {
+
+}).show();
+
+var a = (new Obj()).show();
+
+a[1][2][3] = 10;
+a.b.c = 10;
+a.b.c[1][2].d.e[10] = 10;
+
+
+var a = a[1][2][3];
+
+var a = a.b.c;
+
+var a = a.b.c[1][2].d.e[10];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c / 10,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = new Obj();
+
+var a = (new Obj()).show();
+
+a[1][2][3].c.d      (10, 20);
+a[1][2][3].c.d[1]   (10, 20);
+
+a.b.c = 10;
+var x = a.b.c(10);
+
+a  = a.b = a.b() = 10 = a  = a.b = a.b() = 10;
+
+a::b= 10;
+a::b();
+
+a.b = 10;
+a.b();
+
+var a = new Obj();
+
+var a = new Obj(10, [1,2,3], 'Verbum');
+
+(new class {
+
+}).show(10 * 10);
+
+
+(fn () {
+
+})(10 * 10);
+
+var a = (fn () {
+
+})(10 * 10);
+
+var a = (new class {
+
+}).show();
+
+var a = (new Obj()).show();
+
+a[1][2][3] = 10;
+a.b.c = 10;
+a.b.c[1][2].d.e[10] = 10;
+
+
+var a = a[1][2][3];
+
+var a = a.b.c;
+
+var a = a.b.c[1][2].d.e[10];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c / 10,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = new Obj();
+
+var a = (new Obj()).show();
+
+a[1][2][3].c.d      (10, 20);
+a[1][2][3].c.d[1]   (10, 20);
+
+a.b.c = 10;
+var x = a.b.c(10);
+
+a  = a.b = a.b() = 10 = a  = a.b = a.b() = 10;
+
+a::b= 10;
+a::b();
+
+a.b = 10;
+a.b();
+
+var a = new Obj();
+
+var a = new Obj(10, [1,2,3], 'Verbum');
+
+(new class {
+
+}).show(10 * 10);
+
+
+(fn () {
+
+})(10 * 10);
+
+var a = (fn () {
+
+})(10 * 10);
+
+var a = (new class {
+
+}).show();
+
+var a = (new Obj()).show();
+
+a[1][2][3] = 10;
+a.b.c = 10;
+a.b.c[1][2].d.e[10] = 10;
+
+
+var a = a[1][2][3];
+
+var a = a.b.c;
+
+var a = a.b.c[1][2].d.e[10];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c / 10,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = new Obj();
+
+var a = (new Obj()).show();
+
+a[1][2][3].c.d      (10, 20);
+a[1][2][3].c.d[1]   (10, 20);
+
+a.b.c = 10;
+var x = a.b.c(10);
+
+a  = a.b = a.b() = 10 = a  = a.b = a.b() = 10;
+
+a::b= 10;
+a::b();
+
+a.b = 10;
+a.b();
+
+var a = new Obj();
+
+var a = new Obj(10, [1,2,3], 'Verbum');
+
+(new class {
+
+}).show(10 * 10);
+
+
+(fn () {
+
+})(10 * 10);
+
+var a = (fn () {
+
+})(10 * 10);
+
+var a = (new class {
+
+}).show();
+
+var a = (new Obj()).show();
+
+a[1][2][3] = 10;
+a.b.c = 10;
+a.b.c[1][2].d.e[10] = 10;
+
+
+var a = a[1][2][3];
+
+var a = a.b.c;
+
+var a = a.b.c[1][2].d.e[10];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c / 10,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = new Obj();
+
+var a = (new Obj()).show();
+
+a[1][2][3].c.d      (10, 20);
+a[1][2][3].c.d[1]   (10, 20);
+
+a.b.c = 10;
+var x = a.b.c(10);
 
 

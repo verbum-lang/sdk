@@ -269,6 +269,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockCascadingMethod(TParser::BlockCascadingMethodContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) override {
     return visitChildren(ctx);
   }
