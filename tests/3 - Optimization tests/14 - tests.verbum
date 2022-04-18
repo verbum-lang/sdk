@@ -1683,3 +1683,16 @@ example (a :int) {
 }
 
 
+value[1][2][3] = 10;
+
+// Exemplo de acessos em arrays associativos.
+a.b[0].c         = 10; // Verbum
+a.b[1].c         = 10; // Divinus
+a.b[2].c[0]      = 10; // 10
+a.b[2].c[3].d    = 10; // Member
+a.b[3]           = 10; // 31337
+a[3]             = 10;
+
+//variable[1](10, 20);
+
+
