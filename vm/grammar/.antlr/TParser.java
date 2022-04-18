@@ -51,7 +51,7 @@ public class TParser extends Parser {
 		RULE_codeBlockControl = 67, RULE_generalValue = 68, RULE_generalValueBlock = 69, 
 		RULE_generalValueItems = 70, RULE_generalValueElements = 71, RULE_identifier = 72, 
 		RULE_identifierB = 73, RULE_identifierC = 74, RULE_identifierD = 75, RULE_incDecOperatorsA = 76, 
-		RULE_incDecOperatorsB = 77, RULE_openOpA = 78, RULE_closeOpA = 79, RULE_blockLiveTokens = 80;
+		RULE_incDecOperatorsB = 77, RULE_openOpA = 78, RULE_closeOpA = 79, RULE_blockPermissionTokens = 80;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"main", "sentences", "statements", "blockCode", "blockUse", "useValue", 
@@ -72,7 +72,7 @@ public class TParser extends Parser {
 			"blockAttribution", "attributionElements", "codeBlockFlowControl", "codeBlockFlowControlElements", 
 			"codeBlockControl", "generalValue", "generalValueBlock", "generalValueItems", 
 			"generalValueElements", "identifier", "identifierB", "identifierC", "identifierD", 
-			"incDecOperatorsA", "incDecOperatorsB", "openOpA", "closeOpA", "blockLiveTokens"
+			"incDecOperatorsA", "incDecOperatorsB", "openOpA", "closeOpA", "blockPermissionTokens"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -289,8 +289,8 @@ public class TParser extends Parser {
 		public BlockCodeContext blockCode() {
 			return getRuleContext(BlockCodeContext.class,0);
 		}
-		public BlockLiveTokensContext blockLiveTokens() {
-			return getRuleContext(BlockLiveTokensContext.class,0);
+		public BlockPermissionTokensContext blockPermissionTokens() {
+			return getRuleContext(BlockPermissionTokensContext.class,0);
 		}
 		public StatementsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -421,7 +421,7 @@ public class TParser extends Parser {
 				enterOuterAlt(_localctx, 17);
 				{
 				setState(188);
-				blockLiveTokens();
+				blockPermissionTokens();
 				}
 				break;
 			}
@@ -5213,22 +5213,22 @@ public class TParser extends Parser {
 		return _localctx;
 	}
 
-	public static class BlockLiveTokensContext extends ParserRuleContext {
+	public static class BlockPermissionTokensContext extends ParserRuleContext {
 		public TerminalNode Pub() { return getToken(TParser.Pub, 0); }
 		public TerminalNode Pro() { return getToken(TParser.Pro, 0); }
 		public TerminalNode Priv() { return getToken(TParser.Priv, 0); }
 		public TerminalNode Static() { return getToken(TParser.Static, 0); }
 		public TerminalNode Final() { return getToken(TParser.Final, 0); }
 		public TerminalNode Async() { return getToken(TParser.Async, 0); }
-		public BlockLiveTokensContext(ParserRuleContext parent, int invokingState) {
+		public BlockPermissionTokensContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_blockLiveTokens; }
+		@Override public int getRuleIndex() { return RULE_blockPermissionTokens; }
 	}
 
-	public final BlockLiveTokensContext blockLiveTokens() throws RecognitionException {
-		BlockLiveTokensContext _localctx = new BlockLiveTokensContext(_ctx, getState());
-		enterRule(_localctx, 160, RULE_blockLiveTokens);
+	public final BlockPermissionTokensContext blockPermissionTokens() throws RecognitionException {
+		BlockPermissionTokensContext _localctx = new BlockPermissionTokensContext(_ctx, getState());
+		enterRule(_localctx, 160, RULE_blockPermissionTokens);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);

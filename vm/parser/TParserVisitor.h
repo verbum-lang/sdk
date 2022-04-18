@@ -180,7 +180,7 @@ public:
 
     virtual antlrcpp::Any visitCloseOpA(TParser::CloseOpAContext *context) = 0;
 
-    virtual antlrcpp::Any visitBlockLiveTokens(TParser::BlockLiveTokensContext *context) = 0;
+    virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *context) = 0;
 
 
 };

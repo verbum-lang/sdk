@@ -265,8 +265,8 @@ TParser::BlockCodeContext* TParser::StatementsContext::blockCode() {
   return getRuleContext<TParser::BlockCodeContext>(0);
 }
 
-TParser::BlockLiveTokensContext* TParser::StatementsContext::blockLiveTokens() {
-  return getRuleContext<TParser::BlockLiveTokensContext>(0);
+TParser::BlockPermissionTokensContext* TParser::StatementsContext::blockPermissionTokens() {
+  return getRuleContext<TParser::BlockPermissionTokensContext>(0);
 }
 
 
@@ -424,7 +424,7 @@ TParser::StatementsContext* TParser::statements() {
     case 17: {
       enterOuterAlt(_localctx, 17);
       setState(188);
-      blockLiveTokens();
+      blockPermissionTokens();
       break;
     }
 
@@ -7965,64 +7965,64 @@ TParser::CloseOpAContext* TParser::closeOpA() {
   return _localctx;
 }
 
-//----------------- BlockLiveTokensContext ------------------------------------------------------------------
+//----------------- BlockPermissionTokensContext ------------------------------------------------------------------
 
-TParser::BlockLiveTokensContext::BlockLiveTokensContext(ParserRuleContext *parent, size_t invokingState)
+TParser::BlockPermissionTokensContext::BlockPermissionTokensContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* TParser::BlockLiveTokensContext::Pub() {
+tree::TerminalNode* TParser::BlockPermissionTokensContext::Pub() {
   return getToken(TParser::Pub, 0);
 }
 
-tree::TerminalNode* TParser::BlockLiveTokensContext::Pro() {
+tree::TerminalNode* TParser::BlockPermissionTokensContext::Pro() {
   return getToken(TParser::Pro, 0);
 }
 
-tree::TerminalNode* TParser::BlockLiveTokensContext::Priv() {
+tree::TerminalNode* TParser::BlockPermissionTokensContext::Priv() {
   return getToken(TParser::Priv, 0);
 }
 
-tree::TerminalNode* TParser::BlockLiveTokensContext::Static() {
+tree::TerminalNode* TParser::BlockPermissionTokensContext::Static() {
   return getToken(TParser::Static, 0);
 }
 
-tree::TerminalNode* TParser::BlockLiveTokensContext::Final() {
+tree::TerminalNode* TParser::BlockPermissionTokensContext::Final() {
   return getToken(TParser::Final, 0);
 }
 
-tree::TerminalNode* TParser::BlockLiveTokensContext::Async() {
+tree::TerminalNode* TParser::BlockPermissionTokensContext::Async() {
   return getToken(TParser::Async, 0);
 }
 
 
-size_t TParser::BlockLiveTokensContext::getRuleIndex() const {
-  return TParser::RuleBlockLiveTokens;
+size_t TParser::BlockPermissionTokensContext::getRuleIndex() const {
+  return TParser::RuleBlockPermissionTokens;
 }
 
-void TParser::BlockLiveTokensContext::enterRule(tree::ParseTreeListener *listener) {
+void TParser::BlockPermissionTokensContext::enterRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->enterBlockLiveTokens(this);
+    parserListener->enterBlockPermissionTokens(this);
 }
 
-void TParser::BlockLiveTokensContext::exitRule(tree::ParseTreeListener *listener) {
+void TParser::BlockPermissionTokensContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<TParserListener *>(listener);
   if (parserListener != nullptr)
-    parserListener->exitBlockLiveTokens(this);
+    parserListener->exitBlockPermissionTokens(this);
 }
 
 
-antlrcpp::Any TParser::BlockLiveTokensContext::accept(tree::ParseTreeVisitor *visitor) {
+antlrcpp::Any TParser::BlockPermissionTokensContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<TParserVisitor*>(visitor))
-    return parserVisitor->visitBlockLiveTokens(this);
+    return parserVisitor->visitBlockPermissionTokens(this);
   else
     return visitor->visitChildren(this);
 }
 
-TParser::BlockLiveTokensContext* TParser::blockLiveTokens() {
-  BlockLiveTokensContext *_localctx = _tracker.createInstance<BlockLiveTokensContext>(_ctx, getState());
-  enterRule(_localctx, 160, TParser::RuleBlockLiveTokens);
+TParser::BlockPermissionTokensContext* TParser::blockPermissionTokens() {
+  BlockPermissionTokensContext *_localctx = _tracker.createInstance<BlockPermissionTokensContext>(_ctx, getState());
+  enterRule(_localctx, 160, TParser::RuleBlockPermissionTokens);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -8087,7 +8087,7 @@ std::vector<std::string> TParser::_ruleNames = {
   "blockAttribution", "attributionElements", "codeBlockFlowControl", "codeBlockFlowControlElements", 
   "codeBlockControl", "generalValue", "generalValueBlock", "generalValueItems", 
   "generalValueElements", "identifier", "identifierB", "identifierC", "identifierD", 
-  "incDecOperatorsA", "incDecOperatorsB", "openOpA", "closeOpA", "blockLiveTokens"
+  "incDecOperatorsA", "incDecOperatorsB", "openOpA", "closeOpA", "blockPermissionTokens"
 };
 
 std::vector<std::string> TParser::_literalNames = {

@@ -256,8 +256,8 @@ public:
   virtual void enterCloseOpA(TParser::CloseOpAContext *ctx) = 0;
   virtual void exitCloseOpA(TParser::CloseOpAContext *ctx) = 0;
 
-  virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;
-  virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) = 0;
+  virtual void enterBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) = 0;
+  virtual void exitBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) = 0;
 
 
 };

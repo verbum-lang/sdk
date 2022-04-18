@@ -114,6 +114,9 @@ namespace verbum {
             antlrcpp::Any visitBlockAttribution (TParser::BlockAttributionContext *ctx);
             antlrcpp::Any visitAttributionElements (TParser::AttributionElementsContext *ctx);
 
+            // Visibilidade das variáveis, métodos e configurações das classes.
+            antlrcpp::Any visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx);
+
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
 

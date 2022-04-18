@@ -55,10 +55,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
-        ** Tokens de identificação.
-        */
-        
-        /*
         ** Variáveis: declações e inicializações.
         */
         else if (node.type == VERBUM_VARIABLE_INITIALIZATION) {
@@ -751,6 +747,25 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             this->tab();
             cout << ") <---| close function-block\n";
+        }
+
+        /*
+        ** Visibilidade dos itens (variáveis e métodos), e configurações das classes.
+        */
+        else if (node.type == VERBUM_ITEMS_VISIBILITY) {
+            this->tab();
+            cout << "-> Item visibility: ";
+
+            switch (node.item_visibility) {
+                case VERBUM_ITEMS_VISIBILITY_PUB:    cout << "pub";    break;
+                case VERBUM_ITEMS_VISIBILITY_PRIV:   cout << "priv";   break;
+                case VERBUM_ITEMS_VISIBILITY_PRO:    cout << "pro";    break;
+                case VERBUM_ITEMS_VISIBILITY_FINAL:  cout << "final";  break;
+                case VERBUM_ITEMS_VISIBILITY_STATIC: cout << "static"; break;
+                case VERBUM_ITEMS_VISIBILITY_ASYNC:  cout << "async"; break;
+            }
+
+            cout << "\n";
         }
 
         /*

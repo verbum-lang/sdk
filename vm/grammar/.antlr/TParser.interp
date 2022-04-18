@@ -193,7 +193,7 @@ incDecOperatorsA
 incDecOperatorsB
 openOpA
 closeOpA
-blockLiveTokens
+blockPermissionTokens
 
 
 atn:

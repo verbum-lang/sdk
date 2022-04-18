@@ -337,7 +337,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitBlockLiveTokens(TParser::BlockLiveTokensContext *ctx) override {
+  virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) override {
     return visitChildren(ctx);
   }
 

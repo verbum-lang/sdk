@@ -39,9 +39,8 @@ statements
   | blockFunctionCall
   | blockClassConstructor
   | blockAttribution
-
   | blockCode
-  | blockLiveTokens
+  | blockPermissionTokens
   ;
 
 /*
@@ -509,10 +508,24 @@ openOpA: OpenOp;
 closeOpA: CloseOp;
 
 /*
+** Tokens de visibilidade das variáveis, métodos e configurações de classes (final).
+*/
+blockPermissionTokens
+  : (
+      Pub |
+      Pro |
+      Priv |
+      Static |
+      Final |
+      Async 
+    )
+  ;
+
+/*
 ** Live tokens...
 */
-blockLiveTokens
-  : (
+// blockLiveTokens
+//   : (
       // Var |
       // If |
       // Elif |
@@ -544,12 +557,6 @@ blockLiveTokens
       // TwoPoint |
       // TwoTwoPoint |
       // Separator |
-      Pub |
-      Pro |
-      Priv |
-      Static |
-      Final |
-      Async 
       // OpenOp |
       // CloseOp |
       // ArithmeticOperator |
@@ -560,7 +567,7 @@ blockLiveTokens
       // Integer |
       // Float |
       // String
-    )
-  ;
+  //   )
+  // ;
 
 

@@ -1371,3 +1371,31 @@ antlrcpp::Any verbum_ast_visitor::visitAttributionElements (TParser::Attribution
     return visitChildren(ctx);
 }
 
+/*
+** Tokens de visibilidade das variáveis, métodos e configurações de classes (final).
+*/
+
+// Bloco do token
+antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_ITEMS_VISIBILITY;
+
+    if (ctx->Pub())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PUB;
+    else if (ctx->Priv())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PRIV;
+    else if (ctx->Pro())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PRO;
+    else if (ctx->Final())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_FINAL;
+    else if (ctx->Static())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_STATIC;
+    else if (ctx->Async())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_ASYNC;
+
+    this->add_node(node);
+    return visitChildren(ctx);
+}
+
+

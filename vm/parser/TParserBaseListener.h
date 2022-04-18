@@ -258,8 +258,8 @@ public:
   virtual void enterCloseOpA(TParser::CloseOpAContext * /*ctx*/) override { }
   virtual void exitCloseOpA(TParser::CloseOpAContext * /*ctx*/) override { }
 
-  virtual void enterBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }
-  virtual void exitBlockLiveTokens(TParser::BlockLiveTokensContext * /*ctx*/) override { }
+  virtual void enterBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
+  virtual void exitBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
 
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

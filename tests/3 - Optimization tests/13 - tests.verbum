@@ -1649,4 +1649,8 @@ a = 10, b = 20, c =30, d = 4.0;
 
 a = 10, b = new OBJ(), c = await obj.method(), d = 4.0;
 
+pub static final fn test (a :int) -> float {
+    print('Verbum');
+}
+
 
