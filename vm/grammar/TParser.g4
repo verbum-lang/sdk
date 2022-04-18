@@ -430,6 +430,34 @@ variableMultipleAssignmentsModes
   ;
 
 /*
+** Acessa elementos de array.
+*/
+blockAccessArrayElements
+  : arrayAccessElements
+  ;
+
+arrayAccessElements
+  : arrayAccessElementsItems (arrayAccessElements)*
+  ;
+
+arrayAccessElementsItems
+  : identifier (accessBlockAr)? (Point)?
+  | (firstIncDec)? identifier (accessBlockAr)?  (Point)?
+  | identifier (accessBlockAr)? (lastIncDec)? (Point)?
+  ;
+
+accessBlockAr
+  : OpenArIndex arrayIndexAccess CloseArIndex (accessBlockAr)*
+  ;
+
+arrayIndexAccess
+  : generalValueElements
+  ;
+
+firstIncDec : IncDecOperators ;
+lastIncDec  : IncDecOperators ;
+
+/*
 ** Tokens de visibilidade das variáveis, métodos e configurações de classes (final).
 */
 blockPermissionTokens
@@ -498,6 +526,7 @@ generalValue
   | blockFunctionDeclarationAttr
   | blockClassDeclarationAttr
   | blockLambdaFunctions
+  | blockAccessArrayElements
 
   // Inicialização de array vazio (indexado e associativo).
   | (OpenBlock CloseBlock | OpenArIndex CloseArIndex)

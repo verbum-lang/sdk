@@ -53,11 +53,14 @@ public:
     RuleLambdaFnCodeBlock = 59, RuleBlockClassConstructor = 60, RuleBlockFunctionCall = 61, 
     RuleFunctionCallElements = 62, RuleBlockAttribution = 63, RuleAttributionElements = 64, 
     RuleBlockMultipleAssignments = 65, RuleVariableMultipleAssignmentsModes = 66, 
-    RuleBlockPermissionTokens = 67, RuleCodeBlockFlowControl = 68, RuleCodeBlockFlowControlElements = 69, 
-    RuleCodeBlockControl = 70, RuleGeneralValue = 71, RuleGeneralValueBlock = 72, 
-    RuleGeneralValueItems = 73, RuleGeneralValueElements = 74, RuleIdentifier = 75, 
-    RuleIdentifierB = 76, RuleIdentifierC = 77, RuleIdentifierD = 78, RuleIncDecOperatorsA = 79, 
-    RuleIncDecOperatorsB = 80, RuleOpenOpA = 81, RuleCloseOpA = 82
+    RuleBlockAccessArrayElements = 67, RuleArrayAccessElements = 68, RuleArrayAccessElementsItems = 69, 
+    RuleAccessBlockAr = 70, RuleArrayIndexAccess = 71, RuleFirstIncDec = 72, 
+    RuleLastIncDec = 73, RuleBlockPermissionTokens = 74, RuleCodeBlockFlowControl = 75, 
+    RuleCodeBlockFlowControlElements = 76, RuleCodeBlockControl = 77, RuleGeneralValue = 78, 
+    RuleGeneralValueBlock = 79, RuleGeneralValueItems = 80, RuleGeneralValueElements = 81, 
+    RuleIdentifier = 82, RuleIdentifierB = 83, RuleIdentifierC = 84, RuleIdentifierD = 85, 
+    RuleIncDecOperatorsA = 86, RuleIncDecOperatorsB = 87, RuleOpenOpA = 88, 
+    RuleCloseOpA = 89
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -137,6 +140,13 @@ public:
   class AttributionElementsContext;
   class BlockMultipleAssignmentsContext;
   class VariableMultipleAssignmentsModesContext;
+  class BlockAccessArrayElementsContext;
+  class ArrayAccessElementsContext;
+  class ArrayAccessElementsItemsContext;
+  class AccessBlockArContext;
+  class ArrayIndexAccessContext;
+  class FirstIncDecContext;
+  class LastIncDecContext;
   class BlockPermissionTokensContext;
   class CodeBlockFlowControlContext;
   class CodeBlockFlowControlElementsContext;
@@ -1368,6 +1378,121 @@ public:
 
   VariableMultipleAssignmentsModesContext* variableMultipleAssignmentsModes();
 
+  class  BlockAccessArrayElementsContext : public antlr4::ParserRuleContext {
+  public:
+    BlockAccessArrayElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ArrayAccessElementsContext *arrayAccessElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockAccessArrayElementsContext* blockAccessArrayElements();
+
+  class  ArrayAccessElementsContext : public antlr4::ParserRuleContext {
+  public:
+    ArrayAccessElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ArrayAccessElementsItemsContext *arrayAccessElementsItems();
+    std::vector<ArrayAccessElementsContext *> arrayAccessElements();
+    ArrayAccessElementsContext* arrayAccessElements(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ArrayAccessElementsContext* arrayAccessElements();
+
+  class  ArrayAccessElementsItemsContext : public antlr4::ParserRuleContext {
+  public:
+    ArrayAccessElementsItemsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentifierContext *identifier();
+    AccessBlockArContext *accessBlockAr();
+    antlr4::tree::TerminalNode *Point();
+    FirstIncDecContext *firstIncDec();
+    LastIncDecContext *lastIncDec();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ArrayAccessElementsItemsContext* arrayAccessElementsItems();
+
+  class  AccessBlockArContext : public antlr4::ParserRuleContext {
+  public:
+    AccessBlockArContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OpenArIndex();
+    ArrayIndexAccessContext *arrayIndexAccess();
+    antlr4::tree::TerminalNode *CloseArIndex();
+    std::vector<AccessBlockArContext *> accessBlockAr();
+    AccessBlockArContext* accessBlockAr(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AccessBlockArContext* accessBlockAr();
+
+  class  ArrayIndexAccessContext : public antlr4::ParserRuleContext {
+  public:
+    ArrayIndexAccessContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueElementsContext *generalValueElements();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ArrayIndexAccessContext* arrayIndexAccess();
+
+  class  FirstIncDecContext : public antlr4::ParserRuleContext {
+  public:
+    FirstIncDecContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IncDecOperators();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FirstIncDecContext* firstIncDec();
+
+  class  LastIncDecContext : public antlr4::ParserRuleContext {
+  public:
+    LastIncDecContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IncDecOperators();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LastIncDecContext* lastIncDec();
+
   class  BlockPermissionTokensContext : public antlr4::ParserRuleContext {
   public:
     BlockPermissionTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1470,6 +1595,7 @@ public:
     BlockFunctionDeclarationAttrContext *blockFunctionDeclarationAttr();
     BlockClassDeclarationAttrContext *blockClassDeclarationAttr();
     BlockLambdaFunctionsContext *blockLambdaFunctions();
+    BlockAccessArrayElementsContext *blockAccessArrayElements();
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
     antlr4::tree::TerminalNode *OpenArIndex();

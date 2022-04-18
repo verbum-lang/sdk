@@ -285,6 +285,34 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitArrayAccessElements(TParser::ArrayAccessElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAccessBlockAr(TParser::AccessBlockArContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitArrayIndexAccess(TParser::ArrayIndexAccessContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFirstIncDec(TParser::FirstIncDecContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitLastIncDec(TParser::LastIncDecContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) override {
     return visitChildren(ctx);
   }

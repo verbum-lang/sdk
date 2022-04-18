@@ -217,6 +217,27 @@ public:
   virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) = 0;
   virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) = 0;
 
+  virtual void enterBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *ctx) = 0;
+  virtual void exitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *ctx) = 0;
+
+  virtual void enterArrayAccessElements(TParser::ArrayAccessElementsContext *ctx) = 0;
+  virtual void exitArrayAccessElements(TParser::ArrayAccessElementsContext *ctx) = 0;
+
+  virtual void enterArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext *ctx) = 0;
+  virtual void exitArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext *ctx) = 0;
+
+  virtual void enterAccessBlockAr(TParser::AccessBlockArContext *ctx) = 0;
+  virtual void exitAccessBlockAr(TParser::AccessBlockArContext *ctx) = 0;
+
+  virtual void enterArrayIndexAccess(TParser::ArrayIndexAccessContext *ctx) = 0;
+  virtual void exitArrayIndexAccess(TParser::ArrayIndexAccessContext *ctx) = 0;
+
+  virtual void enterFirstIncDec(TParser::FirstIncDecContext *ctx) = 0;
+  virtual void exitFirstIncDec(TParser::FirstIncDecContext *ctx) = 0;
+
+  virtual void enterLastIncDec(TParser::LastIncDecContext *ctx) = 0;
+  virtual void exitLastIncDec(TParser::LastIncDecContext *ctx) = 0;
+
   virtual void enterBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) = 0;
   virtual void exitBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) = 0;
 

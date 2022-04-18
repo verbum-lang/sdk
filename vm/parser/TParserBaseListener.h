@@ -219,6 +219,27 @@ public:
   virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
   virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
 
+  virtual void enterBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext * /*ctx*/) override { }
+  virtual void exitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext * /*ctx*/) override { }
+
+  virtual void enterArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }
+  virtual void exitArrayAccessElements(TParser::ArrayAccessElementsContext * /*ctx*/) override { }
+
+  virtual void enterArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext * /*ctx*/) override { }
+  virtual void exitArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext * /*ctx*/) override { }
+
+  virtual void enterAccessBlockAr(TParser::AccessBlockArContext * /*ctx*/) override { }
+  virtual void exitAccessBlockAr(TParser::AccessBlockArContext * /*ctx*/) override { }
+
+  virtual void enterArrayIndexAccess(TParser::ArrayIndexAccessContext * /*ctx*/) override { }
+  virtual void exitArrayIndexAccess(TParser::ArrayIndexAccessContext * /*ctx*/) override { }
+
+  virtual void enterFirstIncDec(TParser::FirstIncDecContext * /*ctx*/) override { }
+  virtual void exitFirstIncDec(TParser::FirstIncDecContext * /*ctx*/) override { }
+
+  virtual void enterLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
+  virtual void exitLastIncDec(TParser::LastIncDecContext * /*ctx*/) override { }
+
   virtual void enterBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
   virtual void exitBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
 

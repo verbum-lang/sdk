@@ -1437,4 +1437,84 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClassConstructor (TParser::BlockClas
     return result;
 }
 
+/*
+** Controle de acesso a elementos de array.
+*/
+antlrcpp::Any verbum_ast_visitor::visitArrayAccessElementsItems (TParser::ArrayAccessElementsItemsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_ACCESS_ARRAY;
+
+    // Nome do elemento de acesso.
+    node.access_array_identifier = ctx->identifier()->getText();
+
+    // Modo do acesso.
+    if (ctx->identifier() && ctx->accessBlockAr() && ctx->Point()) 
+        node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT;
+    else if (ctx->identifier() && ctx->accessBlockAr() && !ctx->Point()) 
+        node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_BLOCK;
+    else if (ctx->identifier() && !ctx->accessBlockAr() && ctx->Point()) 
+        node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT;
+    else if (ctx->identifier() && !ctx->accessBlockAr() && !ctx->Point()) 
+        node.access_array_type.type = VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER;
+    
+    // Processa incremento/decremento.
+    node.access_array_type.mod_inc_dec  = VERBUM_UNKNOWN;
+    node.access_array_type.type_inc_dec = VERBUM_UNKNOWN;
+
+    // Processa pré-incremento/decremento.
+    if (ctx->firstIncDec()) {
+        string item = ctx->firstIncDec()->getText();
+        node.access_array_type.mod_inc_dec = VERBUM_OP_INCDEC_PRE;
+
+        if (item.compare("++") == 0)
+            node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_INC;
+        else if (item.compare("--") == 0)
+            node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_DEC;
+    }
+
+    // Processa pós-incremento/decremento.
+    if (ctx->lastIncDec()) {
+        string item = ctx->lastIncDec()->getText();
+        node.access_array_type.mod_inc_dec = VERBUM_OP_INCDEC_POS;
+
+        if (item.compare("++") == 0)
+            node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_INC;
+        else if (item.compare("--") == 0)
+            node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_DEC;
+    }
+    
+    this->add_node(node);
+
+    // Caso seja bloco de acesso, torna-o node filho do membro em questão.
+    if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT ||
+        node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK        )
+    {
+        this->node_block_counter++;
+        antlrcpp::Any result = visitChildren(ctx);
+        this->node_block_counter--;
+
+        return result;
+    }
+
+    return visitChildren(ctx);
+}
+
+/*
+** Controle dos blocos isolados.
+*/
+antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_ACCESS_ARRAY_INDEX_BLOCK;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 

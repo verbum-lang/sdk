@@ -123,6 +123,10 @@ namespace verbum {
             // Construtor de classe.
             antlrcpp::Any visitBlockClassConstructor (TParser::BlockClassConstructorContext *ctx);
 
+            // Array.
+            antlrcpp::Any visitArrayAccessElementsItems (TParser::ArrayAccessElementsItemsContext *ctx);
+            antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
+
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
 

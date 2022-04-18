@@ -154,6 +154,20 @@ public:
 
     virtual antlrcpp::Any visitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitArrayAccessElements(TParser::ArrayAccessElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitArrayAccessElementsItems(TParser::ArrayAccessElementsItemsContext *context) = 0;
+
+    virtual antlrcpp::Any visitAccessBlockAr(TParser::AccessBlockArContext *context) = 0;
+
+    virtual antlrcpp::Any visitArrayIndexAccess(TParser::ArrayIndexAccessContext *context) = 0;
+
+    virtual antlrcpp::Any visitFirstIncDec(TParser::FirstIncDecContext *context) = 0;
+
+    virtual antlrcpp::Any visitLastIncDec(TParser::LastIncDecContext *context) = 0;
+
     virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
