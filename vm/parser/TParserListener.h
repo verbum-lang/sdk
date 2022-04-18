@@ -205,6 +205,9 @@ public:
   virtual void enterFunctionCallElements(TParser::FunctionCallElementsContext *ctx) = 0;
   virtual void exitFunctionCallElements(TParser::FunctionCallElementsContext *ctx) = 0;
 
+  virtual void enterBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) = 0;
+  virtual void exitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) = 0;
+
   virtual void enterBlockAttribution(TParser::BlockAttributionContext *ctx) = 0;
   virtual void exitBlockAttribution(TParser::BlockAttributionContext *ctx) = 0;
 

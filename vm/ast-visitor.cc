@@ -641,10 +641,27 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
 
     // Declaração de função - atribuição da mesma à variável.
     else if (ctx->blockFunctionDeclarationAttr()) {
+        block = true;
     }
 
     // Declaração de classe - atribuição da mesma à variável.
     else if (ctx->blockClassDeclarationAttr()) {
+        block = true;
+    }
+
+    // Funções lambdas.
+    else if (ctx->blockLambdaFunctions()) {
+        block = true;
+    }
+
+    // Instanciamento de objetos anonimamente.
+    else if (ctx->blockAnonymousObject()) {
+        block = true;
+    }
+
+    // Acesso a elementos de array.
+    else if (ctx->blockAccessArrayElements()) {
+        block = true;
     }
 
     this->add_node(node);

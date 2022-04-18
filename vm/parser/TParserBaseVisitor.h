@@ -269,6 +269,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitBlockAttribution(TParser::BlockAttributionContext *ctx) override {
     return visitChildren(ctx);
   }

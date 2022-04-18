@@ -207,6 +207,9 @@ public:
   virtual void enterFunctionCallElements(TParser::FunctionCallElementsContext * /*ctx*/) override { }
   virtual void exitFunctionCallElements(TParser::FunctionCallElementsContext * /*ctx*/) override { }
 
+  virtual void enterBlockAnonymousObject(TParser::BlockAnonymousObjectContext * /*ctx*/) override { }
+  virtual void exitBlockAnonymousObject(TParser::BlockAnonymousObjectContext * /*ctx*/) override { }
+
   virtual void enterBlockAttribution(TParser::BlockAttributionContext * /*ctx*/) override { }
   virtual void exitBlockAttribution(TParser::BlockAttributionContext * /*ctx*/) override { }
 

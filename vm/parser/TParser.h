@@ -51,16 +51,16 @@ public:
     RuleIndexArray = 53, RuleIndexArrayElements = 54, RuleAssociativeArray = 55, 
     RuleAssociativeArrayElements = 56, RuleBlockLambdaFunctions = 57, RuleLambdaFnParams = 58, 
     RuleLambdaFnCodeBlock = 59, RuleBlockClassConstructor = 60, RuleBlockFunctionCall = 61, 
-    RuleFunctionCallElements = 62, RuleBlockAttribution = 63, RuleAttributionElements = 64, 
-    RuleBlockMultipleAssignments = 65, RuleVariableMultipleAssignmentsModes = 66, 
-    RuleBlockAccessArrayElements = 67, RuleArrayAccessElements = 68, RuleArrayAccessElementsItems = 69, 
-    RuleAccessBlockAr = 70, RuleArrayIndexAccess = 71, RuleFirstIncDec = 72, 
-    RuleLastIncDec = 73, RuleBlockPermissionTokens = 74, RuleCodeBlockFlowControl = 75, 
-    RuleCodeBlockFlowControlElements = 76, RuleCodeBlockControl = 77, RuleGeneralValue = 78, 
-    RuleGeneralValueBlock = 79, RuleGeneralValueItems = 80, RuleGeneralValueElements = 81, 
-    RuleIdentifier = 82, RuleIdentifierB = 83, RuleIdentifierC = 84, RuleIdentifierD = 85, 
-    RuleIncDecOperatorsA = 86, RuleIncDecOperatorsB = 87, RuleOpenOpA = 88, 
-    RuleCloseOpA = 89
+    RuleFunctionCallElements = 62, RuleBlockAnonymousObject = 63, RuleBlockAttribution = 64, 
+    RuleAttributionElements = 65, RuleBlockMultipleAssignments = 66, RuleVariableMultipleAssignmentsModes = 67, 
+    RuleBlockAccessArrayElements = 68, RuleArrayAccessElements = 69, RuleArrayAccessElementsItems = 70, 
+    RuleAccessBlockAr = 71, RuleArrayIndexAccess = 72, RuleFirstIncDec = 73, 
+    RuleLastIncDec = 74, RuleBlockPermissionTokens = 75, RuleCodeBlockFlowControl = 76, 
+    RuleCodeBlockFlowControlElements = 77, RuleCodeBlockControl = 78, RuleGeneralValue = 79, 
+    RuleGeneralValueBlock = 80, RuleGeneralValueItems = 81, RuleGeneralValueElements = 82, 
+    RuleIdentifier = 83, RuleIdentifierB = 84, RuleIdentifierC = 85, RuleIdentifierD = 86, 
+    RuleIncDecOperatorsA = 87, RuleIncDecOperatorsB = 88, RuleOpenOpA = 89, 
+    RuleCloseOpA = 90
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -136,6 +136,7 @@ public:
   class BlockClassConstructorContext;
   class BlockFunctionCallContext;
   class FunctionCallElementsContext;
+  class BlockAnonymousObjectContext;
   class BlockAttributionContext;
   class AttributionElementsContext;
   class BlockMultipleAssignmentsContext;
@@ -1299,6 +1300,31 @@ public:
 
   FunctionCallElementsContext* functionCallElements();
 
+  class  BlockAnonymousObjectContext : public antlr4::ParserRuleContext {
+  public:
+    BlockAnonymousObjectContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<antlr4::tree::TerminalNode *> OpenOp();
+    antlr4::tree::TerminalNode* OpenOp(size_t i);
+    antlr4::tree::TerminalNode *New();
+    IdentifierContext *identifier();
+    std::vector<antlr4::tree::TerminalNode *> CloseOp();
+    antlr4::tree::TerminalNode* CloseOp(size_t i);
+    std::vector<GeneralValueElementsContext *> generalValueElements();
+    GeneralValueElementsContext* generalValueElements(size_t i);
+    IdentifierBContext *identifierB();
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockAnonymousObjectContext* blockAnonymousObject();
+
   class  BlockAttributionContext : public antlr4::ParserRuleContext {
   public:
     BlockAttributionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1590,13 +1616,13 @@ public:
     IncDecOperatorsBContext *incDecOperatorsB();
     FunctionCallContext *functionCall();
     antlr4::tree::TerminalNode *OpenOp();
-    BlockFunctionContext *blockFunction();
+    BlockFunctionDeclarationAttrContext *blockFunctionDeclarationAttr();
     antlr4::tree::TerminalNode *CloseOp();
     BlockArrayContext *blockArray();
-    BlockFunctionDeclarationAttrContext *blockFunctionDeclarationAttr();
     BlockClassDeclarationAttrContext *blockClassDeclarationAttr();
     BlockLambdaFunctionsContext *blockLambdaFunctions();
     BlockAccessArrayElementsContext *blockAccessArrayElements();
+    BlockAnonymousObjectContext *blockAnonymousObject();
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
     antlr4::tree::TerminalNode *OpenArIndex();

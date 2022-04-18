@@ -146,6 +146,8 @@ public:
 
     virtual antlrcpp::Any visitFunctionCallElements(TParser::FunctionCallElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *context) = 0;
+
     virtual antlrcpp::Any visitBlockAttribution(TParser::BlockAttributionContext *context) = 0;
 
     virtual antlrcpp::Any visitAttributionElements(TParser::AttributionElementsContext *context) = 0;

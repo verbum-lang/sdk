@@ -409,6 +409,17 @@ functionCallElements
   ;
 
 /*
+** Instanciamento anônimo de objetos.
+*/
+
+blockAnonymousObject
+  : OpenOp 
+      New identifier OpenOp (generalValueElements)? CloseOp
+    CloseOp 
+    ( (Point | TwoTwoPoint) identifierB OpenOp (generalValueElements)? CloseOp )?
+  ;
+
+/*
 ** Atribuição de valores à variáveis.
 */
 blockAttribution
@@ -522,12 +533,14 @@ generalValue
 
   // Valores complexos.
   | (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
-  | (Not)? OpenOp blockFunction CloseOp (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | (Not)? OpenOp blockFunctionDeclarationAttr CloseOp (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  
   | blockFunctionDeclarationAttr
   | blockClassDeclarationAttr
   | blockLambdaFunctions
   | blockAccessArrayElements
+  | blockAnonymousObject
 
   // Inicialização de array vazio (indexado e associativo).
   | (OpenBlock CloseBlock | OpenArIndex CloseArIndex)

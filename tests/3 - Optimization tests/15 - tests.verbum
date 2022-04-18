@@ -1,0 +1,33 @@
+
+// In principio erat Verbum!
+
+// a  = a.b = a.b() = 10 = a  = a.b = a.b() = 10;
+
+// a::b= 10;
+// a::b();
+
+// a.b = 10;
+// a.b();
+
+// var a = new Obj();
+
+// var a = new Obj(10, [1,2,3], 'Verbum');
+
+// (new class {
+
+// }).show(10 * 10);
+
+
+// (fn () {
+
+// })(10 * 10);
+
+// a[1][2][3] = 10;
+
+var a = (new class {
+
+}).show();
+
+// var a = (new Obj()).show();
+
+
