@@ -1398,4 +1398,38 @@ antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPerm
     return visitChildren(ctx);
 }
 
+/*
+** Atribuição múltipla (a = b = c = d).
+*/
+
+// Bloco principal.
+antlrcpp::Any verbum_ast_visitor::visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_MULTIPLE_ATTRIBUTION;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;  
+}
+
+// // Expressão de atribuição.
+// antlrcpp::Any verbum_ast_visitor::visitVariableMultipleAssignmentsModes (TParser::VariableMultipleAssignmentsModesContext *ctx)
+// {
+//     verbum_ast_node node = this->zero_data();
+//     node.type = VERBUM_MULTIPLE_ATTRIBUTION_;
+    
+    
+//     this->add_node(node);
+
+//     this->node_block_counter++;
+//     antlrcpp::Any result = visitChildren(ctx);
+//     this->node_block_counter--;
+
+//     return result;  
+// }
 

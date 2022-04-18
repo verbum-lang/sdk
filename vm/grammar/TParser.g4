@@ -39,6 +39,7 @@ statements
   | blockFunctionCall
   | blockClassConstructor
   | blockAttribution
+  | blockMultipleAssignments
   | blockCode
   | blockPermissionTokens
   ;
@@ -416,6 +417,17 @@ blockAttribution
 attributionElements
   : identifier ( (Point | TwoTwoPoint) identifierB )? (Attr | AssignmentOperator) (New | Await)? generalValueElements (Separator attributionElements)*
   ; 
+
+/*
+** Atribuições múltiplas (a = b = c = d).
+*/
+blockMultipleAssignments
+  : variableMultipleAssignmentsModes Attr generalValueElements End
+  ;
+
+variableMultipleAssignmentsModes
+  : generalValue (Attr variableMultipleAssignmentsModes)*
+  ;
 
 /*
 ** Tokens de visibilidade das variáveis, métodos e configurações de classes (final).

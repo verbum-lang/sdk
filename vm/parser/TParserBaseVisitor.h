@@ -277,6 +277,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *ctx) override {
     return visitChildren(ctx);
   }

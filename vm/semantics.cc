@@ -769,6 +769,23 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Atribuição múltipla (a = b = c = d).
+        */
+
+        // Bloco geral.
+        else if (node.type == VERBUM_MULTIPLE_ATTRIBUTION) {
+            this->tab();
+            cout << "-> multiple-attribution block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> multiple-attribution block (close)\n";
+        }
+
+        /*
         ** Valores gerais.
         */
         else if (node.type == VERBUM_GENERAL_VALUE) {

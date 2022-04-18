@@ -213,6 +213,12 @@ public:
   virtual void enterAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
   virtual void exitAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
 
+  virtual void enterBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext * /*ctx*/) override { }
+  virtual void exitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext * /*ctx*/) override { }
+
+  virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
+  virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
+
   virtual void enterBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
   virtual void exitBlockPermissionTokens(TParser::BlockPermissionTokensContext * /*ctx*/) override { }
 

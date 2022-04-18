@@ -1645,3 +1645,33 @@ for a {
 a.b();
 
 
+
+print("Verbum");
+
+
+
+obj.setLogger((new class {
+    pub fn log (msg :string) {
+        print("{}\n", msg);
+    }
+}));
+
+
+final class Example2 extends Common implements ExampleInterface {
+    var d = 40;
+}
+
+pub static var a = 10;
+
+pub static fn abc (a :int) -> float {
+
+}
+
+
+
+a = b = c = d;
+a = b = c;
+a = b = c = d.c();
+a = b = 10;
+
+

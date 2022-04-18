@@ -52,11 +52,12 @@ public:
     RuleAssociativeArrayElements = 56, RuleBlockLambdaFunctions = 57, RuleLambdaFnParams = 58, 
     RuleLambdaFnCodeBlock = 59, RuleBlockClassConstructor = 60, RuleBlockFunctionCall = 61, 
     RuleFunctionCallElements = 62, RuleBlockAttribution = 63, RuleAttributionElements = 64, 
-    RuleBlockPermissionTokens = 65, RuleCodeBlockFlowControl = 66, RuleCodeBlockFlowControlElements = 67, 
-    RuleCodeBlockControl = 68, RuleGeneralValue = 69, RuleGeneralValueBlock = 70, 
-    RuleGeneralValueItems = 71, RuleGeneralValueElements = 72, RuleIdentifier = 73, 
-    RuleIdentifierB = 74, RuleIdentifierC = 75, RuleIdentifierD = 76, RuleIncDecOperatorsA = 77, 
-    RuleIncDecOperatorsB = 78, RuleOpenOpA = 79, RuleCloseOpA = 80
+    RuleBlockMultipleAssignments = 65, RuleVariableMultipleAssignmentsModes = 66, 
+    RuleBlockPermissionTokens = 67, RuleCodeBlockFlowControl = 68, RuleCodeBlockFlowControlElements = 69, 
+    RuleCodeBlockControl = 70, RuleGeneralValue = 71, RuleGeneralValueBlock = 72, 
+    RuleGeneralValueItems = 73, RuleGeneralValueElements = 74, RuleIdentifier = 75, 
+    RuleIdentifierB = 76, RuleIdentifierC = 77, RuleIdentifierD = 78, RuleIncDecOperatorsA = 79, 
+    RuleIncDecOperatorsB = 80, RuleOpenOpA = 81, RuleCloseOpA = 82
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -134,6 +135,8 @@ public:
   class FunctionCallElementsContext;
   class BlockAttributionContext;
   class AttributionElementsContext;
+  class BlockMultipleAssignmentsContext;
+  class VariableMultipleAssignmentsModesContext;
   class BlockPermissionTokensContext;
   class CodeBlockFlowControlContext;
   class CodeBlockFlowControlElementsContext;
@@ -202,6 +205,7 @@ public:
     BlockFunctionCallContext *blockFunctionCall();
     BlockClassConstructorContext *blockClassConstructor();
     BlockAttributionContext *blockAttribution();
+    BlockMultipleAssignmentsContext *blockMultipleAssignments();
     BlockCodeContext *blockCode();
     BlockPermissionTokensContext *blockPermissionTokens();
 
@@ -1326,6 +1330,43 @@ public:
   };
 
   AttributionElementsContext* attributionElements();
+
+  class  BlockMultipleAssignmentsContext : public antlr4::ParserRuleContext {
+  public:
+    BlockMultipleAssignmentsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    VariableMultipleAssignmentsModesContext *variableMultipleAssignmentsModes();
+    antlr4::tree::TerminalNode *Attr();
+    GeneralValueElementsContext *generalValueElements();
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockMultipleAssignmentsContext* blockMultipleAssignments();
+
+  class  VariableMultipleAssignmentsModesContext : public antlr4::ParserRuleContext {
+  public:
+    VariableMultipleAssignmentsModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueContext *generalValue();
+    std::vector<antlr4::tree::TerminalNode *> Attr();
+    antlr4::tree::TerminalNode* Attr(size_t i);
+    std::vector<VariableMultipleAssignmentsModesContext *> variableMultipleAssignmentsModes();
+    VariableMultipleAssignmentsModesContext* variableMultipleAssignmentsModes(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  VariableMultipleAssignmentsModesContext* variableMultipleAssignmentsModes();
 
   class  BlockPermissionTokensContext : public antlr4::ParserRuleContext {
   public:

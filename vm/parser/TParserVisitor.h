@@ -150,6 +150,10 @@ public:
 
     virtual antlrcpp::Any visitAttributionElements(TParser::AttributionElementsContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *context) = 0;
+
+    virtual antlrcpp::Any visitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *context) = 0;
+
     virtual antlrcpp::Any visitBlockPermissionTokens(TParser::BlockPermissionTokensContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
