@@ -1696,3 +1696,16 @@ a[3]             = 10;
 variable[1](10, 20);
 
 
+value[1][2][3] = 10;
+variable[1](10, 20);
+
+
+// Exemplo de acessos em arrays associativos.
+variable.items[0].name              = 10; // Verbum
+variable.items[1].name              = 10; // Divinus
+variable.items[2].values[0]         = 10; // 10
+variable.items[2].values[3].name    = 10; // Member
+variable.items[3]                   = 10; // 31337
+variable[3] = 10;
+
+

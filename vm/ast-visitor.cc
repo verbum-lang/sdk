@@ -1237,36 +1237,38 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunctionCall (TParser::BlockFunction
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_FUNCTION_CALL;
 
-    // Método de objeto instanciado.
-    if (ctx->Point()) {
-        node.function_call.type = VERBUM_FUNCTION_CALL_INSTANCE;
-        node.function_call.object_name = ctx->identifier()->getText();
-        node.function_call.method_name = ctx->identifierB()->getText();
-    }
-
-    // Método static.
-    else if (ctx->TwoTwoPoint()) {
-        node.function_call.type = VERBUM_FUNCTION_CALL_STATIC;
-        node.function_call.object_name = ctx->identifier()->getText();
-        node.function_call.method_name = ctx->identifierB()->getText();
-    }
-
-    // Cascading method.
-    // else if (ctx->methodCascadingModes()) {
-    //     node.function_call.type = VERBUM_FUNCTION_CALL_CASCADING;
-    //     node.function_call.function_name = 
-    //         ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
-    // }
-
     // Chamada a função, a partir de acesso a elementos de array.
-    // else if (ctx->arrayAccessElements()) {
-    //     node.function_call.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
-    // }
+    if (ctx->blockAccessArrayElements()) {
+        node.function_call.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
+    }
 
-    // Função comum.
     else {
-        node.function_call.type = VERBUM_FUNCTION_CALL_SIMPLE;
-        node.function_call.function_name = ctx->identifier()->getText();
+        // Método de objeto instanciado.
+        if (ctx->Point()) {
+            node.function_call.type = VERBUM_FUNCTION_CALL_INSTANCE;
+            node.function_call.object_name = ctx->identifier()->getText();
+            node.function_call.method_name = ctx->identifierB()->getText();
+        }
+
+        // Método static.
+        else if (ctx->TwoTwoPoint()) {
+            node.function_call.type = VERBUM_FUNCTION_CALL_STATIC;
+            node.function_call.object_name = ctx->identifier()->getText();
+            node.function_call.method_name = ctx->identifierB()->getText();
+        }
+
+        // Cascading method.
+        // else if (ctx->methodCascadingModes()) {
+        //     node.function_call.type = VERBUM_FUNCTION_CALL_CASCADING;
+        //     node.function_call.function_name = 
+        //         ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
+        // }
+
+        // Função comum.
+        else {
+            node.function_call.type = VERBUM_FUNCTION_CALL_SIMPLE;
+            node.function_call.function_name = ctx->identifier()->getText();
+        }
     }
 
     this->add_node(node);

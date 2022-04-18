@@ -401,6 +401,7 @@ blockClassConstructor
 */
 blockFunctionCall
   : identifier ( (Point | TwoTwoPoint) identifierB )? OpenOp (functionCallElements)? CloseOp End
+  | blockAccessArrayElements OpenOp (functionCallElements)? CloseOp End
   ;
 
 functionCallElements
