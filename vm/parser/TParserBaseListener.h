@@ -198,6 +198,21 @@ public:
   virtual void enterLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
   virtual void exitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext * /*ctx*/) override { }
 
+  virtual void enterBlockClassConstructor(TParser::BlockClassConstructorContext * /*ctx*/) override { }
+  virtual void exitBlockClassConstructor(TParser::BlockClassConstructorContext * /*ctx*/) override { }
+
+  virtual void enterBlockFunctionCall(TParser::BlockFunctionCallContext * /*ctx*/) override { }
+  virtual void exitBlockFunctionCall(TParser::BlockFunctionCallContext * /*ctx*/) override { }
+
+  virtual void enterFunctionCallElements(TParser::FunctionCallElementsContext * /*ctx*/) override { }
+  virtual void exitFunctionCallElements(TParser::FunctionCallElementsContext * /*ctx*/) override { }
+
+  virtual void enterBlockAttribution(TParser::BlockAttributionContext * /*ctx*/) override { }
+  virtual void exitBlockAttribution(TParser::BlockAttributionContext * /*ctx*/) override { }
+
+  virtual void enterAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
+  virtual void exitAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext * /*ctx*/) override { }
 

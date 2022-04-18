@@ -1227,3 +1227,147 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFnCodeBlock (TParser::LambdaFnCodeB
     return result;
 }
 
+/*
+** Chamada a função e métodos.
+*/
+
+// Bloco principal.
+antlrcpp::Any verbum_ast_visitor::visitBlockFunctionCall (TParser::BlockFunctionCallContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_FUNCTION_CALL;
+
+    // Método de objeto instanciado.
+    if (ctx->Point()) {
+        node.function_call.type = VERBUM_FUNCTION_CALL_INSTANCE;
+        node.function_call.object_name = ctx->identifier()->getText();
+        node.function_call.method_name = ctx->identifierB()->getText();
+    }
+
+    // Método static.
+    else if (ctx->TwoTwoPoint()) {
+        node.function_call.type = VERBUM_FUNCTION_CALL_STATIC;
+        node.function_call.object_name = ctx->identifier()->getText();
+        node.function_call.method_name = ctx->identifierB()->getText();
+    }
+
+    // Cascading method.
+    // else if (ctx->methodCascadingModes()) {
+    //     node.function_call.type = VERBUM_FUNCTION_CALL_CASCADING;
+    //     node.function_call.function_name = 
+    //         ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
+    // }
+
+    // Chamada a função, a partir de acesso a elementos de array.
+    // else if (ctx->arrayAccessElements()) {
+    //     node.function_call.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
+    // }
+
+    // Função comum.
+    else {
+        node.function_call.type = VERBUM_FUNCTION_CALL_SIMPLE;
+        node.function_call.function_name = ctx->identifier()->getText();
+    }
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
+** Atribuição de valores à variáveis.
+*/
+
+// Declaração da atribuição.
+antlrcpp::Any verbum_ast_visitor::visitBlockAttribution (TParser::BlockAttributionContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_VARIABLE_INITIALIZATION;
+    node.variable_type = VERBUM_VARIABLE_ATTRIBUTION;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Elementos da atribuição (única ou múltipla).
+antlrcpp::Any verbum_ast_visitor::visitAttributionElements (TParser::AttributionElementsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_VARIABLE_USE_TYPES;
+
+    // Chamda a método de objeto.
+    if (ctx->identifierB()) {
+
+        // Objeto instanciado.
+        if (ctx->Point()) 
+            node.variable_definition_type = VERBUM_VARIABLE_OBJ_INSTANCE;
+
+        // Método estático.
+        else if (ctx->TwoTwoPoint())
+            node.variable_definition_type = VERBUM_VARIABLE_OBJ_STATIC;
+
+        node.variable_names.object_name = ctx->identifier()->getText();
+        node.variable_names.method_name = ctx->identifierB()->getText();
+    }
+
+    // Nome da variável (tipo simples).
+    else {
+        node.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
+        node.variable_names.simple_name = ctx->identifier()->getText();
+    }
+
+    // Verifica se há instanciamento de objeto (new), ou aguardo de função async.
+    if (ctx->New()) 
+        node.variable_mod_operation = VERBUM_MOD_OP_OBJ_INSTANCE;
+    else if (ctx->Await())
+        node.variable_mod_operation = VERBUM_MOD_OP_AWAIT;
+    else
+        node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
+
+    // Analisa operador (atribuição, atribuição com valor, etc).
+    if (ctx->Attr())
+        node.variable_operation = VERBUM_OPERATOR_ATTR;
+    else {
+        string op = ctx->AssignmentOperator()->getText();
+
+        if (op.compare("+=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_ADD_EQUAL;
+        else if (op.compare("-=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_SUB_EQUAL;
+        else if (op.compare("*=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_MUL_EQUAL;
+        else if (op.compare("/=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_DIV_EQUAL;
+        else if (op.compare("%=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_PERC_EQUAL;
+        else if (op.compare(">")  == 0)
+            node.variable_operation = VERBUM_OPERATOR_MAJOR;
+        else if (op.compare("<")  == 0)
+            node.variable_operation = VERBUM_OPERATOR_MINOR;
+        else if (op.compare(">=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_MAJOR_EQUAL;
+        else if (op.compare("<=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_MINOR_EQUAL;
+        else if (op.compare("&&") == 0)
+            node.variable_operation = VERBUM_OPERATOR_AND;
+        else if (op.compare("==") == 0)
+            node.variable_operation = VERBUM_OPERATOR_EQUAL;
+        else if (op.compare("!=") == 0)
+            node.variable_operation = VERBUM_OPERATOR_NOT_EQUAL;
+        else if (op.compare("!")  == 0)
+            node.variable_operation = VERBUM_OPERATOR_NOT;
+    }
+
+    this->add_node(node);
+    return visitChildren(ctx);
+}
+

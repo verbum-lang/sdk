@@ -50,11 +50,13 @@ public:
     RuleClassAnonymousParam = 50, RuleClassCodeBlock = 51, RuleBlockArray = 52, 
     RuleIndexArray = 53, RuleIndexArrayElements = 54, RuleAssociativeArray = 55, 
     RuleAssociativeArrayElements = 56, RuleBlockLambdaFunctions = 57, RuleLambdaFnParams = 58, 
-    RuleLambdaFnCodeBlock = 59, RuleCodeBlockFlowControl = 60, RuleCodeBlockFlowControlElements = 61, 
-    RuleCodeBlockControl = 62, RuleGeneralValue = 63, RuleGeneralValueBlock = 64, 
-    RuleGeneralValueItems = 65, RuleGeneralValueElements = 66, RuleIdentifier = 67, 
-    RuleIdentifierB = 68, RuleIdentifierC = 69, RuleIdentifierD = 70, RuleIncDecOperatorsA = 71, 
-    RuleIncDecOperatorsB = 72, RuleOpenOpA = 73, RuleCloseOpA = 74, RuleBlockLiveTokens = 75
+    RuleLambdaFnCodeBlock = 59, RuleBlockClassConstructor = 60, RuleBlockFunctionCall = 61, 
+    RuleFunctionCallElements = 62, RuleBlockAttribution = 63, RuleAttributionElements = 64, 
+    RuleCodeBlockFlowControl = 65, RuleCodeBlockFlowControlElements = 66, 
+    RuleCodeBlockControl = 67, RuleGeneralValue = 68, RuleGeneralValueBlock = 69, 
+    RuleGeneralValueItems = 70, RuleGeneralValueElements = 71, RuleIdentifier = 72, 
+    RuleIdentifierB = 73, RuleIdentifierC = 74, RuleIdentifierD = 75, RuleIncDecOperatorsA = 76, 
+    RuleIncDecOperatorsB = 77, RuleOpenOpA = 78, RuleCloseOpA = 79, RuleBlockLiveTokens = 80
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -127,6 +129,11 @@ public:
   class BlockLambdaFunctionsContext;
   class LambdaFnParamsContext;
   class LambdaFnCodeBlockContext;
+  class BlockClassConstructorContext;
+  class BlockFunctionCallContext;
+  class FunctionCallElementsContext;
+  class BlockAttributionContext;
+  class AttributionElementsContext;
   class CodeBlockFlowControlContext;
   class CodeBlockFlowControlElementsContext;
   class CodeBlockControlContext;
@@ -192,6 +199,9 @@ public:
     BlockInterfaceContext *blockInterface();
     BlockAbstractionContext *blockAbstraction();
     BlockClassContext *blockClass();
+    BlockFunctionCallContext *blockFunctionCall();
+    BlockClassConstructorContext *blockClassConstructor();
+    BlockAttributionContext *blockAttribution();
     BlockCodeContext *blockCode();
     BlockLiveTokensContext *blockLiveTokens();
 
@@ -1214,6 +1224,109 @@ public:
 
   LambdaFnCodeBlockContext* lambdaFnCodeBlock();
 
+  class  BlockClassConstructorContext : public antlr4::ParserRuleContext {
+  public:
+    BlockClassConstructorContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentifierContext *identifier();
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+    CodeBlockControlContext *codeBlockControl();
+    FunctionParamContext *functionParam();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockClassConstructorContext* blockClassConstructor();
+
+  class  BlockFunctionCallContext : public antlr4::ParserRuleContext {
+  public:
+    BlockFunctionCallContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentifierContext *identifier();
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+    antlr4::tree::TerminalNode *End();
+    IdentifierBContext *identifierB();
+    FunctionCallElementsContext *functionCallElements();
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockFunctionCallContext* blockFunctionCall();
+
+  class  FunctionCallElementsContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionCallElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueElementsContext *generalValueElements();
+    std::vector<antlr4::tree::TerminalNode *> Separator();
+    antlr4::tree::TerminalNode* Separator(size_t i);
+    std::vector<FunctionCallElementsContext *> functionCallElements();
+    FunctionCallElementsContext* functionCallElements(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionCallElementsContext* functionCallElements();
+
+  class  BlockAttributionContext : public antlr4::ParserRuleContext {
+  public:
+    BlockAttributionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    AttributionElementsContext *attributionElements();
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockAttributionContext* blockAttribution();
+
+  class  AttributionElementsContext : public antlr4::ParserRuleContext {
+  public:
+    AttributionElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentifierContext *identifier();
+    GeneralValueElementsContext *generalValueElements();
+    antlr4::tree::TerminalNode *Attr();
+    antlr4::tree::TerminalNode *AssignmentOperator();
+    IdentifierBContext *identifierB();
+    std::vector<antlr4::tree::TerminalNode *> Separator();
+    antlr4::tree::TerminalNode* Separator(size_t i);
+    std::vector<AttributionElementsContext *> attributionElements();
+    AttributionElementsContext* attributionElements(size_t i);
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
+    antlr4::tree::TerminalNode *New();
+    antlr4::tree::TerminalNode *Await();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AttributionElementsContext* attributionElements();
+
   class  CodeBlockFlowControlContext : public antlr4::ParserRuleContext {
   public:
     CodeBlockFlowControlContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1486,12 +1599,10 @@ public:
   public:
     BlockLiveTokensContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *ARightLB();
+    antlr4::tree::TerminalNode *New();
     antlr4::tree::TerminalNode *End();
     antlr4::tree::TerminalNode *Attr();
     antlr4::tree::TerminalNode *Point();
-    antlr4::tree::TerminalNode *TwoPoint();
-    antlr4::tree::TerminalNode *TwoTwoPoint();
     antlr4::tree::TerminalNode *Separator();
     antlr4::tree::TerminalNode *Pub();
     antlr4::tree::TerminalNode *Pro();
@@ -1499,8 +1610,6 @@ public:
     antlr4::tree::TerminalNode *Static();
     antlr4::tree::TerminalNode *Final();
     antlr4::tree::TerminalNode *Async();
-    antlr4::tree::TerminalNode *OpenOp();
-    antlr4::tree::TerminalNode *CloseOp();
     antlr4::tree::TerminalNode *ArithmeticOperator();
     antlr4::tree::TerminalNode *AssignmentOperator();
     antlr4::tree::TerminalNode *IncDecOperators();

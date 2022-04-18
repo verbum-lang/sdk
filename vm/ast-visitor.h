@@ -107,6 +107,13 @@ namespace verbum {
             antlrcpp::Any visitLambdaFnParams (TParser::LambdaFnParamsContext *ctx);
             antlrcpp::Any visitLambdaFnCodeBlock (TParser::LambdaFnCodeBlockContext *ctx);
 
+            // Chamada a funções e métodos.
+            antlrcpp::Any visitBlockFunctionCall (TParser::BlockFunctionCallContext *ctx);
+
+            // Atribuição de valores à variáveis.
+            antlrcpp::Any visitBlockAttribution (TParser::BlockAttributionContext *ctx);
+            antlrcpp::Any visitAttributionElements (TParser::AttributionElementsContext *ctx);
+
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
 

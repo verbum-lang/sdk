@@ -140,6 +140,16 @@ public:
 
     virtual antlrcpp::Any visitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockClassConstructor(TParser::BlockClassConstructorContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockFunctionCall(TParser::BlockFunctionCallContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunctionCallElements(TParser::FunctionCallElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockAttribution(TParser::BlockAttributionContext *context) = 0;
+
+    virtual antlrcpp::Any visitAttributionElements(TParser::AttributionElementsContext *context) = 0;
+
     virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *context) = 0;
 
     virtual antlrcpp::Any visitCodeBlockFlowControlElements(TParser::CodeBlockFlowControlElementsContext *context) = 0;

@@ -257,6 +257,26 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockClassConstructor(TParser::BlockClassConstructorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockFunctionCall(TParser::BlockFunctionCallContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunctionCallElements(TParser::FunctionCallElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockAttribution(TParser::BlockAttributionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAttributionElements(TParser::AttributionElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) override {
     return visitChildren(ctx);
   }

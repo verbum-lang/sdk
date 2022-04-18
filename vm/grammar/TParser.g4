@@ -36,6 +36,9 @@ statements
   | blockInterface
   | blockAbstraction
   | blockClass
+  | blockFunctionCall
+  | blockClassConstructor
+  | blockAttribution
 
   | blockCode
   | blockLiveTokens
@@ -387,6 +390,35 @@ lambdaFnCodeBlock
   ;
 
 /*
+** Método contrutor de classe.
+*/
+blockClassConstructor
+  : identifier OpenOp (functionParam)? CloseOp codeBlockControl
+  ;
+
+/*
+** Chamadas a funções e métodos de objetos instanciados.
+*/
+blockFunctionCall
+  : identifier ( (Point | TwoTwoPoint) identifierB )? OpenOp (functionCallElements)? CloseOp End
+  ;
+
+functionCallElements
+  : generalValueElements (Separator functionCallElements)*
+  ;
+
+/*
+** Atribuição de valores à variáveis.
+*/
+blockAttribution
+  : attributionElements End
+  ;
+
+attributionElements
+  : identifier ( (Point | TwoTwoPoint) identifierB )? (Attr | AssignmentOperator) (New | Await)? generalValueElements (Separator attributionElements)*
+  ; 
+
+/*
 ** Controles de blocos de código.
 */
 
@@ -502,15 +534,15 @@ blockLiveTokens
       // CloseBlock |
       // ArrowRight |
       // Not |
-      // New |
+      New |
       // OpenArIndex |
       // CloseArIndex |
-      ARightLB |
+      // ARightLB |
       End |
       Attr |
       Point |
-      TwoPoint |
-      TwoTwoPoint |
+      // TwoPoint |
+      // TwoTwoPoint |
       Separator |
       Pub |
       Pro |
@@ -518,12 +550,12 @@ blockLiveTokens
       Static |
       Final |
       Async |
-      OpenOp |
-      CloseOp |
+      // OpenOp |
+      // CloseOp |
       ArithmeticOperator |
       AssignmentOperator |
       IncDecOperators |
-      Identifier |
+      Identifier 
       TypeSpec |
       Integer |
       Float |

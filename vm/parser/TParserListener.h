@@ -196,6 +196,21 @@ public:
   virtual void enterLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) = 0;
   virtual void exitLambdaFnCodeBlock(TParser::LambdaFnCodeBlockContext *ctx) = 0;
 
+  virtual void enterBlockClassConstructor(TParser::BlockClassConstructorContext *ctx) = 0;
+  virtual void exitBlockClassConstructor(TParser::BlockClassConstructorContext *ctx) = 0;
+
+  virtual void enterBlockFunctionCall(TParser::BlockFunctionCallContext *ctx) = 0;
+  virtual void exitBlockFunctionCall(TParser::BlockFunctionCallContext *ctx) = 0;
+
+  virtual void enterFunctionCallElements(TParser::FunctionCallElementsContext *ctx) = 0;
+  virtual void exitFunctionCallElements(TParser::FunctionCallElementsContext *ctx) = 0;
+
+  virtual void enterBlockAttribution(TParser::BlockAttributionContext *ctx) = 0;
+  virtual void exitBlockAttribution(TParser::BlockAttributionContext *ctx) = 0;
+
+  virtual void enterAttributionElements(TParser::AttributionElementsContext *ctx) = 0;
+  virtual void exitAttributionElements(TParser::AttributionElementsContext *ctx) = 0;
+
   virtual void enterCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
   virtual void exitCodeBlockFlowControl(TParser::CodeBlockFlowControlContext *ctx) = 0;
 
