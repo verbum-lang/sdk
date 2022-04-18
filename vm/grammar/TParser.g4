@@ -549,17 +549,17 @@ blockLiveTokens
       Priv |
       Static |
       Final |
-      Async |
+      Async 
       // OpenOp |
       // CloseOp |
       // ArithmeticOperator |
       // AssignmentOperator |
       // IncDecOperators |
-      Identifier 
-      TypeSpec |
-      Integer |
-      Float |
-      String
+      // Identifier 
+      // TypeSpec |
+      // Integer |
+      // Float |
+      // String
     )
   ;
 

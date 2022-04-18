@@ -1605,11 +1605,6 @@ public:
     antlr4::tree::TerminalNode *Static();
     antlr4::tree::TerminalNode *Final();
     antlr4::tree::TerminalNode *Async();
-    antlr4::tree::TerminalNode *Identifier();
-    antlr4::tree::TerminalNode *TypeSpec();
-    antlr4::tree::TerminalNode *Integer();
-    antlr4::tree::TerminalNode *Float();
-    antlr4::tree::TerminalNode *String();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
