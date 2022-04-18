@@ -1,37 +1,73 @@
 
 // In principio erat Verbum!
 
-// a  = a.b = a.b() = 10 = a  = a.b = a.b() = 10;
+a  = a.b = a.b() = 10 = a  = a.b = a.b() = 10;
 
-// a::b= 10;
-// a::b();
+a::b= 10;
+a::b();
 
-// a.b = 10;
-// a.b();
+a.b = 10;
+a.b();
 
-// var a = new Obj();
+var a = new Obj();
 
-// var a = new Obj(10, [1,2,3], 'Verbum');
+var a = new Obj(10, [1,2,3], 'Verbum');
 
-// (new class {
+(new class {
 
-// }).show(10 * 10);
+}).show(10 * 10);
 
 
-// (fn () {
+(fn () {
 
-// })(10 * 10);
+})(10 * 10);
 
-// var a = (fn () {
+var a = (fn () {
 
-// })(10 * 10);
+})(10 * 10);
 
-// a[1][2][3] = 10;
+var a = (new class {
 
-// var a = (new class {
-
-// }).show();
+}).show();
 
 var a = (new Obj()).show();
+
+a[1][2][3] = 10;
+a.b.c = 10;
+a.b.c[1][2].d.e[10] = 10;
+
+
+var a = a[1][2][3];
+
+var a = a.b.c;
+
+var a = a.b.c[1][2].d.e[10];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = [
+    
+    a[1][2][3],
+    a.b.c / 10,
+    a.b.c[1][2].d.e[10],
+    10,
+    -1
+
+];
+
+var a = new Obj();
+
+var a = (new Obj()).show();
+
+a[1][2][3].c.d      (10, 20);
+a[1][2][3].c.d[1]   (10, 20);
 
 
