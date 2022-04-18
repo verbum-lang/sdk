@@ -1327,13 +1327,13 @@ public:
     BlockAccessArrayElementsContext *blockAccessArrayElements();
     antlr4::tree::TerminalNode *OpenOp();
     antlr4::tree::TerminalNode *CloseOp();
-    FunctionCallElementsContext *functionCallElements();
     std::vector<BlockCascadingMethodAttrContext *> blockCascadingMethodAttr();
     BlockCascadingMethodAttrContext* blockCascadingMethodAttr(size_t i);
     std::vector<antlr4::tree::TerminalNode *> Point();
     antlr4::tree::TerminalNode* Point(size_t i);
     std::vector<antlr4::tree::TerminalNode *> TwoTwoPoint();
     antlr4::tree::TerminalNode* TwoTwoPoint(size_t i);
+    FunctionCallElementsContext *functionCallElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1417,9 +1417,10 @@ public:
     BlockMultipleAssignmentsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     VariableMultipleAssignmentsModesContext *variableMultipleAssignmentsModes();
-    antlr4::tree::TerminalNode *Attr();
     GeneralValueElementsContext *generalValueElements();
     antlr4::tree::TerminalNode *End();
+    antlr4::tree::TerminalNode *Attr();
+    antlr4::tree::TerminalNode *AssignmentOperator();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1435,10 +1436,12 @@ public:
     VariableMultipleAssignmentsModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     GeneralValueContext *generalValue();
-    std::vector<antlr4::tree::TerminalNode *> Attr();
-    antlr4::tree::TerminalNode* Attr(size_t i);
     std::vector<VariableMultipleAssignmentsModesContext *> variableMultipleAssignmentsModes();
     VariableMultipleAssignmentsModesContext* variableMultipleAssignmentsModes(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> Attr();
+    antlr4::tree::TerminalNode* Attr(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> AssignmentOperator();
+    antlr4::tree::TerminalNode* AssignmentOperator(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

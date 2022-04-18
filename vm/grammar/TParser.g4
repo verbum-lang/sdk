@@ -427,7 +427,7 @@ blockCascadingMethod
   ;
 
 blockCascadingMethodAttr
-  : blockAccessArrayElements OpenOp (functionCallElements)? CloseOp ((Point | TwoTwoPoint) blockCascadingMethodAttr)*
+  : blockAccessArrayElements (OpenOp (functionCallElements)? CloseOp)? ((Point | TwoTwoPoint) blockCascadingMethodAttr)*
   ;
 
 /*
@@ -455,11 +455,11 @@ attributionElements
 ** Atribuições múltiplas (a = b = c = d).
 */
 blockMultipleAssignments
-  : variableMultipleAssignmentsModes Attr generalValueElements End
+  : variableMultipleAssignmentsModes (Attr | AssignmentOperator) generalValueElements End
   ;
 
 variableMultipleAssignmentsModes
-  : generalValue (Attr variableMultipleAssignmentsModes)*
+  : generalValue ( (Attr | AssignmentOperator) variableMultipleAssignmentsModes )*
   ;
 
 /*
