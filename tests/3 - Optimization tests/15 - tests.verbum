@@ -22,12 +22,16 @@
 
 // })(10 * 10);
 
+// var a = (fn () {
+
+// })(10 * 10);
+
 // a[1][2][3] = 10;
 
-var a = (new class {
+// var a = (new class {
 
-}).show();
+// }).show();
 
-// var a = (new Obj()).show();
+var a = (new Obj()).show();
 
 

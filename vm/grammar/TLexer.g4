@@ -1,4 +1,14 @@
 
+/*
+** Copyright (c) 2022, the Verbum project authors.  Please see the AUTHORS file
+** for details. All rights reserved. Use of this source code is governed by a
+** BSD-style license that can be found in the LICENSE file.
+**
+** In principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum - John 1
+**
+** Gramática da linguagem.
+*/
+
 lexer grammar TLexer;
 
 @lexer::postinclude {
@@ -123,10 +133,6 @@ Newline
       -> skip
     ;
 
-/*
-** use (importações).
-*/
-
 // Fragments... (uso futuro)
 fragment DecimalExponent : 'e' | 'E' | 'e+' | 'E+' | 'e-' | 'E-' DecimalDigits;
 fragment DecimalDigits   : ('0'..'9'|'_')+ ;
@@ -156,6 +162,6 @@ fragment OCTAL_DIGITS: '0' '0'..'7'+;
 fragment HEX_DIGITS: '0x' ('0'..'9' | 'a'..'f' | 'A'..'F')+;
 
 /* Tokens desconhecidos. */
-//Unknown : . ;
+// Unknown : . ;
 
 

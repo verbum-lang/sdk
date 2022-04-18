@@ -94,6 +94,7 @@ namespace verbum {
 
             // Class.
             antlrcpp::Any visitBlockClass (TParser::BlockClassContext *ctx);
+            antlrcpp::Any visitBlockClassDeclarationAttr (TParser::BlockClassDeclarationAttrContext *ctx);
             antlrcpp::Any visitClassCodeBlock (TParser::ClassCodeBlockContext *ctx);
 
             // Valores gerais.
@@ -126,6 +127,9 @@ namespace verbum {
             // Array.
             antlrcpp::Any visitArrayAccessElementsItems (TParser::ArrayAccessElementsItemsContext *ctx);
             antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
+
+            // Instanciamento anônimo de objeto.
+            antlrcpp::Any visitBlockAnonymousObject (TParser::BlockAnonymousObjectContext *ctx);
 
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);

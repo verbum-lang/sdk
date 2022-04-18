@@ -641,27 +641,28 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
 
     // Declaração de função - atribuição da mesma à variável.
     else if (ctx->blockFunctionDeclarationAttr()) {
-        block = true;
+        // block = true;
     }
 
     // Declaração de classe - atribuição da mesma à variável.
     else if (ctx->blockClassDeclarationAttr()) {
-        block = true;
+        // block = true;
     }
 
     // Funções lambdas.
     else if (ctx->blockLambdaFunctions()) {
-        block = true;
+        // block = true;
     }
 
     // Instanciamento de objetos anonimamente.
     else if (ctx->blockAnonymousObject()) {
+        node.general_value_data.type = VERBUM_ANONYMOUS_OBJECT;
         block = true;
     }
 
     // Acesso a elementos de array.
     else if (ctx->blockAccessArrayElements()) {
-        block = true;
+        // block = true;
     }
 
     this->add_node(node);
@@ -1091,8 +1092,48 @@ antlrcpp::Any verbum_ast_visitor::visitAbstractionCodeBlock (TParser::Abstractio
 ** Classes.
 */
 
-// Declaração da classe.
+// Expressão utilizada solta no código.
 antlrcpp::Any verbum_ast_visitor::visitBlockClass (TParser::BlockClassContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_OOP_CLASS;
+
+    // Nome da classe.
+    if (ctx->identifier())
+        node.vclass.identifier_a = ctx->identifier()->getText();
+
+    // Verifica se há herança.
+    if (ctx->Extends()) {
+        node.vclass.extends = true;
+        node.vclass.identifier_b = ctx->identifierB()->getText();
+    }
+
+    // Verifica se há implementação de interface.
+    if (ctx->Implements()) {
+        node.vclass.implements = true;
+        node.vclass.identifier_c = ctx->identifierC()->getText();
+    }
+
+    // Verifica se é definição de classe anônima.
+    if (ctx->openOpA() && ctx->closeOpA()) {
+        node.anonymous_class = true;
+
+        // Verifica se há método chamado.
+        if (ctx->identifierD()) 
+            node.anonymous_class_method = ctx->identifierD()->getText();
+    }
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Expressão utilizada na atribuição de valor à variáveis.
+antlrcpp::Any verbum_ast_visitor::visitBlockClassDeclarationAttr (TParser::BlockClassDeclarationAttrContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_OOP_CLASS;
@@ -1137,6 +1178,38 @@ antlrcpp::Any verbum_ast_visitor::visitClassCodeBlock (TParser::ClassCodeBlockCo
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_OOP_CLASS_CODE_BLOCK;
     
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
+** Instanciamento anonimo de objeto.
+*/
+antlrcpp::Any verbum_ast_visitor::visitBlockAnonymousObject (TParser::BlockAnonymousObjectContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_ANONYMOUS_OBJECT;
+
+    // Nome do objeto.
+    if (ctx->identifier())
+        node.function_call.object_name = ctx->identifier()->getText();
+
+    // Verifica se há método chamado.
+    if (ctx->identifierB()) 
+        node.anonymous_class_method = ctx->identifierB()->getText();
+
+    // Tipo do acesso ao método.
+    node.attribute_object_type = VERBUM_UNKNOWN;
+    if (ctx->Point())
+        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;
+    else if (ctx->TwoTwoPoint())
+        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
+
     this->add_node(node);
 
     this->node_block_counter++;

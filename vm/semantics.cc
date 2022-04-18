@@ -845,6 +845,42 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         }
 
         /*
+        ** Objeto anônimo - instanciamento.
+        */
+
+        // Bloco geral.
+        else if (node.type == VERBUM_ANONYMOUS_OBJECT) {
+            this->tab();
+            cout << "-> anonymous-object def block (open)\n";
+            
+            this->tab();
+            cout << "-> object name: " << node.function_call.object_name << "\n";
+
+            this->tab();
+            cout << "-> method: " << node.anonymous_class_method << "\n";
+
+            // Tipo do acesso ao método.
+            this->tab();
+            cout << "-> method access: ";
+
+            if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_INSTANCE)
+                cout << " . ";
+            else if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_STATIC)
+                cout << " :: ";
+            else 
+                cout << " ?(unknown access) ";
+
+            cout << "\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> anonymous-object def block (close)\n";
+        }
+        
+        /*
         ** Valores gerais.
         */
         else if (node.type == VERBUM_GENERAL_VALUE) {
@@ -1027,6 +1063,19 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
                 this->tab();
                 cout << "-> function-call array-access (close)\n";
+            }
+
+            // Instanciamento de objeto anônimo.
+            else if (node.general_value_data.type == VERBUM_ANONYMOUS_OBJECT) {
+                this->tab();
+                cout << "-> anonymous-object instance (open)\n";
+
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+
+                this->tab();
+                cout << "-> anonymous-object instance (close)\n";
             }
 
             // Verifica se há conversão de tipo.

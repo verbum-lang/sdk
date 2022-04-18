@@ -1,4 +1,14 @@
 
+/*
+** Copyright (c) 2022, the Verbum project authors.  Please see the AUTHORS file
+** for details. All rights reserved. Use of this source code is governed by a
+** BSD-style license that can be found in the LICENSE file.
+**
+** In principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum - John 1
+**
+** Gramática da linguagem.
+*/
+
 parser grammar TParser;
 
 options {
@@ -411,7 +421,6 @@ functionCallElements
 /*
 ** Instanciamento anônimo de objetos.
 */
-
 blockAnonymousObject
   : OpenOp 
       New identifier OpenOp (generalValueElements)? CloseOp
@@ -512,11 +521,14 @@ codeBlockControl
 
 /*
 ** Valores de uso geral.
+** 
 ** Utilizado para:
-**    Valores comuns (atribuições)
-**    Operações aritméticas
-**    Operações relacionais/condicionais
-**    Operações de incremento/decremento
+**    Valores comuns (atribuições em seus variados modos).
+**    Operações aritméticas.
+**    Operações relacionais/condicionais.
+**    Operações de incremento/decremento.
+**    Parâmetros de funções / métodos.
+**    Expressões em geral.
 */
 generalValue
 
@@ -567,13 +579,13 @@ generalValueElements
 */
 
 // Uso geral.
-identifier : Identifier;
-identifierB : Identifier;
-identifierC : Identifier;
-identifierD : Identifier;
+identifier       : Identifier;
+identifierB      : Identifier;
+identifierC      : Identifier;
+identifierD      : Identifier;
 incDecOperatorsA : IncDecOperators;
 incDecOperatorsB : IncDecOperators;
-openOpA: OpenOp;
-closeOpA: CloseOp;
+openOpA          : OpenOp;
+closeOpA         : CloseOp;
 
 
