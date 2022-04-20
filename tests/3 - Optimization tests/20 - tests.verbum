@@ -114,3 +114,9 @@ obj.attribute = 33;
 obj::attribute = 33;
 
 obj1.attr1 = obj2::attr2 = obj3.attr3 = a = 33;
+
+ar[1][2][3] += 10;
+
+ar[1][2][3] = ar[1][2][3] = 10;
+
+

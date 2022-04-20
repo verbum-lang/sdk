@@ -354,6 +354,9 @@ antlrcpp::Any verbum_ast_visitor::visitAttributionElements (TParser::Attribution
         node.variable_names.method_name = ctx->identifierB()->getText();
     }
 
+    // Atribuição com valor da regra "general value".
+    else if (ctx->generalValue()) {  }
+
     // Variável simples.
     else {
         node.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
@@ -424,6 +427,17 @@ antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPerm
     this->add_node(node);
     return visitChildren(ctx);
 }
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 ** Ret (return).
@@ -534,23 +548,6 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
     this->node_block_counter--;
 
     return result;
-}
-
-/*
-** Array associativo.
-*/
-antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-
-    node.type = VERBUM_GENERAL_VALUE;
-    node.general_value_type_conversion = false;
-    node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_ELEMENT;
-    node.general_value_data.identifier = ctx->identifier()->getText();
-    
-    this->add_node(node);
-
-    return visitChildren(ctx);
 }
 
 /*
@@ -1187,10 +1184,10 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunctionCall (TParser::BlockFunction
     node.type = VERBUM_FUNCTION_CALL;
 
     // Chamada a função, a partir de acesso a elementos de array.
-    if (ctx->blockAccessArrayElements()) {
+    if (ctx->blockAccessArrayElements()) 
         node.function_call.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
-    }
 
+    // Chamadas comuns.
     else {
         // Método de objeto instanciado.
         if (ctx->Point()) {
@@ -1205,13 +1202,6 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunctionCall (TParser::BlockFunction
             node.function_call.object_name = ctx->identifier()->getText();
             node.function_call.method_name = ctx->identifierB()->getText();
         }
-
-        // Cascading method.
-        // else if (ctx->methodCascadingModes()) {
-        //     node.function_call.type = VERBUM_FUNCTION_CALL_CASCADING;
-        //     node.function_call.function_name = 
-        //         ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
-        // }
 
         // Função comum.
         else {
@@ -1247,6 +1237,32 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClassConstructor (TParser::BlockClas
     this->node_block_counter--;
 
     return result;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+** Array associativo.
+*/
+antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+
+    node.type = VERBUM_GENERAL_VALUE;
+    node.general_value_type_conversion = false;
+    node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_ELEMENT;
+    node.general_value_data.identifier = ctx->identifier()->getText();
+    
+    this->add_node(node);
+    return visitChildren(ctx);
 }
 
 /*
@@ -1328,16 +1344,6 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
 
     return result;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
 ** Valores gerais.
@@ -1463,13 +1469,6 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
                 node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
         }
 
-        // Cascading method.
-        // else if (ctx->functionCall()->methodCascadingModes()) {
-        //     node.general_value_data.type = VERBUM_FUNCTION_CALL_CASCADING;
-        //     node.general_value_data.function_name = 
-        //         ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
-        // }
-        
         // Chamada a função, a partir de acesso a elementos de array.
         // else if (ctx->functionCall()->blockAccessArrayElements()) {
         //     node.general_value_data.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;

@@ -821,65 +821,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         // }
 
         // /*
-        // ** Acesso a elemento de array.
-        // */
-
-        // // Identificador.
-        // else if (node.type == VERBUM_ACCESS_ARRAY) {
-
-        //     // Identificador
-        //     this->tab();
-        //     cout << node.access_array_identifier;
-
-        //     // Pré inc/dec.
-        //     if (node.access_array_type.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
-        //         switch (node.access_array_type.type_inc_dec) {
-        //             case VERBUM_OP_TYPE_INC: cout << " ++ (pre) "; break;
-        //             case VERBUM_OP_TYPE_DEC: cout << " -- (pre) "; break;
-        //         }
-        //     }
-            
-        //     // Pós inc/dec.
-        //     if (node.access_array_type.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
-        //         switch (node.access_array_type.type_inc_dec) {
-        //             case VERBUM_OP_TYPE_INC: cout << " ++ (pos) "; break;
-        //             case VERBUM_OP_TYPE_DEC: cout << " -- (pos) "; break;
-        //         }
-        //     }
-
-        //     // Modo do acesso.
-        //     if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER)
-        //         cout << "     (identifier access) ";
-        //     else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT)
-        //         cout << " .   (member access) ";
-        //     else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK)
-        //         cout << " []  (block access) ";
-        //     else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT)
-        //         cout << " []. (block access and member access) ";
-
-        //     cout << "\n";
-
-        //     // Verifica se é bloco de acesso.
-        //     if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK       ||
-        //         node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT  )
-        //     {
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
-        //     }
-        // }
-        
-        // // Blocos.
-        // else if (node.type == VERBUM_ACCESS_ARRAY_INDEX_BLOCK) {
-        //     this->tab();
-        //     cout << "(block) \n";
-
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
-        // }
-
-        // /*
         // ** Objeto anônimo - instanciamento.
         // */
 
@@ -915,6 +856,68 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         //     cout << "-> anonymous-object def block (close)\n";
         // }
         
+        /*
+        ** Acesso a elemento de array.
+        */
+
+        // Identificador.
+        else if (node.type == VERBUM_ACCESS_ARRAY) {
+
+            // Identificador
+            this->tab();
+            cout << "-> element: " << node.access_array_identifier;
+
+            // Pré inc/dec.
+            if (node.access_array_type.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
+                switch (node.access_array_type.type_inc_dec) {
+                    case VERBUM_OP_TYPE_INC: cout << " ++ (pre)"; break;
+                    case VERBUM_OP_TYPE_DEC: cout << " -- (pre)"; break;
+                }
+            }
+            
+            // Pós inc/dec.
+            if (node.access_array_type.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
+                switch (node.access_array_type.type_inc_dec) {
+                    case VERBUM_OP_TYPE_INC: cout << " ++ (pos)"; break;
+                    case VERBUM_OP_TYPE_DEC: cout << " -- (pos)"; break;
+                }
+            }
+
+            // Modo do acesso.
+            if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER)
+                cout << "     (identifier access) ";
+            else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT)
+                cout << " .   (member access) ";
+            else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK)
+                cout << " []  (block access) ";
+            else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT)
+                cout << " []. (block access and member access) ";
+
+            cout << "\n";
+
+            // Verifica se é bloco de acesso.
+            if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK       ||
+                node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT  )
+            {
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+            }
+        }
+        
+        // Blocos.
+        else if (node.type == VERBUM_ACCESS_ARRAY_INDEX_BLOCK) {
+            this->tab();
+            cout << "-> array-access-block (open)\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> array-access-block (close)\n";
+        }
+
         /*
         ** Valores gerais.
         */
@@ -1070,19 +1073,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     cout << " ?(unknown access) ";
 
                 cout << node.general_value_data.method_name << "\n";
-            }
-
-            // Cascading method.
-            else if (node.general_value_data.type == VERBUM_FUNCTION_CALL_CASCADING) {
-                this->tab();
-                cout << "-> cascading method (open)\n";
-
-                this->block_counter++;
-                this->verbum_recursive_ast(node.nodes);
-                this->block_counter--;
-
-                this->tab();
-                cout << "-> cascading method (close)\n";
             }
 
             // Chamada a função com acesso a elemento de array.

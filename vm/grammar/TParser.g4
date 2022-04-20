@@ -107,17 +107,18 @@ blockAttribution
 
 attributionElements
   : identifier ( (Point | TwoTwoPoint) identifierB )? (TypeSpec)? (Attr | AssignmentOperator) (New | Await)? generalValueElements (Separator attributionElements)*
+  | generalValue (TypeSpec)? (Attr | AssignmentOperator) (New | Await)? generalValueElements (Separator attributionElements)*
   ; 
 
 /*
 ** Atribuições múltiplas (a = b = c = d).
 */
 blockMultipleAssignments
-  : variableMultipleAssignmentsModes (Attr | AssignmentOperator) generalValueElements End
+  : variableMultipleAssignmentsModes Attr generalValueElements End
   ;
 
 variableMultipleAssignmentsModes
-  : generalValue ( (Attr | AssignmentOperator) variableMultipleAssignmentsModes )*
+  : generalValue (Attr variableMultipleAssignmentsModes)*
   ;
 
 /*
@@ -470,9 +471,7 @@ arrayAccessElements
   ;
 
 arrayAccessElementsItems
-  : identifier (accessBlockAr)? (Point | TwoTwoPoint)?
-  | (firstIncDec)? identifier (accessBlockAr)?  (Point | TwoTwoPoint)?
-  | identifier (accessBlockAr)? (lastIncDec)? (Point | TwoTwoPoint)?
+  : (firstIncDec)? identifier (accessBlockAr)? (lastIncDec)? (Point | TwoTwoPoint)?
   ;
 
 accessBlockAr

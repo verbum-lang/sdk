@@ -51,8 +51,15 @@ namespace verbum {
             antlrcpp::Any visitBlockAttribution (TParser::BlockAttributionContext *ctx);
             antlrcpp::Any visitVariableItem (TParser::VariableItemContext *ctx);
             antlrcpp::Any visitAttributionElements (TParser::AttributionElementsContext *ctx);
-            antlrcpp::Any visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx);
             antlrcpp::Any visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx);
+
+            // Visbilidade de elementos (pub, priv, etc).
+            antlrcpp::Any visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx);
+
+
+
+
+
 
             // Ret (return).
             antlrcpp::Any visitBlockRet (TParser::BlockRetContext *ctx) ;
@@ -101,9 +108,6 @@ namespace verbum {
             antlrcpp::Any visitBlockClassDeclarationAttr (TParser::BlockClassDeclarationAttrContext *ctx);
             antlrcpp::Any visitClassCodeBlock (TParser::ClassCodeBlockContext *ctx);
 
-            // Array associativo.
-            antlrcpp::Any visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx);
-
             // Lambda functions.
             antlrcpp::Any visitBlockLambdaFunctions (TParser::BlockLambdaFunctionsContext *ctx);
             antlrcpp::Any visitLambdaFnParams (TParser::LambdaFnParamsContext *ctx);
@@ -115,16 +119,22 @@ namespace verbum {
             // Construtor de classe.
             antlrcpp::Any visitBlockClassConstructor (TParser::BlockClassConstructorContext *ctx);
 
-            // Array.
-            antlrcpp::Any visitArrayAccessElementsItems (TParser::ArrayAccessElementsItemsContext *ctx);
-            antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
-
             // Instanciamento anônimo de objeto.
             antlrcpp::Any visitBlockAnonymousObject (TParser::BlockAnonymousObjectContext *ctx);
 
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
             antlrcpp::Any visitGeneralValueBlock (TParser::GeneralValueBlockContext *ctx);
+
+
+
+
+
+
+            // Array.
+            antlrcpp::Any visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx);
+            antlrcpp::Any visitArrayAccessElementsItems (TParser::ArrayAccessElementsItemsContext *ctx);
+            antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
 
             // Valores gerais.
             antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
