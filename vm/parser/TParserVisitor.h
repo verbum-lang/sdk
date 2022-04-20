@@ -40,6 +40,14 @@ public:
 
     virtual antlrcpp::Any visitVariablePrefixModes(TParser::VariablePrefixModesContext *context) = 0;
 
+    virtual antlrcpp::Any visitBlockAttribution(TParser::BlockAttributionContext *context) = 0;
+
+    virtual antlrcpp::Any visitAttributionElements(TParser::AttributionElementsContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *context) = 0;
+
+    virtual antlrcpp::Any visitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *context) = 0;
+
     virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCallParam(TParser::FunctionCallParamContext *context) = 0;
@@ -151,14 +159,6 @@ public:
     virtual antlrcpp::Any visitBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *context) = 0;
-
-    virtual antlrcpp::Any visitBlockAttribution(TParser::BlockAttributionContext *context) = 0;
-
-    virtual antlrcpp::Any visitAttributionElements(TParser::AttributionElementsContext *context) = 0;
-
-    virtual antlrcpp::Any visitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *context) = 0;
-
-    virtual antlrcpp::Any visitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *context) = 0;
 

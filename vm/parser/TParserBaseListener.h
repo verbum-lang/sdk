@@ -48,6 +48,18 @@ public:
   virtual void enterVariablePrefixModes(TParser::VariablePrefixModesContext * /*ctx*/) override { }
   virtual void exitVariablePrefixModes(TParser::VariablePrefixModesContext * /*ctx*/) override { }
 
+  virtual void enterBlockAttribution(TParser::BlockAttributionContext * /*ctx*/) override { }
+  virtual void exitBlockAttribution(TParser::BlockAttributionContext * /*ctx*/) override { }
+
+  virtual void enterAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
+  virtual void exitAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
+
+  virtual void enterBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext * /*ctx*/) override { }
+  virtual void exitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext * /*ctx*/) override { }
+
+  virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
+  virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
+
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 
@@ -215,18 +227,6 @@ public:
 
   virtual void enterBlockAnonymousObject(TParser::BlockAnonymousObjectContext * /*ctx*/) override { }
   virtual void exitBlockAnonymousObject(TParser::BlockAnonymousObjectContext * /*ctx*/) override { }
-
-  virtual void enterBlockAttribution(TParser::BlockAttributionContext * /*ctx*/) override { }
-  virtual void exitBlockAttribution(TParser::BlockAttributionContext * /*ctx*/) override { }
-
-  virtual void enterAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
-  virtual void exitAttributionElements(TParser::AttributionElementsContext * /*ctx*/) override { }
-
-  virtual void enterBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext * /*ctx*/) override { }
-  virtual void exitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext * /*ctx*/) override { }
-
-  virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
-  virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext * /*ctx*/) override { }
 
   virtual void enterBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext * /*ctx*/) override { }
   virtual void exitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext * /*ctx*/) override { }

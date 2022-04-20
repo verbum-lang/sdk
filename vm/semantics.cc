@@ -25,6 +25,38 @@ void verbum_semantics::tab ()
         cout << "    ";
 }
 
+string verbum_semantics::print_operation (int operation) {
+    string opstr = "";
+
+    switch (operation) {
+
+        // Operadores aritméticos.
+        case VERBUM_OPERATOR_ADD:         opstr =  "+"; break;
+        case VERBUM_OPERATOR_SUB:         opstr =  "-"; break;
+        case VERBUM_OPERATOR_DIV:         opstr =  "/"; break;
+        case VERBUM_OPERATOR_MUL:         opstr =  "*"; break;
+        case VERBUM_OPERATOR_PERC:        opstr =  "%"; break;
+
+        // Operadores de atribuição (e outros).
+        case VERBUM_OPERATOR_ATTR:        opstr =  "="; break;
+        case VERBUM_OPERATOR_ADD_EQUAL:   opstr = "+="; break;
+        case VERBUM_OPERATOR_SUB_EQUAL:   opstr = "-="; break;
+        case VERBUM_OPERATOR_MUL_EQUAL:   opstr = "*="; break;
+        case VERBUM_OPERATOR_DIV_EQUAL:   opstr = "/="; break;
+        case VERBUM_OPERATOR_PERC_EQUAL:  opstr = "%="; break;
+        case VERBUM_OPERATOR_MAJOR:       opstr =  ">"; break;
+        case VERBUM_OPERATOR_MINOR:       opstr =  "<"; break;
+        case VERBUM_OPERATOR_MAJOR_EQUAL: opstr = ">="; break;
+        case VERBUM_OPERATOR_MINOR_EQUAL: opstr = "<="; break;
+        case VERBUM_OPERATOR_AND:         opstr = "&&"; break;
+        case VERBUM_OPERATOR_EQUAL:       opstr = "=="; break;
+        case VERBUM_OPERATOR_NOT_EQUAL:   opstr = "!="; break;
+        case VERBUM_OPERATOR_NOT:         opstr =  "!"; break;
+    }
+
+    return opstr;
+}
+
 void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 {
     int size = ast.size();
@@ -58,87 +90,77 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << node.use_elements[0] << " - archive\n";
         }
 
-        // /*
-        // ** Variáveis: declações e inicializações.
-        // */
-        // else if (node.type == VERBUM_VARIABLE_INITIALIZATION) {
-        //     this->tab();
-        //     cout << "variable: ";
+        /*
+        ** Variáveis.
+        */
 
-        //     // Modo.
-        //     if (node.variable_type == VERBUM_VARIABLE_ATTRIBUTION)
-        //         cout << "attr -> \n";
-        //     else
-        //         cout << "declaration -> \n";
+        // Declarações e atribuições.
+        else if (node.type == VERBUM_VARIABLE_INITIALIZATION) {
+            this->tab();
+            cout << "variable: \n";
 
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->tab();
 
-        //     cout << "\n";
-        // }
+            if (node.variable_type == VERBUM_VARIABLE_ATTRIBUTION)
+                cout << "-> mode: attribution\n";
+            else
+                cout << "-> mode: declaration\n";
 
-        // /*
-        // ** Variáveis: tipagem e atribuição.
-        // */
-        // else if (node.type == VERBUM_VARIABLE_USE_TYPES) {
-        //     this->tab();
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     // Variáveis comuns.
-        //     if (node.variable_definition_type != VERBUM_VARIABLE_ARRAY_ACCESS) {
-        //         cout << "-> name: ";
+            cout << "\n";
+        }
 
-        //         if (node.variable_definition_type == VERBUM_VARIABLE_SIMPLE)
-        //             cout << node.variable_names.simple_name;
-        //         else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_INSTANCE)
-        //             cout << node.variable_names.object_name << "." << node.variable_names.method_name;
-        //         else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_STATIC)
-        //             cout << node.variable_names.object_name << "::" << node.variable_names.method_name;
+        // Informações da expressão.
+        else if (node.type == VERBUM_VARIABLE_INFORMATION) {
+            this->tab();
+
+            // Acesso a elementos de array.
+            if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
+                cout << "-> array access:\n";
+
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+            }
+
+            // Variáveis comuns.
+            else {
+                cout << "-> element: ";
+
+                if (node.variable_definition_type == VERBUM_VARIABLE_SIMPLE)
+                    cout << node.variable_names.simple_name;
+                else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_INSTANCE)
+                    cout << node.variable_names.object_name << "." << node.variable_names.method_name;
+                else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_STATIC)
+                    cout << node.variable_names.object_name << "::" << node.variable_names.method_name;
                 
-        //         // Verifica se há conversão de dados (casting).
-        //         if (node.variable_type_conversion) 
-        //             cout << " (casting: " << node.variable_type_conversion_name << ")";
-        //         cout << "\n";
-        //     }
+                cout << "\n";
+            }
 
-        //     // Acesso a elementos de array.
-        //     else if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
-        //         cout << "-> array access:\n";
+            // Verifica se há conversão de dados (casting).
+            if (node.variable_type_conversion) {
+                this->tab();
+                cout << "-> casting: " << node.variable_type_conversion_name << "\n";
+            }
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
-        //     }
+            // Tipo de atribuição / operação.
+            this->tab();
+            cout << "-> operation: ";
+            cout << this->print_operation(node.variable_operation) << "\n";
 
-        //     this->tab();
-        //     cout << "-> operation: ";
+            // Verifica se há instanciamento de objeto.
+            this->tab();
+            cout << "-> action: ";
 
-        //     // Tipo de atribuição / operação.
-        //     switch (node.variable_operation) {
-        //         case VERBUM_OPERATOR_ATTR:              cout <<  "="; break;
-        //         case VERBUM_OPERATOR_ADD_EQUAL:         cout << "+="; break;
-        //         case VERBUM_OPERATOR_SUB_EQUAL:         cout << "-="; break;
-        //         case VERBUM_OPERATOR_MUL_EQUAL:         cout << "*="; break;
-        //         case VERBUM_OPERATOR_DIV_EQUAL:         cout << "/="; break;
-        //         case VERBUM_OPERATOR_PERC_EQUAL:        cout << "%="; break;
-        //         case VERBUM_OPERATOR_MAJOR:             cout <<  ">"; break;
-        //         case VERBUM_OPERATOR_MINOR:             cout <<  "<"; break;
-        //         case VERBUM_OPERATOR_MAJOR_EQUAL:       cout << ">="; break;
-        //         case VERBUM_OPERATOR_MINOR_EQUAL:       cout << "<="; break;
-        //         case VERBUM_OPERATOR_AND:               cout << "&&"; break;
-        //         case VERBUM_OPERATOR_EQUAL:             cout << "=="; break;
-        //         case VERBUM_OPERATOR_NOT_EQUAL:         cout << "!="; break;
-        //         case VERBUM_OPERATOR_NOT:               cout <<  "!"; break;
-        //     }
-
-        //     // Verifica se há instanciamento de objeto.
-        //     if (node.variable_mod_operation == VERBUM_MOD_OP_OBJ_INSTANCE)
-        //         cout << " (new object) ";
-        //     else if (node.variable_mod_operation == VERBUM_MOD_OP_AWAIT)
-        //         cout << " (await) ";
-
-        //     cout << "\n";
-        // }
+            switch (node.variable_mod_operation) {
+                case VERBUM_MOD_OP_OBJ_INSTANCE: cout << "new object\n"; break;
+                case VERBUM_MOD_OP_AWAIT:        cout << "await\n"; break;
+                case VERBUM_MOD_OP_SIMPLE:       cout << "simple\n"; break;
+            }
+        }
 
         // /*
         // ** Ret.

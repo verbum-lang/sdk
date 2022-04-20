@@ -48,7 +48,15 @@ namespace verbum {
 
             // Variáveis.
             antlrcpp::Any visitBlockVariable (TParser::BlockVariableContext *ctx);
+            antlrcpp::Any visitBlockAttribution (TParser::BlockAttributionContext *ctx);
             antlrcpp::Any visitVariableItem (TParser::VariableItemContext *ctx);
+            antlrcpp::Any visitAttributionElements (TParser::AttributionElementsContext *ctx);
+
+            // Visibilidade das variáveis, métodos e configurações das classes.
+            antlrcpp::Any visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx);
+
+            // Atribuição múltipla (a = b = c = d).
+            antlrcpp::Any visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx);
 
             // Ret (return).
             antlrcpp::Any visitBlockRet (TParser::BlockRetContext *ctx) ;
@@ -111,16 +119,6 @@ namespace verbum {
             // Chamada a funções e métodos.
             antlrcpp::Any visitBlockFunctionCall (TParser::BlockFunctionCallContext *ctx);
 
-            // Atribuição de valores à variáveis.
-            antlrcpp::Any visitBlockAttribution (TParser::BlockAttributionContext *ctx);
-            antlrcpp::Any visitAttributionElements (TParser::AttributionElementsContext *ctx);
-
-            // Visibilidade das variáveis, métodos e configurações das classes.
-            antlrcpp::Any visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx);
-
-            // Atribuição múltipla (a = b = c = d).
-            antlrcpp::Any visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx);
-
             // Construtor de classe.
             antlrcpp::Any visitBlockClassConstructor (TParser::BlockClassConstructorContext *ctx);
 
@@ -152,8 +150,8 @@ namespace verbum {
             void add_node_internal_ptr (verbum_ast_node source, verbum_ast_node *ast);
             verbum_ast_node add_node_internal_copy (verbum_ast_node source, verbum_ast_node destination);
 
-            // Processa operador aritmético.
-            int check_block_arithmeic_operator (string op);
+            // Processa operadores.
+            int check_arithmeic_and_assignment_operator (string op);
     };
 }
 

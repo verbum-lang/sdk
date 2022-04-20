@@ -57,6 +57,22 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitBlockAttribution(TParser::BlockAttributionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAttributionElements(TParser::AttributionElementsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -278,22 +294,6 @@ public:
   }
 
   virtual antlrcpp::Any visitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitBlockAttribution(TParser::BlockAttributionContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitAttributionElements(TParser::AttributionElementsContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) override {
     return visitChildren(ctx);
   }
 

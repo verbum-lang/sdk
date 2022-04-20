@@ -99,6 +99,28 @@ variablePrefixModes
   ; 
 
 /*
+** Atribuição de valores à variáveis.
+*/
+blockAttribution
+  : attributionElements End
+  ;
+
+attributionElements
+  : identifier ( (Point | TwoTwoPoint) identifierB )? (TypeSpec)? (Attr | AssignmentOperator) (New | Await)? generalValueElements (Separator attributionElements)*
+  ; 
+
+/*
+** Atribuições múltiplas (a = b = c = d).
+*/
+blockMultipleAssignments
+  : variableMultipleAssignmentsModes (Attr | AssignmentOperator) generalValueElements End
+  ;
+
+variableMultipleAssignmentsModes
+  : generalValue ( (Attr | AssignmentOperator) variableMultipleAssignmentsModes )*
+  ;
+
+/*
 ** Chamadas a funções.
 */
 
@@ -434,28 +456,6 @@ blockAnonymousObject
       New identifier OpenOp (generalValueElements)? CloseOp
     CloseOp 
     ( (Point | TwoTwoPoint) identifierB OpenOp (generalValueElements)? CloseOp )?
-  ;
-
-/*
-** Atribuição de valores à variáveis.
-*/
-blockAttribution
-  : attributionElements End
-  ;
-
-attributionElements
-  : identifier ( (Point | TwoTwoPoint) identifierB )? (Attr | AssignmentOperator) (New | Await)? generalValueElements (Separator attributionElements)*
-  ; 
-
-/*
-** Atribuições múltiplas (a = b = c = d).
-*/
-blockMultipleAssignments
-  : variableMultipleAssignmentsModes (Attr | AssignmentOperator) generalValueElements End
-  ;
-
-variableMultipleAssignmentsModes
-  : generalValue ( (Attr | AssignmentOperator) variableMultipleAssignmentsModes )*
   ;
 
 /*

@@ -24,10 +24,25 @@ using namespace std;
 #define VERBUM_IESUS_HOMINUM_SALVATOR                   333
 #define VERBUM_UNKNOWN                                  0
 
-// Lista de tipos de elementos da AST.
+// Importações - use.
 #define VERBUM_USE                                      1
+#define VERBUM_USE_MODULE                               10001
+#define VERBUM_USE_PATH                                 20001
+#define VERBUM_USE_ARCHIVE                              30001
+
+// Variáveis.
 #define VERBUM_VARIABLE_INITIALIZATION                  2
-#define VERBUM_VARIABLE_USE_TYPES                       3
+#define VERBUM_VARIABLE_DECLARATION                     10002
+#define VERBUM_VARIABLE_ATTRIBUTION                     20002
+#define VERBUM_VARIABLE_INFORMATION                     30002
+
+#define VERBUM_VARIABLE_SIMPLE                          1
+#define VERBUM_VARIABLE_OBJ_INSTANCE                    2
+#define VERBUM_VARIABLE_OBJ_STATIC                      3
+#define VERBUM_VARIABLE_ARRAY_ACCESS                    4
+
+
+
 
 #define VERBUM_ACCESS_ARRAY                             4
 #define VERBUM_ACCESS_ARRAY_INDEX_BLOCK                 5
@@ -127,21 +142,6 @@ using namespace std;
 #define VERBUM_LOOP_EXPRESSION                          2
 #define VERBUM_LOOP_INCDEC                              3
 #define VERBUM_LOOP_CODE_BLOCK                          4
-
-// Modalidades do comando 'use'.
-#define VERBUM_USE_UNKNOWN                              0
-#define VERBUM_USE_MODULE                               1
-#define VERBUM_USE_PATH                                 2
-#define VERBUM_USE_ARCHIVE                              3
-
-// Tipos de variáveis (setor 'mode').
-#define VERBUM_VARIABLE_DECLARATION                     1
-#define VERBUM_VARIABLE_ATTRIBUTION                     2
-
-#define VERBUM_VARIABLE_SIMPLE                          1
-#define VERBUM_VARIABLE_OBJ_INSTANCE                    2
-#define VERBUM_VARIABLE_OBJ_STATIC                      3
-#define VERBUM_VARIABLE_ARRAY_ACCESS                    4
 
 // Acesso aos elementos de array.
 #define VERBUM_ACCESS_ARRAY_TINDEX_INTEGER              1

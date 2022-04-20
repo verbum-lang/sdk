@@ -208,24 +208,49 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
 }
 
 /*
-** Verifica operador aritmético utilizado no bloco de operações.
+** Retorna constante do respectivo operador.
 */
-int verbum_ast_visitor::check_block_arithmeic_operator (string op)
-{
-    int result = VERBUM_UNKNOWN;
+int verbum_ast_visitor::check_arithmeic_and_assignment_operator (string op) {
+    int opret = VERBUM_UNKNOWN;
 
     if (op.compare("+") == 0)
-        result = VERBUM_OPERATOR_ADD;
+        opret = VERBUM_OPERATOR_ADD;
     else if (op.compare("-") == 0)
-        result = VERBUM_OPERATOR_SUB;
+        opret = VERBUM_OPERATOR_SUB;
     else if (op.compare("*") == 0)
-        result = VERBUM_OPERATOR_MUL;
+        opret = VERBUM_OPERATOR_MUL;
     else if (op.compare("/") == 0)
-        result = VERBUM_OPERATOR_DIV;
+        opret = VERBUM_OPERATOR_DIV;
     else if (op.compare("%") == 0)
-        result = VERBUM_OPERATOR_PERC;
+        opret = VERBUM_OPERATOR_PERC;
+    else if (op.compare("+=") == 0)
+        opret = VERBUM_OPERATOR_ADD_EQUAL;
+    else if (op.compare("-=") == 0)
+        opret = VERBUM_OPERATOR_SUB_EQUAL;
+    else if (op.compare("*=") == 0)
+        opret = VERBUM_OPERATOR_MUL_EQUAL;
+    else if (op.compare("/=") == 0)
+        opret = VERBUM_OPERATOR_DIV_EQUAL;
+    else if (op.compare("%=") == 0)
+        opret = VERBUM_OPERATOR_PERC_EQUAL;
+    else if (op.compare(">")  == 0)
+        opret = VERBUM_OPERATOR_MAJOR;
+    else if (op.compare("<")  == 0)
+        opret = VERBUM_OPERATOR_MINOR;
+    else if (op.compare(">=") == 0)
+        opret = VERBUM_OPERATOR_MAJOR_EQUAL;
+    else if (op.compare("<=") == 0)
+        opret = VERBUM_OPERATOR_MINOR_EQUAL;
+    else if (op.compare("&&") == 0)
+        opret = VERBUM_OPERATOR_AND;
+    else if (op.compare("==") == 0)
+        opret = VERBUM_OPERATOR_EQUAL;
+    else if (op.compare("!=") == 0)
+        opret = VERBUM_OPERATOR_NOT_EQUAL;
+    else if (op.compare("!")  == 0)
+        opret = VERBUM_OPERATOR_NOT;
 
-    return result;
+    return opret;
 }
 
 /*
@@ -245,7 +270,7 @@ antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx
 ** Variáveis.
 */
 
-// Variáveis: declaração.
+// Declaração.
 antlrcpp::Any verbum_ast_visitor::visitBlockVariable (TParser::BlockVariableContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
@@ -261,22 +286,36 @@ antlrcpp::Any verbum_ast_visitor::visitBlockVariable (TParser::BlockVariableCont
     return result;
 }
 
-// Variáveis declaradas e suas respectivas informações.
+// Atribuição.
+antlrcpp::Any verbum_ast_visitor::visitBlockAttribution (TParser::BlockAttributionContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_VARIABLE_INITIALIZATION;
+    node.variable_type = VERBUM_VARIABLE_ATTRIBUTION;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Variáveis declaradas (propriamente).
 antlrcpp::Any verbum_ast_visitor::visitVariableItem (TParser::VariableItemContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_VARIABLE_USE_TYPES;
+    node.type = VERBUM_VARIABLE_INFORMATION;
 
     // Nome da variável (tipo simples).
     node.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
-    node.variable_names.simple_name = 
-        ctx->variablePrefixModes()->identifier()->getText();
+    node.variable_names.simple_name = ctx->variablePrefixModes()->identifier()->getText();
 
     // Verifica se há conversão de tipo.
     if (ctx->variablePrefixModes()->TypeSpec()) {
         node.variable_type_conversion = true;
-        node.variable_type_conversion_name = 
-            ctx->variablePrefixModes()->TypeSpec()->getText();
+        node.variable_type_conversion_name = ctx->variablePrefixModes()->TypeSpec()->getText();
     }
 
     // Verifica se há instanciamento de objeto (new), ou aguardo de função async.
@@ -290,39 +329,106 @@ antlrcpp::Any verbum_ast_visitor::visitVariableItem (TParser::VariableItemContex
     // Analisa operador (atribuição, atribuição com valor, etc).
     if (ctx->variablePrefixModes()->Attr())
         node.variable_operation = VERBUM_OPERATOR_ATTR;
-    else {
-        string op = ctx->variablePrefixModes()->AssignmentOperator()->getText();
-
-        if (op.compare("+=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_ADD_EQUAL;
-        else if (op.compare("-=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_SUB_EQUAL;
-        else if (op.compare("*=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_MUL_EQUAL;
-        else if (op.compare("/=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_DIV_EQUAL;
-        else if (op.compare("%=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_PERC_EQUAL;
-        else if (op.compare(">")  == 0)
-            node.variable_operation = VERBUM_OPERATOR_MAJOR;
-        else if (op.compare("<")  == 0)
-            node.variable_operation = VERBUM_OPERATOR_MINOR;
-        else if (op.compare(">=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_MAJOR_EQUAL;
-        else if (op.compare("<=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_MINOR_EQUAL;
-        else if (op.compare("&&") == 0)
-            node.variable_operation = VERBUM_OPERATOR_AND;
-        else if (op.compare("==") == 0)
-            node.variable_operation = VERBUM_OPERATOR_EQUAL;
-        else if (op.compare("!=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_NOT_EQUAL;
-        else if (op.compare("!")  == 0)
-            node.variable_operation = VERBUM_OPERATOR_NOT;
-    }
+    else 
+        node.variable_operation = this->check_arithmeic_and_assignment_operator(
+            ctx->variablePrefixModes()->AssignmentOperator()->getText());
 
     this->add_node(node);
     return visitChildren(ctx);
+}
+
+// Elementos da atribuição (única ou múltipla).
+antlrcpp::Any verbum_ast_visitor::visitAttributionElements (TParser::AttributionElementsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_VARIABLE_INFORMATION;
+
+    // Método de objeto (instanciado ou estático).
+    if (ctx->identifierB()) {
+        if (ctx->Point())
+            node.variable_definition_type = VERBUM_VARIABLE_OBJ_INSTANCE;
+        else if (ctx->TwoTwoPoint())
+            node.variable_definition_type = VERBUM_VARIABLE_OBJ_STATIC;
+
+        node.variable_names.object_name = ctx->identifier()->getText();
+        node.variable_names.method_name = ctx->identifierB()->getText();
+    }
+
+    // Variável simples.
+    else {
+        node.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
+        node.variable_names.simple_name = ctx->identifier()->getText();
+    }
+
+    // Verifica se há conversão de tipo.
+    if (ctx->TypeSpec()) {
+        node.variable_type_conversion = true;
+        node.variable_type_conversion_name = ctx->TypeSpec()->getText();
+    }
+
+    // Verifica se há instanciamento de objeto (new), ou aguardo de função async.
+    if (ctx->New()) 
+        node.variable_mod_operation = VERBUM_MOD_OP_OBJ_INSTANCE;
+    else if (ctx->Await())
+        node.variable_mod_operation = VERBUM_MOD_OP_AWAIT;
+    else
+        node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
+
+    // Analisa operador (atribuição, atribuição com valor, etc).
+    if (ctx->Attr())
+        node.variable_operation = VERBUM_OPERATOR_ATTR;
+    else 
+        node.variable_operation = this->check_arithmeic_and_assignment_operator(
+            ctx->AssignmentOperator()->getText());
+
+    this->add_node(node);
+    return visitChildren(ctx);
+}
+
+/*
+** Tokens de visibilidade das variáveis, métodos e configurações de classes (final).
+*/
+
+// Bloco do token
+antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_ITEMS_VISIBILITY;
+
+    if (ctx->Pub())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PUB;
+    else if (ctx->Priv())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PRIV;
+    else if (ctx->Pro())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PRO;
+    else if (ctx->Final())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_FINAL;
+    else if (ctx->Static())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_STATIC;
+    else if (ctx->Async())
+        node.item_visibility = VERBUM_ITEMS_VISIBILITY_ASYNC;
+
+    this->add_node(node);
+    return visitChildren(ctx);
+}
+
+/*
+** Atribuição múltipla (a = b = c = d).
+*/
+
+// Bloco principal.
+antlrcpp::Any verbum_ast_visitor::visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_MULTIPLE_ATTRIBUTION;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;  
 }
 
 /*
@@ -473,10 +579,9 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
     }
 
     // Captura operador aritmético.
-    if (ctx->ArithmeticOperator()) {
-        string op = ctx->ArithmeticOperator()->getText();
-        node.operation_op = this->check_block_arithmeic_operator(op);
-    }
+    if (ctx->ArithmeticOperator())
+        node.operation_op = this->check_arithmeic_and_assignment_operator(
+            ctx->ArithmeticOperator()->getText());
 
     // Verifica se há operador utilizado com o bloco da expressão.
     if (ctx->AssignmentOperator()) {
@@ -1365,145 +1470,6 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunctionCall (TParser::BlockFunction
     this->node_block_counter--;
 
     return result;
-}
-
-/*
-** Atribuição de valores à variáveis.
-*/
-
-// Declaração da atribuição.
-antlrcpp::Any verbum_ast_visitor::visitBlockAttribution (TParser::BlockAttributionContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_VARIABLE_INITIALIZATION;
-    node.variable_type = VERBUM_VARIABLE_ATTRIBUTION;
-    
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
-}
-
-// Elementos da atribuição (única ou múltipla).
-antlrcpp::Any verbum_ast_visitor::visitAttributionElements (TParser::AttributionElementsContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_VARIABLE_USE_TYPES;
-
-    // Chamda a método de objeto.
-    if (ctx->identifierB()) {
-
-        // Objeto instanciado.
-        if (ctx->Point()) 
-            node.variable_definition_type = VERBUM_VARIABLE_OBJ_INSTANCE;
-
-        // Método estático.
-        else if (ctx->TwoTwoPoint())
-            node.variable_definition_type = VERBUM_VARIABLE_OBJ_STATIC;
-
-        node.variable_names.object_name = ctx->identifier()->getText();
-        node.variable_names.method_name = ctx->identifierB()->getText();
-    }
-
-    // Nome da variável (tipo simples).
-    else {
-        node.variable_definition_type = VERBUM_VARIABLE_SIMPLE;
-        node.variable_names.simple_name = ctx->identifier()->getText();
-    }
-
-    // Verifica se há instanciamento de objeto (new), ou aguardo de função async.
-    if (ctx->New()) 
-        node.variable_mod_operation = VERBUM_MOD_OP_OBJ_INSTANCE;
-    else if (ctx->Await())
-        node.variable_mod_operation = VERBUM_MOD_OP_AWAIT;
-    else
-        node.variable_mod_operation = VERBUM_MOD_OP_SIMPLE;
-
-    // Analisa operador (atribuição, atribuição com valor, etc).
-    if (ctx->Attr())
-        node.variable_operation = VERBUM_OPERATOR_ATTR;
-    else {
-        string op = ctx->AssignmentOperator()->getText();
-
-        if (op.compare("+=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_ADD_EQUAL;
-        else if (op.compare("-=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_SUB_EQUAL;
-        else if (op.compare("*=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_MUL_EQUAL;
-        else if (op.compare("/=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_DIV_EQUAL;
-        else if (op.compare("%=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_PERC_EQUAL;
-        else if (op.compare(">")  == 0)
-            node.variable_operation = VERBUM_OPERATOR_MAJOR;
-        else if (op.compare("<")  == 0)
-            node.variable_operation = VERBUM_OPERATOR_MINOR;
-        else if (op.compare(">=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_MAJOR_EQUAL;
-        else if (op.compare("<=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_MINOR_EQUAL;
-        else if (op.compare("&&") == 0)
-            node.variable_operation = VERBUM_OPERATOR_AND;
-        else if (op.compare("==") == 0)
-            node.variable_operation = VERBUM_OPERATOR_EQUAL;
-        else if (op.compare("!=") == 0)
-            node.variable_operation = VERBUM_OPERATOR_NOT_EQUAL;
-        else if (op.compare("!")  == 0)
-            node.variable_operation = VERBUM_OPERATOR_NOT;
-    }
-
-    this->add_node(node);
-    return visitChildren(ctx);
-}
-
-/*
-** Tokens de visibilidade das variáveis, métodos e configurações de classes (final).
-*/
-
-// Bloco do token
-antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_ITEMS_VISIBILITY;
-
-    if (ctx->Pub())
-        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PUB;
-    else if (ctx->Priv())
-        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PRIV;
-    else if (ctx->Pro())
-        node.item_visibility = VERBUM_ITEMS_VISIBILITY_PRO;
-    else if (ctx->Final())
-        node.item_visibility = VERBUM_ITEMS_VISIBILITY_FINAL;
-    else if (ctx->Static())
-        node.item_visibility = VERBUM_ITEMS_VISIBILITY_STATIC;
-    else if (ctx->Async())
-        node.item_visibility = VERBUM_ITEMS_VISIBILITY_ASYNC;
-
-    this->add_node(node);
-    return visitChildren(ctx);
-}
-
-/*
-** Atribuição múltipla (a = b = c = d).
-*/
-
-// Bloco principal.
-antlrcpp::Any verbum_ast_visitor::visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_MULTIPLE_ATTRIBUTION;
-
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;  
 }
 
 /*

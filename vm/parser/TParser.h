@@ -34,34 +34,34 @@ public:
   enum {
     RuleMain = 0, RuleSentences = 1, RuleStatements = 2, RuleBlockCode = 3, 
     RuleBlockUse = 4, RuleUseValue = 5, RuleUseString = 6, RuleBlockVariable = 7, 
-    RuleVariableItem = 8, RuleVariablePrefixModes = 9, RuleFunctionCall = 10, 
-    RuleFunctionCallParam = 11, RuleFunctionCallParamElements = 12, RuleBlockRet = 13, 
-    RuleBlockConditional = 14, RuleIfElementUnique = 15, RuleElifElements = 16, 
-    RuleElifElementUnique = 17, RuleElseElementUnique = 18, RuleConditionalBlockExpression = 19, 
-    RuleConditionalBlockElements = 20, RuleBlockLoop = 21, RuleLoopBlockElements = 22, 
-    RuleLoopComplete = 23, RuleLoopConditional = 24, RuleLoopInfinite = 25, 
-    RuleEndOne = 26, RuleEndTwo = 27, RuleLoopOneMembers = 28, RuleLoopTwoMembers = 29, 
-    RuleLoopThreeMembers = 30, RuleLoopThreeMembersValues = 31, RuleBlockBreak = 32, 
-    RuleBlockNext = 33, RuleBlockTryCatch = 34, RuleTryUniqueElement = 35, 
-    RuleCatchUniqueElement = 36, RuleTryCatchElements = 37, RuleBlockFunction = 38, 
-    RuleBlockFunctionDeclarationAttr = 39, RuleFunctionParam = 40, RuleFunctionAnonymousParam = 41, 
-    RuleFunctionCodeBlock = 42, RuleBlockInterface = 43, RuleInterfaceCodeBlock = 44, 
-    RuleBlockAbstraction = 45, RuleAbstractionCodeBlock = 46, RuleBlockClass = 47, 
-    RuleBlockClassDeclarationAttr = 48, RuleClassCommonDef = 49, RuleClassAnonymousParam = 50, 
-    RuleClassCodeBlock = 51, RuleBlockArray = 52, RuleIndexArray = 53, RuleIndexArrayElements = 54, 
-    RuleAssociativeArray = 55, RuleAssociativeArrayElements = 56, RuleBlockLambdaFunctions = 57, 
-    RuleLambdaFnParams = 58, RuleLambdaFnCodeBlock = 59, RuleBlockClassConstructor = 60, 
-    RuleBlockFunctionCall = 61, RuleFunctionCallElements = 62, RuleBlockCascadingMethod = 63, 
-    RuleBlockCascadingMethodAttr = 64, RuleBlockAnonymousObject = 65, RuleBlockAttribution = 66, 
-    RuleAttributionElements = 67, RuleBlockMultipleAssignments = 68, RuleVariableMultipleAssignmentsModes = 69, 
-    RuleBlockAccessArrayElements = 70, RuleArrayAccessElements = 71, RuleArrayAccessElementsItems = 72, 
-    RuleAccessBlockAr = 73, RuleArrayIndexAccess = 74, RuleFirstIncDec = 75, 
-    RuleLastIncDec = 76, RuleBlockPermissionTokens = 77, RuleCodeBlockFlowControl = 78, 
-    RuleCodeBlockFlowControlElements = 79, RuleCodeBlockControl = 80, RuleGeneralValue = 81, 
-    RuleGeneralValueBlock = 82, RuleGeneralValueItems = 83, RuleGeneralValueElements = 84, 
-    RuleIdentifier = 85, RuleIdentifierB = 86, RuleIdentifierC = 87, RuleIdentifierD = 88, 
-    RuleIncDecOperatorsA = 89, RuleIncDecOperatorsB = 90, RuleOpenOpA = 91, 
-    RuleCloseOpA = 92
+    RuleVariableItem = 8, RuleVariablePrefixModes = 9, RuleBlockAttribution = 10, 
+    RuleAttributionElements = 11, RuleBlockMultipleAssignments = 12, RuleVariableMultipleAssignmentsModes = 13, 
+    RuleFunctionCall = 14, RuleFunctionCallParam = 15, RuleFunctionCallParamElements = 16, 
+    RuleBlockRet = 17, RuleBlockConditional = 18, RuleIfElementUnique = 19, 
+    RuleElifElements = 20, RuleElifElementUnique = 21, RuleElseElementUnique = 22, 
+    RuleConditionalBlockExpression = 23, RuleConditionalBlockElements = 24, 
+    RuleBlockLoop = 25, RuleLoopBlockElements = 26, RuleLoopComplete = 27, 
+    RuleLoopConditional = 28, RuleLoopInfinite = 29, RuleEndOne = 30, RuleEndTwo = 31, 
+    RuleLoopOneMembers = 32, RuleLoopTwoMembers = 33, RuleLoopThreeMembers = 34, 
+    RuleLoopThreeMembersValues = 35, RuleBlockBreak = 36, RuleBlockNext = 37, 
+    RuleBlockTryCatch = 38, RuleTryUniqueElement = 39, RuleCatchUniqueElement = 40, 
+    RuleTryCatchElements = 41, RuleBlockFunction = 42, RuleBlockFunctionDeclarationAttr = 43, 
+    RuleFunctionParam = 44, RuleFunctionAnonymousParam = 45, RuleFunctionCodeBlock = 46, 
+    RuleBlockInterface = 47, RuleInterfaceCodeBlock = 48, RuleBlockAbstraction = 49, 
+    RuleAbstractionCodeBlock = 50, RuleBlockClass = 51, RuleBlockClassDeclarationAttr = 52, 
+    RuleClassCommonDef = 53, RuleClassAnonymousParam = 54, RuleClassCodeBlock = 55, 
+    RuleBlockArray = 56, RuleIndexArray = 57, RuleIndexArrayElements = 58, 
+    RuleAssociativeArray = 59, RuleAssociativeArrayElements = 60, RuleBlockLambdaFunctions = 61, 
+    RuleLambdaFnParams = 62, RuleLambdaFnCodeBlock = 63, RuleBlockClassConstructor = 64, 
+    RuleBlockFunctionCall = 65, RuleFunctionCallElements = 66, RuleBlockCascadingMethod = 67, 
+    RuleBlockCascadingMethodAttr = 68, RuleBlockAnonymousObject = 69, RuleBlockAccessArrayElements = 70, 
+    RuleArrayAccessElements = 71, RuleArrayAccessElementsItems = 72, RuleAccessBlockAr = 73, 
+    RuleArrayIndexAccess = 74, RuleFirstIncDec = 75, RuleLastIncDec = 76, 
+    RuleBlockPermissionTokens = 77, RuleCodeBlockFlowControl = 78, RuleCodeBlockFlowControlElements = 79, 
+    RuleCodeBlockControl = 80, RuleGeneralValue = 81, RuleGeneralValueBlock = 82, 
+    RuleGeneralValueItems = 83, RuleGeneralValueElements = 84, RuleIdentifier = 85, 
+    RuleIdentifierB = 86, RuleIdentifierC = 87, RuleIdentifierD = 88, RuleIncDecOperatorsA = 89, 
+    RuleIncDecOperatorsB = 90, RuleOpenOpA = 91, RuleCloseOpA = 92
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -84,6 +84,10 @@ public:
   class BlockVariableContext;
   class VariableItemContext;
   class VariablePrefixModesContext;
+  class BlockAttributionContext;
+  class AttributionElementsContext;
+  class BlockMultipleAssignmentsContext;
+  class VariableMultipleAssignmentsModesContext;
   class FunctionCallContext;
   class FunctionCallParamContext;
   class FunctionCallParamElementsContext;
@@ -140,10 +144,6 @@ public:
   class BlockCascadingMethodContext;
   class BlockCascadingMethodAttrContext;
   class BlockAnonymousObjectContext;
-  class BlockAttributionContext;
-  class AttributionElementsContext;
-  class BlockMultipleAssignmentsContext;
-  class VariableMultipleAssignmentsModesContext;
   class BlockAccessArrayElementsContext;
   class ArrayAccessElementsContext;
   class ArrayAccessElementsItemsContext;
@@ -353,6 +353,90 @@ public:
   };
 
   VariablePrefixModesContext* variablePrefixModes();
+
+  class  BlockAttributionContext : public antlr4::ParserRuleContext {
+  public:
+    BlockAttributionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    AttributionElementsContext *attributionElements();
+    antlr4::tree::TerminalNode *End();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockAttributionContext* blockAttribution();
+
+  class  AttributionElementsContext : public antlr4::ParserRuleContext {
+  public:
+    AttributionElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentifierContext *identifier();
+    GeneralValueElementsContext *generalValueElements();
+    antlr4::tree::TerminalNode *Attr();
+    antlr4::tree::TerminalNode *AssignmentOperator();
+    IdentifierBContext *identifierB();
+    antlr4::tree::TerminalNode *TypeSpec();
+    std::vector<antlr4::tree::TerminalNode *> Separator();
+    antlr4::tree::TerminalNode* Separator(size_t i);
+    std::vector<AttributionElementsContext *> attributionElements();
+    AttributionElementsContext* attributionElements(size_t i);
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
+    antlr4::tree::TerminalNode *New();
+    antlr4::tree::TerminalNode *Await();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AttributionElementsContext* attributionElements();
+
+  class  BlockMultipleAssignmentsContext : public antlr4::ParserRuleContext {
+  public:
+    BlockMultipleAssignmentsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    VariableMultipleAssignmentsModesContext *variableMultipleAssignmentsModes();
+    GeneralValueElementsContext *generalValueElements();
+    antlr4::tree::TerminalNode *End();
+    antlr4::tree::TerminalNode *Attr();
+    antlr4::tree::TerminalNode *AssignmentOperator();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  BlockMultipleAssignmentsContext* blockMultipleAssignments();
+
+  class  VariableMultipleAssignmentsModesContext : public antlr4::ParserRuleContext {
+  public:
+    VariableMultipleAssignmentsModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    GeneralValueContext *generalValue();
+    std::vector<VariableMultipleAssignmentsModesContext *> variableMultipleAssignmentsModes();
+    VariableMultipleAssignmentsModesContext* variableMultipleAssignmentsModes(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> Attr();
+    antlr4::tree::TerminalNode* Attr(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> AssignmentOperator();
+    antlr4::tree::TerminalNode* AssignmentOperator(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  VariableMultipleAssignmentsModesContext* variableMultipleAssignmentsModes();
 
   class  FunctionCallContext : public antlr4::ParserRuleContext {
   public:
@@ -1372,89 +1456,6 @@ public:
   };
 
   BlockAnonymousObjectContext* blockAnonymousObject();
-
-  class  BlockAttributionContext : public antlr4::ParserRuleContext {
-  public:
-    BlockAttributionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    AttributionElementsContext *attributionElements();
-    antlr4::tree::TerminalNode *End();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  BlockAttributionContext* blockAttribution();
-
-  class  AttributionElementsContext : public antlr4::ParserRuleContext {
-  public:
-    AttributionElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    IdentifierContext *identifier();
-    GeneralValueElementsContext *generalValueElements();
-    antlr4::tree::TerminalNode *Attr();
-    antlr4::tree::TerminalNode *AssignmentOperator();
-    IdentifierBContext *identifierB();
-    std::vector<antlr4::tree::TerminalNode *> Separator();
-    antlr4::tree::TerminalNode* Separator(size_t i);
-    std::vector<AttributionElementsContext *> attributionElements();
-    AttributionElementsContext* attributionElements(size_t i);
-    antlr4::tree::TerminalNode *Point();
-    antlr4::tree::TerminalNode *TwoTwoPoint();
-    antlr4::tree::TerminalNode *New();
-    antlr4::tree::TerminalNode *Await();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  AttributionElementsContext* attributionElements();
-
-  class  BlockMultipleAssignmentsContext : public antlr4::ParserRuleContext {
-  public:
-    BlockMultipleAssignmentsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    VariableMultipleAssignmentsModesContext *variableMultipleAssignmentsModes();
-    GeneralValueElementsContext *generalValueElements();
-    antlr4::tree::TerminalNode *End();
-    antlr4::tree::TerminalNode *Attr();
-    antlr4::tree::TerminalNode *AssignmentOperator();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  BlockMultipleAssignmentsContext* blockMultipleAssignments();
-
-  class  VariableMultipleAssignmentsModesContext : public antlr4::ParserRuleContext {
-  public:
-    VariableMultipleAssignmentsModesContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    GeneralValueContext *generalValue();
-    std::vector<VariableMultipleAssignmentsModesContext *> variableMultipleAssignmentsModes();
-    VariableMultipleAssignmentsModesContext* variableMultipleAssignmentsModes(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> Attr();
-    antlr4::tree::TerminalNode* Attr(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> AssignmentOperator();
-    antlr4::tree::TerminalNode* AssignmentOperator(size_t i);
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  VariableMultipleAssignmentsModesContext* variableMultipleAssignmentsModes();
 
   class  BlockAccessArrayElementsContext : public antlr4::ParserRuleContext {
   public:

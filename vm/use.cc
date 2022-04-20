@@ -18,7 +18,7 @@ verbum_use_import::verbum_use_import (string raw)
 {
     // Verifica se é módulo, path ou arquivo específico.
     // E formata os respectivos valores com suas distinções.
-    int type = VERBUM_USE_UNKNOWN, flag = 0;
+    int type = VERBUM_UNKNOWN, flag = 0;
     string part1 = "", part2 = "";
 
     for (auto i : raw) {
@@ -38,7 +38,7 @@ verbum_use_import::verbum_use_import (string raw)
             part1 += i;
     }
 
-    if (type == VERBUM_USE_UNKNOWN && part1.length() > 0 && part1.length() == raw.length())
+    if (type == VERBUM_UNKNOWN && part1.length() > 0 && part1.length() == raw.length())
         type = VERBUM_USE_ARCHIVE;
 
     // Prepara strings.

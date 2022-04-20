@@ -34,6 +34,7 @@ namespace verbum {
 
             void tab ();
             void verbum_recursive_ast (vector <verbum_ast_node> ast);
+            string print_operation (int operation);
     };
 }
 

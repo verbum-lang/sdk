@@ -46,6 +46,18 @@ public:
   virtual void enterVariablePrefixModes(TParser::VariablePrefixModesContext *ctx) = 0;
   virtual void exitVariablePrefixModes(TParser::VariablePrefixModesContext *ctx) = 0;
 
+  virtual void enterBlockAttribution(TParser::BlockAttributionContext *ctx) = 0;
+  virtual void exitBlockAttribution(TParser::BlockAttributionContext *ctx) = 0;
+
+  virtual void enterAttributionElements(TParser::AttributionElementsContext *ctx) = 0;
+  virtual void exitAttributionElements(TParser::AttributionElementsContext *ctx) = 0;
+
+  virtual void enterBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *ctx) = 0;
+  virtual void exitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *ctx) = 0;
+
+  virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) = 0;
+  virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) = 0;
+
   virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
   virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
 
@@ -213,18 +225,6 @@ public:
 
   virtual void enterBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) = 0;
   virtual void exitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) = 0;
-
-  virtual void enterBlockAttribution(TParser::BlockAttributionContext *ctx) = 0;
-  virtual void exitBlockAttribution(TParser::BlockAttributionContext *ctx) = 0;
-
-  virtual void enterAttributionElements(TParser::AttributionElementsContext *ctx) = 0;
-  virtual void exitAttributionElements(TParser::AttributionElementsContext *ctx) = 0;
-
-  virtual void enterBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *ctx) = 0;
-  virtual void exitBlockMultipleAssignments(TParser::BlockMultipleAssignmentsContext *ctx) = 0;
-
-  virtual void enterVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) = 0;
-  virtual void exitVariableMultipleAssignmentsModes(TParser::VariableMultipleAssignmentsModesContext *ctx) = 0;
 
   virtual void enterBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *ctx) = 0;
   virtual void exitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *ctx) = 0;
