@@ -41,9 +41,7 @@ using namespace std;
 #define VERBUM_VARIABLE_OBJ_STATIC                      3
 #define VERBUM_VARIABLE_ARRAY_ACCESS                    4
 
-
-
-
+#define VERBUM_ACCESS_ARRAY_BLOCK                       40001
 #define VERBUM_ACCESS_ARRAY                             4
 #define VERBUM_ACCESS_ARRAY_INDEX_BLOCK                 5
 #define VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER             6

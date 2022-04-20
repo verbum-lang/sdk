@@ -445,6 +445,10 @@ public:
     IdentifierBContext *identifierB();
     antlr4::tree::TerminalNode *Point();
     antlr4::tree::TerminalNode *TwoTwoPoint();
+    BlockAccessArrayElementsContext *blockAccessArrayElements();
+    antlr4::tree::TerminalNode *OpenOp();
+    antlr4::tree::TerminalNode *CloseOp();
+    FunctionCallElementsContext *functionCallElements();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

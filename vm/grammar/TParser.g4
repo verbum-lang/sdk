@@ -128,6 +128,7 @@ variableMultipleAssignmentsModes
 // Atribuição de valor.
 functionCall
   : identifier ( (Point | TwoTwoPoint) identifierB )? functionCallParam
+  | blockAccessArrayElements OpenOp (functionCallElements)? CloseOp 
   ;
 
 functionCallParam

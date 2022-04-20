@@ -769,56 +769,57 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         //     cout << "-> lambda-function code block - key (close)\n";
         // }
 
-        // /*
-        // ** Chamada a função.
-        // */
+        /*
+        ** Chamada a função.
+        */
 
-        // // Uso geral.
-        // else if (node.type == VERBUM_FUNCTION_CALL) {
-        //     this->tab();
-            
-        //     // Chamada a função (simples).
-        //     if (node.function_call.type == VERBUM_FUNCTION_CALL_SIMPLE) 
-        //         cout << node.function_call.function_name << " (function-call)\n";
-            
-        //     // Chamada a método de objeto (instanciado).
-        //     else if (node.function_call.type == VERBUM_FUNCTION_CALL_INSTANCE)
-        //         cout << node.function_call.object_name << " . " << 
-        //             node.function_call.method_name << " (instance-method-call)\n";
+        // Uso geral.
+        else if (node.type == VERBUM_FUNCTION_CALL) {
 
-        //     // Chamada a método de objeto (estático).
-        //     else if (node.function_call.type == VERBUM_FUNCTION_CALL_STATIC)
-        //         cout << node.function_call.object_name << " :: " << 
-        //             node.function_call.method_name << " (static-method-call)\n";
+            // Chamada a função com acesso a elemento de array.
+            if (node.function_call.type == VERBUM_FUNCTION_CALL_ARRAY_ACCESS) { 
+                this->tab();
+                cout << "-> array-access function-call (open)\n";
 
-        //     // Chamada a função com acesso a elemento de array.
-        //     else if (node.function_call.type == VERBUM_FUNCTION_CALL_ARRAY_ACCESS) {
-        //         this->tab();
-        //         cout << "-> function-call array-access (open)\n";
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->tab();
+                cout << "-> array-access function-call (close)\n";
+            }
 
-        //         this->tab();
-        //         cout << "-> function-call array-access (close)\n";
-        //     }
+            // Chamadas comuns.
+            else {
+                this->tab();
+                cout << "-> ";
+                
+                // Chamada a função (simples).
+                if (node.function_call.type == VERBUM_FUNCTION_CALL_SIMPLE) 
+                    cout << node.function_call.function_name << " (function-call)\n";
+                
+                // Chamada a método de objeto (instanciado).
+                else if (node.function_call.type == VERBUM_FUNCTION_CALL_INSTANCE)
+                    cout << node.function_call.object_name << " . " << 
+                        node.function_call.method_name << " (instance-method-call)\n";
 
-        //     // Chamada utilizando de cascading method.
-        //     // else if (node.function_call.type == VERBUM_FUNCTION_CALL_CASCADING)
-        //     //     cout << node.function_call.function_name << " . (cascading-method-call)\n";
+                // Chamada a método de objeto (estático).
+                else if (node.function_call.type == VERBUM_FUNCTION_CALL_STATIC)
+                    cout << node.function_call.object_name << " :: " << 
+                        node.function_call.method_name << " (static-method-call)\n";
 
-        //     // Processamento dos nodes (filhos).
-        //     this->tab();
-        //     cout << "( <---| open function-block\n";
+                // Processamento dos nodes (filhos).
+                this->tab();
+                cout << "-> ( <---| open function-block\n";
 
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //     this->tab();
-        //     cout << ") <---| close function-block\n";
-        // }
+                this->tab();
+                cout << "-> ) <---| close function-block\n";
+            }
+        }
 
         // /*
         // ** Objeto anônimo - instanciamento.
@@ -860,7 +861,20 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         ** Acesso a elemento de array.
         */
 
-        // Identificador.
+        // Bloco geral.
+        else if (node.type == VERBUM_ACCESS_ARRAY_BLOCK) {
+            this->tab();
+            cout << "-> array-access-block general (open)\n";
+
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> array-access-block general (close)\n";
+        }
+
+        // Itens.
         else if (node.type == VERBUM_ACCESS_ARRAY) {
 
             // Identificador
@@ -885,11 +899,11 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             // Modo do acesso.
             if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER)
-                cout << "     (identifier access) ";
+                cout << " (identifier access) ";
             else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT)
-                cout << " .   (member access) ";
+                cout << " . (member access) ";
             else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK)
-                cout << " []  (block access) ";
+                cout << " [] (block access) ";
             else if (node.access_array_type.type == VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT)
                 cout << " []. (block access and member access) ";
 
@@ -908,14 +922,14 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         // Blocos.
         else if (node.type == VERBUM_ACCESS_ARRAY_INDEX_BLOCK) {
             this->tab();
-            cout << "-> array-access-block (open)\n";
+            cout << "-> array-access-block index (open)\n";
 
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
             this->tab();
-            cout << "-> array-access-block (close)\n";
+            cout << "-> array-access-block index (close)\n";
         }
 
         /*
@@ -1048,14 +1062,14 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
                 // Processamento dos nodes (filhos).
                 this->tab();
-                cout << "-> ( <---| open function-block\n";
+                cout << "-> ( <---| function-block (open)\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
 
                 this->tab();
-                cout << "-> ) <---| close function-block\n";
+                cout << "-> ) <---| function-block (close)\n";
             }
 
             // Acesso a atributo de objeto.
@@ -1078,14 +1092,14 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             // Chamada a função com acesso a elemento de array.
             else if (node.general_value_data.type == VERBUM_FUNCTION_CALL_ARRAY_ACCESS) {
                 this->tab();
-                cout << "-> function-call array-access (open)\n";
+                cout << "-> array-access function-call (open)\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
 
                 this->tab();
-                cout << "-> function-call array-access (close)\n";
+                cout << "-> array-access function-call (close)\n";
             }
 
             // Instanciamento de objeto anônimo.

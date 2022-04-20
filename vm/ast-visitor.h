@@ -132,6 +132,7 @@ namespace verbum {
 
 
             // Array.
+            antlrcpp::Any visitBlockAccessArrayElements (TParser::BlockAccessArrayElementsContext *ctx);
             antlrcpp::Any visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx);
             antlrcpp::Any visitArrayAccessElementsItems (TParser::ArrayAccessElementsItemsContext *ctx);
             antlrcpp::Any visitArrayIndexAccess (TParser::ArrayIndexAccessContext *ctx);
