@@ -1654,20 +1654,20 @@ public:
   public:
     GeneralValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    IdentifierContext *identifier();
-    IdentifierBContext *identifierB();
-    antlr4::tree::TerminalNode *Point();
-    antlr4::tree::TerminalNode *TwoTwoPoint();
+    FunctionCallContext *functionCall();
     antlr4::tree::TerminalNode *Not();
     antlr4::tree::TerminalNode *TypeSpec();
     antlr4::tree::TerminalNode *ArithmeticOperator();
     antlr4::tree::TerminalNode *AssignmentOperator();
+    IdentifierContext *identifier();
+    IdentifierBContext *identifierB();
+    antlr4::tree::TerminalNode *Point();
+    antlr4::tree::TerminalNode *TwoTwoPoint();
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
     antlr4::tree::TerminalNode *String();
     IncDecOperatorsAContext *incDecOperatorsA();
     IncDecOperatorsBContext *incDecOperatorsB();
-    FunctionCallContext *functionCall();
     BlockArrayContext *blockArray();
     BlockFunctionDeclarationAttrContext *blockFunctionDeclarationAttr();
     BlockClassDeclarationAttrContext *blockClassDeclarationAttr();

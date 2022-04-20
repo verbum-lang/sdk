@@ -540,8 +540,11 @@ codeBlockControl
 */
 generalValue
 
+  // Possui ordem de precedência, para não confundir com o acesso a atributo de objeto.
+  : (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+
   // Chamada simples a atributos de objetos - simples.
-  : (Not)? identifier (Point | TwoTwoPoint) identifierB (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | (Not)? identifier (Point | TwoTwoPoint) identifierB (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   
   // Valores simples.
   | (
@@ -552,7 +555,6 @@ generalValue
     )
 
   // Valores complexos.
-  | (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   
   | blockFunctionDeclarationAttr
