@@ -537,243 +537,6 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
 }
 
 /*
-** Controle dos valores gerais.
-*/
-antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContext *ctx) 
-{
-    antlrcpp::Any result;
-    bool block = false;
-    verbum_ast_node node = this->zero_data();
-
-    node.type = VERBUM_GENERAL_VALUE;
-    node.general_value_type_conversion = false;
-
-    // Verifica se há conversão de tipo.
-    if (ctx->TypeSpec()) {
-        node.general_value_type_conversion = true;
-        node.general_value_type_conversion_data = ctx->TypeSpec()->getText();
-    }
-
-    // Verifica se há incremento prefixado.
-    string incDecStr = "";
-
-    if (ctx->incDecOperatorsA()) {
-        node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_PRE;
-        incDecStr = ctx->incDecOperatorsA()->getText();
-    } else if (ctx->incDecOperatorsB()) {
-        node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_POS;
-        incDecStr = ctx->incDecOperatorsB()->getText();
-    }
-
-    if (ctx->incDecOperatorsA() || ctx->incDecOperatorsB()) {        
-        if (incDecStr.compare("++") == 0)
-            node.operation_data.type_inc_dec = VERBUM_OP_TYPE_INC;
-        else if (incDecStr.compare("--") == 0)
-            node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
-    }
-
-    // Captura operador aritmético.
-    if (ctx->ArithmeticOperator())
-        node.operation_op = this->check_arithmeic_and_assignment_operator(
-            ctx->ArithmeticOperator()->getText());
-
-    // Verifica se há operador utilizado com o bloco da expressão.
-    if (ctx->AssignmentOperator()) {
-        string op = ctx->AssignmentOperator()->getText();
-
-        if (op.compare("+=") == 0)
-            node.operation_op = VERBUM_OPERATOR_ADD_EQUAL;
-        else if (op.compare("-=") == 0)
-            node.operation_op = VERBUM_OPERATOR_SUB_EQUAL;
-        else if (op.compare("*=") == 0)
-            node.operation_op = VERBUM_OPERATOR_MUL_EQUAL;
-        else if (op.compare("/=") == 0)
-            node.operation_op = VERBUM_OPERATOR_DIV_EQUAL;
-        else if (op.compare("%=") == 0)
-            node.operation_op = VERBUM_OPERATOR_PERC_EQUAL;
-        else if (op.compare(">")  == 0)
-            node.operation_op = VERBUM_OPERATOR_MAJOR;
-        else if (op.compare("<")  == 0)
-            node.operation_op = VERBUM_OPERATOR_MINOR;
-        else if (op.compare(">=") == 0)
-            node.operation_op = VERBUM_OPERATOR_MAJOR_EQUAL;
-        else if (op.compare("<=") == 0)
-            node.operation_op = VERBUM_OPERATOR_MINOR_EQUAL;
-        else if (op.compare("&&") == 0)
-            node.operation_op = VERBUM_OPERATOR_AND;
-        else if (op.compare("==") == 0)
-            node.operation_op = VERBUM_OPERATOR_EQUAL;
-        else if (op.compare("!=") == 0)
-            node.operation_op = VERBUM_OPERATOR_NOT_EQUAL;
-        else if (op.compare("!")  == 0)
-            node.operation_op = VERBUM_OPERATOR_NOT;
-    }
-
-    // Verifica se há uso do 'not'.
-    if (ctx->Not())
-        node.general_value_not = true;
-
-    //
-    // Processa valores.
-    //
-
-    // Chamada a atributo de objeto - simples (a.b).
-    else if (ctx->identifier() && ctx->identifierB()   &&
-            (ctx->Point() || ctx->TwoTwoPoint())        )
-    {
-        // Identifica tipo do acesso.
-        node.general_value_data.type = VERBUM_ATTRIBUTE_OBJECT;
-
-        if (ctx->Point())
-            node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;
-        else if (ctx->TwoTwoPoint())
-            node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
-
-        // Nome dos elementos.
-        node.general_value_data.object_name = ctx->identifier()->getText();
-        node.general_value_data.method_name = ctx->identifierB()->getText();
-    }
-
-    //
-    // Dados simples.
-    //
-    else if (ctx->identifier()) {
-        node.general_value_data.type = VERBUM_DATA_IDENTIFIER;
-        node.general_value_data.identifier = ctx->identifier()->getText();
-    } else if (ctx->String()) {
-        node.general_value_data.type = VERBUM_DATA_STRING;
-        node.general_value_data.vstring = ctx->String()->getText();
-    } else if (ctx->Integer()) {
-        node.general_value_data.type = VERBUM_DATA_INTEGER;
-        node.general_value_data.integer = ctx->Integer()->getText();
-    } else if (ctx->Float()) {
-        node.general_value_data.type = VERBUM_DATA_FLOAT;
-        node.general_value_data.floating = ctx->Float()->getText();
-    }
-
-    /*
-    ** Dados complexos.
-    */
-
-    // Bloco de operações.
-    else if (ctx->generalValueBlock()) {
-        block = true;
-        node.general_value_data.type = VERBUM_DATA_OPERATION_BLOCK;
-    }
-
-    // Chamadas a funções.
-    else if (ctx->functionCall()) {
-        block = true;
-
-        // Método de objeto instanciado.
-        if (ctx->functionCall()->Point()) {
-            node.general_value_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
-            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
-
-            if (ctx->functionCall()->identifierB())
-                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
-        }
-
-        // Método static.
-        else if (ctx->functionCall()->TwoTwoPoint()) {
-            node.general_value_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
-            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
-            
-            if (ctx->functionCall()->identifierB())
-                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
-        }
-
-        // Cascading method.
-        // else if (ctx->functionCall()->methodCascadingModes()) {
-        //     node.general_value_data.type = VERBUM_FUNCTION_CALL_CASCADING;
-        //     node.general_value_data.function_name = 
-        //         ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
-        // }
-        
-        // Chamada a função, a partir de acesso a elementos de array.
-        // else if (ctx->functionCall()->blockAccessArrayElements()) {
-        //     node.general_value_data.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
-        // }
-
-        // Função comum.
-        else {
-            node.general_value_data.type = VERBUM_DATA_FUNCTION_CALL;
-            node.general_value_data.function_name = 
-                ctx->functionCall()->identifier()->getText();
-        }
-    }
-
-    //
-    // Array - sem valores.
-    //
-
-    // Indexado.
-    else if (ctx->OpenArIndex() && ctx->CloseArIndex()) {
-        node.general_value_data.type = VERBUM_DATA_INDEX_ARRAY_BLOCK;
-        block = true;
-    }
-
-    // Associativo.
-    else if (ctx->OpenBlock() && ctx->CloseBlock()) {
-        node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
-        block = true;
-    }
-
-    // Array - com valores.
-    else if (ctx->blockArray()) {
-
-        // Array indexado.
-        if (ctx->blockArray()->indexArray()) {
-            node.general_value_data.type = VERBUM_DATA_INDEX_ARRAY_BLOCK;
-            block = true;
-        }
-        
-        // Array associativo.
-        else if (ctx->blockArray()->associativeArray()) {
-            node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
-            block = true;
-        }
-    }
-
-    // Declaração de função - atribuição da mesma à variável.
-    else if (ctx->blockFunctionDeclarationAttr()) {
-        // block = true;
-    }
-
-    // Declaração de classe - atribuição da mesma à variável.
-    else if (ctx->blockClassDeclarationAttr()) {
-        // block = true;
-    }
-
-    // Funções lambdas.
-    else if (ctx->blockLambdaFunctions()) {
-        // block = true;
-    }
-
-    // Instanciamento de objetos anonimamente.
-    else if (ctx->blockAnonymousObject()) {
-        node.general_value_data.type = VERBUM_ANONYMOUS_OBJECT;
-        block = true;
-    }
-
-    // Acesso a elementos de array.
-    else if (ctx->blockAccessArrayElements()) {
-        // block = true;
-    }
-
-    this->add_node(node);
-
-    if (block) {
-      this->node_block_counter++;
-      result = visitChildren(ctx);
-      this->node_block_counter--;
-    } else
-      result = visitChildren(ctx);
-
-    return result;
-}
-
-/*
 ** Array associativo.
 */
 antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx)
@@ -1579,6 +1342,228 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValueBlock (TParser::GeneralValueB
     this->node_block_counter++;
     antlrcpp::Any result = visitChildren(ctx);
     this->node_block_counter--;
+
+    return result;
+}
+
+
+
+
+
+
+
+
+
+/*
+** Valores gerais.
+*/
+antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContext *ctx) 
+{
+    antlrcpp::Any result;
+    bool block = false;
+    verbum_ast_node node = this->zero_data();
+
+    node.type = VERBUM_GENERAL_VALUE;
+    node.general_value_type_conversion = false;
+
+    // 
+    // Parâmetros gerais.
+    //
+
+    // Verifica se há conversão de tipo.
+    if (ctx->TypeSpec()) {
+        node.general_value_type_conversion = true;
+        node.general_value_type_conversion_data = ctx->TypeSpec()->getText();
+    }
+
+    // Verifica se há incremento/decremento prefixado/pós-fixado.
+    string incdec = "";
+
+    if (ctx->incDecOperatorsA()) {
+        node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_PRE;
+        incdec = ctx->incDecOperatorsA()->getText();
+    } else if (ctx->incDecOperatorsB()) {
+        node.operation_data.mod_inc_dec = VERBUM_OP_INCDEC_POS;
+        incdec = ctx->incDecOperatorsB()->getText();
+    }
+
+    if (ctx->incDecOperatorsA() || ctx->incDecOperatorsB()) {        
+        if (incdec.compare("++") == 0)
+            node.operation_data.type_inc_dec = VERBUM_OP_TYPE_INC;
+        else if (incdec.compare("--") == 0)
+            node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
+    }
+
+    // Operador aritmético.
+    if (ctx->ArithmeticOperator())
+        node.operation_op = this->check_arithmeic_and_assignment_operator(
+            ctx->ArithmeticOperator()->getText());
+
+    // Operador de atribuição.
+    if (ctx->AssignmentOperator())
+        node.operation_op = this->check_arithmeic_and_assignment_operator(
+            ctx->AssignmentOperator()->getText());
+
+    // Operador 'not'.
+    if (ctx->Not())
+        node.general_value_not = true;
+
+    //
+    // Valores / tipos de dados.
+    //
+
+    // Chamada a atributo de objeto - simples (a.b).
+    if ( ctx->identifier() && ctx->identifierB() &&
+       ( ctx->Point()      || ctx->TwoTwoPoint() ))
+    {
+        // Identifica tipo do acesso.
+        node.general_value_data.type = VERBUM_ATTRIBUTE_OBJECT;
+
+        if (ctx->Point())
+            node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;
+        else if (ctx->TwoTwoPoint())
+            node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
+
+        // Nome dos elementos.
+        node.general_value_data.object_name = ctx->identifier()->getText();
+        node.general_value_data.method_name = ctx->identifierB()->getText();
+    }
+
+    //
+    // Dados simples.
+    //
+    else if (ctx->identifier()) {
+        node.general_value_data.type = VERBUM_DATA_IDENTIFIER;
+        node.general_value_data.identifier = ctx->identifier()->getText();
+    } else if (ctx->String()) {
+        node.general_value_data.type = VERBUM_DATA_STRING;
+        node.general_value_data.vstring = ctx->String()->getText();
+    } else if (ctx->Integer()) {
+        node.general_value_data.type = VERBUM_DATA_INTEGER;
+        node.general_value_data.integer = ctx->Integer()->getText();
+    } else if (ctx->Float()) {
+        node.general_value_data.type = VERBUM_DATA_FLOAT;
+        node.general_value_data.floating = ctx->Float()->getText();
+    }
+
+    /*
+    ** Dados complexos.
+    */
+
+    // Bloco de operações.
+    else if (ctx->generalValueBlock()) {
+        block = true;
+        node.general_value_data.type = VERBUM_DATA_OPERATION_BLOCK;
+    }
+
+    // Chamadas a funções.
+    else if (ctx->functionCall()) {
+        block = true;
+
+        // Método de objeto instanciado.
+        if (ctx->functionCall()->Point()) {
+            node.general_value_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
+            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
+
+            if (ctx->functionCall()->identifierB())
+                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
+        }
+
+        // Método static.
+        else if (ctx->functionCall()->TwoTwoPoint()) {
+            node.general_value_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
+            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
+            
+            if (ctx->functionCall()->identifierB())
+                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
+        }
+
+        // Cascading method.
+        // else if (ctx->functionCall()->methodCascadingModes()) {
+        //     node.general_value_data.type = VERBUM_FUNCTION_CALL_CASCADING;
+        //     node.general_value_data.function_name = 
+        //         ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
+        // }
+        
+        // Chamada a função, a partir de acesso a elementos de array.
+        // else if (ctx->functionCall()->blockAccessArrayElements()) {
+        //     node.general_value_data.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
+        // }
+
+        // Função comum.
+        else {
+            node.general_value_data.type = VERBUM_DATA_FUNCTION_CALL;
+            node.general_value_data.function_name = 
+                ctx->functionCall()->identifier()->getText();
+        }
+    }
+
+    //
+    // Array - sem valores.
+    //
+
+    // Indexado.
+    else if (ctx->OpenArIndex() && ctx->CloseArIndex()) {
+        node.general_value_data.type = VERBUM_DATA_INDEX_ARRAY_BLOCK;
+        block = true;
+    }
+
+    // Associativo.
+    else if (ctx->OpenBlock() && ctx->CloseBlock()) {
+        node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
+        block = true;
+    }
+
+    // Array - com valores.
+    else if (ctx->blockArray()) {
+
+        // Array indexado.
+        if (ctx->blockArray()->indexArray()) {
+            node.general_value_data.type = VERBUM_DATA_INDEX_ARRAY_BLOCK;
+            block = true;
+        }
+        
+        // Array associativo.
+        else if (ctx->blockArray()->associativeArray()) {
+            node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_BLOCK;
+            block = true;
+        }
+    }
+
+    // Declaração de função - atribuição da mesma à variável.
+    else if (ctx->blockFunctionDeclarationAttr()) {
+        // block = true;
+    }
+
+    // Declaração de classe - atribuição da mesma à variável.
+    else if (ctx->blockClassDeclarationAttr()) {
+        // block = true;
+    }
+
+    // Funções lambdas.
+    else if (ctx->blockLambdaFunctions()) {
+        // block = true;
+    }
+
+    // Instanciamento de objetos anonimamente.
+    else if (ctx->blockAnonymousObject()) {
+        node.general_value_data.type = VERBUM_ANONYMOUS_OBJECT;
+        block = true;
+    }
+
+    // Acesso a elementos de array.
+    else if (ctx->blockAccessArrayElements()) {
+        // block = true;
+    }
+
+    this->add_node(node);
+
+    if (block) {
+      this->node_block_counter++;
+      result = visitChildren(ctx);
+      this->node_block_counter--;
+    } else
+      result = visitChildren(ctx);
 
     return result;
 }

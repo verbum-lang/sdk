@@ -51,11 +51,7 @@ namespace verbum {
             antlrcpp::Any visitBlockAttribution (TParser::BlockAttributionContext *ctx);
             antlrcpp::Any visitVariableItem (TParser::VariableItemContext *ctx);
             antlrcpp::Any visitAttributionElements (TParser::AttributionElementsContext *ctx);
-
-            // Visibilidade das variáveis, métodos e configurações das classes.
             antlrcpp::Any visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx);
-
-            // Atribuição múltipla (a = b = c = d).
             antlrcpp::Any visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx);
 
             // Ret (return).
@@ -105,9 +101,6 @@ namespace verbum {
             antlrcpp::Any visitBlockClassDeclarationAttr (TParser::BlockClassDeclarationAttrContext *ctx);
             antlrcpp::Any visitClassCodeBlock (TParser::ClassCodeBlockContext *ctx);
 
-            // Valores gerais.
-            antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
-
             // Array associativo.
             antlrcpp::Any visitAssociativeArrayElements (TParser::AssociativeArrayElementsContext *ctx);
 
@@ -132,6 +125,9 @@ namespace verbum {
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
             antlrcpp::Any visitGeneralValueBlock (TParser::GeneralValueBlockContext *ctx);
+
+            // Valores gerais.
+            antlrcpp::Any visitGeneralValue (TParser::GeneralValueContext *ctx);
 
         private:
         

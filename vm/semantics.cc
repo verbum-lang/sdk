@@ -130,10 +130,12 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
                 if (node.variable_definition_type == VERBUM_VARIABLE_SIMPLE)
                     cout << node.variable_names.simple_name;
+
+                // Utilizado para acesso de métodos e atributos.
                 else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_INSTANCE)
-                    cout << node.variable_names.object_name << "." << node.variable_names.method_name;
+                    cout << node.variable_names.object_name << " . " << node.variable_names.method_name;
                 else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_STATIC)
-                    cout << node.variable_names.object_name << "::" << node.variable_names.method_name;
+                    cout << node.variable_names.object_name << " :: " << node.variable_names.method_name;
                 
                 cout << "\n";
             }
@@ -928,241 +930,217 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         //     cout << "-> general-value block (close)\n";
         // }
         
-        // /*
-        // ** Valores gerais.
-        // */
-        // else if (node.type == VERBUM_GENERAL_VALUE) {
+        /*
+        ** Valores gerais.
+        */
+        else if (node.type == VERBUM_GENERAL_VALUE) {
 
-        //     // Verifica se há 'not'.
-        //     if (node.general_value_not) {
-        //         this->tab();
-        //         cout << "(not)\n";
-        //     }
+            // Verifica se há 'not'.
+            if (node.general_value_not) {
+                this->tab();
+                cout << "-> not operator\n";
+            }
             
-        //     // Dados simples.
-        //     if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER      ||
-        //         node.general_value_data.type == VERBUM_DATA_INTEGER         ||
-        //         node.general_value_data.type == VERBUM_DATA_STRING          ||
-        //         node.general_value_data.type == VERBUM_DATA_FLOAT            )
-        //     {
-        //         if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) {
+            // Dados simples.
+            if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER ||
+                node.general_value_data.type == VERBUM_DATA_STRING     ||
+                node.general_value_data.type == VERBUM_DATA_INTEGER    ||
+                node.general_value_data.type == VERBUM_DATA_FLOAT       )
+            {
+                if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) {
 
-        //             // Pré inc/dec.
-        //             if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
-        //                 this->tab();
+                    // Pré inc/dec.
+                    if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
+                        this->tab();
 
-        //                 switch (node.operation_data.type_inc_dec) {
-        //                     case VERBUM_OP_TYPE_INC: cout << "++ (pre)\n"; break;
-        //                     case VERBUM_OP_TYPE_DEC: cout << "-- (pre)\n"; break;
-        //                 }
-        //             }
+                        switch (node.operation_data.type_inc_dec) {
+                            case VERBUM_OP_TYPE_INC: cout << "-> ++ (pre)\n"; break;
+                            case VERBUM_OP_TYPE_DEC: cout << "-> -- (pre)\n"; break;
+                        }
+                    }
 
-        //             this->tab();
-        //             cout << node.general_value_data.identifier << " (s.identifier)\n";
+                    this->tab();
+                    cout << "-> value: " << node.general_value_data.identifier << " (identifier)\n";
 
-        //             // Pós inc/dec.
-        //             if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
-        //                 this->tab();
+                    // Pós inc/dec.
+                    if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
+                        this->tab();
 
-        //                 switch (node.operation_data.type_inc_dec) {
-        //                     case VERBUM_OP_TYPE_INC: cout << "++ (pos)\n"; break;
-        //                     case VERBUM_OP_TYPE_DEC: cout << "-- (pos)\n"; break;
-        //                 }
-        //             }
-        //         } 
+                        switch (node.operation_data.type_inc_dec) {
+                            case VERBUM_OP_TYPE_INC: cout << "-> ++ (pos)\n"; break;
+                            case VERBUM_OP_TYPE_DEC: cout << "-> -- (pos)\n"; break;
+                        }
+                    }
+                } 
 
-        //         else {
-        //             this->tab();
-        //             cout << "-> value: ";
+                else {
+                    this->tab();
+                    cout << "-> value: ";
 
-        //             if (node.general_value_data.type == VERBUM_DATA_INTEGER) 
-        //                 cout << node.general_value_data.integer << " (s.integer)\n";
-        //             else if (node.general_value_data.type == VERBUM_DATA_STRING) 
-        //                 cout << node.general_value_data.vstring << " (s.string)\n";
-        //             else if (node.general_value_data.type == VERBUM_DATA_FLOAT) 
-        //                 cout << node.general_value_data.floating << " (s.float)\n";
-        //         }
-        //     }
+                    if (node.general_value_data.type == VERBUM_DATA_INTEGER) 
+                        cout << node.general_value_data.integer << " (integer)\n";
+                    else if (node.general_value_data.type == VERBUM_DATA_STRING) 
+                        cout << node.general_value_data.vstring << " (string)\n";
+                    else if (node.general_value_data.type == VERBUM_DATA_FLOAT) 
+                        cout << node.general_value_data.floating << " (float)\n";
+                }
+            }
 
-        //     /*
-        //     ** Dados complexos.
-        //     */
+            /*
+            ** Dados complexos.
+            */
 
-        //     // Bloco de operações / sub-elementos.
-        //     else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
-        //         this->tab();
-        //         cout << "-> general-value-block (open)\n";
+            // Bloco de operações / sub-elementos.
+            else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
+                this->tab();
+                cout << "-> general-value-block (open)\n";
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->tab();
-        //         cout << "-> general-value-block (close)\n";
-        //     }
+                this->tab();
+                cout << "-> general-value-block (close)\n";
+            }
 
-        //     // Array indexado.
-        //     else if (node.general_value_data.type == VERBUM_DATA_INDEX_ARRAY_BLOCK) {
-        //         this->tab();
-        //         cout << "[ <---| array-index-open:\n";
+            // Array indexado.
+            else if (node.general_value_data.type == VERBUM_DATA_INDEX_ARRAY_BLOCK) {
+                this->tab();
+                cout << "[ <---| array-index-open:\n";
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->tab();
-        //         cout << "] <---| array-index-close:\n";
-        //     }
+                this->tab();
+                cout << "] <---| array-index-close:\n";
+            }
 
-        //     // Array associativo - bloco.
-        //     else if (node.general_value_data.type == VERBUM_DATA_ASSOC_ARRAY_BLOCK) {
-        //         this->tab();
-        //         cout << "{ <---| array-assoc-open:\n";
+            // Array associativo - bloco.
+            else if (node.general_value_data.type == VERBUM_DATA_ASSOC_ARRAY_BLOCK) {
+                this->tab();
+                cout << "{ <---| array-assoc-open:\n";
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->tab();
-        //         cout << "} <---| array-assoc-close:\n";
-        //     }
+                this->tab();
+                cout << "} <---| array-assoc-close:\n";
+            }
 
-        //     // Array associativo - elementos.
-        //     else if (node.general_value_data.type == VERBUM_DATA_ASSOC_ARRAY_ELEMENT) {
-        //         this->tab();
-        //         cout << "-> key: " << node.general_value_data.identifier << "\n";
-        //     }
+            // Array associativo - elementos.
+            else if (node.general_value_data.type == VERBUM_DATA_ASSOC_ARRAY_ELEMENT) {
+                this->tab();
+                cout << "-> key: " << node.general_value_data.identifier << "\n";
+            }
 
-        //     /*
-        //     ** Chamada a função.
-        //     */
-        //     else if (node.general_value_data.type == VERBUM_DATA_FUNCTION_CALL          ||
-        //              node.general_value_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL   ||
-        //              node.general_value_data.type == VERBUM_DATA_STATIC_METHOD_CALL      )
-        //     {
-        //         this->tab();
+            /*
+            ** Chamada a função.
+            */
+            else if (node.general_value_data.type == VERBUM_DATA_FUNCTION_CALL          ||
+                     node.general_value_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL   ||
+                     node.general_value_data.type == VERBUM_DATA_STATIC_METHOD_CALL      )
+            {
+                this->tab();
+                cout << "-> value: ";
 
-        //         // Função simples.
-        //         if (node.general_value_data.type == VERBUM_DATA_FUNCTION_CALL) 
-        //             cout << node.general_value_data.function_name << " (function-call)\n";
+                // Função simples.
+                if (node.general_value_data.type == VERBUM_DATA_FUNCTION_CALL) 
+                    cout << node.general_value_data.function_name << " (function-call)\n";
 
-        //         // Chamada a método de objeto instanciado.
-        //         else if (node.general_value_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL)
-        //             cout << node.general_value_data.object_name << " . " << 
-        //                 node.general_value_data.method_name << " (instance-method-call)\n"; 
+                // Chamada a método de objeto instanciado.
+                else if (node.general_value_data.type == VERBUM_DATA_INSTANCE_METHOD_CALL)
+                    cout << node.general_value_data.object_name << " . " << 
+                        node.general_value_data.method_name << " (instance-method-call)\n"; 
 
-        //         // Chamada a método de objeto estático.
-        //         else if (node.general_value_data.type == VERBUM_DATA_STATIC_METHOD_CALL)
-        //             cout << node.general_value_data.object_name << " :: " << 
-        //                 node.general_value_data.method_name << " (static-method-call)\n";
+                // Chamada a método de objeto estático.
+                else if (node.general_value_data.type == VERBUM_DATA_STATIC_METHOD_CALL)
+                    cout << node.general_value_data.object_name << " :: " << 
+                        node.general_value_data.method_name << " (static-method-call)\n";
 
-        //         // Processamento dos nodes (filhos).
-        //         this->tab();
-        //         cout << "( <---| open function-block\n";
+                // Processamento dos nodes (filhos).
+                this->tab();
+                cout << "-> ( <---| open function-block\n";
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->tab();
-        //         cout << ") <---| close function-block\n";
-        //     }
+                this->tab();
+                cout << "-> ) <---| close function-block\n";
+            }
 
-        //     // Acesso a atributo de objeto.
-        //     else if (node.general_value_data.type == VERBUM_ATTRIBUTE_OBJECT) {
-        //         this->tab();
-        //         cout << "-> attribute-object-access: ";
-                
-        //         cout << "[obj]: " << node.general_value_data.object_name;
+            // Acesso a atributo de objeto.
+            // Utilizado em atribuições múltiplas (obj1.attr1 = obj2::attr2).
+            else if (node.general_value_data.type == VERBUM_ATTRIBUTE_OBJECT) {
+                this->tab();
+                cout << "-> attribute-object: " << node.general_value_data.object_name;
 
-        //         // Tipo do acesso.
-        //         if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_INSTANCE)
-        //             cout << " . ";
-        //         else if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_STATIC)
-        //             cout << " :: ";
-        //         else 
-        //             cout << " ?(unknown access) ";
+                // Tipo do acesso.
+                if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_INSTANCE)
+                    cout << " . ";
+                else if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_STATIC)
+                    cout << " :: ";
+                else 
+                    cout << " ?(unknown access) ";
 
-        //         cout << "[attr]: "<< node.general_value_data.method_name << "\n";
-        //     }
+                cout << node.general_value_data.method_name << "\n";
+            }
 
-        //     // Cascading method.
-        //     else if (node.general_value_data.type == VERBUM_FUNCTION_CALL_CASCADING) {
-        //         this->tab();
-        //         cout << "-> cascading method (open)\n";
+            // Cascading method.
+            else if (node.general_value_data.type == VERBUM_FUNCTION_CALL_CASCADING) {
+                this->tab();
+                cout << "-> cascading method (open)\n";
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->tab();
-        //         cout << "-> cascading method (close)\n";
-        //     }
+                this->tab();
+                cout << "-> cascading method (close)\n";
+            }
 
-        //     // Chamada a função com acesso a elemento de array.
-        //     else if (node.general_value_data.type == VERBUM_FUNCTION_CALL_ARRAY_ACCESS) {
-        //         this->tab();
-        //         cout << "-> function-call array-access (open)\n";
+            // Chamada a função com acesso a elemento de array.
+            else if (node.general_value_data.type == VERBUM_FUNCTION_CALL_ARRAY_ACCESS) {
+                this->tab();
+                cout << "-> function-call array-access (open)\n";
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->tab();
-        //         cout << "-> function-call array-access (close)\n";
-        //     }
+                this->tab();
+                cout << "-> function-call array-access (close)\n";
+            }
 
-        //     // Instanciamento de objeto anônimo.
-        //     else if (node.general_value_data.type == VERBUM_ANONYMOUS_OBJECT) {
-        //         this->tab();
-        //         cout << "-> anonymous-object instance (open)\n";
+            // Instanciamento de objeto anônimo.
+            else if (node.general_value_data.type == VERBUM_ANONYMOUS_OBJECT) {
+                this->tab();
+                cout << "-> anonymous-object instance (open)\n";
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->tab();
-        //         cout << "-> anonymous-object instance (close)\n";
-        //     }
+                this->tab();
+                cout << "-> anonymous-object instance (close)\n";
+            }
 
-        //     // Verifica se há conversão de tipo.
-        //     if (node.general_value_type_conversion) {
-        //         this->tab();
-        //         cout << node.general_value_type_conversion_data << " (type conversion)\n";
-        //     }
+            // Verifica se há conversão de tipo.
+            if (node.general_value_type_conversion) {
+                this->tab();
+                cout << "-> casting: " << node.general_value_type_conversion_data << "\n";
+            }
 
-        //     // Operação.
-        //     if (node.operation_op != VERBUM_UNKNOWN) {
-        //         this->tab();
-
-        //         switch (node.operation_op) {
-
-        //             // Operadores aritméticos.
-        //             case VERBUM_OPERATOR_ADD:         cout <<  "+\n"; break;
-        //             case VERBUM_OPERATOR_SUB:         cout <<  "-\n"; break;
-        //             case VERBUM_OPERATOR_DIV:         cout <<  "/\n"; break;
-        //             case VERBUM_OPERATOR_MUL:         cout <<  "*\n"; break;
-        //             case VERBUM_OPERATOR_PERC:        cout <<  "%\n"; break;
-
-        //             // Operadores de atribuição (e outros).
-        //             case VERBUM_OPERATOR_ATTR:        cout <<  "=\n"; break;
-        //             case VERBUM_OPERATOR_ADD_EQUAL:   cout << "+=\n"; break;
-        //             case VERBUM_OPERATOR_SUB_EQUAL:   cout << "-=\n"; break;
-        //             case VERBUM_OPERATOR_MUL_EQUAL:   cout << "*=\n"; break;
-        //             case VERBUM_OPERATOR_DIV_EQUAL:   cout << "/=\n"; break;
-        //             case VERBUM_OPERATOR_PERC_EQUAL:  cout << "%=\n"; break;
-        //             case VERBUM_OPERATOR_MAJOR:       cout <<  ">\n"; break;
-        //             case VERBUM_OPERATOR_MINOR:       cout <<  "<\n"; break;
-        //             case VERBUM_OPERATOR_MAJOR_EQUAL: cout << ">=\n"; break;
-        //             case VERBUM_OPERATOR_MINOR_EQUAL: cout << "<=\n"; break;
-        //             case VERBUM_OPERATOR_AND:         cout << "&&\n"; break;
-        //             case VERBUM_OPERATOR_EQUAL:       cout << "==\n"; break;
-        //             case VERBUM_OPERATOR_NOT_EQUAL:   cout << "!=\n"; break;
-        //             case VERBUM_OPERATOR_NOT:         cout <<  "!\n"; break;
-        //         }
-        //     }
-
-        // }
+            // Operação.
+            if (node.operation_op != VERBUM_UNKNOWN) {
+                this->tab();
+                cout << "-> operation: ";
+                cout << this->print_operation(node.operation_op) << "\n";
+            }
+            
+        }
 
     }
 }
