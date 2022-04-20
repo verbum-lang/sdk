@@ -802,7 +802,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunction (TParser::BlockFunctionCont
         node.function_declaration.identifier = ctx->identifier()->getText();
 
     // Verifica se é método de interfaces ou classes abstratas.
-    if (ctx->End())
+    if (ctx->End() && !ctx->openOpA() && !ctx->closeOpA())
         node.function_declaration.type = VERBUM_FUNCTION_INTERFACE_ABSTRACT;
 
     // Verifica se há retorno de tipo.

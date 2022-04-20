@@ -1,12 +1,8 @@
 
 // In principio erat Verbum!
 
-(fn func1 (a:int, b:int) -> string { 
-    fn func2 (c :int) -> string {  
-        ret 'Verbum';
-    }
+fn (a:int, b:int) -> string { 
     
-    ret func2(a*b);
-})(10 * 20, [1,2,3]);
+}
 
 

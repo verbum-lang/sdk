@@ -935,6 +935,8 @@ public:
     std::vector<antlr4::tree::TerminalNode *> CloseOp();
     antlr4::tree::TerminalNode* CloseOp(size_t i);
     FunctionCodeBlockContext *functionCodeBlock();
+    OpenOpAContext *openOpA();
+    CloseOpAContext *closeOpA();
     antlr4::tree::TerminalNode *End();
     IdentifierContext *identifier();
     FunctionParamContext *functionParam();
@@ -962,6 +964,8 @@ public:
     std::vector<antlr4::tree::TerminalNode *> CloseOp();
     antlr4::tree::TerminalNode* CloseOp(size_t i);
     FunctionCodeBlockContext *functionCodeBlock();
+    OpenOpAContext *openOpA();
+    CloseOpAContext *closeOpA();
     IdentifierContext *identifier();
     FunctionParamContext *functionParam();
     antlr4::tree::TerminalNode *ArrowRight();

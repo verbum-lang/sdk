@@ -270,9 +270,9 @@ blockFunction
       Function (identifier)? OpenOp (functionParam)? CloseOp 
       (ArrowRight (identifierB | TypeSpec) )? functionCodeBlock
     CloseOp
-    OpenOp
+    openOpA
       (functionAnonymousParamElements)?
-    CloseOp
+    closeOpA
     End
 
   // Funções comuns e anônimas (incluindo definição para interfaces e classes abstratas).
@@ -288,9 +288,9 @@ blockFunctionDeclarationAttr
       Function (identifier)? OpenOp (functionParam)? CloseOp 
       (ArrowRight (identifierB | TypeSpec) )? functionCodeBlock
     CloseOp
-    OpenOp
+    openOpA
       (functionAnonymousParamElements)?
-    CloseOp
+    closeOpA
 
   // Chamada comum.
   | Function (identifier)? OpenOp (functionParam)? CloseOp 
