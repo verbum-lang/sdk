@@ -1,16 +1,35 @@
 
-// if (a)
-//     if (b)
-//         print("Deus eh Bom");
-//     else
-//         if (x)
-//             print("Verbum - else\n");
+if (a)
+    if (b)
+        print("Deus eh Bom");
+    else
+        if (x)
+            print("Verbum - else\n");
 
-// if (n)
-//     print("Jesus <3");
+if (n)
+    print("Jesus <3");
 
 if a {
     // print('Verbum');
+    a.b.c[1].d[1][2](333);
+}
+
+for var a=0, b=0; a<10; a++, b--
+    {
+     print('Verbum');
+    // a.b.c[1].d[1][2](333);
+}
+
+for ;a<10; {
+    print("Jesus\n");
+
+    for 
+        print("Verbum!\n");
+}
+
+
+for 
+    {
     a.b.c[1].d[1][2](333);
 }
 
