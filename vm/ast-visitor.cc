@@ -385,11 +385,24 @@ antlrcpp::Any verbum_ast_visitor::visitAttributionElements (TParser::Attribution
     return visitChildren(ctx);
 }
 
+// Atribuição múltipla (a = b = c = d) - Bloco principal.
+antlrcpp::Any verbum_ast_visitor::visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_MULTIPLE_ATTRIBUTION;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;  
+}
+
 /*
 ** Tokens de visibilidade das variáveis, métodos e configurações de classes (final).
 */
-
-// Bloco do token
 antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
@@ -410,25 +423,6 @@ antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPerm
 
     this->add_node(node);
     return visitChildren(ctx);
-}
-
-/*
-** Atribuição múltipla (a = b = c = d).
-*/
-
-// Bloco principal.
-antlrcpp::Any verbum_ast_visitor::visitBlockMultipleAssignments (TParser::BlockMultipleAssignmentsContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_MULTIPLE_ATTRIBUTION;
-
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;  
 }
 
 /*

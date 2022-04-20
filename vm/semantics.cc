@@ -97,7 +97,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         // Declarações e atribuições.
         else if (node.type == VERBUM_VARIABLE_INITIALIZATION) {
             this->tab();
-            cout << "variable: \n";
+            cout << "-> variable: \n";
 
             this->block_counter++;
             this->tab();
@@ -109,8 +109,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
-
-            cout << "\n";
         }
 
         // Informações da expressão.
@@ -160,6 +158,38 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 case VERBUM_MOD_OP_AWAIT:        cout << "await\n"; break;
                 case VERBUM_MOD_OP_SIMPLE:       cout << "simple\n"; break;
             }
+        }
+
+        // Atribuição múltipla (a = b = c = d) - Bloco geral.
+        else if (node.type == VERBUM_MULTIPLE_ATTRIBUTION) {
+            this->tab();
+            cout << "-> multiple-attribution block (open)\n";
+            
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
+
+            this->tab();
+            cout << "-> multiple-attribution block (close)\n";
+        }
+
+        /*
+        ** Visibilidade dos itens (variáveis e métodos), e configurações das classes (final).
+        */
+        else if (node.type == VERBUM_ITEMS_VISIBILITY) {
+            this->tab();
+            cout << "-> visibility token: ";
+
+            switch (node.item_visibility) {
+                case VERBUM_ITEMS_VISIBILITY_PUB:    cout << "pub";    break;
+                case VERBUM_ITEMS_VISIBILITY_PRIV:   cout << "priv";   break;
+                case VERBUM_ITEMS_VISIBILITY_PRO:    cout << "pro";    break;
+                case VERBUM_ITEMS_VISIBILITY_FINAL:  cout << "final";  break;
+                case VERBUM_ITEMS_VISIBILITY_STATIC: cout << "static"; break;
+                case VERBUM_ITEMS_VISIBILITY_ASYNC:  cout << "async";  break;
+            }
+
+            cout << "\n";
         }
 
         // /*
@@ -786,42 +816,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
         //     this->tab();
         //     cout << ") <---| close function-block\n";
-        // }
-
-        // /*
-        // ** Visibilidade dos itens (variáveis e métodos), e configurações das classes.
-        // */
-        // else if (node.type == VERBUM_ITEMS_VISIBILITY) {
-        //     this->tab();
-        //     cout << "-> Item visibility: ";
-
-        //     switch (node.item_visibility) {
-        //         case VERBUM_ITEMS_VISIBILITY_PUB:    cout << "pub";    break;
-        //         case VERBUM_ITEMS_VISIBILITY_PRIV:   cout << "priv";   break;
-        //         case VERBUM_ITEMS_VISIBILITY_PRO:    cout << "pro";    break;
-        //         case VERBUM_ITEMS_VISIBILITY_FINAL:  cout << "final";  break;
-        //         case VERBUM_ITEMS_VISIBILITY_STATIC: cout << "static"; break;
-        //         case VERBUM_ITEMS_VISIBILITY_ASYNC:  cout << "async"; break;
-        //     }
-
-        //     cout << "\n";
-        // }
-
-        // /*
-        // ** Atribuição múltipla (a = b = c = d).
-        // */
-
-        // // Bloco geral.
-        // else if (node.type == VERBUM_MULTIPLE_ATTRIBUTION) {
-        //     this->tab();
-        //     cout << "-> multiple-attribution block (open)\n";
-            
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
-
-        //     this->tab();
-        //     cout << "-> multiple-attribution block (close)\n";
         // }
 
         // /*
