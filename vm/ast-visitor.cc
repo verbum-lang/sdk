@@ -428,17 +428,6 @@ antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPerm
     return visitChildren(ctx);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
 ** Ret (return).
 */
@@ -1238,16 +1227,6 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClassConstructor (TParser::BlockClas
 
     return result;
 }
-
-
-
-
-
-
-
-
-
-
 
 /*
 ** Array associativo.

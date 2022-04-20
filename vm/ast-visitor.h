@@ -56,11 +56,6 @@ namespace verbum {
             // Visbilidade de elementos (pub, priv, etc).
             antlrcpp::Any visitBlockPermissionTokens (TParser::BlockPermissionTokensContext *ctx);
 
-
-
-
-
-
             // Ret (return).
             antlrcpp::Any visitBlockRet (TParser::BlockRetContext *ctx) ;
 
@@ -125,11 +120,6 @@ namespace verbum {
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);
             antlrcpp::Any visitGeneralValueBlock (TParser::GeneralValueBlockContext *ctx);
-
-
-
-
-
 
             // Array.
             antlrcpp::Any visitBlockAccessArrayElements (TParser::BlockAccessArrayElementsContext *ctx);

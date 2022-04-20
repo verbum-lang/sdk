@@ -194,20 +194,20 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << "\n";
         }
 
-        // /*
-        // ** Ret.
-        // */
-        // else if (node.type == VERBUM_RET) {
-        //     this->tab();
-        //     cout << "-> ret block (open)\n";
+        /*
+        ** Ret.
+        */
+        else if (node.type == VERBUM_RET) {
+            this->tab();
+            cout << "-> ret block (open)\n";
             
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "-> ret block (close)\n";
-        // }
+            this->tab();
+            cout << "-> ret block (close)\n";
+        }
 
         // /*
         // ** Condicionais.
@@ -769,6 +769,42 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         //     cout << "-> lambda-function code block - key (close)\n";
         // }
 
+        // /*
+        // ** Objeto anônimo - instanciamento.
+        // */
+
+        // // Bloco geral.
+        // else if (node.type == VERBUM_ANONYMOUS_OBJECT) {
+        //     this->tab();
+        //     cout << "-> anonymous-object def block (open)\n";
+            
+        //     this->tab();
+        //     cout << "-> object name: " << node.function_call.object_name << "\n";
+
+        //     this->tab();
+        //     cout << "-> method: " << node.anonymous_class_method << "\n";
+
+        //     // Tipo do acesso ao método.
+        //     this->tab();
+        //     cout << "-> method access: ";
+
+        //     if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_INSTANCE)
+        //         cout << " . ";
+        //     else if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_STATIC)
+        //         cout << " :: ";
+        //     else 
+        //         cout << " ?(unknown access) ";
+
+        //     cout << "\n";
+
+        //     this->block_counter++;
+        //     this->verbum_recursive_ast(node.nodes);
+        //     this->block_counter--;
+
+        //     this->tab();
+        //     cout << "-> anonymous-object def block (close)\n";
+        // }
+        
         /*
         ** Chamada a função.
         */
@@ -821,42 +857,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             }
         }
 
-        // /*
-        // ** Objeto anônimo - instanciamento.
-        // */
-
-        // // Bloco geral.
-        // else if (node.type == VERBUM_ANONYMOUS_OBJECT) {
-        //     this->tab();
-        //     cout << "-> anonymous-object def block (open)\n";
-            
-        //     this->tab();
-        //     cout << "-> object name: " << node.function_call.object_name << "\n";
-
-        //     this->tab();
-        //     cout << "-> method: " << node.anonymous_class_method << "\n";
-
-        //     // Tipo do acesso ao método.
-        //     this->tab();
-        //     cout << "-> method access: ";
-
-        //     if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_INSTANCE)
-        //         cout << " . ";
-        //     else if (node.attribute_object_type == VERBUM_ATTRIBUTE_OBJECT_STATIC)
-        //         cout << " :: ";
-        //     else 
-        //         cout << " ?(unknown access) ";
-
-        //     cout << "\n";
-
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
-
-        //     this->tab();
-        //     cout << "-> anonymous-object def block (close)\n";
-        // }
-        
         /*
         ** Acesso a elemento de array.
         */
