@@ -29,10 +29,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitBlockCode(TParser::BlockCodeContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitBlockUse(TParser::BlockUseContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -266,14 +262,6 @@ public:
   }
 
   virtual antlrcpp::Any visitFunctionCallElements(TParser::FunctionCallElementsContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitBlockCascadingMethod(TParser::BlockCascadingMethodContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext *ctx) override {
     return visitChildren(ctx);
   }
 

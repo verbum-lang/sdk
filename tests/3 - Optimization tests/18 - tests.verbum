@@ -997,7 +997,7 @@ print("Sub version: {}\n", Example::subVersion);
 print("resultB = {}\n", resultB);
 print("Check String = {}\n", resultC);
 
-/*
+
 // Exemplo com "parent".
 var obj1 = new Common();
 obj1.exampleA();            // Verbum
@@ -1707,6 +1707,5 @@ variable.items[2].values[0]         = 10; // 10
 variable.items[2].values[3].name    = 10; // Member
 variable.items[3]                   = 10; // 31337
 variable[3] = 10;
-*/
 
 

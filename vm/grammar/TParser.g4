@@ -50,9 +50,7 @@ statements
   | blockClassConstructor
   | blockAttribution
   | blockMultipleAssignments
-  | blockCode
   | blockPermissionTokens
-  | blockCascadingMethod
   ;
 
 /*
@@ -562,7 +560,6 @@ generalValue
   | blockLambdaFunctions
   | blockAccessArrayElements
   | blockAnonymousObject
-  | blockCascadingMethodAttr
 
   // Inicialização de array vazio (indexado e associativo).
   | (OpenBlock CloseBlock | OpenArIndex CloseArIndex)

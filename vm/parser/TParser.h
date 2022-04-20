@@ -32,36 +32,35 @@ public:
   };
 
   enum {
-    RuleMain = 0, RuleSentences = 1, RuleStatements = 2, RuleBlockCode = 3, 
-    RuleBlockUse = 4, RuleUseValue = 5, RuleUseString = 6, RuleBlockVariable = 7, 
-    RuleVariableItem = 8, RuleVariablePrefixModes = 9, RuleFunctionCall = 10, 
-    RuleFunctionCallParam = 11, RuleFunctionCallParamElements = 12, RuleBlockRet = 13, 
-    RuleBlockConditional = 14, RuleIfElementUnique = 15, RuleElifElements = 16, 
-    RuleElifElementUnique = 17, RuleElseElementUnique = 18, RuleConditionalBlockExpression = 19, 
-    RuleConditionalBlockElements = 20, RuleBlockLoop = 21, RuleLoopBlockElements = 22, 
-    RuleLoopComplete = 23, RuleLoopConditional = 24, RuleLoopInfinite = 25, 
-    RuleEndOne = 26, RuleEndTwo = 27, RuleLoopOneMembers = 28, RuleLoopTwoMembers = 29, 
-    RuleLoopThreeMembers = 30, RuleLoopThreeMembersValues = 31, RuleBlockBreak = 32, 
-    RuleBlockNext = 33, RuleBlockTryCatch = 34, RuleTryUniqueElement = 35, 
-    RuleCatchUniqueElement = 36, RuleTryCatchElements = 37, RuleBlockFunction = 38, 
-    RuleBlockFunctionDeclarationAttr = 39, RuleFunctionParam = 40, RuleFunctionAnonymousParam = 41, 
-    RuleFunctionCodeBlock = 42, RuleBlockInterface = 43, RuleInterfaceCodeBlock = 44, 
-    RuleBlockAbstraction = 45, RuleAbstractionCodeBlock = 46, RuleBlockClass = 47, 
-    RuleBlockClassDeclarationAttr = 48, RuleClassCommonDef = 49, RuleClassAnonymousParam = 50, 
-    RuleClassCodeBlock = 51, RuleBlockArray = 52, RuleIndexArray = 53, RuleIndexArrayElements = 54, 
-    RuleAssociativeArray = 55, RuleAssociativeArrayElements = 56, RuleBlockLambdaFunctions = 57, 
-    RuleLambdaFnParams = 58, RuleLambdaFnCodeBlock = 59, RuleBlockClassConstructor = 60, 
-    RuleBlockFunctionCall = 61, RuleFunctionCallElements = 62, RuleBlockCascadingMethod = 63, 
-    RuleBlockCascadingMethodAttr = 64, RuleBlockAnonymousObject = 65, RuleBlockAttribution = 66, 
-    RuleAttributionElements = 67, RuleBlockMultipleAssignments = 68, RuleVariableMultipleAssignmentsModes = 69, 
-    RuleBlockAccessArrayElements = 70, RuleArrayAccessElements = 71, RuleArrayAccessElementsItems = 72, 
-    RuleAccessBlockAr = 73, RuleArrayIndexAccess = 74, RuleFirstIncDec = 75, 
-    RuleLastIncDec = 76, RuleBlockPermissionTokens = 77, RuleCodeBlockFlowControl = 78, 
-    RuleCodeBlockFlowControlElements = 79, RuleCodeBlockControl = 80, RuleGeneralValue = 81, 
-    RuleGeneralValueBlock = 82, RuleGeneralValueItems = 83, RuleGeneralValueElements = 84, 
-    RuleIdentifier = 85, RuleIdentifierB = 86, RuleIdentifierC = 87, RuleIdentifierD = 88, 
-    RuleIncDecOperatorsA = 89, RuleIncDecOperatorsB = 90, RuleOpenOpA = 91, 
-    RuleCloseOpA = 92
+    RuleMain = 0, RuleSentences = 1, RuleStatements = 2, RuleBlockUse = 3, 
+    RuleUseValue = 4, RuleUseString = 5, RuleBlockVariable = 6, RuleVariableItem = 7, 
+    RuleVariablePrefixModes = 8, RuleFunctionCall = 9, RuleFunctionCallParam = 10, 
+    RuleFunctionCallParamElements = 11, RuleBlockRet = 12, RuleBlockConditional = 13, 
+    RuleIfElementUnique = 14, RuleElifElements = 15, RuleElifElementUnique = 16, 
+    RuleElseElementUnique = 17, RuleConditionalBlockExpression = 18, RuleConditionalBlockElements = 19, 
+    RuleBlockLoop = 20, RuleLoopBlockElements = 21, RuleLoopComplete = 22, 
+    RuleLoopConditional = 23, RuleLoopInfinite = 24, RuleEndOne = 25, RuleEndTwo = 26, 
+    RuleLoopOneMembers = 27, RuleLoopTwoMembers = 28, RuleLoopThreeMembers = 29, 
+    RuleLoopThreeMembersValues = 30, RuleBlockBreak = 31, RuleBlockNext = 32, 
+    RuleBlockTryCatch = 33, RuleTryUniqueElement = 34, RuleCatchUniqueElement = 35, 
+    RuleTryCatchElements = 36, RuleBlockFunction = 37, RuleBlockFunctionDeclarationAttr = 38, 
+    RuleFunctionParam = 39, RuleFunctionAnonymousParam = 40, RuleFunctionCodeBlock = 41, 
+    RuleBlockInterface = 42, RuleInterfaceCodeBlock = 43, RuleBlockAbstraction = 44, 
+    RuleAbstractionCodeBlock = 45, RuleBlockClass = 46, RuleBlockClassDeclarationAttr = 47, 
+    RuleClassCommonDef = 48, RuleClassAnonymousParam = 49, RuleClassCodeBlock = 50, 
+    RuleBlockArray = 51, RuleIndexArray = 52, RuleIndexArrayElements = 53, 
+    RuleAssociativeArray = 54, RuleAssociativeArrayElements = 55, RuleBlockLambdaFunctions = 56, 
+    RuleLambdaFnParams = 57, RuleLambdaFnCodeBlock = 58, RuleBlockClassConstructor = 59, 
+    RuleBlockFunctionCall = 60, RuleFunctionCallElements = 61, RuleBlockAnonymousObject = 62, 
+    RuleBlockAttribution = 63, RuleAttributionElements = 64, RuleBlockMultipleAssignments = 65, 
+    RuleVariableMultipleAssignmentsModes = 66, RuleBlockAccessArrayElements = 67, 
+    RuleArrayAccessElements = 68, RuleArrayAccessElementsItems = 69, RuleAccessBlockAr = 70, 
+    RuleArrayIndexAccess = 71, RuleFirstIncDec = 72, RuleLastIncDec = 73, 
+    RuleBlockPermissionTokens = 74, RuleCodeBlockFlowControl = 75, RuleCodeBlockFlowControlElements = 76, 
+    RuleCodeBlockControl = 77, RuleGeneralValue = 78, RuleGeneralValueBlock = 79, 
+    RuleGeneralValueItems = 80, RuleGeneralValueElements = 81, RuleIdentifier = 82, 
+    RuleIdentifierB = 83, RuleIdentifierC = 84, RuleIdentifierD = 85, RuleIncDecOperatorsA = 86, 
+    RuleIncDecOperatorsB = 87, RuleOpenOpA = 88, RuleCloseOpA = 89
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -77,7 +76,6 @@ public:
   class MainContext;
   class SentencesContext;
   class StatementsContext;
-  class BlockCodeContext;
   class BlockUseContext;
   class UseValueContext;
   class UseStringContext;
@@ -137,8 +135,6 @@ public:
   class BlockClassConstructorContext;
   class BlockFunctionCallContext;
   class FunctionCallElementsContext;
-  class BlockCascadingMethodContext;
-  class BlockCascadingMethodAttrContext;
   class BlockAnonymousObjectContext;
   class BlockAttributionContext;
   class AttributionElementsContext;
@@ -220,9 +216,7 @@ public:
     BlockClassConstructorContext *blockClassConstructor();
     BlockAttributionContext *blockAttribution();
     BlockMultipleAssignmentsContext *blockMultipleAssignments();
-    BlockCodeContext *blockCode();
     BlockPermissionTokensContext *blockPermissionTokens();
-    BlockCascadingMethodContext *blockCascadingMethod();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -232,23 +226,6 @@ public:
   };
 
   StatementsContext* statements();
-
-  class  BlockCodeContext : public antlr4::ParserRuleContext {
-  public:
-    BlockCodeContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *OpenBlock();
-    antlr4::tree::TerminalNode *CloseBlock();
-    SentencesContext *sentences();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  BlockCodeContext* blockCode();
 
   class  BlockUseContext : public antlr4::ParserRuleContext {
   public:
@@ -1312,44 +1289,6 @@ public:
 
   FunctionCallElementsContext* functionCallElements();
 
-  class  BlockCascadingMethodContext : public antlr4::ParserRuleContext {
-  public:
-    BlockCascadingMethodContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    BlockCascadingMethodAttrContext *blockCascadingMethodAttr();
-    antlr4::tree::TerminalNode *End();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  BlockCascadingMethodContext* blockCascadingMethod();
-
-  class  BlockCascadingMethodAttrContext : public antlr4::ParserRuleContext {
-  public:
-    BlockCascadingMethodAttrContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    BlockAccessArrayElementsContext *blockAccessArrayElements();
-    antlr4::tree::TerminalNode *OpenOp();
-    antlr4::tree::TerminalNode *CloseOp();
-    std::vector<antlr4::tree::TerminalNode *> PointPoint();
-    antlr4::tree::TerminalNode* PointPoint(size_t i);
-    std::vector<BlockCascadingMethodAttrContext *> blockCascadingMethodAttr();
-    BlockCascadingMethodAttrContext* blockCascadingMethodAttr(size_t i);
-    FunctionCallElementsContext *functionCallElements();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  BlockCascadingMethodAttrContext* blockCascadingMethodAttr();
-
   class  BlockAnonymousObjectContext : public antlr4::ParserRuleContext {
   public:
     BlockAnonymousObjectContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1675,7 +1614,6 @@ public:
     BlockLambdaFunctionsContext *blockLambdaFunctions();
     BlockAccessArrayElementsContext *blockAccessArrayElements();
     BlockAnonymousObjectContext *blockAnonymousObject();
-    BlockCascadingMethodAttrContext *blockCascadingMethodAttr();
     antlr4::tree::TerminalNode *OpenBlock();
     antlr4::tree::TerminalNode *CloseBlock();
     antlr4::tree::TerminalNode *OpenArIndex();

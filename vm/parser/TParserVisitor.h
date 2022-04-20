@@ -26,8 +26,6 @@ public:
 
     virtual antlrcpp::Any visitStatements(TParser::StatementsContext *context) = 0;
 
-    virtual antlrcpp::Any visitBlockCode(TParser::BlockCodeContext *context) = 0;
-
     virtual antlrcpp::Any visitBlockUse(TParser::BlockUseContext *context) = 0;
 
     virtual antlrcpp::Any visitUseValue(TParser::UseValueContext *context) = 0;
@@ -145,10 +143,6 @@ public:
     virtual antlrcpp::Any visitBlockFunctionCall(TParser::BlockFunctionCallContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCallElements(TParser::FunctionCallElementsContext *context) = 0;
-
-    virtual antlrcpp::Any visitBlockCascadingMethod(TParser::BlockCascadingMethodContext *context) = 0;
-
-    virtual antlrcpp::Any visitBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *context) = 0;
 
