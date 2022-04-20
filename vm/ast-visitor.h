@@ -86,6 +86,7 @@ namespace verbum {
 
             // Funções.
             antlrcpp::Any visitBlockFunction (TParser::BlockFunctionContext *ctx);
+            antlrcpp::Any visitBlockFunctionDeclarationAttr (TParser::BlockFunctionDeclarationAttrContext *ctx);
             antlrcpp::Any visitFunctionParam (TParser::FunctionParamContext *ctx);
             antlrcpp::Any visitFunctionCodeBlock (TParser::FunctionCodeBlockContext *ctx);
 

@@ -141,7 +141,7 @@ functionCallParam
   ;
 
 functionCallParamElements
-  : generalValue (Separator functionCallParamElements)*
+  : generalValueElements (Separator functionCallParamElements)*
   ;
 
 /*
@@ -271,7 +271,7 @@ blockFunction
       (ArrowRight (identifierB | TypeSpec) )? functionCodeBlock
     CloseOp
     OpenOp
-      (functionAnonymousParam)?
+      (functionAnonymousParamElements)?
     CloseOp
     End
 
@@ -289,7 +289,7 @@ blockFunctionDeclarationAttr
       (ArrowRight (identifierB | TypeSpec) )? functionCodeBlock
     CloseOp
     OpenOp
-      (functionAnonymousParam)?
+      (functionAnonymousParamElements)?
     CloseOp
 
   // Chamada comum.
@@ -299,6 +299,10 @@ blockFunctionDeclarationAttr
 
 functionParam
   : Identifier TypeSpec (Separator functionParam)?
+  ;
+
+functionAnonymousParamElements
+  : functionAnonymousParam (Separator functionAnonymousParam)*
   ;
 
 functionAnonymousParam

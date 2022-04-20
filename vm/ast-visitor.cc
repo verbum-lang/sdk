@@ -825,6 +825,45 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunction (TParser::BlockFunctionCont
     return result;
 }
 
+// Declaração - utilizado na atribuição de valor.
+antlrcpp::Any verbum_ast_visitor::visitBlockFunctionDeclarationAttr (TParser::BlockFunctionDeclarationAttrContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_FUNCTION_DECLARATION;
+
+    //
+    // Funções comuns e anônimas.
+    //
+    node.function_declaration.type = VERBUM_FUNCTION_SIMPLE;
+
+    // Função anônima.
+    if (!ctx->identifier())
+        node.function_declaration.anonymous = true;
+
+    // Verifica se é função comum.
+    if (ctx->identifier())
+        node.function_declaration.identifier = ctx->identifier()->getText();
+
+    // Verifica se há retorno de tipo.
+    node.function_declaration.ret_found = false;
+    if (ctx->ArrowRight()) {
+        node.function_declaration.ret_found = true;
+        
+        if (ctx->identifierB()) 
+            node.function_declaration.ret_data = ctx->identifierB()->getText();
+        else if (ctx->TypeSpec()) 
+            node.function_declaration.ret_data = ctx->TypeSpec()->getText();
+    }
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
 // Parâmetros.
 antlrcpp::Any verbum_ast_visitor::visitFunctionParam (TParser::FunctionParamContext *ctx)
 {
@@ -835,12 +874,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionParam (TParser::FunctionParamCont
     node.function_param_type = ctx->TypeSpec()->getText();
 
     this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
+    return  visitChildren(ctx);
 
 }
 
@@ -1499,6 +1533,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
 
     // Declaração de função - atribuição da mesma à variável.
     else if (ctx->blockFunctionDeclarationAttr()) {
+        // node.general_value_data.type = VERBUM_FUNCTION_DECLARATION;
         // block = true;
     }
 

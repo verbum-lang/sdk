@@ -156,6 +156,9 @@ public:
   virtual void enterFunctionParam(TParser::FunctionParamContext * /*ctx*/) override { }
   virtual void exitFunctionParam(TParser::FunctionParamContext * /*ctx*/) override { }
 
+  virtual void enterFunctionAnonymousParamElements(TParser::FunctionAnonymousParamElementsContext * /*ctx*/) override { }
+  virtual void exitFunctionAnonymousParamElements(TParser::FunctionAnonymousParamElementsContext * /*ctx*/) override { }
+
   virtual void enterFunctionAnonymousParam(TParser::FunctionAnonymousParamContext * /*ctx*/) override { }
   virtual void exitFunctionAnonymousParam(TParser::FunctionAnonymousParamContext * /*ctx*/) override { }
 

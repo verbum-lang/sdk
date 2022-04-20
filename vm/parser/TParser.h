@@ -46,22 +46,22 @@ public:
     RuleLoopThreeMembersValues = 36, RuleBlockBreak = 37, RuleBlockNext = 38, 
     RuleBlockTryCatch = 39, RuleTryUniqueElement = 40, RuleCatchUniqueElement = 41, 
     RuleTryCatchElements = 42, RuleBlockFunction = 43, RuleBlockFunctionDeclarationAttr = 44, 
-    RuleFunctionParam = 45, RuleFunctionAnonymousParam = 46, RuleFunctionCodeBlock = 47, 
-    RuleBlockInterface = 48, RuleInterfaceCodeBlock = 49, RuleBlockAbstraction = 50, 
-    RuleAbstractionCodeBlock = 51, RuleBlockClass = 52, RuleBlockClassDeclarationAttr = 53, 
-    RuleClassCommonDef = 54, RuleClassAnonymousParam = 55, RuleClassCodeBlock = 56, 
-    RuleBlockArray = 57, RuleIndexArray = 58, RuleIndexArrayElements = 59, 
-    RuleAssociativeArray = 60, RuleAssociativeArrayElements = 61, RuleBlockLambdaFunctions = 62, 
-    RuleLambdaFnParams = 63, RuleLambdaFnCodeBlock = 64, RuleBlockClassConstructor = 65, 
-    RuleBlockFunctionCall = 66, RuleFunctionCallElements = 67, RuleBlockCascadingMethod = 68, 
-    RuleBlockCascadingMethodAttr = 69, RuleBlockAnonymousObject = 70, RuleBlockAccessArrayElements = 71, 
-    RuleArrayAccessElements = 72, RuleArrayAccessElementsItems = 73, RuleAccessBlockAr = 74, 
-    RuleArrayIndexAccess = 75, RuleFirstIncDec = 76, RuleLastIncDec = 77, 
-    RuleBlockPermissionTokens = 78, RuleCodeBlockFlowControl = 79, RuleCodeBlockFlowControlElements = 80, 
-    RuleCodeBlockControl = 81, RuleGeneralValue = 82, RuleGeneralValueBlock = 83, 
-    RuleGeneralValueItems = 84, RuleGeneralValueElements = 85, RuleIdentifier = 86, 
-    RuleIdentifierB = 87, RuleIdentifierC = 88, RuleIdentifierD = 89, RuleIncDecOperatorsA = 90, 
-    RuleIncDecOperatorsB = 91, RuleOpenOpA = 92, RuleCloseOpA = 93
+    RuleFunctionParam = 45, RuleFunctionAnonymousParamElements = 46, RuleFunctionAnonymousParam = 47, 
+    RuleFunctionCodeBlock = 48, RuleBlockInterface = 49, RuleInterfaceCodeBlock = 50, 
+    RuleBlockAbstraction = 51, RuleAbstractionCodeBlock = 52, RuleBlockClass = 53, 
+    RuleBlockClassDeclarationAttr = 54, RuleClassCommonDef = 55, RuleClassAnonymousParam = 56, 
+    RuleClassCodeBlock = 57, RuleBlockArray = 58, RuleIndexArray = 59, RuleIndexArrayElements = 60, 
+    RuleAssociativeArray = 61, RuleAssociativeArrayElements = 62, RuleBlockLambdaFunctions = 63, 
+    RuleLambdaFnParams = 64, RuleLambdaFnCodeBlock = 65, RuleBlockClassConstructor = 66, 
+    RuleBlockFunctionCall = 67, RuleFunctionCallElements = 68, RuleBlockCascadingMethod = 69, 
+    RuleBlockCascadingMethodAttr = 70, RuleBlockAnonymousObject = 71, RuleBlockAccessArrayElements = 72, 
+    RuleArrayAccessElements = 73, RuleArrayAccessElementsItems = 74, RuleAccessBlockAr = 75, 
+    RuleArrayIndexAccess = 76, RuleFirstIncDec = 77, RuleLastIncDec = 78, 
+    RuleBlockPermissionTokens = 79, RuleCodeBlockFlowControl = 80, RuleCodeBlockFlowControlElements = 81, 
+    RuleCodeBlockControl = 82, RuleGeneralValue = 83, RuleGeneralValueBlock = 84, 
+    RuleGeneralValueItems = 85, RuleGeneralValueElements = 86, RuleIdentifier = 87, 
+    RuleIdentifierB = 88, RuleIdentifierC = 89, RuleIdentifierD = 90, RuleIncDecOperatorsA = 91, 
+    RuleIncDecOperatorsB = 92, RuleOpenOpA = 93, RuleCloseOpA = 94
   };
 
   explicit TParser(antlr4::TokenStream *input);
@@ -120,6 +120,7 @@ public:
   class BlockFunctionContext;
   class BlockFunctionDeclarationAttrContext;
   class FunctionParamContext;
+  class FunctionAnonymousParamElementsContext;
   class FunctionAnonymousParamContext;
   class FunctionCodeBlockContext;
   class BlockInterfaceContext;
@@ -500,7 +501,7 @@ public:
   public:
     FunctionCallParamElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    GeneralValueContext *generalValue();
+    GeneralValueElementsContext *generalValueElements();
     std::vector<antlr4::tree::TerminalNode *> Separator();
     antlr4::tree::TerminalNode* Separator(size_t i);
     std::vector<FunctionCallParamElementsContext *> functionCallParamElements();
@@ -938,7 +939,7 @@ public:
     IdentifierContext *identifier();
     FunctionParamContext *functionParam();
     antlr4::tree::TerminalNode *ArrowRight();
-    FunctionAnonymousParamContext *functionAnonymousParam();
+    FunctionAnonymousParamElementsContext *functionAnonymousParamElements();
     IdentifierBContext *identifierB();
     antlr4::tree::TerminalNode *TypeSpec();
 
@@ -964,7 +965,7 @@ public:
     IdentifierContext *identifier();
     FunctionParamContext *functionParam();
     antlr4::tree::TerminalNode *ArrowRight();
-    FunctionAnonymousParamContext *functionAnonymousParam();
+    FunctionAnonymousParamElementsContext *functionAnonymousParamElements();
     IdentifierBContext *identifierB();
     antlr4::tree::TerminalNode *TypeSpec();
 
@@ -994,6 +995,24 @@ public:
   };
 
   FunctionParamContext* functionParam();
+
+  class  FunctionAnonymousParamElementsContext : public antlr4::ParserRuleContext {
+  public:
+    FunctionAnonymousParamElementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<FunctionAnonymousParamContext *> functionAnonymousParam();
+    FunctionAnonymousParamContext* functionAnonymousParam(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> Separator();
+    antlr4::tree::TerminalNode* Separator(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionAnonymousParamElementsContext* functionAnonymousParamElements();
 
   class  FunctionAnonymousParamContext : public antlr4::ParserRuleContext {
   public:
