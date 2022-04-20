@@ -857,7 +857,6 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCodeBlock (TParser::FunctionCodeB
     this->node_block_counter--;
 
     return result;
-
 }
 
 /*
@@ -868,6 +867,26 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionAnonymousParam (TParser::Function
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_ANONYMOUS_FUNCTION_PARAM;
     
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
+** Construtor de classe.
+*/
+antlrcpp::Any verbum_ast_visitor::visitBlockClassConstructor (TParser::BlockClassConstructorContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+
+    node.type                            = VERBUM_FUNCTION_DECLARATION;
+    node.function_declaration.type       = VERBUM_FUNCTION_CLASS_CONSTRUCTOR;
+    node.function_declaration.identifier = ctx->identifier()->getText();
+
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1186,26 +1205,6 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunctionCall (TParser::BlockFunction
             node.function_call.function_name = ctx->identifier()->getText();
         }
     }
-
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
-}
-
-/*
-** Construtor de classe.
-*/
-antlrcpp::Any verbum_ast_visitor::visitBlockClassConstructor (TParser::BlockClassConstructorContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-
-    node.type                            = VERBUM_FUNCTION_DECLARATION;
-    node.function_declaration.type       = VERBUM_FUNCTION_CLASS_CONSTRUCTOR;
-    node.function_declaration.identifier = ctx->identifier()->getText();
 
     this->add_node(node);
 

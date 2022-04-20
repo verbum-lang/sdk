@@ -434,163 +434,148 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << "-> try-catch code-block (close)\n";
         }
 
-        // /*
-        // ** Declaração das funções.
-        // */
-        // else if (node.type == VERBUM_FUNCTION_DECLARATION) {
+        /*
+        ** Declaração das funções/métodos.
+        */
+        else if (node.type == VERBUM_FUNCTION_DECLARATION) {
 
-        //     // Funções anônimas.
-        //     if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE &&
-        //         node.function_declaration.anonymous == true)
-        //     {
-        //         this->tab();
-        //         cout << "-> anonymous-function (simple block) - (open)\n";
+            // Funções anônimas.
+            if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE &&
+                node.function_declaration.anonymous == true)
+            {
+                this->tab();
+                cout << "-> anonymous-function (open)\n";
                 
-        //         // Informações da função.
-        //         if (node.function_declaration.ret_found) {
-        //             this->tab();
-        //             cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
-        //         }
+                if (node.function_declaration.ret_found) {
+                    this->tab();
+                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                }
 
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->tab();
+                cout << "-> anonymous-function (close)\n";
+            }
 
-        //         this->tab();
-        //         cout << "-> anonymous-function (simple block) - (close)\n";
-        //     }
-
-        //     // Funções simples.
-        //     else if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE &&
-        //         node.function_declaration.anonymous == false)
-        //     {
-        //         this->tab();
-        //         cout << "-> function (simple block) - (open)\n";
+            // Funções simples.
+            else if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE &&
+                     node.function_declaration.anonymous == false)
+            {
+                this->tab();
+                cout << "-> function (simple) - (open)\n";
+                this->tab();
+                cout << "-> function name: " << node.function_declaration.identifier << "\n";
                 
-        //         // Informações da função.
-        //         this->tab();
-        //         cout << "-> function name: " << node.function_declaration.identifier << "\n";
-                
-        //         if (node.function_declaration.ret_found) {
-        //             this->tab();
-        //             cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
-        //         }
+                if (node.function_declaration.ret_found) {
+                    this->tab();
+                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                }
 
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+                this->tab();
+                cout << "-> function (simple) - (close)\n";
+            }
 
-        //         this->tab();
-        //         cout << "-> function (simple block) - (close)\n";
-        //     }
+            // Métodos de classes.
+            else if (node.function_declaration.type == VERBUM_FUNCTION_METHOD) {
+                this->tab();
+                cout << "-> function (method) - (open)\n";
+                this->tab();
+                cout << "-> function name: " << node.function_declaration.identifier << "\n";
+                
+                if (node.function_declaration.ret_found) {
+                    this->tab();
+                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                }
 
-        //     // Métodos de classes.
-        //     else if (node.function_declaration.type == VERBUM_FUNCTION_METHOD) {
-        //         this->tab();
-        //         cout << "-> function (method block) - (open)\n";
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
                 
-        //         // Informações da função.
-        //         this->tab();
-        //         cout << "-> function name: " << node.function_declaration.identifier << "\n";
-                
-        //         if (node.function_declaration.ret_found) {
-        //             this->tab();
-        //             cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
-        //         }
+                this->tab();
+                cout << "-> function (method) - (close)\n";
+            }
 
-        //         // Configurações de acessibilidade.
-        //         this->tab();
-        //         cout << "-> visibility: \n";
+            // Construtores de classes.
+            else if (node.function_declaration.type == VERBUM_FUNCTION_CLASS_CONSTRUCTOR) {
+                this->tab();
+                cout << "-> function (class constructor) - (open)\n";
+                
+                this->tab();
+                cout << "-> function name: " << node.function_declaration.identifier << "\n";
+                
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
+                
+                this->tab();
+                cout << "-> function (class constructor) - (close)\n";
+            }
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
+            // Métodos de interface e classes abstratas.
+            else if (node.function_declaration.type == VERBUM_FUNCTION_INTERFACE_ABSTRACT) {
+                this->tab();
+                cout << "-> function (interface-abstract method) - (open)\n";
+                this->tab();
+                cout << "-> function name: " << node.function_declaration.identifier << "\n";
                 
-        //         this->tab();
-        //         cout << "-> function (method block) - (close)\n";
-        //     }
+                if (node.function_declaration.ret_found) {
+                    this->tab();
+                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                }
 
-        //     // Construtores de classes.
-        //     else if (node.function_declaration.type == VERBUM_FUNCTION_CLASS_CONSTRUCTOR) {
-        //         this->tab();
-        //         cout << "-> function (class constructor) - (open)\n";
+                this->block_counter++;
+                this->verbum_recursive_ast(node.nodes);
+                this->block_counter--;
                 
-        //         // Informações da função.
-        //         this->tab();
-        //         cout << "-> function name: " << node.function_declaration.identifier << "\n";
-                
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
-                
-        //         this->tab();
-        //         cout << "-> function (class constructor) - (close)\n";
-        //     }
+                this->tab();
+                cout << "-> function (interface-abstract method) - (close)\n";
+            }
+        }
 
-        //     // Métodos de interface e classes abstratas.
-        //     else if (node.function_declaration.type == VERBUM_FUNCTION_INTERFACE_ABSTRACT) {
-        //         this->tab();
-        //         cout << "-> function (interface-abstract method) - (open)\n";
-                
-        //         // Informações da função.
-        //         this->tab();
-        //         cout << "-> function name: " << node.function_declaration.identifier << "\n";
-                
-        //         if (node.function_declaration.ret_found) {
-        //             this->tab();
-        //             cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
-        //         }
+        //
+        // Parâmetros da declaração da função / método.
+        //
+        else if (node.type == VERBUM_FUNCTION_PARAM_ITEM) {
+            this->tab();
+            cout << "-> function-param item: ";
+            cout << node.function_param_item << " -> " << node.function_param_type << "\n";
+        }
 
-        //         this->block_counter++;
-        //         this->verbum_recursive_ast(node.nodes);
-        //         this->block_counter--;
-                
-        //         this->tab();
-        //         cout << "-> function (interface-abstract method) - (close)\n";
-        //     }
-        // }
-
-        // //
-        // // Parâmetros da declaração da função / método.
-        // //
-        // else if (node.type == VERBUM_FUNCTION_PARAM_ITEM) {
-        //     this->tab();
-        //     cout << "-> function-param item: ";
-        //     cout << node.function_param_item << " -> " << node.function_param_type << "\n";
+        //
+        // Bloco de código da declaração da função.
+        //
+        else if (node.type == VERBUM_FUNCTION_CODE_BLOCK) {
+            this->tab();
+            cout << "-> function code block (open)\n";
             
-        // }
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        // //
-        // // Bloco de código da declaração da função.
-        // //
-        // else if (node.type == VERBUM_FUNCTION_CODE_BLOCK) {
-        //     this->tab();
-        //     cout << "-> function code block (open)\n";
-            
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->tab();
+            cout << "-> function code block (close)\n";
+        }
 
-        //     this->tab();
-        //     cout << "-> function code block (close)\n";
-        // }
+        /*
+        ** Parâmetros da função anônima.
+        */
+        else if (node.type == VERBUM_ANONYMOUS_FUNCTION_PARAM) {
+            this->tab();
+            cout << "-> anonymous-function-param - open\n";
 
-        // /*
-        // ** Parâmetros da função anônima.
-        // */
-        // else if (node.type == VERBUM_ANONYMOUS_FUNCTION_PARAM) {
-        //     this->tab();
-        //     cout << "-> anonymous-function-param - open\n";
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
-
-        //     this->tab();
-        //     cout << "-> anonymous-function-param - close\n";
-        // }
+            this->tab();
+            cout << "-> anonymous-function-param - close\n";
+        }
 
         // /*
         // ** OOP.
