@@ -25,6 +25,9 @@ public:
   virtual void enterStatements(TParser::StatementsContext *ctx) = 0;
   virtual void exitStatements(TParser::StatementsContext *ctx) = 0;
 
+  virtual void enterBlockCode(TParser::BlockCodeContext *ctx) = 0;
+  virtual void exitBlockCode(TParser::BlockCodeContext *ctx) = 0;
+
   virtual void enterBlockUse(TParser::BlockUseContext *ctx) = 0;
   virtual void exitBlockUse(TParser::BlockUseContext *ctx) = 0;
 
@@ -201,6 +204,12 @@ public:
 
   virtual void enterFunctionCallElements(TParser::FunctionCallElementsContext *ctx) = 0;
   virtual void exitFunctionCallElements(TParser::FunctionCallElementsContext *ctx) = 0;
+
+  virtual void enterBlockCascadingMethod(TParser::BlockCascadingMethodContext *ctx) = 0;
+  virtual void exitBlockCascadingMethod(TParser::BlockCascadingMethodContext *ctx) = 0;
+
+  virtual void enterBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext *ctx) = 0;
+  virtual void exitBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext *ctx) = 0;
 
   virtual void enterBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) = 0;
   virtual void exitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) = 0;

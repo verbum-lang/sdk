@@ -27,6 +27,9 @@ public:
   virtual void enterStatements(TParser::StatementsContext * /*ctx*/) override { }
   virtual void exitStatements(TParser::StatementsContext * /*ctx*/) override { }
 
+  virtual void enterBlockCode(TParser::BlockCodeContext * /*ctx*/) override { }
+  virtual void exitBlockCode(TParser::BlockCodeContext * /*ctx*/) override { }
+
   virtual void enterBlockUse(TParser::BlockUseContext * /*ctx*/) override { }
   virtual void exitBlockUse(TParser::BlockUseContext * /*ctx*/) override { }
 
@@ -203,6 +206,12 @@ public:
 
   virtual void enterFunctionCallElements(TParser::FunctionCallElementsContext * /*ctx*/) override { }
   virtual void exitFunctionCallElements(TParser::FunctionCallElementsContext * /*ctx*/) override { }
+
+  virtual void enterBlockCascadingMethod(TParser::BlockCascadingMethodContext * /*ctx*/) override { }
+  virtual void exitBlockCascadingMethod(TParser::BlockCascadingMethodContext * /*ctx*/) override { }
+
+  virtual void enterBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext * /*ctx*/) override { }
+  virtual void exitBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext * /*ctx*/) override { }
 
   virtual void enterBlockAnonymousObject(TParser::BlockAnonymousObjectContext * /*ctx*/) override { }
   virtual void exitBlockAnonymousObject(TParser::BlockAnonymousObjectContext * /*ctx*/) override { }
