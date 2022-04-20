@@ -684,6 +684,40 @@ antlrcpp::Any verbum_ast_visitor::visitLoopBlockElements (TParser::LoopBlockElem
 }
 
 /*
+** Comandos break e next - for loop.
+*/
+
+// Break.
+antlrcpp::Any verbum_ast_visitor::visitBlockBreak (TParser::BlockBreakContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_TOKEN_BREAK;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Next.
+antlrcpp::Any verbum_ast_visitor::visitBlockNext (TParser::BlockNextContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_TOKEN_NEXT;
+    
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+/*
 ** Try, catch.
 */
 
@@ -1043,40 +1077,6 @@ antlrcpp::Any verbum_ast_visitor::visitBlockAnonymousObject (TParser::BlockAnony
     else if (ctx->TwoTwoPoint())
         node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
 
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
-}
-
-/*
-** Comandos break e next.
-*/
-
-// Break.
-antlrcpp::Any verbum_ast_visitor::visitBlockBreak (TParser::BlockBreakContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-    node.type            = VERBUM_TOKEN_BREAK;
-    
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
-}
-
-// Next.
-antlrcpp::Any verbum_ast_visitor::visitBlockNext (TParser::BlockNextContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-    node.type            = VERBUM_TOKEN_NEXT;
-    
     this->add_node(node);
 
     this->node_block_counter++;
