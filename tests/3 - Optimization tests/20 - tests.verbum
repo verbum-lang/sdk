@@ -22,7 +22,50 @@ a = (10 * 20);
 a = 1 + (10 * 20);
 a = 1 + (10 * 20) / 2;
 
-// variable = func3(1,[3,3,3],4);
+variable = func3(1,[3,3,3],4);
+
+var variable :array = [ 3, 1, [
+    1,2,3
+], 3, 7 ];
+
+var variable :array = [
+     'V', '♥', true, "Verbum 😍" ];
+var variable :array = [
+     10 :int, 20 :int, 30.3, 40 
+     :float, true, n ];
+var variable :array = [ ];
+var variable = {};
+
+var variable :array = [
+    1, 2, 3,
+    [
+        'a', 'b', 'c',
+        "Verbum", "Divinus",
+        3.1337
+    ],
+    [
+        a, b, c,
+        10 :int, 20 :int, 30 :float
+    ]
+];
+
+// Associativos, com acesso via chave/hash.
+var variable :array = {
+    items: [
+        { name: "Verbum"  },
+        { name: "Divinus" },
+        {
+            values: [
+                10, 20, 30:float, { name: "Member" }
+            ]
+        },
+        31337
+    ]
+};
+
+var variable = {
+    value: 1.337 :double
+};
 
 // var variable :int       = -1337;
 // var variable :float     = 0.1337;

@@ -990,33 +990,33 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             // Array indexado.
             else if (node.general_value_data.type == VERBUM_DATA_INDEX_ARRAY_BLOCK) {
                 this->tab();
-                cout << "[ <---| array-index-open:\n";
+                cout << "-> [ <---| array-index (open):\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
 
                 this->tab();
-                cout << "] <---| array-index-close:\n";
+                cout << "-> ] <---| array-index (close):\n";
             }
 
             // Array associativo - bloco.
             else if (node.general_value_data.type == VERBUM_DATA_ASSOC_ARRAY_BLOCK) {
                 this->tab();
-                cout << "{ <---| array-assoc-open:\n";
+                cout << "-> { <---| array-assoc (open):\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
 
                 this->tab();
-                cout << "} <---| array-assoc-close:\n";
+                cout << "-> } <---| array-assoc (close):\n";
             }
 
             // Array associativo - elementos.
             else if (node.general_value_data.type == VERBUM_DATA_ASSOC_ARRAY_ELEMENT) {
                 this->tab();
-                cout << "-> key: " << node.general_value_data.identifier << "\n";
+                cout << "-> array-assoc-key: " << node.general_value_data.identifier << "\n";
             }
 
             /*
