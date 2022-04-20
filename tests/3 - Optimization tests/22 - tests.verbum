@@ -31,6 +31,9 @@ for ;a<10; {
 for 
     {
     a.b.c[1].d[1][2](333);
+    break ;
+    next  
+        ;
 }
 
 

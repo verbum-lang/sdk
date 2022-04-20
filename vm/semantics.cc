@@ -362,6 +362,19 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << "-> loop-block: code block (close)\n";
         }
 
+        /*
+        ** Comandos: break e next (for).
+        */
+        else if (node.type == VERBUM_TOKEN_BREAK) {
+            this->tab();
+            cout << "-> command-break (for)\n";
+        }
+
+        else if (node.type == VERBUM_TOKEN_NEXT) {
+            this->tab();
+            cout << "-> command-next (for)\n";
+        }
+
         // /*
         // ** Try, catch.
         // */
@@ -705,19 +718,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
         //     this->tab();
         //     cout << "-> class code block (close)\n";
-        // }
-
-        // /*
-        // ** Tokens: break e next (for).
-        // */
-        // else if (node.type == VERBUM_TOKEN_BREAK) {
-        //     this->tab();
-        //     cout << "break (for)\n";
-        // }
-
-        // else if (node.type == VERBUM_TOKEN_NEXT) {
-        //     this->tab();
-        //     cout << "next (for)\n";
         // }
 
         // /*
