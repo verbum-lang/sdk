@@ -1329,22 +1329,7 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
     return result;
 }
 
-/*
-** Bloco de valores
-*/
-antlrcpp::Any verbum_ast_visitor::visitGeneralValueBlock (TParser::GeneralValueBlockContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_GENERAL_VALUE_BLOCK;
 
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
-}
 
 
 
@@ -1564,6 +1549,23 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
       this->node_block_counter--;
     } else
       result = visitChildren(ctx);
+
+    return result;
+}
+
+/*
+** Bloco de valores
+*/
+antlrcpp::Any verbum_ast_visitor::visitGeneralValueBlock (TParser::GeneralValueBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_GENERAL_VALUE_BLOCK;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
 
     return result;
 }

@@ -914,21 +914,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         //     this->tab();
         //     cout << "-> anonymous-object def block (close)\n";
         // }
-
-        // /*
-        // ** Bloco de valores gerais.
-        // */
-        // else if (node.type == VERBUM_GENERAL_VALUE_BLOCK) {
-        //     this->tab();
-        //     cout << "-> general-value block (open)\n";
-            
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
-
-        //     this->tab();
-        //     cout << "-> general-value block (close)\n";
-        // }
         
         /*
         ** Valores gerais.
@@ -948,30 +933,29 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 node.general_value_data.type == VERBUM_DATA_FLOAT       )
             {
                 if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) {
-
+                    this->tab();
+                    cout << "-> value: ";
+                    
                     // Pré inc/dec.
                     if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
-                        this->tab();
-
                         switch (node.operation_data.type_inc_dec) {
-                            case VERBUM_OP_TYPE_INC: cout << "-> ++ (pre)\n"; break;
-                            case VERBUM_OP_TYPE_DEC: cout << "-> -- (pre)\n"; break;
+                            case VERBUM_OP_TYPE_INC: cout << "++ (pre) "; break;
+                            case VERBUM_OP_TYPE_DEC: cout << "-- (pre) "; break;
                         }
                     }
 
-                    this->tab();
-                    cout << "-> value: " << node.general_value_data.identifier << " (identifier)\n";
+                    cout << node.general_value_data.identifier << " (identifier)";
 
                     // Pós inc/dec.
                     if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
-                        this->tab();
-
                         switch (node.operation_data.type_inc_dec) {
-                            case VERBUM_OP_TYPE_INC: cout << "-> ++ (pos)\n"; break;
-                            case VERBUM_OP_TYPE_DEC: cout << "-> -- (pos)\n"; break;
+                            case VERBUM_OP_TYPE_INC: cout << " ++ (pos)"; break;
+                            case VERBUM_OP_TYPE_DEC: cout << " -- (pos)"; break;
                         }
                     }
-                } 
+
+                    cout << "\n";
+                }
 
                 else {
                     this->tab();
@@ -993,14 +977,14 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             // Bloco de operações / sub-elementos.
             else if (node.general_value_data.type == VERBUM_DATA_OPERATION_BLOCK) {
                 this->tab();
-                cout << "-> general-value-block (open)\n";
+                cout << "-> general-value block (open)\n";
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
 
                 this->tab();
-                cout << "-> general-value-block (close)\n";
+                cout << "-> general-value block (close)\n";
             }
 
             // Array indexado.
@@ -1140,6 +1124,13 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 cout << this->print_operation(node.operation_op) << "\n";
             }
             
+        }
+
+        /*
+        ** Bloco de valores gerais.
+        */
+        else if (node.type == VERBUM_GENERAL_VALUE_BLOCK) {
+            this->verbum_recursive_ast(node.nodes);
         }
 
     }

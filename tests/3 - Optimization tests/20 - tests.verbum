@@ -9,12 +9,20 @@ var variable :int       = new MyClass();
     variable :float     = func2();
     variable            = object.method();
     variable            = object::method();
-    variable            = func3(1,[3,3,3],4);
 
 obj.attribute = 33;
 obj::attribute = 33;
 
-obj1.attr1 = obj2::attr3 = 33;
+obj1.attr1 = obj2::attr2 = obj3.attr3 = a = 33;
+
+a = ++b;
+a = b--;
+a = 10 * 20;
+a = (10 * 20);
+a = 1 + (10 * 20);
+a = 1 + (10 * 20) / 2;
+
+// variable = func3(1,[3,3,3],4);
 
 // var variable :int       = -1337;
 // var variable :float     = 0.1337;
