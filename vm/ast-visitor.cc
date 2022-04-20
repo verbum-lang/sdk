@@ -47,10 +47,8 @@ vector <verbum_ast_node> verbum_ast_visitor::get_verbum_ast ()
 */
 void verbum_ast_visitor::add_node (verbum_ast_node source)
 {
-    this->node_run_counter = 0;
-    
+    this->node_run_counter = 0;    
     this->add_node_internal_ptr(source, &this->ast);
-    //this->ast = this->add_node_internal_copy(source, this->ast);
 }
 
 void verbum_ast_visitor::add_node_internal_ptr (verbum_ast_node source, verbum_ast_node *destination)
@@ -64,9 +62,8 @@ void verbum_ast_visitor::add_node_internal_ptr (verbum_ast_node source, verbum_a
     else {
         this->node_run_counter++;
 
-        if (destination->nodes.size() > 0) {
-            this->add_node_internal_ptr(source, &destination->nodes[ last ] );
-        }
+        if (destination->nodes.size() > 0) 
+            this->add_node_internal_ptr(source, &destination->nodes[ last ]);
     }
 }
 
@@ -82,7 +79,7 @@ verbum_ast_node verbum_ast_visitor::add_node_internal_copy (verbum_ast_node sour
         this->node_run_counter++;
 
         if (destination.nodes.size() > 0) {
-            verbum_ast_node node = this->add_node_internal_copy(source, destination.nodes[ last ] );
+            verbum_ast_node node = this->add_node_internal_copy(source, destination.nodes[ last ]);
             destination.nodes[ last ] = node;
         }
     }

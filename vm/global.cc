@@ -33,9 +33,7 @@ string verbum_global::trim (string str)
             break;
     }
 
-    newStr = newStr.substr(0, a+1);
-
-    return newStr;
+    return newStr.substr(0, a+1);
 }
 
 
