@@ -23,11 +23,12 @@ public:
     Abstract = 15, Extends = 16, Class = 17, Implements = 18, New = 19, 
     Break = 20, Next = 21, Async = 22, Await = 23, Try = 24, Catch = 25, 
     ArrowRight = 26, ARightLB = 27, End = 28, Attr = 29, Point = 30, TwoPoint = 31, 
-    TwoTwoPoint = 32, Separator = 33, OpenArIndex = 34, CloseArIndex = 35, 
-    OpenBlock = 36, CloseBlock = 37, OpenOp = 38, CloseOp = 39, ArithmeticOperator = 40, 
-    AssignmentOperator = 41, Not = 42, IncDecOperators = 43, Identifier = 44, 
-    IDPrefix = 45, TypeSpec = 46, Words = 47, Integer = 48, Float = 49, 
-    String = 50, BlockComment = 51, LineComment = 52, Whitespace = 53, Newline = 54
+    TwoTwoPoint = 32, PointPoint = 33, Separator = 34, OpenArIndex = 35, 
+    CloseArIndex = 36, OpenBlock = 37, CloseBlock = 38, OpenOp = 39, CloseOp = 40, 
+    ArithmeticOperator = 41, AssignmentOperator = 42, Not = 43, IncDecOperators = 44, 
+    Identifier = 45, IDPrefix = 46, TypeSpec = 47, Words = 48, Integer = 49, 
+    Float = 50, String = 51, BlockComment = 52, LineComment = 53, Whitespace = 54, 
+    Newline = 55
   };
 
   explicit TLexer(antlr4::CharStream *input);

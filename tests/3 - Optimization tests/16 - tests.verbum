@@ -1,27 +1,28 @@
 
 // In principio erat Verbum!
 
-a.v().c().d().e();
+a.v()..c()..d()..e();
+a.v()..c()..d()..e();
 
-a.b.c().e();
+a.b..c()..e();
 
 // var a = (new Obj().show()).add('1').remove();
 
-obj.foo(10).show().bar(20).show();
+obj.foo(10)..show()..bar(20)..show();
 
-obj.foo(10).show()
-    .bar(20).show()
-    .bar(20).show()
+obj.foo(10)..show()
+    ..bar(20)..show()
+    ..bar(20)..show()
     ;
 
-a.v().c().d().e();
+a.v()..c()..d()..e();
 
 a.b.c.d.e = 10;
-a.b.c().d().e.f();
-a.b.c().d().e.f().g();
+a.b..c()..d()..e..f();
+a.b..c()..d()..e..f()..g();
 
-a.b().c().d()::e()::f().x().v();
-x.v().x().y();
+a.b()..c()..d()..e()..f()..x()..v();
+x.v()..x()..y();
 
 obj.a.b.c.setLogger((
     new class {
@@ -31,7 +32,7 @@ obj.a.b.c.setLogger((
     }
 ));
 
-a.b().c.d.e().f().g.h.x.y.z = 10;
+a.b()..c.d.e()..f()..g.h.x.y.z = 10;
 
 b() = 10;
 a.b() = 10;
@@ -41,6 +42,9 @@ a.b[1][2][3].c() = 10;
 a.b[1][ 10 * 2 ][3].c() = 10;
 
 
-var a = a.b().c;
+var a = a.b()..c;
+
+var a=x.v()..x()..y();
+var a=x::v()..x()..y();
 
 

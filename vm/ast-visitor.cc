@@ -570,21 +570,21 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         block = true;
 
         // Método de objeto instanciado.
-        if (ctx->functionCall()->functionCallPrefix()->Point()) {
+        if (ctx->functionCall()->Point()) {
             node.general_value_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
-            node.general_value_data.object_name = ctx->functionCall()->functionCallPrefix()->identifier()->getText();
+            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
 
-            if (ctx->functionCall()->identifier())
-                node.general_value_data.method_name = ctx->functionCall()->identifier()->getText();
+            if (ctx->functionCall()->identifierB())
+                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
         }
 
         // Método static.
-        else if (ctx->functionCall()->functionCallPrefix()->TwoTwoPoint()) {
+        else if (ctx->functionCall()->TwoTwoPoint()) {
             node.general_value_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
-            node.general_value_data.object_name = ctx->functionCall()->functionCallPrefix()->identifier()->getText();
+            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
             
-            if (ctx->functionCall()->identifier())
-                node.general_value_data.method_name = ctx->functionCall()->identifier()->getText();
+            if (ctx->functionCall()->identifierB())
+                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
         }
 
         // Cascading method.
@@ -603,7 +603,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         else {
             node.general_value_data.type = VERBUM_DATA_FUNCTION_CALL;
             node.general_value_data.function_name = 
-                ctx->functionCall()->functionCallPrefix()->identifier()->getText();
+                ctx->functionCall()->identifier()->getText();
         }
     }
 
@@ -706,21 +706,21 @@ antlrcpp::Any verbum_ast_visitor::visitCodeBlockFlowControlElements (TParser::Co
     if (ctx->functionCall()) {
 
         // Método de objeto instanciado.
-        if (ctx->functionCall()->functionCallPrefix()->Point()) {
+        if (ctx->functionCall()->Point()) {
             node.general_value_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
-            node.general_value_data.object_name = ctx->functionCall()->functionCallPrefix()->identifier()->getText();
+            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
 
-            if (ctx->functionCall()->identifier())
-                node.general_value_data.method_name = ctx->functionCall()->identifier()->getText();
+            if (ctx->functionCall()->identifierB())
+                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
         }
 
         // Método static.
-        else if (ctx->functionCall()->functionCallPrefix()->TwoTwoPoint()) {
+        else if (ctx->functionCall()->TwoTwoPoint()) {
             node.general_value_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
-            node.general_value_data.object_name = ctx->functionCall()->functionCallPrefix()->identifier()->getText();
+            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
             
-            if (ctx->functionCall()->identifier())
-                node.general_value_data.method_name = ctx->functionCall()->identifier()->getText();
+            if (ctx->functionCall()->identifierB())
+                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
         }
 
         // Cascading method.
@@ -739,7 +739,7 @@ antlrcpp::Any verbum_ast_visitor::visitCodeBlockFlowControlElements (TParser::Co
         else {
             node.general_value_data.type = VERBUM_DATA_FUNCTION_CALL;
             node.general_value_data.function_name = 
-                ctx->functionCall()->functionCallPrefix()->identifier()->getText();
+                ctx->functionCall()->identifier()->getText();
         }
 
         this->add_node(node);

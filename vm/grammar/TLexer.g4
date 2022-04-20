@@ -52,6 +52,7 @@ Attr         : '=' ;
 Point        : '.';
 TwoPoint     : ':';
 TwoTwoPoint  : '::';
+PointPoint   : '..';
 Separator    : ',' ;
 OpenArIndex  : '[' ;
 CloseArIndex : ']' ;

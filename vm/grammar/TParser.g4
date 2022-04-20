@@ -106,13 +106,7 @@ variablePrefixModes
 
 // Atribuição de valor.
 functionCall
-  : functionCallPrefix (identifier)? functionCallParam
-  ;
-
-functionCallPrefix
-  : identifier
-  | identifier Point
-  | identifier TwoTwoPoint
+  : identifier ( (Point | TwoTwoPoint) identifierB )? functionCallParam
   ;
 
 functionCallParam
@@ -327,10 +321,10 @@ blockClass
       (generalValueElements)?
       CloseOp
     )?
-    End
+    (End)?
 
   // Definição comum.
-  | Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
+  | classCommonDef
   ;
 
 blockClassDeclarationAttr
@@ -348,7 +342,11 @@ blockClassDeclarationAttr
     )?
 
   // Definição comum.
-  | Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
+  | classCommonDef
+  ;
+
+classCommonDef
+  : Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
   ;
 
 classAnonymousParam
@@ -427,7 +425,7 @@ blockCascadingMethod
   ;
 
 blockCascadingMethodAttr
-  : blockAccessArrayElements (OpenOp (functionCallElements)? CloseOp)? ((Point | TwoTwoPoint) blockCascadingMethodAttr)*
+  : blockAccessArrayElements (OpenOp (functionCallElements)? CloseOp)? (PointPoint blockCascadingMethodAttr)*
   ;
 
 /*
@@ -474,9 +472,9 @@ arrayAccessElements
   ;
 
 arrayAccessElementsItems
-  : identifier (accessBlockAr)? (Point)?
-  | (firstIncDec)? identifier (accessBlockAr)?  (Point)?
-  | identifier (accessBlockAr)? (lastIncDec)? (Point)?
+  : identifier (accessBlockAr)? (Point | TwoTwoPoint)?
+  | (firstIncDec)? identifier (accessBlockAr)?  (Point | TwoTwoPoint)?
+  | identifier (accessBlockAr)? (lastIncDec)? (Point | TwoTwoPoint)?
   ;
 
 accessBlockAr
@@ -557,7 +555,6 @@ generalValue
 
   // Valores complexos.
   | (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
-  | (Not)? OpenOp blockFunctionDeclarationAttr CloseOp (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   | (Not)? (incDecOperatorsA)? blockArray (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
   
   | blockFunctionDeclarationAttr

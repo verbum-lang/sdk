@@ -51,9 +51,6 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 
-  virtual void enterFunctionCallPrefix(TParser::FunctionCallPrefixContext * /*ctx*/) override { }
-  virtual void exitFunctionCallPrefix(TParser::FunctionCallPrefixContext * /*ctx*/) override { }
-
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
 
@@ -167,6 +164,9 @@ public:
 
   virtual void enterBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext * /*ctx*/) override { }
   virtual void exitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext * /*ctx*/) override { }
+
+  virtual void enterClassCommonDef(TParser::ClassCommonDefContext * /*ctx*/) override { }
+  virtual void exitClassCommonDef(TParser::ClassCommonDefContext * /*ctx*/) override { }
 
   virtual void enterClassAnonymousParam(TParser::ClassAnonymousParamContext * /*ctx*/) override { }
   virtual void exitClassAnonymousParam(TParser::ClassAnonymousParamContext * /*ctx*/) override { }

@@ -49,9 +49,6 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
   virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
 
-  virtual void enterFunctionCallPrefix(TParser::FunctionCallPrefixContext *ctx) = 0;
-  virtual void exitFunctionCallPrefix(TParser::FunctionCallPrefixContext *ctx) = 0;
-
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
 
@@ -165,6 +162,9 @@ public:
 
   virtual void enterBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *ctx) = 0;
   virtual void exitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *ctx) = 0;
+
+  virtual void enterClassCommonDef(TParser::ClassCommonDefContext *ctx) = 0;
+  virtual void exitClassCommonDef(TParser::ClassCommonDefContext *ctx) = 0;
 
   virtual void enterClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) = 0;
   virtual void exitClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) = 0;

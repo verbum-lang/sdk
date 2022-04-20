@@ -42,8 +42,6 @@ public:
 
     virtual antlrcpp::Any visitFunctionCall(TParser::FunctionCallContext *context) = 0;
 
-    virtual antlrcpp::Any visitFunctionCallPrefix(TParser::FunctionCallPrefixContext *context) = 0;
-
     virtual antlrcpp::Any visitFunctionCallParam(TParser::FunctionCallParamContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCallParamElements(TParser::FunctionCallParamElementsContext *context) = 0;
@@ -119,6 +117,8 @@ public:
     virtual antlrcpp::Any visitBlockClass(TParser::BlockClassContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *context) = 0;
+
+    virtual antlrcpp::Any visitClassCommonDef(TParser::ClassCommonDefContext *context) = 0;
 
     virtual antlrcpp::Any visitClassAnonymousParam(TParser::ClassAnonymousParamContext *context) = 0;
 

@@ -61,10 +61,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFunctionCallPrefix(TParser::FunctionCallPrefixContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitFunctionCallParam(TParser::FunctionCallParamContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -214,6 +210,10 @@ public:
   }
 
   virtual antlrcpp::Any visitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitClassCommonDef(TParser::ClassCommonDefContext *ctx) override {
     return visitChildren(ctx);
   }
 
