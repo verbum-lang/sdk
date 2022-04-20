@@ -61,6 +61,9 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext *ctx) = 0;
   virtual void exitFunctionCall(TParser::FunctionCallContext *ctx) = 0;
 
+  virtual void enterFunctionCallFlowControl(TParser::FunctionCallFlowControlContext *ctx) = 0;
+  virtual void exitFunctionCallFlowControl(TParser::FunctionCallFlowControlContext *ctx) = 0;
+
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext *ctx) = 0;
 

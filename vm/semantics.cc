@@ -209,87 +209,87 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << "-> ret block (close)\n";
         }
 
-        // /*
-        // ** Condicionais.
-        // */
+        /*
+        ** Condicionais.
+        */
 
-        // // Bloco completo do condicional (unificação do bloco).
-        // else if (node.type == VERBUM_CONDITIONAL_STRUCT_BLOCK) {
-        //     this->tab();
-        //     cout << "-> conditional-block-open\n";
+        // Bloco completo do condicional (unificação do bloco).
+        else if (node.type == VERBUM_CONDITIONAL_STRUCT_BLOCK) {
+            this->tab();
+            cout << "-> conditional-block (open)\n";
             
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "-> conditional-block-close\n";
-        // }
+            this->tab();
+            cout << "-> conditional-block (close)\n";
+        }
 
-        // // Bloco de operações do condicional (unificação do bloco).
-        // else if (node.type == VERBUM_CONDITIONAL_EXPRESSION_BLOCK) {
-        //     this->tab();
-        //     cout << "-> c.expression-block-open\n";
+        // Bloco de operações do condicional (unificação do bloco).
+        else if (node.type == VERBUM_CONDITIONAL_EXPRESSION_BLOCK) {
+            this->tab();
+            cout << "-> conditional-expression-block (open)\n";
             
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "-> c.expression-block-close\n";
-        // }
+            this->tab();
+            cout << "-> conditional-expression-block (close)\n";
+        }
 
-        // // Bloco de código do condicional (unificação do bloco).
-        // else if (node.type == VERBUM_CONDITIONAL_CODE_BLOCK) {
-        //     this->tab();
-        //     cout << "-> c.code-block-open\n";
+        // Bloco de código do condicional (unificação do bloco).
+        else if (node.type == VERBUM_CONDITIONAL_CODE_BLOCK) {
+            this->tab();
+            cout << "-> conditional-code-block (open)\n";
             
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "-> c.code-block-close\n";
-        // }
+            this->tab();
+            cout << "-> conditional-code-block (close)\n";
+        }
 
-        // // If.
-        // else if (node.type == VERBUM_CONDITIONAL_IF) {
-        //     this->tab();
-        //     cout << "conditional-if {\n";
+        // If.
+        else if (node.type == VERBUM_CONDITIONAL_IF) {
+            this->tab();
+            cout << "-> conditional-if (open)\n";
             
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "}\n";
-        // }
+            this->tab();
+            cout << "-> conditional-if (close)\n";
+        }
 
-        // // Elif.
-        // else if (node.type == VERBUM_CONDITIONAL_ELIF) {
-        //     this->tab();
-        //     cout << "conditional-elif {\n";
+        // Elif.
+        else if (node.type == VERBUM_CONDITIONAL_ELIF) {
+            this->tab();
+            cout << "-> conditional-elif (open)\n";
             
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "}\n";
-        // }
+            this->tab();
+            cout << "-> conditional-elif (close)\n";
+        }
 
-        // // Else.
-        // else if (node.type == VERBUM_CONDITIONAL_ELSE) {
-        //     this->tab();
-        //     cout << "conditional-else {\n";
+        // Else.
+        else if (node.type == VERBUM_CONDITIONAL_ELSE) {
+            this->tab();
+            cout << "-> conditional-else (open)\n";
             
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "}\n";
-        // }
+            this->tab();
+            cout << "-> conditional-else (close)\n";
+        }
 
         // /*
         // ** Loops.

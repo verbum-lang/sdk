@@ -63,6 +63,9 @@ public:
   virtual void enterFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
   virtual void exitFunctionCall(TParser::FunctionCallContext * /*ctx*/) override { }
 
+  virtual void enterFunctionCallFlowControl(TParser::FunctionCallFlowControlContext * /*ctx*/) override { }
+  virtual void exitFunctionCallFlowControl(TParser::FunctionCallFlowControlContext * /*ctx*/) override { }
+
   virtual void enterFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
   virtual void exitFunctionCallParam(TParser::FunctionCallParamContext * /*ctx*/) override { }
 

@@ -131,6 +131,10 @@ functionCall
   | blockAccessArrayElements OpenOp (functionCallElements)? CloseOp 
   ;
 
+functionCallFlowControl
+  : identifier ( (Point | TwoTwoPoint) identifierB )? functionCallParam
+  ;
+
 functionCallParam
   : OpenOp CloseOp
   | OpenOp functionCallParamElements CloseOp
@@ -512,7 +516,7 @@ codeBlockFlowControl
   ;
 
 codeBlockFlowControlElements
-  : functionCall End
+  : functionCallFlowControl End
   | blockRet
   | blockConditional
   | blockLoop

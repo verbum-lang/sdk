@@ -548,43 +548,31 @@ antlrcpp::Any verbum_ast_visitor::visitCodeBlockFlowControlElements (TParser::Co
     node.type = VERBUM_GENERAL_VALUE;
 
     // Chamada a função.
-    if (ctx->functionCall()) {
+    if (ctx->functionCallFlowControl()) {
 
         // Método de objeto instanciado.
-        if (ctx->functionCall()->Point()) {
+        if (ctx->functionCallFlowControl()->Point()) {
             node.general_value_data.type = VERBUM_DATA_INSTANCE_METHOD_CALL;
-            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
+            node.general_value_data.object_name = ctx->functionCallFlowControl()->identifier()->getText();
 
-            if (ctx->functionCall()->identifierB())
-                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
+            if (ctx->functionCallFlowControl()->identifierB())
+                node.general_value_data.method_name = ctx->functionCallFlowControl()->identifierB()->getText();
         }
 
         // Método static.
-        else if (ctx->functionCall()->TwoTwoPoint()) {
+        else if (ctx->functionCallFlowControl()->TwoTwoPoint()) {
             node.general_value_data.type = VERBUM_DATA_STATIC_METHOD_CALL;
-            node.general_value_data.object_name = ctx->functionCall()->identifier()->getText();
+            node.general_value_data.object_name = ctx->functionCallFlowControl()->identifier()->getText();
             
-            if (ctx->functionCall()->identifierB())
-                node.general_value_data.method_name = ctx->functionCall()->identifierB()->getText();
+            if (ctx->functionCallFlowControl()->identifierB())
+                node.general_value_data.method_name = ctx->functionCallFlowControl()->identifierB()->getText();
         }
-
-        // Cascading method.
-        // else if (ctx->functionCall()->methodCascadingModes()) {
-        //     node.general_value_data.type = VERBUM_FUNCTION_CALL_CASCADING;
-        //     node.general_value_data.function_name = 
-        //         ctx->functionCall()->methodCascadingModes()->Identifier()->getText();
-        // }
-        
-        // Chamada a função, a partir de acesso a elementos de array.
-        // else if (ctx->functionCall()->arrayAccessElements()) {
-        //     node.general_value_data.type = VERBUM_FUNCTION_CALL_ARRAY_ACCESS;
-        // }
 
         // Função comum.
         else {
             node.general_value_data.type = VERBUM_DATA_FUNCTION_CALL;
             node.general_value_data.function_name = 
-                ctx->functionCall()->identifier()->getText();
+                ctx->functionCallFlowControl()->identifier()->getText();
         }
 
         this->add_node(node);
