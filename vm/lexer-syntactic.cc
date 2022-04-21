@@ -24,7 +24,18 @@ using namespace verbum;
 class verbum_ast_listener : public TParserBaseListener
 {
     void exitMain(TParser::MainContext *ctx) {
-        cout << "listener: exit main\n";
+        cout << "main\n";
+        cout << ctx->getText() << "\n";
+    }
+
+    void exitSentences(TParser::SentencesContext *ctx) {
+        cout << "sentences\n";
+        cout << ctx->getText() << "\n";
+    }
+
+    void exitStatements(TParser::StatementsContext *ctx) {
+        cout << "statements\n";
+        cout << ctx->getText() << "\n";
     }
 };
 
@@ -57,27 +68,27 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     
     // Processa análise sintática.
     TParser parser(&tokens);
-
-    // Configura controle dos erros.
-    verbum_syntactic_error syntactic_error;
-    syntactic_error.set_properties(file_path, file_content);
-
     parser.removeErrorListeners();
-    parser.addErrorListener(&syntactic_error);
 
     // Adiciona listener.
-    verbum_ast_listener *listener = new verbum_ast_listener();
-    antlr4::tree::ParseTreeWalker walker;
-    antlr4::ParserRuleContext* fileMain = parser.main();
-    walker.walk(listener, fileMain);
+    verbum_ast_listener listener;
+    tree::ParseTreeWalker walker;
+    ParserRuleContext* fileMain = parser.main();
+    walker.walk(&listener, fileMain);
+
+    // Configura controle dos erros.
+    // verbum_syntactic_error syntactic_error;
+    // syntactic_error.set_properties(file_path, file_content);
+    // parser.removeErrorListeners();
+    // parser.addErrorListener(&syntactic_error);
 
     // Percorre árvore gerada pelo parser (analisador sintático).
     verbum_ast_visitor visitor;
     visitor.prepare_data(); 
 
     // Prepara árvore que será analisada semanticamente.
-    TParser::MainContext* tree = parser.main();
-    visitor.visitMain(tree);
+    // TParser::MainContext* tree = parser.main();
+    // visitor.visitMain(tree);
     this->ast = visitor.get_verbum_ast();
 }
 
