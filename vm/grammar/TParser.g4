@@ -107,8 +107,10 @@ blockAttribution
   ;
 
 attributionElements
-  : identifier ( (Point | TwoTwoPoint) identifierB )? (TypeSpec)? (Attr | AssignmentOperator) (New | Await)? generalValueElements (Separator attributionElements)*
-  | generalValue (TypeSpec)? (Attr | AssignmentOperator) (New | Await)? generalValueElements (Separator attributionElements)*
+  : identifier ( (Point | TwoTwoPoint) identifierB )? (TypeSpec)? (Attr | AssignmentOperator) 
+    (New | Await)? generalValueElements (Separator attributionElements)*
+  | generalValue (TypeSpec)? (Attr | AssignmentOperator) 
+    (New | Await)? generalValueElements (Separator attributionElements)*
   ; 
 
 /*

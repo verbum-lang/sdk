@@ -767,40 +767,40 @@ antlrcpp::Any verbum_ast_visitor::visitTryCatchElements (TParser::TryCatchElemen
 /*
 ** Declaração das funções.
 */
+#define REP_FUNCTION_DECLARATION_BLOCK                                             \
+    verbum_ast_node node = this->zero_data();                                      \
+    node.type = VERBUM_FUNCTION_DECLARATION;                                       \
+                                                                                   \
+    /* Funções comuns e anônimas. */                                               \
+    node.function_declaration.type = VERBUM_FUNCTION_SIMPLE;                       \
+                                                                                   \
+    /* Função anônima. */                                                          \
+    if (!ctx->identifier())                                                        \
+        node.function_declaration.anonymous = true;                                \
+                                                                                   \
+    /* Verifica se é função comum. */                                              \
+    if (ctx->identifier())                                                         \
+        node.function_declaration.identifier = ctx->identifier()->getText();       \
+                                                                                   \
+    /* Verifica se há retorno de tipo. */                                          \
+    node.function_declaration.ret_found = false;                                   \
+    if (ctx->ArrowRight()) {                                                       \
+        node.function_declaration.ret_found = true;                                \
+                                                                                   \
+        if (ctx->identifierB())                                                    \
+            node.function_declaration.ret_data = ctx->identifierB()->getText();    \
+        else if (ctx->TypeSpec())                                                  \
+            node.function_declaration.ret_data = ctx->TypeSpec()->getText();       \
+    }                                                                              \
 
 // Declaração
 antlrcpp::Any verbum_ast_visitor::visitBlockFunction (TParser::BlockFunctionContext *ctx)
 {
-    verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_FUNCTION_DECLARATION;
-
-    //
-    // Funções comuns e anônimas.
-    //
-    node.function_declaration.type = VERBUM_FUNCTION_SIMPLE;
-
-    // Função anônima.
-    if (!ctx->identifier())
-        node.function_declaration.anonymous = true;
-
-    // Verifica se é função comum.
-    if (ctx->identifier())
-        node.function_declaration.identifier = ctx->identifier()->getText();
+    REP_FUNCTION_DECLARATION_BLOCK
 
     // Verifica se é método de interfaces ou classes abstratas.
     if (ctx->End() && !ctx->openOpA() && !ctx->closeOpA())
         node.function_declaration.type = VERBUM_FUNCTION_INTERFACE_ABSTRACT;
-
-    // Verifica se há retorno de tipo.
-    node.function_declaration.ret_found = false;
-    if (ctx->ArrowRight()) {
-        node.function_declaration.ret_found = true;
-        
-        if (ctx->identifierB()) 
-            node.function_declaration.ret_data = ctx->identifierB()->getText();
-        else if (ctx->TypeSpec()) 
-            node.function_declaration.ret_data = ctx->TypeSpec()->getText();
-    }
 
     this->add_node(node);
 
@@ -814,32 +814,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunction (TParser::BlockFunctionCont
 // Declaração - utilizado na atribuição de valor.
 antlrcpp::Any verbum_ast_visitor::visitBlockFunctionDeclarationAttr (TParser::BlockFunctionDeclarationAttrContext *ctx)
 {
-    verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_FUNCTION_DECLARATION;
-
-    //
-    // Funções comuns e anônimas.
-    //
-    node.function_declaration.type = VERBUM_FUNCTION_SIMPLE;
-
-    // Função anônima.
-    if (!ctx->identifier())
-        node.function_declaration.anonymous = true;
-
-    // Verifica se é função comum.
-    if (ctx->identifier())
-        node.function_declaration.identifier = ctx->identifier()->getText();
-
-    // Verifica se há retorno de tipo.
-    node.function_declaration.ret_found = false;
-    if (ctx->ArrowRight()) {
-        node.function_declaration.ret_found = true;
-        
-        if (ctx->identifierB()) 
-            node.function_declaration.ret_data = ctx->identifierB()->getText();
-        else if (ctx->TypeSpec()) 
-            node.function_declaration.ret_data = ctx->TypeSpec()->getText();
-    }
+    REP_FUNCTION_DECLARATION_BLOCK
 
     this->add_node(node);
 
@@ -1114,69 +1089,45 @@ antlrcpp::Any verbum_ast_visitor::visitClassCodeBlock (TParser::ClassCodeBlockCo
 /*
 ** Instanciamento anonimo de objeto.
 */
+#define REP_ANONYMOYS_OBJECT_BLOCK                                          \
+    verbum_ast_node node = this->zero_data();                               \
+    node.type            = VERBUM_ANONYMOUS_OBJECT;                         \
+                                                                            \
+    /* Nome do objeto. */                                                   \
+    if (ctx->identifier())                                                  \
+        node.function_call.object_name = ctx->identifier()->getText();      \
+                                                                            \
+    /* Verifica se há método chamado. */                                    \
+    if (ctx->identifierB()) {                                               \
+        node.anonymous_method_found = true;                                 \
+        node.anonymous_method_data = ctx->identifierB()->getText();         \
+    }                                                                       \
+                                                                            \
+    /* Tipo do acesso ao método. */                                         \
+    node.attribute_object_type = VERBUM_UNKNOWN;                            \
+    if (ctx->Point())                                                       \
+        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;      \
+    else if (ctx->TwoTwoPoint())                                            \
+        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;        \
+                                                                            \
+    this->add_node(node);                                                   \
+                                                                            \
+    this->node_block_counter++;                                             \
+    antlrcpp::Any result = visitChildren(ctx);                              \
+    this->node_block_counter--;                                             \
+                                                                            \
+    return result;                                                          \
 
 // Chamada comum.
 antlrcpp::Any verbum_ast_visitor::visitBlockAnonymousObject (TParser::BlockAnonymousObjectContext *ctx)
 {
-    verbum_ast_node node = this->zero_data();
-    node.type            = VERBUM_ANONYMOUS_OBJECT;
-
-    // Nome do objeto.
-    if (ctx->identifier())
-        node.function_call.object_name = ctx->identifier()->getText();
-
-    // Verifica se há método chamado.
-    if (ctx->identifierB()) {
-        node.anonymous_method_found = true;
-        node.anonymous_method_data = ctx->identifierB()->getText();
-    }
-
-    // Tipo do acesso ao método.
-    node.attribute_object_type = VERBUM_UNKNOWN;
-    if (ctx->Point())
-        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;
-    else if (ctx->TwoTwoPoint())
-        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
-
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
+    REP_ANONYMOYS_OBJECT_BLOCK
 }
 
 // Chamada por atribuição.
 antlrcpp::Any verbum_ast_visitor::visitBlockAnonymousObjectAttr (TParser::BlockAnonymousObjectAttrContext *ctx)
 {
-    verbum_ast_node node = this->zero_data();
-    node.type            = VERBUM_ANONYMOUS_OBJECT;
-
-    // Nome do objeto.
-    if (ctx->identifier())
-        node.function_call.object_name = ctx->identifier()->getText();
-
-    // Verifica se há método chamado.
-    if (ctx->identifierB()) {
-        node.anonymous_method_found = true;
-        node.anonymous_method_data = ctx->identifierB()->getText();
-    }
-
-    // Tipo do acesso ao método.
-    node.attribute_object_type = VERBUM_UNKNOWN;
-    if (ctx->Point())
-        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;
-    else if (ctx->TwoTwoPoint())
-        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
-
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
-
-    return result;
+    REP_ANONYMOYS_OBJECT_BLOCK
 }
 
 /*
