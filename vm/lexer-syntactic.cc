@@ -50,13 +50,25 @@ class verbum_ast_listener : public TParserBaseListener
     void visitErrorNode(antlr4::tree::ErrorNode *node) {
         cout << "error node\n";
         cout << "text: " << node->getText() << "\n";
-        cout << "position: "<< node->getSymbol()->getLine() << ","<< 
-                node->getSymbol()->getCharPositionInLine() << " -> " <<
-                node->getSymbol()->getStartIndex() <<","<<
-                node->getSymbol()->getStopIndex() <<","<<"\n"<<
-                "internal:" << node->getSourceInterval().toString() << "\n"<<
-                "" <<
+        
+        cout << "position: "<< node->getSymbol()->getLine() << ","<< node->getSymbol()->getCharPositionInLine() << " -> " <<
+                               node->getSymbol()->getStartIndex() <<","<< node->getSymbol()->getStopIndex() <<","<<"\n"<<
+                "token index: " << node->getSymbol()->getTokenIndex() << "\n" <<
+                "type: " << node->getSymbol()->getType() << "\n" <<
+                "next token: "<< node->getSymbol()->getTokenSource()->nextToken()->getText() << "\n" <<
+                "source name: "<< node->getSymbol()->getTokenSource()->getSourceName() << "\n" <<
+
+                "internal: " << node->getSourceInterval().toString() << "\n"<<
+                "internal: " << node->getSourceInterval().toString() << "\n"<<
+                // "child count: " << node->getChildCount() << "\n";
                 "\n";
+
+        // if (node->getChildCount() > 0) {
+        //     for (int a=0; a<node->getChildCount(); a++) {
+        //         cout << "\tchild: "<< node->getChild(a)->getText() <<"\n";
+        //     }
+        // }
+
         exit(0);
     }
 };
