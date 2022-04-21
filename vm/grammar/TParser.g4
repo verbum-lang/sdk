@@ -559,11 +559,11 @@ generalValue
   : (Not)? functionCall (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
 
   // Chamada simples a atributos de objetos - simples.
-  | (Not)? identifier (Point | TwoTwoPoint) identifierB (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
+  | (Not)? identifier (Point | TwoTwoPoint) identifierB (TypeSpec)? (Attr)? (ArithmeticOperator)? (AssignmentOperator)?
   
   // Valores simples.
   | (
-      (Not)? (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
+      (Not)? (incDecOperatorsA)? identifier (incDecOperatorsB)? (TypeSpec)? (Attr)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? Integer (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? Float (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)? |
       (Not)? String (TypeSpec)? (ArithmeticOperator)? (AssignmentOperator)?
@@ -575,7 +575,7 @@ generalValue
   | blockFunctionDeclarationAttr
   | blockClassDeclarationAttr
   | blockLambdaFunctions
-  | blockAccessArrayElements
+  | (Not)? (incDecOperatorsA)? blockAccessArrayElements (incDecOperatorsB)? (TypeSpec)? (Attr)? (ArithmeticOperator)? (AssignmentOperator)?
   | blockAnonymousObjectAttr
 
   // Inicialização de array vazio (indexado e associativo).

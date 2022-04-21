@@ -146,7 +146,7 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.function_call.method_name           = "";
     
     // VERBUM_EXPRESSION_ATTR_FUNC_CALL
-    ast.attr_function_call_operator         = VERBUM_UNKNOWN;
+    ast.attr_operator                       = false;
 
     // VERBUM_LOOP
     ast.loop_type                           = VERBUM_UNKNOWN;
@@ -1385,11 +1385,9 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
     // Parâmetros gerais.
     //
 
-    // Verifica se há conversão de tipo.
-    if (ctx->TypeSpec()) {
-        node.general_value_type_conversion = true;
-        node.general_value_type_conversion_data = ctx->TypeSpec()->getText();
-    }
+    // Operador 'not'.
+    if (ctx->Not())
+        node.general_value_not = true;
 
     // Verifica se há incremento/decremento prefixado/pós-fixado.
     string incdec = "";
@@ -1409,6 +1407,16 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
             node.operation_data.type_inc_dec = VERBUM_OP_TYPE_DEC;
     }
 
+    // Verifica se há conversão de tipo.
+    if (ctx->TypeSpec()) {
+        node.general_value_type_conversion = true;
+        node.general_value_type_conversion_data = ctx->TypeSpec()->getText();
+    }
+
+    // Verifica se há atribuição.
+    if (ctx->Attr())
+        node.attr_operator = true;
+
     // Operador aritmético.
     if (ctx->ArithmeticOperator())
         node.operation_op = this->check_arithmeic_and_assignment_operator(
@@ -1418,10 +1426,6 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
     if (ctx->AssignmentOperator())
         node.operation_op = this->check_arithmeic_and_assignment_operator(
             ctx->AssignmentOperator()->getText());
-
-    // Operador 'not'.
-    if (ctx->Not())
-        node.general_value_not = true;
 
     //
     // Valores / tipos de dados.

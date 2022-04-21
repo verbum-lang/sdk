@@ -1713,6 +1713,7 @@ public:
     IdentifierBContext *identifierB();
     antlr4::tree::TerminalNode *Point();
     antlr4::tree::TerminalNode *TwoTwoPoint();
+    antlr4::tree::TerminalNode *Attr();
     antlr4::tree::TerminalNode *Integer();
     antlr4::tree::TerminalNode *Float();
     antlr4::tree::TerminalNode *String();

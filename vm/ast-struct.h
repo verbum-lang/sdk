@@ -354,7 +354,7 @@ typedef struct verbum_ast_node
     /*
     ** Atribuição com chamada a função (usado em expressões condicionais).
     */
-    int attr_function_call_operator;                // Operador utilizado na atribuição.
+    bool attr_operator;                             // Operador utilizado na atribuição.
 
     /*
     ** Loops.

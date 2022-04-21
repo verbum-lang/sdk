@@ -48,7 +48,6 @@ event.callback((a :int) => {
     print('Event value: {}', a);
 });
 
-// if ((a = func()) > 20) {}
-// int attr_function_call_operator;
+if ((a = func()) > 20) {}
 
 

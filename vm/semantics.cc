@@ -952,49 +952,32 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                 this->tab();
                 cout << "-> not operator\n";
             }
-            
+
+            // Pré inc/dec.
+            if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
+                switch (node.operation_data.type_inc_dec) {
+                    case VERBUM_OP_TYPE_INC: cout << "++ (pre) "; break;
+                    case VERBUM_OP_TYPE_DEC: cout << "-- (pre) "; break;
+                }
+            }
+
             // Dados simples.
             if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER ||
                 node.general_value_data.type == VERBUM_DATA_STRING     ||
                 node.general_value_data.type == VERBUM_DATA_INTEGER    ||
                 node.general_value_data.type == VERBUM_DATA_FLOAT       )
             {
-                if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) {
-                    this->tab();
-                    cout << "-> value: ";
-                    
-                    // Pré inc/dec.
-                    if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_PRE) {
-                        switch (node.operation_data.type_inc_dec) {
-                            case VERBUM_OP_TYPE_INC: cout << "++ (pre) "; break;
-                            case VERBUM_OP_TYPE_DEC: cout << "-- (pre) "; break;
-                        }
-                    }
+                this->tab();
+                cout << "-> value: ";
 
-                    cout << node.general_value_data.identifier << " (identifier)";
-
-                    // Pós inc/dec.
-                    if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
-                        switch (node.operation_data.type_inc_dec) {
-                            case VERBUM_OP_TYPE_INC: cout << " ++ (pos)"; break;
-                            case VERBUM_OP_TYPE_DEC: cout << " -- (pos)"; break;
-                        }
-                    }
-
-                    cout << "\n";
-                }
-
-                else {
-                    this->tab();
-                    cout << "-> value: ";
-
-                    if (node.general_value_data.type == VERBUM_DATA_INTEGER) 
-                        cout << node.general_value_data.integer << " (integer)\n";
-                    else if (node.general_value_data.type == VERBUM_DATA_STRING) 
-                        cout << node.general_value_data.vstring << " (string)\n";
-                    else if (node.general_value_data.type == VERBUM_DATA_FLOAT) 
-                        cout << node.general_value_data.floating << " (float)\n";
-                }
+                if (node.general_value_data.type == VERBUM_DATA_IDENTIFIER) 
+                    cout << node.general_value_data.identifier << " (identifier)\n";
+                else if (node.general_value_data.type == VERBUM_DATA_INTEGER) 
+                    cout << node.general_value_data.integer << " (integer)\n";
+                else if (node.general_value_data.type == VERBUM_DATA_STRING) 
+                    cout << node.general_value_data.vstring << " (string)\n";
+                else if (node.general_value_data.type == VERBUM_DATA_FLOAT) 
+                    cout << node.general_value_data.floating << " (float)\n";
             }
 
             /*
@@ -1123,6 +1106,20 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
 
                 this->tab();
                 cout << "-> anonymous-object instance (close)\n";
+            }
+
+            // Pós inc/dec.
+            if (node.operation_data.mod_inc_dec == VERBUM_OP_INCDEC_POS) {
+                switch (node.operation_data.type_inc_dec) {
+                    case VERBUM_OP_TYPE_INC: cout << " ++ (pos)"; break;
+                    case VERBUM_OP_TYPE_DEC: cout << " -- (pos)"; break;
+                }
+            }
+
+            // Verifica se ha atribuição.
+            if (node.attr_operator) {
+                this->tab();
+                cout << "-> attr operator\n";
             }
 
             // Verifica se há conversão de tipo.
