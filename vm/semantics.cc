@@ -221,7 +221,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         */
 
         // Bloco completo do condicional (unificação do bloco).
-        else if (node.type == VERBUM_CONDITIONAL_STRUCT_BLOCK) {
+        else if (node.type == VERBUM_CONDITIONAL_BLOCK) {
             this->tab();
             cout << "-> conditional-block (open)\n";
             

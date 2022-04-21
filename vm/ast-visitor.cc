@@ -120,16 +120,8 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.access_array_type.mod_inc_dec       = VERBUM_UNKNOWN;
 
     // VERBUM_OPERATION_BLOCK
-    ast.operation_type                      = VERBUM_UNKNOWN;
-    ast.operation_data.type                 = VERBUM_UNKNOWN;
     ast.operation_data.type_inc_dec         = VERBUM_UNKNOWN;
     ast.operation_data.mod_inc_dec          = VERBUM_UNKNOWN;
-    ast.operation_data.identifier           = "";
-    ast.operation_data.integer              = "";
-    ast.operation_data.floating             = "";
-    ast.operation_data.function_name        = "";
-    ast.operation_data.object_name          = "";
-    ast.operation_data.method_name          = "";
     ast.operation_op                        = VERBUM_UNKNOWN;
     ast.operation_type_conversion           = false;
     ast.operation_type_conversion_data      = "";
@@ -153,11 +145,6 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.function_call.object_name           = "";
     ast.function_call.method_name           = "";
     
-    // VERBUM_CONDITIONAL_*
-    ast.conditional_type_conversion         = false;
-    ast.conditional_type_conversion_data    = "";
-    ast.conditional_operator                = VERBUM_UNKNOWN;
-
     // VERBUM_EXPRESSION_ATTR_FUNC_CALL
     ast.attr_function_call_operator         = VERBUM_UNKNOWN;
 
@@ -186,7 +173,6 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.vclass.identifier_c                 = "";
     ast.vclass.extends                      = false;
     ast.vclass.implements                   = false;
-    ast.vclass.vfinal                       = false;
 
     // VERBUM_ITEMS_VISIBILITY
     ast.item_visibility                     = VERBUM_UNKNOWN;
@@ -454,7 +440,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockConditional (TParser::BlockCondition
 {
     verbum_ast_node node = this->zero_data();
     
-    node.type = VERBUM_CONDITIONAL_STRUCT_BLOCK;
+    node.type = VERBUM_CONDITIONAL_BLOCK;
     this->add_node(node);
 
     this->node_block_counter++;

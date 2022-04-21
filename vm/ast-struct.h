@@ -22,196 +22,177 @@
 using namespace std;
 
 #define VERBUM_IESUS_HOMINUM_SALVATOR                   333
-#define VERBUM_UNKNOWN                                  0
+#define VERBUM_UNKNOWN                                    0
 
 // Importações - use.
-#define VERBUM_USE                                      1
-#define VERBUM_USE_MODULE                               10001
-#define VERBUM_USE_PATH                                 20001
-#define VERBUM_USE_ARCHIVE                              30001
+#define VERBUM_USE                                        1
+#define VERBUM_USE_MODULE                                 2
+#define VERBUM_USE_PATH                                   3
+#define VERBUM_USE_ARCHIVE                                4
 
 // Variáveis.
-#define VERBUM_VARIABLE_INITIALIZATION                  2
-#define VERBUM_VARIABLE_DECLARATION                     10002
-#define VERBUM_VARIABLE_ATTRIBUTION                     20002
-#define VERBUM_VARIABLE_INFORMATION                     30002
+#define VERBUM_VARIABLE_INITIALIZATION                    5
+#define VERBUM_VARIABLE_DECLARATION                       6
+#define VERBUM_VARIABLE_ATTRIBUTION                       7
+#define VERBUM_VARIABLE_INFORMATION                       8
+#define VERBUM_VARIABLE_SIMPLE                            9
+#define VERBUM_VARIABLE_OBJ_INSTANCE                     10
+#define VERBUM_VARIABLE_OBJ_STATIC                       11
+#define VERBUM_VARIABLE_ARRAY_ACCESS                     12
 
-#define VERBUM_VARIABLE_SIMPLE                          1
-#define VERBUM_VARIABLE_OBJ_INSTANCE                    2
-#define VERBUM_VARIABLE_OBJ_STATIC                      3
-#define VERBUM_VARIABLE_ARRAY_ACCESS                    4
+// Array.
+#define VERBUM_ACCESS_ARRAY_BLOCK                        13
+#define VERBUM_ACCESS_ARRAY                              14
+#define VERBUM_ACCESS_ARRAY_INDEX_BLOCK                  15
+#define VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER              16
+#define VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT        17
+#define VERBUM_ACCESS_ARRAY_TYPE_BLOCK                   18
+#define VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT             19
+#define VERBUM_DATA_INDEX_ARRAY_BLOCK                    20
+#define VERBUM_DATA_ASSOC_ARRAY_BLOCK                    21
+#define VERBUM_DATA_ASSOC_ARRAY_ELEMENT                  21
 
-#define VERBUM_ACCESS_ARRAY_BLOCK                       40001
-#define VERBUM_ACCESS_ARRAY                             4
-#define VERBUM_ACCESS_ARRAY_INDEX_BLOCK                 5
-#define VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER             6
-#define VERBUM_ACCESS_ARRAY_TYPE_IDENTIFIER_POINT       7
-#define VERBUM_ACCESS_ARRAY_TYPE_BLOCK                  8
-#define VERBUM_ACCESS_ARRAY_TYPE_BLOCK_POINT            9
-#define VERBUM_ACCESS_ARRAY_OP_ELEMENT                  10
+// Valores gerais.
+#define VERBUM_GENERAL_VALUE                             23
+#define VERBUM_GENERAL_VALUE_BLOCK                       24
 
-#define VERBUM_OPERATION_BLOCK                          11
-#define VERBUM_GENERAL_VALUE                            12
-#define VERBUM_GENERAL_VALUE_BLOCK                      121
-#define VERBUM_DATA_INDEX_ARRAY_BLOCK                   13
-#define VERBUM_DATA_ASSOC_ARRAY_BLOCK                   14
-#define VERBUM_DATA_ASSOC_ARRAY_ELEMENT                 15
+// Chamada a função.
+#define VERBUM_FUNCTION_CALL                             25
+#define VERBUM_FUNCTION_CALL_ARRAY_ACCESS                26
 
-#define VERBUM_FUNCTION_CALL                            16
-#define VERBUM_FUNCTION_CALL_CASCADING_METHOD           161
-#define VERBUM_FUNCTION_CALL_ARRAY_ACCESS               162
-#define VERBUM_FUNCTION_CALL_ARRAY_ACCESS_BLOCK         163
+// Condicionais.
+#define VERBUM_CONDITIONAL_BLOCK                         27
+#define VERBUM_CONDITIONAL_EXPRESSION_BLOCK              28
+#define VERBUM_CONDITIONAL_CODE_BLOCK                    29
+#define VERBUM_CONDITIONAL_IF                            30
+#define VERBUM_CONDITIONAL_ELIF                          31
+#define VERBUM_CONDITIONAL_ELSE                          32
 
-#define VERBUM_CONDITIONAL_STRUCT_BLOCK                 17
-#define VERBUM_CONDITIONAL_EXPRESSION_BLOCK             18
-#define VERBUM_CONDITIONAL_CODE_BLOCK                   19
-#define VERBUM_CONDITIONAL_IF                           20
-#define VERBUM_CONDITIONAL_ELIF                         21
-#define VERBUM_CONDITIONAL_ELSE                         22
+// Loops.
+#define VERBUM_LOOP                                      33
+#define VERBUM_LOOP_COMPLETE                             34
+#define VERBUM_LOOP_CONDITIONAL                          35
+#define VERBUM_LOOP_INFINITE                             36
+#define VERBUM_LOOP_BLOCK                                37
+#define VERBUM_LOOP_INITIALIZATION                       38
+#define VERBUM_LOOP_EXPRESSION                           39
+#define VERBUM_LOOP_INCDEC                               40
+#define VERBUM_LOOP_CODE_BLOCK                           41
 
-#define VERBUM_CONDITIONAL_EXPR_NOT                     23
-#define VERBUM_CONDITIONAL_EXPR_BLOCK_OPEN              24
+// Retorno.
+#define VERBUM_RET                                       42
 
-#define VERBUM_EXPRESSION_ATTR_FUNC_CALL                25
-#define VERBUM_EXPRESSION_ATTR_FUNC_CALL_DESTINATION    26
-#define VERBUM_EXPRESSION_ATTR_FUNC_CALL_BLOCK          27
+// Funções/métodos.
+#define VERBUM_FUNCTION_DECLARATION                      43
+#define VERBUM_FUNCTION_SIMPLE                           44
+#define VERBUM_FUNCTION_CLASS_CONSTRUCTOR                45
+#define VERBUM_FUNCTION_INTERFACE_ABSTRACT               46
+#define VERBUM_FUNCTION_PARAM_ITEM                       47
+#define VERBUM_FUNCTION_CODE_BLOCK                       48
 
-#define VERBUM_LOOP                                     29
-#define VERBUM_LOOP_COMPLETE                            30
-#define VERBUM_LOOP_CONDITIONAL                         31
-#define VERBUM_LOOP_INFINITE                            32
-#define VERBUM_LOOP_BLOCK                               33
+// OOP (gerais).
+#define VERBUM_OOP_INTERFACE                             49
+#define VERBUM_OOP_INTERFACE_CODE_BLOCK                  50
+#define VERBUM_OOP_ABSTRACT                              51
+#define VERBUM_OOP_ABSTRACT_CODE_BLOCK                   52
+#define VERBUM_OOP_CLASS                                 53
+#define VERBUM_OOP_CLASS_CODE_BLOCK                      54
+#define VERBUM_OOP_CLASS_ANONYMOUS                       55
 
-#define VERBUM_RET                                      34
+// Visbilidade de elementos.
+#define VERBUM_ITEMS_VISIBILITY                          56
 
-#define VERBUM_FUNCTION_GENERAL_BLOCK                   35
-#define VERBUM_FUNCTION_SPEC_BLOCK                      36
+// Comandos: break e next (for).
+#define VERBUM_TOKEN_BREAK                               57
+#define VERBUM_TOKEN_NEXT                                58
 
-#define VERBUM_FUNCTION_DECLARATION                     37
-#define VERBUM_FUNCTION_SIMPLE                          38
-#define VERBUM_FUNCTION_METHOD                          39
-#define VERBUM_FUNCTION_CLASS_CONSTRUCTOR               40
-#define VERBUM_FUNCTION_INTERFACE_ABSTRACT              41
+// Funções anônimas.
+#define VERBUM_ANONYMOUS_FUNCTION                        59
+#define VERBUM_ANONYMOUS_FUNCTION_PARAM                  60
 
-#define VERBUM_FUNCTION_PARAM_BLOCK                     42
-#define VERBUM_FUNCTION_PARAM_ITEM                      43
-#define VERBUM_FUNCTION_CODE_BLOCK                      44
+// Múltipla atribuição.
+#define VERBUM_MULTIPLE_ATTRIBUTION                      61
 
-#define VERBUM_OOP_INTERFACE                            45
-#define VERBUM_OOP_INTERFACE_CODE_BLOCK                 46
-#define VERBUM_OOP_ABSTRACT                             47
-#define VERBUM_OOP_ABSTRACT_CODE_BLOCK                  48
+// Objeto anônimo.
+#define VERBUM_ANONYMOUS_OBJECT                          62
 
-#define VERBUM_OOP_CLASS                                49
-#define VERBUM_OOP_CLASS_CODE_BLOCK                     50
-#define VERBUM_OOP_CLASS_ANONYMOUS                      501
+// Funções lambda.
+#define VERBUM_LAMBDA_FUNCTION_BLOCK                     63
+#define VERBUM_LAMBDA_FUNCTION_PARAM                     64
+#define VERBUM_LAMBDA_FUNCTION_PARAM_ITEM                65
+#define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_COMPLETE       66
+#define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE         67
 
-#define VERBUM_ITEMS_VISIBILITY                         51
+// Try, catch.
+#define VERBUM_TRY_BLOCK                                 68
+#define VERBUM_TRY_TRY                                   69
+#define VERBUM_TRY_CATCH                                 70
+#define VERBUM_TRY_CODE_BLOCK                            71
 
-#define VERBUM_TOKEN_BREAK                              52
-#define VERBUM_TOKEN_NEXT                               53
-
-#define VERBUM_ANONYMOUS_FUNCTION                       54
-#define VERBUM_ANONYMOUS_FUNCTION_PARAM                 541
-
-#define VERBUM_MULTIPLE_ATTRIBUTION                     61
-
-#define VERBUM_ANONYMOUS_CLASS                          62
-#define VERBUM_ANONYMOUS_CLASS_CALL                     63
-
-#define VERBUM_ANONYMOUS_OBJECT                         64
-#define VERBUM_ANONYMOUS_OBJECT_CALL                    65
-
-#define VERBUM_LAMBDA_FUNCTION_BLOCK                    66
-#define VERBUM_LAMBDA_FUNCTION_PARAM                    67
-#define VERBUM_LAMBDA_FUNCTION_PARAM_ITEM               68
-#define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_COMPLETE      69
-#define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE        70
-
-#define VERBUM_TRY_BLOCK                                71
-#define VERBUM_TRY_TRY                                  72
-#define VERBUM_TRY_CATCH                                73
-#define VERBUM_TRY_CODE_BLOCK                           74
-
-#define VERBUM_ATTRIBUTE_OBJECT                         75
-
-// Tipos de blocos internos do loop.
-#define VERBUM_LOOP_INITIALIZATION                      1
-#define VERBUM_LOOP_EXPRESSION                          2
-#define VERBUM_LOOP_INCDEC                              3
-#define VERBUM_LOOP_CODE_BLOCK                          4
-
-// Acesso aos elementos de array.
-#define VERBUM_ACCESS_ARRAY_TINDEX_INTEGER              1
-#define VERBUM_ACCESS_ARRAY_TINDEX_IDENTIFIER           2
-#define VERBUM_ACCESS_ARRAY_TINDEX_OPERATION            3
+// Acesso a atributo de objeto.
+#define VERBUM_ATTRIBUTE_OBJECT                          72
 
 // Aritméticos.
-#define VERBUM_OPERATOR_ADD                             1
-#define VERBUM_OPERATOR_SUB                             2
-#define VERBUM_OPERATOR_DIV                             3
-#define VERBUM_OPERATOR_PERC                            4
-#define VERBUM_OPERATOR_MUL                             5
+#define VERBUM_OPERATOR_ADD                              73
+#define VERBUM_OPERATOR_SUB                              74
+#define VERBUM_OPERATOR_DIV                              75
+#define VERBUM_OPERATOR_PERC                             76
+#define VERBUM_OPERATOR_MUL                              77
 
-// Operadores.
-#define VERBUM_OPERATOR_ATTR                            6
-#define VERBUM_OPERATOR_ADD_EQUAL                       7
-#define VERBUM_OPERATOR_SUB_EQUAL                       8
-#define VERBUM_OPERATOR_MUL_EQUAL                       9
-#define VERBUM_OPERATOR_DIV_EQUAL                      10
-#define VERBUM_OPERATOR_PERC_EQUAL                     11
-#define VERBUM_OPERATOR_MAJOR                          12
-#define VERBUM_OPERATOR_MINOR                          13
-#define VERBUM_OPERATOR_MAJOR_EQUAL                    14
-#define VERBUM_OPERATOR_MINOR_EQUAL                    15
-#define VERBUM_OPERATOR_AND                            16
-#define VERBUM_OPERATOR_OR                             17
-#define VERBUM_OPERATOR_EQUAL                          18
-#define VERBUM_OPERATOR_NOT_EQUAL                      19
-#define VERBUM_OPERATOR_NOT                            20
+// Operadores de atribuição.
+#define VERBUM_OPERATOR_ATTR                             78
+#define VERBUM_OPERATOR_ADD_EQUAL                        79
+#define VERBUM_OPERATOR_SUB_EQUAL                        80
+#define VERBUM_OPERATOR_MUL_EQUAL                        81
+#define VERBUM_OPERATOR_DIV_EQUAL                        82
+#define VERBUM_OPERATOR_PERC_EQUAL                       83
+#define VERBUM_OPERATOR_MAJOR                            84
+#define VERBUM_OPERATOR_MINOR                            85
+#define VERBUM_OPERATOR_MAJOR_EQUAL                      86
+#define VERBUM_OPERATOR_MINOR_EQUAL                      87
+#define VERBUM_OPERATOR_AND                              88
+#define VERBUM_OPERATOR_OR                               89
+#define VERBUM_OPERATOR_EQUAL                            90
+#define VERBUM_OPERATOR_NOT_EQUAL                        91
+#define VERBUM_OPERATOR_NOT                              92
 
-#define VERBUM_MOD_OP_SIMPLE                            1
-#define VERBUM_MOD_OP_OBJ_INSTANCE                      2
-#define VERBUM_MOD_OP_AWAIT                             4
+// Ações de atribuição.
+#define VERBUM_MOD_OP_SIMPLE                             93
+#define VERBUM_MOD_OP_OBJ_INSTANCE                       94
+#define VERBUM_MOD_OP_AWAIT                              95
 
 // Tipos de dados.
-#define VERBUM_DATA_IDENTIFIER                          1
-#define VERBUM_DATA_INTEGER                             2
-#define VERBUM_DATA_FLOAT                               3
-#define VERBUM_DATA_FUNCTION_CALL                       4
-#define VERBUM_DATA_INSTANCE_METHOD_CALL                5
-#define VERBUM_DATA_STATIC_METHOD_CALL                  6
-#define VERBUM_DATA_STRING                              7
-#define VERBUM_DATA_OPERATION_BLOCK                     8
+#define VERBUM_DATA_IDENTIFIER                           96
+#define VERBUM_DATA_INTEGER                              97
+#define VERBUM_DATA_FLOAT                                98
+#define VERBUM_DATA_FUNCTION_CALL                        99
+#define VERBUM_DATA_INSTANCE_METHOD_CALL                100
+#define VERBUM_DATA_STATIC_METHOD_CALL                  101
+#define VERBUM_DATA_STRING                              102
+#define VERBUM_DATA_OPERATION_BLOCK                     103
 
 // Operações de inc/dec.
-#define VERBUM_OP_TYPE_INC                              1
-#define VERBUM_OP_TYPE_DEC                              2
+#define VERBUM_OP_TYPE_INC                              104
+#define VERBUM_OP_TYPE_DEC                              105
 
-#define VERBUM_OP_INCDEC_PRE                            1
-#define VERBUM_OP_INCDEC_POS                            2
-
-// Tipos de operações (em relação a sua organização).
-#define VERBUM_OPERATION_TYPE_SIMPLE                    1
-#define VERBUM_OPERATION_TYPE_BLOCK                     2 
-#define VERBUM_OPERATION_FUNC_BLOCK                     3
+#define VERBUM_OP_INCDEC_PRE                            106
+#define VERBUM_OP_INCDEC_POS                            107
 
 // Tipos de chamada a função.
-#define VERBUM_FUNCTION_CALL_SIMPLE                     1
-#define VERBUM_FUNCTION_CALL_INSTANCE                   2   
-#define VERBUM_FUNCTION_CALL_STATIC                     3
-#define VERBUM_FUNCTION_CALL_CASCADING                  60
+#define VERBUM_FUNCTION_CALL_SIMPLE                     108
+#define VERBUM_FUNCTION_CALL_INSTANCE                   109 
+#define VERBUM_FUNCTION_CALL_STATIC                     110
 
 // Tipos de itens (visibilidade).
-#define VERBUM_ITEMS_VISIBILITY_PUB                     1
-#define VERBUM_ITEMS_VISIBILITY_PRIV                    2   
-#define VERBUM_ITEMS_VISIBILITY_PRO                     3
-#define VERBUM_ITEMS_VISIBILITY_FINAL                   4   
-#define VERBUM_ITEMS_VISIBILITY_STATIC                  5  
-#define VERBUM_ITEMS_VISIBILITY_ASYNC                   6 
+#define VERBUM_ITEMS_VISIBILITY_PUB                     111
+#define VERBUM_ITEMS_VISIBILITY_PRIV                    112  
+#define VERBUM_ITEMS_VISIBILITY_PRO                     113
+#define VERBUM_ITEMS_VISIBILITY_FINAL                   114  
+#define VERBUM_ITEMS_VISIBILITY_STATIC                  115 
+#define VERBUM_ITEMS_VISIBILITY_ASYNC                   116
 
-#define VERBUM_ATTRIBUTE_OBJECT_STATIC                  1  
-#define VERBUM_ATTRIBUTE_OBJECT_INSTANCE                2   
+#define VERBUM_ATTRIBUTE_OBJECT_STATIC                  117
+#define VERBUM_ATTRIBUTE_OBJECT_INSTANCE                118 
 
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
@@ -219,9 +200,6 @@ typedef struct verbum_ast_node
     int type;                                       // Tipo do elemento.
                                                     //      VERBUM_USE
                                                     //      VERBUM_VARIABLE_INITIALIZATION
-                                                    //      VERBUM_VARIABLE_USE_TYPES
-                                                    //      VERBUM_ACCESS_ARRAY
-                                                    //      VERBUM_OPERATION_BLOCK
                                                     //      ...
 
     /*
@@ -247,13 +225,11 @@ typedef struct verbum_ast_node
 
     /*
     ** Tipo das variáveis utilizadas.
-    ** type: VERBUM_VARIABLE_USE_TYPES
     */
     int variable_definition_type;                   // Tipo da definição/uso da variável:
                                                     //      VERBUM_VARIABLE_SIMPLE
                                                     //      VERBUM_VARIABLE_OBJ_INSTANCE
                                                     //      VERBUM_VARIABLE_OBJ_STATIC
-                                                    //      VERBUM_VARIABLE_ARRAY_ACCESS
 
     struct {                                        // Nomes...
         string simple_name;                         // Nome da variável (uso simples).
@@ -311,20 +287,7 @@ typedef struct verbum_ast_node
     ** Bloco de operações.
     ** VERBUM_OPERATION_BLOCK
     */
-    int operation_type;                             // Tipo do operação:
-                                                    //      VERBUM_OPERATION_TYPE_SIMPLE    - Operação simples.
-                                                    //      VERBUM_OPERATION_TYPE_BLOCK     - Bloco de operações.
-                                                    //      VERBUM_OPERATION_TYPE_FUNC_CALL - Chamadas a funções.
-
     struct {
-        int type;                                   // Tipo do dado da operação:
-                                                    //      VERBUM_DATA_IDENTIFIER
-                                                    //      VERBUM_DATA_INTEGER
-                                                    //      VERBUM_DATA_FLOAT
-                                                    //      VERBUM_DATA_FUNCTION_CALL
-                                                    //      VERBUM_DATA_INSTANCE_METHOD_CALL
-                                                    //      VERBUM_DATA_STATIC_METHOD_CALL
-
         int type_inc_dec;                           // Tipo de incremento/decremento:
                                                     //      VERBUM_OP_TYPE_INC
                                                     //      VERBUM_OP_TYPE_DEC
@@ -332,14 +295,6 @@ typedef struct verbum_ast_node
         int mod_inc_dec;                            // Modo da operação de incremento/decremento:
                                                     //      VERBUM_OP_INCDEC_PRE    - Anterior a variável.
                                                     //      VERBUM_OP_INCDEC_POS    - Após a variável.
-
-        string identifier;                          // Identificador.
-        string integer;                             // Inteiro.
-        string floating;                            // Float.
-        
-        string function_name;                       // Nome da função chamada.
-        string object_name;                         // Nome do objeto.
-        string method_name;                         // Nome do método.
     } operation_data;
 
     int operation_op;                               // Operador relacionado à operação:
@@ -396,17 +351,6 @@ typedef struct verbum_ast_node
         string method_name;                         // Nome do método.
     } function_call;
 
-    /*
-    ** Condicionais.
-    ** VERBUM_CONDITIONAL_*
-    */
-    bool conditional_type_conversion;               // Verifica se há conversão de tipo no elemento em questão.
-    string conditional_type_conversion_data;        // Nome do tipo a ser convertido.
-
-    int conditional_operator;                       // Verifica se há uso de operadores.
-                                                    // Utilizado para o tratamento dos blocos de operações.
-                                                    // Valor padrão: VERBUM_UNKNOWN.
-    
     /*
     ** Atribuição com chamada a função (usado em expressões condicionais).
     */
@@ -478,9 +422,7 @@ typedef struct verbum_ast_node
         string identifier_c;                        // Nome do identificador (implementação de interface).
         bool extends;                               // Verifica se há herança.
         bool implements;                            // Verifica se há implementação de interface.
-        bool vfinal;                                // Verifica se possui atribuito 'final'.
     } vclass;
-
 
     /*
     ** Visibilidade.
