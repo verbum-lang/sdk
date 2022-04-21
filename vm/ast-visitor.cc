@@ -1128,6 +1128,8 @@ antlrcpp::Any verbum_ast_visitor::visitClassCodeBlock (TParser::ClassCodeBlockCo
 /*
 ** Instanciamento anonimo de objeto.
 */
+
+// Chamada comum.
 antlrcpp::Any verbum_ast_visitor::visitBlockAnonymousObject (TParser::BlockAnonymousObjectContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
@@ -1159,6 +1161,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockAnonymousObject (TParser::BlockAnony
     return result;
 }
 
+// Chamada por atribuição.
 antlrcpp::Any verbum_ast_visitor::visitBlockAnonymousObjectAttr (TParser::BlockAnonymousObjectAttrContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
@@ -1224,7 +1227,6 @@ antlrcpp::Any verbum_ast_visitor::visitBlockLambdaFunctions (TParser::BlockLambd
 antlrcpp::Any verbum_ast_visitor::visitLambdaFnParams (TParser::LambdaFnParamsContext *ctx)
 {
     verbum_ast_node node = this->zero_data();
-
     node.type = VERBUM_LAMBDA_FUNCTION_PARAM_ITEM;
     
     if (ctx->identifier())
@@ -1243,7 +1245,7 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFnCodeBlock (TParser::LambdaFnCodeB
     node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE;
 
     if (ctx->codeBlockControl())
-        node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY;
+        node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_COMPLETE;
 
     this->add_node(node);
 
@@ -1416,6 +1418,23 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
 /*
 ** Valores gerais.
 */
+
+// Bloco de valores.
+antlrcpp::Any verbum_ast_visitor::visitGeneralValueBlock (TParser::GeneralValueBlockContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type = VERBUM_GENERAL_VALUE_BLOCK;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+// Controlador geral.
 antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContext *ctx) 
 {
     antlrcpp::Any result;
@@ -1566,7 +1585,9 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         block = true;
     }
 
+    //
     // Array - com valores.
+    //
     else if (ctx->blockArray()) {
 
         // Array indexado.
@@ -1582,31 +1603,10 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         }
     }
 
-    // Declaração de função - atribuição da mesma à variável.
-    else if (ctx->blockFunctionDeclarationAttr()) {
-        // node.general_value_data.type = VERBUM_FUNCTION_DECLARATION;
-        // block = true;
-    }
-
-    // Declaração de classe - atribuição da mesma à variável.
-    else if (ctx->blockClassDeclarationAttr()) {
-        // block = true;
-    }
-
-    // Funções lambdas.
-    else if (ctx->blockLambdaFunctions()) {
-        // block = true;
-    }
-
     // Instanciamento de objetos anonimamente.
     else if (ctx->blockAnonymousObjectAttr()) {
         node.general_value_data.type = VERBUM_ANONYMOUS_OBJECT;
         block = true;
-    }
-
-    // Acesso a elementos de array.
-    else if (ctx->blockAccessArrayElements()) {
-        // block = true;
     }
 
     this->add_node(node);
@@ -1617,23 +1617,6 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
       this->node_block_counter--;
     } else
       result = visitChildren(ctx);
-
-    return result;
-}
-
-/*
-** Bloco de valores
-*/
-antlrcpp::Any verbum_ast_visitor::visitGeneralValueBlock (TParser::GeneralValueBlockContext *ctx)
-{
-    verbum_ast_node node = this->zero_data();
-    node.type = VERBUM_GENERAL_VALUE_BLOCK;
-
-    this->add_node(node);
-
-    this->node_block_counter++;
-    antlrcpp::Any result = visitChildren(ctx);
-    this->node_block_counter--;
 
     return result;
 }

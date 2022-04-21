@@ -684,7 +684,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
                     cout << "static";
                 else 
                     cout << "unknown";
-                    
+
                 cout << "\n";
             }
 
@@ -721,61 +721,61 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
             cout << "-> class code block (close)\n";
         }
 
-        // /*
-        // ** Lambda functions.
-        // */
+        /*
+        ** Lambda functions.
+        */
 
-        // // Bloco da expressão.
-        // else if (node.type == VERBUM_LAMBDA_FUNCTION_BLOCK) {
-        //     this->tab();
-        //     cout << "-> lambda-function block (open)\n";
+        // Bloco da expressão.
+        else if (node.type == VERBUM_LAMBDA_FUNCTION_BLOCK) {
+            this->tab();
+            cout << "-> lambda-function (open)\n";
             
-        //     // Verifica se há tipo de retorno.
-        //     if (node.operation_type_conversion) {
-        //         this->tab();
-        //         cout << "-> ret type: " << node.operation_type_conversion_data << "\n";
-        //     }
+            // Verifica se há tipo de retorno.
+            if (node.operation_type_conversion) {
+                this->tab();
+                cout << "-> ret type: " << node.operation_type_conversion_data << "\n";
+            }
 
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "-> lambda-function block (close)\n";
-        // }
+            this->tab();
+            cout << "-> lambda-function (close)\n";
+        }
 
-        // // Itens dos parâmetros.
-        // else if (node.type == VERBUM_LAMBDA_FUNCTION_PARAM_ITEM) {
-        //     this->tab();
-        //     cout << "-> lambda-function param-item: " << node.function_param_item;
-        //     cout << " - typespec: " << node.function_param_type << "\n";
-        // }
+        // Itens dos parâmetros.
+        else if (node.type == VERBUM_LAMBDA_FUNCTION_PARAM_ITEM) {
+            this->tab();
+            cout << "-> lambda-function param-item: " << node.function_param_item;
+            cout << " - typespec: " << node.function_param_type << "\n";
+        }
 
-        // // Bloco da código - simples.
-        // else if (node.type == VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE) {
-        //     this->tab();
-        //     cout << "-> lambda-function code block - simple (open)\n";
+        // Bloco da código - simples.
+        else if (node.type == VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE) {
+            this->tab();
+            cout << "-> lambda-function code-block - simple (open)\n";
             
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "-> lambda-function code block - simple (close)\n";
-        // }
+            this->tab();
+            cout << "-> lambda-function code-block - simple (close)\n";
+        }
         
-        // // Bloco da código - chaves.
-        // else if (node.type == VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY) {
-        //     this->tab();
-        //     cout << "-> lambda-function code block - key (open)\n";
+        // Bloco da código - chaves.
+        else if (node.type == VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_COMPLETE) {
+            this->tab();
+            cout << "-> lambda-function code-block - complete (open)\n";
             
-        //     this->block_counter++;
-        //     this->verbum_recursive_ast(node.nodes);
-        //     this->block_counter--;
+            this->block_counter++;
+            this->verbum_recursive_ast(node.nodes);
+            this->block_counter--;
 
-        //     this->tab();
-        //     cout << "-> lambda-function code block - key (close)\n";
-        // }
+            this->tab();
+            cout << "-> lambda-function code-block - complete (close)\n";
+        }
 
         /*
         ** Objeto anônimo - instanciamento.

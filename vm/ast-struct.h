@@ -125,7 +125,7 @@ using namespace std;
 #define VERBUM_LAMBDA_FUNCTION_BLOCK                    66
 #define VERBUM_LAMBDA_FUNCTION_PARAM                    67
 #define VERBUM_LAMBDA_FUNCTION_PARAM_ITEM               68
-#define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_KEY           69
+#define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_COMPLETE      69
 #define VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_SIMPLE        70
 
 #define VERBUM_TRY_BLOCK                                71
