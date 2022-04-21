@@ -25,19 +25,14 @@ using namespace std;
 verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vector<char> file_content) 
 {   
     /*
-    ** Processa análise léxica (ANTLR) e sintática (personalizada).
+    ** Processa análise léxica e sintática (personalizada).
     */
     ifstream custom_stream;
     custom_stream.open(file_path);
 
     ANTLRInputStream custom_input(custom_stream);
     TLexer custom_lexer(&custom_input);
-
-    // Configura controle dos erros (léxical) - ANTLR.
-    verbum_lexical_syntactic_error lexical_error;
-    lexical_error.set_properties(file_path, file_content, "Lexical");
     custom_lexer.removeErrorListeners();
-    custom_lexer.addErrorListener(&lexical_error);
 
     CommonTokenStream custom_tokens(&custom_lexer);
 
@@ -60,13 +55,18 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     walker.walk(&listener, file_main);
 
     /*
-    ** Realiza re-leitura lexica.
+    ** Realiza análise lexica (ANTLR).
     */
     ifstream stream;
     stream.open(file_path);
 
     ANTLRInputStream input(stream);
     TLexer lexer(&input);
+
+    verbum_lexical_syntactic_error lexical_error;
+    lexical_error.set_properties(file_path, file_content, "Lexical");
+    lexer.addErrorListener(&lexical_error);
+
     CommonTokenStream tokens(&lexer);
 
     /*
@@ -81,13 +81,15 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     parser.removeErrorListeners();
     parser.addErrorListener(&syntactic_error);
 
-    // Percorre árvore gerada pelo parser (analisador sintático).
+    /*
+    ** Gera árvore sintática.
+    */
     verbum_ast_visitor visitor;
     visitor.prepare_data(); 
 
-    // Prepara árvore que será analisada semanticamente.
     TParser::MainContext* tree = parser.main();
     visitor.visitMain(tree);
+    
     this->ast = visitor.get_verbum_ast();
 }
 

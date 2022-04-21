@@ -43,7 +43,7 @@
 
 // Número máximo da fila de tokens no Error Node (syntax-analisys.*).
 // Quando chega neste limite, o processamento da árvore é interrompida.
-#define VERBUM_ERROR_INDEX_COUNT_LIMIT 10
+#define VERBUM_ERROR_INDEX_COUNT_LIMIT 33
 
 #endif
 
