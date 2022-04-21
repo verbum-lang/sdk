@@ -14,7 +14,8 @@
 
 #include "configuration.h"
 #include "lexer-syntactic.h"
-#include "error.h"
+#include "lexical-error.h"
+#include "syntactic-error.h"
 #include "ast-visitor.h"
 
 using namespace antlr4;
@@ -25,17 +26,16 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     std::ifstream stream;
     stream.open(file_path);
 
-    // Controle dos erros.
-    verbum_error_listener error_listener;
-    error_listener.set_properties(file_path, file_content);
-
     // Processa análise lexica.
     ANTLRInputStream input(stream);
     TLexer lexer(&input);
 
     // Configura controle dos erros.
+    verbum_lexical_error lexical_error;
+    lexical_error.set_properties(file_path, file_content);
+
     lexer.removeErrorListeners();
-    lexer.addErrorListener(&error_listener);
+    lexer.addErrorListener(&lexical_error);
 
     CommonTokenStream tokens(&lexer);
 
@@ -52,8 +52,11 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     TParser parser(&tokens);
 
     // Configura controle dos erros.
+    verbum_syntactic_error syntactic_error;
+    syntactic_error.set_properties(file_path, file_content);
+
     parser.removeErrorListeners();
-    parser.addErrorListener(&error_listener);
+    parser.addErrorListener(&syntactic_error);
 
     // Percorre árvore gerada pelo parser (analisador sintático).
     verbum_ast_visitor visitor;

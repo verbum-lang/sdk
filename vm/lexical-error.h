@@ -9,8 +9,8 @@
 ** Controle dos erros da aplicação.
 */
 
-#ifndef VERBUM_ERROR_CONTROL
-#define VERBUM_ERROR_CONTROL
+#ifndef VERBUM_LEXICAL_ERROR
+#define VERBUM_LEXICAL_ERROR
 
 // ANTLR4.
 #include "antlr4-runtime.h"
@@ -22,7 +22,7 @@
 using namespace antlr4;
 
 namespace verbum {
-    class verbum_error_listener : public BaseErrorListener
+    class verbum_lexical_error : public BaseErrorListener
     {
         public:
             // Especifica configurações.

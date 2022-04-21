@@ -9,18 +9,18 @@
 #include "TParserBaseVisitor.h"
 
 #include "configuration.h"
-#include "error.h"
+#include "lexical-error.h"
 
 using namespace verbum;
 using namespace antlr4;
 
-void verbum_error_listener::set_properties (std::string file_path, std::vector<char> file_content)
+void verbum_lexical_error::set_properties (std::string file_path, std::vector<char> file_content)
 {
     this->file_path    = file_path;
     this->file_content = file_content;
 }
 
-void verbum_error_listener::syntaxError(
+void verbum_lexical_error::syntaxError(
     Recognizer *recognizer,
     Token *offendingSymbol,
     size_t line,
@@ -34,7 +34,7 @@ void verbum_error_listener::syntaxError(
     std::size_t found   = message.find(search);
 
     if (found != std::string::npos)
-        message = "Syntax error.";
+        message = "Lexical error.";
 
     // Corta mensagem, caso ela for muito grande.
     if (message.length() > 50)
@@ -43,7 +43,7 @@ void verbum_error_listener::syntaxError(
     // Informações gerais.
     std::cout << "\n Verbum Programming Language\n\n";
     std::cout << " Filename: " << this->file_path << "\n";
-    std::cout << " Syntax error [" << line << "," << 
+    std::cout << " Lexical error [" << line << "," << 
         charPositionInLine << "] -> " << message << "\n\n";
 
     // Imprime linhas do erro.
@@ -73,13 +73,13 @@ void verbum_error_listener::syntaxError(
 
     for (size_t a=0; a<size; a++)
         std::cout << ' ';
-    std::cout << "`--> Syntax error: " << message << std::endl << std::endl;
+    std::cout << "`--> Lexical error: " << message << std::endl << std::endl;
 
     exit(0);
 }
 
 // Imprime linha do erro.
-void verbum_error_listener::print_source_line (size_t line, size_t size_ch) 
+void verbum_lexical_error::print_source_line (size_t line, size_t size_ch) 
 {
     size_t counter = 1;
     std::string line_size = std::to_string((int) line);
