@@ -23,6 +23,10 @@ using namespace verbum;
 
 class verbum_ast_listener : public TParserBaseListener
 {
+    int statements = 0;
+    int sentences = 0;
+    int main = 0;
+
     void exitMain(TParser::MainContext *ctx) {
         cout << "main\n";
         cout << ctx->getText() << "\n";
@@ -36,6 +40,24 @@ class verbum_ast_listener : public TParserBaseListener
     void exitStatements(TParser::StatementsContext *ctx) {
         cout << "statements\n";
         cout << ctx->getText() << "\n";
+    }
+
+    void exitUseValue(TParser::UseValueContext *ctx) {
+        cout << "use\n";
+        cout << ctx->getText() << "\n";
+    }
+
+    void visitErrorNode(antlr4::tree::ErrorNode *node) {
+        cout << "error node\n";
+        cout << "text: " << node->getText() << "\n";
+        cout << "position: "<< node->getSymbol()->getLine() << ","<< 
+                node->getSymbol()->getCharPositionInLine() << " -> " <<
+                node->getSymbol()->getStartIndex() <<","<<
+                node->getSymbol()->getStopIndex() <<","<<"\n"<<
+                "internal:" << node->getSourceInterval().toString() << "\n"<<
+                "" <<
+                "\n";
+        exit(0);
     }
 };
 
