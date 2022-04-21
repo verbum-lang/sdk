@@ -50,6 +50,9 @@ namespace verbum {
 
             // Imprime linha de código em específico.
             void print_source_line (size_t line, size_t size_ch);
+
+            // Imprime mensagem com quebra de linha.
+            void print_large_message (string message);
     };
 }
 

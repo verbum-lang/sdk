@@ -20,8 +20,19 @@
 // #define DBG_TOKENS  // Debug dos tokens (exibe-os).
 #define DBG_CLOCK   // Debug do tempo de execução da VM.
 
-// Número máximo de linhas de código que se pode imprimir nas mensagens de erro de sintaxe.
+/*
+** Erros a respeito do processamento dos erros.
+*/
+
+// Número máximo de linhas de código que se pode imprimir nas mensagens de erro de sintaxe (ANTLR).
 #define VERBUM_MAX_ERROR_PRINT_LINES 10
+
+// Número máximo de caracteres que pode possuir uma mensagem de erro ANTLR (léxica e sintática).
+#define VERBUM_MAX_CHARS_ERROR_ANTLR 283
+
+// Mesma regra acima, mas para o número máximo de caracteres por linha.
+#define VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_A 70  // Primeira linha.
+#define VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_B 108 // Demais linhas.
 
 #endif
 

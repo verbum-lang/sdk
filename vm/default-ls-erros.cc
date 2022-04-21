@@ -33,15 +33,13 @@ void verbum_lexical_syntactic_error::syntaxError(
 {
     string message = msg;
 
-    // Corta mensagem, caso ela for muito grande.
-    if (message.length() > 100)
-      message = message.substr(0, 100) + "...";
-
     // Informações gerais.
     cout << "\n Verbum Programming Language\n\n";
     cout << " Filename: " << this->file_path << "\n";
-    cout << " "<< this.section <<" error [" << line << "," << 
-        charPositionInLine << "] -> " << message << "\n\n";
+    cout << " "<< this->section <<" error [" << line << "," << 
+        charPositionInLine << "] -> ";
+    this->print_large_message(message);
+    cout << "\n\n";
 
     // Imprime linhas do erro.
     size_t error_line_limit = VERBUM_MAX_ERROR_PRINT_LINES;
@@ -70,8 +68,10 @@ void verbum_lexical_syntactic_error::syntaxError(
 
     for (size_t a=0; a<size; a++)
         cout << ' ';
-    cout << "`--> Syntax error: " << message << endl << endl;
-
+    cout << "`--> "<< this->section <<" error: ";
+    this->print_large_message(message);
+    cout << "\n\n";
+    
     exit(0);
 }
 
@@ -98,7 +98,36 @@ void verbum_lexical_syntactic_error::print_source_line (size_t line, size_t size
       }
     
 
-    cout << endl;
+    cout << "\n";
+}
+
+// Imprime mensagem com quedra de linha.
+void verbum_lexical_syntactic_error::print_large_message (string message) {
+    int count1 = 0, count2 = 0, count3 = 0;
+    bool first_line = false;
+
+    for (auto i : message) {
+      cout << i;
+
+      count1++;
+      count3++;
+
+      if (first_line)
+        count2++;
+
+      if (count1 >= VERBUM_MAX_CHARS_ERROR_ANTLR) {
+        cout << "...";
+        break;
+      }
+
+      if (count3 >= VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_A && first_line == false) {
+        cout << "\n ";
+        first_line = true;
+      } else if (count2 >= VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_B && first_line == true) {
+        cout << "\n ";
+        count2 = 0;
+      }
+    }
 }
 
 

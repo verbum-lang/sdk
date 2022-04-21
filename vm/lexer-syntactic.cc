@@ -14,7 +14,7 @@
 
 #include "configuration.h"
 #include "lexer-syntactic.h"
-#include "default-ls-errors.h"
+#include "default-ls-erros.h"
 #include "ast-visitor.h"
 
 using namespace antlr4;

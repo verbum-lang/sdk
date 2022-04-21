@@ -2,8 +2,6 @@
 // print 
 //     'Verbum <3'
 // var a = 10, b =20;
-print 'Verbum';
-
-// use 10;
+print Verbum';
 
 
