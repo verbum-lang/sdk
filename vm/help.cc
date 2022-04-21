@@ -10,11 +10,9 @@ using namespace verbum;
 verbum_help::verbum_help (int pargc, const char **pargv) {
     this->argc = pargc;
     this->argv = pargv;
-}
 
-void verbum_help::check () {
-    if (this->argc <= 1) {
-        banner();
+    if (pargc <= 1) {
+        banner_end();
         exit(0);
     }
 }
@@ -33,9 +31,12 @@ void verbum_help::banner () {
         "                In principio erat Verbum \n"
         "                  et Verbum erat apud Deum \n"
         "                    et Deus erat Verbum - John 1\n\n"
-        
-        " Use: %s source.verbum\n\n", this->argv[0]
     );
+}
+
+void verbum_help::banner_end () {
+    this->banner();
+    printf(" Use: %s source.verbum\n\n", this->argv[0]);
 }
 
 

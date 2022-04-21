@@ -27,18 +27,10 @@ void verbum_ast_visitor::prepare_data ()
     this->ast.type = VERBUM_IESUS_HOMINUM_SALVATOR;
     this->node_block_counter = 0;
     this->node_run_counter = 0;
-
-    #ifdef DBG
-        cout << "ast-visitor.cc :: prepare_data() -> OK\n";
-    #endif
 }
 
 vector <verbum_ast_node> verbum_ast_visitor::get_verbum_ast ()
 {
-    #ifdef DBG
-        cout << "ast-visitor.cc :: get_verbum_ast() -> call\n";
-    #endif
-
     return this->ast.nodes;
 }
 

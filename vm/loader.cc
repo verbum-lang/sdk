@@ -21,7 +21,7 @@ verbum_loader::verbum_loader (int pargc, const char **pargv)
     char *cname = (char *) argv[1];
 
     if (!fname) {
-        std::cout << "Error alloc memory." << std::endl;
+        std::cout << "Error alloc memory." << "\n";
         exit(0);
     }
 
@@ -30,7 +30,7 @@ verbum_loader::verbum_loader (int pargc, const char **pargv)
 
     std::ifstream f(fname);
     if (!f.good()) {
-        std::cout << "Error open file: " << std::string(fname) << std::endl;
+        std::cout << "Error open file: " << std::string(fname) << "\n";
         exit(0);
     }
 
@@ -48,14 +48,14 @@ verbum_loader::verbum_loader (int pargc, const char **pargv)
     this->prepare_file_informations();
 
     #ifdef DBG
-        std::cout << "File path: "      << this->file_path << std::endl;
-        std::cout << "Total size: "     << this->total_bytes << std::endl;
-        std::cout << "Total lines: "    << this->total_lines << std::endl;
-        std::cout << "File content:"    << std::endl;
+        std::cout << "File path: " << this->file_path << "\n";
+        std::cout << "Total size: " << this->total_bytes << " bytes\n";
+        std::cout << "Total lines: " << this->total_lines << "\n";
+        std::cout << "File content:" << "\n---------------------------\n";
 
         for (auto i: this->file_content)
             std::cout << i;
-        std::cout << std::endl << std::endl;
+        std::cout << "\n---------------------------\n\n";
     #endif
 }
 

@@ -16,13 +16,13 @@ namespace verbum {
     class verbum_help {
         public:
             verbum_help (int pargc, const char **pargv);
-            void check ();
+            static void banner ();
         
         private:
             int argc;
             const char **argv;
 
-            void banner ();
+            void banner_end ();
     };
 }
 
