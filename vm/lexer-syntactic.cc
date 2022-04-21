@@ -21,56 +21,88 @@
 using namespace antlr4;
 using namespace verbum;
 
+#define VERBUM_ERROR_INDEX_COUNT_LIMIT 10
+typedef struct {
+
+    // Texto completo.
+    string text;
+
+    // Posição da ocorrência.
+    struct {
+        int line;
+        int ch_position;
+        int start_index;
+        int stop_index;
+    } position;
+
+    // Gerais.
+    int token_index;
+    int type;
+    string next_token;
+    string source_name;
+    string interval;
+
+} verbum_error_node;
+
 class verbum_ast_listener : public TParserBaseListener
 {
-    int statements = 0;
-    int sentences = 0;
-    int main = 0;
+    private:
+        vector <verbum_error_node> error_node_control;
+        int verbum_error_node_count;
 
-    void exitMain(TParser::MainContext *ctx) {
-        cout << "main\n";
-        cout << ctx->getText() << "\n";
-    }
+        void exitMain(TParser::MainContext *ctx) {
+            if (error_node_control.size() > 0)
+                this->process_errors();
+        }
 
-    void exitSentences(TParser::SentencesContext *ctx) {
-        cout << "sentences\n";
-        cout << ctx->getText() << "\n";
-    }
+        void visitErrorNode(antlr4::tree::ErrorNode *node) {
+            verbum_error_node error_node;
 
-    void exitStatements(TParser::StatementsContext *ctx) {
-        cout << "statements\n";
-        cout << ctx->getText() << "\n";
-    }
+            error_node.text = node->getText();
+            error_node.position.line = node->getSymbol()->getLine();
+            error_node.position.ch_position = node->getSymbol()->getCharPositionInLine();
+            error_node.position.start_index = node->getSymbol()->getStartIndex();
+            error_node.position.stop_index = node->getSymbol()->getStopIndex();
+            error_node.token_index = node->getSymbol()->getTokenIndex();
+            error_node.type = node->getSymbol()->getType();
+            error_node.next_token = node->getSymbol()->getTokenSource()->nextToken()->getText();
+            error_node.source_name = node->getSymbol()->getTokenSource()->getSourceName();
+            error_node.interval = node->getSourceInterval().toString();
 
-    void exitUseValue(TParser::UseValueContext *ctx) {
-        cout << "use\n";
-        cout << ctx->getText() << "\n";
-    }
+            error_node_control.push_back(error_node);
+            
+            if (error_node_control.size() >= VERBUM_ERROR_INDEX_COUNT_LIMIT)
+                this->process_errors();
+        }
 
-    void visitErrorNode(antlr4::tree::ErrorNode *node) {
-        cout << "error node\n";
-        cout << "text: " << node->getText() << "\n";
-        
-        cout << "position: "<< node->getSymbol()->getLine() << ","<< node->getSymbol()->getCharPositionInLine() << " -> " <<
-                               node->getSymbol()->getStartIndex() <<","<< node->getSymbol()->getStopIndex() <<","<<"\n"<<
-                "token index: " << node->getSymbol()->getTokenIndex() << "\n" <<
-                "type: " << node->getSymbol()->getType() << "\n" <<
-                "next token: "<< node->getSymbol()->getTokenSource()->nextToken()->getText() << "\n" <<
-                "source name: "<< node->getSymbol()->getTokenSource()->getSourceName() << "\n" <<
+        void process_errors () {
+            cout << "Process errors\n";
+            vector <verbum_error_node> node = this->error_node_control;
 
-                "internal: " << node->getSourceInterval().toString() << "\n"<<
-                "internal: " << node->getSourceInterval().toString() << "\n"<<
-                // "child count: " << node->getChildCount() << "\n";
-                "\n";
+            for (int a=0; a<node.size(); a++) {
+                cout << "text: "<< node[a].text << "\n";
+                
+                cout << "p.line: "<< node[a].position.line << "\n";
+                cout << "p.ch_position: "<< node[a].position.ch_position << "\n";
+                cout << "p.start_index: "<< node[a].position.start_index << "\n";
+                cout << "p.stop_index: "<< node[a].position.stop_index << "\n";
 
-        // if (node->getChildCount() > 0) {
-        //     for (int a=0; a<node->getChildCount(); a++) {
-        //         cout << "\tchild: "<< node->getChild(a)->getText() <<"\n";
-        //     }
-        // }
+                cout << "token_index: "<< node[a].token_index << "\n";
+                cout << "type: "<< node[a].type << "\n";
+                cout << "next_token: "<< node[a].next_token << "\n";
+                cout << "source_name: "<< node[a].source_name << "\n";
+                cout << "interval: "<< node[a].interval << "\n";
 
-        exit(0);
-    }
+                cout << "---------------------------\n";
+            }
+
+            exit(0);
+        }
+
+    public:
+        void prepare () {
+            this->verbum_error_node_count = 0;
+        }
 };
 
 verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vector<char> file_content) 
@@ -106,6 +138,7 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
 
     // Adiciona listener.
     verbum_ast_listener listener;
+    listener.prepare();
     tree::ParseTreeWalker walker;
     ParserRuleContext* fileMain = parser.main();
     walker.walk(&listener, fileMain);

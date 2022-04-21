@@ -1,7 +1,8 @@
 
-print 'Verbum <3'
+// print 
+//     'Verbum <3'
 // var a = 10, b =20;
-// print('Verbum');
+print('Verbum')
 
 // use 10;
 
