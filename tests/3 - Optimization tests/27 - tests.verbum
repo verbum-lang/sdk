@@ -1,4 +1,4 @@
 
-print('In principio erat Verbum!\n');
+print 'In principio erat Verbum!\n';
 
 

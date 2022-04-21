@@ -20,13 +20,14 @@
 #include "TParserBaseVisitor.h"
 
 using namespace antlr4;
+using namespace std;
 
 namespace verbum {
     class verbum_lexical_error : public BaseErrorListener
     {
         public:
             // Especifica configurações.
-            void set_properties (std::string file_path, std::vector<char> file_content);
+            void set_properties (string file_path, vector<char> file_content);
 
             // Mensagens de erro do analisador léxico e sintático.
             void syntaxError(
@@ -34,15 +35,15 @@ namespace verbum {
                 Token *offendingSymbol,
                 size_t line,
                 size_t charPositionInLine,
-                const std::string &msg,
-                std::exception_ptr e);
+                const string &msg,
+                exception_ptr e);
                 
         private:
             // Path completo do arquivo de código em questão.
-            std::string file_path;
+            string file_path;
 
             // Conteúdo do arquivo de código Verbum.
-            std::vector<char> file_content;
+            vector<char> file_content;
 
             // Imprime linha de código em específico.
             void print_source_line (size_t line, size_t size_ch);

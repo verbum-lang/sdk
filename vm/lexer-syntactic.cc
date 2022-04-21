@@ -10,7 +10,7 @@
 #include "TLexer.h"
 #include "TParser.h"
 #include "TParserBaseVisitor.h"
-#include "TParserBaseVisitor.h"
+#include "TParserBaseListener.h"
 
 #include "configuration.h"
 #include "lexer-syntactic.h"
@@ -20,6 +20,13 @@
 
 using namespace antlr4;
 using namespace verbum;
+
+class verbum_ast_listener : public TParserBaseListener
+{
+    void exitMain(TParser::MainContext *ctx) {
+        cout << "listener: exit main\n";
+    }
+};
 
 verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vector<char> file_content) 
 {
@@ -57,6 +64,12 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
 
     parser.removeErrorListeners();
     parser.addErrorListener(&syntactic_error);
+
+    // Adiciona listener.
+    verbum_ast_listener *listener = new verbum_ast_listener();
+    antlr4::tree::ParseTreeWalker walker;
+    antlr4::ParserRuleContext* fileMain = parser.main();
+    walker.walk(listener, fileMain);
 
     // Percorre árvore gerada pelo parser (analisador sintático).
     verbum_ast_visitor visitor;

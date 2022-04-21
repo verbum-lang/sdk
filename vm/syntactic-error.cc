@@ -13,8 +13,9 @@
 
 using namespace verbum;
 using namespace antlr4;
+using namespace std;
 
-void verbum_syntactic_error::set_properties (std::string file_path, std::vector<char> file_content)
+void verbum_syntactic_error::set_properties (string file_path, vector<char> file_content)
 {
     this->file_path    = file_path;
     this->file_content = file_content;
@@ -25,25 +26,22 @@ void verbum_syntactic_error::syntaxError(
     Token *offendingSymbol,
     size_t line,
     size_t charPositionInLine,
-    const std::string &msg,
-    std::exception_ptr e)
+    const string &msg,
+    exception_ptr e)
 {
-    // Verifica se é erro do ANTLR4 ou se é de origem da gramática (personalizado).
-    std::string message = msg;
-    std::string search  = "internal:";
-    std::size_t found   = message.find(search);
+    cout << "offendingSymbol: "<< offendingSymbol->toString() << "\n";
 
-    if (found != std::string::npos)
-        message = "Syntax error.";
+
+    string message = msg;
 
     // Corta mensagem, caso ela for muito grande.
     if (message.length() > 50)
       message = message.substr(0, 50) + "...";
 
     // Informações gerais.
-    std::cout << "\n Verbum Programming Language\n\n";
-    std::cout << " Filename: " << this->file_path << "\n";
-    std::cout << " Syntax error [" << line << "," << 
+    cout << "\n Verbum Programming Language\n\n";
+    cout << " Filename: " << this->file_path << "\n";
+    cout << " Syntax error [" << line << "," << 
         charPositionInLine << "] -> " << message << "\n\n";
 
     // Imprime linhas do erro.
@@ -53,27 +51,27 @@ void verbum_syntactic_error::syntaxError(
     if (line > error_line_limit)
         start_error_lines = line - error_line_limit;
 
-    std::string line_size = std::to_string((int) start_error_lines);
+    string line_size = to_string((int) start_error_lines);
 
     for (size_t a=start_error_lines; a<=line; a++)
         this->print_source_line(a, line_size.length());
 
     // Imprime apontador para caractere onde está o erro.
-    std::string lnsz = std::to_string((int) line);
+    string lnsz = to_string((int) line);
     size_t last_line_size = ((line_size.length() == lnsz.length()) ? 2 : 1) + lnsz.length() + 4;
     size_t size = charPositionInLine + last_line_size;
 
     for (size_t a=0; a<size; a++)
-        std::cout << ' ';
-    std::cout << '^' << std::endl;
+        cout << ' ';
+    cout << '^' << endl;
 
     for (size_t a=0; a<size; a++)
-        std::cout << ' ';
-    std::cout << '|' << std::endl;
+        cout << ' ';
+    cout << '|' << endl;
 
     for (size_t a=0; a<size; a++)
-        std::cout << ' ';
-    std::cout << "`--> Syntax error: " << message << std::endl << std::endl;
+        cout << ' ';
+    cout << "`--> Syntax error: " << message << endl << endl;
 
     exit(0);
 }
@@ -82,9 +80,9 @@ void verbum_syntactic_error::syntaxError(
 void verbum_syntactic_error::print_source_line (size_t line, size_t size_ch) 
 {
     size_t counter = 1;
-    std::string line_size = std::to_string((int) line);
+    string line_size = to_string((int) line);
 
-    std::cout << ((size_ch == line_size.length()) ? "  " : " ") << line << "  | ";
+    cout << ((size_ch == line_size.length()) ? "  " : " ") << line << "  | ";
 
     for (auto i: this->file_content) 
       if (counter != line && i == '\n')
@@ -94,14 +92,14 @@ void verbum_syntactic_error::print_source_line (size_t line, size_t size_ch)
       else {
         if (counter == line) {
           if (i == '\v' || i == '\t')
-            std::cout << ' ';
+            cout << ' ';
           else
-            std::cout << i;
+            cout << i;
         }
       }
     
 
-    std::cout << std::endl;
+    cout << endl;
 }
 
 
