@@ -111,7 +111,7 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     ANTLRInputStream custom_input(custom_stream);
     TLexer custom_lexer(&custom_input);
 
-    // Configura controle dos erros (léxical).
+    // Configura controle dos erros (léxical) - ANTLR.
     verbum_lexical_error lexical_error;
     lexical_error.set_properties(file_path, file_content);
     custom_lexer.removeErrorListeners();
@@ -121,17 +121,17 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
 
     #ifdef DBG_TOKENS
         std::cout << "\nTokens: \n\n";
-        tokens.fill();
+        custom_tokens.fill();
 
-        for (auto token : tokens.getTokens()) 
-            std::cout << token->toString() << std::endl;
-        std::cout << std::endl << std::endl;
+        for (auto token : custom_tokens.getTokens()) 
+            std::cout << token->toString() << "\n";
+        std::cout << "\n\n";
     #endif
 
+    // Análise sintática (personalizada).
     TParser custom_parser(&custom_tokens);
     custom_parser.removeErrorListeners();
 
-    // Análise sintática personalizada.
     verbum_ast_listener listener;
     tree::ParseTreeWalker walker;
     ParserRuleContext* file_main = custom_parser.main();
@@ -145,6 +145,7 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
 
     ANTLRInputStream input(stream);
     TLexer lexer(&input);
+    CommonTokenStream tokens(&lexer);
 
     /*
     ** Processa análise sintática (ANTLR).

@@ -16,7 +16,7 @@
 #define LANGUAGE_VERSION "1.0"
 
 // Debug flag - comentar linha para desabilitar o modo debug.
-#define DBG         // Debug geral.
+// #define DBG         // Debug geral.
 // #define DBG_TOKENS  // Debug dos tokens (exibe-os).
 #define DBG_CLOCK   // Debug do tempo de execução da VM.
 
