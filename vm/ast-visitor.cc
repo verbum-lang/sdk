@@ -198,8 +198,8 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.attribute_object_type               = VERBUM_UNKNOWN;
 
     // Outros.
-    ast.anonymous_class                     = false;
-    ast.anonymous_class_method              = "";
+    ast.anonymous_method_found              = false;
+    ast.anonymous_method_data               = "";
 
     // Limpa estruturas de controle.
     ast.nodes.clear();
@@ -1036,11 +1036,20 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClass (TParser::BlockClassContext *c
 
     // Verifica se é definição de classe anônima.
     if (ctx->openOpA() && ctx->closeOpA()) {
-        node.anonymous_class = true;
+        node.type = VERBUM_OOP_CLASS_ANONYMOUS;
 
         // Verifica se há método chamado.
-        if (ctx->identifierD()) 
-            node.anonymous_class_method = ctx->identifierD()->getText();
+        if (ctx->identifierD()) {
+            node.anonymous_method_found = true;
+            node.anonymous_method_data = ctx->identifierD()->getText();
+
+            // Tipo do acesso ao método.
+            node.attribute_object_type = VERBUM_UNKNOWN;
+            if (ctx->Point())
+                node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;
+            else if (ctx->TwoTwoPoint())
+                node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
+        }
     }
 
     this->add_node(node);
@@ -1076,11 +1085,20 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClassDeclarationAttr (TParser::Block
 
     // Verifica se é definição de classe anônima.
     if (ctx->openOpA() && ctx->closeOpA()) {
-        node.anonymous_class = true;
+        node.type = VERBUM_OOP_CLASS_ANONYMOUS;
 
         // Verifica se há método chamado.
-        if (ctx->identifierD()) 
-            node.anonymous_class_method = ctx->identifierD()->getText();
+        if (ctx->identifierD()) {
+            node.anonymous_method_found = true;
+            node.anonymous_method_data = ctx->identifierD()->getText();
+
+            // Tipo do acesso ao método.
+            node.attribute_object_type = VERBUM_UNKNOWN;
+            if (ctx->Point())
+                node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;
+            else if (ctx->TwoTwoPoint())
+                node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
+        }
     }
 
     this->add_node(node);
@@ -1120,8 +1138,41 @@ antlrcpp::Any verbum_ast_visitor::visitBlockAnonymousObject (TParser::BlockAnony
         node.function_call.object_name = ctx->identifier()->getText();
 
     // Verifica se há método chamado.
-    if (ctx->identifierB()) 
-        node.anonymous_class_method = ctx->identifierB()->getText();
+    if (ctx->identifierB()) {
+        node.anonymous_method_found = true;
+        node.anonymous_method_data = ctx->identifierB()->getText();
+    }
+
+    // Tipo do acesso ao método.
+    node.attribute_object_type = VERBUM_UNKNOWN;
+    if (ctx->Point())
+        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_INSTANCE;
+    else if (ctx->TwoTwoPoint())
+        node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;
+
+    this->add_node(node);
+
+    this->node_block_counter++;
+    antlrcpp::Any result = visitChildren(ctx);
+    this->node_block_counter--;
+
+    return result;
+}
+
+antlrcpp::Any verbum_ast_visitor::visitBlockAnonymousObjectAttr (TParser::BlockAnonymousObjectAttrContext *ctx)
+{
+    verbum_ast_node node = this->zero_data();
+    node.type            = VERBUM_ANONYMOUS_OBJECT;
+
+    // Nome do objeto.
+    if (ctx->identifier())
+        node.function_call.object_name = ctx->identifier()->getText();
+
+    // Verifica se há método chamado.
+    if (ctx->identifierB()) {
+        node.anonymous_method_found = true;
+        node.anonymous_method_data = ctx->identifierB()->getText();
+    }
 
     // Tipo do acesso ao método.
     node.attribute_object_type = VERBUM_UNKNOWN;
@@ -1548,7 +1599,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
     }
 
     // Instanciamento de objetos anonimamente.
-    else if (ctx->blockAnonymousObject()) {
+    else if (ctx->blockAnonymousObjectAttr()) {
         node.general_value_data.type = VERBUM_ANONYMOUS_OBJECT;
         block = true;
     }

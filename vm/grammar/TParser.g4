@@ -51,6 +51,7 @@ statements
   | blockAttribution
   | blockMultipleAssignments
   | blockPermissionTokens
+  | blockAnonymousObject
   ;
 
 /*
@@ -354,7 +355,7 @@ blockClass
     (End)?
 
   // Definição comum.
-  | classCommonDef
+  | Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
   ;
 
 blockClassDeclarationAttr
@@ -372,11 +373,7 @@ blockClassDeclarationAttr
     )?
 
   // Definição comum.
-  | classCommonDef
-  ;
-
-classCommonDef
-  : Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
+  | Class (identifier)? (Extends identifierB)? (Implements identifierC)? classCodeBlock
   ;
 
 classAnonymousParam
@@ -462,6 +459,14 @@ blockCascadingMethodAttr
 ** Instanciamento anônimo de objetos.
 */
 blockAnonymousObject
+  : (OpenOp)? 
+      New identifier OpenOp (generalValueElements)? CloseOp
+    (CloseOp)?
+    ( (Point | TwoTwoPoint) identifierB OpenOp (generalValueElements)? CloseOp )?
+    End
+  ;
+
+blockAnonymousObjectAttr
   : OpenOp 
       New identifier OpenOp (generalValueElements)? CloseOp
     CloseOp 
@@ -569,7 +574,7 @@ generalValue
   | blockClassDeclarationAttr
   | blockLambdaFunctions
   | blockAccessArrayElements
-  | blockAnonymousObject
+  | blockAnonymousObjectAttr
 
   // Inicialização de array vazio (indexado e associativo).
   | (OpenBlock CloseBlock | OpenArIndex CloseArIndex)

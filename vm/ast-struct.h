@@ -510,8 +510,8 @@ typedef struct verbum_ast_node
     /*
     ** Lida com chamada de classe anônima.
     */
-    bool anonymous_class;                           // Identifica se é uma chamada de classe anônima.
-    string anonymous_class_method;                  // Identifica se há método chamado.
+    bool anonymous_method_found;                    // Identifica se há chamada a método.
+    string anonymous_method_data;                   // Nome do método invocado.
 
     /*
     ** Nodes internos (árvore) do elemento em questão.

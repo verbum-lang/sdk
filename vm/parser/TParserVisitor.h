@@ -130,8 +130,6 @@ public:
 
     virtual antlrcpp::Any visitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *context) = 0;
 
-    virtual antlrcpp::Any visitClassCommonDef(TParser::ClassCommonDefContext *context) = 0;
-
     virtual antlrcpp::Any visitClassAnonymousParam(TParser::ClassAnonymousParamContext *context) = 0;
 
     virtual antlrcpp::Any visitClassCodeBlock(TParser::ClassCodeBlockContext *context) = 0;
@@ -163,6 +161,8 @@ public:
     virtual antlrcpp::Any visitBlockCascadingMethodAttr(TParser::BlockCascadingMethodAttrContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlockAnonymousObjectAttr(TParser::BlockAnonymousObjectAttrContext *context) = 0;
 
     virtual antlrcpp::Any visitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *context) = 0;
 

@@ -117,6 +117,7 @@ namespace verbum {
 
             // Instanciamento anônimo de objeto.
             antlrcpp::Any visitBlockAnonymousObject (TParser::BlockAnonymousObjectContext *ctx);
+            antlrcpp::Any visitBlockAnonymousObjectAttr (TParser::BlockAnonymousObjectAttrContext *ctx);
 
             // Gerais.
             antlrcpp::Any visitCodeBlockFlowControlElements (TParser::CodeBlockFlowControlElementsContext *ctx);

@@ -181,9 +181,6 @@ public:
   virtual void enterBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *ctx) = 0;
   virtual void exitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext *ctx) = 0;
 
-  virtual void enterClassCommonDef(TParser::ClassCommonDefContext *ctx) = 0;
-  virtual void exitClassCommonDef(TParser::ClassCommonDefContext *ctx) = 0;
-
   virtual void enterClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) = 0;
   virtual void exitClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) = 0;
 
@@ -231,6 +228,9 @@ public:
 
   virtual void enterBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) = 0;
   virtual void exitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) = 0;
+
+  virtual void enterBlockAnonymousObjectAttr(TParser::BlockAnonymousObjectAttrContext *ctx) = 0;
+  virtual void exitBlockAnonymousObjectAttr(TParser::BlockAnonymousObjectAttrContext *ctx) = 0;
 
   virtual void enterBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *ctx) = 0;
   virtual void exitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext *ctx) = 0;

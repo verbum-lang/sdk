@@ -183,9 +183,6 @@ public:
   virtual void enterBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext * /*ctx*/) override { }
   virtual void exitBlockClassDeclarationAttr(TParser::BlockClassDeclarationAttrContext * /*ctx*/) override { }
 
-  virtual void enterClassCommonDef(TParser::ClassCommonDefContext * /*ctx*/) override { }
-  virtual void exitClassCommonDef(TParser::ClassCommonDefContext * /*ctx*/) override { }
-
   virtual void enterClassAnonymousParam(TParser::ClassAnonymousParamContext * /*ctx*/) override { }
   virtual void exitClassAnonymousParam(TParser::ClassAnonymousParamContext * /*ctx*/) override { }
 
@@ -233,6 +230,9 @@ public:
 
   virtual void enterBlockAnonymousObject(TParser::BlockAnonymousObjectContext * /*ctx*/) override { }
   virtual void exitBlockAnonymousObject(TParser::BlockAnonymousObjectContext * /*ctx*/) override { }
+
+  virtual void enterBlockAnonymousObjectAttr(TParser::BlockAnonymousObjectAttrContext * /*ctx*/) override { }
+  virtual void exitBlockAnonymousObjectAttr(TParser::BlockAnonymousObjectAttrContext * /*ctx*/) override { }
 
   virtual void enterBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext * /*ctx*/) override { }
   virtual void exitBlockAccessArrayElements(TParser::BlockAccessArrayElementsContext * /*ctx*/) override { }

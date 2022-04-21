@@ -1,0 +1,13 @@
+
+// In principio erat Verbum!
+
+var a = new Obj();
+var a = (new Obj());
+var a = (new Obj(111)).method(333);
+
+new Obj([1,2,3]);
+(new Obj());
+(new Obj(111)).method(333);
+(new Obj(111))::method(333);
+
+

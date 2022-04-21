@@ -1,8 +1,56 @@
 
 // In principio erat Verbum!
 
-fn (a:int, b:int) -> string { 
-    
+class name {
+
+    name (a :int) {
+
+    }
+
+    pub static final fn teste (a:int, b:int) -> string { 
+        
+    }
 }
+
+print("Value: {}\n", 
+    (fn (value :int) -> int { 
+        ret value * 3; 
+    })(31337)
+);
+
+interface FirstTemplate {
+    pub fn getValues () -> array;
+    pub fn getValues (index :int) -> int;
+}
+
+// Interface com herança.
+interface ExampleTemplate extends FirstTemplate {
+    pub fn checkString (string :string);
+}
+// Classe abstrata.
+abstract AbstrationCommon {
+    pro fn abstractMethod ();
+}
+
+// Classe.
+class Common extends AbstractClass {
+    // ...
+    pub fn checkString (string :string) -> int { /* ... */ }
+
+    // Implementa método abstrato.
+    pro fn abstractMethod (){
+        // ...
+    }
+
+    // Testa "parent" na classe herdeira.
+    pub fn exampleA () -> str {
+        ret "Verbum";
+    }
+
+    pub fn getExampleA () -> str {
+        ret this.exampleA();
+    }
+}
+
 
 

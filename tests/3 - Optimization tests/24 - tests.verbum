@@ -1,0 +1,30 @@
+
+// In principio erat Verbum!
+
+func(1,2,3);
+a.func(1,2,3);
+a.b.func(1,2,3);
+a.b.c.func(1,2,3);
+
+class example {}
+
+final class Example 
+      extends Common 
+      implements ExampleTemplate
+{}
+
+class Example 
+      implements ExampleTemplate
+{}
+
+(new class {
+    print('Verbum');
+}).method(10*20);
+
+var a = (new class {
+    print('Verbum');
+})::method(10*20);
+
+
+
+

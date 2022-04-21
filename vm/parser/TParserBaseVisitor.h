@@ -237,10 +237,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitClassCommonDef(TParser::ClassCommonDefContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitClassAnonymousParam(TParser::ClassAnonymousParamContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -302,6 +298,10 @@ public:
   }
 
   virtual antlrcpp::Any visitBlockAnonymousObject(TParser::BlockAnonymousObjectContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlockAnonymousObjectAttr(TParser::BlockAnonymousObjectAttrContext *ctx) override {
     return visitChildren(ctx);
   }
 
