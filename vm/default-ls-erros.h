@@ -9,8 +9,8 @@
 ** Controle dos erros da aplicação.
 */
 
-#ifndef VERBUM_SYNTACTIC_ERROR
-#define VERBUM_SYNTACTIC_ERROR
+#ifndef VERBUM_DEFAULT_LEXICAL_SYNTACTIC_ERROR
+#define VERBUM_DEFAULT_LEXICAL_SYNTACTIC_ERROR
 
 // ANTLR4.
 #include "antlr4-runtime.h"
@@ -23,11 +23,11 @@ using namespace antlr4;
 using namespace std;
 
 namespace verbum {
-    class verbum_syntactic_error : public BaseErrorListener
+    class verbum_lexical_syntactic_error : public BaseErrorListener
     {
         public:
             // Especifica configurações.
-            void set_properties (string file_path, vector<char> file_content);
+            void set_properties (string file_path, vector<char> file_content, string section);
 
             // Mensagens de erro do analisador léxico e sintático.
             void syntaxError(
@@ -44,6 +44,9 @@ namespace verbum {
 
             // Conteúdo do arquivo de código Verbum.
             vector<char> file_content;
+
+            // Seção da realização da análise (parte léxica ou sintática).
+            string section;
 
             // Imprime linha de código em específico.
             void print_source_line (size_t line, size_t size_ch);

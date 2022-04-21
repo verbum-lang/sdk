@@ -14,8 +14,7 @@
 
 #include "configuration.h"
 #include "lexer-syntactic.h"
-#include "lexical-error.h"
-#include "syntactic-error.h"
+#include "default-ls-errors.h"
 #include "ast-visitor.h"
 
 using namespace antlr4;
@@ -112,8 +111,8 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     TLexer custom_lexer(&custom_input);
 
     // Configura controle dos erros (léxical) - ANTLR.
-    verbum_lexical_error lexical_error;
-    lexical_error.set_properties(file_path, file_content);
+    verbum_lexical_syntactic_error lexical_error;
+    lexical_error.set_properties(file_path, file_content, "Lexical");
     custom_lexer.removeErrorListeners();
     custom_lexer.addErrorListener(&lexical_error);
 
@@ -153,8 +152,8 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     TParser parser(&tokens);
     parser.removeErrorListeners();
 
-    verbum_syntactic_error syntactic_error;
-    syntactic_error.set_properties(file_path, file_content);
+    verbum_lexical_syntactic_error syntactic_error;
+    syntactic_error.set_properties(file_path, file_content, "Syntax");
     
     parser.removeErrorListeners();
     parser.addErrorListener(&syntactic_error);

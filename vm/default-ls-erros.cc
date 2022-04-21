@@ -9,19 +9,21 @@
 #include "TParserBaseVisitor.h"
 
 #include "configuration.h"
-#include "lexical-error.h"
+#include "default-ls-erros.h"
 
 using namespace verbum;
 using namespace antlr4;
 using namespace std;
 
-void verbum_lexical_error::set_properties (string file_path, vector<char> file_content)
+void verbum_lexical_syntactic_error::set_properties (
+  string file_path, vector<char> file_content, string section)
 {
     this->file_path    = file_path;
     this->file_content = file_content;
+    this->section      = section;
 }
 
-void verbum_lexical_error::syntaxError(
+void verbum_lexical_syntactic_error::syntaxError(
     Recognizer *recognizer,
     Token *offendingSymbol,
     size_t line,
@@ -32,13 +34,13 @@ void verbum_lexical_error::syntaxError(
     string message = msg;
 
     // Corta mensagem, caso ela for muito grande.
-    if (message.length() > 50)
-      message = message.substr(0, 50) + "...";
+    if (message.length() > 100)
+      message = message.substr(0, 100) + "...";
 
     // Informações gerais.
     cout << "\n Verbum Programming Language\n\n";
     cout << " Filename: " << this->file_path << "\n";
-    cout << " Lexical error [" << line << "," << 
+    cout << " "<< this.section <<" error [" << line << "," << 
         charPositionInLine << "] -> " << message << "\n\n";
 
     // Imprime linhas do erro.
@@ -68,13 +70,13 @@ void verbum_lexical_error::syntaxError(
 
     for (size_t a=0; a<size; a++)
         cout << ' ';
-    cout << "`--> Lexical error: " << message << endl << endl;
+    cout << "`--> Syntax error: " << message << endl << endl;
 
     exit(0);
 }
 
 // Imprime linha do erro.
-void verbum_lexical_error::print_source_line (size_t line, size_t size_ch) 
+void verbum_lexical_syntactic_error::print_source_line (size_t line, size_t size_ch) 
 {
     size_t counter = 1;
     string line_size = to_string((int) line);
@@ -83,16 +85,16 @@ void verbum_lexical_error::print_source_line (size_t line, size_t size_ch)
 
     for (auto i: this->file_content) 
       if (counter != line && i == '\n')
-          counter++;
+        counter++;
       else if (counter == line && i == '\n')
-          break;
+        break;
       else {
-          if (counter == line) {
-              if (i == '\v' || i == '\t')
-                  cout << ' ';
-              else
-                  cout << i;
-          }
+        if (counter == line) {
+          if (i == '\v' || i == '\t')
+            cout << ' ';
+          else
+            cout << i;
+        }
       }
     
 
