@@ -15,89 +15,12 @@
 #include "configuration.h"
 #include "lexer-syntactic.h"
 #include "default-ls-erros.h"
+#include "syntax-analisys.h"
 #include "ast-visitor.h"
 
-using namespace antlr4;
 using namespace verbum;
+using namespace antlr4;
 using namespace std;
-
-#define VERBUM_ERROR_INDEX_COUNT_LIMIT 10
-typedef struct {
-
-    // Texto completo.
-    string text;
-
-    // Posição da ocorrência.
-    struct {
-        int line;
-        int ch_position;
-        int start_index;
-        int stop_index;
-    } position;
-
-    // Gerais.
-    int token_index;
-    int type;
-    string next_token;
-    string source_name;
-    string interval;
-
-} verbum_error_node;
-
-class verbum_ast_listener : public TParserBaseListener
-{
-    private:
-        vector <verbum_error_node> error_node_control;
-
-        void exitMain(TParser::MainContext *ctx) {
-            if (error_node_control.size() > 0)
-                this->process_errors();
-        }
-
-        void visitErrorNode(antlr4::tree::ErrorNode *node) {
-            verbum_error_node error_node;
-
-            error_node.text = node->getText();
-            error_node.position.line = node->getSymbol()->getLine();
-            error_node.position.ch_position = node->getSymbol()->getCharPositionInLine();
-            error_node.position.start_index = node->getSymbol()->getStartIndex();
-            error_node.position.stop_index = node->getSymbol()->getStopIndex();
-            error_node.token_index = node->getSymbol()->getTokenIndex();
-            error_node.type = node->getSymbol()->getType();
-            error_node.next_token = node->getSymbol()->getTokenSource()->nextToken()->getText();
-            error_node.source_name = node->getSymbol()->getTokenSource()->getSourceName();
-            error_node.interval = node->getSourceInterval().toString();
-
-            error_node_control.push_back(error_node);
-            
-            if (error_node_control.size() >= VERBUM_ERROR_INDEX_COUNT_LIMIT)
-                this->process_errors();
-        }
-
-        void process_errors () {
-            cout << "Process errors\n";
-            vector <verbum_error_node> node = this->error_node_control;
-
-            for (int a=0; a<node.size(); a++) {
-                cout << "text: "<< node[a].text << "\n";
-                
-                cout << "p.line: "<< node[a].position.line << "\n";
-                cout << "p.ch_position: "<< node[a].position.ch_position << "\n";
-                cout << "p.start_index: "<< node[a].position.start_index << "\n";
-                cout << "p.stop_index: "<< node[a].position.stop_index << "\n";
-
-                cout << "token_index: "<< node[a].token_index << "\n";
-                cout << "type: "<< node[a].type << "\n";
-                cout << "next_token: "<< node[a].next_token << "\n";
-                cout << "source_name: "<< node[a].source_name << "\n";
-                cout << "interval: "<< node[a].interval << "\n";
-
-                cout << "---------------------------\n";
-            }
-
-            // exit(0);
-        }
-};
 
 verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vector<char> file_content) 
 {   

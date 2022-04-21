@@ -15,6 +15,9 @@
 // Language version.
 #define LANGUAGE_VERSION "1.0"
 
+/*
+** Controle das mensagens de debug.
+*/
 // Debug flag - comentar linha para desabilitar o modo debug.
 // #define DBG         // Debug geral.
 // #define DBG_TOKENS  // Debug dos tokens (exibe-os).
@@ -33,6 +36,14 @@
 // Mesma regra acima, mas para o número máximo de caracteres por linha.
 #define VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_A 70  // Primeira linha.
 #define VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_B 108 // Demais linhas.
+
+/*
+** Controles da análise sintática (personalizada).
+*/
+
+// Número máximo da fila de tokens no Error Node (syntax-analisys.*).
+// Quando chega neste limite, o processamento da árvore é interrompida.
+#define VERBUM_ERROR_INDEX_COUNT_LIMIT 10
 
 #endif
 
