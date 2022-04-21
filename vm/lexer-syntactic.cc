@@ -20,6 +20,7 @@
 
 using namespace antlr4;
 using namespace verbum;
+using namespace std;
 
 #define VERBUM_ERROR_INDEX_COUNT_LIMIT 10
 typedef struct {
@@ -48,7 +49,6 @@ class verbum_ast_listener : public TParserBaseListener
 {
     private:
         vector <verbum_error_node> error_node_control;
-        int verbum_error_node_count;
 
         void exitMain(TParser::MainContext *ctx) {
             if (error_node_control.size() > 0)
@@ -96,32 +96,28 @@ class verbum_ast_listener : public TParserBaseListener
                 cout << "---------------------------\n";
             }
 
-            exit(0);
-        }
-
-    public:
-        void prepare () {
-            this->verbum_error_node_count = 0;
+            // exit(0);
         }
 };
 
 verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vector<char> file_content) 
-{
-    std::ifstream stream;
-    stream.open(file_path);
+{   
+    /*
+    ** Processa análise léxica (ANTLR) e sintática (personalizada).
+    */
+    ifstream custom_stream;
+    custom_stream.open(file_path);
 
-    // Processa análise lexica.
-    ANTLRInputStream input(stream);
-    TLexer lexer(&input);
+    ANTLRInputStream custom_input(custom_stream);
+    TLexer custom_lexer(&custom_input);
 
-    // Configura controle dos erros.
+    // Configura controle dos erros (léxical).
     verbum_lexical_error lexical_error;
     lexical_error.set_properties(file_path, file_content);
+    custom_lexer.removeErrorListeners();
+    custom_lexer.addErrorListener(&lexical_error);
 
-    lexer.removeErrorListeners();
-    lexer.addErrorListener(&lexical_error);
-
-    CommonTokenStream tokens(&lexer);
+    CommonTokenStream custom_tokens(&custom_lexer);
 
     #ifdef DBG_TOKENS
         std::cout << "\nTokens: \n\n";
@@ -131,31 +127,44 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
             std::cout << token->toString() << std::endl;
         std::cout << std::endl << std::endl;
     #endif
-    
-    // Processa análise sintática.
+
+    TParser custom_parser(&custom_tokens);
+    custom_parser.removeErrorListeners();
+
+    // Análise sintática personalizada.
+    verbum_ast_listener listener;
+    tree::ParseTreeWalker walker;
+    ParserRuleContext* file_main = custom_parser.main();
+    walker.walk(&listener, file_main);
+
+    /*
+    ** Realiza re-leitura lexica.
+    */
+    ifstream stream;
+    stream.open(file_path);
+
+    ANTLRInputStream input(stream);
+    TLexer lexer(&input);
+
+    /*
+    ** Processa análise sintática (ANTLR).
+    */
     TParser parser(&tokens);
     parser.removeErrorListeners();
 
-    // Adiciona listener.
-    verbum_ast_listener listener;
-    listener.prepare();
-    tree::ParseTreeWalker walker;
-    ParserRuleContext* fileMain = parser.main();
-    walker.walk(&listener, fileMain);
-
-    // Configura controle dos erros.
-    // verbum_syntactic_error syntactic_error;
-    // syntactic_error.set_properties(file_path, file_content);
-    // parser.removeErrorListeners();
-    // parser.addErrorListener(&syntactic_error);
+    verbum_syntactic_error syntactic_error;
+    syntactic_error.set_properties(file_path, file_content);
+    
+    parser.removeErrorListeners();
+    parser.addErrorListener(&syntactic_error);
 
     // Percorre árvore gerada pelo parser (analisador sintático).
     verbum_ast_visitor visitor;
     visitor.prepare_data(); 
 
     // Prepara árvore que será analisada semanticamente.
-    // TParser::MainContext* tree = parser.main();
-    // visitor.visitMain(tree);
+    TParser::MainContext* tree = parser.main();
+    visitor.visitMain(tree);
     this->ast = visitor.get_verbum_ast();
 }
 
