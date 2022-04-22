@@ -22,7 +22,7 @@ using namespace verbum;
 using namespace antlr4;
 using namespace std;
 
-verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vector<char> file_content) 
+verbum_lexer_syntactic::verbum_lexer_syntactic (string file_path, vector<char> file_content) 
 {   
     /*
     ** Processa análise léxica e sintática (personalizada).
@@ -37,19 +37,21 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     CommonTokenStream custom_tokens(&custom_lexer);
 
     #ifdef DBG_TOKENS
-        std::cout << "\nTokens: \n\n";
+        cout << "\nTokens: \n\n";
         custom_tokens.fill();
 
         for (auto token : custom_tokens.getTokens()) 
-            std::cout << token->toString() << "\n";
-        std::cout << "\n\n";
+            cout << token->toString() << "\n";
+        cout << "\n\n";
     #endif
 
     // Análise sintática (personalizada).
     TParser custom_parser(&custom_tokens);
     custom_parser.removeErrorListeners();
     verbum_ast_listener *listener = new verbum_ast_listener();
-    listener->add_parser_obj(&custom_parser);
+    
+    listener->prepare(&custom_parser, file_path, file_content);
+    
     tree::ParseTreeWalker walker;
     ParserRuleContext* file_main = custom_parser.main();
     walker.walk(listener, file_main);
