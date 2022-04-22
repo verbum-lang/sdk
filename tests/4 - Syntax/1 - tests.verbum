@@ -1,11 +1,22 @@
 
+
+print('Verbum');
+
+for (var a=0; a<10; a++) {
+    print('Verbum');
+}
+
+print('Verbum');
+
+for (var a=0; a<10; a++) {
+    print('Verbum');
+}
+
 // In principio erat Verbum!
-use 'std', 'std';
+use 'std' 
+// use std';
 
-// use 'std';
 
+print('Verbum');
 
-print 'Verbum'
-print 'Verbum'
-print 'Verbum'
 

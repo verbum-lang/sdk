@@ -43,11 +43,12 @@ void verbum_message_error::display_error (
 
     string line_size = to_string((int) start_error_lines);
 
-    for (size_t a=start_error_lines; a<=line; a++)
+    for (size_t a=start_error_lines; a<=line; a++) {
         if (a == line)
             this->print_source_line(a, line_size.length(), true, char_position);
         else
             this->print_source_line(a, line_size.length(), false, char_position);
+    }
 
     // Imprime apontador para caractere onde está o erro.
     string lnsz = to_string((int) line);
@@ -77,11 +78,19 @@ void verbum_message_error::display_error (
 
     cout << "/\n";
     cout << "   ´\n";
-    cout << "   `---> ";
+    cout << "   `->";
 
     cout << "\033[0m";
-    cout << " \033[1;31;40m error \033[0m";
-    cout << " "<< error_message;
+    cout << " \033[1;31;40m error details \033[0m ";
+    
+    // Imprime mensagem de erro (com espaçamento à esquerda).
+    for (int a=0; a<error_message.length(); a++) {
+        if (error_message[a] == '\n') {
+            cout << "\n                       ";
+        } else
+            cout << error_message[a];
+    }
+
     cout << "\033[0m\n\n\n";
 
     // Mensagem adicional.

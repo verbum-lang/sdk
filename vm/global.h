@@ -19,6 +19,7 @@ namespace verbum {
     {
         public:
             static string trim (string str);
+            static string remove_newlines (string str);
     };
 }
 

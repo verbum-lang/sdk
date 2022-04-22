@@ -11,9 +11,8 @@
 using namespace verbum;
 using namespace std;
 
-string verbum_global::trim (string str)
-{
-    string newStr = "";
+string verbum_global::trim (string str) {
+    string newstr = "";
     bool flag = false;
     int a = 0;
 
@@ -23,17 +22,30 @@ string verbum_global::trim (string str)
         else 
             flag = true;
 
-        newStr += a;
+        newstr += a;
     }
 
-    for (a=newStr.length()-1; a>=0; a--) {
-        if (newStr[a] == ' ') 
+    for (a=newstr.length()-1; a>=0; a--) {
+        if (newstr[a] == ' ') 
             continue;
         else
             break;
     }
 
-    return newStr.substr(0, a+1);
+    return newstr.substr(0, a+1);
+}
+
+string verbum_global::remove_newlines (string str) {
+    string newstr = "";
+
+    for (auto a : str) {
+        if (a == '\n' || a == '\r') 
+            newstr += " ";
+        else
+            newstr += a;
+    }
+
+    return newstr;
 }
 
 

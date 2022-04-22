@@ -59,10 +59,19 @@ void verbum_ast_listener::display_error (
     vector <verbum_error_node> node = this->error_node_control;
     size_t line = (size_t) node[index].position.line;
     size_t char_position = (size_t) node[index].position.ch_position;
+    int start_index = node[index].position.start_index;
+    int stop_index = node[index].position.stop_index;
+
+    // Verifica se há quebra de linha na ocorrência.
+    for (int a=0; a<node[index].text.length(); a++) {
+        if (node[index].text[a] == '\n') {
+            stop_index = start_index + a;
+            break;
+        }
+    }
 
     verbum_message_error message_error(
-        this->file_path, this->file_content, "syntax-analisys",
-        node[index].position.start_index, node[index].position.stop_index, "");
+        this->file_path, this->file_content, "syntax-analisys", start_index, stop_index, "");
 
     message_error.display_error(line, char_position, spec_message, error_message, big_message);
 }
@@ -137,12 +146,12 @@ void verbum_ast_listener::process_use () {
             else {
                 error_message  = "invalid token";
                 if (node[a].text.length() > 0)
-                    error_message += " (\033[1;31m"+ node[a].text +"\033[0m)";
+                    error_message += " (\033[1;31m"+ verbum_global::remove_newlines(node[a].text) +"\033[0m)";
 
                 if (!check_index_command(a, String))
-                    error_message += ", use a string for imports.";
+                    error_message += ". Use a string for imports, and\nremember to put a semicolon at the end of the expression.";
                 else if (check_index_command(a, String))
-                    error_message += ", a semicolon is missing before the token in question.";
+                    error_message += ", a comma is missing before the token.";
                 
                 this->display_error(a, spec_message, error_message, big_message);
             }
