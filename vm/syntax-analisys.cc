@@ -71,8 +71,13 @@ void verbum_ast_listener::process_use () {
     big_message.push_back("    use 'std';");
     big_message.push_back("    use 'std:io';");
     big_message.push_back("    use 'std:path/file';");
+    big_message.push_back("    use 'std:<io, net, os>';");
     big_message.push_back("    use 'file';");
     big_message.push_back("    use 'path/file';");
+    big_message.push_back("    use 'path/<file1, file2>';");
+    big_message.push_back("    use 'std:<io,net>', 'path/test', 'file';");
+    big_message.push_back("    use 'std:*';");
+    big_message.push_back("    use 'path/*';");
 
     this->print_error_tokens();
 
@@ -90,7 +95,7 @@ void verbum_ast_listener::display_error (
     size_t char_position = (size_t) node[index].position.ch_position;
 
     // Informações gerais.
-    cout << "\n \033[1;36mThe Verbum Programming Language\033[0m - v" LANGUAGE_VERSION " 💜\n\n";
+    cout << "\n \033[1;36mThe Verbum Programming Language\033[0m - v" LANGUAGE_VERSION " 💜\n\n\n";
     cout << " \033[1;31;40m error \033[0m";
     cout << " \033[1;31m" << spec_message << " (line " << line << ", position " << char_position << ")." << "\033[0m\n";
     cout << " \033[1;97;100m file  \033[0m";
