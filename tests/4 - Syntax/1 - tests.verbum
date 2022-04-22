@@ -1,5 +1,13 @@
 
 // In principio erat Verbum!
-use 'std', test;
-// use 'std;
+use 'std','std', 'std', 'std','std','std', 'std', 'std', 'std',
+ 'std','std', 'std', 'std', 'std', 'std', 'std','std', 'std',
+  'std', 'std', 'std', ''
+
+use 'std';
+
+
+print 'Verbum'
+print 'Verbum'
+print 'Verbum'
 

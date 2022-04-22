@@ -49,8 +49,8 @@ void verbum_ast_listener::visitErrorNode (antlr4::tree::ErrorNode *node) {
 
     error_node_control.push_back(error_node);
     
-    if (error_node_control.size() >= VERBUM_ERROR_INDEX_COUNT_LIMIT)
-        this->process_errors();
+    // if (error_node_control.size() >= VERBUM_ERROR_INDEX_COUNT_LIMIT)
+    //     this->process_errors();
 }
 
 void verbum_ast_listener::display_error (
@@ -114,12 +114,46 @@ void verbum_ast_listener::process_use () {
 
     if (node.size() == 1)
         this->display_error(0, spec_message, "invalid expression.", big_message);
-    else if (!check_index_command(1, String)) 
+    
+    else if (!check_index_command(1, String)) {
+        error_message  = "invalid token";
+
+        if (node[1].text.length() > 0)
+            error_message += " ("+ node[1].text +")";
+        error_message += ", use a string for imports.";
+
         this->display_error(1, spec_message, error_message, big_message);
+    }
     
     // Verifica expressão completa.
     else {
+        int flag = 0, last_index = 1;
+        bool end_found = false;
 
+        for (int a=1; a<node.size(); a++, last_index++) {
+            if (flag == 0 && check_index_command(a, String))
+                flag = 1;
+            else if (flag == 1 && check_index_command(a, Separator))
+                flag = 0;
+            else {
+                error_message  = "invalid token";
+
+                if (node[a].text.length() > 0)
+                    error_message += " (\033[1;31m"+ node[a].text +"\033[0m)";
+                error_message += ", use a string for imports.";
+                
+                this->display_error(a, spec_message, error_message, big_message);
+            }
+
+            if (check_index_command(a, End))
+                end_found = true;
+        }
+
+        // Não encontrou 'end'.
+        if (!end_found) {
+            error_message  = "No semicolon found. Insert it after the end of the 'use' command expression.";
+            this->display_error(last_index - 1, spec_message, error_message, big_message);
+        }
     }
 }
 
