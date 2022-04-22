@@ -16,6 +16,10 @@ using namespace verbum;
 using namespace antlr4;
 using namespace std;
 
+void verbum_ast_listener::add_parser_obj (TParser *parser) {
+    this->parser = parser;
+}
+
 void verbum_ast_listener::exitMain (TParser::MainContext *ctx) {
     if (error_node_control.size() > 0)
         this->process_errors();
@@ -41,6 +45,8 @@ void verbum_ast_listener::visitErrorNode (antlr4::tree::ErrorNode *node) {
         this->process_errors();
 }
 
+#define check_command(COMMAND) node[a].type == this->parser->COMMAND
+
 void verbum_ast_listener::process_errors () {
     cout << "Process errors\n";
     vector <verbum_error_node> node = this->error_node_control;
@@ -58,7 +64,14 @@ void verbum_ast_listener::process_errors () {
         cout << "next_token: "<< node[a].next_token << "\n";
         cout << "source_name: "<< node[a].source_name << "\n";
         cout << "interval: "<< node[a].interval << "\n";
-
+        
+        cout << "command: ";
+        if (check_command(Use))
+            cout << "use";
+        else
+            cout << "unknown";
+        
+        cout << "\n";
         cout << "---------------------------\n";
     }
 

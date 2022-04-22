@@ -6,7 +6,7 @@
 **
 ** In principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum - John 1
 **
-** Controle da estrutura AST.
+** Estrutura de dados utilizada para gerar a árvore sintática.
 */
 
 #ifndef VERBUM_STRUCT
@@ -25,7 +25,7 @@ using namespace std;
 #define VERBUM_UNKNOWN                                    0
 
 // Importações - use.
-#define VERBUM_USE                                        1
+#define VERBUM_USE_BLOCK                                  1
 #define VERBUM_USE_MODULE                                 2
 #define VERBUM_USE_PATH                                   3
 #define VERBUM_USE_ARCHIVE                                4
@@ -80,7 +80,7 @@ using namespace std;
 #define VERBUM_LOOP_CODE_BLOCK                           41
 
 // Retorno.
-#define VERBUM_RET                                       42
+#define VERBUM_RET_BLOCK                                 42
 
 // Funções/métodos.
 #define VERBUM_FUNCTION_DECLARATION                      43

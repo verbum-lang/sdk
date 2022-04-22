@@ -48,11 +48,11 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
     // Análise sintática (personalizada).
     TParser custom_parser(&custom_tokens);
     custom_parser.removeErrorListeners();
-
-    verbum_ast_listener listener;
+    verbum_ast_listener *listener = new verbum_ast_listener();
+    listener->add_parser_obj(&custom_parser);
     tree::ParseTreeWalker walker;
     ParserRuleContext* file_main = custom_parser.main();
-    walker.walk(&listener, file_main);
+    walker.walk(listener, file_main);
 
     /*
     ** Realiza análise lexica (ANTLR).
@@ -89,7 +89,7 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (std::string file_path, std::vect
 
     TParser::MainContext* tree = parser.main();
     visitor.visitMain(tree);
-    
+
     this->ast = visitor.get_verbum_ast();
 }
 

@@ -1,8 +1,5 @@
 
-// print 
-//     'Verbum <3'
-// var a = 10, b =20;
-print 'Verbum;
-
+// In principio erat Verbum!
+use std;
 
 

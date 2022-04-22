@@ -412,7 +412,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPerm
 antlrcpp::Any verbum_ast_visitor::visitBlockRet (TParser::BlockRetContext *ctx) 
 {
     verbum_ast_node node = this->zero_data();
-    node.type            = VERBUM_RET;
+    node.type            = VERBUM_RET_BLOCK;
 
     this->add_node(node);
 

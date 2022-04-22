@@ -67,7 +67,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         /*
         ** Importações.
         */
-        if (node.type == VERBUM_USE) {
+        if (node.type == VERBUM_USE_BLOCK) {
             this->tab();
             cout << "-> use: ";
 
@@ -204,7 +204,7 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         /*
         ** Ret.
         */
-        else if (node.type == VERBUM_RET) {
+        else if (node.type == VERBUM_RET_BLOCK) {
             this->tab();
             cout << "-> ret block (open)\n";
             

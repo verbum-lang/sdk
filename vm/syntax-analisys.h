@@ -49,11 +49,16 @@ namespace verbum {
 
     } verbum_error_node;
 
+    // Comandos da linguagem.
+    
+
     class verbum_ast_listener : public TParserBaseListener
     {
         private:
             // Controle dos nodes com erro - para análise.
             vector <verbum_error_node> error_node_control;
+
+            TParser *parser;
 
             // Ponto de entrada da gramática - ao sair da mesma é realizada a verificação
             // para processar possíveis erros.
@@ -65,6 +70,9 @@ namespace verbum {
 
             // Processamento dos erros encontrados.
             void process_errors ();
+
+        public:
+            void add_parser_obj (TParser *parser);
     };
 }
 

@@ -119,7 +119,7 @@ verbum_use_import::verbum_use_import (string raw)
     }
 
     // Salva valores.
-    this->ast_node.type             = VERBUM_USE;
+    this->ast_node.type             = VERBUM_USE_BLOCK;
     this->ast_node.use_type         = type;
 
     if (type == VERBUM_USE_MODULE)
