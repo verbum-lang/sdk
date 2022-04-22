@@ -62,7 +62,7 @@ void verbum_ast_listener::display_error (
 
     verbum_message_error message_error(
         this->file_path, this->file_content, "syntax-analisys",
-        node[index].position.start_index, node[index].position.stop_index);
+        node[index].position.start_index, node[index].position.stop_index, "");
 
     message_error.display_error(line, char_position, spec_message, error_message, big_message);
 }

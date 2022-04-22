@@ -47,11 +47,8 @@ namespace verbum {
             // Seção da realização da análise (parte léxica ou sintática).
             string section;
 
-            // Imprime linha de código em específico.
-            void print_source_line (size_t line, size_t size_ch);
-
-            // Imprime mensagem com quebra de linha.
-            void print_large_message (string message);
+            // Prepara mensagem com quebra de linha.
+            string prepare_large_message (string message);
     };
 }
 

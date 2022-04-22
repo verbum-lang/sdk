@@ -9,6 +9,7 @@
 #include "TParserBaseVisitor.h"
 
 #include "configuration.h"
+#include "message-error.h"
 #include "default-ls-erros.h"
 
 using namespace verbum;
@@ -16,7 +17,7 @@ using namespace antlr4;
 using namespace std;
 
 void verbum_lexical_syntactic_error::set_properties (
-  string file_path, vector<char> file_content, string section)
+    string file_path, vector<char> file_content, string section)
 {
     this->file_path    = file_path;
     this->file_content = file_content;
@@ -31,103 +32,63 @@ void verbum_lexical_syntactic_error::syntaxError(
     const string &msg,
     exception_ptr e)
 {
-    string message = msg;
+    vector <string> big_message;
+    string spec_message = "a syntax error has occurred";
+    string error_message = "syntax error.";
+    int start_index = 0, stop_index = 0;
 
-    // Informações gerais.
-    cout << "\n Verbum Programming Language\n\n";
-    cout << " Filename: " << this->file_path << "\n";
-    cout << " "<< this->section <<" error [" << line << "," << 
-        charPositionInLine << "] -> ";
-    this->print_large_message(message);
-    cout << "\n\n";
+    if (offendingSymbol) {
+        if (offendingSymbol->getStartIndex() > 0)
+            start_index = offendingSymbol->getStartIndex();
+        if (offendingSymbol->getStopIndex() > 0)
+            stop_index = offendingSymbol->getStopIndex();
+    }
 
-    // Imprime linhas do erro.
-    size_t error_line_limit = VERBUM_MAX_ERROR_PRINT_LINES;
-    size_t start_error_lines = 1;
+    verbum_message_error message_error(
+        this->file_path, this->file_content, "default-ls-erros",
+        start_index, stop_index, this->section);
 
-    if (line > error_line_limit)
-        start_error_lines = line - error_line_limit;
+    if (this->section.compare("Lexical") == 0) {
+        spec_message = "an error occurred in the lexical parsing";
+        error_message = "lexical error.";
+    }
 
-    string line_size = to_string((int) start_error_lines);
+    // error_message = this->prepare_large_message(msg);
 
-    for (size_t a=start_error_lines; a<=line; a++)
-        this->print_source_line(a, line_size.length());
-
-    // Imprime apontador para caractere onde está o erro.
-    string lnsz = to_string((int) line);
-    size_t last_line_size = ((line_size.length() == lnsz.length()) ? 2 : 1) + lnsz.length() + 4;
-    size_t size = charPositionInLine + last_line_size;
-
-    for (size_t a=0; a<size; a++)
-        cout << ' ';
-    cout << '^' << endl;
-
-    for (size_t a=0; a<size; a++)
-        cout << ' ';
-    cout << '|' << endl;
-
-    for (size_t a=0; a<size; a++)
-        cout << ' ';
-    cout << "`--> "<< this->section <<" error: ";
-    this->print_large_message(message);
-    cout << "\n\n";
-    
-    exit(0);
+    message_error.display_error((int) line, (int) charPositionInLine, 
+        spec_message, error_message, big_message);
 }
 
-// Imprime linha do erro.
-void verbum_lexical_syntactic_error::print_source_line (size_t line, size_t size_ch) 
-{
-    size_t counter = 1;
-    string line_size = to_string((int) line);
-
-    cout << ((size_ch == line_size.length()) ? "  " : " ") << line << "  | ";
-
-    for (auto i: this->file_content) 
-      if (counter != line && i == '\n')
-        counter++;
-      else if (counter == line && i == '\n')
-        break;
-      else {
-        if (counter == line) {
-          if (i == '\v' || i == '\t')
-            cout << ' ';
-          else
-            cout << i;
-        }
-      }
-    
-
-    cout << "\n";
-}
-
-// Imprime mensagem com quedra de linha.
-void verbum_lexical_syntactic_error::print_large_message (string message) {
+// Formata mensagem com quedra de linha.
+string verbum_lexical_syntactic_error::prepare_large_message (string message) {
     int count1 = 0, count2 = 0, count3 = 0;
     bool first_line = false;
+    string fmsg = "";
 
     for (auto i : message) {
-      cout << i;
+        fmsg += i;
 
-      count1++;
-      count3++;
+        count1++;
+        count3++;
 
-      if (first_line)
-        count2++;
+        if (first_line)
+            count2++;
 
-      if (count1 >= VERBUM_MAX_CHARS_ERROR_ANTLR) {
-        cout << "...";
-        break;
-      }
+        if (count1 >= VERBUM_MAX_CHARS_ERROR_ANTLR) {
+            fmsg += "...";
+            break;
+        }
 
-      if (count3 >= VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_A && first_line == false) {
-        cout << "\n ";
-        first_line = true;
-      } else if (count2 >= VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_B && first_line == true) {
-        cout << "\n ";
-        count2 = 0;
-      }
+        if (count3 >= VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_A && first_line == false) {
+            fmsg += "\n ";
+            first_line = true;
+        } else if (count2 >= VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_B && first_line == true) {
+            fmsg += "\n ";
+            count2 = 0;
+        }
     }
+
+    return fmsg;
 }
 
 

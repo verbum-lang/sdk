@@ -11,13 +11,15 @@ using namespace verbum;
 using namespace std;
 
 verbum_message_error::verbum_message_error (
-    string file_path, vector<char> file_content, string origin, int start_index, int stop_index)
+    string file_path, vector<char> file_content, string origin, 
+    int start_index, int stop_index, string section)
 {
     this->origin = origin;
     this->file_path = file_path;
     this->file_content = file_content;
     this->start_index = start_index;
     this->stop_index = stop_index;
+    this->section = section;
 }
 
 void verbum_message_error::display_error (
@@ -52,10 +54,10 @@ void verbum_message_error::display_error (
     for (size_t a=0; a<size; a++)
         cout << ' ';
 
-    if (this->stop_index > 0) {
-        size_t limit = stop_index - start_index;
-    
-        cout << "\033[1;35m";
+    cout << "\033[1;35m";
+    if (this->stop_index > 0 && (this->stop_index >= this->start_index)) {
+        size_t limit = this->stop_index - this->start_index;
+
         for (size_t a=0; a<=limit; a++)
             cout << '^';
         cout << "\n";

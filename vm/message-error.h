@@ -29,7 +29,8 @@ namespace verbum {
     {
         public:
             verbum_message_error (
-                string file_path, vector<char> file_content, string origin, int start_index, int stop_index);
+                string file_path, vector<char> file_content, 
+                string origin, int start_index, int stop_index, string section);
 
             void display_error (
                 int line, int char_position, string spec_message, 
@@ -41,6 +42,7 @@ namespace verbum {
             vector<char> file_content;
             int start_index;
             int stop_index;
+            string section;
 
             void print_source_line (size_t line, size_t size_ch);
     };
