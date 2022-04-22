@@ -12,6 +12,7 @@
 #include "configuration.h"
 #include "global.h"
 #include "syntax-analisys.h"
+#include "help.h"
 
 using namespace verbum;
 using namespace antlr4;
@@ -62,11 +63,11 @@ void verbum_ast_listener::process_errors () {
 void verbum_ast_listener::process_use () {
     vector <verbum_error_node> node = this->error_node_control;
     vector <string> big_message;
-    
-    string spec_message  = "Invalid expression for 'use' command.";
-    string error_message = "Invalid token, use a string for imports.";
 
-    big_message.push_back("Example of correct expressions:\n");
+    string spec_message  = "invalid expression for 'use' command";
+    string error_message = "invalid token, use a string for imports.";
+
+    big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
     big_message.push_back("    use 'std';");
     big_message.push_back("    use 'std:io';");
     big_message.push_back("    use 'std:path/file';");
@@ -76,7 +77,7 @@ void verbum_ast_listener::process_use () {
     this->print_error_tokens();
 
     if (node.size() == 1)
-        this->display_error(0, spec_message, error_message, big_message);
+        this->display_error(0, spec_message, "invalid expression.", big_message);
     else if (!check_index_command(1, String)) 
         this->display_error(1, spec_message, error_message, big_message);
 }
@@ -89,9 +90,11 @@ void verbum_ast_listener::display_error (
     size_t char_position = (size_t) node[index].position.ch_position;
 
     // Informações gerais.
-    cout << "\n Verbum Programming Language - v" LANGUAGE_VERSION "\n\n";
-    cout << " Error: " << spec_message << "\n";
-    cout << " File: " << this->file_path << "\n";
+    cout << "\n \033[1;36mThe Verbum Programming Language\033[0m - v" LANGUAGE_VERSION " 💜\n\n";
+    cout << " \033[1;31;40m error \033[0m";
+    cout << " \033[1;31m" << spec_message << " (line " << line << ", position " << char_position << ")." << "\033[0m\n";
+    cout << " \033[1;97;100m file  \033[0m";
+    cout << " "<< this->file_path << "\n\n";
 
     // Imprime linhas do erro.
     size_t error_line_limit = VERBUM_MAX_ERROR_PRINT_LINES;
@@ -114,6 +117,7 @@ void verbum_ast_listener::display_error (
         cout << ' ';
 
     size_t limit = node[index].position.stop_index - node[index].position.start_index;
+    cout << "\033[1;35m";
     for (size_t a=0; a<=limit; a++)
         cout << '^';
     cout << "\n";
@@ -125,10 +129,16 @@ void verbum_ast_listener::display_error (
     for (size_t a=0; a<size; a++)
         cout << ' ';
 
-    cout << "`--> Error: ";
-    cout << message;
-    cout << "\n\n";
-    
+    cout << "`--> \033[0m";
+    cout << " \033[1;31;40m error \033[0m";
+    cout << " "<< error_message;
+    cout << "\033[0m\n\n\n";
+
+    // Mensagem adicional.
+    for (auto item: big_message)
+        cout << "  " << item << "\n";
+    cout << "\n";
+
     exit(0);
 }
 

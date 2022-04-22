@@ -21,8 +21,8 @@ void verbum_help::banner () {
     printf(
         "\n\n The Verbum Programming Language\n\n"
 
-        " __      __       _                     \n"
-        " \\ \\    / /      | |                    \n"
+        " __      __       _                      \n"
+        " \\ \\    / /      | |                   v" LANGUAGE_VERSION " \n"
         "  \\ \\  / /__ _ __| |__  _   _ _ __ ___  \n"
         "   \\ \\/ / _ \\ '__| '_ \\| | | | '_ ` _ \\ \n"
         "    \\  /  __/ |  | |_) | |_| | | | | | |\n"
