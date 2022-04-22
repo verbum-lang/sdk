@@ -58,6 +58,7 @@ namespace verbum {
             TParser *parser;
             string file_path;
             vector<char> file_content;
+            bool display_examples;
 
             // Ponto de entrada da gramática - ao sair da mesma é realizada a verificação
             // para processar possíveis erros.

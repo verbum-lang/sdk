@@ -27,7 +27,13 @@ void verbum_message_error::display_error (
     string error_message, vector <string> big_message) 
 {
     // Informações gerais.
-    cout << "\n \033[1;36mThe Verbum Programming Language\033[0m - v" LANGUAGE_VERSION " 💜\n\n\n";
+    cout << "\n \033[1;36mThe Verbum Programming Language\033[0m - v" LANGUAGE_VERSION " 💜";
+
+    if (big_message.size() > 0)
+        cout << "\n\n\n";
+    else
+        cout << "\n\n";
+
     cout << " \033[1;31;40m error \033[0m";
     cout << " \033[1;31m" << spec_message << " (line " << 
                 line << ", position " << char_position << ")." << "\033[0m\n";
@@ -91,12 +97,18 @@ void verbum_message_error::display_error (
             cout << error_message[a];
     }
 
-    cout << "\033[0m\n\n\n";
+    cout << "\033[0m";
 
     // Mensagem adicional.
-    for (auto item: big_message)
-        cout << "  " << item << "\n";
-    cout << "\n";
+    if (big_message.size() > 0) {
+        cout << "\n\n\n";
+
+        for (auto item: big_message)
+            cout << "  " << item << "\n";
+        
+        cout << "\n";
+    } else
+        cout << "\n\n";
 
     exit(0);
 }

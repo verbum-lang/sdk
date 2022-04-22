@@ -23,9 +23,10 @@ using namespace std;
 #define check_index_command(INDEX, COMMAND) (node[INDEX].type == this->parser->COMMAND)
 
 void verbum_ast_listener::prepare (TParser *parser, string file_path, vector<char> file_content) {
-    this->parser        = parser;
-    this->file_path     = file_path;
-    this->file_content  = file_content;
+    this->parser            = parser;
+    this->file_path         = file_path;
+    this->file_content      = file_content;
+    this->display_examples  = false;
 }
 
 void verbum_ast_listener::exitMain (TParser::MainContext *ctx) {
@@ -108,17 +109,17 @@ void verbum_ast_listener::process_use () {
     string spec_message  = "invalid expression for 'use' command";
     string error_message = "invalid token, use a string for imports.";
 
-    big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
-    big_message.push_back("    use 'std';");
-    big_message.push_back("    use 'std:io';");
-    big_message.push_back("    use 'std:path/file';");
-    big_message.push_back("    use 'std:<io, net, os>';");
-    big_message.push_back("    use 'file';");
-    big_message.push_back("    use 'path/file';");
-    big_message.push_back("    use 'path/<file1, file2>';");
-    big_message.push_back("    use 'std:<io,net>', 'path/test', 'file';");
-    big_message.push_back("    use 'std:*';");
-    big_message.push_back("    use 'path/*';");
+    if (this->display_examples) {
+        big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
+        big_message.push_back("    \033[1;35muse\033[0m 'std:io';                    \033[1;90m// Import module (io) from package (std).\033[0m");
+        big_message.push_back("    \033[1;35muse\033[0m 'std:path/file';             \033[1;90m// Import module (path/file) from package (std).\033[0m");
+        big_message.push_back("    \033[1;35muse\033[0m 'std:<io, net, os>';         \033[1;90m// Import modules (io, net, os) from package (std).\033[0m");
+        big_message.push_back("    \033[1;35muse\033[0m 'library';                   \033[1;90m// Import file (library).\033[0m");
+        big_message.push_back("    \033[1;35muse\033[0m 'path/file';                 \033[1;90m// Import file (path/file).\033[0m");
+        big_message.push_back("    \033[1;35muse\033[0m 'directory/<file1, file2>';  \033[1;90m// Import files (file1, file2) from path (directory).\033[0m");
+        big_message.push_back("    \033[1;35muse\033[0m 'std:<io,net>', 'path/test'; \033[1;90m// Multiple imports.\033[0m");
+        big_message.push_back("    \033[1;35muse\033[0m 'std:*', 'path/*';           \033[1;90m// Imports all files within a package or directory.\033[0m");
+    }
 
     if (node.size() == 1)
         this->display_error(0, spec_message, "invalid expression.", big_message);
