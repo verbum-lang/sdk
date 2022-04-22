@@ -49,9 +49,6 @@ namespace verbum {
 
     } verbum_error_node;
 
-    // Comandos da linguagem.
-
-
     class verbum_ast_listener : public TParserBaseListener
     {
         private:
@@ -81,7 +78,6 @@ namespace verbum {
 
             // Exibe mensagem de erro.
             void display_error (int index, string spec_message, string error_message, vector <string> big_message);
-            void print_source_line (size_t line, size_t size_ch);
 
         public:
             void prepare (TParser *parser, string file_path, vector<char> file_content);
