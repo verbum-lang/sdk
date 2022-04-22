@@ -69,7 +69,7 @@ $COMPILER_PATH -Wall -pedantic -W -O3 -DNDEBUG -O3 -DNDEBUG -rdynamic verbum.o .
     ./parser/TParserListener.o ./parser/TParserVisitor.o \
     ./help.o ./loader.o ./lexer-syntactic.o ./ast-visitor.o ./semantics.o \
     ./use.o ./global.o ./default-ls-erros.o ./syntax-analisys.o \
-    ./message-error. \
+    ./message-error.o \
     -o ../build/verbum ../dependencies/ANTLR4/dist/libantlr4-runtime.a -luuid 
 
 echo "Finished!"
