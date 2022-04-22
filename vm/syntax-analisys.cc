@@ -86,6 +86,7 @@ void verbum_ast_listener::print_error_tokens () {
 
 void verbum_ast_listener::process_errors () {
     vector <verbum_error_node> node = this->error_node_control;
+    this->print_error_tokens();
 
     if (check_first_command(Use))
         this->process_use();
@@ -109,8 +110,6 @@ void verbum_ast_listener::process_use () {
     big_message.push_back("    use 'std:<io,net>', 'path/test', 'file';");
     big_message.push_back("    use 'std:*';");
     big_message.push_back("    use 'path/*';");
-
-    this->print_error_tokens();
 
     if (node.size() == 1)
         this->display_error(0, spec_message, "invalid expression.", big_message);
