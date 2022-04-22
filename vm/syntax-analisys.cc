@@ -137,10 +137,13 @@ void verbum_ast_listener::process_use () {
                 flag = 0;
             else {
                 error_message  = "invalid token";
-
                 if (node[a].text.length() > 0)
                     error_message += " (\033[1;31m"+ node[a].text +"\033[0m)";
-                error_message += ", use a string for imports.";
+
+                if (!check_index_command(a, String))
+                    error_message += ", use a string for imports.";
+                else if (check_index_command(a, String))
+                    error_message += ", a semicolon is missing before the token in question.";
                 
                 this->display_error(a, spec_message, error_message, big_message);
             }

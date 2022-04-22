@@ -64,14 +64,19 @@ void verbum_message_error::display_error (
     } else 
         cout << '^' << endl;
 
-    for (size_t a=0; a<size; a++)
-        cout << ' ';
-    cout << '|' << endl;
+    // Linha vertical.
+    for (size_t a=0,b=0; a<(size-1); a++,b++) {
+        if (b > 3)
+            cout << '_';
+        else
+            cout << ' ';
+    }
 
-    for (size_t a=0; a<size; a++)
-        cout << ' ';
+    cout << "/\n";
+    cout << "   ´\n";
+    cout << "   `---> ";
 
-    cout << "`--> \033[0m";
+    cout << "\033[0m";
     cout << " \033[1;31;40m error \033[0m";
     cout << " "<< error_message;
     cout << "\033[0m\n\n\n";
