@@ -44,7 +44,10 @@ void verbum_message_error::display_error (
     string line_size = to_string((int) start_error_lines);
 
     for (size_t a=start_error_lines; a<=line; a++)
-        this->print_source_line(a, line_size.length());
+        if (a == line)
+            this->print_source_line(a, line_size.length(), true, char_position);
+        else
+            this->print_source_line(a, line_size.length(), false, char_position);
 
     // Imprime apontador para caractere onde está o erro.
     string lnsz = to_string((int) line);
@@ -62,7 +65,7 @@ void verbum_message_error::display_error (
             cout << '^';
         cout << "\n";
     } else 
-        cout << '^' << endl;
+        cout << "^\n";
 
     // Linha vertical.
     for (size_t a=0,b=0; a<(size-1); a++,b++) {
@@ -90,27 +93,57 @@ void verbum_message_error::display_error (
 }
 
 // Imprime linha do erro.
-void verbum_message_error::print_source_line (size_t line, size_t size_ch)
+void verbum_message_error::print_source_line (
+    size_t line, size_t size_ch, bool last_line, int char_position)
 {
     size_t counter = 1;
     string line_size = to_string((int) line);
 
+    // Imprime barra lateral (número das linhas).
     cout << ((size_ch == line_size.length()) ? "  " : " ") << line << "  | ";
 
-    for (auto i: this->file_content) 
-      if (counter != line && i == '\n')
-        counter++;
-      else if (counter == line && i == '\n')
-        break;
-      else {
-        if (counter == line) {
-          if (i == '\v' || i == '\t')
-            cout << ' ';
-          else
-            cout << i;
+    // Calcula tamanho da ocorrência.
+    int total_ch = 0, flag = 0, flag_count = 0, count_limit = 0;
+
+    if (last_line) {
+        if (this->stop_index > 0 && (this->stop_index >= this->start_index))
+            count_limit = this->stop_index - this->start_index;
+        else 
+            count_limit = 1;
+        count_limit++;
+    }
+
+    // Imprime linhas...
+    for (auto i: this->file_content) {
+        if (counter != line && i == '\n')
+            counter++;
+        else if (counter == line && i == '\n')
+            break;
+        else {
+            if (counter == line) {
+
+                // Destaca ocorrência.
+                if (last_line) {
+                    if (total_ch >= char_position && flag == 0) {
+                        flag = 1;
+                        cout << "\033[1;35m";
+                    } else if (flag_count >= count_limit && flag == 1) {
+                        flag = 2;
+                        cout << "\033[0m";
+                    }
+                }
+
+                if (i == '\v' || i == '\t')
+                    cout << ' ';
+                else
+                    cout << i;
+
+                total_ch++;
+                if (flag == 1)
+                    flag_count++;
+            }
         }
-      }
-    
+    }
 
     cout << "\n";
 }

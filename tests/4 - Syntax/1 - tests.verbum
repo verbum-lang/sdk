@@ -1,8 +1,6 @@
 
 // In principio erat Verbum!
-use 'std','std', 'std', 'std','std','std', 'std', 'std', 'std',
- 'std','std', 'std', 'std', 'std', 'std', 'asasd' 'std','std', 'std',
-  'std', 'std', 'std', ''
+use 'std' 'std';
 
 // use 'std';
 

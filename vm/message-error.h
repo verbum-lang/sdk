@@ -44,7 +44,8 @@ namespace verbum {
             int stop_index;
             string section;
 
-            void print_source_line (size_t line, size_t size_ch);
+            void print_source_line (
+                size_t line, size_t size_ch, bool last_line, int char_position);
     };
 }
 
