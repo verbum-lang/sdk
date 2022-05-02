@@ -20,15 +20,21 @@
 #include <vector>
 
 #include "ast-struct.h"
-#include "semantics.h"
 
 using namespace std;
 
 namespace verbum {
-    class verbum_semantics_analisys : public verbum_semantics
+    class verbum_semantics_analisys
     {
         public:
-            void custom_method ();
+            verbum_semantics_analisys (vector <verbum_ast_node> ast);
+
+        private:
+            int block_counter;
+
+            void tab ();
+            void verbum_recursive_ast (vector <verbum_ast_node> ast);
+            string print_operation (int operation);
     };
 }
 
