@@ -6,7 +6,7 @@
 **
 ** In principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum - John 1
 **
-** Realização da análise semântica.
+** Estrutura para realização da análise semântica, e processamento da AST.
 */
 
 #ifndef VERBUM_SEMANTICS

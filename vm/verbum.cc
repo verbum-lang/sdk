@@ -17,7 +17,7 @@
 #include "loader.h"
 #include "lexer-syntactic.h"
 #include "ast-struct.h"
-#include "semantics-analisys.h"
+#include "semantic-analisys.h"
 #include "semantics.h"
 
 using namespace antlr4;
