@@ -17,6 +17,7 @@
 #include "loader.h"
 #include "lexer-syntactic.h"
 #include "ast-struct.h"
+#include "semantics-analisys.h"
 #include "semantics.h"
 
 using namespace antlr4;
@@ -47,7 +48,10 @@ int main (int argc, const char **argv)
     #endif
 
     // Realiz análise semântica.
-    verbum_semantics semantics(lexer_syntactic.get_verbum_ast());
+    verbum_semantics_analisys semantics(lexer_syntactic.get_verbum_ast());
+
+    // Exibe AST.
+    verbum_semantics ast(lexer_syntactic.get_verbum_ast());
 
     #ifdef DBG_CLOCK
         auto semantic_end = chrono::steady_clock::now();
