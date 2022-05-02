@@ -20,6 +20,7 @@
 #include <vector>
 
 #include "ast-struct.h"
+#include "semantics.h"
 
 using namespace std;
 
