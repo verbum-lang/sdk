@@ -12,6 +12,9 @@
 #ifndef VERBUM_SEMANTICS_ANALISYS
 #define VERBUM_SEMANTICS_ANALISYS
 
+// Flags de controle da verificação.
+#define VERBUM_SEMANTIC_ANALISYS_VARIABLE 1
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,6 +33,10 @@ namespace verbum {
             verbum_semantics_analisys (vector <verbum_ast_node> ast);
 
         private:
+    
+            // Flag de controle da checagem/verificação semântica.
+            int step_check;
+    
             int block_counter;
 
             void tab ();
