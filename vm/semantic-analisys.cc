@@ -61,6 +61,12 @@ string verbum_semantics_analisys::print_operation (int operation) {
     return opstr;
 }
 
+#define default_recursive_block() do { \
+        this->block_counter++; \
+        this->verbum_recursive_ast(node.nodes); \
+        this->block_counter--; \
+    } while (0)
+
 void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> ast)
 {
     int size = ast.size();
@@ -69,155 +75,44 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
         verbum_ast_node node = ast[a];
 
         /*
-        ** Importações.
-        */
-        if (node.type == VERBUM_USE_BLOCK) {
-            // this->tab();
-            // cout << "-> use: ";
-
-            // if (node.use_type == VERBUM_USE_MODULE || node.use_type == VERBUM_USE_PATH) {
-                
-            //     if (node.use_type == VERBUM_USE_MODULE)
-            //         cout << node.use_module << " - module\n";
-            //     else if (node.use_type == VERBUM_USE_PATH)
-            //         cout << node.use_path << " - path\n";
-
-            //     this->tab();
-            //     cout << "-> elements: \n";
-                
-            //     for (int b=0; b<node.use_elements.size(); b++) {
-            //         this->tab();
-            //         cout << "  + "<< node.use_elements[b] << "\n";
-            //     }
-
-            // } else 
-            //     cout << node.use_elements[0] << " - archive\n";
-        }
-
-        /*
         ** Variáveis.
         */
 
         // Declarações e atribuições.
-        else if (node.type == VERBUM_VARIABLE_INITIALIZATION) {
-            // this->tab();
-            // cout << "-> variable: \n";
-
-            this->block_counter++;
-            // this->tab();
-
-            // if (node.variable_type == VERBUM_VARIABLE_ATTRIBUTION)
-            //     cout << "-> mode: attribution\n";
-            // else
-            //     cout << "-> mode: declaration\n";
-
-            this->verbum_recursive_ast(node.nodes);
-            this->block_counter--;
-        }
+        if (node.type == VERBUM_VARIABLE_INITIALIZATION)
+            default_recursive_block();
 
         // Informações da expressão.
         else if (node.type == VERBUM_VARIABLE_INFORMATION) {
-            // this->tab();
-            // cout << "-> variable-information-block (open)\n";
             this->block_counter++;
-            // this->tab();
 
             // Acesso a elementos de array.
             if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS) {
-                // cout << "-> array access:\n";
-
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
             }
 
             // Variáveis comuns.
-            else {
-                // cout << "-> element: ";
-
-                // if (node.variable_definition_type == VERBUM_VARIABLE_SIMPLE)
-                //     cout << node.variable_names.simple_name;
-
-                // // Utilizado para acesso de métodos e atributos.
-                // else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_INSTANCE)
-                //     cout << node.variable_names.object_name << " . " << node.variable_names.method_name;
-                // else if (node.variable_definition_type == VERBUM_VARIABLE_OBJ_STATIC)
-                //     cout << node.variable_names.object_name << " :: " << node.variable_names.method_name;
-                
-                // cout << "\n";
-            }
-
-            // // Verifica se há conversão de dados (casting).
-            // if (node.variable_type_conversion) {
-            //     this->tab();
-            //     cout << "-> casting: " << node.variable_type_conversion_name << "\n";
-            // }
-
-            // // Tipo de atribuição / operação.
-            // this->tab();
-            // cout << "-> operation: ";
-            // cout << this->print_operation(node.variable_operation) << "\n";
-
-            // // Verifica se há instanciamento de objeto.
-            // this->tab();
-            // cout << "-> action: ";
-
-            // switch (node.variable_mod_operation) {
-            //     case VERBUM_MOD_OP_OBJ_INSTANCE: cout << "new object\n"; break;
-            //     case VERBUM_MOD_OP_AWAIT:        cout << "await\n"; break;
-            //     case VERBUM_MOD_OP_SIMPLE:       cout << "simple\n"; break;
-            // }
+            else {  }
 
             this->block_counter--;
-            // this->tab();
-            // cout << "-> variable-information-block (close)\n";
         }
 
         // Atribuição múltipla (a = b = c = d) - Bloco geral.
         else if (node.type == VERBUM_MULTIPLE_ATTRIBUTION) {
-            // this->tab();
-            // cout << "-> multiple-attribution block (open)\n";
-            
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
-
-            // this->tab();
-            // cout << "-> multiple-attribution block (close)\n";
-        }
-
-        /*
-        ** Visibilidade dos itens (variáveis e métodos), e configurações das classes (final).
-        */
-        else if (node.type == VERBUM_ITEMS_VISIBILITY) {
-            // this->tab();
-            // cout << "-> visibility token: ";
-
-            // switch (node.item_visibility) {
-            //     case VERBUM_ITEMS_VISIBILITY_PUB:    cout << "pub";    break;
-            //     case VERBUM_ITEMS_VISIBILITY_PRIV:   cout << "priv";   break;
-            //     case VERBUM_ITEMS_VISIBILITY_PRO:    cout << "pro";    break;
-            //     case VERBUM_ITEMS_VISIBILITY_FINAL:  cout << "final";  break;
-            //     case VERBUM_ITEMS_VISIBILITY_STATIC: cout << "static"; break;
-            //     case VERBUM_ITEMS_VISIBILITY_ASYNC:  cout << "async";  break;
-            // }
-
-            // cout << "\n";
         }
 
         /*
         ** Ret.
         */
         else if (node.type == VERBUM_RET_BLOCK) {
-            // this->tab();
-            // cout << "-> ret block (open)\n";
-            
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
-
-            // this->tab();
-            // cout << "-> ret block (close)\n";
         }
 
         /*
