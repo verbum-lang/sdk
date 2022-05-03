@@ -447,78 +447,78 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
             if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE &&
                 node.function_declaration.anonymous == true)
             {
-                this->tab();
-                cout << "-> anonymous-function (open)\n";
+                // this->tab();
+                // cout << "-> anonymous-function (open)\n";
                 
-                if (node.function_declaration.ret_found) {
-                    this->tab();
-                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
-                }
+                // if (node.function_declaration.ret_found) {
+                //     this->tab();
+                //     cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                // }
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
 
-                this->tab();
-                cout << "-> anonymous-function (close)\n";
+                // this->tab();
+                // cout << "-> anonymous-function (close)\n";
             }
 
             // Funções/métodos.
             else if (node.function_declaration.type == VERBUM_FUNCTION_SIMPLE &&
                      node.function_declaration.anonymous == false)
             {
-                this->tab();
-                cout << "-> function (simple) - (open)\n";
-                this->tab();
-                cout << "-> function name: " << node.function_declaration.identifier << "\n";
+                // this->tab();
+                // cout << "-> function (simple) - (open)\n";
+                // this->tab();
+                // cout << "-> function name: " << node.function_declaration.identifier << "\n";
                 
-                if (node.function_declaration.ret_found) {
-                    this->tab();
-                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
-                }
+                // if (node.function_declaration.ret_found) {
+                //     this->tab();
+                //     cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                // }
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
 
-                this->tab();
-                cout << "-> function (simple) - (close)\n";
+                // this->tab();
+                // cout << "-> function (simple) - (close)\n";
             }
 
             // Construtores de classes.
             else if (node.function_declaration.type == VERBUM_FUNCTION_CLASS_CONSTRUCTOR) {
-                this->tab();
-                cout << "-> function (class constructor) - (open)\n";
+                // this->tab();
+                // cout << "-> function (class constructor) - (open)\n";
                 
-                this->tab();
-                cout << "-> function name: " << node.function_declaration.identifier << "\n";
+                // this->tab();
+                // cout << "-> function name: " << node.function_declaration.identifier << "\n";
                 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
                 
-                this->tab();
-                cout << "-> function (class constructor) - (close)\n";
+                // this->tab();
+                // cout << "-> function (class constructor) - (close)\n";
             }
 
             // Métodos de interface e classes abstratas.
             else if (node.function_declaration.type == VERBUM_FUNCTION_INTERFACE_ABSTRACT) {
-                this->tab();
-                cout << "-> function (interface-abstract method) - (open)\n";
-                this->tab();
-                cout << "-> function name: " << node.function_declaration.identifier << "\n";
+                // this->tab();
+                // cout << "-> function (interface-abstract method) - (open)\n";
+                // this->tab();
+                // cout << "-> function name: " << node.function_declaration.identifier << "\n";
                 
-                if (node.function_declaration.ret_found) {
-                    this->tab();
-                    cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
-                }
+                // if (node.function_declaration.ret_found) {
+                //     this->tab();
+                //     cout << "-> ret type: " << node.function_declaration.ret_data << "\n";
+                // }
 
                 this->block_counter++;
                 this->verbum_recursive_ast(node.nodes);
                 this->block_counter--;
                 
-                this->tab();
-                cout << "-> function (interface-abstract method) - (close)\n";
+                // this->tab();
+                // cout << "-> function (interface-abstract method) - (close)\n";
             }
         }
 
@@ -526,39 +526,39 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
         // Parâmetros da declaração da função / método.
         //
         else if (node.type == VERBUM_FUNCTION_PARAM_ITEM) {
-            this->tab();
-            cout << "-> function-param item: ";
-            cout << node.function_param_item << " -> " << node.function_param_type << "\n";
+            // this->tab();
+            // cout << "-> function-param item: ";
+            // cout << node.function_param_item << " -> " << node.function_param_type << "\n";
         }
 
         //
         // Bloco de código da declaração da função.
         //
         else if (node.type == VERBUM_FUNCTION_CODE_BLOCK) {
-            this->tab();
-            cout << "-> function code block (open)\n";
+            // this->tab();
+            // cout << "-> function code block (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> function code block (close)\n";
+            // this->tab();
+            // cout << "-> function code block (close)\n";
         }
 
         /*
         ** Parâmetros da função anônima.
         */
         else if (node.type == VERBUM_ANONYMOUS_FUNCTION_PARAM) {
-            this->tab();
-            cout << "-> anonymous-function-param - open\n";
+            // this->tab();
+            // cout << "-> anonymous-function-param - open\n";
 
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> anonymous-function-param - close\n";
+            // this->tab();
+            // cout << "-> anonymous-function-param - close\n";
         }
 
         /*
@@ -569,70 +569,70 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
         // Interfaces.
         //
         else if (node.type == VERBUM_OOP_INTERFACE) {
-            this->tab();
-            cout << "-> interface (open)\n";
-            this->tab();
-            cout << "-> name: " << node.interface.identifier_a << "\n";
+            // this->tab();
+            // cout << "-> interface (open)\n";
+            // this->tab();
+            // cout << "-> name: " << node.interface.identifier_a << "\n";
 
-            // Verifica se há herança.
-            if (node.interface.extends) {
-                this->tab();
-                cout << "-> inheritance: " << node.interface.identifier_b << "\n";
-            }
+            // // Verifica se há herança.
+            // if (node.interface.extends) {
+            //     this->tab();
+            //     cout << "-> inheritance: " << node.interface.identifier_b << "\n";
+            // }
 
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> interface (close)\n";
+            // this->tab();
+            // cout << "-> interface (close)\n";
         }
 
         else if (node.type == VERBUM_OOP_INTERFACE_CODE_BLOCK) {
-            this->tab();
-            cout << "-> interface code block (open)\n";
+            // this->tab();
+            // cout << "-> interface code block (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> interface code block (close)\n";
+            // this->tab();
+            // cout << "-> interface code block (close)\n";
         }
 
         //
         // Abstrações.
         //
         else if (node.type == VERBUM_OOP_ABSTRACT) {
-            this->tab();
-            cout << "-> abstract (open)\n";
-            this->tab();
-            cout << "-> name: " << node.abstract.identifier_a << "\n";
+            // this->tab();
+            // cout << "-> abstract (open)\n";
+            // this->tab();
+            // cout << "-> name: " << node.abstract.identifier_a << "\n";
 
-            // Verifica se há herança.
-            if (node.abstract.extends) {
-                this->tab();
-                cout << "-> inheritance: " << node.abstract.identifier_b << "\n";
-            }
+            // // Verifica se há herança.
+            // if (node.abstract.extends) {
+            //     this->tab();
+            //     cout << "-> inheritance: " << node.abstract.identifier_b << "\n";
+            // }
 
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> abstract (close)\n";
+            // this->tab();
+            // cout << "-> abstract (close)\n";
         }
 
         else if (node.type == VERBUM_OOP_ABSTRACT_CODE_BLOCK) {
-            this->tab();
-            cout << "-> abstract code block (open)\n";
+            // this->tab();
+            // cout << "-> abstract code block (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> abstract code block (close)\n";
+            // this->tab();
+            // cout << "-> abstract code block (close)\n";
         }
 
         /*
