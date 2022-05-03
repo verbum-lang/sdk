@@ -265,41 +265,41 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
 
         // If.
         else if (node.type == VERBUM_CONDITIONAL_IF) {
-            this->tab();
-            cout << "-> conditional-if (open)\n";
+            // this->tab();
+            // cout << "-> conditional-if (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> conditional-if (close)\n";
+            // this->tab();
+            // cout << "-> conditional-if (close)\n";
         }
 
         // Elif.
         else if (node.type == VERBUM_CONDITIONAL_ELIF) {
-            this->tab();
-            cout << "-> conditional-elif (open)\n";
+            // this->tab();
+            // cout << "-> conditional-elif (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> conditional-elif (close)\n";
+            // this->tab();
+            // cout << "-> conditional-elif (close)\n";
         }
 
         // Else.
         else if (node.type == VERBUM_CONDITIONAL_ELSE) {
-            this->tab();
-            cout << "-> conditional-else (open)\n";
+            // this->tab();
+            // cout << "-> conditional-else (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> conditional-else (close)\n";
+            // this->tab();
+            // cout << "-> conditional-else (close)\n";
         }
 
         /*
@@ -308,75 +308,75 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
 
         // Bloco geral.
         else if (node.type == VERBUM_LOOP) {
-            this->tab();
-            cout << "-> loop-block (open)\n";
+            // this->tab();
+            // cout << "-> loop-block (open)\n";
             
-            // Tipo do loop.
-            this->tab();
+            // // Tipo do loop.
+            // this->tab();
 
-            if (node.loop_type == VERBUM_LOOP_COMPLETE)
-                cout << "-> loop-type: complete\n";
-            else if (node.loop_type == VERBUM_LOOP_CONDITIONAL)
-                cout << "-> loop-type: conditional\n";
-            else if (node.loop_type == VERBUM_LOOP_INFINITE)
-                cout << "-> loop-type: infinite\n";
+            // if (node.loop_type == VERBUM_LOOP_COMPLETE)
+            //     cout << "-> loop-type: complete\n";
+            // else if (node.loop_type == VERBUM_LOOP_CONDITIONAL)
+            //     cout << "-> loop-type: conditional\n";
+            // else if (node.loop_type == VERBUM_LOOP_INFINITE)
+            //     cout << "-> loop-type: infinite\n";
 
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> loop-block (close)\n";
+            // this->tab();
+            // cout << "-> loop-block (close)\n";
         }
 
         // Blocos internos do loop.
         else if (node.type == VERBUM_LOOP_BLOCK) {
-            this->tab();
+            // this->tab();
 
-            // Inicialização.
-            if (node.loop_block_type == VERBUM_LOOP_INITIALIZATION)
-                cout << "-> loop-block: initialization (open)\n";
-            // Expressão.
-            else if (node.loop_block_type == VERBUM_LOOP_EXPRESSION)
-                cout << "-> loop-block: expression (open)\n";
-            // Incremento/decremento.
-            else if (node.loop_block_type == VERBUM_LOOP_INCDEC)
-                cout << "-> loop-block: inc/dec area (open)\n";
-            // Bloco de código.
-            else if (node.loop_block_type == VERBUM_LOOP_CODE_BLOCK)
-                cout << "-> loop-block: code block (open)\n";
+            // // Inicialização.
+            // if (node.loop_block_type == VERBUM_LOOP_INITIALIZATION)
+            //     cout << "-> loop-block: initialization (open)\n";
+            // // Expressão.
+            // else if (node.loop_block_type == VERBUM_LOOP_EXPRESSION)
+            //     cout << "-> loop-block: expression (open)\n";
+            // // Incremento/decremento.
+            // else if (node.loop_block_type == VERBUM_LOOP_INCDEC)
+            //     cout << "-> loop-block: inc/dec area (open)\n";
+            // // Bloco de código.
+            // else if (node.loop_block_type == VERBUM_LOOP_CODE_BLOCK)
+            //     cout << "-> loop-block: code block (open)\n";
 
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
+            // this->tab();
 
-            // Inicialização.
-            if (node.loop_block_type == VERBUM_LOOP_INITIALIZATION)
-                cout << "-> loop-block: initialization (close)\n";
-            // Expressão.
-            else if (node.loop_block_type == VERBUM_LOOP_EXPRESSION)
-                cout << "-> loop-block: expression (close)\n";
-            // Incremento/decremento.
-            else if (node.loop_block_type == VERBUM_LOOP_INCDEC)
-                cout << "-> loop-block: inc/dec area (close)\n";
-            // Bloco de código.
-            else if (node.loop_block_type == VERBUM_LOOP_CODE_BLOCK)
-                cout << "-> loop-block: code block (close)\n";
+            // // Inicialização.
+            // if (node.loop_block_type == VERBUM_LOOP_INITIALIZATION)
+            //     cout << "-> loop-block: initialization (close)\n";
+            // // Expressão.
+            // else if (node.loop_block_type == VERBUM_LOOP_EXPRESSION)
+            //     cout << "-> loop-block: expression (close)\n";
+            // // Incremento/decremento.
+            // else if (node.loop_block_type == VERBUM_LOOP_INCDEC)
+            //     cout << "-> loop-block: inc/dec area (close)\n";
+            // // Bloco de código.
+            // else if (node.loop_block_type == VERBUM_LOOP_CODE_BLOCK)
+            //     cout << "-> loop-block: code block (close)\n";
         }
 
         /*
         ** Comandos: break e next (for).
         */
         else if (node.type == VERBUM_TOKEN_BREAK) {
-            this->tab();
-            cout << "-> command-break (for)\n";
+            // this->tab();
+            // cout << "-> command-break (for)\n";
         }
 
         else if (node.type == VERBUM_TOKEN_NEXT) {
-            this->tab();
-            cout << "-> command-next (for)\n";
+            // this->tab();
+            // cout << "-> command-next (for)\n";
         }
 
         /*
@@ -385,57 +385,57 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
 
         // Bloco geral.
         else if (node.type == VERBUM_TRY_BLOCK) {
-            this->tab();
-            cout << "-> try-catch (open)\n";
+            // this->tab();
+            // cout << "-> try-catch (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> try-catch (close)\n";
+            // this->tab();
+            // cout << "-> try-catch (close)\n";
         }
 
         // Bloco try.
         else if (node.type == VERBUM_TRY_TRY) {
-            this->tab();
-            cout << "-> try-catch try (open)\n";
+            // this->tab();
+            // cout << "-> try-catch try (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> try-catch try (close)\n";
+            // this->tab();
+            // cout << "-> try-catch try (close)\n";
         }
 
         // Bloco catch.
         else if (node.type == VERBUM_TRY_CATCH) {
-            this->tab();
-            cout << "-> try-catch catch (open)\n";
+            // this->tab();
+            // cout << "-> try-catch catch (open)\n";
             
-            this->tab();
-            cout << "-> catch-param-name: " << node.catch_identifier << "\n";
+            // this->tab();
+            // cout << "-> catch-param-name: " << node.catch_identifier << "\n";
 
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> try-catch catch (close)\n";
+            // this->tab();
+            // cout << "-> try-catch catch (close)\n";
         }
 
         // Bloco de código.
         else if (node.type == VERBUM_TRY_CODE_BLOCK) {
-            this->tab();
-            cout << "-> try-catch code-block (open)\n";
+            // this->tab();
+            // cout << "-> try-catch code-block (open)\n";
             
             this->block_counter++;
             this->verbum_recursive_ast(node.nodes);
             this->block_counter--;
 
-            this->tab();
-            cout << "-> try-catch code-block (close)\n";
+            // this->tab();
+            // cout << "-> try-catch code-block (close)\n";
         }
 
         /*
