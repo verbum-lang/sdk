@@ -36,12 +36,9 @@ namespace verbum {
     
             // Flag de controle da checagem/verificação semântica.
             int step_check;
-    
             int block_counter;
 
-            void tab ();
             void verbum_recursive_ast (vector <verbum_ast_node> ast);
-            string print_operation (int operation);
     };
 }
 
