@@ -54,6 +54,7 @@ string verbum_semantics_analisys::print_operation (int operation) {
         case VERBUM_OPERATOR_MAJOR_EQUAL: opstr = ">="; break;
         case VERBUM_OPERATOR_MINOR_EQUAL: opstr = "<="; break;
         case VERBUM_OPERATOR_AND:         opstr = "&&"; break;
+        case VERBUM_OPERATOR_OR:          opstr = "||"; break;
         case VERBUM_OPERATOR_EQUAL:       opstr = "=="; break;
         case VERBUM_OPERATOR_NOT_EQUAL:   opstr = "!="; break;
         case VERBUM_OPERATOR_NOT:         opstr =  "!"; break;

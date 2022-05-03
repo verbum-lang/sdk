@@ -221,6 +221,8 @@ int verbum_ast_visitor::check_arithmeic_and_assignment_operator (string op) {
         opret = VERBUM_OPERATOR_MINOR_EQUAL;
     else if (op.compare("&&") == 0)
         opret = VERBUM_OPERATOR_AND;
+    else if (op.compare("||")  == 0)
+        opret = VERBUM_OPERATOR_OR;
     else if (op.compare("==") == 0)
         opret = VERBUM_OPERATOR_EQUAL;
     else if (op.compare("!=") == 0)
