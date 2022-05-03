@@ -197,6 +197,14 @@ using namespace std;
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
 {
+    /*
+    ** Controle das ocorrências.
+    */
+    
+
+    /*
+    ** Controle da sintaxe.
+    */
     int type;                                       // Tipo do elemento.
                                                     //      VERBUM_USE
                                                     //      VERBUM_VARIABLE_INITIALIZATION

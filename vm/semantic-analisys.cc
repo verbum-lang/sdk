@@ -9,6 +9,7 @@
 #include "configuration.h"
 #include "ast-struct.h"
 #include "semantic-analisys.h"
+#include "message-error.h"
 
 using namespace verbum;
 using namespace std;
@@ -18,6 +19,14 @@ using namespace std;
         this->step_check = ANALISYS_STEP; \
         this->verbum_recursive_ast(ast); \
     } while (0)
+
+#define default_recursive_block() do { \
+        this->block_counter++; \
+        this->verbum_recursive_ast(node.nodes); \
+        this->block_counter--; \
+    } while (0)
+
+#define check_step(STEP_ID) this->step_check==STEP_ID
 
 verbum_semantics_analisys::verbum_semantics_analisys (vector <verbum_ast_node> ast) 
 {
@@ -60,14 +69,6 @@ string verbum_semantics_analisys::get_str_operator (int operation) {
 
     return opstr;
 }
-
-#define default_recursive_block() do { \
-        this->block_counter++; \
-        this->verbum_recursive_ast(node.nodes); \
-        this->block_counter--; \
-    } while (0)
-
-#define check_step(STEP_ID) this->step_check==STEP_ID
 
 void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> ast)
 {
