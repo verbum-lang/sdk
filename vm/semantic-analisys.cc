@@ -28,11 +28,46 @@ verbum_semantics_analisys::verbum_semantics_analisys (vector <verbum_ast_node> a
     process_semantic_analisys(VERBUM_SEMANTIC_ANALISYS_VARIABLE);
 }
 
+string verbum_semantics_analisys::get_str_operator (int operation) {
+    string opstr = "unknown";
+
+    switch (operation) 
+    {
+        // Operadores aritméticos.
+        case VERBUM_OPERATOR_ADD:         opstr =  "+"; break;
+        case VERBUM_OPERATOR_SUB:         opstr =  "-"; break;
+        case VERBUM_OPERATOR_DIV:         opstr =  "/"; break;
+        case VERBUM_OPERATOR_MUL:         opstr =  "*"; break;
+        case VERBUM_OPERATOR_PERC:        opstr =  "%"; break;
+
+        // Operadores de atribuição (e outros).
+        case VERBUM_OPERATOR_ATTR:        opstr =  "="; break;
+        case VERBUM_OPERATOR_ADD_EQUAL:   opstr = "+="; break;
+        case VERBUM_OPERATOR_SUB_EQUAL:   opstr = "-="; break;
+        case VERBUM_OPERATOR_MUL_EQUAL:   opstr = "*="; break;
+        case VERBUM_OPERATOR_DIV_EQUAL:   opstr = "/="; break;
+        case VERBUM_OPERATOR_PERC_EQUAL:  opstr = "%="; break;
+        case VERBUM_OPERATOR_MAJOR:       opstr =  ">"; break;
+        case VERBUM_OPERATOR_MINOR:       opstr =  "<"; break;
+        case VERBUM_OPERATOR_MAJOR_EQUAL: opstr = ">="; break;
+        case VERBUM_OPERATOR_MINOR_EQUAL: opstr = "<="; break;
+        case VERBUM_OPERATOR_AND:         opstr = "&&"; break;
+        case VERBUM_OPERATOR_OR:          opstr = "||"; break;
+        case VERBUM_OPERATOR_EQUAL:       opstr = "=="; break;
+        case VERBUM_OPERATOR_NOT_EQUAL:   opstr = "!="; break;
+        case VERBUM_OPERATOR_NOT:         opstr =  "!"; break;
+    }
+
+    return opstr;
+}
+
 #define default_recursive_block() do { \
         this->block_counter++; \
         this->verbum_recursive_ast(node.nodes); \
         this->block_counter--; \
     } while (0)
+
+#define check_step(STEP_ID) this->step_check==STEP_ID
 
 void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> ast)
 {
@@ -51,7 +86,24 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                 default_recursive_block();
 
             // Variáveis comuns.
-            else {  }
+            else { }
+
+            /*
+            ** Verificação do operador.
+            */
+            if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE))
+            {
+                switch (node.variable_operation) {
+                    case VERBUM_OPERATOR_ATTR:      
+                    case VERBUM_OPERATOR_ADD_EQUAL: 
+                    case VERBUM_OPERATOR_SUB_EQUAL: 
+                    case VERBUM_OPERATOR_MUL_EQUAL: 
+                    case VERBUM_OPERATOR_DIV_EQUAL: 
+                    case VERBUM_OPERATOR_PERC_EQUAL: break;
+                    default:
+                        cout << "Invalid operator: " << this->get_str_operator(node.variable_operation) <<"\n";
+                }
+            }
 
             this->block_counter--;
         }

@@ -38,6 +38,7 @@ namespace verbum {
             int step_check;
             int block_counter;
 
+            string get_str_operator (int operation);
             void verbum_recursive_ast (vector <verbum_ast_node> ast);
     };
 }
