@@ -108,7 +108,7 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
     for (int a=0; a<size; a++) {
         verbum_ast_node node = ast[a];
 
-        if (node.type == VERBUM_VARIABLE_INITIALIZATION) 
+        if (node.type == VERBUM_VARIABLE_INITIALIZATION)
             default_recursive_block();
 
         // Informações da expressão.

@@ -21,6 +21,19 @@ using namespace antlr4;
 using namespace verbum;
 using namespace std;
 
+#define get_error_node() do { \
+    node.error_node.text = ctx->getText(); \
+    node.error_node.position.line = ctx->getStart()->getLine(); \
+    node.error_node.position.ch_position = ctx->getStart()->getCharPositionInLine(); \
+    node.error_node.position.start_index = ctx->getStart()->getStartIndex(); \
+    node.error_node.position.stop_index = ctx->getStart()->getStopIndex(); \
+    node.error_node.token_index = ctx->getStart()->getTokenIndex(); \
+    node.error_node.type = ctx->getStart()->getType(); \
+    node.error_node.next_token = ctx->getStart()->getTokenSource()->nextToken()->getText(); \
+    node.error_node.source_name = ctx->getStart()->getTokenSource()->getSourceName(); \
+    node.error_node.interval = ctx->getSourceInterval().toString(); \
+} while (0)
+
 void verbum_ast_visitor::prepare_data ()
 {
     this->ast = this->zero_data();
@@ -179,8 +192,20 @@ verbum_ast_node verbum_ast_visitor::zero_data ()
     ast.anonymous_method_found              = false;
     ast.anonymous_method_data               = "";
 
-    // Limpa estruturas de controle.
+    // Limpa nodes-filho.
     ast.nodes.clear();
+
+    // Limpa estrutura de controle dos erros.
+    ast.error_node.text                     = "";
+    ast.error_node.token_index              = 0;
+    ast.error_node.type                     = 0;
+    ast.error_node.next_token               = "";
+    ast.error_node.source_name              = "";
+    ast.error_node.interval                 = "";
+    ast.error_node.position.line            = 0;
+    ast.error_node.position.ch_position     = 0;
+    ast.error_node.position.start_index     = 0;
+    ast.error_node.position.stop_index      = 0;
 
     return ast;
 }
@@ -240,8 +265,10 @@ antlrcpp::Any verbum_ast_visitor::visitUseString (TParser::UseStringContext *ctx
 {
     string content = ctx->getText().substr(1, ctx->getText().length() - 2);
     verbum_use_import verbum_use(content);
-    verbum_ast_node ast_node = verbum_use.get_ast_node();
-    ast.nodes.push_back(verbum_use.get_ast_node());
+    verbum_ast_node node = verbum_use.get_ast_node();
+
+    get_error_node();
+    ast.nodes.push_back(node);
 
     return visitChildren(ctx);
 }
@@ -257,6 +284,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockVariable (TParser::BlockVariableCont
     node.type = VERBUM_VARIABLE_INITIALIZATION;
     node.variable_type = VERBUM_VARIABLE_DECLARATION;
     
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -273,6 +301,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockAttribution (TParser::BlockAttributi
     node.type = VERBUM_VARIABLE_INITIALIZATION;
     node.variable_type = VERBUM_VARIABLE_ATTRIBUTION;
     
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -313,7 +342,9 @@ antlrcpp::Any verbum_ast_visitor::visitVariableItem (TParser::VariableItemContex
         node.variable_operation = this->check_arithmeic_and_assignment_operator(
             ctx->variablePrefixModes()->AssignmentOperator()->getText());
 
+    get_error_node();
     this->add_node(node);
+
     return visitChildren(ctx);
 }
 
@@ -364,7 +395,9 @@ antlrcpp::Any verbum_ast_visitor::visitAttributionElements (TParser::Attribution
         node.variable_operation = this->check_arithmeic_and_assignment_operator(
             ctx->AssignmentOperator()->getText());
 
+    get_error_node();
     this->add_node(node);
+
     return visitChildren(ctx);
 }
 
@@ -374,6 +407,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockMultipleAssignments (TParser::BlockM
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_MULTIPLE_ATTRIBUTION;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -404,6 +438,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockPermissionTokens (TParser::BlockPerm
     else if (ctx->Async())
         node.item_visibility = VERBUM_ITEMS_VISIBILITY_ASYNC;
 
+    get_error_node();
     this->add_node(node);
     return visitChildren(ctx);
 }
@@ -416,6 +451,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockRet (TParser::BlockRetContext *ctx)
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_RET_BLOCK;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -435,6 +471,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockConditional (TParser::BlockCondition
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_BLOCK;
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -450,6 +487,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalBlockExpression (TParser::Cond
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_EXPRESSION_BLOCK;
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -465,6 +503,7 @@ antlrcpp::Any verbum_ast_visitor::visitConditionalBlockElements (TParser::Condit
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_CODE_BLOCK;
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -480,6 +519,7 @@ antlrcpp::Any verbum_ast_visitor::visitIfElementUnique (TParser::IfElementUnique
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_IF;
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -495,6 +535,7 @@ antlrcpp::Any verbum_ast_visitor::visitElifElementUnique (TParser::ElifElementUn
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_ELIF;
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -510,6 +551,7 @@ antlrcpp::Any verbum_ast_visitor::visitElseElementUnique (TParser::ElseElementUn
     verbum_ast_node node = this->zero_data();
     
     node.type = VERBUM_CONDITIONAL_ELSE;
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -555,6 +597,7 @@ antlrcpp::Any verbum_ast_visitor::visitCodeBlockFlowControlElements (TParser::Co
                 ctx->functionCallFlowControl()->identifier()->getText();
         }
 
+        get_error_node();
         this->add_node(node);
     
         this->node_block_counter++;
@@ -590,6 +633,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockLoop (TParser::BlockLoopContext *ctx
     else if (ctx->loopInfinite())
         node.loop_type = VERBUM_LOOP_INFINITE;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -606,6 +650,7 @@ antlrcpp::Any verbum_ast_visitor::visitLoopOneMembers (TParser::LoopOneMembersCo
     node.type            = VERBUM_LOOP_BLOCK;
     node.loop_block_type = VERBUM_LOOP_INITIALIZATION;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -622,6 +667,7 @@ antlrcpp::Any verbum_ast_visitor::visitLoopTwoMembers (TParser::LoopTwoMembersCo
     node.type            = VERBUM_LOOP_BLOCK;
     node.loop_block_type = VERBUM_LOOP_EXPRESSION;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -638,6 +684,7 @@ antlrcpp::Any verbum_ast_visitor::visitLoopThreeMembers (TParser::LoopThreeMembe
     node.type            = VERBUM_LOOP_BLOCK;
     node.loop_block_type = VERBUM_LOOP_INCDEC;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -654,6 +701,7 @@ antlrcpp::Any verbum_ast_visitor::visitLoopBlockElements (TParser::LoopBlockElem
     node.type            = VERBUM_LOOP_BLOCK;
     node.loop_block_type = VERBUM_LOOP_CODE_BLOCK;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -673,6 +721,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockBreak (TParser::BlockBreakContext *c
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_TOKEN_BREAK;
     
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -688,6 +737,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockNext (TParser::BlockNextContext *ctx
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_TOKEN_NEXT;
     
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -706,6 +756,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockTryCatch (TParser::BlockTryCatchCont
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_TRY_BLOCK;
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -720,6 +771,7 @@ antlrcpp::Any verbum_ast_visitor::visitTryUniqueElement (TParser::TryUniqueEleme
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_TRY_TRY;
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -735,6 +787,7 @@ antlrcpp::Any verbum_ast_visitor::visitCatchUniqueElement (TParser::CatchUniqueE
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_TRY_CATCH;
     node.catch_identifier = ctx->identifier()->getText();
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -749,6 +802,7 @@ antlrcpp::Any verbum_ast_visitor::visitTryCatchElements (TParser::TryCatchElemen
 {
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_TRY_CODE_BLOCK;
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -796,6 +850,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunction (TParser::BlockFunctionCont
     if (ctx->End() && !ctx->openOpA() && !ctx->closeOpA())
         node.function_declaration.type = VERBUM_FUNCTION_INTERFACE_ABSTRACT;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -810,6 +865,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunctionDeclarationAttr (TParser::Bl
 {
     REP_FUNCTION_DECLARATION_BLOCK
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -828,6 +884,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionParam (TParser::FunctionParamCont
     node.function_param_item = ctx->Identifier()->getText();
     node.function_param_type = ctx->TypeSpec()->getText();
 
+    get_error_node();
     this->add_node(node);
     return  visitChildren(ctx);
 
@@ -839,6 +896,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionCodeBlock (TParser::FunctionCodeB
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_FUNCTION_CODE_BLOCK;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -856,6 +914,7 @@ antlrcpp::Any verbum_ast_visitor::visitFunctionAnonymousParam (TParser::Function
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_ANONYMOUS_FUNCTION_PARAM;
     
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -876,6 +935,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClassConstructor (TParser::BlockClas
     node.function_declaration.type       = VERBUM_FUNCTION_CLASS_CONSTRUCTOR;
     node.function_declaration.identifier = ctx->identifier()->getText();
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -902,6 +962,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockInterface (TParser::BlockInterfaceCo
         node.interface.identifier_b = ctx->identifierB()->getText();
     }
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -917,6 +978,7 @@ antlrcpp::Any verbum_ast_visitor::visitInterfaceCodeBlock (TParser::InterfaceCod
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_OOP_INTERFACE_CODE_BLOCK;
     
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -939,6 +1001,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockAbstraction (TParser::BlockAbstracti
         node.abstract.identifier_b = ctx->identifierB()->getText();
     }
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -954,6 +1017,7 @@ antlrcpp::Any verbum_ast_visitor::visitAbstractionCodeBlock (TParser::Abstractio
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_OOP_ABSTRACT_CODE_BLOCK;
     
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1007,6 +1071,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClass (TParser::BlockClassContext *c
         }
     }
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1056,6 +1121,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockClassDeclarationAttr (TParser::Block
         }
     }
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1071,6 +1137,7 @@ antlrcpp::Any verbum_ast_visitor::visitClassCodeBlock (TParser::ClassCodeBlockCo
     verbum_ast_node node = this->zero_data();
     node.type            = VERBUM_OOP_CLASS_CODE_BLOCK;
     
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1104,6 +1171,7 @@ antlrcpp::Any verbum_ast_visitor::visitClassCodeBlock (TParser::ClassCodeBlockCo
     else if (ctx->TwoTwoPoint())                                            \
         node.attribute_object_type = VERBUM_ATTRIBUTE_OBJECT_STATIC;        \
                                                                             \
+    get_error_node();                                                       \
     this->add_node(node);                                                   \
                                                                             \
     this->node_block_counter++;                                             \
@@ -1145,6 +1213,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockLambdaFunctions (TParser::BlockLambd
             node.operation_type_conversion_data = ctx->TypeSpec()->getText();
     }
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1165,6 +1234,7 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFnParams (TParser::LambdaFnParamsCo
     if (ctx->TypeSpec())
         node.function_param_type = ctx->TypeSpec()->getText();
 
+    get_error_node();
     this->add_node(node);
     return visitChildren(ctx);
 }
@@ -1178,6 +1248,7 @@ antlrcpp::Any verbum_ast_visitor::visitLambdaFnCodeBlock (TParser::LambdaFnCodeB
     if (ctx->codeBlockControl())
         node.type = VERBUM_LAMBDA_FUNCTION_CODE_BLOCK_COMPLETE;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1224,6 +1295,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockFunctionCall (TParser::BlockFunction
         }
     }
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1245,6 +1317,7 @@ antlrcpp::Any verbum_ast_visitor::visitAssociativeArrayElements (TParser::Associ
     node.general_value_data.type = VERBUM_DATA_ASSOC_ARRAY_ELEMENT;
     node.general_value_data.identifier = ctx->identifier()->getText();
     
+    get_error_node();
     this->add_node(node);
     return visitChildren(ctx);
 }
@@ -1259,6 +1332,7 @@ antlrcpp::Any verbum_ast_visitor::visitBlockAccessArrayElements (TParser::BlockA
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_ACCESS_ARRAY_BLOCK;
     
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1313,6 +1387,7 @@ antlrcpp::Any verbum_ast_visitor::visitArrayAccessElementsItems (TParser::ArrayA
             node.access_array_type.type_inc_dec = VERBUM_OP_TYPE_DEC;
     }
     
+    get_error_node();
     this->add_node(node);
 
     // Caso seja bloco de acesso, torna-o node filho do membro em questão.
@@ -1337,6 +1412,7 @@ antlrcpp::Any verbum_ast_visitor::visitArrayIndexAccess (TParser::ArrayIndexAcce
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_ACCESS_ARRAY_INDEX_BLOCK;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1356,6 +1432,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValueBlock (TParser::GeneralValueB
     verbum_ast_node node = this->zero_data();
     node.type = VERBUM_GENERAL_VALUE_BLOCK;
 
+    get_error_node();
     this->add_node(node);
 
     this->node_block_counter++;
@@ -1544,6 +1621,7 @@ antlrcpp::Any verbum_ast_visitor::visitGeneralValue (TParser::GeneralValueContex
         block = true;
     }
 
+    get_error_node();
     this->add_node(node);
 
     if (block) {
