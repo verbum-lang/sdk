@@ -17,12 +17,13 @@ using namespace std;
 #define process_semantic_analisys(ANALISYS_STEP) do { \
         this->block_counter = 0; \
         this->step_check = ANALISYS_STEP; \
-        this->verbum_recursive_ast(ast); \
+        this->verbum_recursive_ast(ast, 0); \
     } while (0)
 
 #define default_recursive_block() do { \
         this->block_counter++; \
-        this->verbum_recursive_ast(node.nodes); \
+        this->parent = node; \
+        this->verbum_recursive_ast(node.nodes, index + 1); \
         this->block_counter--; \
     } while (0)
 
@@ -70,14 +71,14 @@ string verbum_semantics_analisys::get_str_operator (int operation) {
     return opstr;
 }
 
-void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> ast)
+void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> ast, int index)
 {
     int size = ast.size();
 
     for (int a=0; a<size; a++) {
         verbum_ast_node node = ast[a];
 
-        if (node.type == VERBUM_VARIABLE_INITIALIZATION)
+        if (node.type == VERBUM_VARIABLE_INITIALIZATION) 
             default_recursive_block();
 
         // Informações da expressão.
@@ -94,15 +95,28 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
             */
             if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE))
             {
-                switch (node.variable_operation) {
-                    case VERBUM_OPERATOR_ATTR:      
-                    case VERBUM_OPERATOR_ADD_EQUAL: 
-                    case VERBUM_OPERATOR_SUB_EQUAL: 
-                    case VERBUM_OPERATOR_MUL_EQUAL: 
-                    case VERBUM_OPERATOR_DIV_EQUAL: 
-                    case VERBUM_OPERATOR_PERC_EQUAL: break;
-                    default:
-                        cout << "Invalid operator: " << this->get_str_operator(node.variable_operation) <<"\n";
+                if (this->parent.type == VERBUM_VARIABLE_INITIALIZATION) 
+                {
+                    // Verificações para a declaração de variáveis.
+                    if (this->parent.variable_type == VERBUM_VARIABLE_DECLARATION) {
+                        cout << "declaration\n";
+
+                        switch (node.variable_operation) {
+                            case VERBUM_OPERATOR_ATTR:      
+                            case VERBUM_OPERATOR_ADD_EQUAL: 
+                            case VERBUM_OPERATOR_SUB_EQUAL: 
+                            case VERBUM_OPERATOR_MUL_EQUAL: 
+                            case VERBUM_OPERATOR_DIV_EQUAL: 
+                            case VERBUM_OPERATOR_PERC_EQUAL: break;
+                            default:
+                                cout << "Invalid operator ["<< index <<"]: " << this->get_str_operator(node.variable_operation) <<"\n";
+                        }
+                    }
+
+                    // Verificações para as atribuições.
+                    else if (this->parent.variable_type == VERBUM_VARIABLE_ATTRIBUTION) {
+                        cout << "attr\n";
+                    }
                 }
             }
 
@@ -209,7 +223,7 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
         }
 
         else if (node.type == VERBUM_GENERAL_VALUE_BLOCK) 
-            this->verbum_recursive_ast(node.nodes);
+            this->verbum_recursive_ast(node.nodes, index + 1);
 
     }
 }

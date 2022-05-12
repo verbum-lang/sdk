@@ -33,13 +33,13 @@ namespace verbum {
             verbum_semantics_analisys (vector <verbum_ast_node> ast);
 
         private:
-    
             // Flag de controle da checagem/verificação semântica.
             int step_check;
             int block_counter;
+            verbum_ast_node parent;
 
             string get_str_operator (int operation);
-            void verbum_recursive_ast (vector <verbum_ast_node> ast);
+            void verbum_recursive_ast (vector <verbum_ast_node> ast, int index);
     };
 }
 

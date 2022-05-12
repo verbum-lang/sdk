@@ -49,7 +49,7 @@ void verbum_ast_visitor::add_node_internal_ptr (verbum_ast_node source, verbum_a
     if (last < 0)
         last = 0;
 
-    if (this->node_run_counter == this->node_block_counter) 
+    if (this->node_run_counter == this->node_block_counter)
         destination->nodes.push_back(source);
     else {
         this->node_run_counter++;
