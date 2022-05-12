@@ -13,6 +13,7 @@
 #include "global.h"
 #include "syntax-analisys.h"
 #include "message-error.h"
+#include "ast-struct.h"
 
 using namespace verbum;
 using namespace antlr4;

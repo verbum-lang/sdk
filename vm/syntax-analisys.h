@@ -21,34 +21,12 @@
 #include "TParserBaseVisitor.h"
 #include "TParserBaseListener.h"
 
+#include "ast-struct.h"
+
 using namespace antlr4;
 using namespace std;
 
 namespace verbum {
-
-    // Estrutura de controle dos nodes com erro.
-    typedef struct {
-
-        // Texto completo.
-        string text;
-
-        // Posição da ocorrência.
-        struct {
-            int line;
-            int ch_position;
-            int start_index;
-            int stop_index;
-        } position;
-
-        // Gerais.
-        int token_index;
-        int type;
-        string next_token;
-        string source_name;
-        string interval;
-
-    } verbum_error_node;
-
     class verbum_ast_listener : public TParserBaseListener
     {
         private:

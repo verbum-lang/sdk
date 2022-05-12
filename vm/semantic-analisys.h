@@ -30,15 +30,22 @@ namespace verbum {
     class verbum_semantics_analisys
     {
         public:
-            verbum_semantics_analisys (vector <verbum_ast_node> ast);
+            verbum_semantics_analisys (string file_path, vector<char> file_content, vector <verbum_ast_node> ast);
 
         private:
-            // Flag de controle da checagem/verificação semântica.
+            // Flags de controle.
             int step_check;
             int block_counter;
             verbum_ast_node parent;
+            string file_path;
+            vector<char> file_content;
 
             string get_str_operator (int operation);
+            
+            void display_error(
+                int line, int ch_position, int start_index, int stop_index, 
+                string spec_message, string error_message, vector <string> big_message);
+            
             void verbum_recursive_ast (vector <verbum_ast_node> ast, int index);
     };
 }

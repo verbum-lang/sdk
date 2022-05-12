@@ -194,13 +194,36 @@ using namespace std;
 #define VERBUM_ATTRIBUTE_OBJECT_STATIC                  117
 #define VERBUM_ATTRIBUTE_OBJECT_INSTANCE                118 
 
+// Estrutura de controle dos nodes com erro.
+typedef struct {
+
+    // Texto completo.
+    string text;
+
+    // Posição da ocorrência.
+    struct {
+        int line;
+        int ch_position;
+        int start_index;
+        int stop_index;
+    } position;
+
+    // Gerais.
+    int token_index;
+    int type;
+    string next_token;
+    string source_name;
+    string interval;
+
+} verbum_error_node;
+
 // Controle dos nodes/hierarquização da própria estrutura AST.
 typedef struct verbum_ast_node 
 {
     /*
     ** Controle das ocorrências.
     */
-    
+    verbum_error_node error_node;
 
     /*
     ** Controle da sintaxe.

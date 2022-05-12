@@ -48,7 +48,8 @@ int main (int argc, const char **argv)
     #endif
 
     // Realiz análise semântica.
-    verbum_semantics_analisys semantics(lexer_syntactic.get_verbum_ast());
+    verbum_semantics_analisys semantics(
+      loader.get_file_path(), loader.get_file_content(), lexer_syntactic.get_verbum_ast());
 
     // Exibe AST.
     verbum_semantics ast(lexer_syntactic.get_verbum_ast());
