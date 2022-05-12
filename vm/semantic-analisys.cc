@@ -47,25 +47,10 @@ void verbum_semantics_analisys::display_error(
     int line, int ch_position, int start_index, int stop_index, 
     string spec_message, string error_message, vector <string> big_message) 
 {
-    cout << "file_path: "<< this->file_path <<"\n";
-    cout << "line: "<< line << "\n";
-    cout << "ch_position: "<< ch_position << "\n";
-    cout << "spec_message: "<< spec_message << "\n";
-    cout << "error_message: "<< error_message << "\n";
-    
-    if (big_message.size() > 0) {
-        cout << "big_message: \n";
+    verbum_message_error message_error(
+        this->file_path, this->file_content, "semantic-analisys", start_index, stop_index, "");
 
-        for (int a=0; a<big_message.size(); a++)
-            cout << "\t"<< big_message[a] << "\n";
-    }
-
-    // verbum_message_error message_error(
-    //     this->file_path, this->file_content, "semantic-analisys", start_index, stop_index, "");
-
-    // message_error.display_error(line, ch_position, spec_message, error_message, big_message);
-
-    exit(0);
+    message_error.display_error(line, ch_position, spec_message, error_message, big_message);
 }
 
 string verbum_semantics_analisys::get_str_operator (int operation) {
@@ -130,11 +115,7 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                     // Verificações para a declaração de variáveis.
                     if (this->parent.variable_type == VERBUM_VARIABLE_DECLARATION) {
                         if (node.variable_operation != VERBUM_OPERATOR_ATTR) {
-                        
-                            int line = 0;
-                            int ch_position = 0;
-                            int start_index = 0;
-                            int stop_index = 0; 
+
                             string spec_message = "spec msg";
                             string error_message = "error msg";
                             
@@ -143,10 +124,20 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                             big_message.push_back("big msg 2");
                             big_message.push_back("big msg 3");
 
-                            this->display_error(line, ch_position, start_index, stop_index, spec_message, error_message, big_message);
-                            
-                            cout << "Invalid operator ["<< index <<"]: " << 
-                                this->get_str_operator(node.variable_operation) <<"\n";
+
+                            do {
+                                int e_line = node.error_node.position.line;
+                                int e_ch_position = node.error_node.position.ch_position;
+                                int e_start_index = node.error_node.position.start_index;
+                                int e_stop_index = node.error_node.position.stop_index; 
+
+                                this->display_error(
+                                    e_line, e_ch_position, e_start_index, e_stop_index, 
+                                    spec_message, error_message, big_message);
+                            } while (0);
+
+                            // cout << "Invalid operator ["<< index <<"]: " << 
+                            //     this->get_str_operator(node.variable_operation) <<"\n";
                         }
                     }
 
