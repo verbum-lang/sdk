@@ -69,20 +69,6 @@ void verbum_semantics::verbum_recursive_ast (vector <verbum_ast_node> ast)
         ** Importações.
         */
         if (node.type == VERBUM_USE_BLOCK) {
-
-            cout << "text: " << node.error_node.text << "\n";
-            cout << "position.line: " << node.error_node.position.line << "\n";
-            cout << "position.ch_position: " << node.error_node.position.ch_position << "\n";
-            cout << "position.start_index: " << node.error_node.position.start_index << "\n";
-            cout << "position.stop_index: " << node.error_node.position.stop_index << "\n";
-            cout << "token_index: " << node.error_node.token_index << "\n";
-            cout << "type: " << node.error_node.type << "\n";
-            cout << "next_token: " << node.error_node.next_token << "\n";
-            cout << "source_name: " << node.error_node.source_name << "\n";
-            cout << "interval: " << node.error_node.interval << "\n\n";
-
-            // +++
-
             this->tab();
             cout << "-> use: ";
 

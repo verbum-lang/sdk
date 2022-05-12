@@ -15,20 +15,39 @@
 using namespace verbum;
 using namespace std;
 
-#define process_semantic_analisys(ANALISYS_STEP) do { \
-        this->block_counter = 0; \
-        this->step_check = ANALISYS_STEP; \
-        this->verbum_recursive_ast(ast, 0); \
+#define process_semantic_analisys(ANALISYS_STEP) do {                           \
+        this->block_counter = 0;                                                \
+        this->step_check = ANALISYS_STEP;                                       \
+        this->verbum_recursive_ast(ast, 0);                                     \
     } while (0)
 
-#define default_recursive_block() do { \
-        this->block_counter++; \
-        this->parent = node; \
-        this->verbum_recursive_ast(node.nodes, index + 1); \
-        this->block_counter--; \
+#define default_recursive_block() do {                                          \
+        this->block_counter++;                                                  \
+        this->parent = node;                                                    \
+        this->verbum_recursive_ast(node.nodes, index + 1);                      \
+        this->block_counter--;                                                  \
     } while (0)
 
 #define check_step(STEP_ID) this->step_check==STEP_ID
+
+#define show_display_error() do {                                               \
+        int e_line = node.error_node.position.line;                             \
+        int e_ch_position = node.error_node.position.ch_position;               \
+        int e_start_index = node.error_node.position.start_index;               \
+        int e_stop_index = node.error_node.position.stop_index;                 \
+                                                                                \
+        /* Verifica se há quebra de linha na ocorrência. */                     \
+        for (int n=0; n<node.error_node.text.length(); n++) {                   \
+            if (node.error_node.text[n] == '\n') {                              \
+                e_stop_index = e_start_index + n;                               \
+                break;                                                          \
+            }                                                                   \
+        }                                                                       \
+                                                                                \
+        this->display_error(                                                    \
+            e_line, e_ch_position, e_start_index, e_stop_index,                 \
+            spec_message, error_message, big_message);                          \
+    } while (0)
 
 verbum_semantics_analisys::verbum_semantics_analisys (
     string file_path, vector<char> file_content, vector <verbum_ast_node> ast) 
@@ -124,27 +143,12 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
 
                             if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
                                 big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
-                                big_message.push_back("    \033[1;35mvar\033[0m a = 10;                    \033[1;90m// Simple variable declaration.\033[0m");
+                                big_message.push_back("    \033[1;35mvar\033[0m a = 10;                    \033[1;90m// Simple variable declaration. \033[0m");
+                                big_message.push_back("    \033[1;35mvar\033[0m b = 'Verbum';              \033[1;90m// Simple string declaration. \033[0m");
+                                big_message.push_back("    \033[1;35mvar\033[0m c = example();             \033[1;90m// Simple declaration with function call. \033[0m");
                             }
 
-                            do {
-                                int e_line = node.error_node.position.line;
-                                int e_ch_position = node.error_node.position.ch_position;
-                                int e_start_index = node.error_node.position.start_index;
-                                int e_stop_index = node.error_node.position.stop_index; 
-
-                                /* Verifica se há quebra de linha na ocorrência. */
-                                for (int n=0; n<node.error_node.text.length(); n++) {
-                                    if (node.error_node.text[n] == '\n') {
-                                        e_stop_index = e_start_index + n;
-                                        break;
-                                    }
-                                }
-
-                                this->display_error(
-                                    e_line, e_ch_position, e_start_index, e_stop_index, 
-                                    spec_message, error_message, big_message);
-                            } while (0);
+                            show_display_error();
                         }
                     }
 

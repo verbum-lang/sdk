@@ -64,7 +64,8 @@ verbum_lexer_syntactic::verbum_lexer_syntactic (string file_path, vector<char> f
 
     ANTLRInputStream input(stream);
     TLexer lexer(&input);
-
+    lexer.removeErrorListeners();
+    
     verbum_lexical_syntactic_error lexical_error;
     lexical_error.set_properties(file_path, file_content, "Lexical");
     lexer.addErrorListener(&lexical_error);

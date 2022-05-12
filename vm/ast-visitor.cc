@@ -21,17 +21,17 @@ using namespace antlr4;
 using namespace verbum;
 using namespace std;
 
-#define get_error_node() do { \
-    node.error_node.text = ctx->getText(); \
-    node.error_node.position.line = ctx->getStart()->getLine(); \
-    node.error_node.position.ch_position = ctx->getStart()->getCharPositionInLine(); \
-    node.error_node.position.start_index = ctx->getStart()->getStartIndex(); \
-    node.error_node.position.stop_index = ctx->getStart()->getStopIndex(); \
-    node.error_node.token_index = ctx->getStart()->getTokenIndex(); \
-    node.error_node.type = ctx->getStart()->getType(); \
-    node.error_node.next_token = ctx->getStart()->getTokenSource()->nextToken()->getText(); \
-    node.error_node.source_name = ctx->getStart()->getTokenSource()->getSourceName(); \
-    node.error_node.interval = ctx->getSourceInterval().toString(); \
+#define get_error_node() do {                                                                   \
+    node.error_node.text = ctx->getText();                                                      \
+    node.error_node.position.line = ctx->getStart()->getLine();                                 \
+    node.error_node.position.ch_position = ctx->getStart()->getCharPositionInLine();            \
+    node.error_node.position.start_index = ctx->getStart()->getStartIndex();                    \
+    node.error_node.position.stop_index = ctx->getStart()->getStopIndex();                      \
+    node.error_node.token_index = ctx->getStart()->getTokenIndex();                             \
+    node.error_node.type = ctx->getStart()->getType();                                          \
+    node.error_node.next_token = ctx->getStart()->getTokenSource()->nextToken()->getText();     \
+    node.error_node.source_name = ctx->getStart()->getTokenSource()->getSourceName();           \
+    node.error_node.interval = ctx->getSourceInterval().toString();                             \
 } while (0)
 
 void verbum_ast_visitor::prepare_data ()
