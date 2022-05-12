@@ -37,6 +37,10 @@
 #define VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_A 70  // Primeira linha.
 #define VERBUM_MAX_CHARS_ERROR_ANTLR_LINES_B 108 // Demais linhas.
 
+// Se é para exibir a mensagem grande mais detalhada do erro.
+// Contendo códigos de exemplo e coisas semelhantes.
+#define VERBUM_DISPLAY_ERROR_EXAMPLES true
+
 /*
 ** Controles da análise sintática (personalizada).
 */

@@ -27,7 +27,7 @@ void verbum_ast_listener::prepare (TParser *parser, string file_path, vector<cha
     this->parser            = parser;
     this->file_path         = file_path;
     this->file_content      = file_content;
-    this->display_examples  = false;
+    this->display_examples  = VERBUM_DISPLAY_ERROR_EXAMPLES;
 }
 
 void verbum_ast_listener::exitMain (TParser::MainContext *ctx) {
@@ -97,7 +97,7 @@ void verbum_ast_listener::print_error_tokens () {
 
 void verbum_ast_listener::process_errors () {
     vector <verbum_error_node> node = this->error_node_control;
-    this->print_error_tokens();
+    // this->print_error_tokens();
 
     if (check_first_command(Use))
         this->process_use();

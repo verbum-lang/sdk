@@ -116,14 +116,16 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                     if (this->parent.variable_type == VERBUM_VARIABLE_DECLARATION) {
                         if (node.variable_operation != VERBUM_OPERATOR_ATTR) {
 
-                            string spec_message = "spec msg";
-                            string error_message = "error msg";
+                            string spec_message = "invalid operator";
+                            string error_message = "incorrect variable declaration, invalid operator: "+
+                                this->get_str_operator(node.variable_operation);
                             
                             vector <string> big_message;
-                            big_message.push_back("big msg 1");
-                            big_message.push_back("big msg 2");
-                            big_message.push_back("big msg 3");
 
+                            if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
+                                big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
+                                big_message.push_back("    \033[1;35mvar\033[0m a = 10;                    \033[1;90m// Simple variable declaration.\033[0m");
+                            }
 
                             do {
                                 int e_line = node.error_node.position.line;
@@ -131,13 +133,18 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                                 int e_start_index = node.error_node.position.start_index;
                                 int e_stop_index = node.error_node.position.stop_index; 
 
+                                /* Verifica se há quebra de linha na ocorrência. */
+                                for (int n=0; n<node.error_node.text.length(); n++) {
+                                    if (node.error_node.text[n] == '\n') {
+                                        e_stop_index = e_start_index + n;
+                                        break;
+                                    }
+                                }
+
                                 this->display_error(
                                     e_line, e_ch_position, e_start_index, e_stop_index, 
                                     spec_message, error_message, big_message);
                             } while (0);
-
-                            // cout << "Invalid operator ["<< index <<"]: " << 
-                            //     this->get_str_operator(node.variable_operation) <<"\n";
                         }
                     }
 
