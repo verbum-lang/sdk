@@ -99,7 +99,14 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                 {
                     // Verificações para a declaração de variáveis.
                     if (this->parent.variable_type == VERBUM_VARIABLE_DECLARATION) {
-                        cout << "declaration\n";
+                        if (node.variable_operation != VERBUM_OPERATOR_ATTR) {
+                            cout << "Invalid operator ["<< index <<"]: " << this->get_str_operator(node.variable_operation) <<"\n";
+                        }
+                    }
+
+                    // Verificações para as atribuições.
+                    else if (this->parent.variable_type == VERBUM_VARIABLE_ATTRIBUTION) {
+                        cout << "attr\n";
 
                         switch (node.variable_operation) {
                             case VERBUM_OPERATOR_ATTR:      
@@ -111,11 +118,6 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                             default:
                                 cout << "Invalid operator ["<< index <<"]: " << this->get_str_operator(node.variable_operation) <<"\n";
                         }
-                    }
-
-                    // Verificações para as atribuições.
-                    else if (this->parent.variable_type == VERBUM_VARIABLE_ATTRIBUTION) {
-                        cout << "attr\n";
                     }
                 }
             }
