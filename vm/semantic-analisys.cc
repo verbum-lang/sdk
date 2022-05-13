@@ -336,6 +336,10 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                         verbum_seq_var_t seq_arith = this->check_sequence_variable(ast, size, false);
 
                         if (!seq_attr.status && !seq_arith.status) {
+                            int index = seq_attr.index;
+                            if ((index+1) <= (size-1))
+                                index++;
+
                             string spec_message = "invalid expression.";
                             string error_message = "invalid expression, incorrect use of variables.";
                             
@@ -349,7 +353,7 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                                 big_message.push_back("    \033[1;35m d \033[0m = example();             \033[1;90m// Simple assignment with function call. \033[0m");
                             }
 
-                            show_display_error(ast[seq_attr.index]);
+                            show_display_error(ast[index]);
                         }
                     }
                 }
