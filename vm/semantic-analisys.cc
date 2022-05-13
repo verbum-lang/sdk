@@ -62,7 +62,7 @@ verbum_semantics_analisys::verbum_semantics_analisys (
     process_semantic_analisys(VERBUM_SEMANTIC_ANALISYS_VARIABLE);
 }
 
-void verbum_semantics_analisys::display_error(
+void verbum_semantics_analisys::display_error (
     int line, int ch_position, int start_index, int stop_index, 
     string spec_message, string error_message, vector <string> big_message) 
 {
@@ -125,102 +125,8 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
             //
             // Verificação na expressão de declaração e uso das variáveis.
             //
-            if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE)) {
-                if (this->parent.type == VERBUM_VARIABLE_INITIALIZATION) 
-                {
-                    //
-                    // Verifica se a variável foi identificada corretamente.
-                    //
-
-                    // Verifica se não é expressão de acesso a elementos de array.
-                    // Se utiliza a+2, pois antes do item de acesso a elemento de array, vem um general value.
-                    // Pois na gramática da linguagem está especificado que a regra de acesso a elemento de array
-                    // trata-se de uma regra interna da regra general value.
-                    bool array_access = false;
-
-                    if ((a+2) <= (size-1)) {
-                        if (ast[a+2].type == VERBUM_ACCESS_ARRAY_BLOCK) 
-                            array_access = true;
-                    }
-
-                    if (!array_access)
-                    {
-                        switch (node.variable_definition_type) {
-                            case VERBUM_VARIABLE_SIMPLE:
-                            case VERBUM_VARIABLE_OBJ_INSTANCE:
-                            case VERBUM_VARIABLE_OBJ_STATIC: break;
-                            default:
-                                string spec_message = "invalid expression.";
-                                string error_message = "invalid expression for using variables.";
-                                
-                                vector <string> big_message;
-
-                                if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
-                                    big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
-                                    big_message.push_back("    \033[1;35mvar\033[0m a = 10;                    \033[1;90m// Simple variable declaration. \033[0m");
-                                    big_message.push_back("    \033[1;35mvar\033[0m b = 'Verbum';              \033[1;90m// Simple string declaration. \033[0m");
-                                    big_message.push_back("    \033[1;35mvar\033[0m c = example();             \033[1;90m// Simple declaration with function call. \033[0m");
-                                    big_message.push_back("    \033[1;35m   \033[0m d = 10;                    \033[1;90m// Simple assignment. \033[0m");
-                                    big_message.push_back("    \033[1;35m   \033[0m e += 20;                   \033[1;90m// Attribution with value. \033[0m");
-                                    big_message.push_back("    \033[1;35m   \033[0m f = 'Verbum';              \033[1;90m// Simple string assignment. \033[0m");
-                                    big_message.push_back("    \033[1;35m   \033[0m g = example();             \033[1;90m// Simple assignment with function call. \033[0m");
-                                }
-
-                                show_display_error(node);
-                        }
-                    }
-                    
-                    // Verificações para a declaração de variáveis.
-                    if (this->parent.variable_type == VERBUM_VARIABLE_DECLARATION) {
-                        if (node.variable_operation != VERBUM_OPERATOR_ATTR) {
-
-                            string spec_message = "invalid operator.";
-                            string error_message = "incorrect variable declaration, invalid operator: "+
-                                this->get_str_operator(node.variable_operation);
-                            
-                            vector <string> big_message;
-
-                            if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
-                                big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
-                                big_message.push_back("    \033[1;35mvar\033[0m a = 10;                    \033[1;90m// Simple variable declaration. \033[0m");
-                                big_message.push_back("    \033[1;35mvar\033[0m b = 'Verbum';              \033[1;90m// Simple string declaration. \033[0m");
-                                big_message.push_back("    \033[1;35mvar\033[0m c = example();             \033[1;90m// Simple declaration with function call. \033[0m");
-                            }
-
-                            show_display_error(node);
-                        }
-                    }
-
-                    // Verificações para as atribuições.
-                    else if (this->parent.variable_type == VERBUM_VARIABLE_ATTRIBUTION) {
-                        switch (node.variable_operation) {
-                            case VERBUM_OPERATOR_ATTR:      
-                            case VERBUM_OPERATOR_ADD_EQUAL: 
-                            case VERBUM_OPERATOR_SUB_EQUAL: 
-                            case VERBUM_OPERATOR_MUL_EQUAL: 
-                            case VERBUM_OPERATOR_DIV_EQUAL: 
-                            case VERBUM_OPERATOR_PERC_EQUAL: break;
-                            default:
-
-                                string spec_message = "invalid operator.";
-                                string error_message = "incorrect assignment expression, invalid operator: "+
-                                    this->get_str_operator(node.variable_operation);
-                                
-                                vector <string> big_message;
-
-                                if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
-                                    big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
-                                    big_message.push_back("    \033[1;35m a \033[0m = 10;                    \033[1;90m// Simple assignment. \033[0m");
-                                    big_message.push_back("    \033[1;35m b \033[0m += 20;                   \033[1;90m// Attribution with value. \033[0m");
-                                    big_message.push_back("    \033[1;35m c \033[0m = 'Verbum';              \033[1;90m// Simple string assignment. \033[0m");
-                                    big_message.push_back("    \033[1;35m d \033[0m = example();             \033[1;90m// Simple assignment with function call. \033[0m");
-                                }
-
-                                show_display_error(node);
-                        }
-                    }
-                }
-            }
+            if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE))
+                this->check_variable_modes(node, ast, a, size);
 
             this->block_counter--;
         }
@@ -326,38 +232,8 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
             //
             // Verificação na expressão de declaração e uso das variáveis.
             //
-            if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE)) {
-
-                // Chegou no fim da expressão, avalia-a.
-                if (a == (size-1) && a > 1) {
-                    if (ast[0].type == VERBUM_VARIABLE_INFORMATION) {
-                        
-                        verbum_seq_var_t seq_attr  = this->check_sequence_variable(ast, size, true);
-                        verbum_seq_var_t seq_arith = this->check_sequence_variable(ast, size, false);
-
-                        if (!seq_attr.status && !seq_arith.status) {
-                            int index = seq_attr.index;
-                            if ((index+1) <= (size-1))
-                                index++;
-
-                            string spec_message = "invalid expression.";
-                            string error_message = "invalid expression, incorrect use of variables.";
-                            
-                            vector <string> big_message;
-
-                            if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
-                                big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
-                                big_message.push_back("    \033[1;35m a \033[0m = 10;                    \033[1;90m// Simple assignment. \033[0m");
-                                big_message.push_back("    \033[1;35m b \033[0m = b = 20;                \033[1;90m// Multiple assignment. \033[0m");
-                                big_message.push_back("    \033[1;35m c \033[0m = b - 10 - 30;;          \033[1;90m// Arithmetic expression. \033[0m");
-                                big_message.push_back("    \033[1;35m d \033[0m = example();             \033[1;90m// Simple assignment with function call. \033[0m");
-                            }
-
-                            show_display_error(ast[index]);
-                        }
-                    }
-                }
-            }
+            if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE)) 
+                this->check_variable_sequence(ast, a, size);
         }
 
         else if (node.type == VERBUM_GENERAL_VALUE_BLOCK) 
@@ -366,7 +242,141 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
     }
 }
 
-verbum_seq_var_t verbum_semantics_analisys::check_sequence_variable (vector <verbum_ast_node> ast, int size, int mode) {
+void verbum_semantics_analisys::check_variable_modes (verbum_ast_node node, vector <verbum_ast_node> ast, int a, int size) {
+    if (this->parent.type != VERBUM_VARIABLE_INITIALIZATION) 
+        return;
+
+    //
+    // Verifica se a variável foi identificada corretamente.
+    //
+
+    // Verifica se não é expressão de acesso a elementos de array.
+    // Se utiliza a+2, pois antes do item de acesso a elemento de array, vem um general value.
+    // Pois na gramática da linguagem está especificado que a regra de acesso a elemento de array
+    // trata-se de uma regra interna da regra general value.
+    bool array_access = false;
+
+    if ((a+2) <= (size-1)) {
+        if (ast[a+2].type == VERBUM_ACCESS_ARRAY_BLOCK) 
+            array_access = true;
+    }
+
+    if (!array_access)
+    {
+        switch (node.variable_definition_type) {
+            case VERBUM_VARIABLE_SIMPLE:
+            case VERBUM_VARIABLE_OBJ_INSTANCE:
+            case VERBUM_VARIABLE_OBJ_STATIC: break;
+            default:
+                string spec_message = "invalid expression.";
+                string error_message = "invalid expression for using variables.";
+                
+                vector <string> big_message;
+
+                if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
+                    big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
+                    big_message.push_back("    \033[1;35mvar\033[0m a = 10;                    \033[1;90m// Simple variable declaration. \033[0m");
+                    big_message.push_back("    \033[1;35mvar\033[0m b = 'Verbum';              \033[1;90m// Simple string declaration. \033[0m");
+                    big_message.push_back("    \033[1;35mvar\033[0m c = example();             \033[1;90m// Simple declaration with function call. \033[0m");
+                    big_message.push_back("    \033[1;35m   \033[0m d = 10;                    \033[1;90m// Simple assignment. \033[0m");
+                    big_message.push_back("    \033[1;35m   \033[0m e += 20;                   \033[1;90m// Attribution with value. \033[0m");
+                    big_message.push_back("    \033[1;35m   \033[0m f = 'Verbum';              \033[1;90m// Simple string assignment. \033[0m");
+                    big_message.push_back("    \033[1;35m   \033[0m g = example();             \033[1;90m// Simple assignment with function call. \033[0m");
+                }
+
+                show_display_error(node);
+        }
+    }
+    
+    //
+    // Verificações para a declaração de variáveis.
+    //
+    if (this->parent.variable_type == VERBUM_VARIABLE_DECLARATION) {
+        if (node.variable_operation != VERBUM_OPERATOR_ATTR) {
+
+            string spec_message = "invalid operator.";
+            string error_message = "incorrect variable declaration, invalid operator: "+
+                this->get_str_operator(node.variable_operation);
+            
+            vector <string> big_message;
+
+            if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
+                big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
+                big_message.push_back("    \033[1;35mvar\033[0m a = 10;                    \033[1;90m// Simple variable declaration. \033[0m");
+                big_message.push_back("    \033[1;35mvar\033[0m b = 'Verbum';              \033[1;90m// Simple string declaration. \033[0m");
+                big_message.push_back("    \033[1;35mvar\033[0m c = example();             \033[1;90m// Simple declaration with function call. \033[0m");
+            }
+
+            show_display_error(node);
+        }
+    }
+
+    //
+    // Verificações para as atribuições.
+    //
+    else if (this->parent.variable_type == VERBUM_VARIABLE_ATTRIBUTION) {
+        switch (node.variable_operation) {
+            case VERBUM_OPERATOR_ATTR:      
+            case VERBUM_OPERATOR_ADD_EQUAL: 
+            case VERBUM_OPERATOR_SUB_EQUAL: 
+            case VERBUM_OPERATOR_MUL_EQUAL: 
+            case VERBUM_OPERATOR_DIV_EQUAL: 
+            case VERBUM_OPERATOR_PERC_EQUAL: break;
+            default:
+
+                string spec_message = "invalid operator.";
+                string error_message = "incorrect assignment expression, invalid operator: "+
+                    this->get_str_operator(node.variable_operation);
+                
+                vector <string> big_message;
+
+                if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
+                    big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
+                    big_message.push_back("    \033[1;35m a \033[0m = 10;                    \033[1;90m// Simple assignment. \033[0m");
+                    big_message.push_back("    \033[1;35m b \033[0m += 20;                   \033[1;90m// Attribution with value. \033[0m");
+                    big_message.push_back("    \033[1;35m c \033[0m = 'Verbum';              \033[1;90m// Simple string assignment. \033[0m");
+                    big_message.push_back("    \033[1;35m d \033[0m = example();             \033[1;90m// Simple assignment with function call. \033[0m");
+                }
+
+                show_display_error(node);
+        }
+    }
+}
+
+void verbum_semantics_analisys::check_variable_sequence (vector <verbum_ast_node> ast, int a, int size) {
+
+    // Chegou no fim da expressão, avalia-a.
+    if (a == (size-1) && a > 1) {
+        if (ast[0].type == VERBUM_VARIABLE_INFORMATION) {
+            
+            verbum_seq_var_t seq_attr  = this->check_variable_sequence_elements(ast, size, true);
+            verbum_seq_var_t seq_arith = this->check_variable_sequence_elements(ast, size, false);
+
+            if (!seq_attr.status && !seq_arith.status) {
+                int index = seq_attr.index;
+                if ((index+1) <= (size-1))
+                    index++;
+
+                string spec_message = "invalid expression.";
+                string error_message = "invalid expression, incorrect use of variables.";
+                
+                vector <string> big_message;
+
+                if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
+                    big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
+                    big_message.push_back("    \033[1;35m a \033[0m = 10;                    \033[1;90m// Simple assignment. \033[0m");
+                    big_message.push_back("    \033[1;35m b \033[0m = b = 20;                \033[1;90m// Multiple assignment. \033[0m");
+                    big_message.push_back("    \033[1;35m c \033[0m = b - 10 - 30;;          \033[1;90m// Arithmetic expression. \033[0m");
+                    big_message.push_back("    \033[1;35m d \033[0m = example();             \033[1;90m// Simple assignment with function call. \033[0m");
+                }
+
+                show_display_error(ast[index]);
+            }
+        }
+    }
+}
+
+verbum_seq_var_t verbum_semantics_analisys::check_variable_sequence_elements (vector <verbum_ast_node> ast, int size, int mode) {
     bool array_block_step = false;
     bool option3_a = true; // Atribuição.
     bool option3_b = true; // Operadores aritméticos.

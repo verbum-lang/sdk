@@ -51,11 +51,16 @@ namespace verbum {
             // 
             string get_str_operator (int operation);
             
-            void display_error(
+            void display_error (
                 int line, int ch_position, int start_index, int stop_index, 
                 string spec_message, string error_message, vector <string> big_message);
             
             void verbum_recursive_ast (vector <verbum_ast_node> ast, int index);
+
+            // 
+            // Verificação dos modos de definição e uso das variáveis.
+            //
+            void check_variable_modes (verbum_ast_node node, vector <verbum_ast_node> ast, int a, int size);
 
             //
             // Realiza verificação em sequência de uso de variáveis (declaração e atribuição)
@@ -65,7 +70,8 @@ namespace verbum {
             // mode = true              Atribuição múltipla
             // mode = false             Expressão aritmética
             //
-            verbum_seq_var_t check_sequence_variable (vector <verbum_ast_node> ast, int size, int mode);
+            void check_variable_sequence (vector <verbum_ast_node> ast, int a, int size);
+            verbum_seq_var_t check_variable_sequence_elements (vector <verbum_ast_node> ast, int size, int mode);
     };
 }
 
