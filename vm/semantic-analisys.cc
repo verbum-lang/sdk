@@ -30,15 +30,15 @@ using namespace std;
 
 #define check_step(STEP_ID) this->step_check==STEP_ID
 
-#define show_display_error() do {                                               \
-        int e_line = node.error_node.position.line;                             \
-        int e_ch_position = node.error_node.position.ch_position;               \
-        int e_start_index = node.error_node.position.start_index;               \
-        int e_stop_index = node.error_node.position.stop_index;                 \
+#define show_display_error(NODE) do {                                           \
+        int e_line = NODE.error_node.position.line;                             \
+        int e_ch_position = NODE.error_node.position.ch_position;               \
+        int e_start_index = NODE.error_node.position.start_index;               \
+        int e_stop_index = NODE.error_node.position.stop_index;                 \
                                                                                 \
         /* Verifica se há quebra de linha na ocorrência. */                     \
-        for (int n=0; n<node.error_node.text.length(); n++) {                   \
-            if (node.error_node.text[n] == '\n') {                              \
+        for (int n=0; n<NODE.error_node.text.length(); n++) {                   \
+            if (NODE.error_node.text[n] == '\n') {                              \
                 e_stop_index = e_start_index + n;                               \
                 break;                                                          \
             }                                                                   \
@@ -166,7 +166,7 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                                     big_message.push_back("    \033[1;35m   \033[0m g = example();             \033[1;90m// Simple assignment with function call. \033[0m");
                                 }
 
-                                show_display_error();
+                                show_display_error(node);
                         }
                     }
                     
@@ -187,7 +187,7 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                                 big_message.push_back("    \033[1;35mvar\033[0m c = example();             \033[1;90m// Simple declaration with function call. \033[0m");
                             }
 
-                            show_display_error();
+                            show_display_error(node);
                         }
                     }
 
@@ -216,7 +216,7 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                                     big_message.push_back("    \033[1;35m d \033[0m = example();             \033[1;90m// Simple assignment with function call. \033[0m");
                                 }
 
-                                show_display_error();
+                                show_display_error(node);
                         }
                     }
                 }
@@ -335,12 +335,22 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                         verbum_seq_var_t seq_attr  = this->check_sequence_variable(ast, size, true);
                         verbum_seq_var_t seq_arith = this->check_sequence_variable(ast, size, false);
 
-                        if (seq_attr.status)
-                            cout << "attr\n";
+                        if (!seq_attr.status && !seq_arith.status) {
+                            string spec_message = "invalid expression.";
+                            string error_message = "invalid expression, incorrect use of variables.";
+                            
+                            vector <string> big_message;
 
-                        if (seq_arith.status)
-                            cout << "arith\n";
+                            if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
+                                big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
+                                big_message.push_back("    \033[1;35m a \033[0m = 10;                    \033[1;90m// Simple assignment. \033[0m");
+                                big_message.push_back("    \033[1;35m b \033[0m = b = 20;                \033[1;90m// Multiple assignment. \033[0m");
+                                big_message.push_back("    \033[1;35m c \033[0m = b - 10 - 30;;          \033[1;90m// Arithmetic expression. \033[0m");
+                                big_message.push_back("    \033[1;35m d \033[0m = example();             \033[1;90m// Simple assignment with function call. \033[0m");
+                            }
 
+                            show_display_error(ast[seq_attr.index]);
+                        }
                     }
                 }
             }
@@ -486,6 +496,9 @@ verbum_seq_var_t verbum_semantics_analisys::check_sequence_variable (vector <ver
             }
         }
     }
+
+    if (index < 0)
+        index = 0;
 
     verbum_seq_var_t seq_data;
     seq_data.status = false;
