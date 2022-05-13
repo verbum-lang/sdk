@@ -347,7 +347,8 @@ void verbum_semantics_analisys::check_variable_sequence (vector <verbum_ast_node
 
     // Chegou no fim da expressão, avalia-a.
     if (a == (size-1) && a > 1) {
-        if (ast[0].type == VERBUM_VARIABLE_INFORMATION) {
+        if (ast[0].type == VERBUM_VARIABLE_INFORMATION) 
+        {
             
             verbum_seq_var_t seq_attr  = this->check_variable_sequence_elements(ast, size, true);
             verbum_seq_var_t seq_arith = this->check_variable_sequence_elements(ast, size, false);
@@ -380,7 +381,7 @@ verbum_seq_var_t verbum_semantics_analisys::check_variable_sequence_elements (ve
     bool array_block_step = false;
     bool option3_a = true; // Atribuição.
     bool option3_b = true; // Operadores aritméticos.
-    int offset = 1, index = -1, start = 1;
+    int offset = 1, index = -1, start = 0;
 
     // Verifica offset, pois caso tenha um acesso a elemento de array como último item
     // o mesmo deve ser calculado para ser ignorado.
@@ -396,7 +397,7 @@ verbum_seq_var_t verbum_semantics_analisys::check_variable_sequence_elements (ve
             }
         }
     }
-
+    
     // Verifica se a variável referenciada é acesso a elemento de array.
     if (ast[2].type == VERBUM_ACCESS_ARRAY_BLOCK) 
         start = 2;
