@@ -120,42 +120,55 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
             this->block_counter++;
             if (node.variable_definition_type == VERBUM_VARIABLE_ARRAY_ACCESS)
                 default_recursive_block();
-            
-            // Variáveis comuns.
-            else { }
+            else { } // Variáveis comuns.
 
-            /*
-            ** Verificação do operador.
-            */
+            //
+            // Verificação na expressão de declaração e uso das variáveis.
+            //
             if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE)) {
                 if (this->parent.type == VERBUM_VARIABLE_INITIALIZATION) 
                 {
+                    //
                     // Verifica se a variável foi identificada corretamente.
-                    // if (node.variable_definition_type != VERBUM_VARIABLE_ARRAY_ACCESS) {
-                    //     switch (node.variable_definition_type) {
-                    //         case VERBUM_VARIABLE_SIMPLE:
-                    //         case VERBUM_VARIABLE_OBJ_INSTANCE:
-                    //         case VERBUM_VARIABLE_OBJ_STATIC: break;
-                    //         default:
-                    //             string spec_message = "invalid expression.";
-                    //             string error_message = "invalid expression for using variables.";
+                    //
+
+                    // Verifica se não é expressão de acesso a elementos de array.
+                    // Se utiliza a+2, pois antes do item de acesso a elemento de array, vem um general value.
+                    // Pois na gramática da linguagem está especificado que a regra de acesso a elemento de array
+                    // trata-se de uma regra interna da regra general value.
+                    bool array_access = false;
+
+                    if ((a+2) <= (size-1)) {
+                        if (ast[a+2].type == VERBUM_ACCESS_ARRAY_BLOCK) 
+                            array_access = true;
+                    }
+
+                    if (!array_access)
+                    {
+                        switch (node.variable_definition_type) {
+                            case VERBUM_VARIABLE_SIMPLE:
+                            case VERBUM_VARIABLE_OBJ_INSTANCE:
+                            case VERBUM_VARIABLE_OBJ_STATIC: break;
+                            default:
+                                string spec_message = "invalid expression.";
+                                string error_message = "invalid expression for using variables.";
                                 
-                    //             vector <string> big_message;
+                                vector <string> big_message;
 
-                    //             if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
-                    //                 big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
-                    //                 big_message.push_back("    \033[1;35mvar\033[0m a = 10;                    \033[1;90m// Simple variable declaration. \033[0m");
-                    //                 big_message.push_back("    \033[1;35mvar\033[0m b = 'Verbum';              \033[1;90m// Simple string declaration. \033[0m");
-                    //                 big_message.push_back("    \033[1;35mvar\033[0m c = example();             \033[1;90m// Simple declaration with function call. \033[0m");
-                    //                 big_message.push_back("    \033[1;35m   \033[0m d = 10;                    \033[1;90m// Simple assignment. \033[0m");
-                    //                 big_message.push_back("    \033[1;35m   \033[0m e += 20;                   \033[1;90m// Attribution with value. \033[0m");
-                    //                 big_message.push_back("    \033[1;35m   \033[0m f = 'Verbum';              \033[1;90m// Simple string assignment. \033[0m");
-                    //                 big_message.push_back("    \033[1;35m   \033[0m g = example();             \033[1;90m// Simple assignment with function call. \033[0m");
-                    //             }
+                                if (VERBUM_DISPLAY_ERROR_EXAMPLES) {
+                                    big_message.push_back("\033[1;94mExample of correct expressions:\033[0m\n");
+                                    big_message.push_back("    \033[1;35mvar\033[0m a = 10;                    \033[1;90m// Simple variable declaration. \033[0m");
+                                    big_message.push_back("    \033[1;35mvar\033[0m b = 'Verbum';              \033[1;90m// Simple string declaration. \033[0m");
+                                    big_message.push_back("    \033[1;35mvar\033[0m c = example();             \033[1;90m// Simple declaration with function call. \033[0m");
+                                    big_message.push_back("    \033[1;35m   \033[0m d = 10;                    \033[1;90m// Simple assignment. \033[0m");
+                                    big_message.push_back("    \033[1;35m   \033[0m e += 20;                   \033[1;90m// Attribution with value. \033[0m");
+                                    big_message.push_back("    \033[1;35m   \033[0m f = 'Verbum';              \033[1;90m// Simple string assignment. \033[0m");
+                                    big_message.push_back("    \033[1;35m   \033[0m g = example();             \033[1;90m// Simple assignment with function call. \033[0m");
+                                }
 
-                    //             show_display_error();
-                    //     }
-                    // }
+                                show_display_error();
+                        }
+                    }
                     
                     // Verificações para a declaração de variáveis.
                     if (this->parent.variable_type == VERBUM_VARIABLE_DECLARATION) {
@@ -310,13 +323,14 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
             else if (node.general_value_data.type == VERBUM_ANONYMOUS_OBJECT) 
                 default_recursive_block();
 
-            // +++
-
+            //
+            // Verificação na expressão de declaração e uso das variáveis.
+            //
             if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE)) {
 
                 // Chegou no fim da expressão, avalia-a.
                 if (a == (size-1)) {
-                    // cout << "a: "<< a <<" - size: "<< (size-1) <<"\n";
+                    cout << "a: "<< a <<" - size: "<< (size-1) <<"\n";
                 }
 
                 // if (node.attr_operator) {
@@ -329,7 +343,7 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
                 // }
             }
 
-                    cout << "a: "<< a <<" - size: "<< (size-1) <<"\n";
+                    // cout << "a: "<< a <<" - size: "<< (size-1) <<"\n";
         }
 
         else if (node.type == VERBUM_GENERAL_VALUE_BLOCK) 
