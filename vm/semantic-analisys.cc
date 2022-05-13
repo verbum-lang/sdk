@@ -328,9 +328,55 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
             //
             if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE)) {
 
+                // Verifica se o primeiro item é declaração/uso de variável.
+                // if (ast[0].type == VERBUM_VARIABLE_INFORMATION) {
+                //     if (node.operation_op != VERBUM_UNKNOWN) {
+                //         cout << "invalid operator\n";
+                //     }
+                // }
+
                 // Chegou no fim da expressão, avalia-a.
-                if (a == (size-1)) {
-                    cout << "a: "<< a <<" - size: "<< (size-1) <<"\n";
+                if (a == (size-1) && a > 1) {
+                    if (ast[0].type == VERBUM_VARIABLE_INFORMATION) {
+                        // cout << "a: "<< a <<" - size: "<< (size-1) <<"\n";
+
+                        // Verifica se todos são sinal de igualdade (atribuição múltipla).
+                        bool option1 = true;
+
+                        for (int n=1; n<(size-1); n++) {
+                            if (ast[n].type == VERBUM_GENERAL_VALUE) {
+                                if (!ast[n].attr_operator) {
+                                    option1 = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Verifica se todos são operadores aritméticos.
+                        bool option2 = true;
+
+                        for (int n=1; n<(size-1); n++) {
+                            if (ast[n].type == VERBUM_GENERAL_VALUE) {
+                                switch (ast[n].operation_op) {
+                                    case VERBUM_OPERATOR_ADD:  
+                                    case VERBUM_OPERATOR_SUB:  
+                                    case VERBUM_OPERATOR_DIV:  
+                                    case VERBUM_OPERATOR_MUL:  
+                                    case VERBUM_OPERATOR_PERC: break;
+                                    default:
+                                        option2 = false;
+                                        break;
+                                }
+                            }
+                        }
+
+                        if (option1)
+                            cout << "todos iguais\n";
+                        
+                        if (option2)
+                            cout << "todos arith\n";
+                        
+                    }
                 }
 
                 // if (node.attr_operator) {
