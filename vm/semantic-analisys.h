@@ -26,6 +26,12 @@
 
 using namespace std;
 
+// Estrutura de controle da validação de expressão no uso de variáveis.
+typedef struct {
+    bool status;
+    int index; // Posição na AST.
+} verbum_seq_var_t;
+
 namespace verbum {
     class verbum_semantics_analisys
     {
@@ -40,8 +46,9 @@ namespace verbum {
             string file_path;
             vector<char> file_content;
 
-            
-
+            //
+            // Métodos de uso geral.
+            // 
             string get_str_operator (int operation);
             
             void display_error(
@@ -49,6 +56,16 @@ namespace verbum {
                 string spec_message, string error_message, vector <string> big_message);
             
             void verbum_recursive_ast (vector <verbum_ast_node> ast, int index);
+
+            //
+            // Realiza verificação em sequência de uso de variáveis (declaração e atribuição)
+            // onde é verificado se a expressão é uma atribuição múltipla ou uma expresão de natureza aritmética.
+            // Suportando os tipos comuns e as expressões de acesso a membros de array.
+            // 
+            // mode = true              Atribuição múltipla
+            // mode = false             Expressão aritmética
+            //
+            verbum_seq_var_t check_sequence_variable (vector <verbum_ast_node> ast, int size, int mode);
     };
 }
 

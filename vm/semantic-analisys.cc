@@ -328,74 +328,175 @@ void verbum_semantics_analisys::verbum_recursive_ast (vector <verbum_ast_node> a
             //
             if (check_step(VERBUM_SEMANTIC_ANALISYS_VARIABLE)) {
 
-                // Verifica se o primeiro item é declaração/uso de variável.
-                // if (ast[0].type == VERBUM_VARIABLE_INFORMATION) {
-                //     if (node.operation_op != VERBUM_UNKNOWN) {
-                //         cout << "invalid operator\n";
-                //     }
-                // }
-
                 // Chegou no fim da expressão, avalia-a.
                 if (a == (size-1) && a > 1) {
                     if (ast[0].type == VERBUM_VARIABLE_INFORMATION) {
-                        // cout << "a: "<< a <<" - size: "<< (size-1) <<"\n";
-
-                        // Verifica se todos são sinal de igualdade (atribuição múltipla).
-                        bool option1 = true;
-
-                        for (int n=1; n<(size-1); n++) {
-                            if (ast[n].type == VERBUM_GENERAL_VALUE) {
-                                if (!ast[n].attr_operator) {
-                                    option1 = false;
-                                    break;
-                                }
-                            }
-                        }
-
-                        // Verifica se todos são operadores aritméticos.
-                        bool option2 = true;
-
-                        for (int n=1; n<(size-1); n++) {
-                            if (ast[n].type == VERBUM_GENERAL_VALUE) {
-                                switch (ast[n].operation_op) {
-                                    case VERBUM_OPERATOR_ADD:  
-                                    case VERBUM_OPERATOR_SUB:  
-                                    case VERBUM_OPERATOR_DIV:  
-                                    case VERBUM_OPERATOR_MUL:  
-                                    case VERBUM_OPERATOR_PERC: break;
-                                    default:
-                                        option2 = false;
-                                        break;
-                                }
-                            }
-                        }
-
-                        if (option1)
-                            cout << "todos iguais\n";
                         
-                        if (option2)
-                            cout << "todos arith\n";
-                        
+                        verbum_seq_var_t seq_attr  = this->check_sequence_variable(ast, size, true);
+                        verbum_seq_var_t seq_arith = this->check_sequence_variable(ast, size, false);
+
+                        if (seq_attr.status)
+                            cout << "attr\n";
+
+                        if (seq_arith.status)
+                            cout << "arith\n";
+
                     }
                 }
-
-                // if (node.attr_operator) {
-                //     cout << "-> attr operator\n";
-                // }
-                
-                // if (node.operation_op != VERBUM_UNKNOWN) {
-                //     cout << "-> operation: "<< node.operation_op << "\n";
-                //     // cout << this->print_operation(node.operation_op) << "\n";
-                // }
             }
-
-                    // cout << "a: "<< a <<" - size: "<< (size-1) <<"\n";
         }
 
         else if (node.type == VERBUM_GENERAL_VALUE_BLOCK) 
             this->verbum_recursive_ast(node.nodes, index + 1);
 
     }
+}
+
+verbum_seq_var_t verbum_semantics_analisys::check_sequence_variable (vector <verbum_ast_node> ast, int size, int mode) {
+    bool array_block_step = false;
+    bool option3_a = true; // Atribuição.
+    bool option3_b = true; // Operadores aritméticos.
+    int offset = 1, index = -1;
+
+    // Verifica offset, pois caso tenha um acesso a elemento de array como último item
+    // o mesmo deve ser calculado para ser ignorado.
+    if ((size-2) >= 1) {
+        if (ast[size-1].type == VERBUM_GENERAL_VALUE) {
+            if (ast[size-1].general_value_data.type == VERBUM_DATA_INDEX_ARRAY_BLOCK) {
+                if (ast[size-2].type == VERBUM_GENERAL_VALUE) {
+                    if (ast[size-2].general_value_data.type == VERBUM_DATA_IDENTIFIER  ||
+                        ast[size-2].general_value_data.type == VERBUM_ATTRIBUTE_OBJECT ){
+                        offset = 2;
+                    }
+                }
+            }
+        }
+    }
+
+    for (int n=1; n<(size-offset); n++) {
+        
+        // Verifica se é um VERBUM_DATA_IDENTIFIER ou VERBUM_ATTRIBUTE_OBJECT.
+        if (ast[n].type == VERBUM_GENERAL_VALUE) 
+        {
+            // Acesso a variavel do array.
+            if ((ast[n].general_value_data.type == VERBUM_DATA_IDENTIFIER   ||
+                    ast[n].general_value_data.type == VERBUM_ATTRIBUTE_OBJECT) && 
+                !array_block_step) 
+            {
+                // Verifica se o próximo item é um VERBUM_DATA_INDEX_ARRAY_BLOCK.
+                if ((n+1)<(size-1)) {
+                    if (ast[n+1].type == VERBUM_GENERAL_VALUE) 
+                        if (ast[n+1].general_value_data.type == VERBUM_DATA_INDEX_ARRAY_BLOCK) 
+                            array_block_step = true;
+                }
+
+                // Não possui membro de acesso a elemento de array.
+                // Portanto. continua verificação como item de tipo normal (data-identifier ou attribute-object).
+                if (!array_block_step) {
+
+                    // Analisa atribuição múltipla.
+                    if (mode) {
+                        if (!ast[n].attr_operator) {
+                            option3_a = false;
+                            index = n;
+                            break;
+                        }
+                    }
+
+                    // Expressão aritmética.
+                    else {
+                        switch (ast[n].operation_op) {
+                            case VERBUM_OPERATOR_ADD:  
+                            case VERBUM_OPERATOR_SUB:  
+                            case VERBUM_OPERATOR_DIV:  
+                            case VERBUM_OPERATOR_MUL:  
+                            case VERBUM_OPERATOR_PERC: break;
+                            default:
+                                option3_b = false;
+                                index = n;
+                        }
+
+                        if (!option3_b)
+                            break;
+                    }
+                }
+            }
+
+            // Elemento de acesso ao array.
+            else if (ast[n].general_value_data.type == VERBUM_DATA_INDEX_ARRAY_BLOCK && array_block_step) {
+
+                // Fim da expressão do acesso ao elemento de array.
+                if (ast[n].attr_operator || ast[n].operation_op != VERBUM_UNKNOWN) {
+                    array_block_step = false;
+
+                    // Analisa atribuição múltipla.
+                    if (mode) {
+                        if (!ast[n].attr_operator) {
+                            option3_a = false;
+                            index = n;
+                            break;
+                        }
+                    }
+
+                    // Expressão aritmética.
+                    else {
+                        switch (ast[n].operation_op) {
+                            case VERBUM_OPERATOR_ADD:  
+                            case VERBUM_OPERATOR_SUB:  
+                            case VERBUM_OPERATOR_DIV:  
+                            case VERBUM_OPERATOR_MUL:  
+                            case VERBUM_OPERATOR_PERC: break;
+                            default:
+                                option3_b = false;
+                                index = n;
+                        }
+
+                        if (!option3_b)
+                            break;
+                    }
+                }
+            }
+
+            // Outros tipos de elementos.
+            else {
+                if (mode) {
+                    if (!ast[n].attr_operator) {
+                        option3_a = false;
+                        index = n;
+                        break;
+                    }
+                }
+
+                // Expressão aritmética.
+                else {
+                    switch (ast[n].operation_op) {
+                        case VERBUM_OPERATOR_ADD:  
+                        case VERBUM_OPERATOR_SUB:  
+                        case VERBUM_OPERATOR_DIV:  
+                        case VERBUM_OPERATOR_MUL:  
+                        case VERBUM_OPERATOR_PERC: break;
+                        default:
+                            option3_b = false;
+                            index = n;
+                    }
+
+                    if (!option3_b)
+                        break;
+                }
+            }
+        }
+    }
+
+    verbum_seq_var_t seq_data;
+    seq_data.status = false;
+    seq_data.index = index;
+
+    if (mode)
+        seq_data.status = option3_a;
+    else
+        seq_data.status = option3_b;
+
+    return seq_data;
 }
 
 
