@@ -40,6 +40,8 @@ namespace verbum {
             string file_path;
             vector<char> file_content;
 
+            
+
             string get_str_operator (int operation);
             
             void display_error(
