@@ -3,6 +3,7 @@
 # Root script path.
 path=$(dirname "$(readlink -f "$BASH_SOURCE")")
 
+echo $1
 echo $path
 
 
