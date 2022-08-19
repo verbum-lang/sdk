@@ -16,7 +16,8 @@ cd ../sdk/verbum-network/source/verbum-network
 rm -rf *.o
 
 # Compile.
-gcc -o verbum-network verbum-network.c
+gcc -o global.o -c global.c
+gcc -o verbum-network verbum-network.c global.o
 
 # Move to install directory.
 mv verbum-network ../../../../sdk-binaries
