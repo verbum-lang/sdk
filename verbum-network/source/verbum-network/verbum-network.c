@@ -18,12 +18,10 @@ int initialization (int argc, char *argv[])
 
 void configutation_check (void)
 {
-    int size = 0;
-
     for (int a=0; a<global.instance.argc; a++) 
         if (strcmp(global.instance.argv[a], "-c") == 0 && (a+1) < global.instance.argc) 
             memory_scopy(global.instance.argv[a+1], global.configuration.path);
-
+    
     if (!global.configuration.path)
         show_help();
 

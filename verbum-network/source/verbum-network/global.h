@@ -7,8 +7,9 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-// Configurations.
+// Configurations e definations.
 #define initialization main // Entry point.
+#define CNULL (char *) NULL
 
 // Global data control.
 typedef struct {
@@ -19,6 +20,7 @@ typedef struct {
 
     struct {
         char *path;
+        char *content;
     } configuration;
 } global_t;
 
@@ -48,6 +50,17 @@ global_t global;
         exit(0); \
     } while(0)
 
+// Simple memory alloc.
+#define memory_alloc(DESTINATION, SIZE) \
+    do { \
+        DESTINATION = (char *) malloc(SIZE + 1); \
+        \
+        if (!DESTINATION) \
+            debug_exit("error allocating memory."); \
+        \
+        memset(DESTINATION, 0x0, SIZE); \
+    } while (0)
+
 // String memory alloc.
 #define memory_salloc(SOURCE, DESTINATION) \
     do { \
@@ -72,6 +85,7 @@ global_t global;
 
 // Check file exists.
 int file_exists (char *path);
+char *file_read (char *path);
 
 #endif
 
