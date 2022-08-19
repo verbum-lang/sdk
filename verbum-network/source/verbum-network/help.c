@@ -4,7 +4,13 @@
 
 void show_help (void)
 {
-    printf("\nUse: verbum-network -c SETTINGS-FILE.json\n\n");
+    printf(
+        "\n"
+        "Use: verbum-network -c SETTINGS-FILE.ini\n"
+        "Note: The configuration file uses the INI format.\n"
+        "\n"
+    );
+
     exit(0);
 }
 
