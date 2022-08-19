@@ -1,1 +1,0 @@
-cmd='/usr/bin/cmake;-DCMAKE_INSTALL_PREFIX=/home/user/projects/sdk/dependencies/ANTLR4/build/runtime/thirdparty/utfcpp/install;-DUTF8_TESTS=off;-DUTF8_SAMPLES=off;-GUnix Makefiles;<SOURCE_DIR><SOURCE_SUBDIR>'
