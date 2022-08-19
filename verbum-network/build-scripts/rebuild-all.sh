@@ -20,6 +20,8 @@ gcc -o global.o -c global.c
 gcc -o help.o -c help.c
 gcc -o verbum-network verbum-network.c global.o help.o
 
+rm -rf *.o
+
 # Move to install directory.
 mv verbum-network ../../../../sdk-binaries
 
@@ -33,6 +35,7 @@ rm -rf *.o
 
 # Compile.
 gcc -o verbum-node-mapper verbum-node-mapper.c
+rm -rf *.o
 
 # Move to install directory.
 mv verbum-node-mapper ../../../../sdk-binaries
@@ -47,9 +50,9 @@ rm -rf *.o
 
 # Compile.
 gcc -o verbum-fault-tolerance verbum-fault-tolerance.c
+rm -rf *.o
 
 # Move to install directory.
 mv verbum-fault-tolerance ../../../../sdk-binaries
-
 
 
