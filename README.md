@@ -5,6 +5,9 @@
    \ \/ / _ \ '__| '_ \| | | | '_ ` _ \ 
     \  /  __/ |  | |_) | |_| | | | | | |
      \/ \___|_|  |_.__/ \__,_|_| |_| |_|
+
+in principio erat Verbum et Verbum erat apud Deum et Deus erat Verbum
+                                             - Evangelium secundum Ioannem, 1
 ```
 
 Verbum, a simple and intuitive programming language, supports general concepts such as general purpose languages. It has its own features of modern languages: native support for distributed, parallel and concurrent computing, meta-programming, Hot Code Reloading, high fault tolerance and vertical and horizontal scalability. 
