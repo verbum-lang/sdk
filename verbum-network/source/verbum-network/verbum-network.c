@@ -26,6 +26,9 @@ void initialization (int argc, char *argv[])
     if (!configuration_file)
         show_help();
 
+    if (!file_exists(configuration_file))
+        say_exit("The file does not exist: %s", configuration_file);
+
     printf("config file: %s\n", configuration_file);
 }
 
