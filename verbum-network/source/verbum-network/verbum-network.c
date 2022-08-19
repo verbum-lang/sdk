@@ -1,5 +1,6 @@
 
 #include "global.h"
+#include "help.h"
 
 void initialization (int argc, char *argv[]);
 
@@ -21,6 +22,9 @@ void initialization (int argc, char *argv[])
             memory_scopy(argv[a+1], configuration_file);
         }
     }
+
+    if (!configuration_file)
+        show_help();
 
     printf("config file: %s\n", configuration_file);
 }

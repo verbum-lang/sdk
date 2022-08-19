@@ -17,7 +17,8 @@ rm -rf *.o
 
 # Compile.
 gcc -o global.o -c global.c
-gcc -o verbum-network verbum-network.c global.o
+gcc -o help.o -c help.c
+gcc -o verbum-network verbum-network.c global.o help.o
 
 # Move to install directory.
 mv verbum-network ../../../../sdk-binaries
