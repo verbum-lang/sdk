@@ -38,9 +38,11 @@ char *file_read (char *path)
         return CNULL;
     }
 
-    memory_salloc(content, size);
-    fread(buffer, 1, length, f);
+    memory_alloc(content, size);
+    fread(content, 1, size, fp);
     fclose(fp);
+
+    return content;
 }
 
 
