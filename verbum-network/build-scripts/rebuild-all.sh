@@ -1,15 +1,29 @@
 #!/bin/bash
 
 # ***
-# Build verbum-node-mapper:
+# Clean files.
 #
 
-# Clean files.
-cd ../binaries
-rm -rf verbum-node-mapper
+cd ../../../sdk-binaries
+rm -rf verbum-network verbum-node-mapper verbum-fault-tolerance
 
-cd ../source/verbum-node-mapper
+# ***
+# Build verbum-network
+#
+
+cp ../sdk/verbum-network/source/verbum-network/verbum-network ./
+
+# ***
+# Build verbum-node-mapper
+#
+
+cd ../sdk/verbum-network/source/verbum-node-mapper
 rm -rf *.o
 
+# Compile.
+gcc -o verbum-node-mapper verbum-node-mapper.c
+
+# Move to install directory.
+mv verbum-node-mapper ../../../../sdk-binaries
 
 
