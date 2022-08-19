@@ -7,6 +7,23 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+// Configurations.
+#define initialization main // Entry point.
+
+// Global data control.
+typedef struct {
+    struct {
+        int argc;
+        char **argv;
+    } instance;
+
+    struct {
+        char *path;
+    } configuration;
+} global_t;
+
+global_t global;
+
 // Debug macro.
 #define debug_print(fmt, ...) \
     do { \
