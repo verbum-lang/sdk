@@ -12,14 +12,21 @@ rm -rf verbum-network verbum-node-mapper verbum-fault-tolerance
 # Build verbum-network
 #
 
-cp ../sdk/verbum-network/source/verbum-network/verbum-network ./
+cd ../sdk/verbum-network/source/verbum-network
+rm -rf *.o
+
+# Compile.
+gcc -o verbum-network verbum-network.c
+
+# Move to install directory.
+mv verbum-network ../../../../sdk-binaries
 
 
 # ***
 # Build verbum-node-mapper
 #
 
-cd ../sdk/verbum-network/source/verbum-node-mapper
+cd ../verbum-node-mapper
 rm -rf *.o
 
 # Compile.
