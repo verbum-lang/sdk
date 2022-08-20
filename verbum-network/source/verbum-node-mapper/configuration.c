@@ -28,18 +28,18 @@ void configutation_read (void)
         global.configuration.content, "VERBUM-NODE-MAPPER", "server_port"
     );
 
-    say("server port: %d", global.configuration.node_mapper.server_port);
+    if (global.configuration.node_mapper.server_port)
+        say("server port: %d", global.configuration.node_mapper.server_port);
 
     // test...
     char *test = ini_read_string(
         global.configuration.content, "VERBUM-NODE-MAPPER", "senhor"
     );
 
-    if (test)
+    if (test) {
         say("test value: %s", test);
-
-    if (test)
         free(test);
+    }
 }
 
 
