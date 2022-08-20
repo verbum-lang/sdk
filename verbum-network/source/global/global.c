@@ -107,6 +107,7 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
 
     content_size = strlen(content);
     line_size = sizeof(char) * PATH_MAX;
+
     memory_alloc(line, line_size);
     memory_alloc(section_name, line_size);
     memory_alloc(param_name, line_size);
@@ -120,14 +121,14 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
                 if (step_check == 0) {
                     memset(section_name, 0x0, line_size);
                     
-                    for (int c=0,d=0; c<strlen(line); c++) {
+                    for (int c=0,d=0; c<strlen(line); c++)
                         if (c >= 1)
                             section_name[d++] = line[c];
-                    }
 
                     section_name[strlen(section_name)-1] = '\0';
 
-                    if (strcmp(section, section_name) == 0)
+                    if (strcmp(section, section_name) == 0 &&
+                        line[0] == '[' && line[ strlen(line) - 1 ] == ']')
                         step_check = 1;
                 }
 
@@ -148,12 +149,12 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
                         
                         if (strcmp(param, param_name) == 0) {
                             switch (type) {
-                            case 0:
-                                memory_scopy(param_value, result.svalue);
-                                break;
-                            case 1:
-                                result.ivalue = atoi(param_value);
-                                break;
+                                case 0:
+                                    memory_scopy(param_value, result.svalue);
+                                    break;
+                                case 1:
+                                    result.ivalue = atoi(param_value);
+                                    break;
                             }
                         }
                     } else
@@ -163,14 +164,10 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
 
             b = 0;
             memset(line, 0x0, line_size);
-            memset(section_name, 0x0, line_size);
-            memset(param_name, 0x0, line_size);
-            memset(param_value, 0x0, line_size);
         }
 
-        else if (content[a] != '\r' && content[a] != '\t') {
+        else if (content[a] != '\r' && content[a] != '\t') 
             line[b++] = content[a];
-        }
     }
 
     memset(line, 0x0, line_size);
