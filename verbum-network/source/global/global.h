@@ -24,6 +24,11 @@ typedef struct {
     struct {
         char *path;     // Directory path of configuration file.
         char *content;  // Data content of configuration file.
+
+        // Node Mapper configuration.
+        struct {
+            int server_port;
+        } node_mapper;
     } configuration;
 } global_t;
 
@@ -98,12 +103,14 @@ global_t global;
     } while(0)
 
 // File operations.
-int file_exists (char *path);
-char *file_read (char *path);
+int file_exists             (char *path);
+char *file_read             (char *path);
+char *ini_read_string       (char *content, char *section, char *param);
+int ini_read_number         (char *content, char *section, char *param);
 
 // Application operations.
 char *get_relative_path (void);
-char *get_real_path(char *path);
+char *get_real_path     (char *path);
 
 #endif
 

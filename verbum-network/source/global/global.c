@@ -86,4 +86,83 @@ char *get_real_path (char *path)
     return cwd;
 }
 
+char *ini_read_string (char *content, char *section, char *param)
+{
+    return CNULL;
+}
+
+int ini_read_number (char *content, char *section, char *param)
+{
+    int content_size  = 0;
+    int line_size     = 0;
+    int number        = 0;
+    int step_check    = 0;
+    char *line        = CNULL;
+    char *tmp         = CNULL;
+
+    if (!content || !section || !param)
+        return 0;
+
+    content_size = strlen(content);
+    line_size = sizeof(char) * PATH_MAX;
+    memory_alloc(line, line_size);
+    memory_alloc(tmp, line_size);
+
+    for (int a=0,b=0; a<content_size; a++) {
+        if (content[a] == '\n') {
+            if (strlen(line) > 0) {
+
+                // Check section.
+                if (step_check == 0) {
+                    memset(tmp, 0x0, line_size);
+                    
+                    for (int c=0,d=0; c<strlen(line); c++) {
+                        if (c >= 1)
+                            tmp[d++] = line[c];
+                    }
+
+                    tmp[strlen(tmp)-1] = '\0';
+
+                    if (strcmp(section, tmp) == 0)
+                        step_check = 1;
+                }
+
+                // Check param.
+                else if (step_check == 1) {
+                    if (strstr(line, "=")) {
+                        memset(tmp, 0x0, line_size);
+                        
+                        for (int c=0,d=0,e=0; c<strlen(line); c++) {
+                            if (line[c] == '=')
+                                d = 1;
+                            else if (d == 1)
+                                tmp[e++] = line[c];
+                        }
+
+                        tmp[strlen(tmp)-1] = '\0';
+                        number = atoi(tmp);
+                    } else
+                        step_check = 0;
+                }
+            }
+
+            b = 0;
+            memset(line, 0x0, line_size);
+            memset(tmp, 0x0, line_size);
+        }
+
+        else if (content[a] != '\r' && content[a] != '\t') {
+            line[b++] = content[a];
+        }
+    }
+
+    memset(line, 0x0, line_size);
+    memset(tmp, 0x0, line_size);
+
+    free(line);
+    free(tmp);
+
+    return number;
+}
+
 
