@@ -9,16 +9,25 @@ rm -rf verbum-network verbum-node-mapper verbum-fault-tolerance
 
 
 # ***
+# Build global sources
+#
+
+cd ../sdk/verbum-network/source/global
+rm -rf *.o
+
+gcc -o g-global.o -c global.c
+
+# ***
 # Build verbum-network
 #
 
-cd ../sdk/verbum-network/source/verbum-network
+cd ../verbum-network
 rm -rf *.o
 
 # Compile.
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
-gcc -o verbum-network verbum-network.c global.o help.o
+gcc -o verbum-network verbum-network.c global.o help.o ../global/g-global.o
 
 rm -rf *.o
 
@@ -54,5 +63,9 @@ rm -rf *.o
 
 # Move to install directory.
 mv verbum-fault-tolerance ../../../../sdk-binaries
+
+# Clean global source files (.o files).
+cd ../global
+rm -rf *.o
 
 

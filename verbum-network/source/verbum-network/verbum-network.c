@@ -2,8 +2,10 @@
 #include "global.h"
 #include "help.h"
 
-void configutation_check (void);
-void configutation_read (void);
+void configutation_check         (void);
+void configutation_read          (void);
+void open_verbum_node_mapper     (void);
+void open_verbum_fault_tolerance (void);
 
 int initialization (int argc, char *argv[]) 
 {
@@ -12,6 +14,9 @@ int initialization (int argc, char *argv[])
 
     configutation_check();
     configutation_read();
+
+    open_verbum_node_mapper();
+    open_verbum_fault_tolerance();
 
     return 0;
 }
@@ -37,6 +42,16 @@ void configutation_read (void)
 
     say("config file: %s", global.configuration.path);
     say("config content: \n%s\n", global.configuration.content);
+}
+
+void open_verbum_node_mapper (void)
+{
+
+}
+
+void open_verbum_fault_tolerance (void)
+{
+
 }
 
 
