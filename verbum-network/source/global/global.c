@@ -93,14 +93,14 @@ typedef struct {
 
 ini_data_t ini_read (char *content, char *section, char *param, int type)
 {
-    int content_size  = 0;
-    int line_size     = 0;
-    int step_check    = 0;
-    char *line        = CNULL;
-    char *tmp         = CNULL;
-    char *param_name  = CNULL;
-    char *param_value = CNULL;
-    ini_data_t result = { .ivalue = 0, .svalue = CNULL };
+    int content_size   = 0;
+    int line_size      = 0;
+    int step_check     = 0;
+    char *line         = CNULL;
+    char *section_name = CNULL;
+    char *param_name   = CNULL;
+    char *param_value  = CNULL;
+    ini_data_t result  = { .ivalue = 0, .svalue = CNULL };
 
     if (!content || !section || !param)
         return result;
@@ -108,7 +108,7 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
     content_size = strlen(content);
     line_size = sizeof(char) * PATH_MAX;
     memory_alloc(line, line_size);
-    memory_alloc(tmp, line_size);
+    memory_alloc(section_name, line_size);
     memory_alloc(param_name, line_size);
     memory_alloc(param_value, line_size);
 
@@ -118,16 +118,16 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
 
                 // Search section.
                 if (step_check == 0) {
-                    memset(tmp, 0x0, line_size);
+                    memset(section_name, 0x0, line_size);
                     
                     for (int c=0,d=0; c<strlen(line); c++) {
                         if (c >= 1)
-                            tmp[d++] = line[c];
+                            section_name[d++] = line[c];
                     }
 
-                    tmp[strlen(tmp)-1] = '\0';
+                    section_name[strlen(section_name)-1] = '\0';
 
-                    if (strcmp(section, tmp) == 0)
+                    if (strcmp(section, section_name) == 0)
                         step_check = 1;
                 }
 
@@ -163,7 +163,7 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
 
             b = 0;
             memset(line, 0x0, line_size);
-            memset(tmp, 0x0, line_size);
+            memset(section_name, 0x0, line_size);
             memset(param_name, 0x0, line_size);
             memset(param_value, 0x0, line_size);
         }
@@ -174,12 +174,12 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
     }
 
     memset(line, 0x0, line_size);
-    memset(tmp, 0x0, line_size);
+    memset(section_name, 0x0, line_size);
     memset(param_name, 0x0, line_size);
     memset(param_value, 0x0, line_size);
 
     free(line);
-    free(tmp);
+    free(section_name);
     free(param_name);
     free(param_value);
 
