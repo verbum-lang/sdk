@@ -27,7 +27,8 @@ rm -rf *.o
 # Compile.
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
-gcc -o verbum-network verbum-network.c global.o help.o ../global/g-global.o
+gcc -o configuration.o -c configuration.c
+gcc -o verbum-network verbum-network.c global.o help.o configuration.o ../global/g-global.o
 
 rm -rf *.o
 
