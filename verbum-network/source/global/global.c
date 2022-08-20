@@ -86,12 +86,12 @@ char *get_real_path (char *path)
     return cwd;
 }
 
-char *ini_read_string (char *content, char *section, char *param)
-{
-    return CNULL;
-}
+typedef struct { 
+    int ivalue;
+    char *svalue;
+} ini_data_t;
 
-int ini_read_number (char *content, char *section, char *param)
+ini_data_t ini_read (char *content, char *section, char *param, int type)
 {
     int content_size  = 0;
     int line_size     = 0;
@@ -100,8 +100,10 @@ int ini_read_number (char *content, char *section, char *param)
     char *line        = CNULL;
     char *tmp         = CNULL;
 
+    ini_data_t result = { .ivalue = 0, .svalue = CNULL };
+
     if (!content || !section || !param)
-        return 0;
+        return result;
 
     content_size = strlen(content);
     line_size = sizeof(char) * PATH_MAX;
@@ -162,7 +164,18 @@ int ini_read_number (char *content, char *section, char *param)
     free(line);
     free(tmp);
 
-    return number;
+    return result;
+}
+
+
+char *ini_read_string (char *content, char *section, char *param)
+{
+    return CNULL;
+}
+
+int ini_read_number (char *content, char *section, char *param)
+{
+    return 0;
 }
 
 
