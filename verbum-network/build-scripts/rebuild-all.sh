@@ -44,7 +44,11 @@ cd ../verbum-node-mapper
 rm -rf *.o
 
 # Compile.
-gcc -o verbum-node-mapper verbum-node-mapper.c
+gcc -o global.o -c global.c
+gcc -o help.o -c help.c
+gcc -o configuration.o -c configuration.c
+gcc -o verbum-node-mapper verbum-node-mapper.c global.o help.o configuration.o ../global/g-global.o
+
 rm -rf *.o
 
 # Move to install directory.
@@ -59,7 +63,11 @@ cd ../verbum-fault-tolerance
 rm -rf *.o
 
 # Compile.
-gcc -o verbum-fault-tolerance verbum-fault-tolerance.c
+gcc -o global.o -c global.c
+gcc -o help.o -c help.c
+gcc -o configuration.o -c configuration.c
+gcc -o verbum-fault-tolerance verbum-fault-tolerance.c global.o help.o configuration.o ../global/g-global.o
+
 rm -rf *.o
 
 # Move to install directory.

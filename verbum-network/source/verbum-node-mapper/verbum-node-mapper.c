@@ -1,13 +1,19 @@
 
-#include <stdio.h>
-#include <unistd.h>
+#include "global.h"
+#include "configuration.h"
 
-int main (int argc, char *argv[]) {
+int initialization (int argc, char *argv[]) 
+{
+    say("Verbum Node Mapper - started!");
 
-    while (1) {
-        printf("Verbum Node Mapper\n");
-        sleep(3);
-    }
+    global.instance.argc = argc;
+    global.instance.argv = argv;
+    global.instance.path = get_relative_path();
+
+    configutation_check();
+    configutation_read();
+
+    
 
     return 0;
 }
