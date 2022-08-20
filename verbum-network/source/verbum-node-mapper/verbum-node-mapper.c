@@ -1,9 +1,13 @@
 
 #include <stdio.h>
+#include <unistd.h>
 
 int main (int argc, char *argv[]) {
 
-    printf("Verbum Node Mapper\n");
+    while (1) {
+        printf("Verbum Node Mapper\n");
+        sleep(3);
+    }
 
     return 0;
 }
