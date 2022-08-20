@@ -105,8 +105,6 @@ global_t global;
 // File operations.
 int file_exists             (char *path);
 char *file_read             (char *path);
-char *ini_read_string       (char *content, char *section, char *param);
-int ini_read_number         (char *content, char *section, char *param);
 
 // Application operations.
 char *get_relative_path (void);

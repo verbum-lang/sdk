@@ -16,6 +16,7 @@ cd ../sdk/verbum-network/source/global
 rm -rf *.o
 
 gcc -o g-global.o -c global.c
+gcc -o g-ini_file.o -c ini_file.c
 
 # ***
 # Build verbum-network
@@ -28,7 +29,7 @@ rm -rf *.o
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
 gcc -o configuration.o -c configuration.c
-gcc -o verbum-network verbum-network.c global.o help.o configuration.o ../global/g-global.o
+gcc -o verbum-network verbum-network.c global.o help.o configuration.o ../global/g-global.o ../global/g-ini_file.o
 
 rm -rf *.o
 
@@ -47,7 +48,7 @@ rm -rf *.o
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
 gcc -o configuration.o -c configuration.c
-gcc -o verbum-node-mapper verbum-node-mapper.c global.o help.o configuration.o ../global/g-global.o
+gcc -o verbum-node-mapper verbum-node-mapper.c global.o help.o configuration.o ../global/g-global.o ../global/g-ini_file.o
 
 rm -rf *.o
 
@@ -66,7 +67,7 @@ rm -rf *.o
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
 gcc -o configuration.o -c configuration.c
-gcc -o verbum-fault-tolerance verbum-fault-tolerance.c global.o help.o configuration.o ../global/g-global.o
+gcc -o verbum-fault-tolerance verbum-fault-tolerance.c global.o help.o configuration.o ../global/g-global.o ../global/g-ini_file.o
 
 rm -rf *.o
 
