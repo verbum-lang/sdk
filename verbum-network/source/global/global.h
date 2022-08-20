@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <unistd.h>
+#include <limits.h>
 
 // Configurations e definations.
 #define initialization main // Entry point.
@@ -16,11 +18,12 @@ typedef struct {
     struct {
         int argc;
         char **argv;
+        char *path;     // Running application path.
     } instance;
 
     struct {
-        char *path;
-        char *content;
+        char *path;     // Directory path of configuration file.
+        char *content;  // Data content of configuration file.
     } configuration;
 } global_t;
 
@@ -94,9 +97,13 @@ global_t global;
         system(buffer);                                                                 \
     } while(0)
 
-// Check file exists.
+// File operations.
 int file_exists (char *path);
 char *file_read (char *path);
+
+// Application operations.
+char *get_relative_path (void);
+char *get_real_path(char *path);
 
 #endif
 

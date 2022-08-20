@@ -7,8 +7,10 @@ void open_verbum_fault_tolerance (void);
 
 int initialization (int argc, char *argv[]) 
 {
+    // Instance params.
     global.instance.argc = argc;
     global.instance.argv = argv;
+    global.instance.path = get_relative_path();
 
     configutation_check();
     configutation_read();
