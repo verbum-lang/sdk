@@ -24,7 +24,7 @@ int initialization (int argc, char *argv[])
     //
 
     open_verbum_node_mapper();
-    open_verbum_fault_tolerance();
+    // open_verbum_fault_tolerance();
 
     return 0;
 }

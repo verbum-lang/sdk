@@ -29,6 +29,17 @@ void configutation_read (void)
     );
 
     say("server port: %d", global.configuration.node_mapper.server_port);
+
+    // test...
+    char *test = ini_read_string(
+        global.configuration.content, "VERBUM-NODE-MAPPER", "senhor"
+    );
+
+    if (test)
+        say("test value: %s", test);
+
+    if (test)
+        free(test);
 }
 
 
