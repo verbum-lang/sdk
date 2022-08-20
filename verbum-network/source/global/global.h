@@ -102,10 +102,6 @@ global_t global;
         system(buffer);                                                                 \
     } while(0)
 
-// Application operations.
-char *get_relative_path (void);
-char *get_real_path     (char *path);
-
 #endif
 
 
