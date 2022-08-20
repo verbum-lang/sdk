@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_G_GLOBAL
-#define VERBUM_G_GLOBAL
+#ifndef VERBUM_GLOBAL_GLOBAL
+#define VERBUM_GLOBAL_GLOBAL
 
 #include <stdio.h>
 #include <string.h>

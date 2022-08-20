@@ -16,6 +16,13 @@ int initialization (int argc, char *argv[])
     configutation_check();
     configutation_read();
 
+    //
+    // Posteriormente: montar arquivo de configuração
+    // padrão, caso o mesmo não seja especificado. Mas
+    // por enquanto, utilizar obrigatoriamente arquivo
+    // de configuração passado via linha de comando.
+    //
+
     open_verbum_node_mapper();
     open_verbum_fault_tolerance();
 
