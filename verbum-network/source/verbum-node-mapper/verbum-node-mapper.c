@@ -13,8 +13,7 @@ int initialization (int argc, char *argv[])
     configutation_check();
     configutation_read();
 
-    
-
+    while (1);
     return 0;
 }
 
