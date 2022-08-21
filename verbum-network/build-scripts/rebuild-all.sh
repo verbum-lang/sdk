@@ -33,14 +33,12 @@ rm -rf *.o
 
 # Compile.
 gcc -o global.o         -c global.c
-gcc -o debug.o          -c debug.c
 gcc -o help.o           -c help.c
 gcc -o configuration.o  -c configuration.c
 gcc -o node.o           -c node.c
 
 gcc -o verbum-node verbum-node.c        \
                    global.o             \
-                   debug.o              \
                    help.o               \
                    configuration.o      \
                    node.o               \
@@ -51,58 +49,5 @@ rm -rf *.o
 # Move to install directory.
 mv verbum-node ../../../../sdk-binaries
 
-
-# ***
-# Build verbum-node-mapper
-#
-
-cd ../verbum-node-mapper
-rm -rf *.o
-
-# Compile.
-gcc -o global.o         -c global.c
-gcc -o help.o           -c help.c
-gcc -o configuration.o  -c configuration.c
-gcc -o node-mapper.o    -c node-mapper.c
-
-gcc -o verbum-node-mapper verbum-node-mapper.c  \
-                          global.o              \
-                          help.o                \
-                          configuration.o       \
-                          node-mapper.o         \
-                          $LIBRARY_OBJECTS
-
-rm -rf *.o
-
-# Move to install directory.
-mv verbum-node-mapper ../../../../sdk-binaries
-
-
-# ***
-# Build verbum-fault-tolerance
-#
-
-cd ../verbum-fault-tolerance
-rm -rf *.o
-
-# Compile.
-gcc -o global.o -c global.c
-gcc -o help.o -c help.c
-gcc -o configuration.o -c configuration.c
-
-gcc -o verbum-fault-tolerance verbum-fault-tolerance.c  \
-                              global.o                  \
-                              help.o                    \
-                              configuration.o           \
-                              $LIBRARY_OBJECTS
-
-rm -rf *.o
-
-# Move to install directory.
-mv verbum-fault-tolerance ../../../../sdk-binaries
-
-# Clean library files (.o files).
-cd ../library
-rm -rf *.o
 
 
