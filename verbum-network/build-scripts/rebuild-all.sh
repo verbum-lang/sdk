@@ -40,12 +40,14 @@ gcc -o global.o         -c global.c
 gcc -o help.o           -c help.c
 gcc -o configuration.o  -c configuration.c
 gcc -o node.o           -c node.c
+gcc -o monitor-nm-ft.o  -c monitor-nm-ft.c
 
-gcc -o verbum-node verbum-node.c        \
-                   global.o             \
-                   help.o               \
-                   configuration.o      \
-                   node.o               \
+gcc -o verbum-node verbum-node.c                    \
+                   global.o                         \
+                   help.o                           \
+                   configuration.o                  \
+                   node.o                           \
+                   monitor-nm-ft.o                  \
                    $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
