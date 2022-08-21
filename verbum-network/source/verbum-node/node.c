@@ -20,15 +20,29 @@ void create_node (void)
     param.fault_tolerance_port = global.configuration.fault_tolerance.server_port;
     memory_scopy(global.configuration.path, param.path);
     
-    if ((status = pthread_create(&tid, NULL, node_handler, &param)) !=0)
+    if ((status = pthread_create(&tid, NULL, node_interface, &param)) !=0)
         debug_exit("error while creating thread - Verbum Node.");
 }
 
-void * node_handler (void *tparam)
+void * node_interface (void *tparam)
 {
     node_param_t param = *( (node_param_t *) (tparam) );
 
-    
+
+}
+
+void * node_server_controller (void *tparam)
+{
+    node_param_t param = *( (node_param_t *) (tparam) );
+
+
+}
+
+void * node_client_controller (void *tparam)
+{
+    node_param_t param = *( (node_param_t *) (tparam) );
+
+
 }
 
 
