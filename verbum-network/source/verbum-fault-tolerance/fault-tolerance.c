@@ -61,6 +61,8 @@ void * fault_tolerance_interface_handler (void *tparam)
                     break;
             }
 
+            // Fault Tolerance protocol.
+            
             // Fault Tolerance options (add log, get log, and others).
 
             close(nsock);

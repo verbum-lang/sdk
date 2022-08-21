@@ -61,6 +61,8 @@ void * node_mapper_interface_handler (void *tparam)
                     break;
             }
 
+            // Node Mapper protocol.
+
             // Receive node information.
 
             // Node Mapper options (create, delete, and others).

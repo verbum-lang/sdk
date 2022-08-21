@@ -42,8 +42,13 @@ void * prepara_nm_ft_handler (void *param)
 
 void open_nm_ft_process (char *path)
 {
-    system_execution("verbum-node-mapper -c \"%s\" &", path);
-    system_execution("verbum-fault-tolerance -c \"%s\" &", path);
+    #ifdef MONITOR_ENABLE_NODE_MAPPER
+        system_execution("verbum-node-mapper -c \"%s\" &", path);
+    #endif
+
+    #ifdef MONITOR_ENABLE_FAULT_TOLERANCE
+        system_execution("verbum-fault-tolerance -c \"%s\" &", path);
+    #endif
 }
 
 void check_connection_interface (char *path, int node_mapper_port, int fault_tolerance_port)
@@ -51,6 +56,8 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
     int status = 0;
 
     // Node Mapper.
+    #ifdef MONITOR_ENABLE_NODE_MAPPER
+
     #ifdef M_DBG
         say("Node Mapper - checking...");
         say("Node Mapper - server port: %d", node_mapper_port);
@@ -80,8 +87,12 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
     #ifdef M_DBG
         say("Node Mapper online.");
     #endif
+
+    #endif
     
     // Fault Tolerance.
+    #ifdef MONITOR_ENABLE_FAULT_TOLERANCE
+
     #ifdef M_DBG
         say("Fault Tolerance - checking...");
         say("Fault Tolerance - server port: %d", fault_tolerance_port);
@@ -110,6 +121,8 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
 
     #ifdef M_DBG
         say("Fault Tolerance online.");
+    #endif
+
     #endif
 }
 
