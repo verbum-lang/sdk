@@ -5,6 +5,7 @@
 #include "global.h"
 
 void verbum_node (void);
+void create_node (void);
 
 #endif
 
