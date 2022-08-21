@@ -38,13 +38,4 @@ void configutation_read (void)
         debug_exit("Error read server port.");
 }
 
-void configuration_show (void)
-{
-    say("Node Mapper:");
-    say("\tserver port: %d\n", global.configuration.node_mapper.server_port);
-
-    say("Fault Tolerance:");
-    say("\tserver port: %d", global.configuration.fault_tolerance.server_port);
-}
-
 

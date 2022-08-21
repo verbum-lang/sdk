@@ -6,7 +6,6 @@
 
 void configutation_check (void);
 void configutation_read  (void);
-void configuration_show  (void);
 
 #endif
 

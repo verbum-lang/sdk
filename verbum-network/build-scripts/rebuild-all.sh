@@ -66,14 +66,12 @@ gcc -o global.o                 -c global.c
 gcc -o help.o                   -c help.c
 gcc -o configuration.o          -c configuration.c
 gcc -o node-mapper.o            -c node-mapper.c
-gcc -o node-mapper-interface.o  -c node-mapper-interface.c
 
 gcc -o verbum-node-mapper verbum-node-mapper.c              \
                           global.o                          \
                           help.o                            \
                           configuration.o                   \
                           node-mapper.o                     \
-                          node-mapper-interface.o           \
                           $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
