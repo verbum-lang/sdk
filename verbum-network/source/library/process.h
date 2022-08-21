@@ -4,7 +4,7 @@
 
 #include "global.h"
 
-pid_t proc_find(const char* name);
+pid_t check_process_running (char *name);
 
 #endif
 

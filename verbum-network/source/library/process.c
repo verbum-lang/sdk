@@ -5,46 +5,58 @@
 #include "process.h"
 #include "memory.h"
 
-pid_t proc_find(const char* name) 
-{
-    DIR* dir;
-    struct dirent* ent;
-    char* endptr;
-    char buf[512];
+/*
+ * Check process is running (check by name).
+ * 
+ * Success: return process PID. Error: return -1.
+ * 
+ * https://stackoverflow.com/questions/6898337/determine-programmatically-if-a-program-is-running
+ */
 
-    if (!(dir = opendir("/proc"))) {
-        debug_print("can't open /proc");
+pid_t check_process_running (char *name)
+{
+    DIR *directory;
+    struct dirent *dirdata;
+    char *endptr = CNULL;
+    char buffer [512];
+
+    directory = opendir("/proc");
+    if (!directory) {
+        debug_print("can't open /proc.");
         return -1;
     }
 
-    while((ent = readdir(dir)) != NULL) {
-        /* if endptr is not a null character, the directory is not
-         * entirely numeric, so ignore it */
-        long lpid = strtol(ent->d_name, &endptr, 10);
+    while ((dirdata = readdir(directory)) != NULL) {
+
+        /* If endptr is not a null character, the directory is not
+         * entirely numeric, so ignore it. */
+        long lpid = strtol(dirdata->d_name, &endptr, 10);
         if (*endptr != '\0') {
             continue;
         }
 
-        /* try to open the cmdline file */
-        snprintf(buf, sizeof(buf), "/proc/%ld/cmdline", lpid);
-        FILE* fp = fopen(buf, "r");
+        /* Try to open the cmdline file. */
+        snprintf(buffer, sizeof(buffer), "/proc/%ld/cmdline", lpid);
+        FILE* fp = fopen(buffer, "r");
 
         if (fp) {
-            if (fgets(buf, sizeof(buf), fp) != NULL) {
-                /* check the first token in the file, the program name */
-                char* first = strtok(buf, " ");
+            if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+
+                /* Check the first token in the file, the program name. */
+                char* first = strtok(buffer, " ");
+
                 if (!strcmp(first, name)) {
                     fclose(fp);
-                    closedir(dir);
-                    return (pid_t)lpid;
+                    closedir(directory);
+                    return (pid_t) lpid;
                 }
             }
+
             fclose(fp);
         }
-
     }
 
-    closedir(dir);
+    closedir(directory);
     return -1;
 }
 

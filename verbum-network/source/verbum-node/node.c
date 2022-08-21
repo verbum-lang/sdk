@@ -30,7 +30,7 @@ void check_connection_interface (void)
     while(!check_connection_banner_nm_ft("Node Mapper", 
         global.configuration.node_mapper.server_port, "Verbum Node Mapper")) 
     {
-        pid_t pid = proc_find("verbum-node-mapper");
+        pid_t pid = check_process_running("verbum-node-mapper");
 
         if (pid == -1)
             system_execution("verbum-node-mapper -c \"%s\" &", global.configuration.path);
@@ -45,7 +45,7 @@ void check_connection_interface (void)
     while(!check_connection_banner_nm_ft("Fault Tolerance", 
         global.configuration.fault_tolerance.server_port, "Verbum Fault Tolerance"))
     {
-        pid_t pid = proc_find("verbum-fault-tolerance");
+        pid_t pid = check_process_running("verbum-fault-tolerance");
 
         if (pid == -1)
             system_execution("verbum-fault-tolerance -c \"%s\" &", global.configuration.path);
