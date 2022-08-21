@@ -16,6 +16,7 @@ int initialization (int argc, char *argv[])
 
     node_mapper();
 
+    while (1);
     return 0;
 }
 
