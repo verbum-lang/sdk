@@ -39,11 +39,19 @@ void prepare_node_mapper (void)
     check_connection_step2:
     status = connect(handle, (struct sockaddr*) &address, sizeof(address));
     
-    if (status < 0) {
-        say(NM_PREFIX "connection error.");
-        sleep(1);
+    if (status < 0)
         goto check_connection_step2;
-    }
+
+
+
+    // // Packet.
+    // char packet []=
+    //     ""
+    //     "Deus eh Bom!"
+    //     "";
+
+    // // Send packet.
+    // send(handle, packet, strlen(packet), 0);
 }
 
 void prepare_fault_tolerance (void) 
