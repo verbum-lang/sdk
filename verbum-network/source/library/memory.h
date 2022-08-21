@@ -3,6 +3,7 @@
 #define VERBUM_LIBRARY_MEMORY
 
 #include "global.h"
+#include "debug.h"
 
 // Simple memory alloc.
 #define memory_alloc(DESTINATION, SIZE)                                                 \

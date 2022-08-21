@@ -17,11 +17,12 @@ rm -rf *.o
 
 gcc -o global.o         -c global.c
 gcc -o memory.o         -c memory.c
+gcc -o debug.o          -c debug.c
 gcc -o application.o    -c application.c
 gcc -o file.o           -c file.c
 gcc -o ini_file.o       -c ini_file.c
 
-LIBRARY_OBJECTS="../library/global.o ../library/memory.o ../library/application.o ../library/file.o ../library/ini_file.o"
+LIBRARY_OBJECTS="../library/global.o ../library/memory.o ../library/debug.o ../library/application.o ../library/file.o ../library/ini_file.o"
 
 # ***
 # Build verbum-node
