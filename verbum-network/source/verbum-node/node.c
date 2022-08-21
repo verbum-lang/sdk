@@ -9,7 +9,7 @@ void verbum_node (void)
     monitor_nm_and_ft();
     check_nm_ft();
 
-    say ("Jesus <3");
+    
 }
 
 

@@ -23,7 +23,7 @@ void configutation_read (void)
 
     // Node Mapper configuration.
     global.configuration.node_mapper.server_port = ini_read_number(
-        global.configuration.content, "VERBUM-NODE-MAPPER", "server_port"
+        global.configuration.content, "VERBUM-NODE-MAPPER", "interface_server_port"
     );
 
     if (!global.configuration.node_mapper.server_port)
@@ -31,7 +31,7 @@ void configutation_read (void)
 
     // Fault Tolerance configuration.
     global.configuration.fault_tolerance.server_port = ini_read_number(
-        global.configuration.content, "VERBUM-FAULT-TOLERANCE", "server_port"
+        global.configuration.content, "VERBUM-FAULT-TOLERANCE", "interface_server_port"
     );
 
     if (!global.configuration.fault_tolerance.server_port)
