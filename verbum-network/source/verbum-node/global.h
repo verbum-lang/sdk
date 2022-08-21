@@ -11,6 +11,7 @@
 #include "../library/file.h"
 #include "../library/ini_file.h"
 #include "../library/connection.h"
+#include "../library/process.h"
 
 // Re-define macros.
 #ifdef      PACKAGE_NAME
