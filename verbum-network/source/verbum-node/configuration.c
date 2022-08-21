@@ -34,8 +34,8 @@ void configutation_read (void)
         global.configuration.content, "VERBUM-FAULT-TOLERANCE", "interface_server_port"
     );
 
-    if (!global.configuration.fault_tolerance.server_port)
-        debug_exit("Error read server port.");
+    // if (!global.configuration.fault_tolerance.server_port)
+    //     debug_exit("Error read server port.");
 }
 
 

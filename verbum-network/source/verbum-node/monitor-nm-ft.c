@@ -58,7 +58,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
     // Node Mapper.
     #ifdef MONITOR_ENABLE_NODE_MAPPER
 
-    #ifdef M_DBG
+    #ifdef MONITOR_DBG
         say("Node Mapper - checking...");
         say("Node Mapper - server port: %d", node_mapper_port);
     #endif
@@ -75,7 +75,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
                         "Node Mapper", node_mapper_port, "Verbum Node Mapper");
 
             if (status == 0) {
-                #ifdef M_DBG
+                #ifdef MONITOR_DBG
                     say("Node Mapper kill process.");
                 #endif
                 
@@ -84,7 +84,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
         }
     }
 
-    #ifdef M_DBG
+    #ifdef MONITOR_DBG
         say("Node Mapper online.");
     #endif
 
@@ -93,7 +93,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
     // Fault Tolerance.
     #ifdef MONITOR_ENABLE_FAULT_TOLERANCE
 
-    #ifdef M_DBG
+    #ifdef MONITOR_DBG
         say("Fault Tolerance - checking...");
         say("Fault Tolerance - server port: %d", fault_tolerance_port);
     #endif
@@ -110,7 +110,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
                         "Fault Tolerance", fault_tolerance_port, "Verbum Fault Tolerance");
 
             if (status == 0) {
-                #ifdef M_DBG
+                #ifdef MONITOR_DBG
                     say("Fault Tolerance kill process.");
                 #endif
                 
@@ -119,7 +119,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
         }
     }
 
-    #ifdef M_DBG
+    #ifdef MONITOR_DBG
         say("Fault Tolerance online.");
     #endif
 

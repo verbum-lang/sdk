@@ -4,14 +4,30 @@
 
 void verbum_node (void)
 {
-    create_node();
-
     // Start Node Mapper and Fault Tolerance monitor.
-    monitor_nm_and_ft();    
+    monitor_nm_and_ft(); 
+    
+    create_node();
 }
 
 void create_node (void)
 {
+    node_param_t param;
+    int status = 0;
+    pthread_t tid;
+    
+    param.node_mapper_port = global.configuration.node_mapper.server_port;
+    param.fault_tolerance_port = global.configuration.fault_tolerance.server_port;
+    memory_scopy(global.configuration.path, param.path);
+    
+    if ((status = pthread_create(&tid, NULL, node_handler, &param)) !=0)
+        debug_exit("error while creating thread - Verbum Node.");
+}
+
+void * node_handler (void *tparam)
+{
+    node_param_t param = *( (node_param_t *) (tparam) );
+
     
 }
 
