@@ -1,6 +1,7 @@
 
 #include <dirent.h>
 #include <sys/types.h>
+#include <signal.h>
 
 #include "monitor-nm-ft.h"
 
@@ -47,6 +48,8 @@ void open_nm_ft_process (char *path)
 
 void check_connection_interface (char *path, int node_mapper_port, int fault_tolerance_port)
 {
+    int status = 0;
+
     // Node Mapper.
     #ifdef M_DBG
         say("Node Mapper - checking...");
@@ -59,6 +62,19 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
         pid_t pid = check_process_running("verbum-node-mapper");
         if (pid == -1)
             system_execution("verbum-node-mapper -c \"%s\" &", path);
+        else {
+            sleep(1);
+            status = check_connection_banner_nm_ft(
+                        "Node Mapper", node_mapper_port, "Verbum Node Mapper");
+
+            if (status == 0) {
+                #ifdef M_DBG
+                    say("Node Mapper kill process.");
+                #endif
+                
+                kill(pid, SIGKILL);
+            }
+        }
     }
 
     #ifdef M_DBG
@@ -77,6 +93,19 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
         pid_t pid = check_process_running("verbum-fault-tolerance");
         if (pid == -1)
             system_execution("verbum-fault-tolerance -c \"%s\" &", path);
+        else {
+            sleep(1);
+            status = check_connection_banner_nm_ft(
+                        "Fault Tolerance", fault_tolerance_port, "Verbum Fault Tolerance");
+
+            if (status == 0) {
+                #ifdef M_DBG
+                    say("Fault Tolerance kill process.");
+                #endif
+                
+                kill(pid, SIGKILL);
+            }          
+        }
     }
 
     #ifdef M_DBG

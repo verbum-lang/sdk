@@ -6,7 +6,7 @@
 
 // Show/hide monitor debug messages.
 // Show = defined, hide = undefined.
-#define M_DBG
+// #define M_DBG
 
 typedef struct {
     char *path;

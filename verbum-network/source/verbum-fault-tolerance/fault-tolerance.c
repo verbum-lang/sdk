@@ -57,7 +57,7 @@ void * fault_tolerance_interface_handler (void *tparam)
 
             while (1) {
                 status = send(nsock, header, strlen(header), 0);
-                if (status > 0)
+                if (status > 0) 
                     break;
             }
 
