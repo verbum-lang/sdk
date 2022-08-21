@@ -2,10 +2,10 @@
 #ifndef VERBUM_GLOBAL
 #define VERBUM_GLOBAL
 
-#include "../global/global.h"
-#include "../global/application.h"
-#include "../global/file.h"
-#include "../global/ini_file.h"
+#include "../library/global.h"
+#include "../library/application.h"
+#include "../library/file.h"
+#include "../library/ini_file.h"
 
 #endif
 
