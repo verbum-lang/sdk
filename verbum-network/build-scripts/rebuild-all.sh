@@ -24,8 +24,9 @@ gcc -o ini_file.o       -c ini_file.c
 gcc -o connection.o     -c connection.c
 gcc -o process.o        -c process.c
 
-LIBRARY_OBJECTS="../library/global.o ../library/memory.o ../library/debug.o ../library/application.o ../library/file.o ../library/ini_file.o ../library/connection.o ../library/process.o"
+LIBRARY_OBJECTS=" ../library/global.o ../library/memory.o ../library/debug.o ../library/application.o ../library/file.o ../library/ini_file.o ../library/connection.o ../library/process.o "
 
+LIBRARY_LIBS=" -lpthread "
 
 # ***
 # Build verbum-node
@@ -45,7 +46,7 @@ gcc -o verbum-node verbum-node.c        \
                    help.o               \
                    configuration.o      \
                    node.o               \
-                   $LIBRARY_OBJECTS
+                   $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
 
@@ -71,7 +72,7 @@ gcc -o verbum-node-mapper verbum-node-mapper.c  \
                           help.o                \
                           configuration.o       \
                           node-mapper.o         \
-                          $LIBRARY_OBJECTS
+                          $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
 
@@ -95,7 +96,7 @@ gcc -o verbum-fault-tolerance verbum-fault-tolerance.c  \
                               global.o                  \
                               help.o                    \
                               configuration.o           \
-                              $LIBRARY_OBJECTS
+                              $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
 

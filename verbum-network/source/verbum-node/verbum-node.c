@@ -15,6 +15,7 @@ int initialization (int argc, char *argv[])
     configutation_read();
 
     verbum_node();
+    while(1);
 
     return 0;
 }
