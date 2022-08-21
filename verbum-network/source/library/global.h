@@ -30,6 +30,11 @@ typedef struct {
         struct {
             int server_port;
         } node_mapper;
+
+        // Fault Tolerance configuration.
+        struct {
+            int server_port;
+        } fault_tolerance;
     } configuration;
 
     

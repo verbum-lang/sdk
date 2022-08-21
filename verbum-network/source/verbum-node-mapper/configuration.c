@@ -21,18 +21,30 @@ void configutation_read (void)
     if (!global.configuration.content || strlen(global.configuration.content) <= 0)
         say_exit("Error reading configuration file.");
 
+    // Node Mapper configuration.
     global.configuration.node_mapper.server_port = ini_read_number(
         global.configuration.content, "VERBUM-NODE-MAPPER", "server_port"
     );
 
     if (!global.configuration.node_mapper.server_port)
         debug_exit("Error read server port.");
+
+    // Fault Tolerance configuration.
+    global.configuration.fault_tolerance.server_port = ini_read_number(
+        global.configuration.content, "VERBUM-FAULT-TOLERANCE", "server_port"
+    );
+
+    if (!global.configuration.fault_tolerance.server_port)
+        debug_exit("Error read server port.");
 }
 
 void configuration_show (void)
 {
-    say("Configurations:");
-    say("\tServer port: %d", global.configuration.node_mapper.server_port);
+    say("Node Mapper:");
+    say("\tserver port: %d\n", global.configuration.node_mapper.server_port);
+
+    say("Fault Tolerance:");
+    say("\tserver port: %d", global.configuration.fault_tolerance.server_port);
 }
 
 
