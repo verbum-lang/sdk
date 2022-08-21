@@ -1,5 +1,6 @@
 
 #include "ini_file.h"
+#include "memory.h"
 
 ini_data_t ini_read (char *content, char *section, char *param, int type)
 {

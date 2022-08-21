@@ -1,5 +1,6 @@
 
 #include "file.h"
+#include "memory.h"
 
 int file_exists (char *path)
 {

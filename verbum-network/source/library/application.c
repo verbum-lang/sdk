@@ -1,5 +1,6 @@
 
 #include "application.h"
+#include "memory.h"
 
 char *get_relative_path (void)
 {
