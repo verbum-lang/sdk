@@ -10,6 +10,7 @@
 #include "../library/application.h"
 #include "../library/file.h"
 #include "../library/ini_file.h"
+#include "../library/connection.h"
 
 // Re-define macros.
 #ifdef      PACKAGE_NAME
