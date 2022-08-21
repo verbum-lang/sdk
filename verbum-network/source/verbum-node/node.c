@@ -40,7 +40,7 @@ void * prepara_nm_ft_handler (void *param)
 void open_nm_ft_process (char *path)
 {
     system_execution("verbum-node-mapper -c \"%s\" &", path);
-    system_execution("verbum-fault-tolerance -c \"%s\" &", path);
+    // system_execution("verbum-fault-tolerance -c \"%s\" &", path);
 }
 
 void check_connection_interface (char *path, int node_mapper_port, int fault_tolerance_port)
@@ -60,18 +60,18 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
     say("Node Mapper online.");
     
     // Fault Tolerance.
-    say("Fault Tolerance - checking...");
-    say("Fault Tolerance - server port: %d", fault_tolerance_port);
+    // say("Fault Tolerance - checking...");
+    // say("Fault Tolerance - server port: %d", fault_tolerance_port);
 
-    while(!check_connection_banner_nm_ft(
-        "Fault Tolerance", fault_tolerance_port, "Verbum Fault Tolerance"))
-    {
-        pid_t pid = check_process_running("verbum-fault-tolerance");
-        if (pid == -1)
-            system_execution("verbum-fault-tolerance -c \"%s\" &", path);
-    }
+    // while(!check_connection_banner_nm_ft(
+    //     "Fault Tolerance", fault_tolerance_port, "Verbum Fault Tolerance"))
+    // {
+    //     pid_t pid = check_process_running("verbum-fault-tolerance");
+    //     if (pid == -1)
+    //         system_execution("verbum-fault-tolerance -c \"%s\" &", path);
+    // }
 
-    say("Fault Tolerance online.");
+    // say("Fault Tolerance online.");
 }
 
 

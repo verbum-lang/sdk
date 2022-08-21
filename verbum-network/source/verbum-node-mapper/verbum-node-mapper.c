@@ -13,7 +13,6 @@ int initialization (int argc, char *argv[])
 
     configutation_check();
     configutation_read();
-    configuration_show();
 
     node_mapper();
 
