@@ -39,7 +39,7 @@ void * prepara_nm_ft_handler (void *param)
 
 void open_nm_ft_process (char *path)
 {
-    // system_execution("verbum-node-mapper -c \"%s\" &", path);
+    system_execution("verbum-node-mapper -c \"%s\" &", path);
     system_execution("verbum-fault-tolerance -c \"%s\" &", path);
 }
 
