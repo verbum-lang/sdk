@@ -9,7 +9,7 @@ rm -rf verbum-network verbum-node-mapper verbum-fault-tolerance
 
 
 # ***
-# Build global sources
+# Build library
 #
 
 cd ../sdk/verbum-network/source/global
@@ -31,10 +31,10 @@ rm -rf *.o
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
 gcc -o configuration.o -c configuration.c
-gcc -o verbum-node.o -c verbum-node.c
+gcc -o node.o -c node.c
 
-gcc -o verbum-node verbum-network.c global.o help.o configuration.o              \
-    verbum-node.o                                                                   \
+gcc -o verbum-node verbum-node.c global.o help.o configuration.o              \
+    node.o                                                                   \
     ../global/g-global.o ../global/g-application.o ../global/g-file.o               \
     ../global/g-ini_file.o
 
