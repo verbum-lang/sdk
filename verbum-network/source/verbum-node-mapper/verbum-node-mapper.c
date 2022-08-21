@@ -5,7 +5,7 @@
 
 int initialization (int argc, char *argv[]) 
 {
-    say("Verbum Node Mapper - started!");
+    say("started!");
 
     global.instance.argc = argc;
     global.instance.argv = argv;
