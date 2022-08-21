@@ -1,6 +1,7 @@
 
 #include "global.h"
 #include "configuration.h"
+#include "fault-tolerance.h"
 
 int initialization (int argc, char *argv[]) 
 {
@@ -13,8 +14,9 @@ int initialization (int argc, char *argv[])
     configutation_check();
     configutation_read();
 
-    
+    fault_tolerance();
 
+    while (1);
     return 0;
 }
 

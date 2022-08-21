@@ -3,31 +3,31 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#include "node-mapper.h"
+#include "fault-tolerance.h"
 
-void node_mapper (void)
+void fault_tolerance (void)
 {
-    node_mapper_interface();
+    fault_tolerance_interface();
 }
 
-void node_mapper_interface (void)
+void fault_tolerance_interface (void)
 {
     interface_param_t param = { .max_connections = 1000, .path = CNULL, .port = 0 };
     int status = 0;
     pthread_t tid;
     
-    param.port = global.configuration.node_mapper.server_port;
+    param.port = global.configuration.fault_tolerance.server_port;
     memory_scopy(global.configuration.path, param.path);
     
-    if ((status = pthread_create(&tid, NULL, node_mapper_interface_handler, &param)) !=0)
-        debug_exit("error while creating thread - control of Node Mapper interface.");
+    if ((status = pthread_create(&tid, NULL, fault_tolerance_interface_handler, &param)) !=0)
+        debug_exit("error while creating thread - control of Fault Tolerance interface.");
 }
 
 /*
- * Responsible for communicating with the Node Mapper interface.
+ * Responsible for communicating with the Fault Tolerance interface.
  */
 
-void * node_mapper_interface_handler (void *tparam)
+void * fault_tolerance_interface_handler (void *tparam)
 {
     interface_param_t param = *( (interface_param_t *) (tparam) );
     struct sockaddr_in address;
@@ -53,7 +53,7 @@ void * node_mapper_interface_handler (void *tparam)
         if (nsock != -1) {
 
             // Send header (handshake).
-            char header[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3";
+            char header[] = "Verbum Fault Tolerance - v1.0.0 - I Love Jesus <3";
 
             while (1) {
                 status = send(nsock, header, strlen(header), 0);
@@ -61,13 +61,14 @@ void * node_mapper_interface_handler (void *tparam)
                     break;
             }
 
-            // Receive node information.
-
-            // Node Mapper options (create, delete, and others).
+            // Fault Tolerance options (add log, get log, and others).
 
             close(nsock);
         }
     }
 }
+
+
+
 
 

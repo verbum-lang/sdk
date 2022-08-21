@@ -91,11 +91,13 @@ rm -rf *.o
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
 gcc -o configuration.o -c configuration.c
+gcc -o fault-tolerance.o -c fault-tolerance.c
 
-gcc -o verbum-fault-tolerance verbum-fault-tolerance.c  \
-                              global.o                  \
-                              help.o                    \
-                              configuration.o           \
+gcc -o verbum-fault-tolerance verbum-fault-tolerance.c          \
+                              global.o                          \
+                              help.o                            \
+                              configuration.o                   \
+                              fault-tolerance.o                 \
                               $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
