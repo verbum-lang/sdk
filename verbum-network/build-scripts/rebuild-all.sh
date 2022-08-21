@@ -21,10 +21,10 @@ gcc -o g-file.o -c file.c
 gcc -o g-ini_file.o -c ini_file.c
 
 # ***
-# Build verbum-network
+# Build verbum-node
 #
 
-cd ../verbum-network
+cd ../verbum-node
 rm -rf *.o
 
 # Compile.
@@ -33,7 +33,7 @@ gcc -o help.o -c help.c
 gcc -o configuration.o -c configuration.c
 gcc -o verbum-node.o -c verbum-node.c
 
-gcc -o verbum-network verbum-network.c global.o help.o configuration.o              \
+gcc -o verbum-node verbum-network.c global.o help.o configuration.o              \
     verbum-node.o                                                                   \
     ../global/g-global.o ../global/g-application.o ../global/g-file.o               \
     ../global/g-ini_file.o
@@ -41,7 +41,7 @@ gcc -o verbum-network verbum-network.c global.o help.o configuration.o          
 rm -rf *.o
 
 # Move to install directory.
-mv verbum-network ../../../../sdk-binaries
+mv verbum-node ../../../../sdk-binaries
 
 
 # ***
