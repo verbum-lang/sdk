@@ -4,7 +4,7 @@
 
 int initialization (int argc, char *argv[]) 
 {
-    say("Verbum Fault Tolerance - started!");
+    say("started!");
 
     global.instance.argc = argc;
     global.instance.argv = argv;

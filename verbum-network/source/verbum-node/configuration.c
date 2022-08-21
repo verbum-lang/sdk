@@ -20,9 +20,6 @@ void configutation_read (void)
     global.configuration.content = file_read(global.configuration.path);
     if (!global.configuration.content || strlen(global.configuration.content) <= 0)
         say_exit("Error reading configuration file.");
-
-    // say("config file: %s", global.configuration.path);
-    // say("config content: \n%s\n", global.configuration.content);
 }
 
 
