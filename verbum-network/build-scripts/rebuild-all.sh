@@ -33,12 +33,14 @@ rm -rf *.o
 
 # Compile.
 gcc -o global.o         -c global.c
+gcc -o debug.o          -c debug.c
 gcc -o help.o           -c help.c
 gcc -o configuration.o  -c configuration.c
 gcc -o node.o           -c node.c
 
 gcc -o verbum-node verbum-node.c        \
                    global.o             \
+                   debug.o              \
                    help.o               \
                    configuration.o      \
                    node.o               \
