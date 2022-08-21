@@ -2,6 +2,13 @@
 #ifndef VERBUM_LIBRARY_DEBUG
 #define VERBUM_LIBRARY_DEBUG
 
+#define PACKAGE_NAME "Verbum Network"
+#define PACKAGE_PREFIX_ARROW " -> "
+
+/*
+ * Internal macros.
+ */
+
 // Debug macro.
 #define lib_debug_print(fmt, ...)                                                       \
     do {                                                                                \
@@ -27,12 +34,9 @@
         exit(0);                                                                        \
     } while(0)
 
-
-// Jesus <3
-
-
-#define PACKAGE_NAME "Verbum Node"
-#define PACKAGE_PREFIX_ARROW " -> "
+/*
+ * External macros.
+ */
 
 // Debug macro.
 #define debug_print(fmt, ...)                                                           \
