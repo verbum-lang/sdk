@@ -38,16 +38,6 @@
         memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
     } while(0)
 
-// System execution.
-#define system_execution(fmt, ...)                                                      \
-    do {                                                                                \
-        char *buffer = NULL;                                                            \
-        int size = 512 * 10;                                                            \
-        memory_alloc(buffer, strlen(fmt) + size);                                       \
-        sprintf(buffer, fmt, ##__VA_ARGS__);                                            \
-        system(buffer);                                                                 \
-    } while(0)
-
 #endif
 
 

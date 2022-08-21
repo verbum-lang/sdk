@@ -4,7 +4,7 @@
 
 #include "global.h"
 
-void check_connection_banner_nm_ft (char *prefix, int port, char *header);
+int check_connection_banner_nm_ft (char *prefix, int port, char *header);
 
 #endif
 

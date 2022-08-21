@@ -4,9 +4,9 @@
 
 #include "global.h"
 
-void verbum_node             (void);
-void prepare_node_mapper     (void);
-void prepare_fault_tolerance (void);
+void verbum_node                            (void);
+void prepare_node_mapper_fault_tolerance    (void);
+void check_connection_interface             (void);
 
 #endif
 
