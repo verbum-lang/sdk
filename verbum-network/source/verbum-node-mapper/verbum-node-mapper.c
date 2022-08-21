@@ -1,6 +1,7 @@
 
 #include "global.h"
 #include "configuration.h"
+#include "node-mapper.h"
 
 int initialization (int argc, char *argv[]) 
 {
@@ -12,8 +13,10 @@ int initialization (int argc, char *argv[])
 
     configutation_check();
     configutation_read();
+    configuration_show();
 
-    while (1);
+    node_mapper();
+
     return 0;
 }
 

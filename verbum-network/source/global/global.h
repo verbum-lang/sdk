@@ -8,12 +8,13 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <limits.h>
+#include <pthread.h>
 
 // Configurations e definations.
 #define initialization main // Entry point.
 #define CNULL (char *) NULL
 
-// Global data control.
+// Global application data control.
 typedef struct {
     struct {
         int argc;
@@ -30,6 +31,8 @@ typedef struct {
             int server_port;
         } node_mapper;
     } configuration;
+
+    
 } global_t;
 
 global_t global;

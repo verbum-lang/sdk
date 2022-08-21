@@ -31,7 +31,12 @@ rm -rf *.o
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
 gcc -o configuration.o -c configuration.c
-gcc -o verbum-network verbum-network.c global.o help.o configuration.o ../global/g-global.o ../global/g-application.o ../global/g-file.o ../global/g-ini_file.o
+gcc -o verbum-node.o -c verbum-node.c
+
+gcc -o verbum-network verbum-network.c global.o help.o configuration.o              \
+    verbum-node.o                                                                   \
+    ../global/g-global.o ../global/g-application.o ../global/g-file.o               \
+    ../global/g-ini_file.o
 
 rm -rf *.o
 
@@ -50,7 +55,12 @@ rm -rf *.o
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
 gcc -o configuration.o -c configuration.c
-gcc -o verbum-node-mapper verbum-node-mapper.c global.o help.o configuration.o ../global/g-global.o ../global/g-application.o ../global/g-file.o ../global/g-ini_file.o
+gcc -o node-mapper.o -c node-mapper.c
+
+gcc -o verbum-node-mapper verbum-node-mapper.c global.o help.o configuration.o      \
+    node-mapper.o                                                                   \
+    ../global/g-global.o ../global/g-application.o ../global/g-file.o               \
+    ../global/g-ini_file.o
 
 rm -rf *.o
 
@@ -69,7 +79,9 @@ rm -rf *.o
 gcc -o global.o -c global.c
 gcc -o help.o -c help.c
 gcc -o configuration.o -c configuration.c
-gcc -o verbum-fault-tolerance verbum-fault-tolerance.c global.o help.o configuration.o ../global/g-global.o ../global/g-application.o ../global/g-file.o ../global/g-ini_file.o
+gcc -o verbum-fault-tolerance verbum-fault-tolerance.c global.o help.o              \
+    configuration.o ../global/g-global.o ../global/g-application.o                  \
+    ../global/g-file.o ../global/g-ini_file.o
 
 rm -rf *.o
 

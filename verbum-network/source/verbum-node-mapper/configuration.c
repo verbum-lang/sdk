@@ -25,8 +25,14 @@ void configutation_read (void)
         global.configuration.content, "VERBUM-NODE-MAPPER", "server_port"
     );
 
-    if (global.configuration.node_mapper.server_port)
-        say("server port: %d", global.configuration.node_mapper.server_port);
+    if (!global.configuration.node_mapper.server_port)
+        debug_exit("Error read server port.");
+}
+
+void configuration_show (void)
+{
+    say("Configurations:");
+    say("\tServer port: %d", global.configuration.node_mapper.server_port);
 }
 
 

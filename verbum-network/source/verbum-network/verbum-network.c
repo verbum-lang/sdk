@@ -1,9 +1,7 @@
 
 #include "global.h"
 #include "configuration.h"
-
-void open_verbum_node_mapper     (void);
-void open_verbum_fault_tolerance (void);
+#include "verbum-node.h"
 
 int initialization (int argc, char *argv[]) 
 {
@@ -16,27 +14,9 @@ int initialization (int argc, char *argv[])
     configutation_check();
     configutation_read();
 
-    //
-    // Posteriormente: montar arquivo de configuração
-    // padrão, caso o mesmo não seja especificado. Mas
-    // por enquanto, utilizar obrigatoriamente arquivo
-    // de configuração passado via linha de comando.
-    //
-
-    open_verbum_node_mapper();
-    // open_verbum_fault_tolerance();
+    verbum_node();
 
     return 0;
-}
-
-void open_verbum_node_mapper (void)
-{
-    system_execution("verbum-node-mapper -c \"%s\" &", global.configuration.path);
-}
-
-void open_verbum_fault_tolerance (void)
-{
-    system_execution("verbum-fault-tolerance -c \"%s\" &", global.configuration.path);
 }
 
 
