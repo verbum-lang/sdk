@@ -8,12 +8,12 @@
 void verbum_node (void)
 {
     // Start Node Mapper and Fault Tolerance monitor.
-    monitor_nm_and_ft(); 
+    // monitor_nm_and_ft(); 
     
     // Create node controllers.
-    // create_thread_controller(interface);
-    // create_thread_controller(server);
-    // create_thread_controller(client);
+    create_thread_controller(node_interface);
+    create_thread_controller(node_server);
+    create_thread_controller(node_client);
 }
 
 
