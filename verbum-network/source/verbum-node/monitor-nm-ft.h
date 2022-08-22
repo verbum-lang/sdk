@@ -6,11 +6,14 @@
 
 // Show/hide monitor debug messages.
 // Show = defined, hide = undefined.
-// #define MONITOR_DBG
+#define MONITOR_DBG
 
 // Enable/disable Node Mapper and Fault Tolerance.
 #define MONITOR_ENABLE_NODE_MAPPER
-// #define MONITOR_ENABLE_FAULT_TOLERANCE
+#define MONITOR_ENABLE_FAULT_TOLERANCE
+
+// Delay (sec) to kill a process (NM, FT).
+#define MONITOR_DELAY_TO_KILL 3
 
 typedef struct {
     char *path;

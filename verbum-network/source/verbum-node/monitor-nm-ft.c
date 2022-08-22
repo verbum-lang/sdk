@@ -75,7 +75,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
         if (pid == -1)
             system_execution("verbum-node-mapper -c \"%s\" &", path);
         else {
-            sleep(1);
+            sleep(MONITOR_DELAY_TO_KILL);
             status = check_connection_banner_nm_ft(
                         "Node Mapper", node_mapper_port, "Verbum Node Mapper");
 
@@ -110,7 +110,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
         if (pid == -1)
             system_execution("verbum-fault-tolerance -c \"%s\" &", path);
         else {
-            sleep(1);
+            sleep(MONITOR_DELAY_TO_KILL);
             status = check_connection_banner_nm_ft(
                         "Fault Tolerance", fault_tolerance_port, "Verbum Fault Tolerance");
 
