@@ -10,7 +10,10 @@
         int status = 0; \
         pthread_t tid; \
         node_param_t *param = (node_param_t *) malloc(sizeof(node_param_t)); \
-         \
+        \
+        if (!param) \
+            debug_exit("error allocating memory."); \
+        \
         param->path = CNULL; \
         param->node_mapper_port = global.configuration.node_mapper.server_port;  \
         param->fault_tolerance_port = global.configuration.fault_tolerance.server_port;  \

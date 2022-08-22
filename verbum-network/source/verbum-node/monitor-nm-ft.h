@@ -18,8 +18,6 @@ typedef struct {
     int fault_tolerance_port;
 } prepare_param_t;
 
-prepare_param_t prepare_param;
-
 void monitor_nm_and_ft          (void);
 void check_nm_ft                (void);
 void * prepara_nm_ft_handler    (void *param);

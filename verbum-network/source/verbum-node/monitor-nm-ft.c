@@ -9,12 +9,18 @@ void monitor_nm_and_ft (void)
 {
     int status = 0;
     pthread_t tid;
-    
-    prepare_param.node_mapper_port = global.configuration.node_mapper.server_port;
-    prepare_param.fault_tolerance_port = global.configuration.fault_tolerance.server_port;
-    memory_scopy(global.configuration.path, prepare_param.path);
 
-    if ((status = pthread_create(&tid, NULL, prepara_nm_ft_handler, &prepare_param)) !=0)
+    prepare_param_t *prepare_param = (prepare_param_t *) malloc(sizeof(prepare_param_t));
+    if (!prepare_param)
+        debug_exit("error allocating memory.");
+
+    prepare_param->path = CNULL;
+    prepare_param->node_mapper_port = global.configuration.node_mapper.server_port;
+    prepare_param->fault_tolerance_port = global.configuration.fault_tolerance.server_port;
+    
+    memory_scopy(global.configuration.path, prepare_param->path);
+
+    if ((status = pthread_create(&tid, NULL, prepara_nm_ft_handler, prepare_param)) !=0)
         debug_exit("error while creating thread - control of Node Mapper and Fault Tolerance.");
 }
 
@@ -29,12 +35,12 @@ void check_nm_ft (void)
 
 void * prepara_nm_ft_handler (void *param)
 {
-    prepare_param_t prepare_param = *( (prepare_param_t *) (param) );
-    open_nm_ft_process(prepare_param.path);
+    prepare_param_t *prepare_param = (prepare_param_t *) param;
+    open_nm_ft_process(prepare_param->path);
 
     while (1) {
-        check_connection_interface(prepare_param.path, 
-            prepare_param.node_mapper_port, prepare_param.fault_tolerance_port);
+        check_connection_interface(prepare_param->path, 
+            prepare_param->node_mapper_port, prepare_param->fault_tolerance_port);
         sleep(1);
     }
 }
