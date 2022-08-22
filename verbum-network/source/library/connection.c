@@ -97,8 +97,8 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
     }
     
     // Non-blocking.
-    flags = fcntl(handle, F_GETFD, 0); 
-    if (fcntl(handle, F_SETFD, flags | O_NONBLOCK) == -1) {
+    flags = fcntl(handle, F_GETFL, 0); 
+    if (fcntl(handle, F_SETFL, flags | O_NONBLOCK) == -1) {
         debug_print("%s - error set non-blocking socket.", prefix);
         return 0;
     }
