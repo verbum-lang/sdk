@@ -12,14 +12,19 @@ void node_mapper (void)
 
 void node_mapper_interface (void)
 {
-    interface_param_t param = { .max_connections = 1000, .path = CNULL, .port = 0 };
     int status = 0;
     pthread_t tid;
+    interface_param_t *param = (interface_param_t *) malloc(sizeof(interface_param_t));
     
-    param.port = global.configuration.node_mapper.server_port;
-    memory_scopy(global.configuration.path, param.path);
+    if (!param)
+        debug_exit("error allocating memory.");
+
+    param->max_connections = 1000;
+    param->path = CNULL;
+    param->port = global.configuration.node_mapper.server_port;
+    memory_scopy(global.configuration.path, param->path);
     
-    if ((status = pthread_create(&tid, NULL, node_mapper_interface_handler, &param)) !=0)
+    if ((status = pthread_create(&tid, NULL, node_mapper_interface_handler, param)) !=0)
         debug_exit("error while creating thread - control of Node Mapper interface.");
 }
 
@@ -29,7 +34,7 @@ void node_mapper_interface (void)
 
 void * node_mapper_interface_handler (void *tparam)
 {
-    interface_param_t param = *( (interface_param_t *) (tparam) );
+    interface_param_t param = (interface_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
     int ssock = -1, nsock = -1;
@@ -38,14 +43,14 @@ void * node_mapper_interface_handler (void *tparam)
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_family = AF_INET;
-    address.sin_port = htons(param.port);
+    address.sin_port = htons(param->port);
 
     status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
 
     if (status != 0)
         say_exit("error bind server.");
 
-    if (listen(ssock, param.max_connections) != 0) 
+    if (listen(ssock, param->max_connections) != 0) 
         say_exit("error listen server.");
 
     while (1) {
