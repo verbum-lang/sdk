@@ -69,27 +69,24 @@ int check_connection_banner_nm_ft_blocking (char *prefix, int port, char *header
     return 1;
 }
 
-int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *header)
+int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *header, int timeout)
 {
     debug_print("calling");
 
-    int status = -1;
-    int handle = -1;
-    int flags  = 0;
+    int status = -1, handle = -1, flags  = 0;
     char packet [100];
 
     // Configure connection.
     struct sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( 80 );
+    address.sin_port = htons( port );
 
-    if (inet_pton(AF_INET, "36.51.224.26", &address.sin_addr) <= 0) {
+    if (inet_pton(AF_INET, "127.0.0.1", &address.sin_addr) <= 0) {
         debug_print("%s - error set IP address - socket configuration.", prefix);
         return 0;
     }
 
-    // Create socket.
     handle = socket(AF_INET, SOCK_STREAM, 0);
     if (handle == -1) {
         debug_print("%s - creating socket error.", prefix);
@@ -104,41 +101,25 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
     }
 
     // Connect.
-    status = connect(handle, (struct sockaddr*) &address, sizeof(address));
+    time_t now = time(NULL);
+    struct tm *tms1 = localtime(&now); 
+    struct tm *tms2;
+
+    while (1) {
+        status = connect(handle, (struct sockaddr*) &address, sizeof(address));
+        if (status != -1) 
+            break;
+
+        say("error connect!");
+    }
+
     if (status == -1) {
         debug_print("%s - error connect socket.", prefix);
-
-        char msg [100];
-        memset(msg, 0x0, 100);
-
-        switch (errno) {
-            case EINPROGRESS:   sprintf(msg, "EINPROGRESS"); break;
-            case EACCES:        sprintf(msg, "EACCES"); break;
-            case EPERM:         sprintf(msg, "EPERM"); break;
-            case EADDRINUSE:    sprintf(msg, "EADDRINUSE"); break;
-            case EADDRNOTAVAIL: sprintf(msg, "EADDRNOTAVAIL"); break;
-            case EAFNOSUPPORT:  sprintf(msg, "EAFNOSUPPORT"); break;
-            case EAGAIN:        sprintf(msg, "EAGAIN"); break;
-            case EALREADY:      sprintf(msg, "EALREADY"); break;
-            case EBADF:         sprintf(msg, "EBADF"); break;
-            case ECONNREFUSED:  sprintf(msg, "ECONNREFUSED"); break;
-            case EFAULT:        sprintf(msg, "EFAULT"); break;
-            case EINTR:         sprintf(msg, "EINTR"); break;
-            case EISCONN:       sprintf(msg, "EISCONN"); break;
-            case ENETUNREACH:   sprintf(msg, "ENETUNREACH"); break;
-            case ENOTSOCK:      sprintf(msg, "ENOTSOCK"); break;
-            case EPROTOTYPE:    sprintf(msg, "EPROTOTYPE"); break;
-            case ETIMEDOUT:     sprintf(msg, "ETIMEDOUT"); break;
-            default:
-                sprintf(msg, "OTHER ERROR");
-        }
-
-        say("connect error - %s.", msg);
-
         return 0;
-    } else
-        say("connected!");
+    }
 
+    say("connect success!");
+    
     // Receive data.
     memset(packet, 0x0, 100);
 
@@ -168,6 +149,7 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
 
 int check_connection_banner_nm_ft (char *prefix, int port, char *header)
 {
-    return check_connection_banner_nm_ft_non_blocking(prefix, port, header);
+    // return check_connection_banner_nm_ft_blocking(prefix, port, header);
+    return check_connection_banner_nm_ft_non_blocking(prefix, port, header, 2);
 }
 
