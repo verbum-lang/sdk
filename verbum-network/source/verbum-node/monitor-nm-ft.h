@@ -10,7 +10,7 @@
 
 // Enable/disable Node Mapper and Fault Tolerance.
 #define MONITOR_ENABLE_NODE_MAPPER
-#define MONITOR_ENABLE_FAULT_TOLERANCE
+// #define MONITOR_ENABLE_FAULT_TOLERANCE
 
 // Delay (sec) to kill a process (NM, FT).
 #define MONITOR_DELAY_TO_KILL 3
