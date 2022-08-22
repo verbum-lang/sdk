@@ -7,6 +7,7 @@
 #include <sys/wait.h> 
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <time.h>
 
 #include "connection.h"
 #include "memory.h"
@@ -69,7 +70,7 @@ int check_connection_banner_nm_ft_blocking (char *prefix, int port, char *header
     return 1;
 }
 
-int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *header, int timeout)
+int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *header, double timeout)
 {
     debug_print("calling");
 
@@ -101,16 +102,19 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
     }
 
     // Connect.
-    time_t now = time(NULL);
-    struct tm *tms1 = localtime(&now); 
-    struct tm *tms2;
+    clock_t start = clock();
+    clock_t end;
 
     while (1) {
         status = connect(handle, (struct sockaddr*) &address, sizeof(address));
         if (status != -1) 
             break;
 
-        say("error connect!");
+        end = clock();
+        double tmv = (double)(end - start) / CLOCKS_PER_SEC;
+        
+        if (tmv >= timeout)
+            break;
     }
 
     if (status == -1) {
@@ -150,6 +154,6 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
 int check_connection_banner_nm_ft (char *prefix, int port, char *header)
 {
     // return check_connection_banner_nm_ft_blocking(prefix, port, header);
-    return check_connection_banner_nm_ft_non_blocking(prefix, port, header, 2);
+    return check_connection_banner_nm_ft_non_blocking(prefix, port, header, 3.0);
 }
 
