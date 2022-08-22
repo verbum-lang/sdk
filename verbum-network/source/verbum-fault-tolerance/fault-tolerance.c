@@ -15,14 +15,14 @@ void fault_tolerance_interface (void)
     int status = 0;
     pthread_t tid;
     interface_param_t *param = (interface_param_t *) malloc(sizeof(interface_param_t));
-    
+
     if (!param)
         debug_exit("error allocating memory.");
 
     param->max_connections = 1000;
     param->path = CNULL;
     param->port = global.configuration.fault_tolerance.server_port;
-    memory_scopy(global.configuration
+    memory_scopy(global.configuration.path, param->path);
 
     if ((status = pthread_create(&tid, NULL, fault_tolerance_interface_handler, param)) !=0)
         debug_exit("error while creating thread - control of Fault Tolerance interface.");

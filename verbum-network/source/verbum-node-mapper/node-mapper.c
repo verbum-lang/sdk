@@ -15,7 +15,7 @@ void node_mapper_interface (void)
     int status = 0;
     pthread_t tid;
     interface_param_t *param = (interface_param_t *) malloc(sizeof(interface_param_t));
-    
+
     if (!param)
         debug_exit("error allocating memory.");
 
@@ -34,7 +34,7 @@ void node_mapper_interface (void)
 
 void * node_mapper_interface_handler (void *tparam)
 {
-    interface_param_t param = (interface_param_t *) tparam;
+    interface_param_t *param = (interface_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
     int ssock = -1, nsock = -1;
