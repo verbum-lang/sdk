@@ -4,6 +4,8 @@
 
 #include "global.h"
 
+#define SERVERS_MAX_CONNECTION 1000
+
 typedef struct {
     char *path;
     int port;

@@ -5,6 +5,8 @@
 #include "global.h"
 #include "node-global.h"
 
+#define SERVERS_MAX_CONNECTION 1000
+
 #define create_thread_controller(HANDLER)                                                                   \
     do {                                                                                                    \
         int status = 0;                                                                                     \
@@ -15,6 +17,7 @@
             debug_exit("error allocating memory.");                                                         \
                                                                                                             \
         param->path = CNULL;                                                                                \
+        param->max_connections = SERVERS_MAX_CONNECTION;                                                    \
         param->node_mapper_port = global.configuration.node_mapper.server_port;                             \
         param->fault_tolerance_port = global.configuration.fault_tolerance.server_port;                     \
                                                                                                             \

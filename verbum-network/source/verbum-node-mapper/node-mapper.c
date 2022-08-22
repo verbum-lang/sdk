@@ -19,7 +19,7 @@ void node_mapper_interface (void)
     if (!param)
         debug_exit("error allocating memory.");
 
-    param->max_connections = 1000;
+    param->max_connections = SERVERS_MAX_CONNECTION;
     param->path = CNULL;
     param->port = global.configuration.node_mapper.server_port;
     memory_scopy(global.configuration.path, param->path);
