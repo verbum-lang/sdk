@@ -12,7 +12,10 @@
 // Debug macro.
 #define lib_debug_print(fmt, ...)                                                       \
     do {                                                                                \
-        fprintf(stderr, "%s:%d:%s(): " fmt "\n",                                        \
+        time_t now = time(NULL);                                                        \
+        struct tm *tms = localtime(&now);                                               \
+        fprintf(stderr, "[%d:%d:%d] -> %s:%d:%s(): " fmt "\n",                          \
+            tms->tm_hour, tms->tm_min, tms->tm_sec,                                     \
             __FILE__, __LINE__, __func__, ##__VA_ARGS__ );                              \
     } while (0)
 
@@ -25,7 +28,11 @@
 // Print macro.
 #define lib_say(fmt, ...)                                                               \
     do {                                                                                \
-        printf(fmt "\n", ##__VA_ARGS__);                                                \
+        time_t now = time(NULL);                                                        \
+        struct tm *tms = localtime(&now);                                               \
+        printf("[%d:%d:%d] -> " fmt "\n",                                               \
+            tms->tm_hour, tms->tm_min, tms->tm_sec,                                     \
+            ##__VA_ARGS__);                                                             \
     } while(0)
 
 #define lib_say_exit(fmt, ...)                                                          \

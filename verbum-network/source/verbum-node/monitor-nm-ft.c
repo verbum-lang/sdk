@@ -48,7 +48,7 @@ void * prepara_nm_ft_handler (void *param)
 void open_nm_ft_process (char *path)
 {
     #ifdef MONITOR_ENABLE_NODE_MAPPER
-        system_execution("verbum-node-mapper -c \"%s\" &", path);
+        // system_execution("verbum-node-mapper -c \"%s\" &", path);
     #endif
 
     #ifdef MONITOR_ENABLE_FAULT_TOLERANCE
@@ -71,22 +71,22 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
     while(!check_connection_banner_nm_ft(
         "Node Mapper", node_mapper_port, "Verbum Node Mapper")) 
     {
-        pid_t pid = check_process_running("verbum-node-mapper");
-        if (pid == -1)
-            system_execution("verbum-node-mapper -c \"%s\" &", path);
-        else {
-            sleep(MONITOR_DELAY_TO_KILL);
-            status = check_connection_banner_nm_ft(
-                        "Node Mapper", node_mapper_port, "Verbum Node Mapper");
+        // pid_t pid = check_process_running("verbum-node-mapper");
+        // if (pid == -1)
+        //     system_execution("verbum-node-mapper -c \"%s\" &", path);
+        // else {
+        //     sleep(MONITOR_DELAY_TO_KILL);
+        //     status = check_connection_banner_nm_ft(
+        //                 "Node Mapper", node_mapper_port, "Verbum Node Mapper");
 
-            if (status == 0) {
-                #ifdef MONITOR_DBG
-                    say("Node Mapper kill process.");
-                #endif
+        //     if (status == 0) {
+        //         #ifdef MONITOR_DBG
+        //             say("Node Mapper kill process.");
+        //         #endif
                 
-                kill(pid, SIGKILL);
-            }
-        }
+        //         kill(pid, SIGKILL);
+        //     }
+        // }
     }
 
     #ifdef MONITOR_DBG

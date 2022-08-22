@@ -7,7 +7,7 @@
 
 void * node_interface (void *tparam)
 {
-    debug_print("node interface - started!");
+    say("node interface - started!");
 
     node_param_t *param = (node_param_t *) tparam;
     struct sockaddr_in address;

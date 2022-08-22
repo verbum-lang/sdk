@@ -5,7 +5,7 @@ void * node_client (void *tparam)
 {
     node_param_t *param = (node_param_t *) tparam;
 
-    say("node client controller - started!");
+    // say("node client controller - started!");
 }
 
 
