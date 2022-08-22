@@ -7,14 +7,13 @@
 
 void monitor_nm_and_ft (void)
 {
-    prepare_param_t prepare_param;
     int status = 0;
     pthread_t tid;
     
     prepare_param.node_mapper_port = global.configuration.node_mapper.server_port;
     prepare_param.fault_tolerance_port = global.configuration.fault_tolerance.server_port;
     memory_scopy(global.configuration.path, prepare_param.path);
-    
+
     if ((status = pthread_create(&tid, NULL, prepara_nm_ft_handler, &prepare_param)) !=0)
         debug_exit("error while creating thread - control of Node Mapper and Fault Tolerance.");
 }

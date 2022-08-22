@@ -41,6 +41,9 @@ gcc -o help.o           -c help.c
 gcc -o configuration.o  -c configuration.c
 gcc -o node.o           -c node.c
 gcc -o monitor-nm-ft.o  -c monitor-nm-ft.c
+gcc -o node-interface.o -c node-interface.c
+gcc -o node-server.o    -c node-server.c
+gcc -o node-client.o    -c node-client.c
 
 gcc -o verbum-node verbum-node.c                    \
                    global.o                         \
@@ -48,6 +51,9 @@ gcc -o verbum-node verbum-node.c                    \
                    configuration.o                  \
                    node.o                           \
                    monitor-nm-ft.o                  \
+                   node-interface.o                 \
+                   node-server.o                    \
+                   node-client.o                    \
                    $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
