@@ -166,6 +166,11 @@ void add_new_node (int sock)
     }
 
     say("current node(s) found:");
+    if (nodes) {
+        for (int a=0; a < cvector_size(nodes); ++a) {
+            say("v[%d] = %s\n", a, nodes[a].id);
+        }
+    }
 }
 
 char * generate_new_id (void)
