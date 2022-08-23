@@ -5,6 +5,11 @@
 #include "global.h"
 
 typedef struct {
+    char *id;
+    char last_connect_date[100]; // d-m-Y h:m:s
+} node_control_t;
+
+typedef struct {
     char *path;
     int port;
     int max_connections;
@@ -14,6 +19,7 @@ void node_mapper                        (void);
 void node_mapper_interface              (void);
 void * node_mapper_interface_handler    (void *tparam);
 void nm_process_communication           (int sock);
+void add_new_node                       (int sock);
 char * generate_new_id                  (void);
 
 #endif

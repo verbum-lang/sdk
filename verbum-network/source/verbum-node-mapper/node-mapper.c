@@ -5,30 +5,10 @@
 
 #include "node-mapper.h"
 
-typedef struct {
-    char *id;
-} node_control_t;
-
 cvector_vector_type(node_control_t) nodes = NULL;
 
 void node_mapper (void)
 {
-    // test
-    node_control_t node;
-    node.id = (char *) malloc(200);
-    memset(node.id, 0x0, 200);
-    sprintf(node.id, "Verbum is God!");
-
-    node_control_t node2;
-    node2.id = (char *) malloc(200);
-    memset(node2.id, 0x0, 200);
-    sprintf(node2.id, "Verbum is Jesus!");
-
-    cvector_push_back(nodes, node);
-    cvector_push_back(nodes, node2);
-
-    say("Node inserted!");
-
     node_mapper_interface();
 }
 
@@ -153,16 +133,39 @@ void nm_process_communication (int sock)
     //
 
     /**
-     * Generate new node ID.
+     * Generate new node ID, and save.
      */
     if (strcmp(content, "generate-node-id") == 0) {
-        char *id = generate_new_id();
-        if (id) {
-            bytes = send(sock, id, strlen(id), 0);
-            memset(id, 0x0, strlen(id));
-            free(id);
-        }
+        add_new_node(sock);
     }
+}
+
+void add_new_node (int sock)
+{
+    node_control_t node;
+    time_t now = time(NULL);
+    struct tm *tms = localtime(&now);
+    char *id = generate_new_id();
+    int bytes = 0;
+
+    if (id) {
+        memory_scopy(id, node.id);
+        memory_szero(node.last_connect_date);
+
+        sprintf(node.last_connect_date, "%d-%d-%d %d-%d-%d", 
+            tms->tm_mday, tms->tm_mon, tms->tm_year,
+            tms->tm_hour, tms->tm_min, tms->tm_sec);
+
+        if (nodes)
+            cvector_push_back(nodes, node);
+
+        // Send node ID to client.
+        bytes = send(sock, id, strlen(id), 0);
+        memset(id, 0x0, strlen(id));
+        free(id);
+    }
+
+    say("current node(s) found:");
 }
 
 char * generate_new_id (void)
@@ -178,9 +181,11 @@ char * generate_new_id (void)
     if (strlen(tmp) > limit)
         tmp[limit] = '\0';
 
-    for (int a=0; a < cvector_size(nodes); ++a)
-        if (strcmp(nodes[a].id, tmp) == 0) 
-            return generate_new_id();
+    if (nodes) {
+        for (int a=0; a < cvector_size(nodes); ++a)
+            if (strcmp(nodes[a].id, tmp) == 0) 
+                return generate_new_id();
+    }
 
     memory_scopy(tmp, id);
     memset(tmp, 0x0, 1024);

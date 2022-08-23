@@ -101,7 +101,7 @@ void add_node_on_node_mapper (node_param_t *param)
     if ((status = pthread_create(&tid, NULL, ping_node_handler, nparam)) !=0)
         debug_exit("error while creating thread - ping node.");
     
-    memory_szero(id);
+    memory_sclean(id);
 }
 
 void * ping_node_handler (void *tparam)

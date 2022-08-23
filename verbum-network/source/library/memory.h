@@ -38,10 +38,16 @@
         memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
     } while(0)
 
-// Zero string memory.
+// Fill 0x0 string memory.
 #define memory_szero(SOURCE)                                                            \
     do {                                                                                \
         memset(SOURCE, 0x0, strlen(SOURCE));                                            \
+    } while(0)
+
+// Zero string memory.
+#define memory_sclean(SOURCE)                                                           \
+    do {                                                                                \
+        memory_szero(SOURCE);                                                           \
         free(SOURCE);                                                                   \
     } while(0)
 
