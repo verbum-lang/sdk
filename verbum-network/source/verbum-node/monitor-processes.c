@@ -51,8 +51,8 @@ void open_processes (char *path)
 
 void check_connection_interface (char *path, int node_mapper_port)
 {
-    char address []= "127.0.0.1";
-    int timeout = 3, status = 0;
+    char address []= LOCALHOST;
+    int timeout = CONNECTIONS_TIMEOUT1, status = 0;
 
     // Node Mapper.
     #ifdef MONITOR_ENABLE_NODE_MAPPER
@@ -61,7 +61,7 @@ void check_connection_interface (char *path, int node_mapper_port)
         say("Node Mapper - server port: %d", node_mapper_port);
     #endif
 
-    while(!check_connection_banner_nm_ft(
+    while(!check_connection_banner_nm(
         "Node Mapper", address, node_mapper_port, "Verbum Node Mapper", timeout)) 
     {
         pid_t pid = check_process_running("verbum-node-mapper");
@@ -69,7 +69,7 @@ void check_connection_interface (char *path, int node_mapper_port)
             system_execution("verbum-node-mapper -c \"%s\" &", path);
         else {
             sleep(MONITOR_DELAY_TO_KILL);
-            status = check_connection_banner_nm_ft("Node Mapper", address,
+            status = check_connection_banner_nm("Node Mapper", address,
                         node_mapper_port, "Verbum Node Mapper", timeout);
 
             if (status == 0) {

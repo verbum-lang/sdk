@@ -24,10 +24,10 @@
  * Success: return 1. Error: return 0.
  */
 
-int check_connection_banner_nm_ft (char *prefix, char *address, int port, char *header, int timeout)
+int check_connection_banner_nm (char *prefix, char *address, int port, char *header, int timeout)
 {
-    // return check_connection_banner_nm_ft_blocking(prefix, address, port, header);
-    return check_connection_banner_nm_ft_non_blocking(prefix, address, port, header, timeout);
+    // return check_connection_banner_nm_blocking(prefix, address, port, header);
+    return check_connection_banner_nm_non_blocking(prefix, address, port, header, timeout);
 }
 
 int check_connection_banner_nm_ft_blocking (char *prefix, char *laddr, int port, char *header)
@@ -85,7 +85,7 @@ int check_connection_banner_nm_ft_blocking (char *prefix, char *laddr, int port,
     return 1;
 }
 
-int check_connection_banner_nm_ft_non_blocking (char *prefix, char *laddr, int port, char *header, int timeout)
+int check_connection_banner_nm_non_blocking (char *prefix, char *laddr, int port, char *header, int timeout)
 {
     int status = -1, handle = -1, flags  = 0;
     char packet [100];
@@ -183,4 +183,20 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, char *laddr, int p
     return 1;
 }
 
+/*
+ * Connect to Node Mapper and generate node ID.
+ */
+
+char * generate_node_id (char *address, int node_mapper_port, int timeout) 
+{
+    char *id = CNULL;
+
+    while(!check_connection_banner_nm(
+        "Node Mapper", address, node_mapper_port, "Verbum Node Mapper", timeout));
+
+    
+
+    return id;
+}
+   
 

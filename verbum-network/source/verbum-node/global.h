@@ -2,7 +2,9 @@
 #ifndef VERBUM_GLOBAL
 #define VERBUM_GLOBAL
 
-#define CURRENT_PACKAGE_NAME "Verbum Node"
+#define CURRENT_PACKAGE_NAME            "Verbum Node"
+#define CONNECTIONS_TIMEOUT1            3
+#define LOCALHOST                       "127.0.0.1"
 
 #include "../library/global.h"
 #include "../library/memory.h"

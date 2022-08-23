@@ -6,6 +6,12 @@ typedef struct {
     char *path;
     int node_mapper_port;
     int max_connections;
+
+    // Node information.
+    struct {
+        char *id;
+        int port;
+    } information;
 } node_param_t;
 
 #endif
