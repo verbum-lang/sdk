@@ -70,7 +70,7 @@ int check_connection_banner_nm_ft_blocking (char *prefix, int port, char *header
     return 1;
 }
 
-int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *header, double timeout)
+int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *header, int timeout)
 {
     debug_print("calling");
 
@@ -110,10 +110,8 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
         if (status != -1) 
             break;
 
-        end = clock();
-        double tmv = (double)(end - start) / CLOCKS_PER_SEC;
-        
-        if (tmv >= timeout)
+        double tmv = (double)(clock() - start) / CLOCKS_PER_SEC;
+        if (tmv >= (double) timeout)
             break;
     }
 
@@ -122,15 +120,41 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
         return 0;
     }
 
-    say("connect success!");
+    // Select.
+    struct timeval stv;
+    fd_set rfds;
+
+    stv.tv_sec = timeout;
+    stv.tv_usec = 0;
+
+    FD_ZERO(&rfds);
+    FD_SET(handle, &rfds);
+
+    int st = select(handle+1, &rfds, NULL, NULL, &stv);
     
+    if (st <= 0) {
+        debug_print("%s - error select socket.", prefix);
+        goto connection_end_fail;
+    }
+
+    // Remove non blocking.
+    if (fcntl(handle, F_SETFL, flags) == -1) {
+        debug_print("%s - error remove non-blocking socket.", prefix);
+        goto connection_end_fail;
+    }
+
     // Receive data.
     memset(packet, 0x0, 100);
 
     status = recv(handle, packet, 99, 0);
-    if (status == -1)
+    if (status == -1) {
+        say("data not received!");
+        
         goto connection_end_fail;
+    }
     
+    say("data received!");
+
     // Check header.
     if (strlen(header) > strlen(packet) || strlen(packet) <= 0)
         goto connection_end_fail;
