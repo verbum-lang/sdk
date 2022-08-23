@@ -2,7 +2,10 @@
 #ifndef VERBUM_GLOBAL
 #define VERBUM_GLOBAL
 
-#define CURRENT_PACKAGE_NAME "Verbum Node Mapper"
+#define CURRENT_PACKAGE_NAME            "Verbum Node Mapper"
+#define CONNECTIONS_TIMEOUT1            3
+#define LOCALHOST                       "127.0.0.1"
+#define SERVERS_MAX_CONNECTION          1000
 
 #include "../library/global.h"
 #include "../library/memory.h"

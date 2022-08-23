@@ -5,8 +5,6 @@
 #include "global.h"
 #include "node-global.h"
 
-#define SERVERS_MAX_CONNECTION 1000
-
 #define create_thread_controller(HANDLER)                                                                   \
     do {                                                                                                    \
         int status = 0;                                                                                     \

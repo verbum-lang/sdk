@@ -56,6 +56,12 @@ void * node_mapper_interface_handler (void *tparam)
         nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
         if (nsock != -1) {
 
+            // Configure socket.
+            struct timeval tms;
+            tms.tv_sec = CONNECTIONS_TIMEOUT1;
+            tms.tv_usec = 0;
+            setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+
             // Send header (handshake).
             char header[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3";
 
@@ -66,14 +72,47 @@ void * node_mapper_interface_handler (void *tparam)
             }
 
             // Node Mapper protocol.
-
-            // Receive node information.
-
-            // Node Mapper options (create, delete, and others).
+            nm_process_communication(nsock);
 
             close(nsock);
         }
     }
+}
+
+void nm_process_communication (int sock)
+{
+    char *content = CNULL;
+    char tmp [512];
+    int bytes = -1, status = 0;
+    int bytes_received = 0, size = 0;
+
+    while (1) {
+        bytes = recv(sock, tmp, 511, 0);
+        if (bytes <= -1)
+            break;
+        
+        else if (bytes == 0) {
+            status = 1;
+            content[ bytes_received ] = '\0';
+            break;
+        }
+        
+        else if (bytes > 0) {
+            size = bytes + bytes_received + 1;
+            content = (char *) realloc(content, size);
+
+            if (!content)
+                break;
+
+            memcpy(&content[ bytes_received ], tmp, bytes);
+            bytes_received += bytes;
+        }
+    }
+
+    if (!status)
+        return;
+
+    say("data received: %s", content);
 }
 
 

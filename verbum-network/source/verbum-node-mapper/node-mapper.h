@@ -4,8 +4,6 @@
 
 #include "global.h"
 
-#define SERVERS_MAX_CONNECTION 1000
-
 typedef struct {
     char *path;
     int port;
@@ -15,6 +13,7 @@ typedef struct {
 void node_mapper                        (void);
 void node_mapper_interface              (void);
 void * node_mapper_interface_handler    (void *tparam);
+void nm_process_communication           (int sock);
 
 #endif
 
