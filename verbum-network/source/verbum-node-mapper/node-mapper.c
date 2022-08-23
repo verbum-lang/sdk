@@ -81,7 +81,8 @@ void * node_mapper_interface_handler (void *tparam)
             nm_process_communication(nsock);
 
             close(nsock);
-        }
+        } else
+            say_exit("error accept server.");
     }
 }
 
@@ -156,8 +157,7 @@ void add_new_node (int sock)
             tms->tm_mday, tms->tm_mon, tms->tm_year,
             tms->tm_hour, tms->tm_min, tms->tm_sec);
 
-        if (nodes)
-            cvector_push_back(nodes, node);
+        cvector_push_back(nodes, node);
 
         // Send node ID to client.
         bytes = send(sock, id, strlen(id), 0);
@@ -168,7 +168,7 @@ void add_new_node (int sock)
     say("current node(s) found:");
     if (nodes) {
         for (int a=0; a < cvector_size(nodes); ++a) {
-            say("v[%d] = %s\n", a, nodes[a].id);
+            say("node %d = %s", a, nodes[a].id);
         }
     }
 }

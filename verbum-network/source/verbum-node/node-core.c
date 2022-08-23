@@ -88,18 +88,18 @@ void add_node_on_node_mapper (node_param_t *param)
      * Ping node.
      */
 
-    int status = 0;
-    pthread_t tid;
+    // int status = 0;
+    // pthread_t tid;
 
-    node_param_t *nparam = (node_param_t *) malloc(sizeof(node_param_t));
-    if (!nparam)
-        debug_exit("error allocating memory.");
+    // node_param_t *nparam = (node_param_t *) malloc(sizeof(node_param_t));
+    // if (!nparam)
+    //     debug_exit("error allocating memory.");
 
-    memory_scopy(id, nparam->information.id);
-    nparam->information.port = param->information.port;
+    // memory_scopy(id, nparam->information.id);
+    // nparam->information.port = param->information.port;
 
-    if ((status = pthread_create(&tid, NULL, ping_node_handler, nparam)) !=0)
-        debug_exit("error while creating thread - ping node.");
+    // if ((status = pthread_create(&tid, NULL, ping_node_handler, nparam)) !=0)
+    //     debug_exit("error while creating thread - ping node.");
     
     memory_sclean(id);
 }
@@ -107,7 +107,8 @@ void add_node_on_node_mapper (node_param_t *param)
 void * ping_node_handler (void *tparam)
 {
     node_param_t *param = (node_param_t *) tparam;
-
+    
+    say("node ping handler.");
     say("node id: %s", param->information.id);
     say("node port (interface): %d", param->information.port);
 

@@ -307,6 +307,7 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
     memset(result, 0x0, size);
     memcpy(result, packet, status);
     
+    say("end connection");
     close(handle);
     return result;
 
