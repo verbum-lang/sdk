@@ -19,7 +19,6 @@
         param->path = CNULL;                                                                                \
         param->max_connections = SERVERS_MAX_CONNECTION;                                                    \
         param->node_mapper_port = global.configuration.node_mapper.server_port;                             \
-        param->fault_tolerance_port = global.configuration.fault_tolerance.server_port;                     \
                                                                                                             \
         memory_scopy(global.configuration.path, param->path);                                               \
                                                                                                             \

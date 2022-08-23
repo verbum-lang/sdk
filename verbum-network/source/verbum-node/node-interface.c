@@ -19,10 +19,21 @@ void * node_interface (void *tparam)
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_family = AF_INET;
 
-    for (port=3333; port<65000; port++) {
-        address.sin_port = htons(port);
-        status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
-        if (status == 0)
+    // Search node interface port.
+    while (1) {
+        for (port=3333; port<65000; port++) {
+            if (port == param->node_mapper_port)
+                continue;
+                
+            address.sin_port = htons(port);
+            status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
+            if (status == 0)
+                break;
+        }
+
+        if (status == -1)
+            say("error finding available port for node creation (interface).");
+        else
             break;
     }
 

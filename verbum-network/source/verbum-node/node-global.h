@@ -5,7 +5,6 @@
 typedef struct {
     char *path;
     int node_mapper_port;
-    int fault_tolerance_port;
     int max_connections;
 } node_param_t;
 
