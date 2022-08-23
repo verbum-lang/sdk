@@ -48,7 +48,7 @@ void * prepara_nm_ft_handler (void *param)
 void open_nm_ft_process (char *path)
 {
     #ifdef MONITOR_ENABLE_NODE_MAPPER
-        // system_execution("verbum-node-mapper -c \"%s\" &", path);
+        system_execution("verbum-node-mapper -c \"%s\" &", path);
     #endif
 
     #ifdef MONITOR_ENABLE_FAULT_TOLERANCE
@@ -59,7 +59,7 @@ void open_nm_ft_process (char *path)
 void check_connection_interface (char *path, int node_mapper_port, int fault_tolerance_port)
 {
     char address []= "127.0.0.1";
-    int status = 0;
+    int timeout = 3, status = 0;
 
     // Node Mapper.
     #ifdef MONITOR_ENABLE_NODE_MAPPER
@@ -70,24 +70,24 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
     #endif
 
     while(!check_connection_banner_nm_ft(
-        "Node Mapper", address, node_mapper_port, "Verbum Node Mapper")) 
+        "Node Mapper", address, node_mapper_port, "Verbum Node Mapper", timeout)) 
     {
-        // pid_t pid = check_process_running("verbum-node-mapper");
-        // if (pid == -1)
-        //     system_execution("verbum-node-mapper -c \"%s\" &", path);
-        // else {
-        //     sleep(MONITOR_DELAY_TO_KILL);
-        //     status = check_connection_banner_nm_ft(
-        //                 "Node Mapper", node_mapper_port, "Verbum Node Mapper");
+        pid_t pid = check_process_running("verbum-node-mapper");
+        if (pid == -1)
+            system_execution("verbum-node-mapper -c \"%s\" &", path);
+        else {
+            sleep(MONITOR_DELAY_TO_KILL);
+            status = check_connection_banner_nm_ft("Node Mapper", address,
+                        node_mapper_port, "Verbum Node Mapper", timeout);
 
-        //     if (status == 0) {
-        //         #ifdef MONITOR_DBG
-        //             say("Node Mapper kill process.");
-        //         #endif
+            if (status == 0) {
+                #ifdef MONITOR_DBG
+                    say("Node Mapper kill process.");
+                #endif
                 
-        //         kill(pid, SIGKILL);
-        //     }
-        // }
+                kill(pid, SIGKILL);
+            }
+        }
     }
 
     #ifdef MONITOR_DBG
@@ -104,16 +104,16 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
         say("Fault Tolerance - server port: %d", fault_tolerance_port);
     #endif
     
-    while(!check_connection_banner_nm_ft(
-        "Fault Tolerance", address, fault_tolerance_port, "Verbum Fault Tolerance"))
+    while(!check_connection_banner_nm_ft("Fault Tolerance", 
+        address, fault_tolerance_port, "Verbum Fault Tolerance", timeout))
     {
         pid_t pid = check_process_running("verbum-fault-tolerance");
         if (pid == -1)
             system_execution("verbum-fault-tolerance -c \"%s\" &", path);
         else {
             sleep(MONITOR_DELAY_TO_KILL);
-            status = check_connection_banner_nm_ft(
-                        "Fault Tolerance", fault_tolerance_port, "Verbum Fault Tolerance");
+            status = check_connection_banner_nm_ft("Fault Tolerance", address,
+                        fault_tolerance_port, "Verbum Fault Tolerance", timeout);
 
             if (status == 0) {
                 #ifdef MONITOR_DBG

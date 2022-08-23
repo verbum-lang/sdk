@@ -15,13 +15,19 @@
 /*
  * It connects to the "Node Mapper" and "Fault Tolerance" servers, and checks the header.
  *
+ * prefix   = debug messages prefix.
+ * address  = IP address destination.
+ * port     = port to connect.
+ * header   = header data to check.
+ * timeout  = non-blocking timeout.
+ *
  * Success: return 1. Error: return 0.
  */
 
-int check_connection_banner_nm_ft (char *prefix, char *address, int port, char *header)
+int check_connection_banner_nm_ft (char *prefix, char *address, int port, char *header, int timeout)
 {
     // return check_connection_banner_nm_ft_blocking(prefix, address, port, header);
-    return check_connection_banner_nm_ft_non_blocking(prefix, address, port, header, 3.0);
+    return check_connection_banner_nm_ft_non_blocking(prefix, address, port, header, timeout);
 }
 
 int check_connection_banner_nm_ft_blocking (char *prefix, char *laddr, int port, char *header)
