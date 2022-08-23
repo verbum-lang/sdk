@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <signal.h>
 
-#include "monitor-nm-ft.h"
+#include "monitor-processes.h"
 
 void monitor_processes (void)
 {
