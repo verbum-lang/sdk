@@ -4,6 +4,9 @@
 
 #include "global.h"
 
+// Show/hide debug messages.
+// #define NMDBG
+
 typedef struct {
     char *id;
     char last_connect_date[100]; // d-m-Y h:m:s
@@ -21,6 +24,7 @@ void * node_mapper_interface_handler    (void *tparam);
 void nm_process_communication           (int sock);
 void add_new_node                       (int sock);
 char * generate_new_id                  (void);
+void update_ping_node                   (char *content, int sock);
 
 #endif
 

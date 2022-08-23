@@ -127,7 +127,9 @@ void nm_process_communication (int sock)
     if (!status || !content)
         return;
 
-    say("data received: \"%s\"", content);
+    #ifdef NMDBG
+        say("raw data received: \"%s\"", content);
+    #endif
 
     // ***
     // Process messages - Verbum Node Mapper Protocol.
@@ -136,13 +138,22 @@ void nm_process_communication (int sock)
     /**
      * Generate new node ID, and save.
      */
-    if (strcmp(content, "generate-node-id") == 0) {
+    if (strcmp(content, "generate-verbum-node-id") == 0)
         add_new_node(sock);
-    }
+
+    /**
+     * Ping node.
+     */
+    else if (strstr(content, "ping-verbum-node:"))
+        update_ping_node(content, sock);
 }
 
 void add_new_node (int sock)
 {
+    #ifdef NMDBG
+        say("generate new verbum node.");
+    #endif
+
     node_control_t node;
     time_t now = time(NULL);
     struct tm *tms = localtime(&now);
@@ -165,12 +176,14 @@ void add_new_node (int sock)
         free(id);
     }
 
-    say("current node(s) found:");
-    if (nodes) {
-        for (int a=0; a < cvector_size(nodes); ++a) {
-            say("node %d = %s", a, nodes[a].id);
+    #ifdef NMDBG
+        say("current node(s) found:");
+        if (nodes) {
+            for (int a=0; a < cvector_size(nodes); ++a) {
+                say("node %d = %s", a, nodes[a].id);
+            }
         }
-    }
+    #endif
 }
 
 char * generate_new_id (void)
@@ -196,6 +209,20 @@ char * generate_new_id (void)
     memset(tmp, 0x0, 1024);
 
     return id;    
+}
+
+void update_ping_node (char *content, int sock)
+{
+    #ifdef NMDBG
+        say("ping verbum node.");
+    #endif
+    
+    int bytes = 0;
+
+
+
+    char response []= "verbum-node-ok";
+    bytes = send(sock, response, strlen(response), 0);
 }
 
 

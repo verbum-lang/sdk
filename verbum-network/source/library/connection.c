@@ -148,7 +148,9 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port)
     int st = select(handle+1, &rfds, NULL, NULL, &stv);
     
     if (st <= 0) {
-        debug_print("error select socket.");
+        #ifdef CONDBG
+            debug_print("error select socket.");
+        #endif
         goto connection_end_fail;
     }
 
@@ -253,7 +255,9 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
     int st = select(handle+1, &rfds, NULL, NULL, &stv);
     
     if (st <= 0) {
-        debug_print("error select socket.");
+        #ifdef CONDBG
+            debug_print("error select socket.");
+        #endif
         goto connection_end_fail;
     }
 
@@ -307,7 +311,6 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
     memset(result, 0x0, size);
     memcpy(result, packet, status);
     
-    say("end connection");
     close(handle);
     return result;
 
@@ -317,17 +320,42 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
     return CNULL;
 }
 
-/*
+/**
  * Connect to Node Mapper and generate node ID.
  */
 
 char * generate_node_id (char *address, int node_mapper_port) 
 {
-    char message[]= "generate-node-id";
+    char message[]= "generate-verbum-node-id";
 
     while(!check_connection_banner_nm(address, node_mapper_port));
 
     return send_message_nm(address, node_mapper_port, message, strlen(message));
 }
-   
+
+/**
+ * Ping node.
+ */
+char * ping_node (char *address, int node_mapper_port, char *id) 
+{
+    char prefix[]= "ping-verbum-node:";
+    char *message = CNULL;
+    int size = 0;
+
+    while(!check_connection_banner_nm(address, node_mapper_port));
+
+    size = sizeof(char) * (strlen(id) + strlen(prefix) + 1);
+    message = (char *) malloc(size);
+
+    if (!message) {
+        debug_print("error alloc memory.");
+        return CNULL;
+    }
+
+    memset(message, 0x0, size);
+    sprintf(message, "%s%s", prefix, id);
+
+    return send_message_nm(address, node_mapper_port, message, strlen(message));
+}
+
 
