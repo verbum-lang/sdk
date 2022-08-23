@@ -6,7 +6,7 @@
 
 // Show/hide monitor debug messages.
 // Show = defined, hide = undefined.
-// #define MONITOR_DBG
+#define MONITOR_DBG
 
 // Enable/disable Node Mapper and Fault Tolerance.
 #define MONITOR_ENABLE_NODE_MAPPER

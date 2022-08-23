@@ -58,6 +58,7 @@ void open_nm_ft_process (char *path)
 
 void check_connection_interface (char *path, int node_mapper_port, int fault_tolerance_port)
 {
+    char address []= "127.0.0.1";
     int status = 0;
 
     // Node Mapper.
@@ -69,7 +70,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
     #endif
 
     while(!check_connection_banner_nm_ft(
-        "Node Mapper", node_mapper_port, "Verbum Node Mapper")) 
+        "Node Mapper", address, node_mapper_port, "Verbum Node Mapper")) 
     {
         // pid_t pid = check_process_running("verbum-node-mapper");
         // if (pid == -1)
@@ -104,7 +105,7 @@ void check_connection_interface (char *path, int node_mapper_port, int fault_tol
     #endif
     
     while(!check_connection_banner_nm_ft(
-        "Fault Tolerance", fault_tolerance_port, "Verbum Fault Tolerance"))
+        "Fault Tolerance", address, fault_tolerance_port, "Verbum Fault Tolerance"))
     {
         pid_t pid = check_process_running("verbum-fault-tolerance");
         if (pid == -1)

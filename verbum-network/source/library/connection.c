@@ -13,11 +13,16 @@
 #include "memory.h"
 
 /*
- * It connects to the "Node Mapper" and "Fault Tolerance" servers, 
- * and checks the header.
+ * It connects to the "Node Mapper" and "Fault Tolerance" servers, and checks the header.
  *
  * Success: return 1. Error: return 0.
  */
+
+int check_connection_banner_nm_ft (char *prefix, char *address, int port, char *header)
+{
+    // return check_connection_banner_nm_ft_blocking(prefix, address, port, header);
+    return check_connection_banner_nm_ft_non_blocking(prefix, address, port, header, 3.0);
+}
 
 int check_connection_banner_nm_ft_blocking (char *prefix, char *laddr, int port, char *header)
 {
@@ -172,9 +177,4 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, char *laddr, int p
     return 1;
 }
 
-int check_connection_banner_nm_ft (char *prefix, int port, char *header)
-{
-    return check_connection_banner_nm_ft_blocking(prefix, "127.0.0.1", port, header);
-    // return check_connection_banner_nm_ft_non_blocking(prefix, "127.0.0.1", port, header, 3.0);
-}
 
