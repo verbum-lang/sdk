@@ -14,6 +14,7 @@ void node_mapper                        (void);
 void node_mapper_interface              (void);
 void * node_mapper_interface_handler    (void *tparam);
 void nm_process_communication           (int sock);
+char * generate_new_id                  (void);
 
 #endif
 

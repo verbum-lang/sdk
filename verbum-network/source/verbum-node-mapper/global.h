@@ -3,9 +3,6 @@
 #define VERBUM_GLOBAL
 
 #define CURRENT_PACKAGE_NAME            "Verbum Node Mapper"
-#define CONNECTIONS_TIMEOUT1            3
-#define LOCALHOST                       "127.0.0.1"
-#define SERVERS_MAX_CONNECTION          1000
 
 #include "../library/global.h"
 #include "../library/memory.h"
@@ -13,6 +10,9 @@
 #include "../library/application.h"
 #include "../library/file.h"
 #include "../library/ini_file.h"
+
+#include "../dependencies/cvector.h"
+#include "../dependencies/cvector_utils.h"
 
 // Re-define macros.
 #ifdef      PACKAGE_NAME

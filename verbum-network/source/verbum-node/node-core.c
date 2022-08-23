@@ -72,9 +72,9 @@ void add_node_on_node_mapper (node_param_t *param)
 {
     char address []= LOCALHOST;
     char *id = CNULL;
-    
+        
     while (1) {
-        id = generate_node_id(address, param->node_mapper_port, CONNECTIONS_TIMEOUT1);
+        id = generate_node_id(address, param->node_mapper_port);
         if (id)
             break;
     }

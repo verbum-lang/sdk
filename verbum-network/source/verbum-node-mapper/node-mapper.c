@@ -5,8 +5,30 @@
 
 #include "node-mapper.h"
 
+typedef struct {
+    char *id;
+} node_control_t;
+
+cvector_vector_type(node_control_t) nodes = NULL;
+
 void node_mapper (void)
 {
+    // test
+    node_control_t node;
+    node.id = (char *) malloc(200);
+    memset(node.id, 0x0, 200);
+    sprintf(node.id, "Verbum is God!");
+
+    node_control_t node2;
+    node2.id = (char *) malloc(200);
+    memset(node2.id, 0x0, 200);
+    sprintf(node2.id, "Verbum is Jesus!");
+
+    cvector_push_back(nodes, node);
+    cvector_push_back(nodes, node2);
+
+    say("Node inserted!");
+
     node_mapper_interface();
 }
 
@@ -44,6 +66,10 @@ void * node_mapper_interface_handler (void *tparam)
     address.sin_family = AF_INET;
     address.sin_port = htons(param->port);
 
+    const int enable = 1;
+    if (setsockopt(ssock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
+        say("setsockopt (SO_REUSEADDR) failed.");
+
     status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
 
     if (status != 0)
@@ -63,7 +89,7 @@ void * node_mapper_interface_handler (void *tparam)
             setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
             // Send header (handshake).
-            char header[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3";
+            char header[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n";
 
             while (1) {
                 status = send(nsock, header, strlen(header), 0);
@@ -87,13 +113,16 @@ void nm_process_communication (int sock)
     int bytes_received = 0, size = 0;
 
     while (1) {
+        memset(tmp, 0x0, 512);
         bytes = recv(sock, tmp, 511, 0);
-        if (bytes <= -1)
+
+        if (bytes <= -1) 
             break;
-        
+
         else if (bytes == 0) {
             status = 1;
-            content[ bytes_received ] = '\0';
+            if (bytes_received > 0)
+                content[ bytes_received ] = '\0';
             break;
         }
         
@@ -106,13 +135,57 @@ void nm_process_communication (int sock)
 
             memcpy(&content[ bytes_received ], tmp, bytes);
             bytes_received += bytes;
+
+            if (bytes_received > 0)
+                content[ bytes_received ] = '\0';
+
+            status = 1;
         }
     }
 
-    if (!status)
+    if (!status || !content)
         return;
 
-    say("data received: %s", content);
+    say("data received: \"%s\"", content);
+
+    // ***
+    // Process messages - Verbum Node Mapper Protocol.
+    //
+
+    /**
+     * Generate new node ID.
+     */
+    if (strcmp(content, "generate-node-id") == 0) {
+        char *id = generate_new_id();
+        if (id) {
+            bytes = send(sock, id, strlen(id), 0);
+            memset(id, 0x0, strlen(id));
+            free(id);
+        }
+    }
+}
+
+char * generate_new_id (void)
+{
+    char *id = CNULL;
+    char tmp [1024];
+    int limit = 24;
+
+    srand(time(NULL));
+    memset(tmp, 0x0, 1024);
+    sprintf(tmp, "verbum-node-%d%d%d", rand(), rand(), rand());
+
+    if (strlen(tmp) > limit)
+        tmp[limit] = '\0';
+
+    for (int a=0; a < cvector_size(nodes); ++a)
+        if (strcmp(nodes[a].id, tmp) == 0) 
+            return generate_new_id();
+
+    memory_scopy(tmp, id);
+    memset(tmp, 0x0, 1024);
+
+    return id;    
 }
 
 
