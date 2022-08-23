@@ -41,7 +41,7 @@ gcc -o help.o               -c help.c
 gcc -o configuration.o      -c configuration.c
 gcc -o node.o               -c node.c
 gcc -o monitor-processes.o  -c monitor-processes.c
-gcc -o node-interface.o     -c node-interface.c
+gcc -o node-core.o          -c node-core.c
 gcc -o node-server.o        -c node-server.c
 gcc -o node-client.o        -c node-client.c
 
@@ -51,7 +51,7 @@ gcc -o verbum-node verbum-node.c                    \
                    configuration.o                  \
                    node.o                           \
                    monitor-processes.o              \
-                   node-interface.o                 \
+                   node-core.o                      \
                    node-server.o                    \
                    node-client.o                    \
                    $LIBRARY_OBJECTS $LIBRARY_LIBS

@@ -5,7 +5,7 @@
 #include "global.h"
 #include "node-global.h"
 
-void * node_interface (void *tparam);
+void * node_core (void *tparam);
 
 #endif
 

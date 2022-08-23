@@ -11,7 +11,7 @@
 // Enable/disable Node Mapper.
 #define MONITOR_ENABLE_NODE_MAPPER
 
-// Delay (sec) to kill a process (NM, FT).
+// Delay (sec) to kill a process (Node Mapper).
 #define MONITOR_DELAY_TO_KILL 3
 
 typedef struct {

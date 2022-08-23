@@ -37,8 +37,7 @@ void * node_mapper_interface_handler (void *tparam)
     interface_param_t *param = (interface_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
-    int ssock = -1, nsock = -1;
-    int status = -1;
+    int ssock = -1, nsock = -1, status = -1;
 
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
@@ -62,7 +61,7 @@ void * node_mapper_interface_handler (void *tparam)
 
             while (1) {
                 status = send(nsock, header, strlen(header), 0);
-                if (status > 0)
+                if (status > 0) 
                     break;
             }
 
