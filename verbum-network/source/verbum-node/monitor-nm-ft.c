@@ -18,11 +18,11 @@ void monitor_processes (void)
     prepare_param->node_mapper_port = global.configuration.node_mapper.server_port;    
     memory_scopy(global.configuration.path, prepare_param->path);
 
-    if ((status = pthread_create(&tid, NULL, prepara_nm_ft_handler, prepare_param)) !=0)
+    if ((status = pthread_create(&tid, NULL, monitor_processes_handler, prepare_param)) !=0)
         debug_exit("error while creating thread - control of Node Mapper and Fault Tolerance.");
 }
 
-void check_nm_ft (void) 
+void check_processes (void) 
 {
     check_connection_interface(
         global.configuration.path,
@@ -30,7 +30,7 @@ void check_nm_ft (void)
     );
 }
 
-void * prepara_nm_ft_handler (void *param)
+void * monitor_processes_handler (void *param)
 {
     prepare_param_t *prepare_param = (prepare_param_t *) param;
     open_processes(prepare_param->path);

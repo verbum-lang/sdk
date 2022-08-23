@@ -28,14 +28,6 @@ void configutation_read (void)
 
     if (!global.configuration.node_mapper.server_port)
         debug_exit("Error read server port.");
-
-    // Fault Tolerance configuration.
-    global.configuration.fault_tolerance.server_port = ini_read_number(
-        global.configuration.content, "VERBUM-FAULT-TOLERANCE", "interface_server_port"
-    );
-
-    // if (!global.configuration.fault_tolerance.server_port)
-    //     debug_exit("Error read server port.");
 }
 
 
