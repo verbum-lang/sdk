@@ -7,7 +7,7 @@
 
 void * node_core (void *tparam);
 void add_node_on_node_mapper (node_param_t *param);
-void * add_node_on_node_mapper_handler (void *tparam);
+void * ping_node_handler (void *tparam);
 
 #endif
 

@@ -10,7 +10,7 @@ typedef struct {
     // Node information.
     struct {
         char *id;
-        int port;
+        int port; // Interface port.
     } information;
 } node_param_t;
 

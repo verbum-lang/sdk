@@ -43,6 +43,7 @@ void * node_core (void *tparam)
         say_exit("error listen server.");
 
     // Node Mapper information sender.
+    param->information.port = port;
     add_node_on_node_mapper(param);
 
     // Node core interface communication.
@@ -70,6 +71,10 @@ void * node_core (void *tparam)
 
 void add_node_on_node_mapper (node_param_t *param)
 {
+    /**
+     * Generate new node ID.
+     */
+
     char address []= LOCALHOST;
     char *id = CNULL;
         
@@ -79,15 +84,36 @@ void add_node_on_node_mapper (node_param_t *param)
             break;
     }
 
-    say("node id: %s", id);
+    /**
+     * Ping node.
+     */
+
+    int status = 0;
+    pthread_t tid;
+
+    node_param_t *nparam = (node_param_t *) malloc(sizeof(node_param_t));
+    if (!nparam)
+        debug_exit("error allocating memory.");
+
+    memory_scopy(id, nparam->information.id);
+    nparam->information.port = param->information.port;
+
+    if ((status = pthread_create(&tid, NULL, ping_node_handler, nparam)) !=0)
+        debug_exit("error while creating thread - ping node.");
+    
+    memory_szero(id);
 }
 
-void * add_node_on_node_mapper_handler (void *tparam)
+void * ping_node_handler (void *tparam)
 {
     node_param_t *param = (node_param_t *) tparam;
 
-    // say("> node id: %s", param->information.id);
-    // say("> node port: %d", param->information.port);
+    say("node id: %s", param->information.id);
+    say("node port (interface): %d", param->information.port);
+
+    while (1) {
+        sleep(NODE_PING_LOOP_SEC_DELAY);
+    }
 }
 
 
