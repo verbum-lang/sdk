@@ -19,11 +19,21 @@
  * Success: return 1. Error: return 0.
  */
 
-int check_connection_banner_nm_ft_blocking (char *prefix, int port, char *header)
+int check_connection_banner_nm_ft_blocking (char *prefix, char *laddr, int port, char *header)
 {
-    int status = -1;
-    int handle = -1;
+    int status = -1, handle = -1;
     char packet [100];
+
+    // Configure connection.
+    struct sockaddr_in address;
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons( port );
+
+    if (inet_pton(AF_INET, laddr, &address.sin_addr) <= 0) {
+        debug_print("%s - error set IP address - socket configuration.", prefix);
+        return 0;
+    }
 
     // Create socket.
     handle = socket(AF_INET, SOCK_STREAM, 0);
@@ -32,12 +42,6 @@ int check_connection_banner_nm_ft_blocking (char *prefix, int port, char *header
         return 0;
     }
     
-    // Configure connection.
-    struct sockaddr_in address;
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( port );
-
     // Connect.
     status = connect(handle, (struct sockaddr*) &address, sizeof(address));
     if (status < 0)
@@ -70,10 +74,8 @@ int check_connection_banner_nm_ft_blocking (char *prefix, int port, char *header
     return 1;
 }
 
-int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *header, int timeout)
+int check_connection_banner_nm_ft_non_blocking (char *prefix, char *laddr, int port, char *header, int timeout)
 {
-    debug_print("calling");
-
     int status = -1, handle = -1, flags  = 0;
     char packet [100];
 
@@ -83,7 +85,7 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons( port );
 
-    if (inet_pton(AF_INET, "127.0.0.1", &address.sin_addr) <= 0) {
+    if (inet_pton(AF_INET, laddr, &address.sin_addr) <= 0) {
         debug_print("%s - error set IP address - socket configuration.", prefix);
         return 0;
     }
@@ -145,15 +147,10 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
 
     // Receive data.
     memset(packet, 0x0, 100);
-
     status = recv(handle, packet, 99, 0);
-    if (status == -1) {
-        say("data not received!");
-        
+
+    if (status == -1) 
         goto connection_end_fail;
-    }
-    
-    say("data received!");
 
     // Check header.
     if (strlen(header) > strlen(packet) || strlen(packet) <= 0)
@@ -177,7 +174,7 @@ int check_connection_banner_nm_ft_non_blocking (char *prefix, int port, char *he
 
 int check_connection_banner_nm_ft (char *prefix, int port, char *header)
 {
-    // return check_connection_banner_nm_ft_blocking(prefix, port, header);
-    return check_connection_banner_nm_ft_non_blocking(prefix, port, header, 3.0);
+    return check_connection_banner_nm_ft_blocking(prefix, "127.0.0.1", port, header);
+    // return check_connection_banner_nm_ft_non_blocking(prefix, "127.0.0.1", port, header, 3.0);
 }
 
