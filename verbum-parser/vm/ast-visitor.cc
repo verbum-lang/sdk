@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 
-// ANTLR4.
+// ANTLR4 headers.
 #include "antlr4-runtime.h"
 #include "TLexer.h"
 #include "TParser.h"
