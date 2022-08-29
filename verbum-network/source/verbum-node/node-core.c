@@ -39,7 +39,7 @@ void * node_core (void *tparam)
 
     say("interface port: %d", port);
 
-    if (listen(ssock, param->max_connections) != 0) 
+    if (listen(ssock, param->max_connections) != 0)
         say_exit("error listen server.");
 
     // Node Mapper information sender.
@@ -77,7 +77,7 @@ void add_node_on_node_mapper (node_param_t *param)
 
     char address []= LOCALHOST;
     char *id = CNULL;
-        
+    
     while (1) {
         id = generate_node_id(address, param->node_mapper_port);
         if (id)
@@ -87,14 +87,14 @@ void add_node_on_node_mapper (node_param_t *param)
     /**
      * Ping node.
      */
-
+    
     int status = 0;
     pthread_t tid;
 
     node_param_t *nparam = (node_param_t *) malloc(sizeof(node_param_t));
     if (!nparam)
         debug_exit("error allocating memory.");
-
+    
     memory_scopy(id, nparam->information.id);
     nparam->information.port = param->information.port;
     nparam->node_mapper_port = param->node_mapper_port;
@@ -117,11 +117,9 @@ void * ping_node_handler (void *tparam)
     while (1) {
         char *response = ping_node(address, param->node_mapper_port, param->information.id);
 
-        if (response) {
-            say("ping response: %s", response);
+        if (response)
             memory_sclean(response);
-        }
-
+        
         sleep(NODE_PING_LOOP_SEC_DELAY);
     }
 }
