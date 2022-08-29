@@ -5,7 +5,7 @@
 #include "global.h"
 
 // Show/hide debug messages.
-// #define NMDBG
+#define NMDBG
 
 typedef struct {
     char *id;
@@ -22,9 +22,9 @@ void node_mapper                        (void);
 void node_mapper_interface              (void);
 void * node_mapper_interface_handler    (void *tparam);
 void nm_process_communication           (int sock);
-void add_new_node                       (int sock);
+void add_new_node                       (int sock, char *content);
 char * generate_new_id                  (void);
-void update_ping_node                   (char *content, int sock);
+void update_ping_node                   (int sock, char *content);
 
 #endif
 

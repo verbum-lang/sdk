@@ -138,52 +138,57 @@ void nm_process_communication (int sock)
     /**
      * Generate new node ID, and save.
      */
-    if (strcmp(content, "generate-verbum-node-id") == 0)
-        add_new_node(sock);
+    if (strstr(content, "generate-verbum-node-id:"))
+        add_new_node(sock, content);
 
     /**
      * Ping node.
      */
     else if (strstr(content, "ping-verbum-node:"))
-        update_ping_node(content, sock);
+        update_ping_node(sock, content);
 }
 
-void add_new_node (int sock)
+void add_new_node (int sock, char *content)
 {
     #ifdef NMDBG
         say("generate new verbum node.");
     #endif
 
+    char port[256], prefix []= "generate-verbum-node-id:";
+    char *id = CNULL, *ptr = CNULL;
+    int bytes = 0;
+
     node_control_t node;
     time_t now = time(NULL);
     struct tm *tms = localtime(&now);
-    char *id = generate_new_id();
-    int bytes = 0;
 
-    if (id) {
-        memory_scopy(id, node.id);
-        memory_szero(node.last_connect_date);
+    id = generate_new_id();
+    if (!id)
+        return;
 
-        sprintf(node.last_connect_date, "%d-%d-%d %d-%d-%d", 
-            tms->tm_mday, tms->tm_mon, tms->tm_year,
-            tms->tm_hour, tms->tm_min, tms->tm_sec);
+    memset(port, 0x0, 256);
+    ptr = strstr(content, prefix);
+    if (!ptr) 
+        return;
 
-        cvector_push_back(nodes, node);
+    ptr += strlen(prefix);
+    say(">item: \"%s\"",ptr);
 
-        // Send node ID to client.
-        bytes = send(sock, id, strlen(id), 0);
-        memset(id, 0x0, strlen(id));
-        free(id);
-    }
+    // Add node in struct control.
+    // node.port = atoi(port);
+    // memory_scopy(id, node.id);
+    // memory_szero(node.last_connect_date);
 
-    #ifdef NMDBG
-        say("current node(s) found:");
-        if (nodes) {
-            for (int a=0; a < cvector_size(nodes); ++a) {
-                say("node %d = %s", a, nodes[a].id);
-            }
-        }
-    #endif
+    // sprintf(node.last_connect_date, "%d-%d-%d %d-%d-%d", 
+    //     tms->tm_mday, tms->tm_mon, tms->tm_year,
+    //     tms->tm_hour, tms->tm_min, tms->tm_sec);
+
+    // cvector_push_back(nodes, node);
+
+    // // Send new node ID to client.
+    // bytes = send(sock, id, strlen(id), 0);
+    // memset(id, 0x0, strlen(id));
+    free(id);
 }
 
 char * generate_new_id (void)
@@ -211,7 +216,7 @@ char * generate_new_id (void)
     return id;    
 }
 
-void update_ping_node (char *content, int sock)
+void update_ping_node (int sock, char *content)
 {
     #ifdef NMDBG
         say("ping verbum node.");

@@ -82,7 +82,9 @@ void add_node_on_node_mapper (node_param_t *param)
     char *id = CNULL;
     
     while (1) {
-        id = generate_node_id(address, param->node_mapper_port);
+        id = generate_node_id(
+            address, param->node_mapper_port, param->information.port);
+        
         if (id)
             break;
     }
@@ -91,21 +93,21 @@ void add_node_on_node_mapper (node_param_t *param)
      * Ping node.
      */
     
-    int status = 0;
-    pthread_t tid;
+    // int status = 0;
+    // pthread_t tid;
 
-    node_param_t *nparam = (node_param_t *) malloc(sizeof(node_param_t));
-    if (!nparam)
-        debug_exit("error allocating memory.");
+    // node_param_t *nparam = (node_param_t *) malloc(sizeof(node_param_t));
+    // if (!nparam)
+    //     debug_exit("error allocating memory.");
     
-    memory_scopy(id, nparam->information.id);
-    nparam->information.port = param->information.port;
-    nparam->node_mapper_port = param->node_mapper_port;
+    // memory_scopy(id, nparam->information.id);
+    // nparam->information.port = param->information.port;
+    // nparam->node_mapper_port = param->node_mapper_port;
 
-    if ((status = pthread_create(&tid, NULL, ping_node_handler, nparam)) !=0)
-        debug_exit("error while creating thread - ping node.");
+    // if ((status = pthread_create(&tid, NULL, ping_node_handler, nparam)) !=0)
+    //     debug_exit("error while creating thread - ping node.");
     
-    memory_sclean(id);
+    // memory_sclean(id);
 }
 
 void * ping_node_handler (void *tparam)

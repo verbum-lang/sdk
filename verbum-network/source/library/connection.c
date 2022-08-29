@@ -324,11 +324,24 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
  * Connect to Node Mapper and generate node ID.
  */
 
-char * generate_node_id (char *address, int node_mapper_port) 
+char * generate_node_id (char *address, int node_mapper_port, int node_port) 
 {
-    char message[]= "generate-verbum-node-id";
+    char prefix[]= "generate-verbum-node-id:";
+    char *message = CNULL;
+    int size = 0;
 
     while(!check_connection_banner_nm(address, node_mapper_port));
+
+    size = sizeof(char) * (strlen(prefix) + 1024);
+    message = (char *) malloc(size);
+
+    if (!message) {
+        debug_print("error alloc memory.");
+        return CNULL;
+    }
+
+    memset(message, 0x0, size);
+    sprintf(message, "%s%d", prefix, node_port);
 
     return send_message_nm(address, node_mapper_port, message, strlen(message));
 }
