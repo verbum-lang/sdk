@@ -14,6 +14,7 @@ void * node_core (void *tparam)
     socklen_t address_size;
     int ssock = -1, nsock = -1;
     int status = -1, port = 0;
+    int connection_counter = 1;
     
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
@@ -56,12 +57,14 @@ void * node_core (void *tparam)
 
             while (1) {
                 status = send(nsock, header, strlen(header), 0);
-                if (status > 0) 
+                if (status > 0)
                     break;
             }
 
             // Node protocol.
+            say("Connection: %d", connection_counter);
 
+            connection_counter++;
             close(nsock);
         }
     }
