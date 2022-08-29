@@ -146,6 +146,12 @@ void nm_process_communication (int sock)
      */
     else if (strstr(content, "ping-verbum-node:"))
         update_ping_node(sock, content);
+
+    /**
+     * Get node list.
+     */
+    else if (strstr(content, "get-node-list"))
+        get_node_list(sock);
 }
 
 void add_new_node (int sock, char *content)
@@ -166,28 +172,29 @@ void add_new_node (int sock, char *content)
     if (!id)
         return;
 
-    memset(port, 0x0, 256);
+    // Prepare port.
     ptr = strstr(content, prefix);
     if (!ptr) 
         return;
 
     ptr += strlen(prefix);
-    say(">item: \"%s\"",ptr);
+    memset(port, 0x0, 256);
+    memcpy(port, ptr, strlen(ptr));
 
     // Add node in struct control.
-    // node.port = atoi(port);
-    // memory_scopy(id, node.id);
-    // memory_szero(node.last_connect_date);
+    node.port = atoi(port);
+    memory_scopy(id, node.id);
+    memory_szero(node.last_connect_date);
 
-    // sprintf(node.last_connect_date, "%d-%d-%d %d-%d-%d", 
-    //     tms->tm_mday, tms->tm_mon, tms->tm_year,
-    //     tms->tm_hour, tms->tm_min, tms->tm_sec);
+    sprintf(node.last_connect_date, "%d-%d-%d %d-%d-%d", 
+        tms->tm_mday, tms->tm_mon, tms->tm_year,
+        tms->tm_hour, tms->tm_min, tms->tm_sec);
 
-    // cvector_push_back(nodes, node);
+    cvector_push_back(nodes, node);
 
-    // // Send new node ID to client.
-    // bytes = send(sock, id, strlen(id), 0);
-    // memset(id, 0x0, strlen(id));
+    // Send new node ID to client.
+    bytes = send(sock, id, strlen(id), 0);
+    memset(id, 0x0, strlen(id));
     free(id);
 }
 
@@ -228,6 +235,46 @@ void update_ping_node (int sock, char *content)
 
     char response []= "verbum-node-ok";
     bytes = send(sock, response, strlen(response), 0);
+}
+
+void get_node_list(int sock)
+{
+    #ifdef NMDBG
+        say("get node list - called.");
+    #endif
+
+    char *message = CNULL;
+    char tmp [1024];
+    int size = 0, sts = 0;
+
+    if (nodes)
+        for (int a=0; a < cvector_size(nodes); ++a) {
+            memset(tmp, 0x0, 1024);
+            sprintf(tmp, "node: %d\nid: %s\nport: %d\nlast connection: %s\n\n", 
+                a, nodes[a].id, nodes[a].port, nodes[a].last_connect_date);
+
+            message = (char *) realloc(message, sizeof(char) * (size + strlen(tmp) + 1));
+            if (!message) {
+                debug_print("error alloc memory.");
+                return;
+            }
+
+            memcpy(&message[size], tmp, strlen(tmp));
+            size += strlen(tmp);
+            sts++;
+        }
+
+    if (sts)
+        message[size] = '\0';
+    else {
+        size = 256;
+        memory_alloc(message, size);
+        sprintf(message, "nodes not found.\n");
+    }
+
+    sts = send(sock, message, size, 0);
+    memset(message, 0x0, size);
+    free(message);
 }
 
 
