@@ -163,10 +163,7 @@ void add_new_node (int sock, char *content)
     char port[256], prefix []= "generate-verbum-node-id:";
     char *id = CNULL, *ptr = CNULL;
     int bytes = 0;
-
     node_control_t node;
-    time_t now = time(NULL);
-    struct tm *tms = localtime(&now);
 
     id = generate_new_id();
     if (!id)
@@ -184,11 +181,7 @@ void add_new_node (int sock, char *content)
     // Add node in struct control.
     node.port = atoi(port);
     memory_scopy(id, node.id);
-    memory_szero(node.last_connect_date);
-
-    sprintf(node.last_connect_date, "%d-%d-%d %d-%d-%d", 
-        tms->tm_mday, tms->tm_mon, tms->tm_year,
-        tms->tm_hour, tms->tm_min, tms->tm_sec);
+    node.last_connect_date = make_datetime();
 
     cvector_push_back(nodes, node);
 

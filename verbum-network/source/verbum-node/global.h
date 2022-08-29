@@ -13,6 +13,7 @@
 #include "../library/ini_file.h"
 #include "../library/connection.h"
 #include "../library/process.h"
+#include "../library/datetime.h"
 
 // Re-define macros.
 #ifdef      PACKAGE_NAME

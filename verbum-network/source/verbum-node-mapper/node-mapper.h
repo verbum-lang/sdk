@@ -10,7 +10,7 @@
 // Client-node struct control.
 typedef struct {
     char *id;                       // Node unique identification.
-    char last_connect_date[100];    // d-m-Y h:m:s
+    char *last_connect_date;        // d-m-Y h:m:s
     int port;                       // Node interface port.
 } node_control_t;
 

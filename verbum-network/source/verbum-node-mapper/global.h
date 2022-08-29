@@ -10,6 +10,7 @@
 #include "../library/application.h"
 #include "../library/file.h"
 #include "../library/ini_file.h"
+#include "../library/datetime.h"
 
 #include "../dependencies/cvector.h"
 #include "../dependencies/cvector_utils.h"
