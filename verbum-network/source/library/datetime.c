@@ -27,15 +27,15 @@ char * make_datetime (void)
     sprintf(sec,  "%d", tms->tm_sec);
 
     if (strlen(day) == 1)
-        sprintf("0%d", tms->tm_mday);
+        sprintf(day, "0%d", tms->tm_mday);
     if (strlen(mon) == 1)
-        sprintf("0%d", tms->tm_mon);
+        sprintf(mon, "0%d", tms->tm_mon);
     if (strlen(hour) == 1)
-        sprintf("0%d", tms->tm_hour);
+        sprintf(hour, "0%d", tms->tm_hour);
     if (strlen(min) == 1)
-        sprintf("0%d", tms->tm_min);
+        sprintf(min, "0%d", tms->tm_min);
     if (strlen(sec) == 1)
-        sprintf("0%d", tms->tm_sec);
+        sprintf(sec, "0%d", tms->tm_sec);
 
     sprintf(date, "%s-%s-%s %s-%s-%s", 
         day, mon, year, hour, min, sec);
