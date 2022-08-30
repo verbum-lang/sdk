@@ -101,6 +101,7 @@ void * node_mapper_interface_handler (void *tparam)
 {
     interface_param_t *param = (interface_param_t *) tparam;
     char handshake[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n";
+    char *response = CNULL;
     int status = -1, sock = param->sock;
 
     // Send header (handshake).
@@ -111,12 +112,41 @@ void * node_mapper_interface_handler (void *tparam)
     }
 
     // Node Mapper protocol communication.
-    node_mapper_process_communication(sock);
+    response = get_client_request(sock);
+    if (!response)
+        goto nmih_end;
 
+    pthread_mutex_lock(&mutex_nodes);
+
+    // ***
+    // Process messages - Verbum Node Mapper Protocol.
+    //
+
+    /**
+     * Generate new node ID, and save.
+     */
+    if (strstr(response, "generate-verbum-node-id:")) 
+        add_new_node(sock, response);
+
+    /**
+     * Ping node.
+     */
+    else if (strstr(response, "ping-verbum-node:"))
+        update_ping_node(sock, response);
+
+    /**
+     * Get node list.
+     */
+    else if (strstr(response, "get-node-list"))
+        get_node_list(sock);
+
+    pthread_mutex_unlock(&mutex_nodes);
+
+    nmih_end:
     close(sock);
 }
 
-void node_mapper_process_communication (int sock)
+char * get_client_request (int sock)
 {
     char *content = CNULL;
     char tmp [512];
@@ -155,33 +185,13 @@ void node_mapper_process_communication (int sock)
     }
 
     if (!status || !content)
-        return;
+        return CNULL;
 
     #ifdef NMDBG
         say("raw data received: \"%s\"", content);
     #endif
 
-    // ***
-    // Process messages - Verbum Node Mapper Protocol.
-    //
-
-    /**
-     * Generate new node ID, and save.
-     */
-    if (strstr(content, "generate-verbum-node-id:"))
-        add_new_node(sock, content);
-
-    /**
-     * Ping node.
-     */
-    else if (strstr(content, "ping-verbum-node:"))
-        update_ping_node(sock, content);
-
-    /**
-     * Get node list.
-     */
-    else if (strstr(content, "get-node-list"))
-        get_node_list(sock);
+    return content;
 }
 
 void add_new_node (int sock, char *content)
@@ -211,7 +221,7 @@ void add_new_node (int sock, char *content)
     node.port = atoi(port);
 
     // Generate ID.
-    pthread_mutex_lock(&mutex_nodes);
+    // pthread_mutex_lock(&mutex_nodes);
 
     id = generate_new_id();
     if (!id)
@@ -226,7 +236,7 @@ void add_new_node (int sock, char *content)
     sprintf(node.last_connect_date, "%s", date);
     cvector_push_back(nodes, node);
 
-    pthread_mutex_unlock(&mutex_nodes);
+    // pthread_mutex_unlock(&mutex_nodes);
 
     // Send new node ID to client.
     bytes = send(sock, id, strlen(id), 0);
@@ -309,7 +319,7 @@ void update_ping_node (int sock, char *content)
     sprintf(node.last_connect_date, "%s", date);
 
     // Process node.
-    pthread_mutex_lock(&mutex_nodes);
+    // pthread_mutex_lock(&mutex_nodes);
 
     // Search node.
     if (nodes) {
@@ -334,7 +344,7 @@ void update_ping_node (int sock, char *content)
         cvector_push_back(nodes, node);
 
     upn_end:
-    pthread_mutex_unlock(&mutex_nodes);
+    // pthread_mutex_unlock(&mutex_nodes);
 
     if (index != -1) {
         memset(node.id, 0x0, strlen(node.id));
@@ -357,7 +367,7 @@ void get_node_list(int sock)
     char tmp [1024];
     int size = 0, sts = 0;
 
-    pthread_mutex_lock(&mutex_nodes);
+    // pthread_mutex_lock(&mutex_nodes);
 
     if (nodes) {
         for (int a=0; a < cvector_size(nodes); ++a) {
@@ -377,7 +387,7 @@ void get_node_list(int sock)
         }
     }
 
-    pthread_mutex_unlock(&mutex_nodes);
+    // pthread_mutex_unlock(&mutex_nodes);
 
     if (sts)
         message[size] = '\0';

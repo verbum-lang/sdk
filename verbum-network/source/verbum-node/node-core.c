@@ -49,7 +49,7 @@ void * node_core (void *tparam)
     // Add node, and ping.
     param->information.port = port;
     add_node_on_node_mapper();
-    ping_node_action();
+    // ping_node_action();
 
     // Node core interface communication.
     while (1) {
