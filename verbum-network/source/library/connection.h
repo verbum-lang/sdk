@@ -12,7 +12,7 @@ int check_connection_banner_nm_blocking (char *laddr, int port);
 int check_connection_banner_nm_non_blocking (char *laddr, int port);
 char * send_message_nm (char *laddr, int port, char *message, int message_size);
 char * generate_node_id (char *address, int node_mapper_port, int node_port);
-char * ping_node (char *address, int node_mapper_port, char *id);
+char * ping_node (char *address, int node_mapper_port, char *node_id, int node_interface_port);
 
 #endif
 

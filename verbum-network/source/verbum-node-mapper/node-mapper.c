@@ -110,13 +110,13 @@ void * node_mapper_interface_handler (void *tparam)
             break;
     }
 
-    // Node Mapper protocol.
-    nm_process_communication(sock);
+    // Node Mapper protocol communication.
+    node_mapper_process_communication(sock);
 
     close(sock);
 }
 
-void nm_process_communication (int sock)
+void node_mapper_process_communication (int sock)
 {
     char *content = CNULL;
     char tmp [512];
@@ -195,6 +195,10 @@ void add_new_node (int sock, char *content)
     int bytes = 0;
     node_control_t node;
 
+    node.id = CNULL;
+    node.port = 0;
+    memset(node.last_connect_date, 0x0, 100);
+
     // Extract port.
     ptr = strstr(content, prefix);
     if (!ptr) 
@@ -219,7 +223,6 @@ void add_new_node (int sock, char *content)
     if (!date)
         goto ann_end;
 
-    memset(node.last_connect_date, 0x0, 100);
     sprintf(node.last_connect_date, "%s", date);
     cvector_push_back(nodes, node);
 
@@ -274,39 +277,77 @@ void update_ping_node (int sock, char *content)
     char prefix   [] = "ping-verbum-node:";
     char response [] = "verbum-node-ok";
     char *ptr = CNULL, *date = CNULL, id [256];
-    int bytes = 0;
+    int bytes = 0, status = 0, index = -1;
+    node_control_t node;
+
+    node.port = 0;
+    node.id = CNULL;
+    memset(node.last_connect_date, 0x0, 100);
 
     // Extract ID.
-    ptr = strstr(content, prefix);
-    if (!ptr) 
+    // ptr = strstr(content, prefix);
+    // if (!ptr) 
+    //     return;
+
+    // ptr += strlen(prefix);
+    // memset(id, 0x0, 256);
+    // memcpy(id, ptr, strlen(ptr));
+
+    // ***
+
+    // node.port = atoi(port);
+    // memory_scopy(id, node.id);
+
+    date = make_datetime();
+    if (!date)
         return;
 
-    ptr += strlen(prefix);
-    memset(id, 0x0, 256);
-    memcpy(id, ptr, strlen(ptr));
+    sprintf(node.last_connect_date, "%s", date);
 
-    // Search node.
+
+    say("node id..: %s", node.id);
+    say("node port: %d", node.port);
+    say("node date: %s", node.last_connect_date);
+
+    // cvector_push_back(nodes, node);
+
+    return;
+
+
+    // Process node.
     pthread_mutex_lock(&mutex_nodes);
 
+    // Search node.
     if (nodes) {
         for (int a=0; a < cvector_size(nodes); ++a) {
             if (strcmp(nodes[a].id, id) == 0) {
-                date = make_datetime();
-                if (!date)
-                    break;
-
-                memset(nodes[a].last_connect_date, 0x0, 100);
-                sprintf(nodes[a].last_connect_date, "%s", date);
-
-                bytes = send(sock, response, strlen(response), 0);
-
-                memset(date, 0x0, strlen(date));
-                free(date);
+                index = a;
                 break;
             }
         }
     }
 
+    // Update node information.
+    if (index != -1) {
+        date = make_datetime();
+        if (!date)
+            goto upn_end;
+
+        memset(nodes[index].last_connect_date, 0x0, 100);
+        sprintf(nodes[index].last_connect_date, "%s", date);
+
+        bytes = send(sock, response, strlen(response), 0);
+
+        memset(date, 0x0, strlen(date));
+        free(date);
+    }
+
+    // Add new existing node.
+    else {
+        
+    }
+
+    upn_end:
     pthread_mutex_unlock(&mutex_nodes);
 }
 

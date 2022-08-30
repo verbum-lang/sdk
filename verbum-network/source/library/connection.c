@@ -349,7 +349,7 @@ char * generate_node_id (char *address, int node_mapper_port, int node_port)
 /**
  * Ping node.
  */
-char * ping_node (char *address, int node_mapper_port, char *id) 
+char * ping_node (char *address, int node_mapper_port, char *node_id, int node_interface_port) 
 {
     char prefix[]= "ping-verbum-node:";
     char *message = CNULL;
@@ -357,7 +357,7 @@ char * ping_node (char *address, int node_mapper_port, char *id)
 
     while(!check_connection_banner_nm(address, node_mapper_port));
 
-    size = sizeof(char) * (strlen(id) + strlen(prefix) + 1);
+    size = sizeof(char) * (strlen(node_id) + strlen(prefix) + 256);
     message = (char *) malloc(size);
 
     if (!message) {
@@ -366,7 +366,7 @@ char * ping_node (char *address, int node_mapper_port, char *id)
     }
 
     memset(message, 0x0, size);
-    sprintf(message, "%s%s", prefix, id);
+    sprintf(message, "%s%s:%d", prefix, node_id, node_interface_port);
 
     return send_message_nm(address, node_mapper_port, message, strlen(message));
 }

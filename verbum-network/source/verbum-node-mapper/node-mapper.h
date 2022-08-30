@@ -25,7 +25,7 @@ typedef struct {
 void node_mapper                        (void);
 void * node_mapper_interface            (void *tparam);
 void * node_mapper_interface_handler    (void *tparam);
-void nm_process_communication           (int sock);
+void node_mapper_process_communication  (int sock);
 void add_new_node                       (int sock, char *content);
 char * generate_new_id                  (void);
 void update_ping_node                   (int sock, char *content);
