@@ -6,7 +6,7 @@
 #include "node-mapper.h"
 
 cvector_vector_type(node_control_t) nodes = NULL;
-pthread_mutex_t lock;
+pthread_mutex_t mutex_nodes;
 
 /**
  * Initialization.
@@ -21,7 +21,7 @@ void node_mapper (void)
     if (!param)
         debug_exit("error allocating memory.");
 
-    if (pthread_mutex_init(&lock, NULL) != 0) {
+    if (pthread_mutex_init(&mutex_nodes, NULL) != 0) {
         debug_print("mutex init failed.");
         return;
     }
@@ -174,8 +174,8 @@ void nm_process_communication (int sock)
     /**
      * Ping node.
      */
-    // else if (strstr(content, "ping-verbum-node:"))
-    //     update_ping_node(sock, content);
+    else if (strstr(content, "ping-verbum-node:"))
+        update_ping_node(sock, content);
 
     /**
      * Get node list.
@@ -186,8 +186,6 @@ void nm_process_communication (int sock)
 
 void add_new_node (int sock, char *content)
 {
-    pthread_mutex_lock(&lock);
-
     #ifdef NMDBG
         say("generate new verbum node.");
     #endif
@@ -209,6 +207,8 @@ void add_new_node (int sock, char *content)
     node.port = atoi(port);
 
     // Generate ID.
+    pthread_mutex_lock(&mutex_nodes);
+
     id = generate_new_id();
     if (!id)
         goto ann_end;
@@ -221,8 +221,9 @@ void add_new_node (int sock, char *content)
 
     memset(node.last_connect_date, 0x0, 100);
     sprintf(node.last_connect_date, "%s", date);
-
     cvector_push_back(nodes, node);
+
+    pthread_mutex_unlock(&mutex_nodes);
 
     // Send new node ID to client.
     bytes = send(sock, id, strlen(id), 0);
@@ -237,8 +238,6 @@ void add_new_node (int sock, char *content)
         free(id);
     if (date)
         free(date);
-
-    pthread_mutex_unlock(&lock);
 }
 
 char * generate_new_id (void)
@@ -277,7 +276,7 @@ void update_ping_node (int sock, char *content)
     char *ptr = CNULL, *date = CNULL, id [256];
     int bytes = 0;
 
-    // Prepare ID.
+    // Extract ID.
     ptr = strstr(content, prefix);
     if (!ptr) 
         return;
@@ -287,25 +286,28 @@ void update_ping_node (int sock, char *content)
     memcpy(id, ptr, strlen(ptr));
 
     // Search node.
-    if (!nodes)
-        return;
+    pthread_mutex_lock(&mutex_nodes);
 
-    for (int a=0; a < cvector_size(nodes); ++a) {
-        if (strcmp(nodes[a].id, id) == 0) {
-            date = make_datetime();
-            if (!date)
+    if (nodes) {
+        for (int a=0; a < cvector_size(nodes); ++a) {
+            if (strcmp(nodes[a].id, id) == 0) {
+                date = make_datetime();
+                if (!date)
+                    break;
+
+                memset(nodes[a].last_connect_date, 0x0, 100);
+                sprintf(nodes[a].last_connect_date, "%s", date);
+
+                bytes = send(sock, response, strlen(response), 0);
+
+                memset(date, 0x0, strlen(date));
+                free(date);
                 break;
-
-            memset(nodes[a].last_connect_date, 0x0, 100);
-            sprintf(nodes[a].last_connect_date, "%s", date);
-
-            bytes = send(sock, response, strlen(response), 0);
-
-            memset(date, 0x0, strlen(date));
-            free(date);
-            break;
+            }
         }
     }
+
+    pthread_mutex_unlock(&mutex_nodes);
 }
 
 void get_node_list(int sock)
@@ -317,6 +319,8 @@ void get_node_list(int sock)
     char *message = CNULL;
     char tmp [1024];
     int size = 0, sts = 0;
+
+    pthread_mutex_lock(&mutex_nodes);
 
     if (nodes) {
         for (int a=0; a < cvector_size(nodes); ++a) {
@@ -335,6 +339,8 @@ void get_node_list(int sock)
             sts++;
         }
     }
+
+    pthread_mutex_unlock(&mutex_nodes);
 
     if (sts)
         message[size] = '\0';
