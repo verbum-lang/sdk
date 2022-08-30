@@ -9,7 +9,10 @@
 // #define MONITOR_DBG
 
 // Enable/disable Node Mapper.
-// #define MONITOR_ENABLE_NODE_MAPPER
+#define MONITOR_ENABLE_NODE_MAPPER
+
+// Enable/disable persistence (process).
+#define MONITOR_ENABLE_PERSISTENCE
 
 // Delay (sec) to kill a process (Node Mapper).
 #define MONITOR_DELAY_TO_KILL 3

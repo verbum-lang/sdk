@@ -39,11 +39,13 @@ void * monitor_processes_handler (void *param)
     prepare_param_t *prepare_param = (prepare_param_t *) param;
     open_processes(prepare_param->path);
 
-    while (1) {
-        check_connection_interface(
-            prepare_param->path, prepare_param->node_mapper_port);
-        sleep(1);
-    }
+    #ifdef MONITOR_ENABLE_PERSISTENCE
+        while (1) {
+            check_connection_interface(
+                prepare_param->path, prepare_param->node_mapper_port);
+            sleep(1);
+        }
+    #endif
 }
 
 void open_processes (char *path)
