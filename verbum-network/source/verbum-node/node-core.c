@@ -122,7 +122,7 @@ void * ping_node_handler (void *tparam)
     while (1) {
         char *response = ping_node(address, lparam->node_mapper_port, lparam->information.id);
         if (response) {
-            #ifdef NCDBG
+            #ifdef NCDBG_PING
                 say("ping response: %s", response);
             #endif
 

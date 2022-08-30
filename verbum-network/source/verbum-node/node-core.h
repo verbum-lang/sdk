@@ -7,6 +7,7 @@
 
 // Debug messages.
 #define NCDBG
+// #define NCDBG_PING
 
 void * node_core             (void *tparam);
 void add_node_on_node_mapper (void);

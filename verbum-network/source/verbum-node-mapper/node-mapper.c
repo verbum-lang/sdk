@@ -161,7 +161,7 @@ void add_new_node (int sock, char *content)
     #endif
 
     char port[256], prefix []= "generate-verbum-node-id:";
-    char *id = CNULL, *ptr = CNULL;
+    char *id = CNULL, *ptr = CNULL, *date = CNULL;
     int bytes = 0;
     node_control_t node;
 
@@ -181,14 +181,24 @@ void add_new_node (int sock, char *content)
     // Add node in struct control.
     node.port = atoi(port);
     memory_scopy(id, node.id);
-    node.last_connect_date = make_datetime();
+
+    date = make_datetime();
+    if (!date)
+        return;
+
+    memset(node.last_connect_date, 0x0, 100);
+    sprintf(node.last_connect_date, "%s", date);
 
     cvector_push_back(nodes, node);
 
     // Send new node ID to client.
     bytes = send(sock, id, strlen(id), 0);
+
     memset(id, 0x0, strlen(id));
+    memset(date, 0x0, strlen(date));
+
     free(id);
+    free(date);
 }
 
 char * generate_new_id (void)
@@ -222,12 +232,40 @@ void update_ping_node (int sock, char *content)
         say("ping verbum node.");
     #endif
     
+    char prefix   [] = "ping-verbum-node:";
+    char response [] = "verbum-node-ok";
+    char *ptr = CNULL, *date = CNULL, id [256];
     int bytes = 0;
 
+    // Prepare ID.
+    ptr = strstr(content, prefix);
+    if (!ptr) 
+        return;
 
+    ptr += strlen(prefix);
+    memset(id, 0x0, 256);
+    memcpy(id, ptr, strlen(ptr));
 
-    char response []= "verbum-node-ok";
-    bytes = send(sock, response, strlen(response), 0);
+    // Search node.
+    if (!nodes) 
+        return;
+
+    for (int a=0; a < cvector_size(nodes); ++a) {
+        if (strcmp(nodes[a].id, id) == 0) {
+            date = make_datetime();
+            if (!date)
+                break;
+
+            memset(nodes[a].last_connect_date, 0x0, 100);
+            sprintf(nodes[a].last_connect_date, "%s", date);
+
+            bytes = send(sock, response, strlen(response), 0);
+
+            memset(date, 0x0, strlen(date));
+            free(date);
+            break;
+        }
+    }
 }
 
 void get_node_list(int sock)
@@ -240,7 +278,7 @@ void get_node_list(int sock)
     char tmp [1024];
     int size = 0, sts = 0;
 
-    if (nodes)
+    if (nodes) {
         for (int a=0; a < cvector_size(nodes); ++a) {
             memset(tmp, 0x0, 1024);
             sprintf(tmp, "node: %d\nid: %s\nport: %d\nlast connection: %s\n\n", 
@@ -256,6 +294,7 @@ void get_node_list(int sock)
             size += strlen(tmp);
             sts++;
         }
+    }
 
     if (sts)
         message[size] = '\0';
