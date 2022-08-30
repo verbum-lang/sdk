@@ -231,16 +231,18 @@ void add_new_node (int sock, char *content)
     // Send new node ID to client.
     bytes = send(sock, id, strlen(id), 0);
 
-    memset(id, 0x0, strlen(id));
-    memset(date, 0x0, strlen(date));
-
     // Fail.
     ann_end:
 
-    if (id)
+    if (id) {
+        memset(id, 0x0, strlen(id));
         free(id);
-    if (date)
+    }
+
+    if (date) {
+        memset(date, 0x0, strlen(date));
         free(date);
+    }
 }
 
 char * generate_new_id (void)
@@ -276,27 +278,29 @@ void update_ping_node (int sock, char *content)
     
     char prefix   [] = "ping-verbum-node:";
     char response [] = "verbum-node-ok";
-    char *ptr = CNULL, *date = CNULL, id [256];
-    int bytes = 0, status = 0, index = -1;
+    char *ptr = CNULL, *date = CNULL;
+    int bytes = 0, cnt = 0, index = -1;
     node_control_t node;
 
     node.port = 0;
     node.id = CNULL;
     memset(node.last_connect_date, 0x0, 100);
 
-    // Extract ID.
-    // ptr = strstr(content, prefix);
-    // if (!ptr) 
-    //     return;
+    // Extract request node informations.
+    ptr = strtok(content, ":");
+    while (ptr != NULL) {
+        switch (cnt) {
+            case 1:
+                memory_scopy(ptr, node.id);
+                break;
+            case 2:
+                node.port = atoi(ptr);
+                break;
+        }
 
-    // ptr += strlen(prefix);
-    // memset(id, 0x0, 256);
-    // memcpy(id, ptr, strlen(ptr));
-
-    // ***
-
-    // node.port = atoi(port);
-    // memory_scopy(id, node.id);
+        ptr = strtok(NULL, ":");
+        cnt++;
+    }
 
     date = make_datetime();
     if (!date)
@@ -304,23 +308,13 @@ void update_ping_node (int sock, char *content)
 
     sprintf(node.last_connect_date, "%s", date);
 
-
-    say("node id..: %s", node.id);
-    say("node port: %d", node.port);
-    say("node date: %s", node.last_connect_date);
-
-    // cvector_push_back(nodes, node);
-
-    return;
-
-
     // Process node.
     pthread_mutex_lock(&mutex_nodes);
 
     // Search node.
     if (nodes) {
         for (int a=0; a < cvector_size(nodes); ++a) {
-            if (strcmp(nodes[a].id, id) == 0) {
+            if (strcmp(nodes[a].id, node.id) == 0) {
                 index = a;
                 break;
             }
@@ -329,17 +323,10 @@ void update_ping_node (int sock, char *content)
 
     // Update node information.
     if (index != -1) {
-        date = make_datetime();
-        if (!date)
-            goto upn_end;
-
         memset(nodes[index].last_connect_date, 0x0, 100);
         sprintf(nodes[index].last_connect_date, "%s", date);
 
         bytes = send(sock, response, strlen(response), 0);
-
-        memset(date, 0x0, strlen(date));
-        free(date);
     }
 
     // Add new existing node.
@@ -349,6 +336,16 @@ void update_ping_node (int sock, char *content)
 
     upn_end:
     pthread_mutex_unlock(&mutex_nodes);
+
+    if (index != -1) {
+        memset(node.id, 0x0, strlen(node.id));
+        free(node.id);
+    }
+
+    if (date) {
+        memset(date, 0x0, strlen(date));
+        free(date);
+    }
 }
 
 void get_node_list(int sock)
