@@ -6,13 +6,13 @@
 #include "node-mapper.h"
 
 cvector_vector_type(node_control_t) nodes = NULL;
+pthread_mutex_t lock;
+
+/**
+ * Initialization.
+ */
 
 void node_mapper (void)
-{
-    node_mapper_interface();
-}
-
-void node_mapper_interface (void)
 {
     int status = 0;
     pthread_t tid;
@@ -21,37 +21,44 @@ void node_mapper_interface (void)
     if (!param)
         debug_exit("error allocating memory.");
 
-    param->max_connections = SERVERS_MAX_CONNECTION;
-    param->path = CNULL;
-    param->port = global.configuration.node_mapper.server_port;
+    if (pthread_mutex_init(&lock, NULL) != 0) {
+        debug_print("mutex init failed.");
+        return;
+    }
+
+    param->max_connections  = SERVERS_MAX_CONNECTION;
+    param->path             = CNULL;
+    param->port             = global.configuration.node_mapper.server_port;
+    param->sock             = -1;
+
     memory_scopy(global.configuration.path, param->path);
-    
-    if ((status = pthread_create(&tid, NULL, node_mapper_interface_handler, param)) !=0)
+
+    if ((status = pthread_create(&tid, NULL, node_mapper_interface, param)) !=0)
         debug_exit("error while creating thread - control of Node Mapper interface.");
 }
 
-/*
+/**
  * Responsible for communicating with the Node Mapper interface.
  */
 
-void * node_mapper_interface_handler (void *tparam)
+void * node_mapper_interface (void *tparam)
 {
     interface_param_t *param = (interface_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
+    pthread_t tid;
     int ssock = -1, nsock = -1, status = -1;
+    const int enable = 1;
 
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_family = AF_INET;
-    address.sin_port = htons(param->port);
+    address.sin_family      = AF_INET;
+    address.sin_port        = htons(param->port);
 
-    const int enable = 1;
     if (setsockopt(ssock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
         say("setsockopt (SO_REUSEADDR) failed.");
 
     status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
-
     if (status != 0)
         say_exit("error bind server.");
 
@@ -64,26 +71,49 @@ void * node_mapper_interface_handler (void *tparam)
 
             // Configure socket.
             struct timeval tms;
-            tms.tv_sec = CONNECTIONS_TIMEOUT1;
+            tms.tv_sec  = CONNECTIONS_TIMEOUT1;
             tms.tv_usec = 0;
             setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
-            // Send header (handshake).
-            char header[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n";
+            // Create client handler.
+            interface_param_t *hparam = (interface_param_t *) malloc(sizeof(interface_param_t));
 
-            while (1) {
-                status = send(nsock, header, strlen(header), 0);
-                if (status > 0) 
-                    break;
-            }
+            if (!hparam)
+                debug_exit("error allocating memory.");
 
-            // Node Mapper protocol.
-            nm_process_communication(nsock);
-
-            close(nsock);
+            hparam->max_connections  = SERVERS_MAX_CONNECTION;
+            hparam->path             = CNULL;
+            hparam->port             = param->port;
+            hparam->sock             = nsock;
+                        
+            if ((status = pthread_create(&tid, NULL, node_mapper_interface_handler, hparam)) !=0)
+                debug_exit("error while creating thread - handler of Node Mapper interface.");
         } else
             say_exit("error accept server.");
     }
+}
+
+/**
+ * Client handler.
+ */
+
+void * node_mapper_interface_handler (void *tparam)
+{
+    interface_param_t *param = (interface_param_t *) tparam;
+    char handshake[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n";
+    int sock = param->sock;
+
+    // Send header (handshake).
+    while (1) {
+        status = send(sock, handshake, strlen(handshake), 0);
+        if (status > 0) 
+            break;
+    }
+
+    // Node Mapper protocol.
+    nm_process_communication(sock);
+
+    close(sock);
 }
 
 void nm_process_communication (int sock)
@@ -144,8 +174,8 @@ void nm_process_communication (int sock)
     /**
      * Ping node.
      */
-    else if (strstr(content, "ping-verbum-node:"))
-        update_ping_node(sock, content);
+    // else if (strstr(content, "ping-verbum-node:"))
+    //     update_ping_node(sock, content);
 
     /**
      * Get node list.
@@ -156,6 +186,8 @@ void nm_process_communication (int sock)
 
 void add_new_node (int sock, char *content)
 {
+    pthread_mutex_lock(&lock);
+
     #ifdef NMDBG
         say("generate new verbum node.");
     #endif
@@ -165,26 +197,27 @@ void add_new_node (int sock, char *content)
     int bytes = 0;
     node_control_t node;
 
-    id = generate_new_id();
-    if (!id)
-        return;
-
-    // Prepare port.
+    // Extract port.
     ptr = strstr(content, prefix);
     if (!ptr) 
-        return;
+        goto ann_end;
 
     ptr += strlen(prefix);
     memset(port, 0x0, 256);
     memcpy(port, ptr, strlen(ptr));
 
-    // Add node in struct control.
     node.port = atoi(port);
+
+    // Generate ID.
+    id = generate_new_id();
+    if (!id)
+        goto ann_end;
+
     memory_scopy(id, node.id);
 
     date = make_datetime();
     if (!date)
-        return;
+        goto ann_end;
 
     memset(node.last_connect_date, 0x0, 100);
     sprintf(node.last_connect_date, "%s", date);
@@ -197,8 +230,15 @@ void add_new_node (int sock, char *content)
     memset(id, 0x0, strlen(id));
     memset(date, 0x0, strlen(date));
 
-    free(id);
-    free(date);
+    // Fail.
+    ann_end:
+
+    if (id)
+        free(id);
+    if (date)
+        free(date);
+
+    pthread_mutex_unlock(&lock);
 }
 
 char * generate_new_id (void)

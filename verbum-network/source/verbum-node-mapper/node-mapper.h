@@ -16,14 +16,14 @@ typedef struct {
 
 // Thread param control.
 typedef struct {
-    char *path;
-    int port;
-    int max_connections;
+    char *path;                     // Configuration file path.
+    int port;                       // Server port.
+    int max_connections;            // Server max connections.
+    int sock;                       // Client socket.
 } interface_param_t;
 
 void node_mapper                        (void);
-void node_mapper_interface              (void);
-void * node_mapper_interface_handler    (void *tparam);
+void * node_mapper_interface            (void *tparam);
 void nm_process_communication           (int sock);
 void add_new_node                       (int sock, char *content);
 char * generate_new_id                  (void);
