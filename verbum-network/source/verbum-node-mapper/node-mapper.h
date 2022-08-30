@@ -5,7 +5,7 @@
 #include "global.h"
 
 // Show/hide debug messages.
-#define NMDBG
+// #define NMDBG
 
 // Client-node struct control.
 typedef struct {

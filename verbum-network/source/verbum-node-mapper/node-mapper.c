@@ -247,7 +247,7 @@ void update_ping_node (int sock, char *content)
     memcpy(id, ptr, strlen(ptr));
 
     // Search node.
-    if (!nodes) 
+    if (!nodes)
         return;
 
     for (int a=0; a < cvector_size(nodes); ++a) {
