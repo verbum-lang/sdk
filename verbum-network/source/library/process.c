@@ -17,7 +17,7 @@ pid_t check_process_running (char *name)
 {
     DIR *directory;
     struct dirent *dirdata;
-    char *endptr = CNULL;
+    char *endptr = NULL;
     char buffer [512];
 
     directory = opendir("/proc");

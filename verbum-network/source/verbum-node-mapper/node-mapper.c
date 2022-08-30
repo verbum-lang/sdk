@@ -5,8 +5,22 @@
 
 #include "node-mapper.h"
 
-cvector_vector_type(node_control_t) nodes = NULL;
+node_control_t * nodes;
 pthread_mutex_t mutex_nodes;
+
+node_control_t * node_create_item (void)
+{
+    node_control_t * node;
+
+    node = (node_control_t *) malloc(sizeof(node_control_t));
+    node->status           = 0;
+    node->port             = 0;
+    node->id               = NULL;
+    node->next             = NULL;
+    memset(node->last_connect_date, 0x0, 100);
+
+    return node;
+}
 
 /**
  * Initialization.
@@ -26,8 +40,12 @@ void node_mapper (void)
         return;
     }
 
+    // Init nodes struct control.
+    nodes = node_create_item();
+
+    // Thread param.
     param->max_connections  = SERVERS_MAX_CONNECTION;
-    param->path             = CNULL;
+    param->path             = NULL;
     param->port             = global.configuration.node_mapper.server_port;
     param->sock             = -1;
 
@@ -82,7 +100,7 @@ void * node_mapper_interface (void *tparam)
                 debug_exit("error allocating memory.");
 
             hparam->max_connections  = SERVERS_MAX_CONNECTION;
-            hparam->path             = CNULL;
+            hparam->path             = NULL;
             hparam->port             = param->port;
             hparam->sock             = nsock;
                         
@@ -101,7 +119,7 @@ void * node_mapper_interface_handler (void *tparam)
 {
     interface_param_t *param = (interface_param_t *) tparam;
     char handshake[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n";
-    char *response = CNULL;
+    char *response = NULL;
     int status = -1, sock = param->sock;
 
     // Send header (handshake).
@@ -116,7 +134,7 @@ void * node_mapper_interface_handler (void *tparam)
     if (!response)
         goto nmih_end;
 
-    pthread_mutex_lock(&mutex_nodes);
+    // pthread_mutex_lock(&mutex_nodes);
 
     // ***
     // Process messages - Verbum Node Mapper Protocol.
@@ -128,19 +146,19 @@ void * node_mapper_interface_handler (void *tparam)
     if (strstr(response, "generate-verbum-node-id:")) 
         add_new_node(sock, response);
 
-    /**
-     * Ping node.
-     */
-    else if (strstr(response, "ping-verbum-node:"))
-        update_ping_node(sock, response);
+    // /**
+    //  * Ping node.
+    //  */
+    // else if (strstr(response, "ping-verbum-node:"))
+    //     update_ping_node(sock, response);
 
-    /**
-     * Get node list.
-     */
-    else if (strstr(response, "get-node-list"))
-        get_node_list(sock);
+    // /**
+    //  * Get node list.
+    //  */
+    // else if (strstr(response, "get-node-list"))
+    //     get_node_list(sock);
 
-    pthread_mutex_unlock(&mutex_nodes);
+    // pthread_mutex_unlock(&mutex_nodes);
 
     nmih_end:
     close(sock);
@@ -148,7 +166,7 @@ void * node_mapper_interface_handler (void *tparam)
 
 char * get_client_request (int sock)
 {
-    char *content = CNULL;
+    char *content = NULL;
     char tmp [512];
     int bytes = -1, status = 0;
     int bytes_received = 0, size = 0;
@@ -185,7 +203,7 @@ char * get_client_request (int sock)
     }
 
     if (!status || !content)
-        return CNULL;
+        return NULL;
 
     #ifdef NMDBG
         say("raw data received: \"%s\"", content);
@@ -201,11 +219,11 @@ void add_new_node (int sock, char *content)
     #endif
 
     char port[256], prefix []= "generate-verbum-node-id:";
-    char *id = CNULL, *ptr = CNULL, *date = CNULL;
+    char *id = NULL, *ptr = NULL, *date = NULL;
     int bytes = 0;
     node_control_t node;
 
-    node.id = CNULL;
+    node.id = NULL;
     node.port = 0;
     memset(node.last_connect_date, 0x0, 100);
 
@@ -221,7 +239,7 @@ void add_new_node (int sock, char *content)
     node.port = atoi(port);
 
     // Generate ID.
-    // pthread_mutex_lock(&mutex_nodes);
+    pthread_mutex_lock(&mutex_nodes);
 
     id = generate_new_id();
     if (!id)
@@ -234,9 +252,13 @@ void add_new_node (int sock, char *content)
         goto ann_end;
 
     sprintf(node.last_connect_date, "%s", date);
-    cvector_push_back(nodes, node);
 
-    // pthread_mutex_unlock(&mutex_nodes);
+    say("node id..: %s", node.id);
+    say("node port: %d", node.port);
+    say("node date: %s", node.last_connect_date);
+
+    // cvector_push_back(nodes, node);
+    pthread_mutex_unlock(&mutex_nodes);
 
     // Send new node ID to client.
     bytes = send(sock, id, strlen(id), 0);
@@ -257,7 +279,7 @@ void add_new_node (int sock, char *content)
 
 char * generate_new_id (void)
 {
-    char *id = CNULL;
+    char *id = NULL;
     char tmp [1024];
     int limit = 24;
 
@@ -268,11 +290,11 @@ char * generate_new_id (void)
     if (strlen(tmp) > limit)
         tmp[limit] = '\0';
 
-    if (nodes) {
-        for (int a=0; a < cvector_size(nodes); ++a)
-            if (strcmp(nodes[a].id, tmp) == 0) 
-                return generate_new_id();
-    }
+    // if (nodes) {
+    //     for (int a=0; a < cvector_size(nodes); ++a)
+    //         if (strcmp(nodes[a].id, tmp) == 0) 
+    //             return generate_new_id();
+    // }
 
     memory_scopy(tmp, id);
     memset(tmp, 0x0, 1024);
@@ -280,6 +302,7 @@ char * generate_new_id (void)
     return id;    
 }
 
+/*
 void update_ping_node (int sock, char *content)
 {
     #ifdef NMDBG
@@ -288,12 +311,12 @@ void update_ping_node (int sock, char *content)
     
     char prefix   [] = "ping-verbum-node:";
     char response [] = "verbum-node-ok";
-    char *ptr = CNULL, *date = CNULL;
+    char *ptr = NULL, *date = NULL;
     int bytes = 0, cnt = 0, index = -1;
     node_control_t node;
 
     node.port = 0;
-    node.id = CNULL;
+    node.id = NULL;
     memset(node.last_connect_date, 0x0, 100);
 
     // Extract request node informations.
@@ -363,7 +386,7 @@ void get_node_list(int sock)
         say("get node list - called.");
     #endif
 
-    char *message = CNULL;
+    char *message = NULL;
     char tmp [1024];
     int size = 0, sts = 0;
 
@@ -401,5 +424,6 @@ void get_node_list(int sock)
     memset(message, 0x0, size);
     free(message);
 }
+*/
 
 

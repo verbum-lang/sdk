@@ -79,7 +79,7 @@ void * node_core (void *tparam)
 void add_node_on_node_mapper (void)
 {
     char address []= LOCALHOST;
-    char *id = CNULL;
+    char *id = NULL;
     
     while (1) {
         id = generate_node_id(

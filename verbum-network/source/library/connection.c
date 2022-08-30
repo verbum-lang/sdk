@@ -197,7 +197,7 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
     char packet [1024], check[33];
     char header []= "Verbum Node Mapper";
     char prefix []= "verbum-node-";
-    char *result = CNULL;
+    char *result = NULL;
 
     // Configure connection.
     struct sockaddr_in address;
@@ -207,20 +207,20 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
 
     if (inet_pton(AF_INET, laddr, &address.sin_addr) <= 0) {
         debug_print("error set IP address - socket configuration.");
-        return CNULL;
+        return NULL;
     }
 
     handle = socket(AF_INET, SOCK_STREAM, 0);
     if (handle == -1) {
         debug_print("creating socket error.");
-        return CNULL;
+        return NULL;
     }
     
     // Enable non-blocking.
     flags = fcntl(handle, F_GETFL, 0); 
     if (fcntl(handle, F_SETFL, flags | O_NONBLOCK) == -1) {
         debug_print("error set non-blocking socket.");
-        return CNULL;
+        return NULL;
     }
 
     // Connect.
@@ -239,7 +239,7 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
 
     if (status == -1) {
         debug_print("error connect socket.");
-        return CNULL;
+        return NULL;
     }
 
     // Select.
@@ -317,7 +317,7 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
     // Close fail.
     connection_end_fail:
     close(handle);
-    return CNULL;
+    return NULL;
 }
 
 /**
@@ -327,7 +327,7 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
 char * generate_node_id (char *address, int node_mapper_port, int node_port) 
 {
     char prefix[]= "generate-verbum-node-id:";
-    char *message = CNULL;
+    char *message = NULL;
     int size = 0;
 
     while(!check_connection_banner_nm(address, node_mapper_port));
@@ -337,7 +337,7 @@ char * generate_node_id (char *address, int node_mapper_port, int node_port)
 
     if (!message) {
         debug_print("error alloc memory.");
-        return CNULL;
+        return NULL;
     }
 
     memset(message, 0x0, size);
@@ -352,7 +352,7 @@ char * generate_node_id (char *address, int node_mapper_port, int node_port)
 char * ping_node (char *address, int node_mapper_port, char *node_id, int node_interface_port) 
 {
     char prefix[]= "ping-verbum-node:";
-    char *message = CNULL;
+    char *message = NULL;
     int size = 0;
 
     while(!check_connection_banner_nm(address, node_mapper_port));
@@ -362,7 +362,7 @@ char * ping_node (char *address, int node_mapper_port, char *node_id, int node_i
 
     if (!message) {
         debug_print("error alloc memory.");
-        return CNULL;
+        return NULL;
     }
 
     memset(message, 0x0, size);

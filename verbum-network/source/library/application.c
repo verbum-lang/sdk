@@ -6,17 +6,17 @@
 char *get_relative_path (void)
 {
     char tmp[PATH_MAX];
-    char *cwd = CNULL;
+    char *cwd = NULL;
     int size  = 0;
 
     memset(tmp, 0x0, PATH_MAX);
 
     if (!getcwd(tmp, sizeof(tmp)))
-        return CNULL;
+        return NULL;
 
     size = strlen(tmp);
     if (!size || size <= 0)
-        return CNULL;
+        return NULL;
 
     memory_scopy(tmp, cwd);
     return cwd;
@@ -25,20 +25,20 @@ char *get_relative_path (void)
 char *get_real_path (char *path)
 {
     char tmp[PATH_MAX];
-    char *cwd = CNULL;
+    char *cwd = NULL;
     int size  = 0;
 
     if (!path)
-        return CNULL;
+        return NULL;
         
     memset(tmp, 0x0, PATH_MAX);
 
     if (!realpath(path, tmp))
-        return CNULL;
+        return NULL;
 
     size = strlen(tmp);
     if (!size || size <= 0)
-        return CNULL;
+        return NULL;
 
     memory_scopy(tmp, cwd);
     return cwd;

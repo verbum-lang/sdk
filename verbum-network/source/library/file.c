@@ -21,14 +21,14 @@ char *file_read (char *path)
 {
     FILE *fp      = NULL;
     long size     = 0;
-    char *content = CNULL;
+    char *content = NULL;
 
     if (!path)
-        return CNULL;
+        return NULL;
 
     fp = fopen(path, "rb");
     if (!fp)
-        return CNULL;
+        return NULL;
 
     fseek(fp, 0, SEEK_END);
     size = ftell(fp);
@@ -36,7 +36,7 @@ char *file_read (char *path)
 
     if (!size || size <= 0) {
         fclose(fp);
-        return CNULL;
+        return NULL;
     }
 
     memory_alloc(content, size);

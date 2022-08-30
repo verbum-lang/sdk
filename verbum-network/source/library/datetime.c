@@ -8,7 +8,7 @@ char * make_datetime (void)
 {
     time_t now      = time(NULL);
     struct tm *tms  = localtime(&now);
-    char * date     = CNULL;
+    char * date     = NULL;
     char day[5], mon[5], year[5], hour[5], min[5], sec[5];
     
     memory_alloc(date, 100);

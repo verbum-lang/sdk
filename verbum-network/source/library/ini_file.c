@@ -7,11 +7,11 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
     int content_size   = 0;
     int line_size      = 0;
     int step_check     = 0;
-    char *line         = CNULL;
-    char *section_name = CNULL;
-    char *param_name   = CNULL;
-    char *param_value  = CNULL;
-    ini_data_t result  = { .ivalue = 0, .svalue = CNULL };
+    char *line         = NULL;
+    char *section_name = NULL;
+    char *param_name   = NULL;
+    char *param_value  = NULL;
+    ini_data_t result  = { .ivalue = 0, .svalue = NULL };
 
     if (!content || !section || !param)
         return result;

@@ -8,18 +8,20 @@
 #define NMDBG
 
 // Client-node struct control.
-typedef struct {
+typedef struct node_control_st {
+    int status;                         // Status node (1: enabled, 0: disabled).
     char *id;                           // Node unique identification.
     int port;                           // Node interface port.
     char last_connect_date [100];       // d-m-Y h:m:s
+    struct node_control_st *next;       // Next node pointer.
 } node_control_t;
 
 // Thread param control.
 typedef struct {
-    char *path;                     // Configuration file path.
-    int port;                       // Server port.
-    int max_connections;            // Server max connections.
-    int sock;                       // Client socket.
+    char *path;                         // Configuration file path.
+    int port;                           // Server port.
+    int max_connections;                // Server max connections.
+    int sock;                           // Client socket.
 } interface_param_t;
 
 void node_mapper                        (void);

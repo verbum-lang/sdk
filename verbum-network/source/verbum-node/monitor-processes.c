@@ -17,7 +17,7 @@ void monitor_processes (void)
         if (!prepare_param)
             debug_exit("error allocating memory.");
 
-        prepare_param->path = CNULL;
+        prepare_param->path = NULL;
         prepare_param->node_mapper_port = global.configuration.node_mapper.server_port;    
         memory_scopy(global.configuration.path, prepare_param->path);
 

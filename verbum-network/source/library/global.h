@@ -17,7 +17,6 @@
 
 // Configurations e definations.
 #define initialization main // Entry point.
-#define CNULL (char *) NULL
 
 // Global application data control.
 typedef struct {
