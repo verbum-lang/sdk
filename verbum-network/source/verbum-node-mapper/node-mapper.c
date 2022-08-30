@@ -330,9 +330,8 @@ void update_ping_node (int sock, char *content)
     }
 
     // Add new existing node.
-    else {
-        
-    }
+    else
+        cvector_push_back(nodes, node);
 
     upn_end:
     pthread_mutex_unlock(&mutex_nodes);
