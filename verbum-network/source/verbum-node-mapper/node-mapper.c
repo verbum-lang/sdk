@@ -101,7 +101,7 @@ void * node_mapper_interface_handler (void *tparam)
 {
     interface_param_t *param = (interface_param_t *) tparam;
     char handshake[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n";
-    int sock = param->sock;
+    int status = -1, sock = param->sock;
 
     // Send header (handshake).
     while (1) {
