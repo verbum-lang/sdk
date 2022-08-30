@@ -10,16 +10,20 @@ void monitor_processes (void)
     int status = 0;
     pthread_t tid;
 
-    prepare_param_t *prepare_param = (prepare_param_t *) malloc(sizeof(prepare_param_t));
-    if (!prepare_param)
-        debug_exit("error allocating memory.");
+    #ifdef MONITOR_ENABLE_NODE_MAPPER
+        say("Monitor Processes started!");
 
-    prepare_param->path = CNULL;
-    prepare_param->node_mapper_port = global.configuration.node_mapper.server_port;    
-    memory_scopy(global.configuration.path, prepare_param->path);
+        prepare_param_t *prepare_param = (prepare_param_t *) malloc(sizeof(prepare_param_t));
+        if (!prepare_param)
+            debug_exit("error allocating memory.");
 
-    if ((status = pthread_create(&tid, NULL, monitor_processes_handler, prepare_param)) !=0)
-        debug_exit("error while creating thread - control of Node Mapper and Fault Tolerance.");
+        prepare_param->path = CNULL;
+        prepare_param->node_mapper_port = global.configuration.node_mapper.server_port;    
+        memory_scopy(global.configuration.path, prepare_param->path);
+
+        if ((status = pthread_create(&tid, NULL, monitor_processes_handler, prepare_param)) !=0)
+            debug_exit("error while creating thread - control of Node Mapper and Fault Tolerance.");
+    #endif
 }
 
 void check_processes (void) 
@@ -44,11 +48,9 @@ void * monitor_processes_handler (void *param)
 
 void open_processes (char *path)
 {
-    #ifdef MONITOR_ENABLE_NODE_MAPPER
-        pid_t pid = check_process_running("verbum-node-mapper");
-        if (pid == -1)
-            system_execution("verbum-node-mapper -c \"%s\" &", path);
-    #endif
+    pid_t pid = check_process_running("verbum-node-mapper");
+    if (pid == -1)
+        system_execution("verbum-node-mapper -c \"%s\" &", path);
 }
 
 void check_connection_interface (char *path, int node_mapper_port)
@@ -57,7 +59,6 @@ void check_connection_interface (char *path, int node_mapper_port)
     int status = 0;
 
     // Node Mapper.
-    #ifdef MONITOR_ENABLE_NODE_MAPPER
     #ifdef MONITOR_DBG
         say("Node Mapper - checking...");
         say("Node Mapper - server port: %d", node_mapper_port);
@@ -84,7 +85,6 @@ void check_connection_interface (char *path, int node_mapper_port)
 
     #ifdef MONITOR_DBG
         say("Node Mapper online.");
-    #endif
     #endif
 }
 
