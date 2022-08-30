@@ -5,16 +5,19 @@
 
 #include "node-core.h"
 
+node_param_t *param;
+
 void * node_core (void *tparam)
 {
     say("node core interface - started!");
 
-    node_param_t *param = (node_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
     int ssock = -1, nsock = -1;
     int status = -1, port = 0;
     int connection_counter = 1;
+    
+    param = (node_param_t *) tparam;
     
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
@@ -43,9 +46,10 @@ void * node_core (void *tparam)
     if (listen(ssock, param->max_connections) != 0)
         say_exit("error listen server.");
 
-    // Node Mapper information sender.
+    // Add node, and ping.
     param->information.port = port;
-    add_node_on_node_mapper(param);
+    add_node_on_node_mapper();
+    ping_node_action();
 
     // Node core interface communication.
     while (1) {
@@ -72,12 +76,8 @@ void * node_core (void *tparam)
     close(ssock);
 }
 
-void add_node_on_node_mapper (node_param_t *param)
+void add_node_on_node_mapper (void)
 {
-    /**
-     * Generate new node ID.
-     */
-
     char address []= LOCALHOST;
     char *id = CNULL;
     
@@ -89,42 +89,46 @@ void add_node_on_node_mapper (node_param_t *param)
             break;
     }
 
-    /**
-     * Ping node.
-     */
-    
-    // int status = 0;
-    // pthread_t tid;
+    memory_scopy(id, param->information.id);
+    memory_sclean(id);
+}
 
-    // node_param_t *nparam = (node_param_t *) malloc(sizeof(node_param_t));
-    // if (!nparam)
-    //     debug_exit("error allocating memory.");
-    
-    // memory_scopy(id, nparam->information.id);
-    // nparam->information.port = param->information.port;
-    // nparam->node_mapper_port = param->node_mapper_port;
+void ping_node_action (void) 
+{
+    int status = 0;
+    pthread_t tid;
 
-    // if ((status = pthread_create(&tid, NULL, ping_node_handler, nparam)) !=0)
-    //     debug_exit("error while creating thread - ping node.");
-    
-    // memory_sclean(id);
+    node_param_t *lparam = (node_param_t *) malloc(sizeof(node_param_t));
+    if (!lparam)
+        debug_exit("error allocating memory.");
+
+    memory_scopy(param->information.id, lparam->information.id);
+    lparam->information.port = param->information.port;
+    lparam->node_mapper_port = param->node_mapper_port;
+
+    if ((status = pthread_create(&tid, NULL, ping_node_handler, lparam)) !=0)
+        debug_exit("error while creating thread - ping node.");
 }
 
 void * ping_node_handler (void *tparam)
 {
-    node_param_t *param = (node_param_t *) tparam;
+    node_param_t *lparam = (node_param_t *) tparam;
     char address []= LOCALHOST;
     
     say("node ping handler.");
-    say("node id: %s", param->information.id);
-    say("node port (interface): %d", param->information.port);
+    say("node id: %s", lparam->information.id);
+    say("node port (interface): %d", lparam->information.port);
 
     while (1) {
-        char *response = ping_node(address, param->node_mapper_port, param->information.id);
+        char *response = ping_node(address, lparam->node_mapper_port, lparam->information.id);
+        if (response) {
+            #ifdef NCDBG
+                say("ping response: %s", response);
+            #endif
 
-        if (response)
             memory_sclean(response);
-        
+        }
+
         sleep(NODE_PING_LOOP_SEC_DELAY);
     }
 }
