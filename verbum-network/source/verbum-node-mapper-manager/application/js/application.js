@@ -143,7 +143,7 @@ function render_all_nodes ()
 {
     console.log("update all nodes - render_all_nodes()");
 
-    var html = `
+    var html = generate_general_options_html() + `
         <table class="table table-dark table-borderless">
             <tbody>
     `;
@@ -174,7 +174,7 @@ function render_all_nodes ()
                                 
                                 <th>
                                     <div class="item">
-                                        <div class="sub-1">Port</div>
+                                        <div class="sub-1">Interface Port</div>
                                         <div class="sub-2 `+ prefix +`-port ">`+ node.port +`</div>
                                     </div>
                                 </th>
@@ -186,6 +186,14 @@ function render_all_nodes ()
                                     </div>
                                 </th>
                                 
+                                <th>
+                                    <div class="item">
+                                        <button class='btn btn-danger' >
+                                            Delete Node
+                                        </button>
+                                    </div>
+                                </th>
+
                             </tr>
                         </tbody>
                     </table>
@@ -194,7 +202,7 @@ function render_all_nodes ()
                         <tbody>
                             <tr>
                                 <th>
-
+                                    `+ generate_connections_area_html(prefix) +`
                                 </th>
                             </tr>
                         </tbody>
@@ -212,6 +220,125 @@ function render_all_nodes ()
     `;
 
     $('.area-results').html(html);
+}
+
+function generate_general_options_html ()
+{
+    var html = '';
+
+    html += `
+        <button class='btn btn-primary' >
+            Create Node
+        </button>
+
+        <button class='btn btn-primary' >
+            Check node exists
+        </button>
+
+        <br>
+        <br>
+    `;
+
+    return html;
+}
+
+function generate_connections_area_html (prefix)
+{
+    var html = '';
+
+    html += `
+        <div class="connections-title" >
+            Connections
+        </div>
+
+        <table class="table table-dark table-borderless table-results-sec-3">
+            <thead>
+                <tr>
+                    <th scope="col" class="th-header" >INPUT</th>
+                    <th scope="col" class="th-header" >OUTPUT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th style="width:50%" >
+                        <table class="table table-dark table-borderless table-results-sec-4">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="th-header" >Source ID</th>
+                                    <th scope="col" class="th-header" >NM host</th>
+                                    <th scope="col" class="th-header" >NM port</th>
+                                    <th scope="col" class="th-header" >NM direct</th>
+                                    <th scope="col" class="th-header" >Manager</th>
+                                </tr>
+                            </thead>    
+                            <tbody>
+                                <tr>
+                                    <th>verbum-node-2409308923</th>
+                                    <th>127.0.0.1</th>
+                                    <th>3333</th>
+                                    <th>YES</th>
+                                    <th>
+                                        <button class='btn btn-danger' >
+                                            Delete
+                                        </button>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>verbum-node-2409308923</th>
+                                    <th>127.0.0.1</th>
+                                    <th>3333</th>
+                                    <th>NO</th>
+                                    <th>
+                                        <button class='btn btn-danger' >
+                                            Delete
+                                        </button>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                    
+                    <th style="width:50%" >
+                        <table class="table table-dark table-borderless table-results-sec-4">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="th-header" >Destination ID</th>
+                                    <th scope="col" class="th-header" >NM host</th>
+                                    <th scope="col" class="th-header" >NM port</th>
+                                    <th scope="col" class="th-header" >Manager</th>
+                                </tr>
+                            </thead>    
+                            <tbody>
+                                <tr>
+                                    <th>verbum-node-2409308923</th>
+                                    <th>127.0.0.1</th>
+                                    <th>3333</th>
+                                    <th>
+                                        <button class='btn btn-danger' >
+                                            Delete
+                                        </button>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>verbum-node-2409308923</th>
+                                    <th>127.0.0.1</th>
+                                    <th>3333</th>
+                                    <th>
+                                        <button class='btn btn-danger' >
+                                            Delete
+                                        </button>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                </tr>
+                
+            </tbody>
+        </table>
+    `;
+
+    return html;
 }
 
 

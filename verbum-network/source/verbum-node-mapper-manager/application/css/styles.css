@@ -42,4 +42,29 @@ html, body {
   font-size: 9px;
 }
 
+.btn {
+  font-size: 9px !important;
+  padding: 2px !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+.connections-title {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.table-results-sec-3 .th-header {
+  text-align: center;
+}
+
+.table-results-sec-4 .th-header {
+  text-align: left;
+}
+
 
