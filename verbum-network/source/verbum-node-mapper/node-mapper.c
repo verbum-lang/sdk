@@ -226,7 +226,7 @@ void * worker_handler (void *tparam)
 
 int send_handshake (int sock)
 {
-    char handshake[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n";
+    char handshake[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n\n";
     int status = -1, result = 0, counter = 0;
 
     while (1) {

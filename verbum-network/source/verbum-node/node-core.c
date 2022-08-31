@@ -56,7 +56,7 @@ void * node_core (void *tparam)
         if (nsock != -1) {
 
             // Send header (handshake).
-            char header[] = "Verbum Node - v1.0.0 - I Love Jesus <3";
+            char header[] = "Verbum Node - v1.0.0 - I Love Jesus <3\n\n";
 
             while (1) {
                 status = send(nsock, header, strlen(header), 0);
