@@ -87,8 +87,6 @@ void add_node_on_node_mapper (void)
         
         if (id)
             break;
-
-        usleep(10000);
     }
 
     memory_scopy(id, param->information.id);

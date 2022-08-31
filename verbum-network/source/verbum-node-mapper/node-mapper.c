@@ -169,10 +169,7 @@ void * node_mapper_interface_handler (void *tparam)
 
     pthread_mutex_lock(&mutex_counter);
     thread_counter++;
-    // lthread_counter = thread_counter;
     pthread_mutex_unlock(&mutex_counter);
-
-    // say("thread counter: %d", lthread_counter);
 
     // Send header (handshake).
     while (1) {
@@ -215,11 +212,11 @@ void * node_mapper_interface_handler (void *tparam)
 
     pthread_mutex_lock(&mutex_counter);
     thread_counter--;
+    
     if (thread_counter < 0)
         thread_counter = 0;
     pthread_mutex_unlock(&mutex_counter);
 
-    // say("exit thread.");
     return NULL;
 }
 
@@ -317,10 +314,11 @@ void add_new_node (int sock, char *content)
 
     sprintf(node->last_connect_date, "%s", date);
 
-    node_insert_item(node);
-
     // Send new node ID to client.
     bytes = send(sock, node->id, strlen(node->id), 0);
+    
+    if (bytes == strlen(node->id))
+        node_insert_item(node);
 
     // Fail.
     ann_end:
