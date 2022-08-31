@@ -272,17 +272,6 @@ void add_new_node (int sock, char *content)
 
     node_insert_item(node);
 
-    // node_control_t *item = nodes;
-
-    // while (1) {
-    //     if (!item->next) {
-    //         item->next = node;
-    //         break;
-    //     }
-
-    //     item = item->next;
-    // }
-
     // Send new node ID to client.
     bytes = send(sock, node->id, strlen(node->id), 0);
 
