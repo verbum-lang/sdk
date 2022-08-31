@@ -14,7 +14,7 @@
         if (!param)                                                                                         \
             debug_exit("error allocating memory.");                                                         \
                                                                                                             \
-        param->path = NULL;                                                                                \
+        param->path = NULL;                                                                                 \
         param->max_connections = SERVERS_MAX_CONNECTION;                                                    \
         param->node_mapper_port = global.configuration.node_mapper.server_port;                             \
                                                                                                             \

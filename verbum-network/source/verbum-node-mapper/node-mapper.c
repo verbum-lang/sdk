@@ -259,7 +259,7 @@ void process_communication (int sock)
     /**
      * Generate new node ID, and save.
      */
-    if (strstr(response, "generate-verbum-node-id:")) 
+    if (strstr(response, "generate-verbum-node-id:"))
         add_new_node(sock, response);
 
     /**
@@ -273,6 +273,18 @@ void process_communication (int sock)
      */
     else if (strstr(response, "get-node-list"))
         get_node_list(sock);
+
+    /**
+     * Create node client connection.
+     */
+    else if (strstr(response, "create-node-client-connection:"))
+        create_node_client_connection(sock, response);
+
+    /**
+     * Create node server connection.
+     */
+    else if (strstr(response, "create-node-server-connection:"))
+        create_node_server_connection(sock, response);
 }
 
 char * get_client_request (int sock)
@@ -602,6 +614,16 @@ void get_node_list (int sock)
     sts = send(sock, message, size, 0);
     memset(message, 0x0, size);
     free(message);
+}
+
+void create_node_client_connection (int sock, char *content)
+{
+
+}
+
+void create_node_server_connection (int sock, char *content)
+{
+
 }
 
 

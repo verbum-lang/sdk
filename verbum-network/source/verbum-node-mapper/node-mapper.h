@@ -41,6 +41,18 @@ typedef struct node_control_st {
     struct node_control_st *next;       // Next node pointer.
 } node_control_t;
 
+// Connections struct control.
+typedef struct node_connection_st {
+    char *id;                           // Node unique identification.
+    int type;                           // Connection type.
+                                        //  0 = input.
+                                        //  1 = output.
+    char *dst_id;                       // Destination node ID.
+    char *node_mapper_address;          // Destination Node Mapper IP address.
+    int node_mapper_port;               // Destination Node Mapper port.
+    struct node_connection_st *next;    // Next node pointer.
+} node_connection_t;
+
 void node_mapper                        (void);
 void * node_mapper_interface            (void *tparam);
 void prepare_workers                    (void);
@@ -56,6 +68,8 @@ void add_new_node                       (int sock, char *content);
 char * generate_new_id                  (void);
 void update_ping_node                   (int sock, char *content);
 void get_node_list                      (int sock);
+void create_node_client_connection      (int sock, char *content);
+void create_node_server_connection      (int sock, char *content);
 
 #endif
 
