@@ -86,7 +86,7 @@ void node_mapper (void)
  * Responsible for communicating with the Node Mapper interface.
  */
 
-void * node_mapper_interface_v1 (void *tparam)
+void * node_mapper_interface (void *tparam)
 {
     interface_param_t *param = (interface_param_t *) tparam;
     struct sockaddr_in address;
