@@ -153,10 +153,6 @@ void * node_mapper_interface_handler (void *tparam)
     if (!response)
         goto nmih_end;
 
-    // ***
-    // Process messages - Verbum Node Mapper Protocol.
-    //
-
     /**
      * Generate new node ID, and save.
      */
@@ -348,34 +344,41 @@ void update_ping_node (int sock, char *content)
     
     char prefix   [] = "ping-verbum-node:";
     char response [] = "verbum-node-ok";
+    char tmp [1024];
     char *ptr = NULL, *date = NULL;
-    int bytes = 0, index = -1, found = 0;
-    node_control_t *node_information = node_create_item();
+    int bytes = 0, index = -1, found = 0, size = 0;
+    node_control_t *node_information;
     node_control_t *node;
-
-    node_information->status = 1;
-
-    // Extract request node informations.
-    ptr = strtok(content, ":");
-    while (ptr != NULL) {
-        switch (index) {
-            case 1:
-                memory_scopy(ptr, node_information->id);
-                break;
-            case 2:
-                node_information->port = atoi(ptr);
-                break;
-        }
-
-        ptr = strtok(NULL, ":");
-        index++;
-    }
 
     date = make_datetime();
     if (!date)
         return;
 
+    ptr = strstr(content, prefix);
+    if (!ptr)
+        return;
+
+    node_information = node_create_item();
+    node_information->status = 1;
     sprintf(node_information->last_connect_date, "%s", date);
+
+    // Extract request node informations.
+    ptr += strlen(prefix);
+    memset(tmp, 0x0, 1023);
+
+    for (int a=0,b=0; ptr[a] != '\0'; a++) {
+        if (ptr[a] == ':') {
+            memory_scopy(tmp, node_information->id);
+
+            b = 0;
+            a++;
+            memset(tmp, 0x0, 1023);
+        }
+
+        tmp[b++] = ptr[a];
+    }
+
+    node_information->port = atoi(tmp);
 
     // Search node.
     pthread_mutex_lock(&mutex_nodes);
@@ -385,13 +388,14 @@ void update_ping_node (int sock, char *content)
             continue;
         if (!node->id) 
             continue;
+        if (!node_information->id)
+            continue;
 
         if (strcmp(node->id, node_information->id) == 0) {
             
             // Update node information.
             memset(node->last_connect_date, 0x0, 99);
             sprintf(node->last_connect_date, "%s", date);
-            bytes = send(sock, response, strlen(response), 0);
             found = 1;
 
             break;
@@ -404,14 +408,18 @@ void update_ping_node (int sock, char *content)
     if (found == 0)
         node_insert_item(node_information);
     else {
-        memset(node_information->id, 0x0, strlen(node_information->id));
-        free(node_information->id);
+        if (node_information->id) {
+            memset(node_information->id, 0x0, strlen(node_information->id));
+            free(node_information->id);
+        }
+    
+        free(node_information);
     }
 
-    if (date) {
-        memset(date, 0x0, strlen(date));
-        free(date);
-    }
+    memset(date, 0x0, strlen(date));
+    free(date);
+
+    bytes = send(sock, response, strlen(response), 0);
 }
 
 void get_node_list(int sock)
