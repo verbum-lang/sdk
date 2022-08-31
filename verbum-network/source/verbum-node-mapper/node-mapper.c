@@ -586,7 +586,7 @@ void get_node_list (int sock)
             continue;
 
         memset(tmp, 0x0, 1024);
-        sprintf(tmp, "node: %d\nid: %s\nport: %d\nlast connection: %s\n\n", 
+        sprintf(tmp, "node: %d\nid: %s\nport: %d\nlast connection date: %s\n\n", 
             a, node->id, node->port, node->last_connect_date);
 
         message = (char *) realloc(message, sizeof(char) * (size + strlen(tmp) + 1));
