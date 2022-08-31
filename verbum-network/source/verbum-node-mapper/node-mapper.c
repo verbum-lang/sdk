@@ -6,7 +6,10 @@
 #include "node-mapper.h"
 
 node_control_t * nodes = NULL;
+int thread_limit = 100;
+int thread_counter = 0;
 pthread_mutex_t mutex_nodes = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_counter = PTHREAD_MUTEX_INITIALIZER;
 
 node_control_t * node_create_item (void)
 {
@@ -59,6 +62,11 @@ void node_mapper (void)
         return;
     }
 
+    if (pthread_mutex_init(&mutex_counter, NULL) != 0) {
+        debug_print("mutex init failed.");
+        return;
+    }
+
     // Init nodes struct control.
     nodes = node_create_item();
     if (!nodes)
@@ -84,7 +92,7 @@ void * node_mapper_interface (void *tparam)
     struct sockaddr_in address;
     socklen_t address_size;
     pthread_t tid;
-    int ssock = -1, nsock = -1, status = -1;
+    int ssock = -1, nsock = -1, status = -1, block = 1;
     const int enable = 1;
 
     ssock = socket(AF_INET, SOCK_STREAM, 0);
@@ -103,6 +111,19 @@ void * node_mapper_interface (void *tparam)
         say_exit("error listen server.");
 
     while (1) {
+        block = 1;
+        pthread_mutex_lock(&mutex_counter);
+
+        if (thread_counter < thread_limit)
+            block = 0;
+
+        pthread_mutex_unlock(&mutex_counter);
+
+        if (block) {
+            usleep(10000);
+            continue;
+        }
+
         nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
         if (nsock != -1) {
 
@@ -123,10 +144,14 @@ void * node_mapper_interface (void *tparam)
             hparam->port             = param->port;
             hparam->sock             = nsock;
                         
-            if ((status = pthread_create(&tid, NULL, node_mapper_interface_handler, hparam)) != 0)
-                debug_exit("error while creating thread - handler of Node Mapper interface.");
+            if ((status = pthread_create(&tid, NULL, node_mapper_interface_handler, hparam)) != 0) {
+                debug_print("error while creating thread - handler of Node Mapper interface.");
+                close(nsock);
+            }
         } else
-            say_exit("error accept server.");
+            debug_print("error accept client.");
+
+        usleep(10000);
     }
 }
 
@@ -139,12 +164,26 @@ void * node_mapper_interface_handler (void *tparam)
     interface_param_t *param = (interface_param_t *) tparam;
     char handshake[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n";
     char *response = NULL;
-    int status = -1, sock = param->sock;
+    int status = -1, sock = param->sock, cnt = 0;
+    int lthread_counter = 0;
+
+    pthread_mutex_lock(&mutex_counter);
+    thread_counter++;
+    // lthread_counter = thread_counter;
+    pthread_mutex_unlock(&mutex_counter);
+
+    // say("thread counter: %d", lthread_counter);
 
     // Send header (handshake).
     while (1) {
         status = send(sock, handshake, strlen(handshake), 0);
         if (status > 0) 
+            break;
+
+        usleep(10000);
+        cnt++;
+
+        if (cnt >= 30)
             break;
     }
 
@@ -173,6 +212,15 @@ void * node_mapper_interface_handler (void *tparam)
 
     nmih_end:
     close(sock);
+
+    pthread_mutex_lock(&mutex_counter);
+    thread_counter--;
+    if (thread_counter < 0)
+        thread_counter = 0;
+    pthread_mutex_unlock(&mutex_counter);
+
+    // say("exit thread.");
+    return NULL;
 }
 
 char * get_client_request (int sock)

@@ -138,29 +138,35 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port)
     }
 
     // Select.
-    struct timeval stv;
-    fd_set rfds;
+    // struct timeval stv;
+    // fd_set rfds;
 
-    stv.tv_sec = timeout;
-    stv.tv_usec = 0;
+    // stv.tv_sec = timeout;
+    // stv.tv_usec = 0;
 
-    FD_ZERO(&rfds);
-    FD_SET(handle, &rfds);
+    // FD_ZERO(&rfds);
+    // FD_SET(handle, &rfds);
 
-    int st = select(handle+1, &rfds, NULL, NULL, &stv);
+    // int st = select(handle+1, &rfds, NULL, NULL, &stv);
     
-    if (st <= 0) {
-        #ifdef CONDBG
-            debug_print("error select socket.");
-        #endif
-        goto connection_end_fail;
-    }
+    // if (st <= 0) {
+    //     #ifdef CONDBG
+    //         debug_print("error select socket.");
+    //     #endif
+    //     goto connection_end_fail;
+    // }
 
     // Disable non blocking.
     if (fcntl(handle, F_SETFL, flags) == -1) {
         debug_print("error remove non-blocking socket.");
         goto connection_end_fail;
     }
+
+    // Set recv timeout.
+    // struct timeval tms;
+    // tms.tv_sec  = CONNECTIONS_TIMEOUT1;
+    // tms.tv_usec = 0;
+    // setsockopt(handle, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
     // Receive data.
     memset(packet, 0x0, 1024);
@@ -247,29 +253,35 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
     }
 
     // Select.
-    struct timeval stv;
-    fd_set rfds;
+    // struct timeval stv;
+    // fd_set rfds;
 
-    stv.tv_sec = timeout;
-    stv.tv_usec = 0;
+    // stv.tv_sec = timeout;
+    // stv.tv_usec = 0;
 
-    FD_ZERO(&rfds);
-    FD_SET(handle, &rfds);
+    // FD_ZERO(&rfds);
+    // FD_SET(handle, &rfds);
 
-    int st = select(handle+1, &rfds, NULL, NULL, &stv);
+    // int st = select(handle+1, &rfds, NULL, NULL, &stv);
     
-    if (st <= 0) {
-        #ifdef CONDBG
-            debug_print("error select socket.");
-        #endif
-        goto connection_end_fail;
-    }
+    // if (st <= 0) {
+    //     #ifdef CONDBG
+    //         debug_print("error select socket.");
+    //     #endif
+    //     goto connection_end_fail;
+    // }
 
     // Disable non-blocking.
     if (fcntl(handle, F_SETFL, flags) == -1) {
         debug_print("error remove non-blocking socket.");
         goto connection_end_fail;
     }
+
+    // Set recv timeout.
+    // struct timeval tms;
+    // tms.tv_sec  = CONNECTIONS_TIMEOUT1;
+    // tms.tv_usec = 0;
+    // setsockopt(handle, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
     // Receive data.
     memset(packet, 0x0, 1024);
