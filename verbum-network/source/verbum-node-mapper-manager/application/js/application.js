@@ -81,6 +81,7 @@ var nodes = [];
 function update_node_list_information (node_items) 
 {
     var found = false;
+    var action = 1;
 
     for (var a=0; a<node_items.length; a++) {
         var item = node_items[a];
@@ -95,16 +96,41 @@ function update_node_list_information (node_items)
             }
         }
 
+        if (node_items.length > nodes.length)
+            found = false;
+
+        // Re-render.
         if (found == false) {
-            nodes = node_items;
-            render_all_nodes();
+            action = 0;
             break;
         }
-    }    
+    }
+
+    nodes = node_items;
+    
+    if (action == 0)
+        render_all_nodes();
+    else
+        render_information_nodes();
+}
+
+function render_information_nodes ()
+{
+    console.log("update all node informations - render_information_nodes()");
+
+    for (var a=0; a<nodes.length; a++) {
+        var node = nodes[a];
+        var prefix = 'cls-'+ node.id;
+
+        $('.'+ prefix +'-port').text(node.port);
+        $('.'+ prefix +'-last-con-date').text(node.last_connection_date);
+    }
 }
 
 function render_all_nodes ()
 {
+    console.log("update all nodes - render_all_nodes()");
+
     var html = `
         <table class="table table-dark table-borderless">
             <tbody>
@@ -112,6 +138,7 @@ function render_all_nodes ()
 
     for (var a=0; a<nodes.length; a++) {
         var node = nodes[a];
+        var prefix = 'cls-'+ node.id;
 
         html += `
             <tr>
@@ -136,14 +163,14 @@ function render_all_nodes ()
                                 <th>
                                     <div class="item">
                                         <div class="sub-1">Port</div>
-                                        <div class="sub-2">`+ node.port +`</div>
+                                        <div class="sub-2 `+ prefix +`-port ">`+ node.port +`</div>
                                     </div>
                                 </th>
                                 
                                 <th>
                                     <div class="item">
                                         <div class="sub-1">Last connection date</div>
-                                        <div class="sub-2">`+ node.last_connection_date +`</div>
+                                        <div class="sub-2 `+ prefix +`-last-con-date ">`+ node.last_connection_date +`</div>
                                     </div>
                                 </th>
                                 
@@ -155,7 +182,7 @@ function render_all_nodes ()
                         <tbody>
                             <tr>
                                 <th>
-                                    Jesus s2
+
                                 </th>
                             </tr>
                         </tbody>
