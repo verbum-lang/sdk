@@ -220,6 +220,7 @@ function render_all_nodes ()
     `;
 
     $('.area-results').html(html);
+    feather.replace();
 }
 
 function generate_general_options_html ()
@@ -228,6 +229,7 @@ function generate_general_options_html ()
 
     html += `
         <button class='btn btn-primary' >
+            <i data-feather="star"></i>
             Create Node
         </button>
 
@@ -268,6 +270,7 @@ function generate_connections_area_html (prefix)
                                     <th scope="col" class="th-header" >NM host</th>
                                     <th scope="col" class="th-header" >NM port</th>
                                     <th scope="col" class="th-header" >NM direct</th>
+                                    <th scope="col" class="th-header" >Ping</th>
                                     <th scope="col" class="th-header" >Manager</th>
                                 </tr>
                             </thead>    
@@ -277,6 +280,11 @@ function generate_connections_area_html (prefix)
                                     <th>127.0.0.1</th>
                                     <th>3333</th>
                                     <th>YES</th>
+                                    <th>
+                                        <div class="item-sub-1">
+                                            31-07-2022<br>18-21-19
+                                        </div>
+                                    </th>
                                     <th>
                                         <button class='btn btn-danger' >
                                             Delete
@@ -289,8 +297,13 @@ function generate_connections_area_html (prefix)
                                     <th>3333</th>
                                     <th>NO</th>
                                     <th>
+                                        <div class="item-sub-1">
+                                            31-07-2022<br>18-21-19
+                                        </div>
+                                    </th>
+                                    <th>
                                         <button class='btn btn-danger' >
-                                            Delete
+                                            <i class='fa fa-times' ></i>
                                         </button>
                                     </th>
                                 </tr>
