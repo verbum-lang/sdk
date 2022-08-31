@@ -49,6 +49,11 @@ html, body {
   padding-right: 5px !important;
 }
 
+.btn-2 {
+  font-size: 9px !important;
+  padding: 2px !important;
+}
+
 .connections-title {
   text-align: center;
   text-transform: uppercase;
@@ -69,6 +74,11 @@ html, body {
 
 .table-results-sec-4 .item-sub-1 {
   font-size: 7px;
+}
+
+.feather-size-a {
+  width: 14px;
+  height: 14px;
 }
 
 

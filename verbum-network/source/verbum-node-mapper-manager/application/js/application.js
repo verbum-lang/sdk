@@ -189,7 +189,8 @@ function render_all_nodes ()
                                 <th>
                                     <div class="item">
                                         <button class='btn btn-danger' >
-                                            Delete Node
+                                            <i class="feather-size-a" data-feather="x"></i>
+                                            Delete node
                                         </button>
                                     </div>
                                 </th>
@@ -229,12 +230,13 @@ function generate_general_options_html ()
 
     html += `
         <button class='btn btn-primary' >
-            <i data-feather="star"></i>
-            Create Node
+            <i class="feather-size-a" data-feather="plus"></i>
+            Create node
         </button>
 
         <button class='btn btn-primary' >
-            Check node exists
+            <i class="feather-size-a" data-feather="check-circle"></i>
+            Check node
         </button>
 
         <br>
@@ -286,8 +288,8 @@ function generate_connections_area_html (prefix)
                                         </div>
                                     </th>
                                     <th>
-                                        <button class='btn btn-danger' >
-                                            Delete
+                                        <button class='btn btn-2 btn-danger' >
+                                            <i class="feather-size-a" data-feather="x"></i>
                                         </button>
                                     </th>
                                 </tr>
@@ -302,8 +304,8 @@ function generate_connections_area_html (prefix)
                                         </div>
                                     </th>
                                     <th>
-                                        <button class='btn btn-danger' >
-                                            <i class='fa fa-times' ></i>
+                                        <button class='btn btn-2 btn-danger' >
+                                            <i class="feather-size-a" data-feather="x"></i>
                                         </button>
                                     </th>
                                 </tr>
@@ -327,8 +329,8 @@ function generate_connections_area_html (prefix)
                                     <th>127.0.0.1</th>
                                     <th>3333</th>
                                     <th>
-                                        <button class='btn btn-danger' >
-                                            Delete
+                                        <button class='btn btn-2 btn-danger' >
+                                            <i class="feather-size-a" data-feather="x"></i>
                                         </button>
                                     </th>
                                 </tr>
@@ -337,8 +339,8 @@ function generate_connections_area_html (prefix)
                                     <th>127.0.0.1</th>
                                     <th>3333</th>
                                     <th>
-                                        <button class='btn btn-danger' >
-                                            Delete
+                                        <button class='btn btn-2 btn-danger' >
+                                            <i class="feather-size-a" data-feather="x"></i>
                                         </button>
                                     </th>
                                 </tr>
