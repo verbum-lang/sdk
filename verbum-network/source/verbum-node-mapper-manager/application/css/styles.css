@@ -1,10 +1,33 @@
 
-body {
+html, body {
   font-size: 11px;
+  background-color: #212529;
 }
 
 .hide-el {
   display: none;
+}
+
+.container-fluid {
+  background-color: #212529;
+}
+
+.table-results {
+  font-size: 8px;
+}
+
+.table-results .item {
+  text-align: center;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.table-results .item .sub-1 {
+  font-weight: bold;
+}
+
+.table-results .item .sub-2 {
+  font-size: 9px;
 }
 
 
