@@ -1,7 +1,7 @@
 
 html, body {
   font-size: 11px;
-  background-color: #212529;
+  background-color: #2c3034;
 }
 
 .hide-el {
@@ -9,24 +9,36 @@ html, body {
 }
 
 .container-fluid {
-  background-color: #212529;
+  background-color: #2c3034;
 }
 
-.table-results {
+.area-initialization {
+  color: white;
+}
+
+.area-results {
+  margin-top: 10px;
+}
+
+.table-results-sec-1 {
   font-size: 8px;
 }
 
-.table-results .item {
+.table-results-sec-2 {
+  font-size: 8px;
+}
+
+.table-results-sec-1 .item {
   text-align: center;
   font-weight: normal;
   text-transform: uppercase;
 }
 
-.table-results .item .sub-1 {
+.table-results-sec-1 .item .sub-1 {
   font-weight: bold;
 }
 
-.table-results .item .sub-2 {
+.table-results-sec-1 .item .sub-2 {
   font-size: 9px;
 }
 
