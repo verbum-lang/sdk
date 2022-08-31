@@ -15,7 +15,6 @@ void * node_core (void *tparam)
     socklen_t address_size;
     int ssock = -1, nsock = -1;
     int status = -1, port = 0;
-    int connection_counter = 1;
     
     param = (node_param_t *) tparam;
     
@@ -65,10 +64,8 @@ void * node_core (void *tparam)
                     break;
             }
 
-            // Node protocol.
-            say("Connection: %d", connection_counter);
+            // Node protocol...
 
-            connection_counter++;
             close(nsock);
         }
     }
@@ -115,7 +112,7 @@ void * ping_node_handler (void *tparam)
     node_param_t *lparam = (node_param_t *) tparam;
     char address []= LOCALHOST;
     
-    say("node ping handler.");
+    say("node ping handler:");
     say("node id: %s", lparam->information.id);
     say("node port (interface): %d", lparam->information.port);
 

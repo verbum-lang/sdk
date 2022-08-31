@@ -12,7 +12,7 @@
 #define MONITOR_ENABLE_NODE_MAPPER
 
 // Enable/disable persistence (process).
-// #define MONITOR_ENABLE_PERSISTENCE
+#define MONITOR_ENABLE_PERSISTENCE
 
 // Delay (sec) to kill a process (Node Mapper).
 #define MONITOR_DELAY_TO_KILL 3
