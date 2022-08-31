@@ -43,11 +43,12 @@ typedef struct node_control_st {
 
 // Connections struct control.
 typedef struct node_connection_st {
-    char *id;                           // Node unique identification.
+    int id;                             // Connection ID.
+    char *node_id;                      // Node unique identification.
     int type;                           // Connection type.
                                         //  0 = input.
                                         //  1 = output.
-    char *dst_id;                       // Destination node ID.
+    char *dst_node_id;                  // Destination node ID.
     char *node_mapper_address;          // Destination Node Mapper IP address.
     int node_mapper_port;               // Destination Node Mapper port.
     struct node_connection_st *next;    // Next node pointer.
