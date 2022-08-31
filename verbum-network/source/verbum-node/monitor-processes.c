@@ -41,7 +41,7 @@ void * monitor_processes_handler (void *param)
     #ifdef MONITOR_ENABLE_PERSISTENCE
         open_processes(prepare_param->path);
 
-        while (1) {
+        while (1) {            
             check_connection_interface(
                 prepare_param->path, prepare_param->node_mapper_port);
             sleep(1);
@@ -67,14 +67,14 @@ void check_connection_interface (char *path, int node_mapper_port)
         say("Node Mapper - server port: %d", node_mapper_port);
     #endif
 
-    while(!check_connection_banner_nm(address, node_mapper_port)) 
-    {
+    while (!check_connection_banner_nm_select(address, node_mapper_port)) 
+    {        
         pid_t pid = check_process_running("verbum-node-mapper");
         if (pid == -1)
             system_execution("verbum-node-mapper -c \"%s\" &", path);
         else {
             sleep(MONITOR_DELAY_TO_KILL);
-            status = check_connection_banner_nm(address, node_mapper_port);
+            status = check_connection_banner_nm_select(address, node_mapper_port);
 
             if (status == 0) {
                 #ifdef MONITOR_DBG
@@ -84,6 +84,8 @@ void check_connection_interface (char *path, int node_mapper_port)
                 kill(pid, SIGKILL);
             }
         }
+
+        usleep(1000);
     }
 
     #ifdef MONITOR_DBG

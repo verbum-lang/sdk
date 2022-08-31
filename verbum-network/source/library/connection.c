@@ -25,8 +25,12 @@
 
 int check_connection_banner_nm (char *address, int port)
 {
-    // return check_connection_banner_nm_blocking(address, port);
-    return check_connection_banner_nm_non_blocking(address, port);
+    return check_connection_banner_nm_non_blocking(address, port, 0);
+}
+
+int check_connection_banner_nm_select (char *address, int port)
+{
+    return check_connection_banner_nm_non_blocking(address, port, 1);
 }
 
 int check_connection_banner_nm_ft_blocking (char *laddr, int port)
@@ -85,7 +89,7 @@ int check_connection_banner_nm_ft_blocking (char *laddr, int port)
     return 1;
 }
 
-int check_connection_banner_nm_non_blocking (char *laddr, int port)
+int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_select)
 {
     int status = -1, handle = -1, flags  = 0;
     int timeout = CONNECTIONS_TIMEOUT1;
@@ -129,7 +133,7 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port)
         if (tmv >= (double) timeout)
             break;
 
-        usleep(10000);
+        // usleep(1000);
     }
 
     if (status == -1) {
@@ -138,23 +142,25 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port)
     }
 
     // Select.
-    // struct timeval stv;
-    // fd_set rfds;
+    if (use_select == 1) {
+        struct timeval stv;
+        fd_set rfds;
 
-    // stv.tv_sec = timeout;
-    // stv.tv_usec = 0;
+        stv.tv_sec = timeout;
+        stv.tv_usec = 0;
 
-    // FD_ZERO(&rfds);
-    // FD_SET(handle, &rfds);
+        FD_ZERO(&rfds);
+        FD_SET(handle, &rfds);
 
-    // int st = select(handle+1, &rfds, NULL, NULL, &stv);
-    
-    // if (st <= 0) {
-    //     #ifdef CONDBG
-    //         debug_print("error select socket.");
-    //     #endif
-    //     goto connection_end_fail;
-    // }
+        int st = select(handle+1, &rfds, NULL, NULL, &stv);
+        
+        if (st <= 0) {
+            #ifdef CONDBG
+                debug_print("error select socket.");
+            #endif
+            goto connection_end_fail;
+        }
+    }
 
     // Disable non blocking.
     if (fcntl(handle, F_SETFL, flags) == -1) {
@@ -163,10 +169,12 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port)
     }
 
     // Set recv timeout.
-    // struct timeval tms;
-    // tms.tv_sec  = CONNECTIONS_TIMEOUT1;
-    // tms.tv_usec = 0;
-    // setsockopt(handle, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+    if (use_select == 1) {
+        struct timeval tms;
+        tms.tv_sec  = CONNECTIONS_TIMEOUT1;
+        tms.tv_usec = 0;
+        setsockopt(handle, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+    }
 
     // Receive data.
     memset(packet, 0x0, 1024);

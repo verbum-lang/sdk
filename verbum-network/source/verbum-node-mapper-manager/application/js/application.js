@@ -11,12 +11,22 @@ $(document).ready(() => {
 function get_node_list (hostname, hostport) 
 {
     interface.get_node_list(hostname, hostport, (response) => {
-        process_node_list(response);
+        var error = false;
 
-        if (started == false) {
-            started = true;
-            $('.area-initialization').addClass('hide-el');
-            $('.area-results').removeClass('hide-el');
+        if (response.indexOf('nodes not found') != -1) {
+            console.log('nodes not found.');
+            error = true;
+        } else if (response == 'error') 
+            error = true;
+        
+        if (error == false) {
+            process_node_list(response);
+
+            if (started == false) {
+                started = true;
+                $('.area-initialization').addClass('hide-el');
+                $('.area-results').removeClass('hide-el');
+            }
         }
 
         get_node_list(hostname, hostport);
@@ -27,6 +37,8 @@ function process_node_list (response)
 {
     var parts = response.split('\n\n');
     var node_items = [];
+
+    console.log(response);
 
     for (var a=1; a<parts.length; a++) {
         var item  = parts[a].toString().trim();
@@ -107,7 +119,7 @@ function update_node_list_information (node_items)
     }
 
     nodes = node_items;
-    
+
     if (action == 0)
         render_all_nodes();
     else
