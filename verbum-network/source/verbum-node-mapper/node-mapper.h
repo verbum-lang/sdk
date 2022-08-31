@@ -7,7 +7,8 @@
 // Show/hide debug messages.
 #define NMDBG
 
-#define NM_THREAD_LIMIT 10
+// Thread workers limit.
+#define NM_THREAD_LIMIT 100
 
 // Thread param control.
 typedef struct {
@@ -31,12 +32,30 @@ typedef struct thread_worker_st {
     struct thread_worker_st *next;      // Next node pointer.
 } thread_worker_t;
 
-void node_mapper (void);
-void * node_mapper_interface (void *tparam);
-void prepare_workers (void);
-thread_worker_t * worker_create_item (int wid);
-void worker_insert_item (thread_worker_t *new_worker);
-void * worker_handler (void *tparam);
+// Client-node struct control.
+typedef struct node_control_st {
+    int status;                         // Status node (1: enabled, 0: disabled).
+    char *id;                           // Node unique identification.
+    int port;                           // Node interface port.
+    char last_connect_date [100];       // d-m-Y h:m:s
+    struct node_control_st *next;       // Next node pointer.
+} node_control_t;
+
+void node_mapper                        (void);
+void * node_mapper_interface            (void *tparam);
+void prepare_workers                    (void);
+thread_worker_t * worker_create_item    (int wid);
+void worker_insert_item                 (thread_worker_t *new_worker);
+void * worker_handler                   (void *tparam);
+int send_handshake                      (int sock);
+void process_communication              (int sock);
+char * get_client_request               (int sock);
+node_control_t * node_create_item       (void);
+void node_insert_item                   (node_control_t *new_node);
+void add_new_node                       (int sock, char *content);
+char * generate_new_id                  (void);
+void update_ping_node                   (int sock, char *content);
+void get_node_list                      (int sock);
 
 #endif
 
