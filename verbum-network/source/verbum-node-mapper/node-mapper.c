@@ -12,6 +12,9 @@ node_control_t * node_create_item (void)
 {
     node_control_t * node = (node_control_t *) malloc(sizeof(node_control_t));
 
+    if (!node)
+        debug_exit("error memory allocation.");
+
     node->status           = 0;
     node->port             = 0;
     node->id               = NULL;
@@ -347,8 +350,8 @@ void update_ping_node (int sock, char *content)
     char response [] = "verbum-node-ok";
     char *ptr = NULL, *date = NULL;
     int bytes = 0, index = -1, found = 0;
-    node_control_t *node_information;
-    node_control_t *node = node_create_item();
+    node_control_t *node_information = node_create_item();
+    node_control_t *node;
 
     node_information->status = 1;
 
