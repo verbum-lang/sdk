@@ -86,7 +86,7 @@ void node_mapper (void)
  * Responsible for communicating with the Node Mapper interface.
  */
 
-void * node_mapper_interface (void *tparam)
+void * node_mapper_interface_v1 (void *tparam)
 {
     interface_param_t *param = (interface_param_t *) tparam;
     struct sockaddr_in address;
@@ -217,6 +217,7 @@ void * node_mapper_interface_handler (void *tparam)
         thread_counter = 0;
     pthread_mutex_unlock(&mutex_counter);
 
+    pthread_exit(NULL);
     return NULL;
 }
 
@@ -316,7 +317,7 @@ void add_new_node (int sock, char *content)
 
     // Send new node ID to client.
     bytes = send(sock, node->id, strlen(node->id), 0);
-    
+
     if (bytes == strlen(node->id))
         node_insert_item(node);
 
