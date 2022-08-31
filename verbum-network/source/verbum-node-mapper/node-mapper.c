@@ -163,8 +163,8 @@ void * node_mapper_interface_handler (void *tparam)
     /**
      * Ping node.
      */
-    // else if (strstr(response, "ping-verbum-node:"))
-    //     update_ping_node(sock, response);
+    else if (strstr(response, "ping-verbum-node:"))
+        update_ping_node(sock, response);
 
     /**
      * Get node list.
@@ -307,7 +307,6 @@ char * generate_new_id (void)
         tmp[limit] = '\0';
 
     pthread_mutex_lock(&mutex_nodes);
-    node = nodes;
 
     for (node=nodes; node!=NULL; node=node->next) {
         if (node->status != 1)
@@ -347,68 +346,63 @@ void update_ping_node (int sock, char *content)
     char prefix   [] = "ping-verbum-node:";
     char response [] = "verbum-node-ok";
     char *ptr = NULL, *date = NULL;
-    int bytes = 0, cnt = 0, index = -1;
-    node_control_t node;
+    int bytes = 0, index = -1, found = 0;
+    node_control_t *node_information;
+    node_control_t *node = node_create_item();
 
-    node.port = 0;
-    node.id = NULL;
-    memset(node.last_connect_date, 0x0, 100);
+    node_information->status = 1;
 
     // Extract request node informations.
     ptr = strtok(content, ":");
     while (ptr != NULL) {
-        switch (cnt) {
+        switch (index) {
             case 1:
-                memory_scopy(ptr, node.id);
+                memory_scopy(ptr, node_information->id);
                 break;
             case 2:
-                node.port = atoi(ptr);
+                node_information->port = atoi(ptr);
                 break;
         }
 
         ptr = strtok(NULL, ":");
-        cnt++;
+        index++;
     }
 
     date = make_datetime();
     if (!date)
         return;
 
-    sprintf(node.last_connect_date, "%s", date);
+    sprintf(node_information->last_connect_date, "%s", date);
 
-    // Process node.
+    // Search node.
     pthread_mutex_lock(&mutex_nodes);
 
-    // // Search node.
-    // if (nodes) {
-    //     for (int a=0; a < cvector_size(nodes); ++a) {
-    //         if (strcmp(nodes[a].id, node.id) == 0) {
-    //             index = a;
-    //             break;
-    //         }
-    //     }
-    // }
+    for (node=nodes; node!=NULL; node=node->next) {
+        if (node->status != 1)
+            continue;
+        if (!node->id) 
+            continue;
 
-    // // Update node information.
-    // if (index != -1) {
-    //     memset(nodes[index].last_connect_date, 0x0, 100);
-    //     sprintf(nodes[index].last_connect_date, "%s", date);
+        if (strcmp(node->id, node_information->id) == 0) {
+            
+            // Update node information.
+            memset(node->last_connect_date, 0x0, 99);
+            sprintf(node->last_connect_date, "%s", date);
+            bytes = send(sock, response, strlen(response), 0);
+            found = 1;
 
-    //     bytes = send(sock, response, strlen(response), 0);
-    // }
+            break;
+        }
+    }
 
-    // // Add new existing node.
-    // else
-    //     cvector_push_back(nodes, node);
-
-    bytes = send(sock, response, strlen(response), 0);
-
-    upn_end:
     pthread_mutex_unlock(&mutex_nodes);
 
-    if (index != -1) {
-        memset(node.id, 0x0, strlen(node.id));
-        free(node.id);
+    // New existing node.
+    if (found == 0)
+        node_insert_item(node_information);
+    else {
+        memset(node_information->id, 0x0, strlen(node_information->id));
+        free(node_information->id);
     }
 
     if (date) {
@@ -426,10 +420,10 @@ void get_node_list(int sock)
     char *message = NULL;
     char tmp [1024];
     int size = 0, sts = 0, a = 1;
-    node_control_t *node = nodes; 
+    node_control_t *node;
 
     pthread_mutex_lock(&mutex_nodes);
-
+    
     for (node=nodes; node!=NULL; node=node->next) {
         if (node->status != 1)
             continue;

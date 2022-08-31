@@ -128,6 +128,8 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port)
         double tmv = (double)(clock() - start) / CLOCKS_PER_SEC;
         if (tmv >= (double) timeout)
             break;
+
+        usleep(10000);
     }
 
     if (status == -1) {
@@ -235,6 +237,8 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
         double tmv = (double)(clock() - start) / CLOCKS_PER_SEC;
         if (tmv >= (double) timeout)
             break;
+
+        usleep(10000);
     }
 
     if (status == -1) {
@@ -330,7 +334,9 @@ char * generate_node_id (char *address, int node_mapper_port, int node_port)
     char *message = NULL;
     int size = 0;
 
-    while(!check_connection_banner_nm(address, node_mapper_port));
+    while (!check_connection_banner_nm(address, node_mapper_port)) {
+        usleep(10000);
+    }
 
     size = sizeof(char) * (strlen(prefix) + 1024);
     message = (char *) malloc(size);
@@ -355,7 +361,9 @@ char * ping_node (char *address, int node_mapper_port, char *node_id, int node_i
     char *message = NULL;
     int size = 0;
 
-    while(!check_connection_banner_nm(address, node_mapper_port));
+    while (!check_connection_banner_nm(address, node_mapper_port)) {
+        usleep(10000);
+    }
 
     size = sizeof(char) * (strlen(node_id) + strlen(prefix) + 256);
     message = (char *) malloc(size);
