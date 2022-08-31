@@ -11,7 +11,14 @@ char * make_datetime (void)
     char * date     = NULL;
     char day[5], mon[5], year[5], hour[5], min[5], sec[5];
     
-    memory_alloc(date, 100);
+    // memory_alloc(date, 100);
+    
+    date = (char *) malloc(sizeof(char) * 100);
+    if (!date)
+        debug_exit("error memory allocation.");
+    
+    memset(date, 0x0, sizeof(char) * 100);
+    
     memset(day,  0x0, 5);
     memset(mon,  0x0, 5);
     memset(year, 0x0, 5);

@@ -5,21 +5,37 @@
 
 #include "node-mapper.h"
 
-node_control_t * nodes;
-pthread_mutex_t mutex_nodes;
+node_control_t * nodes = NULL;
+pthread_mutex_t mutex_nodes = PTHREAD_MUTEX_INITIALIZER;
 
 node_control_t * node_create_item (void)
 {
-    node_control_t * node;
+    node_control_t * node = (node_control_t *) malloc(sizeof(node_control_t));
 
-    node = (node_control_t *) malloc(sizeof(node_control_t));
     node->status           = 0;
     node->port             = 0;
     node->id               = NULL;
     node->next             = NULL;
-    memset(node->last_connect_date, 0x0, 100);
+    memset(node->last_connect_date, 0x0, 99);
 
     return node;
+}
+
+void node_insert_item (node_control_t *new_node)
+{
+    pthread_mutex_lock(&mutex_nodes);
+    node_control_t *node = nodes;
+
+    while (1) {
+        if (!node->next) {
+            node->next = new_node;
+            break;
+        }
+
+        node = node->next;
+    }
+
+    pthread_mutex_unlock(&mutex_nodes);
 }
 
 /**
@@ -42,6 +58,8 @@ void node_mapper (void)
 
     // Init nodes struct control.
     nodes = node_create_item();
+    if (!nodes)
+        debug_exit("error initialize node struct control.");
 
     // Thread param.
     param->max_connections  = SERVERS_MAX_CONNECTION;
@@ -49,9 +67,7 @@ void node_mapper (void)
     param->port             = global.configuration.node_mapper.server_port;
     param->sock             = -1;
 
-    memory_scopy(global.configuration.path, param->path);
-
-    if ((status = pthread_create(&tid, NULL, node_mapper_interface, param)) !=0)
+    if ((status = pthread_create(&tid, NULL, node_mapper_interface, param)) != 0)
         debug_exit("error while creating thread - control of Node Mapper interface.");
 }
 
@@ -104,7 +120,7 @@ void * node_mapper_interface (void *tparam)
             hparam->port             = param->port;
             hparam->sock             = nsock;
                         
-            if ((status = pthread_create(&tid, NULL, node_mapper_interface_handler, hparam)) !=0)
+            if ((status = pthread_create(&tid, NULL, node_mapper_interface_handler, hparam)) != 0)
                 debug_exit("error while creating thread - handler of Node Mapper interface.");
         } else
             say_exit("error accept server.");
@@ -134,8 +150,6 @@ void * node_mapper_interface_handler (void *tparam)
     if (!response)
         goto nmih_end;
 
-    // pthread_mutex_lock(&mutex_nodes);
-
     // ***
     // Process messages - Verbum Node Mapper Protocol.
     //
@@ -146,19 +160,17 @@ void * node_mapper_interface_handler (void *tparam)
     if (strstr(response, "generate-verbum-node-id:")) 
         add_new_node(sock, response);
 
-    // /**
-    //  * Ping node.
-    //  */
+    /**
+     * Ping node.
+     */
     // else if (strstr(response, "ping-verbum-node:"))
     //     update_ping_node(sock, response);
 
-    // /**
-    //  * Get node list.
-    //  */
-    // else if (strstr(response, "get-node-list"))
-    //     get_node_list(sock);
-
-    // pthread_mutex_unlock(&mutex_nodes);
+    /**
+     * Get node list.
+     */
+    else if (strstr(response, "get-node-list"))
+        get_node_list(sock);
 
     nmih_end:
     close(sock);
@@ -220,12 +232,11 @@ void add_new_node (int sock, char *content)
 
     char port[256], prefix []= "generate-verbum-node-id:";
     char *id = NULL, *ptr = NULL, *date = NULL;
-    int bytes = 0;
-    node_control_t node;
+    int bytes = 0, size = 0;
+    node_control_t *node = node_create_item();
 
-    node.id = NULL;
-    node.port = 0;
-    memset(node.last_connect_date, 0x0, 100);
+    // Enable flag.
+    node->status = 1;
 
     // Extract port.
     ptr = strstr(content, prefix);
@@ -236,32 +247,44 @@ void add_new_node (int sock, char *content)
     memset(port, 0x0, 256);
     memcpy(port, ptr, strlen(ptr));
 
-    node.port = atoi(port);
+    node->port = atoi(port);
 
     // Generate ID.
-    pthread_mutex_lock(&mutex_nodes);
-
     id = generate_new_id();
     if (!id)
         goto ann_end;
 
-    memory_scopy(id, node.id);
+    size = sizeof(char) * (strlen(id) + 1);
+    node->id = (char *) malloc(size);
 
+    if (!node->id)
+        debug_exit("error memory allocation.");
+
+    memset(node->id, 0x0, size);
+    memcpy(node->id, id, strlen(id));
+
+    // Generate date.
     date = make_datetime();
     if (!date)
         goto ann_end;
 
-    sprintf(node.last_connect_date, "%s", date);
+    sprintf(node->last_connect_date, "%s", date);
 
-    say("node id..: %s", node.id);
-    say("node port: %d", node.port);
-    say("node date: %s", node.last_connect_date);
+    node_insert_item(node);
 
-    // cvector_push_back(nodes, node);
-    pthread_mutex_unlock(&mutex_nodes);
+    // node_control_t *item = nodes;
+
+    // while (1) {
+    //     if (!item->next) {
+    //         item->next = node;
+    //         break;
+    //     }
+
+    //     item = item->next;
+    // }
 
     // Send new node ID to client.
-    bytes = send(sock, id, strlen(id), 0);
+    bytes = send(sock, node->id, strlen(node->id), 0);
 
     // Fail.
     ann_end:
@@ -281,28 +304,51 @@ char * generate_new_id (void)
 {
     char *id = NULL;
     char tmp [1024];
-    int limit = 24;
+    int limit = 24, found = 0, size = 0;
+    node_control_t *node;
 
-    srand(time(NULL));
-    memset(tmp, 0x0, 1024);
-    sprintf(tmp, "verbum-node-%d%d%d", rand(), rand(), rand());
+    memset(tmp, 0x0, 1023);
+    sprintf(tmp, "verbum-node-%d%d%d", 
+        random_number(100, 999),
+        random_number(100, 999),
+        random_number(100, 999)
+    );
 
     if (strlen(tmp) > limit)
         tmp[limit] = '\0';
 
-    // if (nodes) {
-    //     for (int a=0; a < cvector_size(nodes); ++a)
-    //         if (strcmp(nodes[a].id, tmp) == 0) 
-    //             return generate_new_id();
-    // }
+    pthread_mutex_lock(&mutex_nodes);
+    node = nodes;
 
-    memory_scopy(tmp, id);
-    memset(tmp, 0x0, 1024);
+    for (node=nodes; node!=NULL; node=node->next) {
+        if (node->status != 1)
+            continue;
+        if (!node->id) 
+            continue;
+
+        if (strcmp(node->id, tmp) == 0) {
+            found = 1;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_nodes);
+
+    if (found == 1)
+        return generate_new_id();
+
+    size = sizeof(char) * (strlen(tmp) + 1);
+    id = (char *) malloc(size);
+    if (!id)
+        debug_exit("error memory allocation.");
+
+    memset(id, 0x0, size);
+    memcpy(id, tmp, strlen(tmp));
+    memset(tmp, 0x0, 1023);
 
     return id;    
 }
 
-/*
 void update_ping_node (int sock, char *content)
 {
     #ifdef NMDBG
@@ -342,32 +388,34 @@ void update_ping_node (int sock, char *content)
     sprintf(node.last_connect_date, "%s", date);
 
     // Process node.
-    // pthread_mutex_lock(&mutex_nodes);
+    pthread_mutex_lock(&mutex_nodes);
 
-    // Search node.
-    if (nodes) {
-        for (int a=0; a < cvector_size(nodes); ++a) {
-            if (strcmp(nodes[a].id, node.id) == 0) {
-                index = a;
-                break;
-            }
-        }
-    }
+    // // Search node.
+    // if (nodes) {
+    //     for (int a=0; a < cvector_size(nodes); ++a) {
+    //         if (strcmp(nodes[a].id, node.id) == 0) {
+    //             index = a;
+    //             break;
+    //         }
+    //     }
+    // }
 
-    // Update node information.
-    if (index != -1) {
-        memset(nodes[index].last_connect_date, 0x0, 100);
-        sprintf(nodes[index].last_connect_date, "%s", date);
+    // // Update node information.
+    // if (index != -1) {
+    //     memset(nodes[index].last_connect_date, 0x0, 100);
+    //     sprintf(nodes[index].last_connect_date, "%s", date);
 
-        bytes = send(sock, response, strlen(response), 0);
-    }
+    //     bytes = send(sock, response, strlen(response), 0);
+    // }
 
-    // Add new existing node.
-    else
-        cvector_push_back(nodes, node);
+    // // Add new existing node.
+    // else
+    //     cvector_push_back(nodes, node);
+
+    bytes = send(sock, response, strlen(response), 0);
 
     upn_end:
-    // pthread_mutex_unlock(&mutex_nodes);
+    pthread_mutex_unlock(&mutex_nodes);
 
     if (index != -1) {
         memset(node.id, 0x0, strlen(node.id));
@@ -388,29 +436,32 @@ void get_node_list(int sock)
 
     char *message = NULL;
     char tmp [1024];
-    int size = 0, sts = 0;
+    int size = 0, sts = 0, a = 1;
+    node_control_t *node = nodes; 
 
-    // pthread_mutex_lock(&mutex_nodes);
+    pthread_mutex_lock(&mutex_nodes);
 
-    if (nodes) {
-        for (int a=0; a < cvector_size(nodes); ++a) {
-            memset(tmp, 0x0, 1024);
-            sprintf(tmp, "node: %d\nid: %s\nport: %d\nlast connection: %s\n\n", 
-                a, nodes[a].id, nodes[a].port, nodes[a].last_connect_date);
+    for (node=nodes; node!=NULL; node=node->next) {
+        if (node->status != 1)
+            continue;
 
-            message = (char *) realloc(message, sizeof(char) * (size + strlen(tmp) + 1));
-            if (!message) {
-                debug_print("error alloc memory.");
-                return;
-            }
+        memset(tmp, 0x0, 1024);
+        sprintf(tmp, "node: %d\nid: %s\nport: %d\nlast connection: %s\n\n", 
+            a, node->id, node->port, node->last_connect_date);
 
-            memcpy(&message[size], tmp, strlen(tmp));
-            size += strlen(tmp);
-            sts++;
+        message = (char *) realloc(message, sizeof(char) * (size + strlen(tmp) + 1));
+        if (!message) {
+            debug_print("error alloc memory.");
+            return;
         }
+
+        memcpy(&message[size], tmp, strlen(tmp));
+        size += strlen(tmp);
+        sts++;
+        a++;
     }
 
-    // pthread_mutex_unlock(&mutex_nodes);
+    pthread_mutex_unlock(&mutex_nodes);
 
     if (sts)
         message[size] = '\0';
@@ -424,6 +475,5 @@ void get_node_list(int sock)
     memset(message, 0x0, size);
     free(message);
 }
-*/
 
 
