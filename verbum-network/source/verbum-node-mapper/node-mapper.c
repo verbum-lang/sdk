@@ -271,8 +271,14 @@ void process_communication (int sock)
     /**
      * Get node list.
      */
-    else if (strstr(response, "get-node-list"))
+    else if (strcmp(response, "get-node-list") == 0)
         get_node_list(sock);
+
+    /**
+     * Create new node.
+     */
+    else if (strcmp(response, "create-node") == 0)
+        create_node(sock);
 
     /**
      * Create node client connection.
@@ -614,6 +620,11 @@ void get_node_list (int sock)
     sts = send(sock, message, size, 0);
     memset(message, 0x0, size);
     free(message);
+}
+
+void create_node (int sock)
+{
+    
 }
 
 void create_node_client_connection (int sock, char *content)

@@ -236,7 +236,7 @@ function generate_general_options_html ()
     var html = '';
 
     html += `
-        <button class='btn btn-primary' >
+        <button class='btn btn-primary' onclick='javascript:create_node();' >
             <i class="feather-size-a" data-feather="plus"></i>
             Create node
         </button>
@@ -400,6 +400,13 @@ function restart_application ()
 function toggle_dev_tools ()
 {
     window.interface.toggle_dev_tools();
+}
+
+function create_node ()
+{
+    window.interface.create_node((response) => {
+        console.log(response);
+    });
 }
 
 

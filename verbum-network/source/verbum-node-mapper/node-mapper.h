@@ -69,6 +69,7 @@ void add_new_node                       (int sock, char *content);
 char * generate_new_id                  (void);
 void update_ping_node                   (int sock, char *content);
 void get_node_list                      (int sock);
+void create_node                        (int sock);
 void create_node_client_connection      (int sock, char *content);
 void create_node_server_connection      (int sock, char *content);
 
