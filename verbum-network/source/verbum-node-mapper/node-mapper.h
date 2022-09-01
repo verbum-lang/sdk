@@ -17,10 +17,12 @@
 typedef struct {
     int port;                           // Server port.
     int max_connections;                // Server max connections.
+    char *path;                         // Configuration file path.
 } interface_param_t;
 
 typedef struct {
     int wid;                            // Worker ID.
+    char *path;                         // Configuration file path.
 } worker_param_t;
 
 // Thread workers control.
@@ -59,12 +61,12 @@ typedef struct node_connection_st {
 
 void node_mapper                        (void);
 void * node_mapper_interface            (void *tparam);
-void prepare_workers                    (void);
+void prepare_workers                    (char *path);
 thread_worker_t * worker_create_item    (int wid);
 void worker_insert_item                 (thread_worker_t *new_worker);
 void * worker_handler                   (void *tparam);
 int send_handshake                      (int sock);
-void process_communication              (int sock);
+void process_communication              (int sock, char *path);
 char * get_client_request               (int sock);
 node_control_t * node_create_item       (void);
 void node_insert_item                   (node_control_t *new_node);
@@ -72,7 +74,7 @@ void add_new_node                       (int sock, char *content);
 char * generate_new_id                  (void);
 void update_ping_node                   (int sock, char *content);
 void get_node_list                      (int sock);
-void create_node                        (int sock);
+void create_node                        (int sock, char *path);
 void create_node_client_connection      (int sock, char *content);
 void create_node_server_connection      (int sock, char *content);
 

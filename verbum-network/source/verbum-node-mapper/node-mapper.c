@@ -17,7 +17,7 @@ node_control_t *  nodes   = NULL;
 
 void node_mapper (void)
 {
-    int status = 0;
+    int status = 0, size = 0;
     pthread_t tid;
 
     // Prepare mutex.
@@ -43,6 +43,15 @@ void node_mapper (void)
 
     param->max_connections  = SERVERS_MAX_CONNECTION;
     param->port             = global.configuration.node_mapper.server_port;
+
+    size = sizeof(char) * (strlen(global.configuration.path) + 1);
+    param->path = (char *) malloc(size);
+
+    if (!param->path)
+        debug_exit("error memory allocation.");
+
+    memset(param->path, 0x0, size);
+    memcpy(param->path, global.configuration.path, strlen(global.configuration.path));
 
     if ((status = pthread_create(&tid, NULL, node_mapper_interface, param)) != 0)
         debug_exit("error while creating thread - control of Node Mapper interface.");
@@ -72,7 +81,7 @@ void * node_mapper_interface (void *tparam)
     if (listen(ssock, param->max_connections) != 0) 
         say_exit("error listen server.");
 
-    prepare_workers();
+    prepare_workers(param->path);
 
     while (1) {
         
@@ -108,10 +117,10 @@ void * node_mapper_interface (void *tparam)
     }
 }
 
-void prepare_workers (void)
+void prepare_workers (char *path)
 {
     thread_worker_t *worker;
-    int status = -1;
+    int status = -1, size = 0;
 
     // Prepare items.
     for (int a=1; a<NM_THREAD_LIMIT; a++)
@@ -125,6 +134,15 @@ void prepare_workers (void)
         if (!param)
             debug_exit("error allocating memory.");
         
+        size = sizeof(char) * (strlen(path) + 1);
+        param->path = (char *) malloc(size);
+
+        if (!param->path)
+            debug_exit("error memory allocation.");
+
+        memset(param->path, 0x0, size);
+        memcpy(param->path, path, strlen(path));
+
         param->wid = worker->wid;
         
         if ((status = pthread_create(&worker->tid, NULL, worker_handler, param)) != 0)
@@ -169,7 +187,20 @@ void * worker_handler (void *tparam)
 {
     worker_param_t *param = (worker_param_t *) tparam;
     thread_worker_t *worker;
-    int wid = -1, run = 0, sock = -1, status = 0;
+    int wid = -1, run = 0, sock = -1;
+    int status = 0, size = 0;
+    char *path = NULL;
+
+    size = sizeof(char) * (strlen(param->path) + 1);
+    path = (char *) malloc(size);
+
+    if (!path) {
+        debug_print("error memory allocation.");
+        return NULL;
+    }
+
+    memset(path, 0x0, size);
+    memcpy(path, param->path, strlen(param->path));
 
     while (1) {
 
@@ -202,7 +233,7 @@ void * worker_handler (void *tparam)
 
         status = send_handshake(sock);
         if (status == 1)
-            process_communication(sock);
+            process_communication(sock, path);
 
         /**
          * Finish.
@@ -247,7 +278,7 @@ int send_handshake (int sock)
     return result;
 }
 
-void process_communication (int sock)
+void process_communication (int sock, char *path)
 {
     char *response = NULL;
 
@@ -278,7 +309,7 @@ void process_communication (int sock)
      * Create new node.
      */
     else if (strcmp(response, "create-node") == 0)
-        create_node(sock);
+        create_node(sock, path);
 
     /**
      * Create node client connection.
@@ -622,16 +653,16 @@ void get_node_list (int sock)
     free(message);
 }
 
-void create_node (int sock)
+void create_node (int sock, char *path)
 {
     #ifdef NMDBG
         say("create node - called.");
     #endif
 
-    char response[] = VERBUM_DEFAULT_RESPONSE;
-    int status = -1;
+    char response [] = VERBUM_DEFAULT_RESPONSE;
+    int status       = -1;
 
-    
+    system_execution("verbum-node -c \"%s\" &", path);
 
     status = send(sock, response, strlen(response), 0);
 }
