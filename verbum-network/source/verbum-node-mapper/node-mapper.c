@@ -729,7 +729,7 @@ void delete_node (int sock, char *content)
                         break;
                     memory_sclean(response);
                 }
-
+ 
                 usleep(100);
                 counter++;
                 if (counter >= 3)
