@@ -365,9 +365,9 @@ char * get_client_request (int sock)
     if (!status || !content)
         return NULL;
 
-    #ifdef NMDBG
+    // #ifdef NMDBG
         say("raw data received: \"%s\"", content);
-    #endif
+    // #endif
 
     return content;
 }
@@ -662,7 +662,7 @@ void create_node (int sock, char *path)
     char response [] = VERBUM_DEFAULT_RESPONSE;
     int status       = -1;
 
-    say("cmd: verbum-node -c \"%s\" &", path);
+    say("here.");
     system_execution("verbum-node -c \"%s\" &", path);
 
     status = send(sock, response, strlen(response), 0);
