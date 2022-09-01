@@ -308,7 +308,7 @@ void process_communication (int sock, char *path)
     /**
      * Create new node.
      */
-    else if (strcmp(response, "create-node") == 0)
+    else if (strstr(response, "create-node"))
         create_node(sock, path);
 
     /**
@@ -662,6 +662,7 @@ void create_node (int sock, char *path)
     char response [] = VERBUM_DEFAULT_RESPONSE;
     int status       = -1;
 
+    say("cmd: verbum-node -c \"%s\" &", path);
     system_execution("verbum-node -c \"%s\" &", path);
 
     status = send(sock, response, strlen(response), 0);
