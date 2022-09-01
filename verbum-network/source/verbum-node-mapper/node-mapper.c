@@ -302,7 +302,7 @@ void process_communication (int sock, char *path)
     /**
      * Get node list.
      */
-    else if (strcmp(response, "get-node-list") == 0)
+    else if (strstr(response, "get-node-list"))
         get_node_list(sock);
 
     /**
