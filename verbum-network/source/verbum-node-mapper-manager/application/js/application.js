@@ -14,23 +14,24 @@ $(document).ready(() => {
 function get_node_list (hostname, hostport) 
 {
     interface.get_node_list(hostname, hostport, (response) => {
-        var error = false;
+        var error    = false;
+        var nodes_nf = false;
 
         if (response.indexOf('nodes not found') != -1) {
             console.log('nodes not found.');
-            error = true;
+            nodes_nf = true;
         } else if (response == 'error') 
-            error = true;
+            error    = true;
         
-        if (error == false) {
-            process_node_list(response);
-
-            if (started == false) {
-                started = true;
-                $('.area-initialization').addClass('hide-el');
-                $('.area-results').removeClass('hide-el');
-            }
+        if (started == false && (nodes_nf == true || error == false)) {
+            started = true;
+            $('.area-initialization').addClass('hide-el');
+            $('.area-results').removeClass('hide-el');
+            render_all_nodes();
         }
+
+        if (error == false) 
+            process_node_list(response);
 
         get_node_list(hostname, hostport);
     });
