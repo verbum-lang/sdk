@@ -14,24 +14,36 @@ $(document).ready(() => {
 function get_node_list (hostname, hostport) 
 {
     interface.get_node_list(hostname, hostport, (response) => {
-        var error    = false;
-        var nodes_nf = false;
+        var error = false;
+        var nnf   = false;
 
         if (response.indexOf('nodes not found') != -1) {
             console.log('nodes not found.');
-            nodes_nf = true;
+            error = true;
+            nnf   = true;
         } else if (response == 'error') 
-            error    = true;
+            error = true;
         
-        if (started == false && (nodes_nf == true || error == false)) {
-            started = true;
-            $('.area-initialization').addClass('hide-el');
-            $('.area-results').removeClass('hide-el');
+        if (error == false) {
+            if (started == false) {
+                started = true;
+                $('.area-initialization').addClass('hide-el');
+                $('.area-results').removeClass('hide-el');
+            }
+
             render_all_nodes();
+            process_node_list(response);
         }
 
-        if (error == false) 
-            process_node_list(response);
+        if (nnf == true) {
+            if (started == false) {
+                started = true;
+                $('.area-initialization').addClass('hide-el');
+                $('.area-results').removeClass('hide-el');
+            }
+
+            render_all_nodes();
+        }
 
         get_node_list(hostname, hostport);
     });

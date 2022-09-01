@@ -646,6 +646,7 @@ void get_node_list (int sock)
         size = 256;
         memory_alloc(message, size);
         sprintf(message, "nodes not found.\n");
+        size = strlen(message);
     }
 
     sts = send(sock, message, size, 0);
