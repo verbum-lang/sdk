@@ -12,6 +12,10 @@ contextBridge.exposeInMainWorld(
 
         toggle_dev_tools: () => {
             ipcRenderer.send('open-dev-tools', null);
+        },
+
+        restart_application: ()=> {
+            ipcRenderer.send('restart-application', null);
         }
     }
 );

@@ -49,4 +49,8 @@ ipcMain.on('open-dev-tools', (ev, param) => {
   win.webContents.openDevTools();
 })
 
+ipcMain.on('restart-application', (ev, param) => {
+  win.reload();
+})
+
 

@@ -394,7 +394,7 @@ function generate_connections_area_html (prefix)
 
 function restart_application ()
 {
-
+    window.interface.restart_application();
 }
 
 function toggle_dev_tools ()
