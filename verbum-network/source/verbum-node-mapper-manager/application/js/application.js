@@ -239,6 +239,11 @@ function generate_general_options_html ()
             Check node
         </button>
 
+        <button class='btn btn-primary' >
+            <i class="feather-size-a" data-feather="share-2"></i>
+            Send data
+        </button>
+
         <br>
         <br>
     `;
@@ -258,13 +263,14 @@ function generate_connections_area_html (prefix)
         <table class="table table-dark table-borderless table-results-sec-3">
             <thead>
                 <tr>
-                    <th scope="col" class="th-header" >INPUT</th>
-                    <th scope="col" class="th-header" >OUTPUT</th>
+                    <th scope="col" class="th-header con-th-1" style="width:50%" >INPUT</th>
+                    <th scope="col" style="width:30px" ></th>
+                    <th scope="col" class="th-header con-th-2" style="width:50%" >OUTPUT</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th style="width:50%" >
+                    <th class="con-th-fix-1" >
                         <table class="table table-dark table-borderless table-results-sec-4">
                             <thead>
                                 <tr>
@@ -312,14 +318,19 @@ function generate_connections_area_html (prefix)
                             </tbody>
                         </table>
                     </th>
+
+                    <th>
+                        &nbsp;
+                    </th>
                     
-                    <th style="width:50%" >
+                    <th class="con-th-fix-1" >
                         <table class="table table-dark table-borderless table-results-sec-4">
                             <thead>
                                 <tr>
                                     <th scope="col" class="th-header" >Destination ID</th>
                                     <th scope="col" class="th-header" >NM host</th>
                                     <th scope="col" class="th-header" >NM port</th>
+                                    <th scope="col" class="th-header" >Ping</th>
                                     <th scope="col" class="th-header" >Manager</th>
                                 </tr>
                             </thead>    
@@ -328,6 +339,11 @@ function generate_connections_area_html (prefix)
                                     <th>verbum-node-2409308923</th>
                                     <th>127.0.0.1</th>
                                     <th>3333</th>
+                                    <th>
+                                        <div class="item-sub-1">
+                                            31-07-2022<br>18-21-19
+                                        </div>
+                                    </th>
                                     <th>
                                         <button class='btn btn-2 btn-danger' >
                                             <i class="feather-size-a" data-feather="x"></i>
@@ -338,6 +354,11 @@ function generate_connections_area_html (prefix)
                                     <th>verbum-node-2409308923</th>
                                     <th>127.0.0.1</th>
                                     <th>3333</th>
+                                    <th>
+                                        <div class="item-sub-1">
+                                            31-07-2022<br>18-21-19
+                                        </div>
+                                    </th>
                                     <th>
                                         <button class='btn btn-2 btn-danger' >
                                             <i class="feather-size-a" data-feather="x"></i>
