@@ -1,11 +1,14 @@
 
-var interface = window.interface;
-var started   = false;
+var interface            = window.interface;
+var started              = false;
+var node_mapper_hostname = '127.0.0.1';
+var node_mapper_hostport = 3333;
+var debug                = false;
 
 $(document).ready(() => {
     console.log("Verbum Node Mapper Manager started - Jesus <3");
 
-    get_node_list('127.0.0.1', 3333);
+    get_node_list(node_mapper_hostname, node_mapper_hostport);
 });
 
 function get_node_list (hostname, hostport) 
@@ -38,7 +41,8 @@ function process_node_list (response)
     var parts = response.split('\n\n');
     var node_items = [];
 
-    console.log(response);
+    if (debug)
+        console.log(response);
 
     for (var a=1; a<parts.length; a++) {
         var item  = parts[a].toString().trim();
@@ -128,7 +132,8 @@ function update_node_list_information (node_items)
 
 function render_information_nodes ()
 {
-    console.log("update all node informations - render_information_nodes()");
+    if (debug)
+        console.log("update all node informations - render_information_nodes()");
 
     for (var a=0; a<nodes.length; a++) {
         var node = nodes[a];
@@ -141,7 +146,8 @@ function render_information_nodes ()
 
 function render_all_nodes ()
 {
-    console.log("update all nodes - render_all_nodes()");
+    if (debug)
+        console.log("update all nodes - render_all_nodes()");
 
     var html = generate_general_options_html() + `
         <table class="table table-dark table-borderless">
@@ -404,7 +410,8 @@ function toggle_dev_tools ()
 
 function create_node ()
 {
-    window.interface.create_node((response) => {
+    window.interface.create_node(
+        node_mapper_hostname, node_mapper_hostport, (response) => {
         console.log(response);
     });
 }

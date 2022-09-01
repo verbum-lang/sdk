@@ -7,24 +7,7 @@ var check_node_mapper = false;
 contextBridge.exposeInMainWorld(
     "interface", {
         get_node_list: (hostname, hostport, callback) => {
-            var sock = null;
-            var data = '';
-            
-            sock = net.connect({host: hostname, port: hostport}, () => {
-                sock.write('get-node-list');
-            });
-            
-            sock.on('data', (response) => {
-                data += response.toString();
-            });
-
-            sock.on('end', () => {
-                callback(data);
-            });
-
-            sock.on('error', (error) => {
-                callback('error');
-            });
+            connect_node_mapper(hostname, hostport, 'get-node-list', callback);
         },
 
         toggle_dev_tools: () => {
@@ -35,19 +18,19 @@ contextBridge.exposeInMainWorld(
             ipcRenderer.send('restart-application', null);
         },
 
-        create_node: (callback) => {
-
+        create_node: (hostname, hostport, callback) => {
+            connect_node_mapper(hostname, hostport, 'create-node', callback);
         }
     }
 );
 
-function get_node_list_internal (hostname, hostport, callback)
+function connect_node_mapper (hostname, hostport, message, callback)
 {
     var sock = null;
     var data = '';
     
     sock = net.connect({host: hostname, port: hostport}, () => {
-        sock.write('get-node-list');
+        sock.write(message);
     });
     
     sock.on('data', (response) => {

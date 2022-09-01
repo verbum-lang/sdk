@@ -10,6 +10,9 @@
 // Thread workers limit.
 #define NM_THREAD_LIMIT 100
 
+// Default response (socket).
+#define VERBUM_DEFAULT_RESPONSE "verbum-node-ok"
+
 // Thread param control.
 typedef struct {
     int port;                           // Server port.

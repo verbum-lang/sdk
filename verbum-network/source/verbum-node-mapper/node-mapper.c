@@ -495,7 +495,7 @@ void update_ping_node (int sock, char *content)
     #endif
     
     char prefix   [] = "ping-verbum-node:";
-    char response [] = "verbum-node-ok";
+    char response [] = VERBUM_DEFAULT_RESPONSE;
     char tmp [1024];
     char *ptr = NULL, *date = NULL;
     int bytes = 0, index = -1, found = 0, size = 0;
@@ -624,7 +624,16 @@ void get_node_list (int sock)
 
 void create_node (int sock)
 {
+    #ifdef NMDBG
+        say("create node - called.");
+    #endif
+
+    char response[] = VERBUM_DEFAULT_RESPONSE;
+    int status = -1;
+
     
+
+    status = send(sock, response, strlen(response), 0);
 }
 
 void create_node_client_connection (int sock, char *content)
