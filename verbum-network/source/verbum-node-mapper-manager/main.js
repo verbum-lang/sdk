@@ -3,7 +3,7 @@
 ** Deus é Santo!
 */
 
-const {app, BrowserWindow} = require('electron') 
+const {app, BrowserWindow, ipcMain} = require('electron') 
 const path = require('path') 
 const url = require('url')
 
@@ -29,7 +29,6 @@ app.once('ready', () => {
   
   win.setMenuBarVisibility(false)
   win.center()
-  win.webContents.openDevTools()
   win.webContents.setUserAgent(globalUserAgent);
 
   win.loadURL(url.format({
@@ -44,6 +43,10 @@ app.once('ready', () => {
   win.once('ready-to-show', () => {
     win.show()
   })
+})
+
+ipcMain.on('open-dev-tools', (ev, param) => {
+  win.webContents.openDevTools();
 })
 
 

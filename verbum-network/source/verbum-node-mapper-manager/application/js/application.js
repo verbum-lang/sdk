@@ -168,7 +168,7 @@ function render_all_nodes ()
                                 <th>
                                     <div class="item">
                                         <div class="sub-1">Identification</div>
-                                        <div class="sub-2">`+ node.id +`</div>
+                                        <div class="sub-2" style="text-transform: lowercase;" >`+ node.id +`</div>
                                     </div>
                                 </th>
                                 
@@ -188,9 +188,16 @@ function render_all_nodes ()
                                 
                                 <th>
                                     <div class="item">
-                                        <button class='btn btn-danger' >
+                                        <button class='btn btn-warning btn-3' >
                                             <i class="feather-size-a" data-feather="x"></i>
                                             Delete node
+                                        </button> 
+
+                                        <br>
+
+                                        <button class='btn btn-primary btn-3' style="margin-top:3px" >
+                                            <i class="feather-size-a" data-feather="plus"></i>
+                                            Create connection
                                         </button>
                                     </div>
                                 </th>
@@ -244,6 +251,14 @@ function generate_general_options_html ()
             Send data
         </button>
 
+        <button class='btn btn-light btn-4' onclick='javascript:toggle_dev_tools();' >
+            <i class="feather-size-a" data-feather="tool"></i>
+        </button>
+
+        <button class='btn btn-light btn-4' onclick='javascript:restart_application();' >
+            <i class="feather-size-a" data-feather="refresh-cw"></i>
+        </button>
+
         <br>
         <br>
     `;
@@ -293,7 +308,7 @@ function generate_connections_area_html (prefix)
                                             31-07-2022<br>18-21-19
                                         </div>
                                     </th>
-                                    <th>
+                                    <th style="text-align:right;" >
                                         <button class='btn btn-2 btn-danger' >
                                             <i class="feather-size-a" data-feather="x"></i>
                                         </button>
@@ -309,7 +324,7 @@ function generate_connections_area_html (prefix)
                                             31-07-2022<br>18-21-19
                                         </div>
                                     </th>
-                                    <th>
+                                    <th style="text-align:right;" >
                                         <button class='btn btn-2 btn-danger' >
                                             <i class="feather-size-a" data-feather="x"></i>
                                         </button>
@@ -344,7 +359,7 @@ function generate_connections_area_html (prefix)
                                             31-07-2022<br>18-21-19
                                         </div>
                                     </th>
-                                    <th>
+                                    <th style="text-align:right;" >
                                         <button class='btn btn-2 btn-danger' >
                                             <i class="feather-size-a" data-feather="x"></i>
                                         </button>
@@ -359,7 +374,7 @@ function generate_connections_area_html (prefix)
                                             31-07-2022<br>18-21-19
                                         </div>
                                     </th>
-                                    <th>
+                                    <th style="text-align:right;" >
                                         <button class='btn btn-2 btn-danger' >
                                             <i class="feather-size-a" data-feather="x"></i>
                                         </button>
@@ -375,6 +390,16 @@ function generate_connections_area_html (prefix)
     `;
 
     return html;
+}
+
+function restart_application ()
+{
+
+}
+
+function toggle_dev_tools ()
+{
+    window.interface.toggle_dev_tools();
 }
 
 

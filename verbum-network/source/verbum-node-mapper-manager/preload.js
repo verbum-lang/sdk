@@ -1,5 +1,5 @@
 
-const { contextBridge } = require("electron");
+const { contextBridge, ipcRenderer } = require("electron");
 const net = require('net');
 
 var check_node_mapper = false;
@@ -8,6 +8,10 @@ contextBridge.exposeInMainWorld(
     "interface", {
         get_node_list: (hostname, hostport, callback) => {
             get_node_list_internal(hostname, hostport, callback);
+        },
+
+        toggle_dev_tools: () => {
+            ipcRenderer.send('open-dev-tools', null);
         }
     }
 );

@@ -54,6 +54,15 @@ html, body {
   padding: 2px !important;
 }
 
+.btn-3 {
+  width: 130px;
+}
+
+.btn-4 {
+  float: right;
+  margin-left: 3px;
+}
+
 .connections-title {
   text-align: center;
   text-transform: uppercase;
