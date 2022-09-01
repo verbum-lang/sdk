@@ -15,6 +15,10 @@
 #define LOCALHOST                       "127.0.0.1"
 #define SERVERS_MAX_CONNECTION          1000
 
+// Default response (socket).
+#define VERBUM_DEFAULT_SUCCESS "verbum-node-ok"
+#define VERBUM_DEFAULT_ERROR   "verbum-node-fail"
+
 // Configurations e definations.
 #define initialization main // Entry point.
 

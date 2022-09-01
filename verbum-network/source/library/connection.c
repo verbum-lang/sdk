@@ -94,7 +94,9 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_sele
     int status = -1, handle = -1, flags  = 0;
     int timeout = CONNECTIONS_TIMEOUT1;
     char packet [1024];
-    char header []= "Verbum Node Mapper";
+    char header []= "Verbum Node";
+    // char header1 []= "Verbum Node Mapper";
+    // char header2 []= "Verbum Node";
 
     // Configure connection.
     struct sockaddr_in address;
@@ -184,11 +186,15 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_sele
         goto connection_end_fail;
 
     // Check header.
-    if (strlen(header) > strlen(packet) || strlen(packet) <= 0)
+    if (strlen(packet) <= 0              ||
+        strlen(header) > strlen(packet)   )
         goto connection_end_fail;
     
-    packet[ strlen(header) ] = '\0';
-    if (strcmp(header, packet) != 0)
+    // packet[ strlen(header) ] = '\0';
+    // if (strcmp(header, packet) != 0)
+    //     goto connection_end_fail;
+
+    if (!strstr(packet, header))
         goto connection_end_fail;
 
     goto connection_end_success;
@@ -206,12 +212,13 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_sele
 /*
  * Send a raw message do Node Mapper, and recv response.
  */
-char * send_message_nm (char *laddr, int port, char *message, int message_size)
+char * send_message_nm (char *laddr, int port, char *message, int message_size, int use_tmo)
 {
     int status = -1, handle = -1, flags = 0;
     int timeout = CONNECTIONS_TIMEOUT1, size = 0;
     char packet [1024], check[33];
-    char header []= "Verbum Node Mapper";
+    char header []= "Verbum Node";
+    // char header []= "Verbum Node Mapper";
     char prefix []= "verbum-node-";
     char *result = NULL;
 
@@ -286,10 +293,12 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
     }
 
     // Set recv timeout.
-    // struct timeval tms;
-    // tms.tv_sec  = CONNECTIONS_TIMEOUT1;
-    // tms.tv_usec = 0;
-    // setsockopt(handle, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+    if (use_tmo == 1) {
+        struct timeval tms;
+        tms.tv_sec  = CONNECTIONS_TIMEOUT1;
+        tms.tv_usec = 0;
+        setsockopt(handle, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+    }
 
     // Receive data.
     memset(packet, 0x0, 1024);
@@ -302,8 +311,11 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size)
     if (strlen(header) > strlen(packet) || strlen(packet) <= 0)
         goto connection_end_fail;
     
-    packet[ strlen(header) ] = '\0';
-    if (strcmp(header, packet) != 0)
+    // packet[ strlen(header) ] = '\0';
+    // if (strcmp(header, packet) != 0)
+    //     goto connection_end_fail;
+
+    if (!strstr(packet, header))
         goto connection_end_fail;
 
     // ***
@@ -369,7 +381,7 @@ char * generate_node_id (char *address, int node_mapper_port, int node_port)
     memset(message, 0x0, size);
     sprintf(message, "%s%d", prefix, node_port);
 
-    return send_message_nm(address, node_mapper_port, message, strlen(message));
+    return send_message_nm(address, node_mapper_port, message, strlen(message), 0);
 }
 
 /**
@@ -396,7 +408,32 @@ char * ping_node (char *address, int node_mapper_port, char *node_id, int node_i
     memset(message, 0x0, size);
     sprintf(message, "%s%s:%d", prefix, node_id, node_interface_port);
 
-    return send_message_nm(address, node_mapper_port, message, strlen(message));
+    return send_message_nm(address, node_mapper_port, message, strlen(message), 0);
 }
 
+/**
+ * Send delete node.
+ */
+char * send_delete_node (char *address, int node_port, char *node_id) 
+{
+    char prefix[]= "delete-node:";
+    char *message = NULL;
+    int size = 0;
+
+    if (!check_connection_banner_nm(address, node_port)) 
+        return NULL;
+
+    size = sizeof(char) * (strlen(node_id) + strlen(prefix) + 256);
+    message = (char *) malloc(size);
+
+    if (!message) {
+        debug_print("error alloc memory.");
+        return NULL;
+    }
+
+    memset(message, 0x0, size);
+    sprintf(message, "%s%s", prefix, node_id);
+
+    return send_message_nm(address, node_port, message, strlen(message), 1);
+}
 

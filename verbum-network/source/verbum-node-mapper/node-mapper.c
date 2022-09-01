@@ -312,6 +312,12 @@ void process_communication (int sock, char *path)
         create_node(sock, path);
 
     /**
+     * Delete node.
+     */
+    else if (strstr(response, "delete-node:"))
+        delete_node(sock, response);
+
+    /**
      * Create node client connection.
      */
     else if (strstr(response, "create-node-client-connection:"))
@@ -374,12 +380,13 @@ char * get_client_request (int sock)
 
 node_control_t * node_create_item (void)
 {
-    node_control_t * node = (node_control_t *) malloc(sizeof(node_control_t));
+    node_control_t *node = (node_control_t *) malloc(sizeof(node_control_t));
 
     if (!node)
         debug_exit("error memory allocation.");
 
     node->status           = 0;
+    node->deleted          = 0;
     node->port             = 0;
     node->id               = NULL;
     node->next             = NULL;
@@ -526,7 +533,7 @@ void update_ping_node (int sock, char *content)
     #endif
     
     char prefix   [] = "ping-verbum-node:";
-    char response [] = VERBUM_DEFAULT_RESPONSE;
+    char response [] = VERBUM_DEFAULT_SUCCESS;
     char tmp [1024];
     char *ptr = NULL, *date = NULL;
     int bytes = 0, index = -1, found = 0, size = 0;
@@ -622,6 +629,11 @@ void get_node_list (int sock)
         if (node->status != 1)
             continue;
 
+        if (node->deleted == 1) {
+            node->status = 0;
+            continue;
+        }
+
         memset(tmp, 0x0, 1024);
         sprintf(tmp, "node: %d\nid: %s\nport: %d\nlast connection date: %s\n\n", 
             a, node->id, node->port, node->last_connect_date);
@@ -660,13 +672,86 @@ void create_node (int sock, char *path)
         say("create node - called.");
     #endif
 
-    char response [] = VERBUM_DEFAULT_RESPONSE;
+    char response [] = VERBUM_DEFAULT_SUCCESS;
     int status       = -1;
 
-    say("here.");
     system_execution("verbum-node -c \"%s\" &", path);
 
     status = send(sock, response, strlen(response), 0);
+}
+
+void delete_node (int sock, char *content)
+{
+    // #ifdef NMDBG
+        say("delete verbum node.");
+    // #endif
+
+    char tmp[1024], prefix [] = "delete-node:";
+    char response_success  [] = VERBUM_DEFAULT_SUCCESS;
+    char response_error    [] = VERBUM_DEFAULT_ERROR;
+    char address           [] = LOCALHOST;
+    char *ptr = NULL;
+    int bytes = 0, status = 0, counter = 0;
+    node_control_t *node;
+
+    // Extract node ID.
+    ptr = strstr(content, prefix);
+    if (!ptr) 
+        goto dn_end;
+
+    ptr += strlen(prefix);
+    memset(tmp, 0x0, 1024);
+    memcpy(tmp, ptr, strlen(ptr));
+
+    // Clean \n, \r, \t.
+    for (int a=0; tmp[a]!='\0'; a++) {
+        switch (tmp[a]) {
+            case '\n': case '\r': case '\t':
+                tmp[a] = '\0';
+                break;
+        }
+    }
+
+    // Search node.
+    pthread_mutex_lock(&mutex_nodes);
+    
+    for (node=nodes; node!=NULL; node=node->next) {
+        if (node->status != 1)
+            continue;
+
+        if (strcmp(node->id, tmp) == 0) {
+            
+            // Send message to node.
+            while (1) {
+                char *response = send_delete_node(address, node->port, node->id);
+                if (response) {
+                    if (strstr(response, "verbum-node-ok"))
+                        break;
+                    memory_sclean(response);
+                }
+
+                usleep(100);
+                counter++;
+                if (counter >= 3)
+                    break;
+            }
+
+            status = 1;
+            node->status  = 0;
+            node->deleted = 1;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_nodes);
+
+    // Finish.
+    dn_end:
+
+    if (!status)
+        bytes = send(sock, response_error, strlen(response_error), 0);
+    else
+        bytes = send(sock, response_success, strlen(response_success), 0);
 }
 
 void create_node_client_connection (int sock, char *content)

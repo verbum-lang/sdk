@@ -56,15 +56,22 @@ void * node_core (void *tparam)
         if (nsock != -1) {
 
             // Send header (handshake).
-            char header[] = "Verbum Node - v1.0.0 - I Love Jesus <3\n\n";
+            status = send_handshake(nsock);
+            if (status == 1) {
 
-            while (1) {
-                status = send(nsock, header, strlen(header), 0);
-                if (status > 0)
-                    break;
+                // Node protocol.
+                char *response = get_client_request(nsock);
+                if (response) {
+
+                    /**
+                     * Delete node.
+                     */
+                    if (strstr(response, "delete-node"))
+                        delete_node(nsock, response);
+
+                    free(response);
+                }
             }
-
-            // Node protocol...
 
             close(nsock);
         }
@@ -130,6 +137,121 @@ void * ping_node_handler (void *tparam)
 
         sleep(NODE_PING_LOOP_SEC_DELAY);
     }
+}
+
+char * get_client_request (int sock)
+{
+    char *content = NULL;
+    char tmp [512];
+    int bytes = -1, status = 0;
+    int bytes_received = 0, size = 0;
+
+    while (1) {
+        memset(tmp, 0x0, 512);
+        bytes = recv(sock, tmp, 511, 0);
+
+        if (bytes <= -1) 
+            break;
+
+        else if (bytes == 0) {
+            status = 1;
+            if (bytes_received > 0)
+                content[ bytes_received ] = '\0';
+            break;
+        }
+        
+        else if (bytes > 0) {
+            size = bytes + bytes_received + 1;
+            content = (char *) realloc(content, size);
+
+            if (!content)
+                break;
+
+            memcpy(&content[ bytes_received ], tmp, bytes);
+            bytes_received += bytes;
+
+            if (bytes_received > 0)
+                content[ bytes_received ] = '\0';
+
+            status = 1;
+        }
+    }
+
+    if (!status || !content)
+        return NULL;
+
+    #ifdef NCDBG
+        say("raw data received: \"%s\"", content);
+    #endif
+
+    return content;
+}
+
+int send_handshake (int sock)
+{
+    char handshake[] = "Verbum Node - v1.0.0 - I Love Jesus <3\n\n";
+    int status = -1, result = 0, counter = 0;
+
+    while (1) {
+        status = send(sock, handshake, strlen(handshake), 0);
+        
+        if (status > 0) {
+            result = 1;
+            break;
+        }
+
+        usleep(10000);
+        counter++;
+
+        if (counter >= 30)
+            break;
+    }
+
+    return result;
+}
+
+void delete_node (int sock, char *content)
+{
+    char tmp[1024], prefix [] = "delete-node:";
+    char response_success  [] = VERBUM_DEFAULT_SUCCESS;
+    char response_error    [] = VERBUM_DEFAULT_ERROR;
+    char *ptr = NULL;
+    int bytes = 0, size = 0, status = 0;
+
+    // Extract node ID.
+    ptr = strstr(content, prefix);
+    if (!ptr) 
+        goto dn_end;
+
+    ptr += strlen(prefix);
+    memset(tmp, 0x0, 1024);
+    memcpy(tmp, ptr, strlen(ptr));
+
+    // Clean \n, \r, \t.
+    for (int a=0; tmp[a]!='\0'; a++) {
+        switch (tmp[a]) {
+            case '\n': case '\r': case '\t':
+                tmp[a] = '\0';
+                break;
+        }
+    }
+
+    // Check node.
+    if (strcmp(param->information.id, tmp) == 0) {
+        status = 1;
+    }
+
+    // Finish.
+    dn_end:
+
+    if (!status) {
+        bytes = send(sock, response_error, strlen(response_error), 0);
+        return;
+    }
+
+    bytes = send(sock, response_success, strlen(response_success), 0);
+    say("sended success node message.");
+    exit(0);
 }
 
 

@@ -13,7 +13,7 @@ app.allowRendererProcessReuse = true;
 
 app.once('ready', () => {
   win = new BrowserWindow({
-    width: 900,
+    width: 1000,
     height: 600,
     show: false,
     webPreferences: {

@@ -214,7 +214,7 @@ function render_all_nodes ()
                                 
                                 <th>
                                     <div class="item">
-                                        <button class='btn btn-warning btn-3' >
+                                        <button class='btn btn-warning btn-3' onclick='javascript:delete_node("`+ node.id +`");' >
                                             <i class="feather-size-a" data-feather="x"></i>
                                             Delete node
                                         </button> 
@@ -443,6 +443,36 @@ function create_node ()
 
         if (response.indexOf('verbum-node-ok') != -1) {
             $('.area-status').text('Node creation order sent successfully.');
+
+            setTimeout(() => {
+                $('.area-status').text('Updating node list.');
+
+                setTimeout(() => {
+                    $('.area-status').text('');
+                    status_use = false;
+                }, 1000 * 3);
+            }, 1000 * 2);
+        }
+    });
+
+    // Request time limit.
+    setTimeout(() => {
+        $('.area-status').text('');
+        status_use = false;
+    }, 1000 * 10);
+}
+
+function delete_node (node_id)
+{
+    status_use = true;
+    $('.area-status').text('Deleting node...');
+
+    window.interface.delete_node(
+        node_mapper_hostname, node_mapper_hostport, node_id, (response) => {
+        console.log(response);
+
+        if (response.indexOf('verbum-node-ok') != -1) {
+            $('.area-status').text('Node deletion order sent successfully.');
 
             setTimeout(() => {
                 $('.area-status').text('Updating node list.');

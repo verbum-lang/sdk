@@ -10,9 +10,6 @@
 // Thread workers limit.
 #define NM_THREAD_LIMIT 100
 
-// Default response (socket).
-#define VERBUM_DEFAULT_RESPONSE "verbum-node-ok"
-
 // Thread param control.
 typedef struct {
     int port;                           // Server port.
@@ -40,6 +37,7 @@ typedef struct thread_worker_st {
 // Client-node struct control.
 typedef struct node_control_st {
     int status;                         // Status node (1: enabled, 0: disabled).
+    int deleted;                        // Status delete (1: enabled, 0: disabled).
     char *id;                           // Node unique identification.
     int port;                           // Node interface port.
     char last_connect_date [100];       // d-m-Y h:m:s
@@ -75,6 +73,7 @@ char * generate_new_id                  (void);
 void update_ping_node                   (int sock, char *content);
 void get_node_list                      (int sock);
 void create_node                        (int sock, char *path);
+void delete_node                        (int sock, char *content);
 void create_node_client_connection      (int sock, char *content);
 void create_node_server_connection      (int sock, char *content);
 
