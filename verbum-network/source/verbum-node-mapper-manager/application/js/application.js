@@ -4,6 +4,8 @@ var started              = false;
 var node_mapper_hostname = '127.0.0.1';
 var node_mapper_hostport = 3333;
 var debug                = false;
+var status_use           = false;
+var updating_counter     = 1;
 
 $(document).ready(() => {
     console.log("Verbum Node Mapper Manager started - Jesus <3");
@@ -13,6 +15,10 @@ $(document).ready(() => {
 
 function get_node_list (hostname, hostport) 
 {
+    if (status_use == false)
+        $('.area-status').text('Updating node list... ['+ updating_counter +']');
+    updating_counter++;
+    
     interface.get_node_list(hostname, hostport, (response) => {
         var error = false;
         var nnf   = false;
@@ -21,8 +27,9 @@ function get_node_list (hostname, hostport)
             console.log('nodes not found.');
             error = true;
             nnf   = true;
-        } else if (response == 'error') 
+        } else if (response == 'error') {
             error = true;
+        }
         
         if (error == false) {
             if (started == false) {
@@ -270,6 +277,10 @@ function generate_general_options_html ()
             Send data
         </button>
 
+        <span class='area-status' >
+            
+        </span>
+
         <button class='btn btn-light btn-4' onclick='javascript:toggle_dev_tools();' >
             <i class="feather-size-a" data-feather="tool"></i>
         </button>
@@ -423,10 +434,32 @@ function toggle_dev_tools ()
 
 function create_node ()
 {
+    status_use = true;
+    $('.area-status').text('Creating node...');
+
     window.interface.create_node(
         node_mapper_hostname, node_mapper_hostport, (response) => {
         console.log(response);
+
+        if (response.indexOf('verbum-node-ok') != -1) {
+            $('.area-status').text('Node creation order sent successfully.');
+
+            setTimeout(() => {
+                $('.area-status').text('Updating node list.');
+
+                setTimeout(() => {
+                    $('.area-status').text('');
+                    status_use = false;
+                }, 1000 * 3);
+            }, 1000 * 2);
+        }
     });
+
+    // Request time limit.
+    setTimeout(() => {
+        $('.area-status').text('');
+        status_use = false;
+    }, 1000 * 10);
 }
 
 

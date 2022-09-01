@@ -105,4 +105,12 @@ html, body {
   margin: 0; 
 }
 
+.area-status {
+  padding-left: 10px;
+  color: #20c997;
+  text-transform: uppercase;
+  font-size: 9px;
+  font-weight: bold;
+}
+
 
