@@ -7,14 +7,20 @@ $(document).ready(() => {
 
 // Example network nodes viewer.
 
-var Graph = null;
+$(document).ready(() => {
+    // showForceGraph3D();
+    showForceGraph2D();
+})
+
+var Graph3D = null;
+var Graph2D = null;
 
 var gData = {
 	nodes: [],
 	links: []
 };
 
-function updateNetworkNodesViewer ()
+function updateNetworkNodes ()
 {
     gData.nodes = [];
     gData.links = [];
@@ -45,7 +51,6 @@ function updateNetworkNodesViewer ()
     }
 
     updatePrepareNodes();
-    Graph.graphData(gData);
 }
 
 function updatePrepareNodes ()
@@ -82,8 +87,21 @@ function updatePrepareNodes ()
     });    
 }
 
-$(document).ready(() => {
-    console.log("Graph starting.");
+function updateNetworkNodesViewer3D ()
+{
+    updateNetworkNodes();
+    Graph3D.graphData(gData);
+}
+
+function updateNetworkNodesViewer2D ()
+{
+    updateNetworkNodes();
+    Graph2D.graphData(gData);
+}
+
+function showForceGraph2D()
+{
+    console.log("Graph 2D starting.");
 
 	var areaNetworkWidth =  $('.area-network').width();
 	var areaNetworkHeight = $('.area-network').height();
@@ -95,9 +113,141 @@ $(document).ready(() => {
     const highlightLinks = new Set();
     let hoverNode = null;
 
-    Graph = ForceGraph3D()
+    Graph2D = ForceGraph()
+        (document.getElementById('2d-graph'))
+            .backgroundColor('#ffffff')
+            .width(areaNetworkWidth)
+            .height(areaNetworkHeight)
+            .graphData(gData)
+            .nodeColor(node => highlightNodes.has(node) ? node === hoverNode ? 'rgb(255,0,0)' : 'rgb(255,160,0)' : node.color)
+            .linkWidth(link => highlightLinks.has(link) ? 2 : 1)
+            .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
+            .linkDirectionalParticleWidth(4)
+		
+            // Apply color on link (relationship).
+            .linkColor(link => {
+                return link.color; // 'color' param from JSON.
+            })
+
+            // Label link.
+            .linkLabel(link => {
+                var item = link.value.toString();
+
+                return `
+                    <div>
+                        link: `+ item +`
+                    </div>`;
+            })
+            
+            // Label node.
+            .nodeLabel(node => {
+                var item = node.value.toString();
+
+                return `
+                    <div>
+                        node: `+ item +`
+                    </div>`;
+            })
+            
+            // Particle effects..
+            .onNodeHover(node => {
+                // no state change
+                if ((!node && !highlightNodes.size) || (node && hoverNode === node)) return;
+    
+                highlightNodes.clear();
+                highlightLinks.clear();
+                if (node) {
+                highlightNodes.add(node);
+                
+                if (node.hasOwnProperty('neighbors'))
+                    node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
+                
+                if (node.hasOwnProperty('links'))
+                    node.links.forEach(link => highlightLinks.add(link));
+                }
+    
+                hoverNode = node || null;
+                updateHighlight();
+            })
+            
+            .onLinkHover(link => {
+                highlightNodes.clear();
+                highlightLinks.clear();
+    
+                if (link) {
+                highlightLinks.add(link);
+                highlightNodes.add(link.source);
+                highlightNodes.add(link.target);
+                }
+    
+                updateHighlight();
+            })
+
+            // Node click.
+            .onNodeRightClick(node => 
+            {
+                // Zoom node and fix center.
+                const distance = 100;
+                const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+                
+                Graph2D.cameraPosition(
+                    { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+                    node,3000
+                );
+            })
+            
+            .onNodeClick(node => 
+            {
+                console.log('Clicked node:', node);
+            })
+            
+            // Link click.
+            .onLinkRightClick (link =>
+            {
+                var node = link.source;
+                const distance = 100;
+                const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+                
+                Graph2D.cameraPosition(
+                    { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+                    node,3000
+                );
+            })
+            	
+			.onLinkClick(link =>
+            {
+                console.log('Clicked link:', link);
+            })           
+   
+    function updateHighlight() {
+        Graph2D
+            .nodeColor(Graph2D.nodeColor())
+            .linkWidth(Graph2D.linkWidth())
+            .linkDirectionalParticles(Graph2D.linkDirectionalParticles());
+    }
+	
+    // setInterval(()=>{
+        updateNetworkNodesViewer2D();
+    // }, 3333);
+}
+
+function showForceGraph3D () 
+{
+    console.log("Graph 3D starting.");
+
+	var areaNetworkWidth =  $('.area-network').width();
+	var areaNetworkHeight = $('.area-network').height();
+	
+    console.log('widht: '+ areaNetworkWidth);
+    console.log('height: '+ areaNetworkHeight);
+
+    const highlightNodes = new Set();
+    const highlightLinks = new Set();
+    let hoverNode = null;
+
+    Graph3D = ForceGraph3D()
         (document.getElementById('3d-graph'))
-            .backgroundColor('#444')
+            .backgroundColor('#ffffff')
             .showNavInfo(false)
             .width(areaNetworkWidth)
             .height(areaNetworkHeight)
@@ -188,7 +338,7 @@ $(document).ready(() => {
                 const distance = 100;
                 const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
                 
-                Graph.cameraPosition(
+                Graph3D.cameraPosition(
                     { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
                     node,3000
                 );
@@ -206,7 +356,7 @@ $(document).ready(() => {
                 const distance = 100;
                 const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
                 
-                Graph.cameraPosition(
+                Graph3D.cameraPosition(
                     { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
                     node,3000
                 );
@@ -218,17 +368,16 @@ $(document).ready(() => {
             })           
    
     function updateHighlight() {
-        Graph
-            .nodeColor(Graph.nodeColor())
-            .linkWidth(Graph.linkWidth())
-            .linkDirectionalParticles(Graph.linkDirectionalParticles());
+        Graph3D
+            .nodeColor(Graph3D.nodeColor())
+            .linkWidth(Graph3D.linkWidth())
+            .linkDirectionalParticles(Graph3D.linkDirectionalParticles());
     }
 	
     // setInterval(()=>{
-        updateNetworkNodesViewer();
+        updateNetworkNodesViewer3D();
     // }, 3333);
-
-})
+}
 
 /*
 var interface            = window.interface;
