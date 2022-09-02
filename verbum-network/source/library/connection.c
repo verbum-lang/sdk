@@ -259,7 +259,7 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size, 
         if (tmv >= (double) timeout)
             break;
 
-        usleep(10000);
+        usleep(1000);
     }
 
     if (status == -1) {
@@ -364,10 +364,11 @@ char * generate_node_id (char *address, int node_mapper_port, int node_port)
 {
     char prefix[]= "generate-verbum-node-id:";
     char *message = NULL;
+    char end_header [] = "\r\n\r\n";
     int size = 0;
 
     while (!check_connection_banner_nm(address, node_mapper_port)) {
-        usleep(10000);
+        usleep(1000);
     }
 
     size = sizeof(char) * (strlen(prefix) + 1024);
@@ -379,7 +380,7 @@ char * generate_node_id (char *address, int node_mapper_port, int node_port)
     }
 
     memset(message, 0x0, size);
-    sprintf(message, "%s%d", prefix, node_port);
+    sprintf(message, "%s%d%s", prefix, node_port, end_header);
 
     return send_message_nm(address, node_mapper_port, message, strlen(message), 0);
 }
@@ -391,10 +392,11 @@ char * ping_node (char *address, int node_mapper_port, char *node_id, int node_i
 {
     char prefix[]= "ping-verbum-node:";
     char *message = NULL;
+    char end_header [] = "\r\n\r\n";
     int size = 0;
 
     while (!check_connection_banner_nm(address, node_mapper_port)) {
-        usleep(10000);
+        usleep(1000);
     }
 
     size = sizeof(char) * (strlen(node_id) + strlen(prefix) + 256);
@@ -406,7 +408,7 @@ char * ping_node (char *address, int node_mapper_port, char *node_id, int node_i
     }
 
     memset(message, 0x0, size);
-    sprintf(message, "%s%s:%d", prefix, node_id, node_interface_port);
+    sprintf(message, "%s%s:%d%s", prefix, node_id, node_interface_port, end_header);
 
     return send_message_nm(address, node_mapper_port, message, strlen(message), 0);
 }
@@ -418,6 +420,7 @@ char * send_delete_node (char *address, int node_port, char *node_id)
 {
     char prefix[]= "delete-node:";
     char *message = NULL;
+    char end_header [] = "\r\n\r\n";
     int size = 0;
 
     if (!check_connection_banner_nm(address, node_port)) 
@@ -432,7 +435,7 @@ char * send_delete_node (char *address, int node_port, char *node_id)
     }
 
     memset(message, 0x0, size);
-    sprintf(message, "%s%s", prefix, node_id);
+    sprintf(message, "%s%s%s", prefix, node_id, end_header);
 
     return send_message_nm(address, node_port, message, strlen(message), 1);
 }

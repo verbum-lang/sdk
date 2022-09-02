@@ -91,6 +91,8 @@ void add_node_on_node_mapper (void)
         
         if (id)
             break;
+
+        usleep(100);
     }
 
     memory_scopy(id, param->information.id);
@@ -174,6 +176,10 @@ char * get_client_request (int sock)
                 content[ bytes_received ] = '\0';
 
             status = 1;
+
+            // Check end of header.
+            if (strstr(content, "\r\n\r\n"))
+                break;
         }
     }
 

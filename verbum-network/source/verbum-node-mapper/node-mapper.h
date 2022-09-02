@@ -5,7 +5,7 @@
 #include "global.h"
 
 // Show/hide debug messages.
-// #define NMDBG
+#define NMDBG
 
 // Thread workers limit.
 #define NM_THREAD_LIMIT 100

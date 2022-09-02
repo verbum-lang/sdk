@@ -95,6 +95,10 @@ void * node_mapper_interface (void *tparam)
                 nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
                 if (nsock != -1) {
 
+                    #ifdef NMDBG
+                        say("connection accepted!");
+                    #endif
+
                     // Configure socket.
                     struct timeval tms;
                     tms.tv_sec  = CONNECTIONS_TIMEOUT1;
@@ -113,7 +117,7 @@ void * node_mapper_interface (void *tparam)
         }
 
         pthread_mutex_unlock(&mutex_workers);
-        usleep(1000);
+        usleep(100);
     }
 }
 
@@ -209,7 +213,7 @@ void * worker_handler (void *tparam)
          */
 
         run = 0;
-        usleep(1000);
+        usleep(100);
         pthread_mutex_lock(&mutex_workers);
         
         for (worker=workers; worker!=NULL; worker=worker->next) {
@@ -227,11 +231,16 @@ void * worker_handler (void *tparam)
         if (run == 0)
             continue;
 
+        #ifdef NMDBG
+            say("task started!");
+        #endif
+
         /**
          * Process actions.
          */
 
         status = send_handshake(sock);
+
         if (status == 1)
             process_communication(sock, path);
 
@@ -268,12 +277,16 @@ int send_handshake (int sock)
             break;
         }
 
-        usleep(10000);
+        usleep(100);
         counter++;
 
         if (counter >= 30)
             break;
     }
+
+    #ifdef NMDBG
+        say("handshake sended!");
+    #endif
 
     return result;
 }
@@ -332,6 +345,10 @@ void process_communication (int sock, char *path)
 
 char * get_client_request (int sock)
 {
+    #ifdef NMDBG
+        say("get_client_request() - called!");
+    #endif
+
     char *content = NULL;
     char tmp [512];
     int bytes = -1, status = 0;
@@ -365,15 +382,19 @@ char * get_client_request (int sock)
                 content[ bytes_received ] = '\0';
 
             status = 1;
+
+            // Check end of header.
+            if (strstr(content, "\r\n\r\n"))
+                break;
         }
     }
 
     if (!status || !content)
         return NULL;
 
-    // #ifdef NMDBG
+    #ifdef NMDBG
         say("raw data received: \"%s\"", content);
-    // #endif
+    #endif
 
     return content;
 }
@@ -682,9 +703,9 @@ void create_node (int sock, char *path)
 
 void delete_node (int sock, char *content)
 {
-    // #ifdef NMDBG
+    #ifdef NMDBG
         say("delete verbum node.");
-    // #endif
+    #endif
 
     char tmp[1024], prefix [] = "delete-node:";
     char response_success  [] = VERBUM_DEFAULT_SUCCESS;
