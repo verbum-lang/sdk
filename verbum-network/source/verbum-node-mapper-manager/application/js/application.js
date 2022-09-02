@@ -53,13 +53,14 @@ function get_node_list (hostname, hostport)
                     $('.area-results').removeClass('hide-el');
                 }
 
+                nodes = [];
                 render_all_nodes();
             }
 
             setTimeout(()=>{
                 connection_running = false;
                 get_node_list(hostname, hostport);    
-            }, 1000)
+            }, 500)
         });
     }
 }
