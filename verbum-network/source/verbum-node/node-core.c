@@ -145,7 +145,7 @@ char * get_client_request (int sock)
 {
     char *content = NULL;
     char tmp [512];
-    int bytes = -1, status = 0;
+    int bytes = -1, status = 0, eoh = 0;
     int bytes_received = 0, size = 0;
 
     while (1) {
@@ -186,8 +186,29 @@ char * get_client_request (int sock)
     if (!status || !content)
         return NULL;
 
+    // Remove end of header: \r\n\r\n.
+    if (strstr(content, "\r\n\r\n")) {
+        size = strlen(content);
+        for (int a=0; a<size; a++) {
+            if (content[a] == '\r' && (a + 3) <= size) {
+                if (content[a  ] == '\r' &&
+                    content[a+1] == '\n' &&
+                    content[a+2] == '\r' &&
+                    content[a+3] == '\n'  )
+                {
+                    content[a] = '\0';
+                    eoh = 1;
+                    break;
+                }
+            }
+        }
+    }
+
     #ifdef NCDBG
-        say("raw data received: \"%s\"", content);
+        if (eoh)
+            say("raw data received: \"%s + EOH\"", content);
+        else
+            say("raw data received: \"%s\"", content);
     #endif
 
     return content;
