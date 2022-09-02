@@ -35,7 +35,7 @@ function connect_node_mapper (hostname, hostport, message, callback)
     var flag = false;
     
     sock = net.connect({host: hostname, port: hostport}, () => {
-        sock.write(message);
+        sock.write(message + "\r\n\r\n");
     });
     
     sock.on('data', (response) => {

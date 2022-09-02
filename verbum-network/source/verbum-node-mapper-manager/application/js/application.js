@@ -6,6 +6,7 @@ var node_mapper_hostport = 3333;
 var debug                = false;
 var status_use           = false;
 var updating_counter     = 1;
+var connection_running   = false;
 
 $(document).ready(() => {
     console.log("Verbum Node Mapper Manager started - Jesus <3");
@@ -15,45 +16,52 @@ $(document).ready(() => {
 
 function get_node_list (hostname, hostport) 
 {
-    if (status_use == false)
-        $('.area-status').text('Updating node list... ['+ updating_counter +']');
-    updating_counter++;
-    
-    interface.get_node_list(hostname, hostport, (response) => {
-        var error = false;
-        var nnf   = false;
+    if (connection_running == false) {
+        connection_running = true;
 
-        if (response.indexOf('nodes not found') != -1) {
-            console.log('nodes not found.');
-            error = true;
-            nnf   = true;
-        } else if (response == 'error') {
-            error = true;
-        }
+        if (status_use == false)
+            $('.area-status').text('Updating node list... ['+ updating_counter +']');
+        updating_counter++;
         
-        if (error == false) {
-            if (started == false) {
-                started = true;
-                $('.area-initialization').addClass('hide-el');
-                $('.area-results').removeClass('hide-el');
+        interface.get_node_list(hostname, hostport, (response) => {
+            var error = false;
+            var nnf   = false;
+
+            if (response.indexOf('nodes not found') != -1) {
+                console.log('nodes not found.');
+                error = true;
+                nnf   = true;
+            } else if (response == 'error') {
+                error = true;
+            }
+            
+            if (error == false) {
+                if (started == false) {
+                    started = true;
+                    $('.area-initialization').addClass('hide-el');
+                    $('.area-results').removeClass('hide-el');
+                }
+
+                render_all_nodes();
+                process_node_list(response);
             }
 
-            render_all_nodes();
-            process_node_list(response);
-        }
+            if (nnf == true) {
+                if (started == false) {
+                    started = true;
+                    $('.area-initialization').addClass('hide-el');
+                    $('.area-results').removeClass('hide-el');
+                }
 
-        if (nnf == true) {
-            if (started == false) {
-                started = true;
-                $('.area-initialization').addClass('hide-el');
-                $('.area-results').removeClass('hide-el');
+                render_all_nodes();
             }
 
-            render_all_nodes();
-        }
-
-        get_node_list(hostname, hostport);
-    });
+            setTimeout(()=>{
+                connection_running = false;
+                get_node_list(hostname, hostport);    
+            }, 1000)
+        });
+    }
 }
 
 function process_node_list (response) 
