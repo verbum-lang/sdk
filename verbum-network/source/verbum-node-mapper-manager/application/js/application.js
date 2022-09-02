@@ -2,8 +2,233 @@
 $(document).ready(() => {
     console.log("Verbum Node Mapper Manager started - Jesus <3");
 
-    
+
 });
+
+// Example network nodes viewer.
+
+var Graph = null;
+
+var gData = {
+	nodes: [],
+	links: []
+};
+
+function updateNetworkNodesViewer ()
+{
+    gData.nodes = [];
+    gData.links = [];
+
+    for (var a=0; a<3; a++) {
+        gData.nodes.push({
+            id: 'id-'+ a,
+            group: 1,
+            value: 'verbum-node-00000000'+ a +':333'+ a,
+            color: 'blue'
+        });
+    }
+
+    for (var a=0; a<3; a++) {
+        var target = (a+1);
+
+        if (target == 3)
+            target = 0;
+
+        gData.links.push({
+            id: 0,
+            source: 'id-'+ a,
+            target: 'id-'+ target,
+            value: 'relation '+ a,
+            valuesys: 'relation sys',
+            color: 'yellow'
+        });
+    }
+
+    updatePrepareNodes();
+    Graph.graphData(gData);
+}
+
+function updatePrepareNodes ()
+{
+    gData.links.forEach(link => {
+        var a, b;
+        
+        for (var x=0; x<gData.nodes.length; x++) {
+            if (gData.nodes[x].id == link.source) {
+                a = gData.nodes[x];
+                break;
+            }
+        }
+        
+        for (var x=0; x<gData.nodes.length; x++) {
+            if (gData.nodes[x].id == link.target) {
+                b = gData.nodes[x];
+                break;
+            }
+        }
+        
+        if (!a.neighbors)
+            a.neighbors = [];
+        if (!b.neighbors)
+            b.neighbors = [];
+        
+        a.neighbors.push(b);
+        b.neighbors.push(a);
+
+        !a.links && (a.links = []);
+        !b.links && (b.links = []);
+        a.links.push(link);
+        b.links.push(link);
+    });    
+}
+
+$(document).ready(() => {
+    console.log("Graph starting.");
+
+	var areaNetworkWidth =  $('.area-network').width();
+	var areaNetworkHeight = $('.area-network').height();
+	
+    console.log('widht: '+ areaNetworkWidth);
+    console.log('height: '+ areaNetworkHeight);
+
+    const highlightNodes = new Set();
+    const highlightLinks = new Set();
+    let hoverNode = null;
+
+    Graph = ForceGraph3D()
+        (document.getElementById('3d-graph'))
+            .backgroundColor('#444')
+            .showNavInfo(false)
+            .width(areaNetworkWidth)
+            .height(areaNetworkHeight)
+            .graphData(gData)
+            .nodeColor(node => highlightNodes.has(node) ? node === hoverNode ? 'rgb(255,0,0)' : 'rgb(255,160,0)' : node.color)
+            .linkWidth(link => highlightLinks.has(link) ? 2 : 1)
+            .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
+            .linkDirectionalParticleWidth(4)
+            .linkOpacity(0.8)
+		
+            // Apply color on link (relationship).
+            .linkColor(link => {
+                return link.color; // 'color' param from JSON.
+            })
+
+            // Label link.
+            .linkLabel(link => {
+                var item = link.value.toString();
+
+                return `
+                    <div>
+                        link: `+ item +`
+                    </div>`;
+            })
+            
+            // Label node.
+            .nodeLabel(node => {
+                var item = node.value.toString();
+
+                return `
+                    <div>
+                        node: `+ item +`
+                    </div>`;
+            })
+            
+            // Custom node.
+            .nodeThreeObject(node => 
+            {
+                var item = node.value.toString();			
+                const sprite = new SpriteText(item);
+                
+                sprite.color = 'white';
+                sprite.textHeight = 5;
+                sprite.strokeWidth = 2;
+                sprite.strokeColor = 'black';
+                
+                return sprite;
+            })
+		
+            // Particle effects..
+            .onNodeHover(node => {
+                // no state change
+                if ((!node && !highlightNodes.size) || (node && hoverNode === node)) return;
+    
+                highlightNodes.clear();
+                highlightLinks.clear();
+                if (node) {
+                highlightNodes.add(node);
+                
+                if (node.hasOwnProperty('neighbors'))
+                    node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
+                
+                if (node.hasOwnProperty('links'))
+                    node.links.forEach(link => highlightLinks.add(link));
+                }
+    
+                hoverNode = node || null;
+                updateHighlight();
+            })
+            
+            .onLinkHover(link => {
+                highlightNodes.clear();
+                highlightLinks.clear();
+    
+                if (link) {
+                highlightLinks.add(link);
+                highlightNodes.add(link.source);
+                highlightNodes.add(link.target);
+                }
+    
+                updateHighlight();
+            })
+
+            // Node click.
+            .onNodeRightClick(node => 
+            {
+                // Zoom node and fix center.
+                const distance = 100;
+                const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+                
+                Graph.cameraPosition(
+                    { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+                    node,3000
+                );
+            })
+            
+            .onNodeClick(node => 
+            {
+                console.log('Clicked node:', node);
+            })
+            
+            // Link click.
+            .onLinkRightClick (link =>
+            {
+                var node = link.source;
+                const distance = 100;
+                const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+                
+                Graph.cameraPosition(
+                    { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+                    node,3000
+                );
+            })
+            	
+			.onLinkClick(link =>
+            {
+                console.log('Clicked link:', link);
+            })           
+   
+    function updateHighlight() {
+        Graph
+            .nodeColor(Graph.nodeColor())
+            .linkWidth(Graph.linkWidth())
+            .linkDirectionalParticles(Graph.linkDirectionalParticles());
+    }
+	
+    // setInterval(()=>{
+        updateNetworkNodesViewer();
+    // }, 3333);
+
+})
 
 /*
 var interface            = window.interface;

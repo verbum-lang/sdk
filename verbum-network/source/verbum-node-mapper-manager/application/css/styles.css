@@ -18,7 +18,7 @@ html, body {
   position: absolute;
   left: 0;
   top: 0;
-  height: 100%;
+  height: calc(100% - 20px);
   width: 70%;
 }
 
@@ -27,8 +27,17 @@ html, body {
   position: absolute;
   right: 0;
   top: 0;
-  height: 100%;
+  height: calc(100% - 20px);
   width: 30%;
+}
+
+.area-status {
+  background-color: yellow;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 20px;
+  width: 100%;
 }
 
 /* .area-initialization {
