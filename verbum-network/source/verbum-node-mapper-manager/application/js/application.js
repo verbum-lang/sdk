@@ -1,4 +1,11 @@
 
+$(document).ready(() => {
+    console.log("Verbum Node Mapper Manager started - Jesus <3");
+
+    
+});
+
+/*
 var interface            = window.interface;
 var started              = false;
 var node_mapper_hostname = '127.0.0.1';
@@ -500,5 +507,6 @@ function delete_node (node_id)
         status_use = false;
     }, 1000 * 10);
 }
+*/
 
 
