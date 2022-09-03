@@ -31,6 +31,8 @@ app.once('ready', () => {
   win.center()
   win.webContents.setUserAgent(globalUserAgent);
 
+  win.webContents.openDevTools();
+
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'application/index.html'),
     protocol: 'file:',
