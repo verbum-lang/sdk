@@ -395,13 +395,7 @@ function render_information_nodes ()
 
 function generate_connections_area_html (prefix)
 {
-    var html = '';
-
-    html += `
-        <div class="connections-title" >
-            Connections
-        </div>
-
+    var html = `
         <table class="table table-dark table-borderless table-results-sec-3">
             <thead>
             </thead>
@@ -431,7 +425,7 @@ function generate_connections_area_html (prefix)
                     </th>
                     <th style="text-align:right;" >
                         <button class='btn btn-2 btn-danger' >
-                            <i class="feather-size-a" data-feather="x"></i>
+                            <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
                 </tr>
@@ -447,7 +441,7 @@ function generate_connections_area_html (prefix)
                     </th>
                     <th style="text-align:right;" >
                         <button class='btn btn-2 btn-danger' >
-                            <i class="feather-size-a" data-feather="x"></i>
+                            <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
                 </tr>
@@ -477,7 +471,7 @@ function generate_connections_area_html (prefix)
                     </th>
                     <th style="text-align:right;" >
                         <button class='btn btn-2 btn-danger' >
-                            <i class="feather-size-a" data-feather="x"></i>
+                            <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
                 </tr>
@@ -493,7 +487,7 @@ function generate_connections_area_html (prefix)
                     </th>
                     <th style="text-align:right;" >
                         <button class='btn btn-2 btn-danger' >
-                            <i class="feather-size-a" data-feather="x"></i>
+                            <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
                 </tr>
