@@ -9,12 +9,12 @@ $(document).ready(() => {
  * Networtk graph control.
  */
 
+var gData = [];
+
 $(document).ready(() => {
     prepareNetworkGraph();
     showNetworkGraph();
 })
-
-var gData = [];
 
 function prepareNetworkGraph ()
 {
