@@ -5,6 +5,7 @@
 
 var wk = null;
 var auto_auth = true;
+var nm_address = null, nm_port = null;
 
 $(document).ready(() => {
     console.log("Verbum Node Mapper Manager started - Jesus <3");
@@ -77,8 +78,11 @@ function check_node_mapper_connection (address, port)
     })
 }
 
-function process_success_connect ()
+function process_success_connect (request)
 {
+    nm_address = request.address;
+    nm_port    = request.port;
+
     show_status_connect_message('', false);
 
     $('.area-auth').addClass('hide-el');
@@ -91,7 +95,11 @@ function process_success_connect ()
  * Control of content area.
  */
 
+$(document).ready(() => {
 
+    
+
+});
 
 /**
  * Process worker requests - response.
@@ -106,7 +114,7 @@ function process_worker (ev)
         if (request.status == false) 
             show_status_connect_message('Error connecting to the server.', true);
         else
-            process_success_connect();
+            process_success_connect(request);
     }
 }
 
