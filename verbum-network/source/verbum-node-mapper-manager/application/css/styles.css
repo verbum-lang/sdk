@@ -153,15 +153,9 @@ html, body {
   width: 100%;
 }
 
-
-
-/* .area-initialization {
-  color: white;
-}
-
-.area-results {
-  margin-top: 10px;
-}
+/**
+ * Node list styles.
+ */
 
 .table-results-sec-1 {
   font-size: 8px;
@@ -183,13 +177,6 @@ html, body {
 
 .table-results-sec-1 .item .sub-2 {
   font-size: 9px;
-}
-
-.btn {
-  font-size: 9px !important;
-  padding: 2px !important;
-  padding-left: 5px !important;
-  padding-right: 5px !important;
 }
 
 .btn-2 {
@@ -226,11 +213,6 @@ html, body {
   font-size: 7px;
 }
 
-.feather-size-a {
-  width: 14px;
-  height: 14px;
-}
-
 .table-results-sec-3 .con-th-1 {
   background-color: black;
 }
@@ -247,13 +229,5 @@ html, body {
   padding: 0;
   margin: 0; 
 }
-
-.area-status {
-  padding-left: 10px;
-  color: #20c997;
-  text-transform: uppercase;
-  font-size: 9px;
-  font-weight: bold;
-} */
 
 
