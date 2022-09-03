@@ -172,6 +172,17 @@ function process_node_list (nds = [])
     run_gnl = false;
 }
 
+// Buttons.
+$(document).ready(() => {
+    $('#btn-open-dev-tools').on('click', ()=> {
+        window.interface.toggle_dev_tools();
+    });
+
+    $('#btn-log-out').on('click', ()=> {
+        window.interface.restart_application();
+    });
+})
+
 /**
  * Process worker requests - response.
  */
