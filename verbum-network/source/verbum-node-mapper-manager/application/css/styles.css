@@ -51,6 +51,12 @@ html, body {
   top: 33%;
 }
 
+.area-auth .status {
+  padding-top: 33px;
+  width: 100%;
+  text-align: center;
+}
+
 /**
  * General content.
  */

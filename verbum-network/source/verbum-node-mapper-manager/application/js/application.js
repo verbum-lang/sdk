@@ -3,11 +3,32 @@
  * Startup actions.
  */
 
+var wk = null;
+
 $(document).ready(() => {
     console.log("Verbum Node Mapper Manager started - Jesus <3");
-
+    
+    // General.
     $('#nm-address').focus();
+
+    // Prepare worker.
+    if (typeof(Worker) !== "undefined") {
+        wk = new Worker("./js/worker.js");
+        wk.onmessage = processWorker;
+    } else 
+        alert('Sorry, no Web Worker support.');
 });
+
+/**
+ * Process worker requests.
+ */
+
+function processWorker (ev)
+{
+    var data = ev.data;
+
+    console.log('response worker:', data);
+}
 
 /**
  * Networtk graph control.
