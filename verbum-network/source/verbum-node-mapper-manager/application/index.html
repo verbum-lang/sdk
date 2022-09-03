@@ -13,43 +13,68 @@
 
     </head>
     <body>
-
-        <div class="container-fluid">
-            <div class="row">
-                <main class="col-md-12">
         
-                    <!-- Initialization area. -->
-                    <!-- <div class='area-initialization' >
-                        <br><br><br>
-                        <center>
-                            Verbum Node Mapper Manager<br>
-                            Connecting...
-                        </center>
-                    </div> -->
-                    <!-- End of initialization area. -->
+        <!-- Initialization area. -->
+        <!-- <div class='area-initialization' >
+            <br><br><br>
+            <center>
+                Verbum Node Mapper Manager<br>
+                Connecting...
+            </center>
+        </div> -->
+        <!-- End of initialization area. -->
 
-                    <!-- Results area. -->
-                    <!-- <div class="area-results hide-el" >
-                        
-                    </div> -->
-                    <!-- End of results area. -->
+        <!-- Results area. -->
+        <!-- <div class="area-results hide-el" >
+            
+        </div> -->
+        <!-- End of results area. -->
 
-                    <div class="area-content" >
-                        
-                    </div>
-
-                    <div class="area-network" >
-                        <div id="area-network-graph" >
+        <!-- Auth. -->
+        <div class="area-auth" >
+            <div class="content" >
+                <div class="row" >
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="nm-address">Address</label>
+                            <input type="text" class="form-control" id="nm-address" placeholder="Address" value="127.0.0.1">
                         </div>
                     </div>
-                
-                    <div class="area-status" >
-
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="nm-port">Port</label>
+                            <input type="text" class="form-control" id="nm-port" placeholder="Port" value="3333">
+                        </div>
                     </div>
-                
-                </main>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="nm-connect">&nbsp;</label>
+                            <button class="btn btn-success" id="nm-connect" >
+                                Connect
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>          
+        </div>
+        <!-- End of auth. -->
+
+        <!-- Content. -->
+        <div class="area-general-content hide-el" >
+            <div class="area-content" >
+                
+            </div>
+
+            <div class="area-network" >
+                <div id="area-network-graph" >
+                </div>
+            </div>
+        
+            <div class="area-status" >
+
+            </div>
+        </div>
+        <!-- End of content. -->
 
         <script src="./dependencies/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js" ></script>        
         <script src="./dependencies/feather/feather.min.js"></script>

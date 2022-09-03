@@ -10,12 +10,28 @@ html, body {
 }
 
 /**
- * General.
+ * Auth area.
  */
 
-.container-fluid {
-  background-color: #2c3034;
+.area-auth {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
 }
+
+.area-auth .content {
+  width: 400px;
+  position: absolute;
+  left: calc(50% - 200px);
+  top: 50%;
+}
+
+/**
+ * General content.
+ */
 
 .area-content {
   position: absolute;
@@ -49,13 +65,6 @@ html, body {
   height: 20px;
   width: 100%;
 }
-
-/**
- * 
- */
-
-
-
 
 /* .area-initialization {
   color: white;
