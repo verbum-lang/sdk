@@ -8,8 +8,8 @@ $(document).ready(() => {
 // Example network nodes viewer.
 
 $(document).ready(() => {
-    showForceGraph3D();
     showForceGraph2D();
+    showForceGraph3D();
 })
 
 var Graph3D = null;
@@ -29,7 +29,7 @@ function updateNetworkNodes ()
         gData.nodes.push({
             id: 'id-'+ a,
             group: 1,
-            value: 'verbum-node-00000000'+ a +':333'+ a,
+            value: '00000000'+ a,
             color: 'blue'
         });
     }
@@ -123,7 +123,33 @@ function showForceGraph2D()
             .linkWidth(link => highlightLinks.has(link) ? 2 : 1)
             .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
             .linkDirectionalParticleWidth(4)
-		
+            
+            // Settings.
+            .linkDirectionalArrowRelPos(1)
+            .linkDirectionalArrowLength(7)
+
+            .onNodeDragEnd((node) => {
+                node.fx = node.x;
+                node.fy = node.y;
+                node.fz = node.z;
+            })
+            
+            .nodeCanvasObjectMode(() => { 
+                return "after";
+            })
+
+            .nodeCanvasObject((node, ctx, globalScale) => {
+                const label = node.value.toString();
+                const fontSize = 12 / globalScale;
+
+                ctx.font = fontSize +`px Sans-Serif`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "black"; //node.color;
+
+                ctx.fillText(label, node.x, node.y + 7);
+            })
+            
             // Apply color on link (relationship).
             .linkColor(link => {
                 return link.color; // 'color' param from JSON.
@@ -267,15 +293,20 @@ function showForceGraph3D ()
             
             // Custom node.
             .nodeThreeObject(node => {
-                var item = node.value.toString();			
-                const sprite = new SpriteText(item);
+                // var item = node.value.toString();			
+                // const sprite = new SpriteText(item);
                 
-                sprite.color = 'white';
-                sprite.textHeight = 5;
-                sprite.strokeWidth = 2;
-                sprite.strokeColor = 'black';
+                // sprite.color = 'white';
+                // sprite.textHeight = 5;
+                // sprite.strokeWidth = 2;
+                // sprite.strokeColor = 'black';
                 
-                return sprite;
+                // return sprite;
+                const sprite = new SpriteText(node.value.toString());
+                sprite.material.depthWrite = false; // make sprite background transparent
+                sprite.color = node.color;
+                sprite.textHeight = 8;
+                return sprite;      
             })
 		
             // Particle effects..
@@ -347,6 +378,7 @@ function showForceGraph3D ()
             // })       
    	
     updateNetworkNodesViewer3D();
+    Graph3D.cameraPosition({ z: 80 })
 }
 
 function updateHighlight3D() {
