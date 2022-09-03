@@ -5,10 +5,232 @@ $(document).ready(() => {
 
 });
 
-// Example network nodes viewer.
+$(document).ready(() => {
+    prepareData();
+    showForceGraph2DCy();
+})
+
+var gDataElms = [];
+
+function prepareData ()
+{
+    for (var a=0; a<3; a++) {
+        gDataElms.push({
+            data: { 
+                id: 'id-'+ a, 
+                name: 'node '+ a, 
+                value: '00000000'+ a
+            }
+        });
+    }
+
+    for (var a=0; a<3; a++) {
+        var target = (a+1);
+
+        if (target == 3)
+            target = 0;
+
+        gDataElms.push({
+            data: {
+                id: 'v-'+ a,
+                source: 'id-'+ a,
+                target: 'id-'+ target
+            }
+        });
+    }
+}
+
+function showForceGraph2DCy ()
+{
+    var cy = cytoscape({
+        container: document.getElementById('g2d-graph'),
+        boxSelectionEnabled: false,
+        autounselectify: true,
+        layout: {
+            name: 'cola'
+        },
+        elements: gDataElms,
+        
+        style: [{
+            selector: 'node',
+            style: {
+                'content': 'data(name)',
+                'text-valign': 'center',
+                'color': 'white',
+                'font-size': '10px',
+                'text-outline-width': 1,
+                'text-outline-color': '#888',
+            }
+        }]
+    });
+    
+    console.log(cy)
+}
+
+/*
+var data = {
+    "nodes": [
+      {
+        "id": 1,
+        "name": "A"
+      },
+      {
+        "id": 2,
+        "name": "B"
+      },
+      {
+        "id": 3,
+        "name": "C"
+      },
+      {
+        "id": 4,
+        "name": "D"
+      },
+      {
+        "id": 5,
+        "name": "E"
+      },
+      {
+        "id": 6,
+        "name": "F"
+      },
+      {
+        "id": 7,
+        "name": "G"
+      },
+      {
+        "id": 8,
+        "name": "H"
+      },
+      {
+        "id": 9,
+        "name": "I"
+      },
+      {
+        "id": 10,
+        "name": "J"
+      }
+    ],
+    "links": [
+  
+      {
+        "source": 1,
+        "target": 2
+      },
+      {
+        "source": 1,
+        "target": 5
+      },
+      {
+        "source": 1,
+        "target": 6
+      },
+  
+      {
+        "source": 2,
+        "target": 3
+      },
+              {
+        "source": 2,
+        "target": 7
+      }
+      ,
+  
+      {
+        "source": 3,
+        "target": 4
+      },
+       {
+        "source": 8,
+        "target": 3
+      }
+      ,
+      {
+        "source": 4,
+        "target": 5
+      }
+      ,
+  
+      {
+        "source": 4,
+        "target": 9
+      },
+      {
+        "source": 5,
+        "target": 10
+      }
+    ]
+  };
 
 $(document).ready(() => {
-    showForceGraph2D();
+    showForceGraph2D_D3();
+})
+
+function showForceGraph2D_D3 ()
+{
+	var areaNetworkWidth  = $('.area-network-3d').width();
+	var areaNetworkHeight = $('.area-network-3d').height();
+	
+    console.log('widht: ' + areaNetworkWidth);
+    console.log('height: '+ areaNetworkHeight);
+
+    var width  = areaNetworkWidth - offset;
+    var height = areaNetworkHeight - offset;
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#g2d-graph")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    // .attr("transform",
+    //         "translate(" + margin.left + "," + margin.top + ")");
+
+  // Initialize the links
+  var link = svg
+    .selectAll("line")
+    .data(data.links)
+    .enter()
+    .append("line")
+      .style("stroke", "#aaa")
+
+  // Initialize the nodes
+  var node = svg
+    .selectAll("circle")
+    .data(data.nodes)
+    .enter()
+    .append("circle")
+      .attr("r", 20)
+      .style("fill", "#69b3a2")
+
+  // Let's list the force we wanna apply on the network
+  var simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
+      .force("link", d3.forceLink()                               // This force provides links between nodes
+            .id(function(d) { return d.id; })                     // This provide  the id of a node
+            .links(data.links)                                    // and this the list of links
+      )
+      .force("charge", d3.forceManyBody().strength(-400))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+      .force("center", d3.forceCenter(width / 2, height / 2))     // This force attracts nodes to the center of the svg area
+      .on("end", ticked);
+
+  // This function is run at each iteration of the force algorithm, updating the nodes position.
+  function ticked() {
+    link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node
+         .attr("cx", function (d) { return d.x+6; })
+         .attr("cy", function(d) { return d.y-6; });
+  }
+}
+*/
+
+// Example network nodes viewer.
+$(document).ready(() => {
+    // showForceGraph2D();
     showForceGraph3D();
 })
 
@@ -254,7 +476,7 @@ function showForceGraph3D ()
     let hoverNode3D      = null;
 
     Graph3D = ForceGraph3D()
-        (document.getElementById('3d-graph'))
+        (document.getElementById('g3d-graph'))
             .backgroundColor('#ffffff')
             .showNavInfo(false)
             .width(areaNetworkWidth)
@@ -305,7 +527,7 @@ function showForceGraph3D ()
                 const sprite = new SpriteText(node.value.toString());
                 sprite.material.depthWrite = false; // make sprite background transparent
                 sprite.color = node.color;
-                sprite.textHeight = 8;
+                sprite.textHeight = 4;
                 return sprite;      
             })
 		

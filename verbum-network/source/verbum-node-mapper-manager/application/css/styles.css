@@ -58,6 +58,14 @@ html, body {
   width: 100%;
 }
 
+#g2d-graph {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
 /* .area-initialization {
   color: white;
 }
