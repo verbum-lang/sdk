@@ -325,31 +325,31 @@ function render_all_nodes ()
                                 
                                 <th>
                                     <div class="item">
-                                        <div class="sub-1">Interface Port</div>
+                                        <div class="sub-1">Port</div>
                                         <div class="sub-2 `+ prefix +`-port ">`+ node.port +`</div>
                                     </div>
                                 </th>
                                 
                                 <th>
                                     <div class="item">
-                                        <div class="sub-1">Last connection date</div>
+                                        <div class="sub-1">Last connection</div>
                                         <div class="sub-2 `+ prefix +`-last-con-date ">`+ node.last_connection_date +`</div>
                                     </div>
                                 </th>
                                 
                                 <th>
-                                    <div class="item">
-                                        <button class='btn btn-warning btn-3 btn-fix-1' onclick='javascript:delete_node("`+ node.id +`");' >
+                                    <div style="text-align:right;" >
+
+                                        <button class='btn btn-primary btn-3 btn-fix-1' style="margin-top:3px" >
+                                            <i class="feather-size-a" data-feather="plus"></i>
+                                            Add connection
+                                        </button>
+
+                                        <button class='btn btn-danger btn-3 btn-fix-1' onclick='javascript:delete_node("`+ node.id +`");' >
                                             <i class="feather-size-a" data-feather="x"></i>
                                             Delete node
                                         </button> 
 
-                                        <br>
-
-                                        <button class='btn btn-primary btn-3 btn-fix-1' style="margin-top:3px" >
-                                            <i class="feather-size-a" data-feather="plus"></i>
-                                            Create connection
-                                        </button>
                                     </div>
                                 </th>
 
