@@ -20,6 +20,46 @@ $(document).ready(() => {
 });
 
 /**
+ * Control of auth area.
+ */
+
+$(document).ready(() => {
+    $('#nm-connect').on('click', ()=> {
+        NMAuth();
+    });
+
+    $('#nm-address,#nm-port,#nm-connect').keypress(function (e) {
+        if (e.which == 13) {
+            NMAuth();
+          return false;
+        }
+    });
+});
+
+function NMAuth ()
+{
+    // Validation.
+    var address = $('#nm-address').val().toString().trim();
+    var port    = $('#nm-port').val().toString().trim();
+
+    if (address.length <= 0 || port.length <= 0) {
+        showStatusConnectMessage('Invalid address or port number.');
+        return false;
+    }
+
+    
+}
+
+function showStatusConnectMessage (msg)
+{
+    $('#nm-connect-status').text(msg);
+
+    setTimeout(() => {
+        $('#nm-connect-status').text('');
+    }, 3333);
+}
+
+/**
  * Process worker requests.
  */
 
