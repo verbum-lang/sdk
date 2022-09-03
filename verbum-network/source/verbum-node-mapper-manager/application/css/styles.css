@@ -31,6 +31,24 @@ html, body {
   width: 30%;
 }
 
+.area-network-2d {
+  background-color: aqua;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+}
+
+.area-network-3d {
+  background-color: blueviolet;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+}
+
 .area-status {
   background-color: yellow;
   position: absolute;
