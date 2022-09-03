@@ -17,6 +17,7 @@ app.once('ready', () => {
     height: 600,
     show: false,
     webPreferences: {
+      sandbox: false,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       webSecurity: false,

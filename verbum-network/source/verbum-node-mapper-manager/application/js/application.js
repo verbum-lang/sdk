@@ -14,7 +14,7 @@ $(document).ready(() => {
     // Prepare worker.
     if (typeof(Worker) !== "undefined") {
         wk = new Worker("./js/worker.js");
-        wk.onmessage = processWorker;
+        wk.onmessage = process_worker;
     } else 
         alert('Sorry, no Web Worker support.');
 });
@@ -25,34 +25,34 @@ $(document).ready(() => {
 
 $(document).ready(() => {
     $('#nm-connect').on('click', ()=> {
-        NMAuth();
+        nm_auth();
     });
 
     $('#nm-address,#nm-port,#nm-connect').keypress(function (e) {
         if (e.which == 13) {
-            NMAuth();
+            nm_auth();
           return false;
         }
     });
 });
 
-function NMAuth ()
+function nm_auth ()
 {
     // Validation.
     var address = $('#nm-address').val().toString().trim();
     var port    = $('#nm-port').val().toString().trim();
 
     if (address.length <= 0 || port.length <= 0) {
-        showStatusConnectMessage('Invalid address or port number.', true);
+        show_status_connect_message('Invalid address or port number.', true);
         return false;
     }
 
     // Connect.
-    showStatusConnectMessage('Connecting...', false);
-    checkNodeMapperConnection(address, port);
+    show_status_connect_message('Connecting...', false);
+    check_node_mapper_connection(address, port);
 }
 
-function showStatusConnectMessage (msg, tmo = false)
+function show_status_connect_message (msg, tmo = false)
 {
     $('#nm-connect-status').text(msg);
 
@@ -63,9 +63,9 @@ function showStatusConnectMessage (msg, tmo = false)
     }
 }
 
-function checkNodeMapperConnection (address, port)
+function check_node_mapper_connection (address, port)
 {
-    sendRequest({
+    send_request({
         cmd: 'check-connection',
         address: address,
         port: port
@@ -73,17 +73,23 @@ function checkNodeMapperConnection (address, port)
 }
 
 /**
- * Process worker requests.
+ * Process worker requests - response.
  */
 
-function processWorker (ev)
+function process_worker (ev)
 {
-    var data = ev.data;
+    var request = ev.data;
 
-    console.log('response worker:', data);
+    // Node Mapper connect.
+    if (request.cmd == 'check-connection') {
+        if (request.status == false) 
+            show_status_connect_message('Error connecting to the server.', true);
+        else
+            console.log('Success to connect!');
+    }
 }
 
-function sendRequest (request)
+function send_request (request)
 {
     wk.postMessage(request);
 }
@@ -95,11 +101,11 @@ function sendRequest (request)
 var gData = [];
 
 $(document).ready(() => {
-    prepareNetworkGraph();
-    showNetworkGraph();
+    prepare_network_graph();
+    show_network_graph();
 })
 
-function prepareNetworkGraph ()
+function prepare_network_graph ()
 {
     var limit = Math.floor(Math.random() * 11);
 
@@ -132,7 +138,7 @@ function prepareNetworkGraph ()
     }
 }
 
-function showNetworkGraph ()
+function show_network_graph ()
 {
     var cy = cytoscape({
         container: document.getElementById('area-network-graph'),
