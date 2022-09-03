@@ -104,6 +104,7 @@ html, body {
   top: 30px;
   width: 100%;
   height: calc(100% - 30px);
+  overflow-y: scroll;
 }
 
 .area-content .nodes .n-inner {
