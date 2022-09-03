@@ -5,17 +5,23 @@ $(document).ready(() => {
 
 });
 
+/**
+ * Networtk graph control.
+ */
+
 $(document).ready(() => {
-    prepareData();
-    showForceGraph2DCy();
+    prepareNetworkGraph();
+    showNetworkGraph();
 })
 
-var gDataElms = [];
+var gData = [];
 
-function prepareData ()
+function prepareNetworkGraph ()
 {
-    for (var a=0; a<3; a++) {
-        gDataElms.push({
+    var limit = 3;
+
+    for (var a=0; a<limit; a++) {
+        gData.push({
             data: { 
                 id: 'id-'+ a, 
                 name: 'node '+ a, 
@@ -24,13 +30,13 @@ function prepareData ()
         });
     }
 
-    for (var a=0; a<3; a++) {
+    for (var a=0; a<limit; a++) {
         var target = (a+1);
 
-        if (target == 3)
+        if (target == limit)
             target = 0;
 
-        gDataElms.push({
+            gData.push({
             data: {
                 id: 'v-'+ a,
                 source: 'id-'+ a,
@@ -40,21 +46,21 @@ function prepareData ()
     }
 }
 
-function showForceGraph2DCy ()
+function showNetworkGraph ()
 {
     var cy = cytoscape({
-        container: document.getElementById('g2d-graph'),
+        container: document.getElementById('area-network-graph'),
         boxSelectionEnabled: false,
         autounselectify: true,
         layout: {
             name: 'cola'
         },
-        elements: gDataElms,
+        elements: gData,
         
         style: [{
             selector: 'node',
             style: {
-                'content': 'data(name)',
+                'content': 'data(value)',
                 'text-valign': 'center',
                 'color': 'white',
                 'font-size': '10px',
@@ -63,551 +69,6 @@ function showForceGraph2DCy ()
             }
         }]
     });
-    
-    console.log(cy)
-}
-
-/*
-var data = {
-    "nodes": [
-      {
-        "id": 1,
-        "name": "A"
-      },
-      {
-        "id": 2,
-        "name": "B"
-      },
-      {
-        "id": 3,
-        "name": "C"
-      },
-      {
-        "id": 4,
-        "name": "D"
-      },
-      {
-        "id": 5,
-        "name": "E"
-      },
-      {
-        "id": 6,
-        "name": "F"
-      },
-      {
-        "id": 7,
-        "name": "G"
-      },
-      {
-        "id": 8,
-        "name": "H"
-      },
-      {
-        "id": 9,
-        "name": "I"
-      },
-      {
-        "id": 10,
-        "name": "J"
-      }
-    ],
-    "links": [
-  
-      {
-        "source": 1,
-        "target": 2
-      },
-      {
-        "source": 1,
-        "target": 5
-      },
-      {
-        "source": 1,
-        "target": 6
-      },
-  
-      {
-        "source": 2,
-        "target": 3
-      },
-              {
-        "source": 2,
-        "target": 7
-      }
-      ,
-  
-      {
-        "source": 3,
-        "target": 4
-      },
-       {
-        "source": 8,
-        "target": 3
-      }
-      ,
-      {
-        "source": 4,
-        "target": 5
-      }
-      ,
-  
-      {
-        "source": 4,
-        "target": 9
-      },
-      {
-        "source": 5,
-        "target": 10
-      }
-    ]
-  };
-
-$(document).ready(() => {
-    showForceGraph2D_D3();
-})
-
-function showForceGraph2D_D3 ()
-{
-	var areaNetworkWidth  = $('.area-network-3d').width();
-	var areaNetworkHeight = $('.area-network-3d').height();
-	
-    console.log('widht: ' + areaNetworkWidth);
-    console.log('height: '+ areaNetworkHeight);
-
-    var width  = areaNetworkWidth - offset;
-    var height = areaNetworkHeight - offset;
-
-    // append the svg object to the body of the page
-    var svg = d3.select("#g2d-graph")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    // .attr("transform",
-    //         "translate(" + margin.left + "," + margin.top + ")");
-
-  // Initialize the links
-  var link = svg
-    .selectAll("line")
-    .data(data.links)
-    .enter()
-    .append("line")
-      .style("stroke", "#aaa")
-
-  // Initialize the nodes
-  var node = svg
-    .selectAll("circle")
-    .data(data.nodes)
-    .enter()
-    .append("circle")
-      .attr("r", 20)
-      .style("fill", "#69b3a2")
-
-  // Let's list the force we wanna apply on the network
-  var simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
-      .force("link", d3.forceLink()                               // This force provides links between nodes
-            .id(function(d) { return d.id; })                     // This provide  the id of a node
-            .links(data.links)                                    // and this the list of links
-      )
-      .force("charge", d3.forceManyBody().strength(-400))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-      .force("center", d3.forceCenter(width / 2, height / 2))     // This force attracts nodes to the center of the svg area
-      .on("end", ticked);
-
-  // This function is run at each iteration of the force algorithm, updating the nodes position.
-  function ticked() {
-    link
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    node
-         .attr("cx", function (d) { return d.x+6; })
-         .attr("cy", function(d) { return d.y-6; });
-  }
-}
-*/
-
-// Example network nodes viewer.
-$(document).ready(() => {
-    // showForceGraph2D();
-    showForceGraph3D();
-})
-
-var Graph3D = null;
-var Graph2D = null;
-
-var gData = {
-	nodes: [],
-	links: []
-};
-
-function updateNetworkNodes ()
-{
-    gData.nodes = [];
-    gData.links = [];
-
-    for (var a=0; a<3; a++) {
-        gData.nodes.push({
-            id: 'id-'+ a,
-            group: 1,
-            value: '00000000'+ a,
-            color: 'blue'
-        });
-    }
-
-    for (var a=0; a<3; a++) {
-        var target = (a+1);
-
-        if (target == 3)
-            target = 0;
-
-        gData.links.push({
-            id: 0,
-            source: 'id-'+ a,
-            target: 'id-'+ target,
-            value: 'relation '+ a,
-            valuesys: 'relation sys',
-            color: 'yellow'
-        });
-    }
-
-    updatePrepareNodes();
-}
-
-function updatePrepareNodes ()
-{
-    gData.links.forEach(link => {
-        var a, b;
-        
-        for (var x=0; x<gData.nodes.length; x++) {
-            if (gData.nodes[x].id == link.source) {
-                a = gData.nodes[x];
-                break;
-            }
-        }
-        
-        for (var x=0; x<gData.nodes.length; x++) {
-            if (gData.nodes[x].id == link.target) {
-                b = gData.nodes[x];
-                break;
-            }
-        }
-        
-        if (!a.neighbors)
-            a.neighbors = [];
-        if (!b.neighbors)
-            b.neighbors = [];
-        
-        a.neighbors.push(b);
-        b.neighbors.push(a);
-
-        !a.links && (a.links = []);
-        !b.links && (b.links = []);
-        a.links.push(link);
-        b.links.push(link);
-    });    
-}
-
-function updateNetworkNodesViewer2D ()
-{
-    updateNetworkNodes();
-    Graph2D.graphData(gData);
-}
-
-function updateNetworkNodesViewer3D ()
-{
-    updateNetworkNodes();
-    Graph3D.graphData(gData);
-}
-
-function showForceGraph2D()
-{
-    console.log("Graph 2D starting.");
-
-	var areaNetworkWidth  = $('.area-network-2d').width();
-	var areaNetworkHeight = $('.area-network-2d').height();
-	
-    console.log('widht: ' + areaNetworkWidth);
-    console.log('height: '+ areaNetworkHeight);
-
-    const highlightNodes = new Set();
-    const highlightLinks = new Set();
-    let hoverNode        = null;
-
-    Graph2D = ForceGraph()
-        (document.getElementById('2d-graph'))
-            .backgroundColor('#ffffff')
-            .width(areaNetworkWidth)
-            .height(areaNetworkHeight)
-            .graphData(gData)
-            .nodeColor(node => highlightNodes.has(node) ? node === hoverNode ? 'rgb(255,0,0)' : 'rgb(255,160,0)' : node.color)
-            .linkWidth(link => highlightLinks.has(link) ? 2 : 1)
-            .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
-            .linkDirectionalParticleWidth(4)
-            
-            // Settings.
-            .linkDirectionalArrowRelPos(1)
-            .linkDirectionalArrowLength(7)
-
-            .onNodeDragEnd((node) => {
-                node.fx = node.x;
-                node.fy = node.y;
-                node.fz = node.z;
-            })
-            
-            .nodeCanvasObjectMode(() => { 
-                return "after";
-            })
-
-            .nodeCanvasObject((node, ctx, globalScale) => {
-                const label = node.value.toString();
-                const fontSize = 12 / globalScale;
-
-                ctx.font = fontSize +`px Sans-Serif`;
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = "black"; //node.color;
-
-                ctx.fillText(label, node.x, node.y + 7);
-            })
-            
-            // Apply color on link (relationship).
-            .linkColor(link => {
-                return link.color; // 'color' param from JSON.
-            })
-
-            // Label link.
-            .linkLabel(link => {
-                var item = link.value.toString();
-
-                return `
-                    <div>
-                        link: `+ item +`
-                    </div>`;
-            })
-            
-            // Label node.
-            .nodeLabel(node => {
-                var item = node.value.toString();
-
-                return `
-                    <div>
-                        node: `+ item +`
-                    </div>`;
-            })
-            
-            // Particle effects..
-            .onNodeHover(node => {
-                // no state change
-                if ((!node && !highlightNodes.size) || (node && hoverNode === node)) 
-                    return;
-    
-                highlightNodes.clear();
-                highlightLinks.clear();
-
-                if (node) {
-                    highlightNodes.add(node);
-                    
-                    if (node.hasOwnProperty('neighbors'))
-                        node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
-                    
-                    if (node.hasOwnProperty('links'))
-                        node.links.forEach(link => highlightLinks.add(link));
-                }
-    
-                hoverNode = node || null;
-                updateHighlight2D();
-            })
-            
-            .onLinkHover(link => {
-                highlightNodes.clear();
-                highlightLinks.clear();
-    
-                if (link) {
-                    highlightLinks.add(link);
-                    highlightNodes.add(link.source);
-                    highlightNodes.add(link.target);
-                }
-    
-                updateHighlight2D();
-            })
-
-            // Node click.
-            .onNodeRightClick(node => { 
-                console.log('Clicked right node:', node);
-             })
-            
-            .onNodeClick(node => {
-                console.log('Clicked node:', node);
-            })
-            
-            // Link click.
-            .onLinkRightClick (link => {
-                console.log('Clicked right link:', link);
-            })
-            	
-			.onLinkClick(link => {
-                console.log('Clicked link:', link);
-            })           
-   
-    updateNetworkNodesViewer2D();
-}
-
-function updateHighlight2D() {
-    Graph2D
-        .nodeColor(Graph2D.nodeColor())
-        .linkWidth(Graph2D.linkWidth())
-        .linkDirectionalParticles(Graph2D.linkDirectionalParticles());
-}
-
-function showForceGraph3D () 
-{
-    console.log("Graph 3D starting.");
-
-	var areaNetworkWidth  = $('.area-network-3d').width();
-	var areaNetworkHeight = $('.area-network-3d').height();
-	
-    console.log('widht: ' + areaNetworkWidth);
-    console.log('height: '+ areaNetworkHeight);
-
-    const highlightNodes = new Set();
-    const highlightLinks = new Set();
-    let hoverNode3D      = null;
-
-    Graph3D = ForceGraph3D()
-        (document.getElementById('g3d-graph'))
-            .backgroundColor('#ffffff')
-            .showNavInfo(false)
-            .width(areaNetworkWidth)
-            .height(areaNetworkHeight)
-            .graphData(gData)
-            .nodeColor(node => highlightNodes.has(node) ? node === hoverNode3D ? 'rgb(255,0,0)' : 'rgb(255,160,0)' : node.color)
-            .linkWidth(link => highlightLinks.has(link) ? 2 : 1)
-            .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
-            .linkDirectionalParticleWidth(4)
-            .linkOpacity(0.8)
-		
-            // Apply color on link (relationship).
-            .linkColor(link => {
-                return link.color; // 'color' param from JSON.
-            })
-
-            // Label link.
-            .linkLabel(link => {
-                var item = link.value.toString();
-
-                return `
-                    <div>
-                        link: `+ item +`
-                    </div>`;
-            })
-            
-            // Label node.
-            .nodeLabel(node => {
-                var item = node.value.toString();
-
-                return `
-                    <div>
-                        node: `+ item +`
-                    </div>`;
-            })
-            
-            // Custom node.
-            .nodeThreeObject(node => {
-                // var item = node.value.toString();			
-                // const sprite = new SpriteText(item);
-                
-                // sprite.color = 'white';
-                // sprite.textHeight = 5;
-                // sprite.strokeWidth = 2;
-                // sprite.strokeColor = 'black';
-                
-                // return sprite;
-                const sprite = new SpriteText(node.value.toString());
-                sprite.material.depthWrite = false; // make sprite background transparent
-                sprite.color = node.color;
-                sprite.textHeight = 4;
-                return sprite;      
-            })
-		
-            // Particle effects..
-            .onNodeHover(node => {
-                // no state change
-                if ((!node && !highlightNodes.size) || (node && hoverNode3D === node)) 
-                    return;
-    
-                highlightNodes.clear();
-                highlightLinks.clear();
-
-                if (node) {
-                    highlightNodes.add(node);
-                    
-                    if (node.hasOwnProperty('neighbors'))
-                        node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
-                    
-                    if (node.hasOwnProperty('links'))
-                        node.links.forEach(link => highlightLinks.add(link));
-                }
-    
-                hoverNode3D = node || null;
-                updateHighlight3D();
-            })
-            
-            .onLinkHover(link => {
-                highlightNodes.clear();
-                highlightLinks.clear();
-    
-                if (link) {
-                    highlightLinks.add(link);
-                    highlightNodes.add(link.source);
-                    highlightNodes.add(link.target);
-                }
-    
-                updateHighlight3D();
-            })
-
-            // Node click.
-            .onNodeRightClick(node => {
-                // Zoom node and fix center.
-                const distance = 100;
-                const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
-                
-                Graph3D.cameraPosition(
-                    { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
-                      node, 3000
-                );
-            })
-            
-            // .onNodeClick(node => {
-            //     console.log('Clicked node:', node);
-            // })
-            
-            // Link click.
-            .onLinkRightClick (link => {
-                var node = link.source;
-                const distance = 100;
-                const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
-                
-                Graph3D.cameraPosition(
-                    { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
-                      node,3000
-                );
-            })
-            	
-			// .onLinkClick(link => {
-            //     console.log('Clicked link:', link);
-            // })       
-   	
-    updateNetworkNodesViewer3D();
-    Graph3D.cameraPosition({ z: 80 })
-}
-
-function updateHighlight3D() {
-    Graph3D
-        .nodeColor(Graph3D.nodeColor())
-        .linkWidth(Graph3D.linkWidth())
-        .linkDirectionalParticles(Graph3D.linkDirectionalParticles());
 }
 
 /*
