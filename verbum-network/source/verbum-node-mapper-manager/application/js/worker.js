@@ -2,7 +2,7 @@
 onmessage = function(ev) {
     var request = ev.data;
     
-    if (request.cmd == 'connect-node-mapper') {
+    if (request.cmd == 'check-connection') {
         
     }
 };

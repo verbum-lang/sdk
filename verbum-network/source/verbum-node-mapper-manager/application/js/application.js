@@ -43,20 +43,29 @@ function NMAuth ()
     var port    = $('#nm-port').val().toString().trim();
 
     if (address.length <= 0 || port.length <= 0) {
-        showStatusConnectMessage('Invalid address or port number.');
+        showStatusConnectMessage('Invalid address or port number.', true);
         return false;
     }
 
-    
+    // Connect.
+    showStatusConnectMessage('Connecting...', false);
+    checkNodeMapperConnection();
 }
 
-function showStatusConnectMessage (msg)
+function showStatusConnectMessage (msg, tmo = false)
 {
     $('#nm-connect-status').text(msg);
 
-    setTimeout(() => {
-        $('#nm-connect-status').text('');
-    }, 3333);
+    if (tmo == true) {
+        setTimeout(() => {
+            $('#nm-connect-status').text('');
+        }, 3333);
+    }
+}
+
+function checkNodeMapperConnection ()
+{
+
 }
 
 /**
@@ -68,6 +77,11 @@ function processWorker (ev)
     var data = ev.data;
 
     console.log('response worker:', data);
+}
+
+function sendRequest (request)
+{
+    wk.postMessage(request);
 }
 
 /**
