@@ -4,6 +4,7 @@
  */
 
 var wk = null;
+var auto_auth = true;
 
 $(document).ready(() => {
     console.log("Verbum Node Mapper Manager started - Jesus <3");
@@ -17,6 +18,10 @@ $(document).ready(() => {
         wk.onmessage = process_worker;
     } else 
         alert('Sorry, no Web Worker support.');
+
+    // Auto auth.
+    if (auto_auth == true)
+        nm_auth();
 });
 
 /**
@@ -72,6 +77,22 @@ function check_node_mapper_connection (address, port)
     })
 }
 
+function process_success_connect ()
+{
+    show_status_connect_message('', false);
+
+    $('.area-auth').addClass('hide-el');
+    $('.area-general-content').removeClass('hide-el');
+
+    update_network_viewer();
+}
+
+/**
+ * Control of content area.
+ */
+
+
+
 /**
  * Process worker requests - response.
  */
@@ -85,7 +106,7 @@ function process_worker (ev)
         if (request.status == false) 
             show_status_connect_message('Error connecting to the server.', true);
         else
-            console.log('Success to connect!');
+            process_success_connect();
     }
 }
 
@@ -97,6 +118,12 @@ function send_request (request)
 /**
  * Networtk graph control.
  */
+
+function update_network_viewer ()
+{
+    prepare_network_graph();
+    show_network_graph();
+}
 
 var gData = [];
 

@@ -12,7 +12,7 @@ onmessage = function(ev) {
      * Check Node Mapper connection.
      */
     if (request.cmd == 'check-connection') {
-        connect_node_mapper(request.address, request.port, (response) => {
+        connect_node_mapper(request.address, request.port, '', (response) => {
             request.status = false;
 
             if (response == 'error') 
