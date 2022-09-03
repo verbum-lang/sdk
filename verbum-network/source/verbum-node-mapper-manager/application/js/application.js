@@ -395,8 +395,6 @@ function render_information_nodes ()
 
 function generate_connections_area_html (prefix)
 {
-    return '';
-
     var html = '';
 
     html += `
@@ -406,114 +404,99 @@ function generate_connections_area_html (prefix)
 
         <table class="table table-dark table-borderless table-results-sec-3">
             <thead>
-                <tr>
-                    <th scope="col" class="th-header con-th-1" style="width:50%" >INPUT</th>
-                    <th scope="col" style="width:30px" ></th>
-                    <th scope="col" class="th-header con-th-2" style="width:50%" >OUTPUT</th>
-                </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th class="con-th-fix-1" >
-                        <table class="table table-dark table-borderless table-results-sec-4">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="th-header" >Source ID</th>
-                                    <th scope="col" class="th-header" >NM host</th>
-                                    <th scope="col" class="th-header" >NM port</th>
-                                    <th scope="col" class="th-header" >NM direct</th>
-                                    <th scope="col" class="th-header" >Ping</th>
-                                    <th scope="col" class="th-header" >Manager</th>
-                                </tr>
-                            </thead>    
-                            <tbody>
-                                <tr>
-                                    <th>verbum-node-2409308923</th>
-                                    <th>127.0.0.1</th>
-                                    <th>3333</th>
-                                    <th>YES</th>
-                                    <th>
-                                        <div class="item-sub-1">
-                                            31-07-2022<br>18-21-19
-                                        </div>
-                                    </th>
-                                    <th style="text-align:right;" >
-                                        <button class='btn btn-2 btn-danger' >
-                                            <i class="feather-size-a" data-feather="x"></i>
-                                        </button>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>verbum-node-2409308923</th>
-                                    <th>127.0.0.1</th>
-                                    <th>3333</th>
-                                    <th>NO</th>
-                                    <th>
-                                        <div class="item-sub-1">
-                                            31-07-2022<br>18-21-19
-                                        </div>
-                                    </th>
-                                    <th style="text-align:right;" >
-                                        <button class='btn btn-2 btn-danger' >
-                                            <i class="feather-size-a" data-feather="x"></i>
-                                        </button>
-                                    </th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </th>
+                    <th colspan='6' class="th-header-top con-th-1" >INPUT</th>
+                </tr>
 
+                <tr>
+                    <th scope="col" class="th-header" >Source ID</th>
+                    <th scope="col" class="th-header" >NM host</th>
+                    <th scope="col" class="th-header" >NM port</th>
+                    <th scope="col" class="th-header" >NM direct</th>
+                    <th scope="col" class="th-header" >Ping</th>
+                    <th scope="col" class="th-header" style="text-align:right;" >Manager</th>
+                </tr>
+
+                <tr>
+                    <th>verbum-node-2409308923</th>
+                    <th>127.0.0.1</th>
+                    <th>3333</th>
+                    <th>YES</th>
                     <th>
-                        &nbsp;
+                        <div class="item-sub-1">
+                            31-07-2022 18-21-19
+                        </div>
                     </th>
-                    
-                    <th class="con-th-fix-1" >
-                        <table class="table table-dark table-borderless table-results-sec-4">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="th-header" >Destination ID</th>
-                                    <th scope="col" class="th-header" >NM host</th>
-                                    <th scope="col" class="th-header" >NM port</th>
-                                    <th scope="col" class="th-header" >Ping</th>
-                                    <th scope="col" class="th-header" >Manager</th>
-                                </tr>
-                            </thead>    
-                            <tbody>
-                                <tr>
-                                    <th>verbum-node-2409308923</th>
-                                    <th>127.0.0.1</th>
-                                    <th>3333</th>
-                                    <th>
-                                        <div class="item-sub-1">
-                                            31-07-2022<br>18-21-19
-                                        </div>
-                                    </th>
-                                    <th style="text-align:right;" >
-                                        <button class='btn btn-2 btn-danger' >
-                                            <i class="feather-size-a" data-feather="x"></i>
-                                        </button>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>verbum-node-2409308923</th>
-                                    <th>127.0.0.1</th>
-                                    <th>3333</th>
-                                    <th>
-                                        <div class="item-sub-1">
-                                            31-07-2022<br>18-21-19
-                                        </div>
-                                    </th>
-                                    <th style="text-align:right;" >
-                                        <button class='btn btn-2 btn-danger' >
-                                            <i class="feather-size-a" data-feather="x"></i>
-                                        </button>
-                                    </th>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <th style="text-align:right;" >
+                        <button class='btn btn-2 btn-danger' >
+                            <i class="feather-size-a" data-feather="x"></i>
+                        </button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>verbum-node-2409308923</th>
+                    <th>127.0.0.1</th>
+                    <th>3333</th>
+                    <th>NO</th>
+                    <th>
+                        <div class="item-sub-1">
+                            31-07-2022 18-21-19
+                        </div>
+                    </th>
+                    <th style="text-align:right;" >
+                        <button class='btn btn-2 btn-danger' >
+                            <i class="feather-size-a" data-feather="x"></i>
+                        </button>
                     </th>
                 </tr>
                 
+                <tr>
+                    <th colspan='6' class="th-header-top con-th-1" >OUTPUT</th>
+                </tr>
+
+                <tr>
+                    <th scope="col" class="th-header" >Destination ID</th>
+                    <th scope="col" class="th-header" >NM host</th>
+                    <th scope="col" class="th-header" >NM port</th>
+                    <th scope="col" class="th-header" ></th>
+                    <th scope="col" class="th-header" >Ping</th>
+                    <th scope="col" class="th-header" style="text-align:right;" >Manager</th>
+                </tr>
+
+                <tr>
+                    <th>verbum-node-2409308923</th>
+                    <th>127.0.0.1</th>
+                    <th>3333</th>
+                    <th></th>
+                    <th>
+                        <div class="item-sub-1">
+                            31-07-2022 18-21-19
+                        </div>
+                    </th>
+                    <th style="text-align:right;" >
+                        <button class='btn btn-2 btn-danger' >
+                            <i class="feather-size-a" data-feather="x"></i>
+                        </button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>verbum-node-2409308923</th>
+                    <th>127.0.0.1</th>
+                    <th>3333</th>
+                    <th></th>
+                    <th>
+                        <div class="item-sub-1">
+                            31-07-2022 18-21-19
+                        </div>
+                    </th>
+                    <th style="text-align:right;" >
+                        <button class='btn btn-2 btn-danger' >
+                            <i class="feather-size-a" data-feather="x"></i>
+                        </button>
+                    </th>
+                </tr>
             </tbody>
         </table>
     `;

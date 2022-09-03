@@ -201,15 +201,16 @@ html, body {
   padding-bottom: 10px;
 }
 
-.table-results-sec-3 .th-header {
+.table-results-sec-3 .th-header-top {
   text-align: center;
+  font-weight: bold !important;
 }
 
-.table-results-sec-4 .th-header {
+.table-results-sec-3 .th-header {
   text-align: left;
 }
 
-.table-results-sec-4 .item-sub-1 {
+.table-results-sec-3 .item-sub-1 {
   font-size: 7px;
 }
 
@@ -217,8 +218,9 @@ html, body {
   background-color: black;
 }
 
-.table-results-sec-4 thead .th-header {
-  background-color: #2c3034;
+.table-results-sec-3 .th-header {
+  background-color: #2c3034;;
+  font-weight: bold;
 }
 
 .table-results-sec-3 .con-th-2 {
@@ -227,7 +229,11 @@ html, body {
 
 .table-results-sec-3 .con-th-fix-1 {
   padding: 0;
-  margin: 0; 
+  margin: 0;
+}
+
+.table-results-sec-3 th {
+  font-weight: normal;
 }
 
 
