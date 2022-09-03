@@ -18,6 +18,7 @@ app.once('ready', () => {
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      nodeIntegrationInWorker: true,
       webSecurity: false,
       devTools: true, // false if you want to remove dev tools access for the user
       contextIsolation: true,

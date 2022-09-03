@@ -49,7 +49,7 @@ function NMAuth ()
 
     // Connect.
     showStatusConnectMessage('Connecting...', false);
-    checkNodeMapperConnection();
+    checkNodeMapperConnection(address, port);
 }
 
 function showStatusConnectMessage (msg, tmo = false)
@@ -63,9 +63,13 @@ function showStatusConnectMessage (msg, tmo = false)
     }
 }
 
-function checkNodeMapperConnection ()
+function checkNodeMapperConnection (address, port)
 {
-
+    sendRequest({
+        cmd: 'check-connection',
+        address: address,
+        port: port
+    })
 }
 
 /**
