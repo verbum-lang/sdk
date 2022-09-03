@@ -18,8 +18,11 @@ var gData = [];
 
 function prepareNetworkGraph ()
 {
-    var limit = 3;
+    var limit = Math.floor(Math.random() * 11);
 
+    if (limit < 3)
+        limit = 3;
+    
     for (var a=0; a<limit; a++) {
         gData.push({
             data: { 
@@ -52,9 +55,7 @@ function showNetworkGraph ()
         container: document.getElementById('area-network-graph'),
         boxSelectionEnabled: false,
         autounselectify: true,
-        layout: {
-            name: 'cola'
-        },
+        layout: { name: 'cola' },
         elements: gData,
         
         style: [{
