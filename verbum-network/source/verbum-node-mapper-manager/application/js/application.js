@@ -8,8 +8,8 @@ $(document).ready(() => {
 // Example network nodes viewer.
 
 $(document).ready(() => {
-    showForceGraph2D();
     showForceGraph3D();
+    showForceGraph2D();
 })
 
 var Graph3D = null;
@@ -87,59 +87,184 @@ function updatePrepareNodes ()
     });    
 }
 
-function updateNetworkNodesViewer3D ()
-{
-    updateNetworkNodes();
-    Graph3D.graphData(gData);
-}
-
 function updateNetworkNodesViewer2D ()
 {
     updateNetworkNodes();
     Graph2D.graphData(gData);
 }
 
-function showForceGraph3D () 
+function updateNetworkNodesViewer3D ()
 {
-    Graph3D = ForceGraph3D()
-        (document.getElementById('3d-graph'));
-
-    Graph3D = showForceGraph(Graph3D, true);
-    updateNetworkNodesViewer3D();
+    updateNetworkNodes();
+    Graph3D.graphData(gData);
 }
 
-function showForceGraph2D () 
+function showForceGraph2D()
 {
-    Graph2D = ForceGraph()
-        (document.getElementById('2d-graph'));
+    console.log("Graph 2D starting.");
 
-    Graph2D = showForceGraph(Graph2D, false);
-    updateNetworkNodesViewer2D();
-}
-
-function showForceGraph (Graph = null, use3d = true) 
-{
-    console.log("Graph starting.");
-
-    var prefix = '3d';
-    if (use3d == false)
-        prefix = '2d';
-
-	var areaNetworkWidth =  $('.area-network-'+ prefix).width();
-	var areaNetworkHeight = $('.area-network-'+ prefix).height();
+	var areaNetworkWidth  = $('.area-network-2d').width();
+	var areaNetworkHeight = $('.area-network-2d').height();
 	
-    console.log('widht: '+ areaNetworkWidth);
+    console.log('widht: ' + areaNetworkWidth);
     console.log('height: '+ areaNetworkHeight);
 
     const highlightNodes = new Set();
     const highlightLinks = new Set();
-    let hoverNode = null;
+    let hoverNode        = null;
 
-    if (use3d == true) {
-        Graph
+    Graph2D = ForceGraph()
+        (document.getElementById('2d-graph'))
+            .backgroundColor('#ffffff')
+            .width(areaNetworkWidth)
+            .height(areaNetworkHeight)
+            .graphData(gData)
+            .nodeColor(node => highlightNodes.has(node) ? node === hoverNode ? 'rgb(255,0,0)' : 'rgb(255,160,0)' : node.color)
+            .linkWidth(link => highlightLinks.has(link) ? 2 : 1)
+            .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
+            .linkDirectionalParticleWidth(4)
+		
+            // Apply color on link (relationship).
+            .linkColor(link => {
+                return link.color; // 'color' param from JSON.
+            })
+
+            // Label link.
+            .linkLabel(link => {
+                var item = link.value.toString();
+
+                return `
+                    <div>
+                        link: `+ item +`
+                    </div>`;
+            })
+            
+            // Label node.
+            .nodeLabel(node => {
+                var item = node.value.toString();
+
+                return `
+                    <div>
+                        node: `+ item +`
+                    </div>`;
+            })
+            
+            // Particle effects..
+            .onNodeHover(node => {
+                // no state change
+                if ((!node && !highlightNodes.size) || (node && hoverNode === node)) 
+                    return;
+    
+                highlightNodes.clear();
+                highlightLinks.clear();
+
+                if (node) {
+                    highlightNodes.add(node);
+                    
+                    if (node.hasOwnProperty('neighbors'))
+                        node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
+                    
+                    if (node.hasOwnProperty('links'))
+                        node.links.forEach(link => highlightLinks.add(link));
+                }
+    
+                hoverNode = node || null;
+                updateHighlight2D();
+            })
+            
+            .onLinkHover(link => {
+                highlightNodes.clear();
+                highlightLinks.clear();
+    
+                if (link) {
+                    highlightLinks.add(link);
+                    highlightNodes.add(link.source);
+                    highlightNodes.add(link.target);
+                }
+    
+                updateHighlight2D();
+            })
+
+            // Node click.
+            .onNodeRightClick(node => { 
+                console.log('Clicked right node:', node);
+             })
+            
+            .onNodeClick(node => {
+                console.log('Clicked node:', node);
+            })
+            
+            // Link click.
+            .onLinkRightClick (link => {
+                console.log('Clicked right link:', link);
+            })
+            	
+			.onLinkClick(link => {
+                console.log('Clicked link:', link);
+            })           
+   
+    updateNetworkNodesViewer2D();
+}
+
+function updateHighlight2D() {
+    Graph2D
+        .nodeColor(Graph2D.nodeColor())
+        .linkWidth(Graph2D.linkWidth())
+        .linkDirectionalParticles(Graph2D.linkDirectionalParticles());
+}
+
+function showForceGraph3D () 
+{
+    console.log("Graph 3D starting.");
+
+	var areaNetworkWidth  = $('.area-network-3d').width();
+	var areaNetworkHeight = $('.area-network-3d').height();
+	
+    console.log('widht: ' + areaNetworkWidth);
+    console.log('height: '+ areaNetworkHeight);
+
+    const highlightNodes = new Set();
+    const highlightLinks = new Set();
+    let hoverNode3D      = null;
+
+    Graph3D = ForceGraph3D()
+        (document.getElementById('3d-graph'))
+            .backgroundColor('#ffffff')
             .showNavInfo(false)
+            .width(areaNetworkWidth)
+            .height(areaNetworkHeight)
+            .graphData(gData)
+            .nodeColor(node => highlightNodes.has(node) ? node === hoverNode3D ? 'rgb(255,0,0)' : 'rgb(255,160,0)' : node.color)
+            .linkWidth(link => highlightLinks.has(link) ? 2 : 1)
+            .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
+            .linkDirectionalParticleWidth(4)
             .linkOpacity(0.8)
+		
+            // Apply color on link (relationship).
+            .linkColor(link => {
+                return link.color; // 'color' param from JSON.
+            })
 
+            // Label link.
+            .linkLabel(link => {
+                var item = link.value.toString();
+
+                return `
+                    <div>
+                        link: `+ item +`
+                    </div>`;
+            })
+            
+            // Label node.
+            .nodeLabel(node => {
+                var item = node.value.toString();
+
+                return `
+                    <div>
+                        node: `+ item +`
+                    </div>`;
+            })
+            
             // Custom node.
             .nodeThreeObject(node => {
                 var item = node.value.toString();			
@@ -152,121 +277,83 @@ function showForceGraph (Graph = null, use3d = true)
                 
                 return sprite;
             })
-    }
-
-    Graph        
-        .backgroundColor('#ffffff')
-        .width(areaNetworkWidth)
-        .height(areaNetworkHeight)
-        .graphData(gData)
-        .nodeColor(node => highlightNodes.has(node) ? node === hoverNode ? 'rgb(255,0,0)' : 'rgb(255,160,0)' : node.color)
-        .linkWidth(link => highlightLinks.has(link) ? 2 : 1)
-        .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
-        .linkDirectionalParticleWidth(4)
+		
+            // Particle effects..
+            .onNodeHover(node => {
+                // no state change
+                if ((!node && !highlightNodes.size) || (node && hoverNode3D === node)) 
+                    return;
     
-        // Apply color on link (relationship).
-        .linkColor(link => {
-            return link.color; // 'color' param from JSON.
-        })
+                highlightNodes.clear();
+                highlightLinks.clear();
 
-        // Label link.
-        .linkLabel(link => {
-            var item = link.value.toString();
-
-            return `
-                <div>
-                    link: `+ item +`
-                </div>`;
-        })
-        
-        // Label node.
-        .nodeLabel(node => {
-            var item = node.value.toString();
-
-            return `
-                <div>
-                    node: `+ item +`
-                </div>`;
-        })
-        
-        // Particle effects..
-        .onNodeHover(node => {
-            // no state change
-            if ((!node && !highlightNodes.size) || (node && hoverNode === node)) return;
-
-            highlightNodes.clear();
-            highlightLinks.clear();
-            if (node) {
-            highlightNodes.add(node);
+                if (node) {
+                    highlightNodes.add(node);
+                    
+                    if (node.hasOwnProperty('neighbors'))
+                        node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
+                    
+                    if (node.hasOwnProperty('links'))
+                        node.links.forEach(link => highlightLinks.add(link));
+                }
+    
+                hoverNode3D = node || null;
+                updateHighlight3D();
+            })
             
-            if (node.hasOwnProperty('neighbors'))
-                node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
-            
-            if (node.hasOwnProperty('links'))
-                node.links.forEach(link => highlightLinks.add(link));
-            }
+            .onLinkHover(link => {
+                highlightNodes.clear();
+                highlightLinks.clear();
+    
+                if (link) {
+                    highlightLinks.add(link);
+                    highlightNodes.add(link.source);
+                    highlightNodes.add(link.target);
+                }
+    
+                updateHighlight3D();
+            })
 
-            hoverNode = node || null;
-            updateHighlight();
-        })
-        
-        .onLinkHover(link => {
-            highlightNodes.clear();
-            highlightLinks.clear();
-
-            if (link) {
-            highlightLinks.add(link);
-            highlightNodes.add(link.source);
-            highlightNodes.add(link.target);
-            }
-
-            updateHighlight();
-        })
-
-        // Node click.
-        .onNodeRightClick(node => 
-        {
-            // Zoom node and fix center.
-            const distance = 100;
-            const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+            // Node click.
+            .onNodeRightClick(node => {
+                // Zoom node and fix center.
+                const distance = 100;
+                const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+                
+                Graph3D.cameraPosition(
+                    { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+                      node, 3000
+                );
+            })
             
-            Graph.cameraPosition(
-                { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
-                node,3000
-            );
-        })
-        
-        .onNodeClick(node => 
-        {
-            console.log('Clicked node:', node);
-        })
-        
-        // Link click.
-        .onLinkRightClick (link =>
-        {
-            var node = link.source;
-            const distance = 100;
-            const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+            // .onNodeClick(node => {
+            //     console.log('Clicked node:', node);
+            // })
             
-            Graph.cameraPosition(
-                { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
-                node,3000
-            );
-        })
-            
-        .onLinkClick(link =>
-        {
-            console.log('Clicked link:', link);
-        })
-   
-    function updateHighlight() {
-        Graph
-            .nodeColor(Graph.nodeColor())
-            .linkWidth(Graph.linkWidth())
-            .linkDirectionalParticles(Graph.linkDirectionalParticles());
-    }
-	
-    return Graph;
+            // Link click.
+            .onLinkRightClick (link => {
+                var node = link.source;
+                const distance = 100;
+                const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+                
+                Graph3D.cameraPosition(
+                    { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+                      node,3000
+                );
+            })
+            	
+			// .onLinkClick(link => {
+            //     console.log('Clicked link:', link);
+            // })       
+   	
+    updateNetworkNodesViewer3D();
+}
+
+function updateHighlight3D() {
+    Graph3D
+        .nodeColor(Graph3D.nodeColor())
+        .linkWidth(Graph3D.linkWidth())
+        .linkDirectionalParticles(Graph3D.linkDirectionalParticles());
 }
 
 /*
