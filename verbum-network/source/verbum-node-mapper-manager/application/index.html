@@ -80,45 +80,60 @@
 
         <!-- Content. -->
         <div class="area-general-content hide-el" >
+
+            <!-- Area content. -->
             <div class="area-content" >
                 
                 <!-- Header controls. -->
                 <div class="controls" >
-                    <button class='btn btn-fix-1 btn-primary' onclick='javascript:create_node();' >
-                        <i class="feather-size-a" data-feather="plus"></i>
-                        Create node
-                    </button>
+                    <div class="controls-inner" >
+                        <button class='btn btn-fix-1 btn-primary' onclick='javascript:create_node();' >
+                            <i class="feather-size-a" data-feather="plus"></i>
+                            Create node
+                        </button>
 
-                    <button class='btn btn-fix-1 btn-primary' >
-                        <i class="feather-size-a" data-feather="check-circle"></i>
-                        Check node
-                    </button>
+                        <button class='btn btn-fix-1 btn-primary' >
+                            <i class="feather-size-a" data-feather="check-circle"></i>
+                            Check node
+                        </button>
 
-                    <button class='btn btn-fix-1 btn-primary' >
-                        <i class="feather-size-a" data-feather="share-2"></i>
-                        Send data
-                    </button>
+                        <button class='btn btn-fix-1 btn-primary' >
+                            <i class="feather-size-a" data-feather="share-2"></i>
+                            Send data
+                        </button>
 
-                    <button class='btn btn-fix-1 btn-light btn-align-1' title="Close Node Mapper connection" >
-                        <i class="feather-size-a" data-feather="log-out"></i>
-                    </button>
+                        <button class='btn btn-fix-1 btn-light btn-align-1' title="Close Node Mapper connection" >
+                            <i class="feather-size-a" data-feather="log-out"></i>
+                        </button>
 
-                    <button class='btn btn-fix-1 btn-light btn-align-1' title="Open Developer Console" >
-                        <i class="feather-size-a" data-feather="tool"></i>
-                    </button>
+                        <button class='btn btn-fix-1 btn-light btn-align-1' title="Open Developer Console" >
+                            <i class="feather-size-a" data-feather="tool"></i>
+                        </button>
+                    </div>
                 </div>
                 <!-- End of header controls. -->
 
-            </div>
+                <!-- Nodes content area. -->
+                <div class="nodes" >
+                    <div class="n-inner" >
+                        
+                    </div> 
+                </div> 
+                <!-- End of nodes content area. -->
 
+            </div>
+            <!-- End of area content. -->
+
+            <!-- Network area. -->
             <div class="area-network" >
-                <div id="area-network-graph" >
-                </div>
+                <div id="area-network-graph" ></div>
             </div>
+            <!-- End of network area. -->
         
-            <div class="area-status" >
+            <!-- Status area. -->
+            <div class="area-status" ></div>
+            <!-- End of status area. -->
 
-            </div>
         </div>
         <!-- End of content. -->
 
