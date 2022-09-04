@@ -516,7 +516,7 @@ void update_ping_node (int sock, char *content)
     #endif
     
     char prefix   [] = "ping-verbum-node:";
-    char response [] = VERBUM_DEFAULT_SUCCESS;
+    char response [] = VERBUM_DEFAULT_SUCCESS "\r\n\r\n";
     char tmp [1024];
     char *ptr = NULL, *date = NULL;
     int bytes = 0, index = -1, found = 0, size = 0;
@@ -528,8 +528,11 @@ void update_ping_node (int sock, char *content)
         return;
 
     ptr = strstr(content, prefix);
-    if (!ptr)
+    if (!ptr) {
+        memset(date, 0x0, strlen(date));
+        free(date);
         return;
+    }
 
     node_information = node_create_item();
     node_information->status = 1;
@@ -537,7 +540,7 @@ void update_ping_node (int sock, char *content)
 
     // Extract request node informations.
     ptr += strlen(prefix);
-    memset(tmp, 0x0, 1023);
+    memset(tmp, 0x0, 1024);
 
     for (int a=0,b=0; ptr[a] != '\0'; a++) {
         if (ptr[a] == ':') {
@@ -545,7 +548,7 @@ void update_ping_node (int sock, char *content)
 
             b = 0;
             a++;
-            memset(tmp, 0x0, 1023);
+            memset(tmp, 0x0, 1024);
         }
 
         tmp[b++] = ptr[a];
