@@ -209,6 +209,89 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_sele
     return 1;
 }
 
+char * get_recv_content (int sock)
+{
+    #ifdef CONDBG
+        say("get_recv_content() - called!");
+    #endif
+
+    char *content = NULL;
+    char tmp [512];
+    int bytes = -1, status = 0, eoh = 0;
+    int bytes_received = 0, size = 0;
+
+    while (1) {
+        memset(tmp, 0x0, 512);
+        bytes = recv(sock, tmp, 511, 0);
+
+        if (bytes <= -1) 
+            break;
+
+        else if (bytes == 0) {
+            status = 1;
+            if (bytes_received > 0)
+                content[ bytes_received ] = '\0';
+            break;
+        }
+        
+        else if (bytes > 0) {
+            size = bytes + bytes_received + 1;
+            content = (char *) realloc(content, size);
+
+            if (!content)
+                break;
+
+            memcpy(&content[ bytes_received ], tmp, bytes);
+            bytes_received += bytes;
+
+            if (bytes_received > 0)
+                content[ bytes_received ] = '\0';
+
+            status = 1;
+
+            // Check end of header.
+            if (strstr(content, "\r\n\r\n"))
+                break;
+        }
+    }
+
+    if (!status) {
+        if (!content)
+            return NULL;
+        
+        free(content);
+        return NULL;    
+    } else if (!content) 
+        return NULL;
+
+    // Remove end of header: \r\n\r\n.
+    if (strstr(content, "\r\n\r\n")) {
+        size = strlen(content);
+        for (int a=0; a<size; a++) {
+            if (content[a] == '\r' && (a + 3) <= size) {
+                if (content[a  ] == '\r' &&
+                    content[a+1] == '\n' &&
+                    content[a+2] == '\r' &&
+                    content[a+3] == '\n'  )
+                {
+                    content[a] = '\0';
+                    eoh = 1;
+                    break;
+                }
+            }
+        }
+    }
+
+    #ifdef CONDBG
+        if (eoh)
+            say("raw data received: \"%s + EOH\"", content);
+        else
+            say("raw data received: \"%s\"", content);
+    #endif
+
+    return content;
+}
+
 /*
  * Send a raw message do Node Mapper, and recv response.
  */

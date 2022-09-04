@@ -395,7 +395,7 @@ function render_all_nodes ()
                                 <th>
                                     <div class="item">
                                         <div class="sub-1">Node</div>
-                                        <div class="sub-2">`+ node.node +`</div>
+                                        <div class="sub-2">`+ (a+1) +`</div>
                                     </div>
                                 </th>
                                 

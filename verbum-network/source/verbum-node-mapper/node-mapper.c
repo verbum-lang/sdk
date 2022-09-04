@@ -37,13 +37,13 @@ void node_mapper (void)
 
     // Prepare thread param.
     interface_param_t *param = (interface_param_t *) malloc(sizeof(interface_param_t));
-
     if (!param)
         debug_exit("error allocating memory.");
 
     param->max_connections  = SERVERS_MAX_CONNECTION;
     param->port             = global.configuration.node_mapper.server_port;
 
+    // Copy path.
     size = sizeof(char) * (strlen(global.configuration.path) + 1);
     param->path = (char *) malloc(size);
 
@@ -164,6 +164,7 @@ thread_worker_t * worker_create_item (int wid)
         debug_exit("error memory allocation.");
 
     worker->wid    = wid;
+    worker->sock   = -1;
     worker->status = 0;
     worker->next   = NULL;
 
@@ -189,12 +190,13 @@ void worker_insert_item (thread_worker_t *new_worker)
 
 void * worker_handler (void *tparam)
 {
-    worker_param_t *param = (worker_param_t *) tparam;
+    worker_param_t  *param = (worker_param_t *) tparam;
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
     char *path = NULL;
 
+    // Copy path.
     size = sizeof(char) * (strlen(param->path) + 1);
     path = (char *) malloc(size);
 
@@ -266,7 +268,7 @@ void * worker_handler (void *tparam)
 
 int send_handshake (int sock)
 {
-    char handshake[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\n\n";
+    char handshake[] = "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\r\n\r\n";
     int status = -1, result = 0, counter = 0;
 
     while (1) {
@@ -296,7 +298,7 @@ void process_communication (int sock, char *path)
     char *response = NULL;
 
     // Node Mapper protocol communication.
-    response = get_client_request(sock);
+    response = get_recv_content(sock);
     if (!response)
         return;
 
@@ -341,83 +343,6 @@ void process_communication (int sock, char *path)
      */
     else if (strstr(response, "create-node-server-connection:"))
         create_node_server_connection(sock, response);
-}
-
-char * get_client_request (int sock)
-{
-    #ifdef NMDBG
-        say("get_client_request() - called!");
-    #endif
-
-    char *content = NULL;
-    char tmp [512];
-    int bytes = -1, status = 0, eoh = 0;
-    int bytes_received = 0, size = 0;
-
-    while (1) {
-        memset(tmp, 0x0, 512);
-        bytes = recv(sock, tmp, 511, 0);
-
-        if (bytes <= -1) 
-            break;
-
-        else if (bytes == 0) {
-            status = 1;
-            if (bytes_received > 0)
-                content[ bytes_received ] = '\0';
-            break;
-        }
-        
-        else if (bytes > 0) {
-            size = bytes + bytes_received + 1;
-            content = (char *) realloc(content, size);
-
-            if (!content)
-                break;
-
-            memcpy(&content[ bytes_received ], tmp, bytes);
-            bytes_received += bytes;
-
-            if (bytes_received > 0)
-                content[ bytes_received ] = '\0';
-
-            status = 1;
-
-            // Check end of header.
-            if (strstr(content, "\r\n\r\n"))
-                break;
-        }
-    }
-
-    if (!status || !content)
-        return NULL;
-
-    // Remove end of header: \r\n\r\n.
-    if (strstr(content, "\r\n\r\n")) {
-        size = strlen(content);
-        for (int a=0; a<size; a++) {
-            if (content[a] == '\r' && (a + 3) <= size) {
-                if (content[a  ] == '\r' &&
-                    content[a+1] == '\n' &&
-                    content[a+2] == '\r' &&
-                    content[a+3] == '\n'  )
-                {
-                    content[a] = '\0';
-                    eoh = 1;
-                    break;
-                }
-            }
-        }
-    }
-
-    #ifdef NMDBG
-        if (eoh)
-            say("raw data received: \"%s + EOH\"", content);
-        else
-            say("raw data received: \"%s\"", content);
-    #endif
-
-    return content;
 }
 
 node_control_t * node_create_item (void)
