@@ -43,7 +43,7 @@ $(document).ready(() => {
     $('#nm-address,#nm-port,#nm-connect').keypress(function (e) {
         if (e.which == 13) {
             nm_auth();
-          return false;
+            return false;
         }
     });
 });
@@ -118,7 +118,8 @@ $(document).ready(() => {
                     address: nm_address,
                     port: nm_port
                 });
-            }
+            } else
+                run_gnl = false;
         }
     }, reconnect_timeout);
 

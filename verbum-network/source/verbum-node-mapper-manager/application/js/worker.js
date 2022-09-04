@@ -15,9 +15,7 @@ onmessage = function(ev) {
         connect_node_mapper(request.address, request.port, '', (response) => {
             request.status = false;
 
-            if (response == 'error') 
-                postMessage(request);
-            else if (response.indexOf('Verbum Node Mapper') != -1) {
+            if (response.indexOf('Verbum Node Mapper') != -1) {
                 request.status = true;
                 postMessage(request);
             } else
@@ -32,7 +30,11 @@ onmessage = function(ev) {
         connect_node_mapper(request.address, request.port, 'get-node-list', (response) => {
             request.nodes = [];
 
-            if (response == 'error' || response.indexOf('nodes not found') != -1) 
+            if (response == 'error'                         || 
+                // response == 'timeout'                       ||
+                // response == ''                              ||
+                // response.toString().trim().length <= 0      ||
+                response.indexOf('nodes not found') != -1    ) 
                 postMessage(request);
             else {
                 var parts = response.split('\n\n');
@@ -127,17 +129,35 @@ onmessage = function(ev) {
  * callback - response callback.
  */
 
+var idbg = false;
+
 function connect_node_mapper (hostname, hostport, message, callback)
 {
     var sock = null;
     var data = "";
     var flag = false;
     
+    if (idbg == true)
+        console.log('connect started!');
+
     sock = net.connect({host: hostname, port: hostport}, () => {
         sock.write(message + "\r\n\r\n");
+
+        if (idbg == true)
+            console.log('message: '+ message);
     });
-    
+
+    sock.setTimeout(1000 * 3, ()=> {
+        if (idbg == true)
+            console.log('timeout');
+
+        callback('timeout');
+    })
+
     sock.on('data', (response) => {
+        if (idbg == true)
+            console.log('append data: '+ response.toString());
+
         data += response.toString();
     });
 
@@ -148,16 +168,27 @@ function connect_node_mapper (hostname, hostport, message, callback)
             if (data.length) {
                 if (data.length > 0) {
                     flag = true;
+                
+                    if (idbg == true)
+                        console.log('end success, data: '+ data);
+
                     callback(data);
                 }
             }
         }
 
-        if (flag == false)
+        if (flag == false) {
+            if (idbg == true)
+                console.log('end empty.');
+
             callback('');
+        }
     });
 
     sock.on('error', (error) => {
+        if (idbg == true)
+            console.log('error: '+ error.toString());
+
         callback('error');
     });
 }
