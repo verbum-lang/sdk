@@ -262,7 +262,7 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size, 
     char packet [1024], check[33];
     char header []= "Verbum Node";
     // char header []= "Verbum Node Mapper";
-    char prefix []= "verbum-node-"; // verbum-node-000000000, verbum-node-ok, etc.
+    char prefix []= "verbum-node-"; // verbum-node-000000000, verbum-node-ok, verbum-node-fail.
     char *result = NULL;
 
     // Configure connection.

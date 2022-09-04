@@ -673,8 +673,8 @@ void delete_node (int sock, char *content)
     #endif
 
     char tmp[1024], prefix [] = "delete-node:";
-    char response_success  [] = VERBUM_DEFAULT_SUCCESS;
-    char response_error    [] = VERBUM_DEFAULT_ERROR;
+    char response_success  [] = VERBUM_DEFAULT_SUCCESS "\r\n\r\n";
+    char response_error    [] = VERBUM_DEFAULT_ERROR    "\r\n\r\n";
     char address           [] = LOCALHOST;
     char *ptr = NULL;
     int bytes = 0, status = 0, counter = 0;
@@ -711,8 +711,12 @@ void delete_node (int sock, char *content)
             while (1) {
                 char *response = send_delete_node(address, node->port, node->id);
                 if (response) {
-                    if (strstr(response, "verbum-node-ok"))
+                    if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+                        status = 1;
+                        memory_sclean(response);
                         break;
+                    }
+
                     memory_sclean(response);
                 }
  
@@ -722,9 +726,12 @@ void delete_node (int sock, char *content)
                     break;
             }
 
-            status = 1;
-            node->status  = 0;
-            node->deleted = 1;
+            // status = 1;
+            if (status == 1) {
+                node->status  = 0;
+                node->deleted = 1;
+            }
+            
             break;
         }
     }

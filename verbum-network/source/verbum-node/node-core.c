@@ -167,8 +167,8 @@ int send_handshake (int sock)
 void delete_node (int sock, char *content)
 {
     char tmp[1024], prefix [] = "delete-node:";
-    char response_success  [] = VERBUM_DEFAULT_SUCCESS;
-    char response_error    [] = VERBUM_DEFAULT_ERROR;
+    char response_success  [] = VERBUM_DEFAULT_SUCCESS "\r\n\r\n";
+    char response_error    [] = VERBUM_DEFAULT_ERROR   "\r\n\r\n";
     char *ptr = NULL;
     int bytes = 0, size = 0, status = 0;
 
