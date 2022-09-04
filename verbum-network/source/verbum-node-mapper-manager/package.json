@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron main.js"
   },
-  "license": "Credits: Jesus Cristo",
+  "license": "Credits: Jesus Cristo s2",
   "devDependencies": {
     "electron": "^19.0.0"
   }
