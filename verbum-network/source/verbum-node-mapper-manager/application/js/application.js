@@ -266,8 +266,12 @@ function process_worker (ev)
     /**
      * Get node list.
      */
-    else if (request.cmd == 'get-node-list')
-        process_node_list(request.nodes);
+    else if (request.cmd == 'get-node-list') {
+        if (request.error_disconnect == true) 
+            window.interface.restart_application();
+        else
+            process_node_list(request.nodes);
+    }
 
     /**
      * Create node.

@@ -29,13 +29,18 @@ onmessage = function(ev) {
     else if (request.cmd == 'get-node-list') {
         connect_node_mapper(request.address, request.port, 'get-node-list', (response) => {
             request.nodes = [];
+            request.error_disconnect = false;
 
-            if (response == 'error'                         || 
-                // response == 'timeout'                       ||
-                // response == ''                              ||
-                // response.toString().trim().length <= 0      ||
-                response.indexOf('nodes not found') != -1    ) 
+            if (response == ''                              ||
+                response.toString().trim().length <= 0      ||
+                response.indexOf('nodes not found') != -1    )  
                 postMessage(request);
+            
+            else if (response == 'timeout' || response.indexOf('error: ') != -1) {
+                request.error_disconnect = true;
+                postMessage(request);
+            } 
+            
             else {
                 var parts = response.split('\n\n');
 
@@ -189,7 +194,7 @@ function connect_node_mapper (hostname, hostport, message, callback)
         if (idbg == true)
             console.log('error: '+ error.toString());
 
-        callback('error');
+        callback('error: '+ error.toString());
     });
 }
 
