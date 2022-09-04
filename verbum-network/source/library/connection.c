@@ -79,7 +79,7 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_sele
         if (tmv >= (double) timeout)
             break;
 
-        // usleep(1000);
+        usleep(1000);
     }
 
     if (status == -1) {

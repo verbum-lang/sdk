@@ -279,10 +279,10 @@ int send_handshake (int sock)
             break;
         }
 
-        usleep(100);
+        usleep(1000);
         counter++;
 
-        if (counter >= 30)
+        if (counter >= 10)
             break;
     }
 
@@ -715,7 +715,7 @@ void delete_node (int sock, char *content)
                     memory_sclean(response);
                 }
  
-                usleep(100);
+                usleep(1000);
                 counter++;
                 if (counter >= 3)
                     break;

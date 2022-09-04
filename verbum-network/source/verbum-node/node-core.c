@@ -92,7 +92,7 @@ void add_node_on_node_mapper (void)
         if (id)
             break;
 
-        usleep(100);
+        usleep(1000);
     }
 
     memory_scopy(id, param->information.id);
@@ -154,10 +154,10 @@ int send_handshake (int sock)
             break;
         }
 
-        usleep(10000);
+        usleep(1000);
         counter++;
 
-        if (counter >= 30)
+        if (counter >= 10)
             break;
     }
 

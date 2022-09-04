@@ -257,9 +257,16 @@ function process_worker (ev)
      */
 
     if (request.cmd == 'check-connection') {
-        if (request.status == false) 
+        if (request.status == false) {
             show_status_connect_message('Error connecting to the server.', true);
-        else
+
+            // Auto auth.
+            if (auto_auth == true) {
+                setTimeout(()=> {
+                    nm_auth();
+                }, 4000)
+            }
+        } else
             process_success_connect(request);
     }
 
