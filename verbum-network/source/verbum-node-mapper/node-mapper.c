@@ -386,7 +386,7 @@ void add_new_node (int sock, char *content)
     #endif
 
     char port[256], prefix []= "generate-verbum-node-id:";
-    char *id = NULL, *ptr = NULL, *date = NULL;
+    char *id = NULL, *ptr = NULL, *date = NULL, *resp = NULL;
     int bytes = 0, size = 0;
     node_control_t *node = node_create_item();
 
@@ -426,10 +426,21 @@ void add_new_node (int sock, char *content)
     sprintf(node->last_connect_date, "%s", date);
 
     // Send new node ID to client.
-    bytes = send(sock, node->id, strlen(node->id), 0);
+    size = sizeof(char) * (strlen(node->id) + 256);
+    resp = (char *) malloc(size);
 
-    if (bytes == strlen(node->id))
+    if (!resp)
+        debug_exit("error memory allocation.");
+
+    memset(resp, 0x0, size);
+    sprintf(resp, "%s\r\n\r\n", node->id);
+
+    bytes = send(sock, resp, strlen(resp), 0);
+    if (bytes == strlen(resp))
         node_insert_item(node);
+
+    memset(resp, 0x0, size);
+    free(resp);
 
     // Fail.
     ann_end:
