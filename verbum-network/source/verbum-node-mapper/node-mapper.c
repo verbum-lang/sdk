@@ -652,7 +652,7 @@ void create_node (int sock, char *path)
         say("create node - called.");
     #endif
 
-    char response [] = VERBUM_DEFAULT_SUCCESS;
+    char response [] = VERBUM_DEFAULT_SUCCESS "\r\n\r\n";
     int status       = -1;
 
     system_execution("verbum-node -c \"%s\" &", path);
