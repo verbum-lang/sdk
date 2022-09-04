@@ -5,7 +5,7 @@
 
 // Settings.
 var reconnect_timeout = 333;
-var auto_auth = false;
+var auto_auth = true;
 
 // Global.
 var wk = null;
