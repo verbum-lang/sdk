@@ -149,7 +149,7 @@ function process_node_list (nds = [])
                 }
             }
 
-            if (nds.length > nodes.length)
+            if (nds.length != nodes.length)
                 found = false;
 
             // Re-render.
@@ -172,7 +172,7 @@ function process_node_list (nds = [])
 
     // Set status.
     if (status_use == false)
-        set_status('Total nodes: '+ nodes.length);
+        set_status('Total nodes: '+ nodes.length, false);
 }
 
 // Buttons.
@@ -218,41 +218,31 @@ function create_node ()
 
 function delete_node (node_id)
 {
-    // status_use = true;
-    // $('.area-status').text('Deleting node...');
+    status_use = true;
+    set_status('Deleting node...', false);
 
-    // window.interface.delete_node(
-    //     node_mapper_hostname, node_mapper_hostport, node_id, (response) => {
-    //     console.log(response);
-
-    //     if (response.indexOf('verbum-node-ok') != -1) {
-    //         $('.area-status').text('Node deletion order sent successfully.');
-
-    //         setTimeout(() => {
-    //             $('.area-status').text('Updating node list.');
-
-    //             setTimeout(() => {
-    //                 $('.area-status').text('');
-    //                 status_use = false;
-    //             }, 1000 * 3);
-    //         }, 1000 * 2);
-    //     }
-    // });
-
-    // // Request time limit.
-    // setTimeout(() => {
-    //     $('.area-status').text('');
-    //     status_use = false;
-    // }, 1000 * 10);
+    send_request({
+        cmd: 'delete-node',
+        address: nm_address,
+        port: nm_port,
+        node_id: node_id
+    });    
 }
 
 /**
  * Status area control.
  */
 
-function set_status (msg) 
+function set_status (msg, tmo = false) 
 {
     $('.area-status').text(msg);
+
+    if (tmo == true) {
+        setTimeout(()=>{
+            $('.area-status').text('');
+            status_use = false; // Enable node update - status.
+        }, 3333);
+    }
 }
 
 /**
@@ -277,8 +267,17 @@ function process_worker (ev)
     /**
      * Get node list.
      */
-    else if (request.cmd == 'get-node-list') {
+    else if (request.cmd == 'get-node-list')
         process_node_list(request.nodes);
+
+    /**
+     * Delete node.
+     */
+    else if (request.cmd == 'delete-node') {
+        if (request.status == false) 
+            set_status('Error deleting node.', true);
+        else 
+            set_status('Node deleted successfully.', true);
     }
 }
 

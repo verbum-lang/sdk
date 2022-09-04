@@ -14,7 +14,7 @@ onmessage = function(ev) {
     if (request.cmd == 'check-connection') {
         connect_node_mapper(request.address, request.port, '', (response) => {
             request.status = false;
-            
+
             if (response == 'error') 
                 postMessage(request);
             else if (response.indexOf('Verbum Node Mapper') != -1) {
@@ -84,6 +84,21 @@ onmessage = function(ev) {
 
                 postMessage(request);
             }
+        });
+    }
+
+    /**
+     * Delete node.
+     */
+    else if (request.cmd == 'delete-node') {
+        connect_node_mapper(request.address, request.port, 'delete-node:'+ request.node_id, (response) => {
+            request.status = false;
+
+            if (response.indexOf('verbum-node-ok') != -1) {
+                request.status = true;
+                postMessage(request);
+            } else
+                postMessage(request);
         });
     }
 };
