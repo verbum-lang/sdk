@@ -438,6 +438,11 @@ void add_new_node (int sock, char *content)
     bytes = send(sock, resp, strlen(resp), 0);
     if (bytes == strlen(resp))
         node_insert_item(node);
+    else {
+        memset(node->id, 0x0, strlen(node->id));
+        free(node->id);
+        free(node);
+    }
 
     memset(resp, 0x0, size);
     free(resp);
