@@ -353,7 +353,6 @@ node_control_t * node_create_item (void)
         debug_exit("error memory allocation.");
 
     node->status           = 0;
-    node->deleted          = 0;
     node->port             = 0;
     node->id               = NULL;
     node->next             = NULL;
@@ -615,11 +614,6 @@ void get_node_list (int sock)
         if (node->status != 1)
             continue;
 
-        if (node->deleted == 1) {
-            node->status = 0;
-            continue;
-        }
-
         memset(tmp, 0x0, 1024);
         sprintf(tmp, "node: %d\nid: %s\nport: %d\nlast connection date: %s\n\n", 
             a, node->id, node->port, node->last_connect_date);
@@ -713,6 +707,7 @@ void delete_node (int sock, char *content)
                 if (response) {
                     if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
                         status = 1;
+                        node->status = 0;
                         memory_sclean(response);
                         break;
                     }
@@ -726,12 +721,6 @@ void delete_node (int sock, char *content)
                     break;
             }
 
-            // status = 1;
-            if (status == 1) {
-                node->status  = 0;
-                node->deleted = 1;
-            }
-            
             break;
         }
     }

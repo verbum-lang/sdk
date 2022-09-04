@@ -37,7 +37,6 @@ typedef struct thread_worker_st {
 // Client-node struct control.
 typedef struct node_control_st {
     int status;                         // Status node (1: enabled, 0: disabled).
-    int deleted;                        // Status delete (1: enabled, 0: disabled).
     char *id;                           // Node unique identification.
     int port;                           // Node interface port.
     char last_connect_date [100];       // d-m-Y h:m:s
