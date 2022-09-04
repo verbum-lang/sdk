@@ -155,7 +155,7 @@ function connect_node_mapper (hostname, hostport, message, callback)
             console.log('message: '+ message);
     });
 
-    sock.setTimeout(1000 * 3, ()=> {
+    sock.setTimeout(1000 * 10, ()=> {
         if (idbg == true)
             console.log('timeout');
 
