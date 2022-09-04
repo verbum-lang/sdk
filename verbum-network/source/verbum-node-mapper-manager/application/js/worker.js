@@ -42,54 +42,57 @@ onmessage = function(ev) {
             } 
             
             else {
-                var parts = response.split('\n\n');
+                var resp  = response.split('\r\n\r\n');
+                if (resp[1]) {
+                    var parts = resp[1].split('\n\n');
 
-                for (var a=1; a<parts.length; a++) {
-                    var item = parts[a].toString().trim();
+                    for (var a=0; a<parts.length; a++) {
+                        var item = parts[a].toString().trim();
 
-                    if (item.length <= 0)
-                        continue;
-
-                    var lines  = item.split("\n");
-                    var node   = -1;
-                    var id     = '';
-                    var port   = -1;
-                    var date   = '';
-
-                    for (var b=0; b<lines.length; b++) {
-                        var iitem = lines[b].toString().trim();
-                        if (iitem.length <= 0)
+                        if (item.length <= 0)
                             continue;
 
-                        var iparts = iitem.split(': ');
-                        var name   = iparts[0].toString().trim();
-                        var value  = iparts[1].toString().trim();
-                        
-                        if (name.length > 0 && value.length > 0) {
-                            if (name == 'node')
-                                node = value;
-                            else if (name == 'id')
-                                id = value;
-                            else if (name == 'port')
-                                port = value;
-                            else if (name == 'last connection date')
-                                date = value;
+                        var lines  = item.split("\n");
+                        var node   = -1;
+                        var id     = '';
+                        var port   = -1;
+                        var date   = '';
+
+                        for (var b=0; b<lines.length; b++) {
+                            var iitem = lines[b].toString().trim();
+                            if (iitem.length <= 0)
+                                continue;
+
+                            var iparts = iitem.split(': ');
+                            var name   = iparts[0].toString().trim();
+                            var value  = iparts[1].toString().trim();
+                            
+                            if (name.length > 0 && value.length > 0) {
+                                if (name == 'node')
+                                    node = value;
+                                else if (name == 'id')
+                                    id = value;
+                                else if (name == 'port')
+                                    port = value;
+                                else if (name == 'last connection date')
+                                    date = value;
+                            }
+                        }
+
+                        if (node != -1    && port != -1      &&
+                            id.length > 0 && date.length > 0  )
+                        {
+                            request.nodes.push({
+                                node: node,
+                                id: id,
+                                port: port,
+                                last_connection_date: date
+                            });
                         }
                     }
 
-                    if (node != -1    && port != -1      &&
-                        id.length > 0 && date.length > 0  )
-                    {
-                        request.nodes.push({
-                            node: node,
-                            id: id,
-                            port: port,
-                            last_connection_date: date
-                        });
-                    }
+                    postMessage(request);
                 }
-
-                postMessage(request);
             }
         });
     }

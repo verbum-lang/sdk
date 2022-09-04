@@ -204,7 +204,7 @@ void delete_node (int sock, char *content)
     }
 
     bytes = send(sock, response_success, strlen(response_success), 0);
-    say("sended success node message.");
+    say("Verbum Node finished.");
     exit(0);
 }
 

@@ -9,7 +9,6 @@
 
 int check_connection_banner_nm (char *address, int port);
 int check_connection_banner_nm_select (char *address, int port);
-int check_connection_banner_nm_blocking (char *laddr, int port);
 int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_select);
 char * get_recv_content (int sock);
 char * send_message_nm (char *laddr, int port, char *message, int message_size, int use_tmo);

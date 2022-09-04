@@ -33,62 +33,6 @@ int check_connection_banner_nm_select (char *address, int port)
     return check_connection_banner_nm_non_blocking(address, port, 1);
 }
 
-int check_connection_banner_nm_ft_blocking (char *laddr, int port)
-{
-    int status = -1, handle = -1;
-    char packet [1024];
-    char header []= "Verbum Node Mapper";
-
-    // Configure connection.
-    struct sockaddr_in address;
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( port );
-
-    if (inet_pton(AF_INET, laddr, &address.sin_addr) <= 0) {
-        debug_print("error set IP address - socket configuration.");
-        return 0;
-    }
-
-    // Create socket.
-    handle = socket(AF_INET, SOCK_STREAM, 0);
-    if (handle == -1) {
-        say("creating socket error.");
-        return 0;
-    }
-    
-    // Connect.
-    status = connect(handle, (struct sockaddr*) &address, sizeof(address));
-    if (status < 0)
-        return 0;
-
-    // Receive data.
-    memset(packet, 0x0, 1024);
-
-    status = recv(handle, packet, 100, 0);
-    if (status == -1)
-        goto connection_end_fail;
-    
-    // Check header.
-    if (strlen(header) > strlen(packet) || strlen(packet) <= 0)
-        goto connection_end_fail;
-    
-    packet[ strlen(header) ] = '\0';
-    if (strcmp(header, packet) != 0)
-        goto connection_end_fail;
-
-    goto connection_end_success;
-
-    // Close.
-    connection_end_fail:
-    close(handle);
-    return 0;
-
-    connection_end_success:
-    close(handle);
-    return 1;
-}
-
 int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_select)
 {
     int status = -1, handle = -1, flags  = 0;
@@ -179,11 +123,27 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_sele
     }
 
     // Receive data.
-    memset(packet, 0x0, 1024);
-    status = recv(handle, packet, 100, 0);
+    // memset(packet, 0x0, 1024);
+    // status = recv(handle, packet, 100, 0);
+    // if (status == -1) 
+    //     goto connection_end_fail;
 
-    if (status == -1) 
+    char *rdata = get_recv_content(handle);
+    int sizel = 0, size = 0;
+
+    if (!rdata)
         goto connection_end_fail;
+    
+    if (strlen(rdata) >= 1024)
+        sizel = 1023;
+    else 
+        sizel = strlen(rdata);
+    
+    memset(packet, 0x0, 1024);
+    memcpy(packet, rdata, sizel);
+
+    memset(rdata, 0x0, strlen(rdata));
+    free(rdata);
 
     // Check header.
     if (strlen(packet) <= 0              ||
@@ -384,11 +344,26 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size, 
     }
 
     // Receive data.
-    memset(packet, 0x0, 1024);
-    status = recv(handle, packet, 100, 0);
+    // memset(packet, 0x0, 1024);
+    // status = recv(handle, packet, 100, 0);
+    // if (status == -1) 
+    //     goto connection_end_fail;
 
-    if (status == -1) 
+    char *rdata = get_recv_content(handle);
+    int sizel = 0;
+
+    if (!rdata)
         goto connection_end_fail;
+    
+    if (strlen(rdata) >= 1024)
+        sizel = 1023;
+    else 
+        sizel = strlen(rdata);
+    
+    memset(packet, 0x0, 1024);
+    memcpy(packet, rdata, sizel);
+    memset(rdata, 0x0, strlen(rdata));
+    free(rdata);
 
     // Check header.
     if (strlen(header) > strlen(packet) || strlen(packet) <= 0)
@@ -409,29 +384,48 @@ char * send_message_nm (char *laddr, int port, char *message, int message_size, 
     if (status == -1)
         goto connection_end_fail;
     
-    memset(packet, 0x0, 1024);
-    status = recv(handle, packet, 1023, 0);
-    if (status == -1 || status == 0) 
+    // Recv data.
+    // memset(packet, 0x0, 1024);
+    // status = recv(handle, packet, 1023, 0);
+    // if (status == -1 || status == 0) 
+    //     goto connection_end_fail;
+
+    char *xdata = get_recv_content(handle);
+    sizel = 0;
+
+    if (!xdata)
         goto connection_end_fail;
+    
+    if (strlen(xdata) >= 1024)
+        sizel = 1023;
+    else 
+        sizel = strlen(xdata);
+    
+    memset(packet, 0x0, 1024);
+    memcpy(packet, xdata, sizel);
 
     // Check message.
     memset(check, 0x0, 33);
     memcpy(check, packet, strlen(prefix));
 
-    if (strcmp(check, prefix) != 0)
+    if (strcmp(check, prefix) != 0) {
+        memset(xdata, 0x0, strlen(xdata));
+        free(xdata);
         goto connection_end_fail;
+    }
 
-    size = sizeof(char) * (status + 1);
-    result = (char *) malloc(size);
+    // size = sizeof(char) * (status + 1);
+    // result = (char *) malloc(size);
     
-    if (!result)
-        goto connection_end_fail;
+    // if (!result)
+    //     goto connection_end_fail;
 
-    memset(result, 0x0, size);
-    memcpy(result, packet, status);
+    // memset(result, 0x0, size);
+    // memcpy(result, packet, status);
     
     close(handle);
-    return result;
+    return xdata;
+    // return result;
 
     // Close fail.
     connection_end_fail:
@@ -522,4 +516,5 @@ char * send_delete_node (char *address, int node_port, char *node_id)
 
     return send_message_nm(address, node_port, message, strlen(message), 1);
 }
+
 
