@@ -104,6 +104,7 @@ function process_success_connect (request)
 // Node list control.
 var run_gnl = false;
 var nodes = [];
+var lastNodeLength = 0;
 
 $(document).ready(() => {
 
@@ -171,8 +172,21 @@ function process_node_list (nds = [])
     run_gnl = false;
 
     // Set status.
-    if (status_use == false)
-        set_status('Total nodes: '+ nodes.length, false);
+    if (status_use == false) {
+        var upd = false;
+
+        if (nodes.length != lastNodeLength)
+            upd = true;
+        
+        var tx = $('.area-status').text().toString().trim();
+        if (tx.length <= 0) 
+            upd = true;
+
+        if (upd == true) {
+            lastNodeLength = nodes.length; 
+            set_status('Total nodes: '+ nodes.length, false);
+        }
+    }
 }
 
 // Buttons.
@@ -188,45 +202,29 @@ $(document).ready(() => {
 
 function create_node ()
 {
-    // status_use = true;
-    // $('.area-status').text('Creating node...');
+    status_use = true;
+    set_status('Creating node...', false);
+    $('.btn-create-node').prop('disabled', true);
 
-    // window.interface.create_node(
-    //     node_mapper_hostname, node_mapper_hostport, (response) => {
-    //     console.log(response);
-
-    //     if (response.indexOf('verbum-node-ok') != -1) {
-    //         $('.area-status').text('Node creation order sent successfully.');
-
-    //         setTimeout(() => {
-    //             $('.area-status').text('Updating node list.');
-
-    //             setTimeout(() => {
-    //                 $('.area-status').text('');
-    //                 status_use = false;
-    //             }, 1000 * 3);
-    //         }, 1000 * 2);
-    //     }
-    // });
-
-    // // Request time limit.
-    // setTimeout(() => {
-    //     $('.area-status').text('');
-    //     status_use = false;
-    // }, 1000 * 10);
+    send_request({
+        cmd: 'create-node',
+        address: nm_address,
+        port: nm_port
+    });
 }
 
 function delete_node (node_id)
 {
     status_use = true;
     set_status('Deleting node...', false);
+    $('.btn-delete-node').prop('disabled', true);
 
     send_request({
         cmd: 'delete-node',
         address: nm_address,
         port: nm_port,
         node_id: node_id
-    });    
+    });
 }
 
 /**
@@ -271,6 +269,18 @@ function process_worker (ev)
         process_node_list(request.nodes);
 
     /**
+     * Create node.
+     */
+     else if (request.cmd == 'create-node') {
+        if (request.status == false) 
+            set_status('Error creating node.', true);
+        else 
+            set_status('Node created successfully.', true);
+        
+        $('.btn-create-node').prop('disabled', false);
+    }
+
+    /**
      * Delete node.
      */
     else if (request.cmd == 'delete-node') {
@@ -278,6 +288,8 @@ function process_worker (ev)
             set_status('Error deleting node.', true);
         else 
             set_status('Node deleted successfully.', true);
+
+        $('.btn-delete-node').prop('disabled', false);
     }
 }
 
@@ -416,7 +428,7 @@ function render_all_nodes ()
                                             Add connection
                                         </button>
 
-                                        <button class='btn btn-danger btn-3 btn-fix-1' onclick='javascript:delete_node("`+ node.id +`");' >
+                                        <button class='btn-delete-node btn btn-danger btn-3 btn-fix-1' onclick='javascript:delete_node("`+ node.id +`");' >
                                             <i class="feather-size-a" data-feather="x"></i>
                                             Delete node
                                         </button> 

@@ -88,6 +88,21 @@ onmessage = function(ev) {
     }
 
     /**
+     * Create node.
+     */
+    else if (request.cmd == 'create-node') {
+        connect_node_mapper(request.address, request.port, 'create-node', (response) => {
+            request.status = false;
+
+            if (response.indexOf('verbum-node-ok') != -1) {
+                request.status = true;
+                postMessage(request);
+            } else
+                postMessage(request);
+        });
+    }
+
+    /**
      * Delete node.
      */
     else if (request.cmd == 'delete-node') {
