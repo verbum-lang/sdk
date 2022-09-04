@@ -10,6 +10,7 @@ var reconnect_timeout = 333;
 var wk = null;
 var auto_auth = true;
 var nm_address = null, nm_port = null;
+var status_use = false;
 
 // Initialization.
 $(document).ready(() => {
@@ -124,8 +125,6 @@ $(document).ready(() => {
 
 function process_node_list (nds = [])
 {
-    console.log(nds);
-
     // Nodes not found.
     if (nds.length == 0) {
         nodes = nds;
@@ -170,6 +169,10 @@ function process_node_list (nds = [])
     
     // Enable do re-check.
     run_gnl = false;
+
+    // Set status.
+    if (status_use == false)
+        set_status('Total nodes: '+ nodes.length);
 }
 
 // Buttons.
@@ -182,6 +185,75 @@ $(document).ready(() => {
         window.interface.restart_application();
     });
 })
+
+function create_node ()
+{
+    // status_use = true;
+    // $('.area-status').text('Creating node...');
+
+    // window.interface.create_node(
+    //     node_mapper_hostname, node_mapper_hostport, (response) => {
+    //     console.log(response);
+
+    //     if (response.indexOf('verbum-node-ok') != -1) {
+    //         $('.area-status').text('Node creation order sent successfully.');
+
+    //         setTimeout(() => {
+    //             $('.area-status').text('Updating node list.');
+
+    //             setTimeout(() => {
+    //                 $('.area-status').text('');
+    //                 status_use = false;
+    //             }, 1000 * 3);
+    //         }, 1000 * 2);
+    //     }
+    // });
+
+    // // Request time limit.
+    // setTimeout(() => {
+    //     $('.area-status').text('');
+    //     status_use = false;
+    // }, 1000 * 10);
+}
+
+function delete_node (node_id)
+{
+    // status_use = true;
+    // $('.area-status').text('Deleting node...');
+
+    // window.interface.delete_node(
+    //     node_mapper_hostname, node_mapper_hostport, node_id, (response) => {
+    //     console.log(response);
+
+    //     if (response.indexOf('verbum-node-ok') != -1) {
+    //         $('.area-status').text('Node deletion order sent successfully.');
+
+    //         setTimeout(() => {
+    //             $('.area-status').text('Updating node list.');
+
+    //             setTimeout(() => {
+    //                 $('.area-status').text('');
+    //                 status_use = false;
+    //             }, 1000 * 3);
+    //         }, 1000 * 2);
+    //     }
+    // });
+
+    // // Request time limit.
+    // setTimeout(() => {
+    //     $('.area-status').text('');
+    //     status_use = false;
+    // }, 1000 * 10);
+}
+
+/**
+ * Status area control.
+ */
+
+function set_status (msg) 
+{
+    $('.area-status').text(msg);
+}
 
 /**
  * Process worker requests - response.
@@ -414,32 +486,36 @@ function generate_connections_area_html (prefix)
                 </tr>
 
                 <tr>
-                    <th>verbum-node-2409308923</th>
-                    <th>127.0.0.1</th>
-                    <th>3333</th>
-                    <th>YES</th>
-                    <th>
+                    <th colspan="6" class="th-separator" ></th>
+                </tr>
+
+                <tr>
+                    <th class='nd-th-item' >verbum-node-2409308923</th>
+                    <th class='nd-th-item' >127.0.0.1</th>
+                    <th class='nd-th-item' >3333</th>
+                    <th class='nd-th-item' >YES</th>
+                    <th class='nd-th-item' >
                         <div class="item-sub-1">
                             31-07-2022 18-21-19
                         </div>
                     </th>
-                    <th style="text-align:right;" >
+                    <th class='nd-th-item' style="text-align:right;" >
                         <button class='btn btn-2 btn-danger' >
                             <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
                 </tr>
                 <tr>
-                    <th>verbum-node-2409308923</th>
-                    <th>127.0.0.1</th>
-                    <th>3333</th>
-                    <th>NO</th>
-                    <th>
+                    <th class='nd-th-item' >verbum-node-2409308923</th>
+                    <th class='nd-th-item' >127.0.0.1</th>
+                    <th class='nd-th-item' >3333</th>
+                    <th class='nd-th-item' >NO</th>
+                    <th class='nd-th-item' >
                         <div class="item-sub-1">
                             31-07-2022 18-21-19
                         </div>
                     </th>
-                    <th style="text-align:right;" >
+                    <th class='nd-th-item' style="text-align:right;" >
                         <button class='btn btn-2 btn-danger' >
                             <i class="feather-size-b" data-feather="x"></i>
                         </button>
@@ -460,32 +536,36 @@ function generate_connections_area_html (prefix)
                 </tr>
 
                 <tr>
-                    <th>verbum-node-2409308923</th>
-                    <th>127.0.0.1</th>
-                    <th>3333</th>
-                    <th></th>
-                    <th>
+                    <th colspan="6" class="th-separator" ></th>
+                </tr>
+
+                <tr>
+                    <th class='nd-th-item' >verbum-node-2409308923</th>
+                    <th class='nd-th-item' >127.0.0.1</th>
+                    <th class='nd-th-item' >3333</th>
+                    <th class='nd-th-item' ></th>
+                    <th class='nd-th-item' >
                         <div class="item-sub-1">
                             31-07-2022 18-21-19
                         </div>
                     </th>
-                    <th style="text-align:right;" >
+                    <th class='nd-th-item' style="text-align:right;" >
                         <button class='btn btn-2 btn-danger' >
                             <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
                 </tr>
                 <tr>
-                    <th>verbum-node-2409308923</th>
-                    <th>127.0.0.1</th>
-                    <th>3333</th>
-                    <th></th>
-                    <th>
+                    <th class='nd-th-item' >verbum-node-2409308923</th>
+                    <th class='nd-th-item' >127.0.0.1</th>
+                    <th class='nd-th-item' >3333</th>
+                    <th class='nd-th-item' ></th>
+                    <th class='nd-th-item' >
                         <div class="item-sub-1">
                             31-07-2022 18-21-19
                         </div>
                     </th>
-                    <th style="text-align:right;" >
+                    <th class='nd-th-item' style="text-align:right;" >
                         <button class='btn btn-2 btn-danger' >
                             <i class="feather-size-b" data-feather="x"></i>
                         </button>

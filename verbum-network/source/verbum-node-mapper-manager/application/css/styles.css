@@ -206,10 +206,6 @@ html, body {
   font-weight: bold !important;
 }
 
-.table-results-sec-3 .th-header {
-  text-align: left;
-}
-
 .table-results-sec-3 .item-sub-1 {
   font-size: 7px;
 }
@@ -219,6 +215,7 @@ html, body {
 }
 
 .table-results-sec-3 .th-header {
+  text-align: left;
   background-color: #2c3034;;
   font-weight: bold;
 }
@@ -234,6 +231,25 @@ html, body {
 
 .table-results-sec-3 th {
   font-weight: normal;
+}
+
+.nd-th-item {
+  padding: 2px !important;
+  padding-left:  5px !important;
+  padding-right: 5px !important;
+}
+
+.th-separator {
+  padding: 0 !important;
+  padding-top: 1px !important;
+}
+
+.area-status {
+  padding-top: 5px;
+  padding-left: 5px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 9px;
 }
 
 
