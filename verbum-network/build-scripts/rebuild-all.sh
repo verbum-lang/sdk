@@ -5,7 +5,7 @@
 #
 
 cd ../../../sdk-binaries
-rm -rf verbum-node verbum-node-mapper verbum-fault-tolerance
+rm -rf verbum-node verbum-node-mapper
 
 
 # ***
@@ -78,12 +78,26 @@ gcc -o global.o                 -c global.c
 gcc -o help.o                   -c help.c
 gcc -o configuration.o          -c configuration.c
 gcc -o node-mapper.o            -c node-mapper.c
+gcc -o communication.o          -c communication.c
+gcc -o add-node.o               -c add-node.c
+gcc -o create-node.o            -c create-node.c
+gcc -o delete-node.o            -c delete-node.c
+gcc -o generate-node-id.o       -c generate-node-id.c
+gcc -o get-nodes.o              -c get-nodes.c
+gcc -o ping-node.o              -c ping-node.c
 
 gcc -o verbum-node-mapper verbum-node-mapper.c              \
                           global.o                          \
                           help.o                            \
                           configuration.o                   \
                           node-mapper.o                     \
+                          communication.o                   \
+                          add-node.o                        \
+                          create-node.o                     \
+                          delete-node.o                     \
+                          generate-node-id.o                \
+                          get-nodes.o                       \
+                          ping-node.o                       \
                           $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o

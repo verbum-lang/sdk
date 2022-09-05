@@ -88,8 +88,6 @@ int add_node_on_node_mapper (void)
     char address [] = LOCALHOST;
     char *id        = NULL;
     
-    say("started add node!");
-
     while (1) {
         id = process_generate_node_id(
                 address, param->node_mapper_port, param->information.port);
@@ -99,7 +97,6 @@ int add_node_on_node_mapper (void)
 
         usleep(1000);
     }
-    say("end add node!");
 
     mem_scopy_ret(id, param->information.id, 0);
     mem_sfree(id);
