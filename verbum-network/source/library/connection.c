@@ -12,83 +12,82 @@
 #include "connection.h"
 #include "memory.h"
 
-/*
- * It connects to the "Node Mapper" and "Fault Tolerance" servers, and checks the header.
- *
- * address  = IP address destination.
- * port     = port to connect.
- * header   = header data to check.
- * timeout  = non-blocking timeout.
- *
- * Success: return 1. Error: return 0.
+/**
+ * Check connection.
+ * 
+ * address: host address
+ * port...: host port
+ * enable_timeout: 
+ *       0 = disabled.
+ *       1 = enabled.
+ * 
+ * Return: 
+ *      -1 = error.
+ *   != -1 = socket.
  */
 
-int check_connection_banner_nm (char *address, int port)
+int create_connection (char *address, int port, int enable_timeout)
 {
-    return check_connection_banner_nm_non_blocking(address, port, 0);
-}
-
-int check_connection_banner_nm_select (char *address, int port)
-{
-    return check_connection_banner_nm_non_blocking(address, port, 1);
-}
-
-int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_select)
-{
-    int status = -1, handle = -1, flags  = 0;
-    int timeout = CONNECTIONS_TIMEOUT1;
-    char packet [1024];
-    char header []= "Verbum Node";
-    // char header1 []= "Verbum Node Mapper";
-    // char header2 []= "Verbum Node";
+    int status     = -1, sock = -1, flags  = 0;
+    int timeout    = CONNECTIONS_TIMEOUT1;
+    char *packet   = NULL;
+    char header [] = "Verbum Node";
 
     // Configure connection.
-    struct sockaddr_in address;
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( port );
+    struct sockaddr_in saddress;
+    saddress.sin_family      = AF_INET;
+    saddress.sin_addr.s_addr = INADDR_ANY;
+    saddress.sin_port        = htons( port );
 
-    if (inet_pton(AF_INET, laddr, &address.sin_addr) <= 0) {
-        debug_print("error set IP address - socket configuration.");
-        return 0;
-    }
+    if (inet_pton(AF_INET, address, &saddress.sin_addr) <= 0)
+        say_ret(-1, "error set IP address - socket configuration.");
 
-    handle = socket(AF_INET, SOCK_STREAM, 0);
-    if (handle == -1) {
-        debug_print("creating socket error.");
-        return 0;
-    }
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock == -1) 
+        say_ret(-1, "creating socket error.");
     
     // Enable non-blocking.
-    flags = fcntl(handle, F_GETFL, 0); 
-    if (fcntl(handle, F_SETFL, flags | O_NONBLOCK) == -1) {
-        debug_print("error set non-blocking socket.");
-        return 0;
-    }
+    flags = fcntl(sock, F_GETFL, 0); 
+    if (fcntl(sock, F_SETFL, flags | O_NONBLOCK) == -1)
+        say_ret(-1, "error set non-blocking socket.");
 
     // Connect.
-    clock_t start = clock();
-    clock_t end;
+    #ifdef CONDBG
+        say("process connect...");
+    #endif
+
+    time_t start, end;
+    double diff;
+
+    time(&start);
 
     while (1) {
-        status = connect(handle, (struct sockaddr*) &address, sizeof(address));
+        status = connect(sock, (struct sockaddr*) &saddress, sizeof(saddress));
         if (status != -1) 
             break;
 
-        double tmv = (double)(clock() - start) / CLOCKS_PER_SEC;
-        if (tmv >= (double) timeout)
+        time(&end);
+        diff = difftime(end, start);
+
+        if (diff >= (double) timeout)
             break;
     
         usleep(1000);
     }
     
-    if (status == -1) {
-        debug_print("error connect socket.");
-        return 0;
-    }
+    #ifdef CONDBG
+        say("connect finished, status: %d", status);
+    #endif
+    
+    if (status == -1)
+        say_ret(-1, "error connect socket.");
 
-    // Select.
-    if (use_select == 1) {
+    // Select enabled.
+    if (enable_timeout == 1) {
+        #ifdef CONDBG
+            say("process select...");
+        #endif
+
         struct timeval stv;
         fd_set rfds;
 
@@ -96,85 +95,71 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_sele
         stv.tv_usec = 0;
 
         FD_ZERO(&rfds);
-        FD_SET(handle, &rfds);
+        FD_SET(sock, &rfds);
 
-        int st = select(handle+1, &rfds, NULL, NULL, &stv);
+        int st = select(sock+1, &rfds, NULL, NULL, &stv);
         
         if (st <= 0) {
             #ifdef CONDBG
-                debug_print("error select socket.");
+                say("error select socket.");
             #endif
-            goto connection_end_fail;
+            
+            close(sock);
+            return -1;
         }
     }
 
     // Disable non blocking.
-    if (fcntl(handle, F_SETFL, flags) == -1) {
-        debug_print("error remove non-blocking socket.");
-        goto connection_end_fail;
-    }
+    if (fcntl(sock, F_SETFL, flags) == -1)
+        say_end_con(-1, "error remove non-blocking socket.");
 
     // Set recv timeout.
-    if (use_select == 1) {
+    if (enable_timeout == 1) {
         struct timeval tms;
         tms.tv_sec  = CONNECTIONS_TIMEOUT1;
         tms.tv_usec = 0;
-        setsockopt(handle, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+
+        if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval)) != 0)
+            say_end_con(-1, "error setsocketopt.");
     }
 
     // Receive data.
-    // memset(packet, 0x0, 1024);
-    // status = recv(handle, packet, 100, 0);
-    // if (status == -1) 
-    //     goto connection_end_fail;
-
-    char *rdata = get_recv_content(handle);
-    int sizel = 0, size = 0;
-
-    if (!rdata)
-        goto connection_end_fail;
+    #ifdef CONDBG
+        say("recv data...");
+    #endif
     
-    if (strlen(rdata) >= 1024)
-        sizel = 1023;
-    else 
-        sizel = strlen(rdata);
+    packet = get_recv_content(sock);
+    if (!packet)
+        say_end_con(-1, "error recv content.");
     
-    memset(packet, 0x0, 1024);
-    memcpy(packet, rdata, sizel);
-
-    memset(rdata, 0x0, strlen(rdata));
-    free(rdata);
-
     // Check header.
-    if (strlen(packet) <= 0              ||
-        strlen(header) > strlen(packet)   )
-        goto connection_end_fail;
-    
-    // packet[ strlen(header) ] = '\0';
-    // if (strcmp(header, packet) != 0)
-    //     goto connection_end_fail;
-
     if (!strstr(packet, header))
-        goto connection_end_fail;
+        say_end_con(-1, "header not found on packet.");
 
-    goto connection_end_success;
+    #ifdef CONDBG
+        say("connection success!");
+    #endif
 
-    // Close.
-    connection_end_fail:
-    close(handle);
-    return 0;
+    return sock;
+}
 
-    connection_end_success:
-    close(handle);
+int check_protocol (char *address, int port, int enable_timeout)
+{
+    int sock = -1;
+
+    if (!address || !port)
+        return 0;
+
+    sock = create_connection(address, port, enable_timeout);
+    if (sock == -1)
+        return 0;
+
+    close(sock);
     return 1;
 }
 
 char *get_recv_content (int sock)
 {
-    #ifdef CONDBG
-        say("get_recv_content() - called!");
-    #endif
-
     char *content = NULL;
     char tmp [512];
     int bytes = -1, status = 0, eoh = 0;
@@ -252,271 +237,6 @@ char *get_recv_content (int sock)
     return content;
 }
 
-/*
- * Send a raw message do Node Mapper, and recv response.
- */
-char * send_message_nm (char *laddr, int port, char *message, int message_size, int use_tmo)
-{
-    int status = -1, handle = -1, flags = 0;
-    int timeout = CONNECTIONS_TIMEOUT1, size = 0;
-    char packet [1024], check[33];
-    char header []= "Verbum Node";
-    // char header []= "Verbum Node Mapper";
-    char prefix []= "verbum-node-"; // verbum-node-000000000, verbum-node-ok, verbum-node-fail.
-    char *result = NULL;
-
-    // Configure connection.
-    struct sockaddr_in address;
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( port );
-
-    if (inet_pton(AF_INET, laddr, &address.sin_addr) <= 0) {
-        debug_print("error set IP address - socket configuration.");
-        return NULL;
-    }
-
-    handle = socket(AF_INET, SOCK_STREAM, 0);
-    if (handle == -1) {
-        debug_print("creating socket error.");
-        return NULL;
-    }
-    
-    // Enable non-blocking.
-    flags = fcntl(handle, F_GETFL, 0); 
-    if (fcntl(handle, F_SETFL, flags | O_NONBLOCK) == -1) {
-        debug_print("error set non-blocking socket.");
-        return NULL;
-    }
-
-    // Connect.
-    clock_t start = clock();
-    clock_t end;
-
-    while (1) {
-        status = connect(handle, (struct sockaddr*) &address, sizeof(address));
-        if (status != -1) 
-            break;
-
-        double tmv = (double)(clock() - start) / CLOCKS_PER_SEC;
-        if (tmv >= (double) timeout)
-            break;
-
-        usleep(1000);
-    }
-
-    if (status == -1) {
-        debug_print("error connect socket.");
-        return NULL;
-    }
-
-    // Select.
-    // struct timeval stv;
-    // fd_set rfds;
-
-    // stv.tv_sec = timeout;
-    // stv.tv_usec = 0;
-
-    // FD_ZERO(&rfds);
-    // FD_SET(handle, &rfds);
-
-    // int st = select(handle+1, &rfds, NULL, NULL, &stv);
-    
-    // if (st <= 0) {
-    //     #ifdef CONDBG
-    //         debug_print("error select socket.");
-    //     #endif
-    //     goto connection_end_fail;
-    // }
-
-    // Disable non-blocking.
-    if (fcntl(handle, F_SETFL, flags) == -1) {
-        debug_print("error remove non-blocking socket.");
-        goto connection_end_fail;
-    }
-
-    // Set recv timeout.
-    if (use_tmo == 1) {
-        struct timeval tms;
-        tms.tv_sec  = CONNECTIONS_TIMEOUT1;
-        tms.tv_usec = 0;
-        setsockopt(handle, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
-    }
-
-    // Receive data.
-    // memset(packet, 0x0, 1024);
-    // status = recv(handle, packet, 100, 0);
-    // if (status == -1) 
-    //     goto connection_end_fail;
-
-    char *rdata = get_recv_content(handle);
-    int sizel = 0;
-
-    if (!rdata)
-        goto connection_end_fail;
-    
-    if (strlen(rdata) >= 1024)
-        sizel = 1023;
-    else 
-        sizel = strlen(rdata);
-    
-    memset(packet, 0x0, 1024);
-    memcpy(packet, rdata, sizel);
-    memset(rdata, 0x0, strlen(rdata));
-    free(rdata);
-
-    // Check header.
-    if (strlen(header) > strlen(packet) || strlen(packet) <= 0)
-        goto connection_end_fail;
-    
-    // packet[ strlen(header) ] = '\0';
-    // if (strcmp(header, packet) != 0)
-    //     goto connection_end_fail;
-
-    if (!strstr(packet, header))
-        goto connection_end_fail;
-
-    // ***
-    // Process messages.
-    //
-
-    status = send(handle, message, message_size, 0);
-    if (status == -1)
-        goto connection_end_fail;
-    
-    // Recv data.
-    // memset(packet, 0x0, 1024);
-    // status = recv(handle, packet, 1023, 0);
-    // if (status == -1 || status == 0) 
-    //     goto connection_end_fail;
-
-    char *xdata = get_recv_content(handle);
-    sizel = 0;
-
-    if (!xdata)
-        goto connection_end_fail;
-    
-    if (strlen(xdata) >= 1024)
-        sizel = 1023;
-    else 
-        sizel = strlen(xdata);
-    
-    memset(packet, 0x0, 1024);
-    memcpy(packet, xdata, sizel);
-
-    // Check message.
-    memset(check, 0x0, 33);
-    memcpy(check, packet, strlen(prefix));
-
-    if (strcmp(check, prefix) != 0) {
-        memset(xdata, 0x0, strlen(xdata));
-        free(xdata);
-        goto connection_end_fail;
-    }
-
-    // size = sizeof(char) * (status + 1);
-    // result = (char *) malloc(size);
-    
-    // if (!result)
-    //     goto connection_end_fail;
-
-    // memset(result, 0x0, size);
-    // memcpy(result, packet, status);
-    
-    close(handle);
-    return xdata;
-    // return result;
-
-    // Close fail.
-    connection_end_fail:
-    close(handle);
-    return NULL;
-}
-
-/**
- * Connect to Node Mapper and generate node ID.
- */
-
-char * generate_node_id (char *address, int node_mapper_port, int node_port) 
-{
-    char prefix[]= "generate-verbum-node-id:";
-    char *message = NULL;
-    char end_header [] = "\r\n\r\n";
-    int size = 0;
-
-    while (!check_connection_banner_nm(address, node_mapper_port)) {
-        usleep(1000);
-    }
-
-    size = sizeof(char) * (strlen(prefix) + 1024);
-    message = (char *) malloc(size);
-
-    if (!message) {
-        debug_print("error alloc memory.");
-        return NULL;
-    }
-
-    memset(message, 0x0, size);
-    sprintf(message, "%s%d%s", prefix, node_port, end_header);
-
-    return send_message_nm(address, node_mapper_port, message, strlen(message), 0);
-}
-
-/**
- * Ping node.
- */
-char * ping_node (char *address, int node_mapper_port, char *node_id, int node_interface_port) 
-{
-    char prefix[]= "ping-verbum-node:";
-    char *message = NULL;
-    char end_header [] = "\r\n\r\n";
-    int size = 0;
-
-    while (!check_connection_banner_nm(address, node_mapper_port)) {
-        usleep(1000);
-    }
-
-    size = sizeof(char) * (strlen(node_id) + strlen(prefix) + 256);
-    message = (char *) malloc(size);
-
-    if (!message) {
-        debug_print("error alloc memory.");
-        return NULL;
-    }
-
-    memset(message, 0x0, size);
-    sprintf(message, "%s%s:%d%s", prefix, node_id, node_interface_port, end_header);
-
-    return send_message_nm(address, node_mapper_port, message, strlen(message), 0);
-}
-
-/**
- * Send delete node.
- */
-char * send_delete_node (char *address, int node_port, char *node_id) 
-{
-    char prefix[]= "delete-node:";
-    char *message = NULL;
-    char end_header [] = "\r\n\r\n";
-    int size = 0;
-
-    if (!check_connection_banner_nm(address, node_port)) 
-        return NULL;
-
-    size = sizeof(char) * (strlen(node_id) + strlen(prefix) + 256);
-    message = (char *) malloc(size);
-
-    if (!message) {
-        debug_print("error alloc memory.");
-        return NULL;
-    }
-
-    memset(message, 0x0, size);
-    sprintf(message, "%s%s%s", prefix, node_id, end_header);
-
-    return send_message_nm(address, node_port, message, strlen(message), 1);
-}
-
 int send_handshake (int sock, char *handshake)
 {
     int status = -1, result = 0, counter = 0;
@@ -540,6 +260,136 @@ int send_handshake (int sock, char *handshake)
     }
 
     return result;
+}
+
+char *send_raw_data (int sock, char *message)
+{
+    char prefix [] = "verbum-node-";
+    char *response = NULL;
+    int status     = 0;
+    
+    if (!sock || !message)
+        return NULL;
+
+    status = send(sock, message, strlen(message), 0);
+    if (status == -1) 
+        say_ret(NULL, "error send raw data.");
+    
+    response = get_recv_content(sock);
+    if (!response)
+        say_ret(NULL, "error recv data.");
+
+    // Check message.
+    if (!strstr(response, prefix)) {
+        mem_sfree(response);
+        return NULL;
+    }
+
+    return response;
+}
+
+char *process_generate_node_id (char *address, int nm_port, int node_port) 
+{
+    char prefix     [] = "generate-verbum-node-id:";
+    char end_header [] = VERBUM_EOH;
+    char *message      = NULL, *response = NULL;
+    int size           = 0, sock = -1;
+
+    if (!address || !nm_port || !node_port)
+        return NULL;
+
+    while (1) {
+        sock = create_connection(address, nm_port, 0);
+        if (sock != -1)
+            break;
+
+        usleep(1000);
+    }
+
+    size = sizeof(char) * (strlen(prefix) + 1024);
+    mem_alloc_ret(message, size, char *, NULL);
+
+    sprintf(message, "%s%d%s", prefix, node_port, end_header);
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        mem_sfree(message);
+        return NULL;
+    }
+
+    mem_sfree(message);
+    close(sock);
+    
+    return response;
+}
+
+char *process_ping_node (char *address, int nm_port, char *node_id, int node_port) 
+{
+    char prefix     [] = "ping-verbum-node:";
+    char end_header [] = VERBUM_EOH;
+    char *message      = NULL, *response = NULL;
+    int size           = 0, sock = -1;
+
+    if (!address || !nm_port || !node_id || !node_port)
+        return NULL;
+
+    while (1) {
+        sock = create_connection(address, nm_port, 0);
+        if (sock != -1)
+            break;
+
+        usleep(1000);
+    }
+    
+    size = sizeof(char) * (strlen(prefix) + strlen(node_id) + 1024);
+    mem_alloc_ret(message, size, char *, NULL);
+    
+    sprintf(message, "%s%s:%d%s", prefix, node_id, node_port, end_header);
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        mem_sfree(message);
+        return NULL;
+    }
+
+    mem_sfree(message);
+    close(sock);
+    
+    return response;
+}
+
+char *process_delete_node (char *address, int node_port, char *node_id) 
+{
+    char prefix     [] = "delete-node:";
+    char end_header [] = VERBUM_EOH;
+    char *message      = NULL, *response = NULL;
+    int size           = 0, sock = -1;
+
+    if (!address || !node_port || !node_id)
+        return NULL;
+
+    sock = create_connection(address, node_port, 0);
+    if (sock == -1)
+        return NULL;
+
+    size = sizeof(char) * (strlen(prefix) + strlen(node_id) + strlen(end_header) + 1);
+    mem_alloc_ret(message, size, char *, NULL);
+
+    sprintf(message, "%s%s%s", prefix, node_id, end_header);
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        mem_sfree(message);
+        return NULL;
+    }
+
+    mem_sfree(message);
+    close(sock);
+
+    return response;
 }
 
 

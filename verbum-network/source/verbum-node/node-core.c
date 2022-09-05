@@ -88,15 +88,18 @@ int add_node_on_node_mapper (void)
     char address [] = LOCALHOST;
     char *id        = NULL;
     
+    say("started add node!");
+
     while (1) {
-        id = generate_node_id(
-            address, param->node_mapper_port, param->information.port);
+        id = process_generate_node_id(
+                address, param->node_mapper_port, param->information.port);
         
         if (id)
             break;
 
         usleep(1000);
     }
+    say("end add node!");
 
     mem_scopy_ret(id, param->information.id, 0);
     mem_sfree(id);
@@ -117,7 +120,7 @@ int ping_node_action (void)
     lparam->node_mapper_port = param->node_mapper_port;
 
     status = pthread_create(&tid, NULL, ping_node_handler, lparam);
-    if (status !=0)
+    if (status != 0)
         say_ret(0, "error while creating thread - ping node controller.");
 
     return 1;
@@ -134,7 +137,7 @@ void *ping_node_handler (void *tparam)
 
     while (1) {
         char *response = 
-            ping_node(address, lparam->node_mapper_port, 
+            process_ping_node(address, lparam->node_mapper_port, 
                 lparam->information.id, lparam->information.port);
         
         if (response) {

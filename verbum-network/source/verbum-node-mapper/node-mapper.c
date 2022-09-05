@@ -332,6 +332,8 @@ int process_communication (int sock, char *path)
      */
     else if (strstr(response, "delete-node:"))
         delete_node(sock, response);
+
+    return 1;
 }
 
 node_control_t *node_create_item (void)
@@ -687,7 +689,7 @@ int delete_node (int sock, char *content)
             
             // Send message to node.
             while (1) {
-                char *response = send_delete_node(address, node->port, node->id);
+                char *response = process_delete_node(address, node->port, node->id);
                 if (response) {
                     if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
                         status = 1;

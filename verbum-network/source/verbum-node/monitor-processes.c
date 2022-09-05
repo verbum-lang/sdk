@@ -52,7 +52,7 @@ void open_processes (char *path)
 void check_connection_interface (char *path, int node_mapper_port)
 {
     char address [] = LOCALHOST;
-    int status      = -1;
+    int status      = -1, sock = -1;
 
     // Node Mapper.
     #ifdef MONITOR_DBG
@@ -60,14 +60,18 @@ void check_connection_interface (char *path, int node_mapper_port)
         say("Node Mapper - server port: %d", node_mapper_port);
     #endif
 
-    while (!check_connection_banner_nm_select(address, node_mapper_port)) 
+    while (!check_protocol(address, node_mapper_port, 1))
     {
+        #ifdef MONITOR_DBG
+            say("failed check protocol.");
+        #endif
+
         pid_t pid = check_process_running("verbum-node-mapper");
         if (pid == -1)
             system_execution_noret("verbum-node-mapper -c \"%s\" &", path);
         else {
             sleep(MONITOR_DELAY_TO_KILL);
-            status = check_connection_banner_nm_select(address, node_mapper_port);
+            status = check_protocol(address, node_mapper_port, 1);
 
             if (status == 0) {
                 #ifdef MONITOR_DBG
@@ -75,6 +79,10 @@ void check_connection_interface (char *path, int node_mapper_port)
                 #endif
                 
                 kill(pid, SIGKILL);
+            } else {
+                #ifdef MONITOR_DBG
+                    say("success check protocol.");
+                #endif
             }
         }
 
