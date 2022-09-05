@@ -1,5 +1,6 @@
 
 #include "add-node.h"
+#include "node-control.h"
 #include "generate-node-id.h"
 
 int add_new_node (int sock, char *content)

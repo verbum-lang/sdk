@@ -1,7 +1,4 @@
 
-#include <dirent.h>
-#include <sys/types.h>
-
 #include "process.h"
 #include "memory.h"
 

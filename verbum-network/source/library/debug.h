@@ -5,8 +5,6 @@
 #define PACKAGE_NAME            "Verbum Network"
 #define PACKAGE_PREFIX_ARROW    " -> "
 
-#include <sys/time.h>
-
 /**
  * Internal macros.
  */

@@ -1,5 +1,6 @@
 
 #include "get-nodes.h"
+#include "node-control.h"
 
 extern node_control_t *nodes;
 extern pthread_mutex_t mutex_nodes;

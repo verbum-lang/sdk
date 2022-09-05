@@ -1,9 +1,11 @@
 
 #include "node-mapper.h"
+#include "node-control.h"
 #include "communication.h"
 
 pthread_mutex_t mutex_workers = PTHREAD_MUTEX_INITIALIZER;
-thread_worker_t *workers = NULL;
+thread_worker_t *workers      = NULL;
+
 extern node_control_t *nodes;
 extern pthread_mutex_t mutex_nodes;
 
@@ -224,7 +226,6 @@ void *worker_handler (void *tparam)
     int status = 0, size = 0;
     char *path = NULL;
 
-    // Copy path.
     mem_scopy_ret(param->path, path, NULL);
 
     while (1) {
@@ -260,7 +261,8 @@ void *worker_handler (void *tparam)
          * Process actions.
          */
 
-        status = send_handshake(sock, "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\r\n\r\n");
+        status = send_handshake(sock, 
+            "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\r\n\r\n");
 
         if (status == 1)
             process_communication(sock, path);

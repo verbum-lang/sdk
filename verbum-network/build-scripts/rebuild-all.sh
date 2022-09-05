@@ -78,6 +78,7 @@ gcc -o global.o                 -c global.c
 gcc -o help.o                   -c help.c
 gcc -o configuration.o          -c configuration.c
 gcc -o node-mapper.o            -c node-mapper.c
+gcc -o node-control.o           -c node-control.c
 gcc -o communication.o          -c communication.c
 gcc -o add-node.o               -c add-node.c
 gcc -o create-node.o            -c create-node.c
@@ -91,6 +92,7 @@ gcc -o verbum-node-mapper verbum-node-mapper.c              \
                           help.o                            \
                           configuration.o                   \
                           node-mapper.o                     \
+                          node-control.o                    \
                           communication.o                   \
                           add-node.o                        \
                           create-node.o                     \

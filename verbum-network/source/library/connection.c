@@ -1,14 +1,4 @@
 
-#include <unistd.h>
-#include <errno.h> 
-#include <sys/types.h> 
-#include <netinet/in.h> 
-#include <sys/socket.h> 
-#include <sys/wait.h> 
-#include <arpa/inet.h>
-#include <fcntl.h>
-#include <time.h>
-
 #include "connection.h"
 #include "memory.h"
 
