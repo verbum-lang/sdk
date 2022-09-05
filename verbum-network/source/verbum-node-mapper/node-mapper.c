@@ -318,19 +318,19 @@ int process_communication (int sock, char *path)
     /**
      * Get node list.
      */
-    else if (strstr(response, "get-node-list"))
+    else if (strstr(response, "get-verbum-node-list"))
         get_node_list(sock);
 
     /**
      * Create new node.
      */
-    else if (strstr(response, "create-node"))
+    else if (strstr(response, "create-verbum-node"))
         create_node(sock, path);
 
     /**
      * Delete node.
      */
-    else if (strstr(response, "delete-node:"))
+    else if (strstr(response, "delete-verbum-node:"))
         delete_node(sock, response);
 
     return 1;
@@ -590,7 +590,7 @@ int get_node_list (int sock)
         return 0;
 
     #ifdef NMDBG
-        say("get node list - called.");
+        say("get verbum node list - called.");
     #endif
 
     char *message = NULL;
@@ -640,7 +640,7 @@ int create_node (int sock, char *path)
         return 0;
 
     #ifdef NMDBG
-        say("create node - called.");
+        say("create verbum node - called.");
     #endif
 
     char response [] = VERBUM_DEFAULT_SUCCESS "\r\n\r\n";
@@ -661,7 +661,7 @@ int delete_node (int sock, char *content)
         say("delete verbum node.");
     #endif
 
-    char tmp[1024], prefix [] = "delete-node:";
+    char tmp[1024], prefix [] = "delete-verbum-node:";
     char response_success  [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char address           [] = LOCALHOST;

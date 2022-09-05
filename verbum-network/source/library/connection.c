@@ -362,7 +362,7 @@ char *process_ping_node (char *address, int nm_port, char *node_id, int node_por
 
 char *process_delete_node (char *address, int node_port, char *node_id) 
 {
-    char prefix     [] = "delete-node:";
+    char prefix     [] = "delete-verbum-node:";
     char end_header [] = VERBUM_EOH;
     char *message      = NULL, *response = NULL;
     int size           = 0, sock = -1;

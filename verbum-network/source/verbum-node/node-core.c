@@ -69,7 +69,7 @@ void *node_core (void *tparam)
                     /**
                      * Delete node.
                      */
-                    if (strstr(response, "delete-node"))
+                    if (strstr(response, "delete-verbum-node"))
                         delete_node(nsock, response);
 
                     mem_sfree(response);
@@ -154,7 +154,7 @@ void *ping_node_handler (void *tparam)
 
 void delete_node (int sock, char *content)
 {
-    char tmp[1024], prefix [] = "delete-node:";
+    char tmp[1024], prefix [] = "delete-verbum-node:";
     char response_success  [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char *ptr = NULL;

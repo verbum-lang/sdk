@@ -114,7 +114,7 @@ $(document).ready(() => {
 
             if (nm_address != null && nm_port != null) {
                 send_request({
-                    cmd: 'get-node-list',
+                    cmd: 'get-verbum-node-list',
                     address: nm_address,
                     port: nm_port
                 });
@@ -208,7 +208,7 @@ function create_node ()
     $('.btn-create-node').prop('disabled', true);
 
     send_request({
-        cmd: 'create-node',
+        cmd: 'create-verbum-node',
         address: nm_address,
         port: nm_port
     });
@@ -221,7 +221,7 @@ function delete_node (node_id)
     $('.btn-delete-node').prop('disabled', true);
 
     send_request({
-        cmd: 'delete-node',
+        cmd: 'delete-verbum-node',
         address: nm_address,
         port: nm_port,
         node_id: node_id
@@ -273,7 +273,7 @@ function process_worker (ev)
     /**
      * Get node list.
      */
-    else if (request.cmd == 'get-node-list') {
+    else if (request.cmd == 'get-verbum-node-list') {
         if (request.error_disconnect == true) 
             window.interface.restart_application();
         else
@@ -283,7 +283,7 @@ function process_worker (ev)
     /**
      * Create node.
      */
-     else if (request.cmd == 'create-node') {
+     else if (request.cmd == 'create-verbum-node') {
         if (request.status == false) 
             set_status('Error creating node.', true);
         else 
@@ -295,7 +295,7 @@ function process_worker (ev)
     /**
      * Delete node.
      */
-    else if (request.cmd == 'delete-node') {
+    else if (request.cmd == 'delete-verbum-node') {
         if (request.status == false) 
             set_status('Error deleting node.', true);
         else 

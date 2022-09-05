@@ -26,8 +26,8 @@ onmessage = function(ev) {
     /**
      * Get node list.
      */
-    else if (request.cmd == 'get-node-list') {
-        connect_node_mapper(request.address, request.port, 'get-node-list', (response) => {
+    else if (request.cmd == 'get-verbum-node-list') {
+        connect_node_mapper(request.address, request.port, 'get-verbum-node-list', (response) => {
             request.nodes = [];
             request.error_disconnect = false;
 
@@ -92,7 +92,8 @@ onmessage = function(ev) {
                     }
 
                     postMessage(request);
-                }
+                } else
+                    postMessage(request);
             }
         });
     }
@@ -100,8 +101,8 @@ onmessage = function(ev) {
     /**
      * Create node.
      */
-    else if (request.cmd == 'create-node') {
-        connect_node_mapper(request.address, request.port, 'create-node', (response) => {
+    else if (request.cmd == 'create-verbum-node') {
+        connect_node_mapper(request.address, request.port, 'create-verbum-node', (response) => {
             request.status = false;
 
             if (response.indexOf('verbum-node-ok') != -1) {
@@ -115,8 +116,8 @@ onmessage = function(ev) {
     /**
      * Delete node.
      */
-    else if (request.cmd == 'delete-node') {
-        connect_node_mapper(request.address, request.port, 'delete-node:'+ request.node_id, (response) => {
+    else if (request.cmd == 'delete-verbum-node') {
+        connect_node_mapper(request.address, request.port, 'delete-verbum-node:'+ request.node_id, (response) => {
             request.status = false;
 
             if (response.indexOf('verbum-node-ok') != -1) {
