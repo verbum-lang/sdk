@@ -7,24 +7,24 @@
 
 #define create_thread_controller(HANDLER)                                                                   \
     do {                                                                                                    \
-        int status = 0;                                                                                     \
+        int status = -1;                                                                                    \
         pthread_t tid;                                                                                      \
-        node_param_t *param = (node_param_t *) malloc(sizeof(node_param_t));                                \
+        node_param_t *param;                                                                                \
                                                                                                             \
-        if (!param)                                                                                         \
-            debug_exit("error allocating memory.");                                                         \
+        mem_alloc_ret(param, sizeof(node_param_t), node_param_t *, 0);                                      \
                                                                                                             \
-        param->path = NULL;                                                                                 \
-        param->max_connections = SERVERS_MAX_CONNECTION;                                                    \
+        param->path             = NULL;                                                                     \
+        param->max_connections  = SERVERS_MAX_CONNECTION;                                                   \
         param->node_mapper_port = global.configuration.node_mapper.server_port;                             \
                                                                                                             \
-        memory_scopy(global.configuration.path, param->path);                                               \
+        mem_scopy_ret(global.configuration.path, param->path, 0);                                           \
                                                                                                             \
-        if ((status = pthread_create(&tid, NULL, HANDLER, param)) !=0)                                      \
-            debug_exit("error while creating thread - Verbum Node interface, client and server.");          \
+        status = pthread_create(&tid, NULL, HANDLER, param);                                                \
+        if (status != 0)                                                                                    \
+            say_ret(0, "error while creating thread - Verbum Node interface, client and server.");          \
     } while (0)
 
-void verbum_node (void);
+int verbum_node (void);
 
 #endif
 

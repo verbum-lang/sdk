@@ -2,24 +2,26 @@
 #include "configuration.h"
 #include "help.h"
 
-void configutation_check (void)
+int configutation_check (void)
 {
     for (int a=0; a<global.instance.argc; a++) 
         if (strcmp(global.instance.argv[a], "-c") == 0 && (a+1) < global.instance.argc)
-            memory_scopy(global.instance.argv[a+1], global.configuration.path);
+            mem_scopy_ret(global.instance.argv[a+1], global.configuration.path, 0);
 
     if (!global.configuration.path)
         show_help();
 
     if (!file_exists(global.configuration.path))
-        say_exit("The file does not exist: %s", global.configuration.path);
+        say_ret(0, "The file does not exist: %s", global.configuration.path);
+
+    return 1;
 }
 
-void configutation_read (void)
+int configutation_read (void)
 {
     global.configuration.content = file_read(global.configuration.path);
     if (!global.configuration.content || strlen(global.configuration.content) <= 0)
-        say_exit("Error reading configuration file.");
+        say_ret(0, "Error reading configuration file.");
 
     // Node Mapper configuration.
     global.configuration.node_mapper.server_port = ini_read_number(
@@ -27,7 +29,9 @@ void configutation_read (void)
     );
 
     if (!global.configuration.node_mapper.server_port)
-        debug_exit("Error read server port.");
+        say_ret(0, "Error read server port.");
+
+    return 1;
 }
 
 

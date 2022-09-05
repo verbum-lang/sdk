@@ -2,7 +2,7 @@
 #ifndef VERBUM_GLOBAL
 #define VERBUM_GLOBAL
 
-#define CURRENT_PACKAGE_NAME            "Verbum Node Mapper"
+#define CURRENT_PACKAGE_NAME "Verbum Node Mapper"
 
 #include "../library/global.h"
 #include "../library/memory.h"

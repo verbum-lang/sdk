@@ -4,7 +4,7 @@
 
 #include "global.h"
 
-char * make_datetime (void);
+char *make_datetime (void);
 
 #endif
 

@@ -78,10 +78,10 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_sele
         double tmv = (double)(clock() - start) / CLOCKS_PER_SEC;
         if (tmv >= (double) timeout)
             break;
-
+    
         usleep(1000);
     }
-
+    
     if (status == -1) {
         debug_print("error connect socket.");
         return 0;
@@ -169,7 +169,7 @@ int check_connection_banner_nm_non_blocking (char *laddr, int port, int use_sele
     return 1;
 }
 
-char * get_recv_content (int sock)
+char *get_recv_content (int sock)
 {
     #ifdef CONDBG
         say("get_recv_content() - called!");
@@ -515,6 +515,31 @@ char * send_delete_node (char *address, int node_port, char *node_id)
     sprintf(message, "%s%s%s", prefix, node_id, end_header);
 
     return send_message_nm(address, node_port, message, strlen(message), 1);
+}
+
+int send_handshake (int sock, char *handshake)
+{
+    int status = -1, result = 0, counter = 0;
+
+    if (!sock || !handshake)
+        return 0;
+
+    while (1) {
+        status = send(sock, handshake, strlen(handshake), 0);
+        
+        if (status > 0) {
+            result = 1;
+            break;
+        }
+
+        usleep(1000);
+        counter++;
+
+        if (counter >= 10)
+            break;
+    }
+
+    return result;
 }
 
 

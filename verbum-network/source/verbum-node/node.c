@@ -5,10 +5,11 @@
 #include "node-server.h"
 #include "node-client.h"
 
-void verbum_node (void)
+int verbum_node (void)
 {
     // Start Node Mapper monitor.
-    monitor_processes(); 
+    if (!monitor_processes())
+        return 0; 
     
     /**
      * Node API interface.
@@ -24,6 +25,8 @@ void verbum_node (void)
      * Node client connections control.
      */
     create_thread_controller(node_client);
+
+    return 1;
 }
 
 

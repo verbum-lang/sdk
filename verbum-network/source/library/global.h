@@ -16,8 +16,9 @@
 #define SERVERS_MAX_CONNECTION          1000
 
 // Default response (socket).
-#define VERBUM_DEFAULT_SUCCESS "verbum-node-ok"
-#define VERBUM_DEFAULT_ERROR   "verbum-node-fail"
+#define VERBUM_DEFAULT_SUCCESS          "verbum-node-ok"
+#define VERBUM_DEFAULT_ERROR            "verbum-node-fail"
+#define VERBUM_EOH                      "\r\n\r\n"
 
 // Configurations e definations.
 #define initialization main // Entry point.
@@ -38,19 +39,23 @@ typedef struct {
         struct {
             int server_port;
         } node_mapper;
-
-        // Fault Tolerance configuration.
-        struct {
-            int server_port;
-        } fault_tolerance;
     } configuration;
-
-    
 } global_t;
 
 global_t global;
 
 int random_number (int min, int max);
+
+// Macros.
+#ifndef PATH_MAX
+#define PATH_MAX 4096
+#endif
+
+#define infinite_loop()         \
+    do {                        \
+        while (1)               \
+            sleep(3);           \
+    } while (0)
 
 #endif
 

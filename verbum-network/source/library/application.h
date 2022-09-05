@@ -5,23 +5,24 @@
 #include "global.h"
 #include "memory.h"
 
-// System execution.
-#define system_execution_df(fmt, ...)                                                   \
+/**
+ * System execution.
+ * Based on https://github.com/jirihnidek/daemon/blob/master/src/daemon.c
+ * And on tips from my friends.
+ */
+
+#define system_execution_ret(RETURN, fmt, ...)                                          \
     do {                                                                                \
         char *buffer = NULL;                                                            \
-        int size = -1024;                                                               \
-        memory_alloc(buffer, strlen(fmt) + size);                                       \
+        mem_salloc_ret(buffer, strlen(fmt) + 1024, RETURN);                             \
         sprintf(buffer, fmt, ##__VA_ARGS__);                                            \
-        system(buffer);                                                                 \
+        system_open_bg_application(buffer);                                             \
     } while(0)
 
-// Based on https://github.com/jirihnidek/daemon/blob/master/src/daemon.c
-// And on tips from my friends.
-#define system_execution(fmt, ...)                                                      \
+#define system_execution_noret(fmt, ...)                                                \
     do {                                                                                \
         char *buffer = NULL;                                                            \
-        int size = 1024;                                                                \
-        memory_alloc(buffer, strlen(fmt) + size);                                       \
+        mem_salloc_noret(buffer, strlen(fmt) + 1024);                                   \
         sprintf(buffer, fmt, ##__VA_ARGS__);                                            \
         system_open_bg_application(buffer);                                             \
     } while(0)

@@ -4,8 +4,8 @@
 
 #include "global.h"
 
-void configutation_check (void);
-void configutation_read  (void);
+int configutation_check (void);
+int configutation_read  (void);
 
 #endif
 

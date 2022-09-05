@@ -5,7 +5,7 @@
 #include "global.h"
 #include "node-global.h"
 
-void * node_client (void *tparam);
+void *node_client (void *tparam);
 
 #endif
 

@@ -4,21 +4,15 @@
 #include "datetime.h"
 #include "memory.h"
 
-char * make_datetime (void) 
+char *make_datetime (void) 
 {
     time_t now      = time(NULL);
     struct tm *tms  = localtime(&now);
     char * date     = NULL;
     char day[5], mon[5], year[5], hour[5], min[5], sec[5];
     
-    // memory_alloc(date, 100);
-    
-    date = (char *) malloc(sizeof(char) * 100);
-    if (!date)
-        debug_exit("error memory allocation.");
-    
-    memset(date, 0x0, sizeof(char) * 100);
-    
+    mem_salloc_ret(date, 100, NULL);
+
     memset(day,  0x0, 5);
     memset(mon,  0x0, 5);
     memset(year, 0x0, 5);
@@ -34,15 +28,15 @@ char * make_datetime (void)
     sprintf(sec,  "%d", tms->tm_sec);
 
     if (strlen(day) == 1)
-        sprintf(day, "0%d", tms->tm_mday);
+        sprintf(day, "0%d",  tms->tm_mday);
     if (strlen(mon) == 1)
-        sprintf(mon, "0%d", tms->tm_mon);
+        sprintf(mon, "0%d",  tms->tm_mon);
     if (strlen(hour) == 1)
         sprintf(hour, "0%d", tms->tm_hour);
     if (strlen(min) == 1)
-        sprintf(min, "0%d", tms->tm_min);
+        sprintf(min, "0%d",  tms->tm_min);
     if (strlen(sec) == 1)
-        sprintf(sec, "0%d", tms->tm_sec);
+        sprintf(sec, "0%d",  tms->tm_sec);
 
     sprintf(date, "%s-%s-%s %s-%s-%s", 
         day, mon, year, hour, min, sec);

@@ -56,25 +56,21 @@ typedef struct node_connection_st {
     struct node_connection_st *next;    // Next node pointer.
 } node_connection_t;
 
-void node_mapper                        (void);
-void * node_mapper_interface            (void *tparam);
-void prepare_workers                    (char *path);
-thread_worker_t * worker_create_item    (int wid);
-void worker_insert_item                 (thread_worker_t *new_worker);
-void * worker_handler                   (void *tparam);
-int send_handshake                      (int sock);
-void process_communication              (int sock, char *path);
-char * get_client_request               (int sock);
-node_control_t * node_create_item       (void);
-void node_insert_item                   (node_control_t *new_node);
-void add_new_node                       (int sock, char *content);
-char * generate_new_id                  (void);
-void update_ping_node                   (int sock, char *content);
-void get_node_list                      (int sock);
-void create_node                        (int sock, char *path);
-void delete_node                        (int sock, char *content);
-void create_node_client_connection      (int sock, char *content);
-void create_node_server_connection      (int sock, char *content);
+int              node_mapper           (void);
+void            *node_mapper_interface (void *tparam);
+int              prepare_workers       (char *path);
+thread_worker_t *worker_create_item    (int wid);
+int              worker_insert_item    (thread_worker_t *new_worker);
+void            *worker_handler        (void *tparam);
+int              process_communication (int sock, char *path);
+node_control_t  *node_create_item      (void);
+int              node_insert_item      (node_control_t *new_node);
+int              add_new_node          (int sock, char *content);
+char            *generate_new_id       (void);
+int              update_ping_node      (int sock, char *content);
+int              get_node_list         (int sock);
+int              create_node           (int sock, char *path);
+int              delete_node           (int sock, char *content);
 
 #endif
 

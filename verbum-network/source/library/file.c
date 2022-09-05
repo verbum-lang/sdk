@@ -39,7 +39,7 @@ char *file_read (char *path)
         return NULL;
     }
 
-    memory_alloc(content, size);
+    mem_alloc_ret(content, size, char *, NULL);
     fread(content, 1, size, fp);
     fclose(fp);
 

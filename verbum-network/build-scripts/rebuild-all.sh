@@ -19,13 +19,16 @@ gcc -o global.o         -c global.c
 gcc -o memory.o         -c memory.c
 gcc -o debug.o          -c debug.c
 gcc -o application.o    -c application.c
+gcc -o datetime.o       -c datetime.c
 gcc -o file.o           -c file.c
 gcc -o ini_file.o       -c ini_file.c
-gcc -o connection.o     -c connection.c
 gcc -o process.o        -c process.c
-gcc -o datetime.o       -c datetime.c
+gcc -o connection.o     -c connection.c
 
-LIBRARY_OBJECTS=" ../library/global.o ../library/memory.o ../library/debug.o ../library/application.o ../library/file.o ../library/ini_file.o ../library/connection.o ../library/process.o ../library/datetime.o"
+LIBRARY_OBJECTS=""
+LIBRARY_OBJECTS+=" ../library/global.o ../library/memory.o ../library/debug.o ../library/application.o  "
+LIBRARY_OBJECTS+=" ../library/file.o ../library/ini_file.o ../library/connection.o ../library/process.o "
+LIBRARY_OBJECTS+=" ../library/datetime.o "
 
 LIBRARY_LIBS=" -lpthread "
 
@@ -88,31 +91,6 @@ rm -rf *.o
 # Move to install directory.
 mv verbum-node-mapper ../../../../sdk-binaries
 
-
-# ***
-# Build verbum-fault-tolerance
-#
-
-cd ../verbum-fault-tolerance
-rm -rf *.o
-
-# Compile.
-gcc -o global.o -c global.c
-gcc -o help.o -c help.c
-gcc -o configuration.o -c configuration.c
-gcc -o fault-tolerance.o -c fault-tolerance.c
-
-gcc -o verbum-fault-tolerance verbum-fault-tolerance.c          \
-                              global.o                          \
-                              help.o                            \
-                              configuration.o                   \
-                              fault-tolerance.o                 \
-                              $LIBRARY_OBJECTS $LIBRARY_LIBS
-
-rm -rf *.o
-
-# Move to install directory.
-mv verbum-fault-tolerance ../../../../sdk-binaries
 
 # Clean library files (.o files).
 cd ../library

@@ -7,17 +7,16 @@
 
 node_param_t *param;
 
-void * node_core (void *tparam)
+void *node_core (void *tparam)
 {
-    say("node core interface - started!");
+    say("node core interface started!");
 
+    param = (node_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
-    int ssock = -1, nsock = -1;
-    int status = -1, port = 0;
-    
-    param = (node_param_t *) tparam;
-    
+    int ssock  = -1, nsock = -1;
+    int status = -1, port  =  0;
+        
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_family = AF_INET;
@@ -35,7 +34,7 @@ void * node_core (void *tparam)
         }
 
         if (status == -1)
-            say("error finding available port for node creation (interface).");
+            say_ret(NULL, "error finding available port for node creation (interface).");
         else
             break;
     }
@@ -43,12 +42,16 @@ void * node_core (void *tparam)
     say("interface port: %d", port);
 
     if (listen(ssock, param->max_connections) != 0)
-        say_exit("error listen server.");
+        say_ret(NULL, "error listen server.");
 
-    // Add node, and ping.
+    // Add node, and ping controller.
     param->information.port = port;
-    add_node_on_node_mapper();
-    ping_node_action();
+
+    if (!add_node_on_node_mapper())
+        say_ret(NULL, "error adding node in Node Mapper.");
+
+    if (!ping_node_action())
+        say_ret(NULL, "error starting ping controller.");
 
     // Node core interface communication.
     while (1) {
@@ -56,7 +59,7 @@ void * node_core (void *tparam)
         if (nsock != -1) {
 
             // Send header (handshake).
-            status = send_handshake(nsock);
+            status = send_handshake(nsock, "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n");
             if (status == 1) {
 
                 // Node protocol.
@@ -69,7 +72,7 @@ void * node_core (void *tparam)
                     if (strstr(response, "delete-node"))
                         delete_node(nsock, response);
 
-                    free(response);
+                    mem_sfree(response);
                 }
             }
 
@@ -80,10 +83,10 @@ void * node_core (void *tparam)
     close(ssock);
 }
 
-void add_node_on_node_mapper (void)
+int add_node_on_node_mapper (void)
 {
-    char address []= LOCALHOST;
-    char *id = NULL;
+    char address [] = LOCALHOST;
+    char *id        = NULL;
     
     while (1) {
         id = generate_node_id(
@@ -95,80 +98,62 @@ void add_node_on_node_mapper (void)
         usleep(1000);
     }
 
-    memory_scopy(id, param->information.id);
-    memory_sclean(id);
+    mem_scopy_ret(id, param->information.id, 0);
+    mem_sfree(id);
+
+    return 1;
 }
 
-void ping_node_action (void) 
+int ping_node_action (void) 
 {
-    int status = 0;
+    int status = -1;
+    node_param_t *lparam;
     pthread_t tid;
 
-    node_param_t *lparam = (node_param_t *) malloc(sizeof(node_param_t));
-    if (!lparam)
-        debug_exit("error allocating memory.");
+    mem_alloc_ret(lparam, sizeof(node_param_t), node_param_t *, 0);
+    mem_scopy_ret(param->information.id, lparam->information.id, 0);
 
-    memory_scopy(param->information.id, lparam->information.id);
     lparam->information.port = param->information.port;
     lparam->node_mapper_port = param->node_mapper_port;
 
-    if ((status = pthread_create(&tid, NULL, ping_node_handler, lparam)) !=0)
-        debug_exit("error while creating thread - ping node.");
+    status = pthread_create(&tid, NULL, ping_node_handler, lparam);
+    if (status !=0)
+        say_ret(0, "error while creating thread - ping node controller.");
+
+    return 1;
 }
 
-void * ping_node_handler (void *tparam)
+void *ping_node_handler (void *tparam)
 {
     node_param_t *lparam = (node_param_t *) tparam;
-    char address []= LOCALHOST;
+    char address [] = LOCALHOST;
     
     say("node ping handler:");
     say("node id: %s", lparam->information.id);
     say("node port (interface): %d", lparam->information.port);
 
     while (1) {
-        char *response = ping_node(address, 
-            lparam->node_mapper_port, lparam->information.id, lparam->information.port);
+        char *response = 
+            ping_node(address, lparam->node_mapper_port, 
+                lparam->information.id, lparam->information.port);
         
         if (response) {
             #ifdef NCDBG_PING
                 say("ping response: %s", response);
             #endif
 
-            memory_sclean(response);
+            mem_sfree(response);
         }
 
         sleep(NODE_PING_LOOP_SEC_DELAY);
     }
 }
 
-int send_handshake (int sock)
-{
-    char handshake[] = "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n";
-    int status = -1, result = 0, counter = 0;
-
-    while (1) {
-        status = send(sock, handshake, strlen(handshake), 0);
-        
-        if (status > 0) {
-            result = 1;
-            break;
-        }
-
-        usleep(1000);
-        counter++;
-
-        if (counter >= 10)
-            break;
-    }
-
-    return result;
-}
-
 void delete_node (int sock, char *content)
 {
     char tmp[1024], prefix [] = "delete-node:";
-    char response_success  [] = VERBUM_DEFAULT_SUCCESS "\r\n\r\n";
-    char response_error    [] = VERBUM_DEFAULT_ERROR   "\r\n\r\n";
+    char response_success  [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char *ptr = NULL;
     int bytes = 0, size = 0, status = 0;
 
@@ -181,19 +166,9 @@ void delete_node (int sock, char *content)
     memset(tmp, 0x0, 1024);
     memcpy(tmp, ptr, strlen(ptr));
 
-    // Clean \n, \r, \t.
-    for (int a=0; tmp[a]!='\0'; a++) {
-        switch (tmp[a]) {
-            case '\n': case '\r': case '\t':
-                tmp[a] = '\0';
-                break;
-        }
-    }
-
     // Check node.
-    if (strcmp(param->information.id, tmp) == 0) {
+    if (strcmp(param->information.id, tmp) == 0)
         status = 1;
-    }
 
     // Finish.
     dn_end:

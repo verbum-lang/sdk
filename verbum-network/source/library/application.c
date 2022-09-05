@@ -1,6 +1,4 @@
 
-#include <stdarg.h>                      
-
 #include "application.h"
 #include "memory.h"
 #include "debug.h"
@@ -8,37 +6,40 @@
 void system_open_bg_application (char *cmd)
 {
     pid_t pid = 0;
-    int fd;
+    int fd    = -1;
 
-    /* Fork off the parent process. */
+    if (!cmd)
+        debug_noret("invalid command.");
+
+    // Fork off the parent process.
     pid = fork();
 
-    /* Error. */
+    // Error.
     if (pid < 0)
-        debug_exit("error open fork.");
+        debug_noret("error open fork.");
 
-    /* Success: Let the parent terminate. */
+    // Success: Let the parent terminate.
     if (pid > 0)
        return;
 
-    /* On success: New session. The child process becomes session leader. */
+    // On success: New session. The child process becomes session leader.
     if (setsid() < 0)
-        debug_exit("error setsid.");       
+        debug_noret("error setsid.");       
 
-    /* Fork off the parent process. */
+    // Fork off the parent process.
     pid = fork();
 
     if (pid < 0)
-        debug_exit("error open fork.");
+        debug_noret("error open fork.");
     if (pid > 0) 
         exit(0);
 
-    /* Close all open file descriptors. */
+    // Close all open file descriptors.
     for (fd = sysconf(_SC_OPEN_MAX); fd > 0; fd--)
         close(fd);
 
-    /* Reopen stdin (fd = 0), stdout (fd = 1), stderr (fd = 2). */
-    stdin  = fopen("/dev/null", "r");
+    // Reopen stdin (fd = 0), stdout (fd = 1), stderr (fd = 2).
+    stdin  = fopen("/dev/null", "r" );
     stdout = fopen("/dev/null", "w+");
     stderr = fopen("/dev/null", "w+");
     
@@ -61,7 +62,7 @@ char *get_relative_path (void)
     if (!size || size <= 0)
         return NULL;
 
-    memory_scopy(tmp, cwd);
+    mem_scopy_ret(tmp, cwd, NULL);
     return cwd;
 }
 
@@ -83,7 +84,7 @@ char *get_real_path (char *path)
     if (!size || size <= 0)
         return NULL;
 
-    memory_scopy(tmp, cwd);
+    mem_scopy_ret(tmp, cwd, NULL);
     return cwd;
 }
 

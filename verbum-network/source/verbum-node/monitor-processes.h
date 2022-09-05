@@ -22,11 +22,10 @@ typedef struct {
     int node_mapper_port;
 } prepare_param_t;
 
-void monitor_processes              (void);
-void check_processes                (void);
-void * monitor_processes_handler    (void *param);
-void open_processes                 (char *path);
-void check_connection_interface     (char *path, int node_mapper_port);
+int   monitor_processes          (void);
+void *monitor_processes_handler  (void *param);
+void  open_processes             (char *path);
+void  check_connection_interface (char *path, int node_mapper_port);
 
 #endif
 

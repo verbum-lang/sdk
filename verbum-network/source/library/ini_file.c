@@ -4,25 +4,20 @@
 
 ini_data_t ini_read (char *content, char *section, char *param, int type)
 {
-    int content_size   = 0;
-    int line_size      = 0;
-    int step_check     = 0;
-    char *line         = NULL;
-    char *section_name = NULL;
-    char *param_name   = NULL;
-    char *param_value  = NULL;
-    ini_data_t result  = { .ivalue = 0, .svalue = NULL };
+    int content_size  = 0, step_check = 0, size = 0, line_size = 1024;
+    char *line        = NULL, *section_name = NULL;
+    char *param_name  = NULL, *param_value  = NULL;
+    ini_data_t result = { .ivalue = 0, .svalue = NULL };
 
     if (!content || !section || !param)
         return result;
 
     content_size = strlen(content);
-    line_size = sizeof(char) * PATH_MAX;
 
-    memory_alloc(line, line_size);
-    memory_alloc(section_name, line_size);
-    memory_alloc(param_name, line_size);
-    memory_alloc(param_value, line_size);
+    mem_salloc_ret(line,         line_size, result);
+    mem_salloc_ret(section_name, line_size, result);
+    mem_salloc_ret(param_name,   line_size, result);
+    mem_salloc_ret(param_value,  line_size, result);
 
     for (int a=0,b=0; a<content_size; a++) {
         if (content[a] == '\n') {
@@ -46,7 +41,7 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
                 // Search param.
                 else if (step_check == 1) {
                     if (strstr(line, "=")) {
-                        memset(param_name, 0x0, line_size);
+                        memset(param_name,  0x0, line_size);
                         memset(param_value, 0x0, line_size);
                         
                         for (int c=0,d=0,e=0; c<strlen(line); c++) {
@@ -61,7 +56,16 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
                         if (strcmp(param, param_name) == 0) {
                             switch (type) {
                                 case 0:
-                                    memory_scopy(param_value, result.svalue);
+                                    size          = sizeof(char) * (strlen(param_value) + 1);
+                                    result.svalue = (char *) malloc(size);
+
+                                    if (!result.svalue) {
+                                        debug_print("error allocating memory.");
+                                        goto ir_end;
+                                    }
+
+                                    memset(result.svalue, 0x0, size);
+                                    memcpy(result.svalue, param_value, strlen(param_value));
                                     break;
                                 case 1:
                                     result.ivalue = atoi(param_value);
@@ -81,10 +85,12 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
             line[b++] = content[a];
     }
 
-    memset(line, 0x0, line_size);
+    ir_end:
+
+    memset(line,         0x0, line_size);
     memset(section_name, 0x0, line_size);
-    memset(param_name, 0x0, line_size);
-    memset(param_value, 0x0, line_size);
+    memset(param_name,   0x0, line_size);
+    memset(param_value,  0x0, line_size);
 
     free(line);
     free(section_name);
