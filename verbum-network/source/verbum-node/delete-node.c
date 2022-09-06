@@ -7,7 +7,7 @@ int delete_node (int sock, char *content, char *id)
     char response_success  [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char *ptr = NULL;
-    int bytes = 0, size = 0, status = 0;
+    int bytes = 0, status = 0;
 
     if (!sock || !content || !id)
         return 0;
