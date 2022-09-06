@@ -53,6 +53,7 @@ gcc -o delete-node.o            -c delete-node.c
 gcc -o check-node-exists.o      -c check-node-exists.c
 gcc -o node-server.o            -c node-server.c
 gcc -o node-client.o            -c node-client.c
+gcc -o create-node-connection.o -c create-node-connection.c
 
 gcc -o verbum-node        verbum-node.c                    \
                           global.o                         \
@@ -66,6 +67,7 @@ gcc -o verbum-node        verbum-node.c                    \
                           communication.o                  \
                           delete-node.o                    \
                           check-node-exists.o              \
+                          create-node-connection.o         \
                           node-server.o                    \
                           node-client.o                    \
                           $LIBRARY_OBJECTS $LIBRARY_LIBS

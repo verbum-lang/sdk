@@ -24,6 +24,9 @@
     #define PACKAGE_NAME CURRENT_PACKAGE_NAME
 #endif
 
+// Debug messages.
+// #define NCDBG
+
 #endif
 
 

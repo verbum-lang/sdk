@@ -5,9 +5,6 @@
 #include "global.h"
 #include "node-global.h"
 
-// Debug messages.
-// #define NCDBG
-
 // Thread workers limit.
 #define NC_THREAD_LIMIT 10
 
