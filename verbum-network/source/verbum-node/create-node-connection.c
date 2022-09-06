@@ -70,24 +70,21 @@ int create_node_connection(int sock, char *content, int type, char *id)
         if (strlen(tmp) > 0) 
             dst_nm_port = atoi(tmp);
 
-    if (!src_node_id || !dst_node_id || 
-        !dst_nm_address || !dst_nm_port)
+    if (!src_node_id    || !dst_node_id || 
+        !dst_nm_address || !dst_nm_port  )
         goto cnc_error;
 
-    // #ifdef NCDBG
+    #ifdef NCDBG
         say("src_node_id....: \"%s\"", src_node_id);
         say("dst_node_id....: \"%s\"", dst_node_id);
         say("dst_nm_address.: \"%s\"", dst_nm_address);
         say("dst_nm_port....: \"%d\"", dst_nm_port);
-    // #endif
+    #endif
 
     // Check node is valid.
-    if (!strcmp(id, src_node_id) == 0)
+    if (strcmp(id, src_node_id) != 0)
         goto cnc_error;
     
-    if (!status) 
-        goto cnc_error;
-
     switch (type) {
         case 0:
             result = create_node_output_connection(
@@ -110,17 +107,15 @@ int create_node_connection(int sock, char *content, int type, char *id)
 
 int create_node_output_connection (int sock, char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
-    char address [] = LOCALHOST;
-    int result = 0;
+    char response_success [] = VERBUM_DEFAULT_SUCCESS "-data-received-" VERBUM_EOH;
 
     if (!sock || !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
 
-    say("here!");
-    exit(0);
+    say("process output connection!");
 
-    return result;
+    send(sock, response_success, strlen(response_success), 0);
+    return 1;
 }
-
 
 

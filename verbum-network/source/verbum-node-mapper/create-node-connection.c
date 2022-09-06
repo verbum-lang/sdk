@@ -175,7 +175,7 @@ int create_node_output_connection (int   sock,
 
     // Finish.
     cnoc_end:
-
+    
     if (!status) {
         mem_sfree(response_success);
         return 0;

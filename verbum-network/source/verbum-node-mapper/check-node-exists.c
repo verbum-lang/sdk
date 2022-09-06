@@ -65,10 +65,9 @@ int check_node_exists (int sock, char *content)
         }
     }
 
-    pthread_mutex_unlock(&mutex_nodes);
-
     // Finish.
     cne_end:
+    pthread_mutex_unlock(&mutex_nodes);
 
     if (!status) {
         bytes = send(sock, response_error, strlen(response_error), 0);

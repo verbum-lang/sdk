@@ -151,13 +151,13 @@ int check_protocol (char *address, int port, int enable_timeout)
 char *get_recv_content (int sock)
 {
     char *content = NULL;
-    char tmp [512];
+    char tmp [128];
     int bytes = -1, status = 0, eoh = 0;
     int bytes_received = 0, size = 0;
 
     while (1) {
-        memset(tmp, 0x0, 512);
-        bytes = recv(sock, tmp, 511, 0);
+        memset(tmp, 0x0, 128);
+        bytes = recv(sock, tmp, 128, 0);
 
         if (bytes <= -1) 
             break;
@@ -448,7 +448,7 @@ char *process_create_node_output_connection (char *src_node_address,
                 dst_node_id,
                 dst_nm_address,
                 dst_nm_port);
-                
+
     response = send_raw_data(sock, message);
 
     if (!response) {
