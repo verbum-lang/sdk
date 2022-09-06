@@ -40,25 +40,29 @@ cd ../verbum-node
 rm -rf *.o
 
 # Compile.
-gcc -o global.o             -c global.c
-gcc -o help.o               -c help.c
-gcc -o configuration.o      -c configuration.c
-gcc -o node.o               -c node.c
-gcc -o monitor-processes.o  -c monitor-processes.c
-gcc -o node-core.o          -c node-core.c
-gcc -o node-server.o        -c node-server.c
-gcc -o node-client.o        -c node-client.c
+gcc -o global.o                 -c global.c
+gcc -o help.o                   -c help.c
+gcc -o configuration.o          -c configuration.c
+gcc -o node.o                   -c node.c
+gcc -o monitor-processes.o      -c monitor-processes.c
+gcc -o node-core.o              -c node-core.c
+gcc -o communication.o          -c communication.c
+gcc -o delete-node.o            -c delete-node.c
+gcc -o node-server.o            -c node-server.c
+gcc -o node-client.o            -c node-client.c
 
-gcc -o verbum-node verbum-node.c                    \
-                   global.o                         \
-                   help.o                           \
-                   configuration.o                  \
-                   node.o                           \
-                   monitor-processes.o              \
-                   node-core.o                      \
-                   node-server.o                    \
-                   node-client.o                    \
-                   $LIBRARY_OBJECTS $LIBRARY_LIBS
+gcc -o verbum-node        verbum-node.c                    \
+                          global.o                         \
+                          help.o                           \
+                          configuration.o                  \
+                          node.o                           \
+                          monitor-processes.o              \
+                          node-core.o                      \
+                          communication.o                  \
+                          delete-node.o                    \
+                          node-server.o                    \
+                          node-client.o                    \
+                          $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
 

@@ -15,7 +15,7 @@
 // Thread param.
 typedef struct {
     int wid;                            // Worker ID.
-    char *path;                         // Configuration file path.
+    char *nid;                          // Node ID.
 } worker_param_t;
 
 // Thread workers control.
@@ -36,10 +36,10 @@ int   ping_node_action        (void);
 void *ping_node_handler       (void *tparam);
 void  delete_node             (int sock, char *content);
 
-int              prepare_workers       (void);
-thread_worker_t *worker_create_item    (int wid);
-int              worker_insert_item    (thread_worker_t *new_worker);
-void            *worker_handler        (void *tparam);
+int              prepare_workers    (char *id);
+thread_worker_t *worker_create_item (int wid);
+int              worker_insert_item (thread_worker_t *new_worker);
+void            *worker_handler     (void *tparam);
 
 #endif
 

@@ -1,9 +1,6 @@
 
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-
 #include "node-core.h"
+#include "communication.h"
 
 pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
 thread_worker_t *workers       = NULL;
@@ -63,7 +60,7 @@ void *node_core (void *tparam)
     if (!workers)
         say_ret(0, "error create worker item.");
 
-    if (!prepare_workers())
+    if (!prepare_workers(param->information.id))
         say_ret(NULL, "error prepare workers.");
 
     // Node core interface communication.
@@ -174,10 +171,13 @@ void *ping_node_handler (void *tparam)
     }
 }
 
-int prepare_workers (void)
+int prepare_workers (char *id)
 {
     thread_worker_t *worker;
     int status = -1, size = 0, result = 1;
+
+    if (!id)
+        return 0;
 
     // Prepare items.
     for (int a=1; a<NC_THREAD_LIMIT; a++) {
@@ -211,7 +211,19 @@ int prepare_workers (void)
             break;
         }
         
+        size = sizeof(char) * (strlen(id) + 1);
+        param->nid = (char *) malloc(size);
+
+        if (!param->nid) {
+            say("error memory allocation.");
+            result = 0;
+            break;
+        }
+
+        memset(param->nid, 0x0, size);
+        memcpy(param->nid, id, strlen(id));
         param->wid = worker->wid;
+
         status = pthread_create(&worker->tid, NULL, worker_handler, param);
 
         if (status != 0) {
@@ -267,6 +279,9 @@ void *worker_handler (void *tparam)
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
+    char *id = NULL;
+
+    mem_scopy_ret(param->nid, id, NULL);
 
     while (1) {
 
@@ -304,21 +319,8 @@ void *worker_handler (void *tparam)
         status = send_handshake(sock, 
             "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n");
 
-        if (status == 1) {
-            
-            // Node protocol.
-            char *response = get_recv_content(sock);
-            if (response) {
-
-                /**
-                 * Delete node.
-                 */
-                if (strstr(response, "delete-verbum-node"))
-                    delete_node(sock, response);
-
-                mem_sfree(response);
-            }
-        }
+        if (status == 1)
+            process_communication(sock, id);
 
         /**
          * Finish.
@@ -340,40 +342,6 @@ void *worker_handler (void *tparam)
     }
 
     return NULL;
-}
-
-void delete_node (int sock, char *content)
-{
-    char tmp[1024], prefix [] = "delete-verbum-node:";
-    char response_success  [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
-    char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
-    char *ptr = NULL;
-    int bytes = 0, size = 0, status = 0;
-
-    // Extract node ID.
-    ptr = strstr(content, prefix);
-    if (!ptr) 
-        goto dn_end;
-
-    ptr += strlen(prefix);
-    memset(tmp, 0x0, 1024);
-    memcpy(tmp, ptr, strlen(ptr));
-
-    // Check node.
-    if (strcmp(param->information.id, tmp) == 0)
-        status = 1;
-
-    // Finish.
-    dn_end:
-
-    if (!status) {
-        bytes = send(sock, response_error, strlen(response_error), 0);
-        return;
-    }
-
-    bytes = send(sock, response_success, strlen(response_success), 0);
-    say("Verbum Node finished.");
-    exit(0);
 }
 
 
