@@ -96,20 +96,22 @@ gcc -o delete-node.o            -c delete-node.c
 gcc -o generate-node-id.o       -c generate-node-id.c
 gcc -o get-nodes.o              -c get-nodes.c
 gcc -o ping-node.o              -c ping-node.c
+gcc -o check-node-exists.o      -c check-node-exists.c
 
-gcc -o verbum-node-mapper verbum-node-mapper.c              \
-                          global.o                          \
-                          help.o                            \
-                          configuration.o                   \
-                          node-mapper.o                     \
-                          node-control.o                    \
-                          communication.o                   \
-                          add-node.o                        \
-                          create-node.o                     \
-                          delete-node.o                     \
-                          generate-node-id.o                \
-                          get-nodes.o                       \
-                          ping-node.o                       \
+gcc -o verbum-node-mapper verbum-node-mapper.c             \
+                          global.o                         \
+                          help.o                           \
+                          configuration.o                  \
+                          node-mapper.o                    \
+                          node-control.o                   \
+                          communication.o                  \
+                          add-node.o                       \
+                          create-node.o                    \
+                          delete-node.o                    \
+                          generate-node-id.o               \
+                          get-nodes.o                      \
+                          ping-node.o                      \
+                          check-node-exists.o              \
                           $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
