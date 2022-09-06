@@ -414,4 +414,54 @@ char *process_check_node_exists (char *address, int node_port, char *node_id)
     return response;
 }
 
+char *process_create_node_output_connection (char *src_node_address, 
+                                             char *src_node_id, int   src_node_interface_port, 
+                                             char *dst_node_id, char *dst_nm_address, int dst_nm_port)
+{
+    char prefix     [] = "create-verbum-node-output-connection:";
+    char end_header [] = VERBUM_EOH;
+    char *message      = NULL, *response = NULL;
+    int size           = 0, sock = -1;
+
+    if (!src_node_address || !src_node_id || 
+        !src_node_interface_port || !dst_node_id || 
+        !dst_nm_address || !dst_nm_port)
+        return NULL;
+
+    sock = create_connection(src_node_address, src_node_interface_port, 0);
+    if (sock == -1)
+        return NULL;
+
+    size = sizeof(char) * (
+                strlen(prefix) + 
+                strlen(src_node_id) + 
+                strlen(dst_node_id) + 
+                strlen(dst_nm_address) + 
+                strlen(dst_nm_port) + 
+                strlen(end_header) + 
+                1024);
+
+    mem_alloc_ret(message, size, char *, NULL);
+
+    sprintf(message, "%s%s:%s:%s:%s", 
+                prefix, 
+                src_node_id, 
+                dst_node_id,
+                dst_nm_address,
+                dst_nm_port);
+
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        mem_sfree(message);
+        return NULL;
+    }
+
+    mem_sfree(message);
+    close(sock);
+
+    return response;
+}
+
 

@@ -9,10 +9,6 @@ extern pthread_mutex_t mutex_nodes;
  * type:
  *  0 = OUTPUT
  *  1 = INPUT
- * 
- * Request:
- *  create-verbum-node-output-connection:SRC-NODE-ID:DST-NODE-ID:DST-NODE-MAPPER-ID:DST-NODE-MAPPER-IP:DST-NODE-MAPPER-PORT
- *  create-verbum-node-input-connection :SRC-NODE-ID:DST-NODE-ID:DST-NODE-MAPPER-ID:DST-NODE-MAPPER-IP:DST-NODE-MAPPER-PORT
  */
 
 int create_node_connection(int sock, char *content, int type)
@@ -26,7 +22,7 @@ int create_node_connection(int sock, char *content, int type)
     char *dst_nm_address   = NULL;
  
     int result = 0, dst_nm_port = 0, brk = 0;
-    int bytes = 0, status = 0;
+    int bytes = 0, status = 0, src_node_interface_port = 0;
     
     node_control_t *node;
     
@@ -107,6 +103,7 @@ int create_node_connection(int sock, char *content, int type)
 
         if (strcmp(node->id, src_node_id) == 0) {
             status = 1;
+            src_node_interface_port = node->port;
             break;
         }
     }
@@ -119,7 +116,8 @@ int create_node_connection(int sock, char *content, int type)
     switch (type) {
         case 0:
             result = create_node_output_connection(
-                sock, src_node_id, dst_node_id, dst_nm_address, dst_nm_port);
+                sock, src_node_id, src_node_interface_port,
+                dst_node_id, dst_nm_address, dst_nm_port);
             break;
         case 1:
             // Input connections...
@@ -127,7 +125,8 @@ int create_node_connection(int sock, char *content, int type)
     }
 
     // Success.
-    return result;
+    if (result)
+        return result;
 
     // Error.
     cnc_error:
@@ -135,22 +134,55 @@ int create_node_connection(int sock, char *content, int type)
     return 0;
 }
 
-int create_node_output_connection (int sock, char *src_node_id, char *dst_node_id, 
-                                   char *dst_nm_address, int dst_nm_port)
+int create_node_output_connection (int   sock, 
+                                   char *src_node_id, int   src_node_interface_port, 
+                                   char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
-    int result = 0;
+    char  address [] = LOCALHOST;
+    char *response_success = NULL;
+    int   result = 0, counter = 0;
+    int   status = 0, bytes = 0;
 
-    if (!sock || !src_node_id || !dst_node_id ||
-        !dst_nm_address || !dst_nm_port)
+    if (!sock || !src_node_id || !src_node_interface_port ||
+        !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
 
-    say("process data...");
-    say("src_node_id....: \"%s\"", src_node_id);
-    say("dst_node_id....: \"%s\"", dst_node_id);
-    say("dst_nm_address.: \"%s\"", dst_nm_address);
-    say("dst_nm_port....: \"%d\"", dst_nm_port);
+    // Send request to node.
+    while (1) {
+        char *response = process_create_node_output_connection(
+            address, src_node_id, src_node_interface_port, 
+            dst_node_id, dst_nm_address, dst_nm_port);
+        
+        if (response) {
+            if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
 
-    return result;
+                // Copy response.
+                mem_scopy_goto(response, response_success, cnoc_end);
+                mem_sfree(response);
+                
+                status = 1;
+                break;
+            }
+
+            mem_sfree(response);
+        }
+
+        usleep(1000);
+        counter++;
+        if (counter >= 3)
+            break;
+    }
+
+    // Finish.
+    cnoc_end:
+
+    if (!status) {
+        mem_sfree(response_success);
+        return 0;
+    }
+
+    bytes = send(sock, response_success, strlen(response_success), 0);
+    return 1;
 }
 
 

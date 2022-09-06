@@ -40,7 +40,7 @@ int delete_node (int sock, char *content)
 
         if (strcmp(node->id, tmp) == 0) {
             
-            // Send message to node.
+            // Send request to node.
             while (1) {
                 char *response = process_delete_node(address, node->port, node->id);
                 if (response) {
