@@ -1,5 +1,9 @@
 
 #include "create-node-connection.h"
+#include "node-control.h"
+
+extern node_control_t *nodes;
+extern pthread_mutex_t mutex_nodes;
 
 /**
  * type:
@@ -13,13 +17,18 @@
 
 int create_node_connection(int sock, char *content, int type)
 {
-    int result = 0, dst_nm_port = 0, brk = 0, bytes = 0;
     char response_error [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char tmp [1024];
+    
     char *src_node_id      = NULL;
     char *dst_node_id      = NULL;
     char *dst_nm_id        = NULL;
     char *dst_nm_address   = NULL;
+ 
+    int result = 0, dst_nm_port = 0, brk = 0;
+    int bytes = 0, status = 0;
+    
+    node_control_t *node;
     
     if (!sock || !content)
         goto cnc_error;
@@ -81,12 +90,31 @@ int create_node_connection(int sock, char *content, int type)
         !dst_nm_id   || !dst_nm_address || !dst_nm_port)
         goto cnc_error;
 
+    #ifdef NMDBG
+        say("src_node_id....: \"%s\"", src_node_id);
+        say("dst_node_id....: \"%s\"", dst_node_id);
+        say("dst_nm_id......: \"%s\"", dst_nm_id);
+        say("dst_nm_address.: \"%s\"", dst_nm_address);
+        say("dst_nm_port....: \"%d\"", dst_nm_port);
+    #endif
+
     // Check node exists.
-    // say("> src_node_id....: \"%s\"", src_node_id);
-    // say("> dst_node_id....: \"%s\"", dst_node_id);
-    // say("> dst_nm_id......: \"%s\"", dst_nm_id);
-    // say("> dst_nm_address.: \"%s\"", dst_nm_address);
-    // say("> dst_nm_port....: \"%d\"", dst_nm_port);
+    pthread_mutex_lock(&mutex_nodes);
+    
+    for (node=nodes; node!=NULL; node=node->next) {
+        if (node->status != 1)
+            continue;
+
+        if (strcmp(node->id, src_node_id) == 0) {
+            status = 1;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_nodes);
+
+    if (!status) 
+        goto cnc_error;
 
     switch (type) {
         case 0:
@@ -116,7 +144,11 @@ int create_node_output_connection (int sock, char *src_node_id, char *dst_node_i
         !dst_nm_address || !dst_nm_port)
         return 0;
 
-    
+    say("process data...");
+    say("src_node_id....: \"%s\"", src_node_id);
+    say("dst_node_id....: \"%s\"", dst_node_id);
+    say("dst_nm_address.: \"%s\"", dst_nm_address);
+    say("dst_nm_port....: \"%d\"", dst_nm_port);
 
     return result;
 }
