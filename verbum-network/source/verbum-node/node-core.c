@@ -104,7 +104,7 @@ int add_node_on_node_mapper (void)
     return 1;
 }
 
-int ping_node_action (void) 
+int ping_node_action (void)
 {
     int status = -1;
     node_param_t *lparam;

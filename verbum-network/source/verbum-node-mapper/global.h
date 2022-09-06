@@ -17,9 +17,6 @@
 #include "../library/datetime.h"
 #include "../library/connection.h"
 
-#include "../dependencies/cvector.h"
-#include "../dependencies/cvector_utils.h"
-
 // Re-define macros.
 #ifdef      PACKAGE_NAME
     #undef  PACKAGE_NAME

@@ -1,8 +1,8 @@
 
 #include "node-control.h"
 
-pthread_mutex_t mutex_nodes = PTHREAD_MUTEX_INITIALIZER;
-node_control_t *nodes = NULL;
+pthread_mutex_t  mutex_nodes = PTHREAD_MUTEX_INITIALIZER;
+node_control_t  *nodes       = NULL;
 
 node_control_t *node_create_item (void)
 {
