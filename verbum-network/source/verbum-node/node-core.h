@@ -7,7 +7,6 @@
 
 // Debug messages.
 // #define NCDBG
-// #define NCDBG_PING
 
 // Thread workers limit.
 #define NC_THREAD_LIMIT 10

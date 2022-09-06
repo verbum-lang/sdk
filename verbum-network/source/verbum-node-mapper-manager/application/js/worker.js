@@ -27,7 +27,7 @@ onmessage = function(ev) {
      * Get node list.
      */
     else if (request.cmd == 'get-verbum-node-list') {
-        connect_node_mapper(request.address, request.port, 'get-verbum-node-list', (response) => {
+        connect_node_mapper(request.address, request.port, 'get-verbum-node-list:', (response) => {
             request.nodes = [];
             request.error_disconnect = false;
 
@@ -102,7 +102,7 @@ onmessage = function(ev) {
      * Create node.
      */
     else if (request.cmd == 'create-verbum-node') {
-        connect_node_mapper(request.address, request.port, 'create-verbum-node', (response) => {
+        connect_node_mapper(request.address, request.port, 'create-verbum-node:', (response) => {
             request.status = false;
 
             if (response.indexOf('verbum-node-ok') != -1) {

@@ -6,6 +6,7 @@
 #include "create-node.h"
 #include "delete-node.h"
 #include "check-node-exists.h"
+#include "create-node-connection.h"
 
 int process_communication (int sock, char *path)
 {
@@ -34,13 +35,13 @@ int process_communication (int sock, char *path)
     /**
      * Get node list.
      */
-    else if (strstr(response, "get-verbum-node-list"))
+    else if (strstr(response, "get-verbum-node-list:"))
         get_node_list(sock);
 
     /**
      * Create new node.
      */
-    else if (strstr(response, "create-verbum-node"))
+    else if (strstr(response, "create-verbum-node:"))
         create_node(sock, path);
 
     /**
@@ -54,6 +55,18 @@ int process_communication (int sock, char *path)
      */
     else if (strstr(response, "check-verbum-node-exists:"))
         check_node_exists(sock, response);
+
+    /**
+     * Create node output connection.
+     */
+    else if (strstr(response, "create-verbum-node-output-connection:"))
+        create_node_connection(sock, response, 0);
+
+    /**
+     * Create node input connection.
+     */
+    else if (strstr(response, "create-verbum-node-input-connection:"))
+        create_node_connection(sock, response, 1);
 
     mem_sfree(response);
     return 1;
