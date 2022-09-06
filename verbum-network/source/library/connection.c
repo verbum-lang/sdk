@@ -437,19 +437,18 @@ char *process_create_node_output_connection (char *src_node_address,
                 strlen(src_node_id) + 
                 strlen(dst_node_id) + 
                 strlen(dst_nm_address) + 
-                strlen(dst_nm_port) + 
                 strlen(end_header) + 
                 1024);
 
     mem_alloc_ret(message, size, char *, NULL);
 
-    sprintf(message, "%s%s:%s:%s:%s", 
+    sprintf(message, "%s%s:%s:%s:%d", 
                 prefix, 
                 src_node_id, 
                 dst_node_id,
                 dst_nm_address,
                 dst_nm_port);
-
+                
     response = send_raw_data(sock, message);
 
     if (!response) {
