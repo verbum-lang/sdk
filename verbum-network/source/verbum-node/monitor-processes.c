@@ -1,8 +1,4 @@
 
-#include <dirent.h>
-#include <sys/types.h>
-#include <signal.h>
-
 #include "monitor-processes.h"
 
 int monitor_processes (void)

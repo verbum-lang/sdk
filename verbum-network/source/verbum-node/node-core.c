@@ -4,13 +4,13 @@
 
 pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
 thread_worker_t *workers       = NULL;
-node_param_t    *param;
+node_param_t    *nc_param;
 
 void *node_core (void *tparam)
 {
     say("node core interface started!");
 
-    param = (node_param_t *) tparam;
+    nc_param = (node_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
     int ssock  = -1, nsock = -1;
@@ -28,7 +28,7 @@ void *node_core (void *tparam)
     // Search node interface port.
     while (1) {
         for (port=3333; port<65000; port++) {
-            if (port == param->node_mapper_port)
+            if (port == nc_param->node_mapper_port)
                 continue;
 
             address.sin_port = htons(port);
@@ -43,11 +43,11 @@ void *node_core (void *tparam)
             break;
     }
 
-    if (listen(ssock, param->max_connections) != 0)
+    if (listen(ssock, nc_param->max_connections) != 0)
         say_ret(NULL, "error listen server.");
 
     // Register node on Node Mapper, and active ping controller.
-    param->information.port = port;
+    nc_param->information.port = port;
 
     if (!add_node_on_node_mapper())
         say_ret(NULL, "error adding node in Node Mapper.");
@@ -60,7 +60,7 @@ void *node_core (void *tparam)
     if (!workers)
         say_ret(0, "error create worker item.");
 
-    if (!prepare_workers(param->information.id))
+    if (!prepare_workers(nc_param->information.id))
         say_ret(NULL, "error prepare workers.");
 
     // Node core interface communication.
@@ -112,7 +112,7 @@ int add_node_on_node_mapper (void)
     
     while (1) {
         id = process_generate_node_id(
-                address, param->node_mapper_port, param->information.port);
+                address, nc_param->node_mapper_port, nc_param->information.port);
         
         if (id)
             break;
@@ -120,7 +120,7 @@ int add_node_on_node_mapper (void)
         usleep(1000);
     }
 
-    mem_scopy_ret(id, param->information.id, 0);
+    mem_scopy_ret(id, nc_param->information.id, 0);
     mem_sfree(id);
 
     return 1;
@@ -133,10 +133,10 @@ int ping_node_action (void)
     pthread_t tid;
 
     mem_alloc_ret(lparam, sizeof(node_param_t), node_param_t *, 0);
-    mem_scopy_ret(param->information.id, lparam->information.id, 0);
+    mem_scopy_ret(nc_param->information.id, lparam->information.id, 0);
 
-    lparam->information.port = param->information.port;
-    lparam->node_mapper_port = param->node_mapper_port;
+    lparam->information.port = nc_param->information.port;
+    lparam->node_mapper_port = nc_param->node_mapper_port;
 
     status = pthread_create(&tid, NULL, ping_node_handler, lparam);
     if (status != 0)
