@@ -2,6 +2,7 @@
 #include "node-core.h"
 #include "communication.h"
 #include "ping-node-mapper.h"
+#include "add-on-node-mapper.h"
 
 pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
 thread_worker_t *workers       = NULL;
@@ -104,27 +105,6 @@ void *node_core (void *tparam)
 
     close(ssock);
     return NULL;
-}
-
-int add_node_on_node_mapper (void)
-{
-    char address [] = LOCALHOST;
-    char *id        = NULL;
-    
-    while (1) {
-        id = process_generate_node_id(
-                address, nc_param->node_mapper_port, nc_param->information.port);
-        
-        if (id)
-            break;
-
-        usleep(1000);
-    }
-
-    mem_scopy_ret(id, nc_param->information.id, 0);
-    mem_sfree(id);
-
-    return 1;
 }
 
 int prepare_workers (char *id)
