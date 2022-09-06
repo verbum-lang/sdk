@@ -53,7 +53,9 @@ int update_ping_node (int sock, char *content)
         tmp[b++] = ptr[a];
     }
 
-    node_information->port = atoi(tmp);
+    if (tmp)
+        if (strlen(tmp) > 0)
+            node_information->port = atoi(tmp);
 
     // Search node.
     pthread_mutex_lock(&mutex_nodes);

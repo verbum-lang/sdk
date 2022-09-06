@@ -13,9 +13,9 @@
 int create_node_connection(int sock, char *content, int type)
 {
     int result = 0, dst_nm_port = 0, brk = 0;
-    char *src_node_id = NULL;
-    char *dst_node_id = NULL;
-    char *dst_nm_ip   = NULL;
+    char *src_node_id    = NULL;
+    char *dst_node_id    = NULL;
+    char *dst_nm_address = NULL;
     char tmp [1024];
     
     if (!sock || !content)
@@ -37,6 +37,16 @@ int create_node_connection(int sock, char *content, int type)
                         mem_scopy_ret(tmp, src_node_id, 0);
                         break;
                     
+                    // Destination node ID.
+                    case 1:
+                        mem_scopy_ret(tmp, dst_node_id, 0);
+                        break;
+                    
+                    // Destination Node Mapper address.
+                    case 2:
+                        mem_scopy_ret(tmp, dst_nm_address, 0);
+                        break;
+                    
                     default:
                         brk = 1;
                 }
@@ -47,13 +57,22 @@ int create_node_connection(int sock, char *content, int type)
                 c = 0;
                 d++;
                 memset(tmp, 0x0, 1024);
-            }
+            } 
 
-            tmp[c++] = content[a];
+            else
+                tmp[c++] = content[a];
         }
     }
 
-    say("> source node id: \"%s\"", src_node_id);
+    // Destination Node Mapper port.
+    if (tmp) 
+        if (strlen(tmp) > 0) 
+            dst_nm_port = atoi(tmp);
+
+    say("> src verbum node id..: \"%s\"", src_node_id);
+    say("> dst verbum node id..: \"%s\"", dst_node_id);
+    say("> dst node mapper ip..: \"%s\"", dst_nm_address);
+    say("> dst node mapper port: \"%d\"", dst_nm_port);
 
     switch (type) {
         case 0:
