@@ -45,8 +45,6 @@ int delete_node (int sock, char *content)
                 char *response = process_delete_node(address, node->port, node->id);
                 if (response) {
                     if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
-                        status = 1;
-                        node->status = 0;
                         mem_sfree(response);
                         break;
                     }
@@ -60,6 +58,8 @@ int delete_node (int sock, char *content)
                     break;
             }
 
+            status = 1;
+            node->status = 0;
             break;
         }
     }

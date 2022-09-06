@@ -50,6 +50,7 @@ gcc -o add-on-node-mapper.o     -c add-on-node-mapper.c
 gcc -o ping-node-mapper.o       -c ping-node-mapper.c
 gcc -o communication.o          -c communication.c
 gcc -o delete-node.o            -c delete-node.c
+gcc -o check-node-exists.o      -c check-node-exists.c
 gcc -o node-server.o            -c node-server.c
 gcc -o node-client.o            -c node-client.c
 
@@ -64,6 +65,7 @@ gcc -o verbum-node        verbum-node.c                    \
                           ping-node-mapper.o               \
                           communication.o                  \
                           delete-node.o                    \
+                          check-node-exists.o              \
                           node-server.o                    \
                           node-client.o                    \
                           $LIBRARY_OBJECTS $LIBRARY_LIBS

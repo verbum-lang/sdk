@@ -1,6 +1,7 @@
 
 #include "communication.h"
 #include "delete-node.h"
+#include "check-node-exists.h"
 
 int process_communication (int sock, char *id)
 {
@@ -19,6 +20,12 @@ int process_communication (int sock, char *id)
      */
     if (strstr(response, "delete-verbum-node:"))
         delete_node(sock, response, id);
+
+    /**
+     * Check node exists.
+     */
+    else if (strstr(response, "check-verbum-node-exists:"))
+        check_node_exists(sock, response, id);
 
     mem_sfree(response);
     return 1;
