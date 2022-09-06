@@ -62,7 +62,7 @@ void *node_core (void *tparam)
     if (!workers)
         say_ret(0, "error create worker item.");
 
-    if (!prepare_workers(nc_param->information.id))
+    if (!prepare_workers(nc_param->information.id, port))
         say_ret(NULL, "error prepare workers.");
 
     // Node core interface communication.
@@ -107,7 +107,7 @@ void *node_core (void *tparam)
     return NULL;
 }
 
-int prepare_workers (char *id)
+int prepare_workers (char *id, int interface_port)
 {
     thread_worker_t *worker;
     int status = -1, size = 0, result = 1;
@@ -158,7 +158,9 @@ int prepare_workers (char *id)
 
         memset(param->nid, 0x0, size);
         memcpy(param->nid, id, strlen(id));
+
         param->wid = worker->wid;
+        param->interface_port = interface_port;
 
         status = pthread_create(&worker->tid, NULL, worker_handler, param);
 
@@ -215,8 +217,10 @@ void *worker_handler (void *tparam)
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
+    int interface_port = 0;
     char *id = NULL;
 
+    interface_port = param->interface_port;
     mem_scopy_ret(param->nid, id, NULL);
 
     while (1) {
@@ -256,7 +260,7 @@ void *worker_handler (void *tparam)
             "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n");
 
         if (status == 1)
-            process_communication(sock, id);
+            process_communication(sock, id, interface_port);
 
         /**
          * Finish.

@@ -4,7 +4,7 @@
 
 #include "global.h"
 
-int check_node_exists (int sock, char *content, char *id);
+int check_node_exists (int sock, char *content, char *id, int interface_port);
 
 #endif
 

@@ -85,6 +85,12 @@
         return;                                                                         \
     } while (0)
     
+#define debug_goto(GOTO, fmt, ...)                                                      \
+    do {                                                                                \
+        debug_print(fmt, ##__VA_ARGS__);                                                \
+        goto GOTO;                                                                      \
+    } while (0)
+    
 #endif
 
 

@@ -56,6 +56,17 @@
         memset(DESTINATION, 0x0, msize);                                                \
     } while (0)
 
+#define mem_salloc_goto(DESTINATION, SIZE, GOTO)                                        \
+    do {                                                                                \
+        int msize   = sizeof(char) * (SIZE + 1);                                        \
+        DESTINATION = (char *) malloc(msize);                                           \
+                                                                                        \
+        if (!DESTINATION)                                                               \
+            debug_goto(GOTO, "error allocating memory.");                               \
+                                                                                        \
+        memset(DESTINATION, 0x0, msize);                                                \
+    } while (0)
+
 // Alloc memory and copy string.
 #define mem_scopy_ret(SOURCE, DESTINATION, RETURN)                                      \
     do {                                                                                \
@@ -72,6 +83,15 @@
             debug_noret("invalid data.");                                               \
                                                                                         \
         mem_salloc_noret(DESTINATION, strlen(SOURCE));                                  \
+        memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
+    } while (0)
+
+#define mem_scopy_goto(SOURCE, DESTINATION, GOTO)                                       \
+    do {                                                                                \
+        if (!SOURCE)                                                                    \
+            debug_goto(GOTO, "invalid data.");                                          \
+                                                                                        \
+        mem_salloc_goto(DESTINATION, strlen(SOURCE), GOTO);                             \
         memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
     } while (0)
 

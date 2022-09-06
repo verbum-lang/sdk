@@ -12,10 +12,9 @@ int check_node_exists (int sock, char *content)
     #endif
 
     char tmp[1024], prefix [] = "check-verbum-node-exists:";
-    char response_success  [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char address           [] = LOCALHOST;
-    char *ptr = NULL;
+    char *ptr = NULL, *response_success = NULL;
     int bytes = 0, status = 0, counter = 0;
     node_control_t *node;
 
@@ -45,8 +44,12 @@ int check_node_exists (int sock, char *content)
                 char *response = process_check_node_exists(address, node->port, node->id);
                 if (response) {
                     if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
-                        status = 1;
+                        
+                        // Copy response.
+                        mem_scopy_goto(response, response_success, cne_end);
                         mem_sfree(response);
+                        
+                        status = 1;
                         break;
                     }
 

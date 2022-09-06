@@ -16,6 +16,7 @@
 typedef struct {
     int wid;                            // Worker ID.
     char *nid;                          // Node ID.
+    int interface_port;                 // Node interface port.
 } worker_param_t;
 
 // Thread workers control.
@@ -30,14 +31,14 @@ typedef struct thread_worker_st {
     struct thread_worker_st *next;      // Next node pointer.
 } thread_worker_t;
 
-void *node_core               (void *tparam);
-int   add_node_on_node_mapper (void);
-int   ping_node_action        (void);
-void *ping_node_handler       (void *tparam);
-int              prepare_workers    (char *id);
-thread_worker_t *worker_create_item (int wid);
-int              worker_insert_item (thread_worker_t *new_worker);
-void            *worker_handler     (void *tparam);
+void            *node_core               (void *tparam);
+int              add_node_on_node_mapper (void);
+int              ping_node_action        (void);
+void            *ping_node_handler       (void *tparam);
+int              prepare_workers         (char *id, int interface_port);
+thread_worker_t *worker_create_item      (int wid);
+int              worker_insert_item      (thread_worker_t *new_worker);
+void            *worker_handler          (void *tparam);
 
 #endif
 

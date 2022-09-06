@@ -3,11 +3,11 @@
 #include "delete-node.h"
 #include "check-node-exists.h"
 
-int process_communication (int sock, char *id)
+int process_communication (int sock, char *id, int interface_port)
 {
     char *response = NULL;
 
-    if (!sock || !id)
+    if (!sock || !id || !interface_port)
         return 0;
 
     // Node Mapper protocol communication.
@@ -25,7 +25,7 @@ int process_communication (int sock, char *id)
      * Check node exists.
      */
     else if (strstr(response, "check-verbum-node-exists:"))
-        check_node_exists(sock, response, id);
+        check_node_exists(sock, response, id, interface_port);
 
     mem_sfree(response);
     return 1;
