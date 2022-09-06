@@ -5,7 +5,8 @@
 #include "global.h"
 
 int create_node_connection        (int sock, char *content, int type);
-int create_node_output_connection (int sock, char *id);
+int create_node_output_connection (int sock, char *src_node_id, char *dst_node_id, 
+                                   char *dst_nm_address, int dst_nm_port);
 
 #endif
 

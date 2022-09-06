@@ -7,23 +7,26 @@
  *  1 = INPUT
  * 
  * Request:
- *  create-verbum-node-output-connection:SRC-NODE-ID:DST-NODE-ID:DST-NODE-MAPPER-IP:DST-NODE-MAPPER-PORT
+ *  create-verbum-node-output-connection:SRC-NODE-ID:DST-NODE-ID:DST-NODE-MAPPER-ID:DST-NODE-MAPPER-IP:DST-NODE-MAPPER-PORT
+ *  create-verbum-node-input-connection :SRC-NODE-ID:DST-NODE-ID:DST-NODE-MAPPER-ID:DST-NODE-MAPPER-IP:DST-NODE-MAPPER-PORT
  */
 
 int create_node_connection(int sock, char *content, int type)
 {
-    int result = 0, dst_nm_port = 0, brk = 0;
-    char *src_node_id    = NULL;
-    char *dst_node_id    = NULL;
-    char *dst_nm_address = NULL;
+    int result = 0, dst_nm_port = 0, brk = 0, bytes = 0;
+    char response_error [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char tmp [1024];
+    char *src_node_id      = NULL;
+    char *dst_node_id      = NULL;
+    char *dst_nm_id        = NULL;
+    char *dst_nm_address   = NULL;
     
     if (!sock || !content)
-        return 0;
+        goto cnc_error;
 
+    // Extract request information
     memset(tmp, 0x0, 1024);
 
-    // Extract node ID.
     for (int a=0,b=0,c=0,d=0; content[a] != '\0'; a++) {
         if (b == 0 && content[a] == ':')
             b = 1; // Enable.
@@ -42,8 +45,13 @@ int create_node_connection(int sock, char *content, int type)
                         mem_scopy_ret(tmp, dst_node_id, 0);
                         break;
                     
-                    // Destination Node Mapper address.
+                    // Destination Node Mapper ID.
                     case 2:
+                        mem_scopy_ret(tmp, dst_nm_id, 0);
+                        break;
+
+                    // Destination Node Mapper address.
+                    case 3:
                         mem_scopy_ret(tmp, dst_nm_address, 0);
                         break;
                     
@@ -69,31 +77,46 @@ int create_node_connection(int sock, char *content, int type)
         if (strlen(tmp) > 0) 
             dst_nm_port = atoi(tmp);
 
-    say("> src verbum node id..: \"%s\"", src_node_id);
-    say("> dst verbum node id..: \"%s\"", dst_node_id);
-    say("> dst node mapper ip..: \"%s\"", dst_nm_address);
-    say("> dst node mapper port: \"%d\"", dst_nm_port);
+    if (!src_node_id || !dst_node_id    || 
+        !dst_nm_id   || !dst_nm_address || !dst_nm_port)
+        goto cnc_error;
+
+    // Check node exists.
+    // say("> src_node_id....: \"%s\"", src_node_id);
+    // say("> dst_node_id....: \"%s\"", dst_node_id);
+    // say("> dst_nm_id......: \"%s\"", dst_nm_id);
+    // say("> dst_nm_address.: \"%s\"", dst_nm_address);
+    // say("> dst_nm_port....: \"%d\"", dst_nm_port);
 
     switch (type) {
         case 0:
-            // result = create_node_output_connection(sock, id);
+            result = create_node_output_connection(
+                sock, src_node_id, dst_node_id, dst_nm_address, dst_nm_port);
             break;
         case 1:
             // Input connections...
             break;
     }
 
+    // Success.
     return result;
+
+    // Error.
+    cnc_error:
+    bytes = send(sock, response_error, strlen(response_error), 0);
+    return 0;
 }
 
-int create_node_output_connection (int sock, char *id)
+int create_node_output_connection (int sock, char *src_node_id, char *dst_node_id, 
+                                   char *dst_nm_address, int dst_nm_port)
 {
     int result = 0;
 
-    if (!sock || !id)
+    if (!sock || !src_node_id || !dst_node_id ||
+        !dst_nm_address || !dst_nm_port)
         return 0;
 
-    // Extract 
+    
 
     return result;
 }
