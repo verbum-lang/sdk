@@ -3,8 +3,8 @@
 #include "node-control.h"
 #include "communication.h"
 
-pthread_mutex_t mutex_workers = PTHREAD_MUTEX_INITIALIZER;
-thread_worker_t *workers      = NULL;
+pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
+thread_worker_t *workers       = NULL;
 
 extern node_control_t *nodes;
 extern pthread_mutex_t mutex_nodes;

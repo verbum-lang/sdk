@@ -48,6 +48,7 @@ int process_communication (int sock, char *path)
     else if (strstr(response, "delete-verbum-node:"))
         delete_node(sock, response);
 
+    mem_sfree(response);
     return 1;
 }
 
