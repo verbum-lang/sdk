@@ -46,6 +46,7 @@ gcc -o configuration.o          -c configuration.c
 gcc -o node.o                   -c node.c
 gcc -o monitor-processes.o      -c monitor-processes.c
 gcc -o node-core.o              -c node-core.c
+gcc -o ping-node-mapper.o       -c ping-node-mapper.c
 gcc -o communication.o          -c communication.c
 gcc -o delete-node.o            -c delete-node.c
 gcc -o node-server.o            -c node-server.c
@@ -58,6 +59,7 @@ gcc -o verbum-node        verbum-node.c                    \
                           node.o                           \
                           monitor-processes.o              \
                           node-core.o                      \
+                          ping-node-mapper.o               \
                           communication.o                  \
                           delete-node.o                    \
                           node-server.o                    \
