@@ -442,12 +442,13 @@ char *process_create_node_output_connection (char *src_node_address,
 
     mem_alloc_ret(message, size, char *, NULL);
 
-    sprintf(message, "%s%s:%s:%s:%d", 
+    sprintf(message, "%s%s:%s:%s:%d%s", 
                 prefix, 
                 src_node_id, 
                 dst_node_id,
                 dst_nm_address,
-                dst_nm_port);
+                dst_nm_port,
+                end_header);
 
     response = send_raw_data(sock, message);
 

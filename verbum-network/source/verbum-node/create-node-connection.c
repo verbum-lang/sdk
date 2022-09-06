@@ -107,7 +107,7 @@ int create_node_connection(int sock, char *content, int type, char *id)
 
 int create_node_output_connection (int sock, char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
-    char response_success [] = VERBUM_DEFAULT_SUCCESS "-data-received-" VERBUM_EOH;
+    char response_success [] = VERBUM_DEFAULT_SUCCESS "-data-received-333-" VERBUM_EOH;
 
     if (!sock || !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;

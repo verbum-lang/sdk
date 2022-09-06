@@ -16,11 +16,6 @@ int process_communication (int sock, char *id, int interface_port)
     if (!response)
         return 0;
 
-    char response_success [] = VERBUM_DEFAULT_SUCCESS "-data-received-2-" VERBUM_EOH;
-    send(sock, response_success, strlen(response_success), 0);
-
-    return 1;
-
     /**
      * Delete node.
      */
