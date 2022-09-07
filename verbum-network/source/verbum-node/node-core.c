@@ -4,9 +4,14 @@
 #include "ping-node-mapper.h"
 #include "add-on-node-mapper.h"
 
-pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
-thread_worker_t *workers       = NULL;
-node_param_t    *nc_param;
+static int              prepare_workers    (char *id, int port);
+static thread_worker_t *worker_create_item (int wid);
+static int              worker_insert_item (thread_worker_t *new_worker);
+static void            *worker_handler     (void *tparam);
+
+static pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
+static thread_worker_t *workers       = NULL;
+       node_param_t    *nc_param;
 
 void *node_core (void *tparam)
 {
@@ -107,7 +112,7 @@ void *node_core (void *tparam)
     return NULL;
 }
 
-int prepare_workers (char *id, int interface_port)
+static int prepare_workers (char *id, int port)
 {
     thread_worker_t *worker;
     int status = -1, size = 0, result = 1;
@@ -160,7 +165,7 @@ int prepare_workers (char *id, int interface_port)
         memcpy(param->nid, id, strlen(id));
 
         param->wid = worker->wid;
-        param->interface_port = interface_port;
+        param->interface_port = port;
 
         status = pthread_create(&worker->tid, NULL, worker_handler, param);
 
@@ -177,7 +182,7 @@ int prepare_workers (char *id, int interface_port)
     return result;
 }
 
-thread_worker_t *worker_create_item (int wid)
+static thread_worker_t *worker_create_item (int wid)
 {
     thread_worker_t * worker;
     mem_alloc_ret(worker, sizeof(thread_worker_t), thread_worker_t *, NULL);
@@ -190,7 +195,7 @@ thread_worker_t *worker_create_item (int wid)
     return worker;
 }
 
-int worker_insert_item (thread_worker_t *new_worker)
+static int worker_insert_item (thread_worker_t *new_worker)
 {
     if (!new_worker)
         return 0;
@@ -211,7 +216,7 @@ int worker_insert_item (thread_worker_t *new_worker)
     return 1;
 }
 
-void *worker_handler (void *tparam)
+static void *worker_handler (void *tparam)
 {
     worker_param_t  *param = (worker_param_t *) tparam;
     thread_worker_t *worker;
