@@ -23,19 +23,23 @@ void *node_connection (void *tparam)
     connections = connection_create_item();
 
     /**
-     * Interface control.
+     * Controller.
      */
 
     while (1) {
         pthread_mutex_lock(&mutex_connections);
 
         for (connection=connections; connection != NULL; connection=connection->next) {
+
+            // Enable connection to work.
             if (connection->status == 1) {
                 connection->status = 2;
-
-                // ...
-
-                connection-> connection_status = 1;
+                
+                // Check data exists.
+                if (connection->dst_node_id     && 
+                    connection->dst_nm_address  &&
+                    connection->dst_nm_port)
+                    connection->connection_status = 1;
             }
         }
 
@@ -49,7 +53,11 @@ void *node_connection (void *tparam)
 node_connection_t *connection_create_item (void)
 {
     node_connection_t * connection;
-    mem_alloc_ret(connection, sizeof(node_connection_t), node_connection_t *, NULL);
+    node_connection_param_t *param;
+    int status = 0;
+
+    mem_alloc_ret(connection, 
+        sizeof(node_connection_t), node_connection_t *, NULL);
 
     connection->id                  = generate_connection_id();
     connection->status              = 0;
@@ -62,6 +70,17 @@ node_connection_t *connection_create_item (void)
     connection->dst_nm_port         = 0;
 
     connection->next                = NULL;
+
+    // Prepare thread.
+    mem_alloc_ret(param, 
+        sizeof(node_connection_param_t), node_connection_param_t *, NULL);
+
+    mem_scopy_ret(connection->id, param->cid, NULL);
+    status = pthread_create(
+        &connection->tid_ping_controller, NULL, connection_ping_controller, param);
+    
+    if (status != 0)
+        say_ret(NULL, "error creating thread - ping controller.");
 
     return connection;
 }
@@ -86,3 +105,40 @@ int connection_insert_item (node_connection_t *new_connection)
     pthread_mutex_unlock(&mutex_connections);
     return 1;
 }
+
+void *connection_ping_controller (void *tparam)
+{
+    node_connection_param_t *param = (node_connection_param_t *) tparam;
+    node_connection_t *connection;
+    char *connection_id = NULL;
+
+    mem_scopy_ret(param->cid, connection_id, NULL);
+
+    while (1) {
+        pthread_mutex_lock(&mutex_connections);
+
+        for (connection=connections; connection != NULL; connection=connection->next) {
+            if (connection->status != 2)
+                continue;
+            if (!connection->id)
+                continue;
+
+            if (strcmp(connection->id, connection_id) == 0) {
+                
+                // Data exists - process connection.
+                if (connection->connection_status == 1) {
+                    
+                }
+
+                break;
+            }
+        }
+
+        pthread_mutex_unlock(&mutex_connections);
+        usleep(VERBUM_CONNECTION_PING_SEC_DELAY);
+    }
+
+    return NULL;
+}
+
+

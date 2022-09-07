@@ -15,9 +15,10 @@ typedef struct node_connection_st {
 
     // Control / flags.
     int connection_status;              // Status (connection):
-                                        //  0 = waiting response.
-                                        //  1 = success.
-                                        //  2 = error.
+                                        //  0 = inactive.
+                                        //  1 = data exists - process connection.
+                                        //  2 = success.
+                                        //  3 = error.
 
     // Connection informations.
     int type;                           // Type:
@@ -28,12 +29,16 @@ typedef struct node_connection_st {
     char *dst_nm_address;               // Destination Node Mapper address (IP).
     int   dst_nm_port;                  // Destination Node Mapper interface port.
 
+    // Thread.
+    pthread_t tid_ping_controller;      // Thread handle - Ping controller.
+
     struct node_connection_st *next;    // Next node pointer.
 } node_connection_t;
 
-void              *node_connection        (void *tparam);
-node_connection_t *connection_create_item (void);
-int                connection_insert_item (node_connection_t *new_connection);
+void              *node_connection            (void *tparam);
+node_connection_t *connection_create_item     (void);
+int                connection_insert_item     (node_connection_t *new_connection);
+void              *connection_ping_controller (void *tparam)
 
 #endif
 

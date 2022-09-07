@@ -558,7 +558,7 @@ function generate_connections_area_html (prefix)
                     <th scope="col" class="th-header" >Destination ID</th>
                     <th scope="col" class="th-header" >NM host</th>
                     <th scope="col" class="th-header" >NM port</th>
-                    <th scope="col" class="th-header" ></th>
+                    <th scope="col" class="th-header" >Node server port</th>
                     <th scope="col" class="th-header" >Ping</th>
                     <th scope="col" class="th-header" style="text-align:right;" >Manager</th>
                 </tr>
@@ -571,7 +571,7 @@ function generate_connections_area_html (prefix)
                     <th class='nd-th-item' >verbum-node-2409308923</th>
                     <th class='nd-th-item' >127.0.0.1</th>
                     <th class='nd-th-item' >3333</th>
-                    <th class='nd-th-item' ></th>
+                    <th class='nd-th-item' >3334</th>
                     <th class='nd-th-item' >
                         <div class="item-sub-1">
                             31-07-2022 18-21-19

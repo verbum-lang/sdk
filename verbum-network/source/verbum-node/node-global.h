@@ -29,7 +29,8 @@ typedef struct {
 // Worker types.
 typedef struct {
     int wid;                            // Worker ID.
-} worker_param_t;
+    char *cid;                          // Connection ID.
+} worker_param_t, node_connection_param_t;
 
 typedef struct thread_worker_st {
     pthread_t tid;                      // Thread ID.

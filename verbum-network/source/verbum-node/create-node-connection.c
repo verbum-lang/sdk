@@ -173,14 +173,13 @@ int create_node_output_connection (
             if (!connection->id)
                 continue;
             
-            if (strcmp(connection->id, current_id) == 0) {
-                if (connection->connection_status == 1 ||
-                    connection->connection_status == 2  )
+            if (strcmp(connection->id, current_id) == 0)
+                if (connection->connection_status == 2 ||
+                    connection->connection_status == 3  )
                 {
                     status = connection->connection_status;
                     break;
                 }
-            }
         }
 
         pthread_mutex_unlock(&mutex_connections);
@@ -192,7 +191,7 @@ int create_node_output_connection (
     }
 
     // Error.
-    if (status == 2)
+    if (status == 3)
         return 0;
 
     send(sock, response_success, strlen(response_success), 0);

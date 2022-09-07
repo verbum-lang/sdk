@@ -12,7 +12,7 @@
                                                                                                             \
         status = pthread_create(&tid, NULL, HANDLER, NULL);                                                 \
         if (status != 0)                                                                                    \
-            say_ret(0, "error while creating thread - Verbum Node interface, client and server.");          \
+            say_ret(0, "error creating thread - Verbum Node interface, client and server.");                \
     } while (0)
 
 int verbum_node (void);
