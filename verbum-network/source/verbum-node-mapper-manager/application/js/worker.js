@@ -52,11 +52,12 @@ onmessage = function(ev) {
                         if (item.length <= 0)
                             continue;
 
-                        var lines  = item.split("\n");
-                        var node   = -1;
-                        var id     = '';
-                        var port   = -1;
-                        var date   = '';
+                        var lines       = item.split("\n");
+                        var node        = -1;
+                        var id          = '';
+                        var core_port   = -1;
+                        var server_port = -1;
+                        var date        = '';
 
                         for (var b=0; b<lines.length; b++) {
                             var iitem = lines[b].toString().trim();
@@ -72,20 +73,23 @@ onmessage = function(ev) {
                                     node = value;
                                 else if (name == 'id')
                                     id = value;
-                                else if (name == 'port')
-                                    port = value;
+                                else if (name == 'core port')
+                                    core_port = value;
+                                else if (name == 'server port')
+                                    server_port = value;
                                 else if (name == 'last connection date')
                                     date = value;
                             }
                         }
 
-                        if (node != -1    && port != -1      &&
-                            id.length > 0 && date.length > 0  )
+                        if (node != -1    && core_port != -1 && server_port != -1 &&
+                            id.length > 0 && date.length > 0                       )
                         {
                             request.nodes.push({
                                 node: node,
                                 id: id,
-                                port: port,
+                                core_port: core_port,
+                                server_port: server_port,
                                 last_connection_date: date
                             });
                         }

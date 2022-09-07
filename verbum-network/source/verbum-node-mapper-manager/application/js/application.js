@@ -415,8 +415,15 @@ function render_all_nodes ()
                                 
                                 <th>
                                     <div class="item">
-                                        <div class="sub-1">Port</div>
-                                        <div class="sub-2 `+ prefix +`-port ">`+ node.port +`</div>
+                                        <div class="sub-1">Core Port</div>
+                                        <div class="sub-2 `+ prefix +`-core-port ">`+ node.core_port +`</div>
+                                    </div>
+                                </th>
+                                
+                                <th>
+                                    <div class="item">
+                                        <div class="sub-1">Server Port</div>
+                                        <div class="sub-2 `+ prefix +`-server-port ">`+ node.server_port +`</div>
                                     </div>
                                 </th>
                                 
@@ -480,7 +487,8 @@ function render_information_nodes ()
         var node = nodes[a];
         var prefix = 'cls-'+ node.id;
 
-        $('.'+ prefix +'-port').text(node.port);
+        $('.'+ prefix +'-core-port').text(node.core_port);
+        $('.'+ prefix +'-server-port').text(node.server_port);
         $('.'+ prefix +'-last-con-date').text(node.last_connection_date);
     }
 }
