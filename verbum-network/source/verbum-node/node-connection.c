@@ -38,7 +38,7 @@ node_connection_t *connection_create_item (void)
     node_connection_t * connection;
     mem_alloc_ret(connection, sizeof(node_connection_t), node_connection_t *, NULL);
 
-    connection->id                  = NULL;
+    connection->id                  = generate_connection_id();
     connection->status              = 0;
     connection->connection_status   = 0;
     connection->type                = -1;

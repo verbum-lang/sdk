@@ -14,9 +14,9 @@ char *generate_connection_id (void)
 
     memset(tmp, 0x0, 1023);
     sprintf(tmp, "verbum-connection-%d%d%d", 
-        random_number(333, 933),
-        random_number(333, 933),
-        random_number(333, 933)
+        random_number(100, 999),
+        random_number(100, 999),
+        random_number(100, 999)
     );
 
     if (strlen(tmp) > limit)
@@ -46,8 +46,5 @@ char *generate_connection_id (void)
 
     return id;    
 }
-
-
-
 
 
