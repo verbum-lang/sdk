@@ -229,6 +229,30 @@ function delete_node (node_id)
 }
 
 /**
+ * Add connection control.
+ */
+var ac_node_id = null;
+
+$(document).ready(() => {
+    $('.btn-close-modal').on('click', () => {
+        ac_close_modal();
+    });
+});
+
+function ac_close_modal ()
+{
+    ac_node_id = null;
+    $('#modal-add-connection').modal('hide');
+}
+
+function add_connection (node_id)
+{
+    ac_node_id = node_id;
+
+    $('#modal-add-connection').modal('show');
+}
+
+/**
  * Status area control.
  */
 
@@ -437,7 +461,7 @@ function render_all_nodes ()
                                 <th>
                                     <div style="text-align:right;" >
 
-                                        <button class='btn btn-primary btn-3 btn-fix-1' style="margin-top:3px" >
+                                        <button class='btn btn-primary btn-3 btn-fix-1' style="margin-top:3px" onclick='javascript:add_connection("`+ node.id +`");' >
                                             <i class="feather-size-a" data-feather="plus"></i>
                                             Add connection
                                         </button>
@@ -454,7 +478,6 @@ function render_all_nodes ()
                         </tbody>
                     </table>
 
-                    <!--
                     <table class="table table-dark table-borderless table-results-sec-2">
                         <tbody>
                             <tr>
@@ -464,7 +487,6 @@ function render_all_nodes ()
                             </tr>
                         </tbody>
                     </table>
-                    -->
 
                     <hr>
                 </th>

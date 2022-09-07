@@ -186,7 +186,7 @@ static void *connection_ping_controller (void *tparam)
 
 static int ping_controller_communication (char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
-
+    
 
     if (!dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;

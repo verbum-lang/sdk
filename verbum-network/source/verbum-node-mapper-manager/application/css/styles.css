@@ -253,4 +253,11 @@ html, body {
   font-size: 9px;
 }
 
+/**
+ * Modal styles.
+ */
+.modal {
+  color: black;
+}
+
 
