@@ -6,23 +6,22 @@
 #define NC_THREAD_LIMIT 10
 
 typedef struct {
-    char *path;
-    int node_mapper_port;
-    int max_connections;
+
+    // General information.
+    char *path;                         // Configuration file path.
+    int node_mapper_port;               // Node Mapper interface port.
+    int max_connections;                // Max connection support to created servers.
 
     // Node information.
     struct {
-        char *id;
-        int port; // Interface port.
+        char *id;                       // Node ID.
+        int port;                       // Node interface port.
     } information;
-} node_param_t;
+} node_config_t;
 
 // Thread param.
 typedef struct {
     int wid;                            // Worker ID.
-    char *nid;                          // Node ID.
-    int interface_port;                 // Node interface port.
-    int server_port;                    // Node server port.
 } worker_param_t;
 
 // Thread workers control.

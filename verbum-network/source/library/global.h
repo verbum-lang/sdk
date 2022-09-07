@@ -24,7 +24,7 @@
 #include <pthread.h>
 
 // General configurations.
-#define CONNECTIONS_TIMEOUT1            3
+#define CONNECTIONS_TIMEOUT1            10
 #define LOCALHOST                       "127.0.0.1"
 #define SERVERS_MAX_CONNECTION          1000
 

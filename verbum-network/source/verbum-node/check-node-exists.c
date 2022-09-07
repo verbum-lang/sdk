@@ -1,15 +1,18 @@
 
 #include "check-node-exists.h"
 
-int check_node_exists (int sock, char *content, char *id, int interface_port)
+extern pthread_mutex_t  mutex_gconfig;
+extern node_config_t   *gconfig;
+
+int check_node_exists (int sock, char *content)
 {
     char tmp[1024], prefix  [] = "check-verbum-node-exists:";
     char response_error     [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char response_success_p [] = VERBUM_DEFAULT_SUCCESS;
-    char *ptr = NULL, *response_success = NULL;
-    int bytes = 0, status = 0, size = 0;
+    char *ptr = NULL, *response_success = NULL, *id = NULL;
+    int bytes = 0, status = 0, size = 0, interface_port = 0;
 
-    if (!sock || !content || !id || !interface_port)
+    if (!sock || !content)
         return 0;
 
     // Extract node ID.
@@ -22,8 +25,16 @@ int check_node_exists (int sock, char *content, char *id, int interface_port)
     memcpy(tmp, ptr, strlen(ptr));
 
     // Check node.
-    if (strcmp(id, tmp) == 0)
+    pthread_mutex_lock(&mutex_gconfig);
+
+    if (strcmp(gconfig->information.id, tmp) == 0) {
+        mem_scopy_goto(gconfig->information.id, id, cne_end_mt);
+        interface_port = gconfig->information.port;
         status = 1;
+    }
+
+    cne_end_mt:
+    pthread_mutex_unlock(&mutex_gconfig);
 
     cne_end:
 

@@ -5,7 +5,7 @@
 #include "global.h"
 #include "node-global.h"
 
-int add_node_on_node_mapper (void);
+int add_node_on_node_mapper ();
 
 #endif
 

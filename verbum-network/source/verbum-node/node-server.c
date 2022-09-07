@@ -1,27 +1,33 @@
 
 #include "node-server.h"
 
-static int              prepare_workers    (int port);
+static int              prepare_workers    (void);
 static thread_worker_t *worker_create_item (int wid);
 static int              worker_insert_item (thread_worker_t *new_worker);
 static void            *worker_handler     (void *tparam);
 
 static pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
 static thread_worker_t *workers       = NULL;
-       node_param_t    *ns_param;
+
+extern pthread_mutex_t  mutex_gconfig;
+extern node_config_t   *gconfig;
 
 void *node_server (void *tparam)
 {
-    say("node core interface started!");
+    say("node server interface started!");
 
-    ns_param = (node_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
     int ssock  = -1, nsock = -1;
     int status = -1, port  =  0;
     const int enable = 1;
     thread_worker_t *worker;
-        
+    
+    // Prepare mutex.
+    if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
+        say_ret(0, "mutex init failed - workers.");
+
+    // Prepare socket.
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_family = AF_INET;
@@ -29,33 +35,39 @@ void *node_server (void *tparam)
     if (setsockopt(ssock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
         say_ret(NULL, "setsockopt (SO_REUSEADDR) failed.");
 
-    // Search node server port.
+    // Search node interface port.
+    pthread_mutex_lock(&mutex_gconfig);
+
     while (1) {
         for (port=3333; port<65000; port++) {
-            if (port == ns_param->node_mapper_port)
+            if (port == gconfig->node_mapper_port)
                 continue;
 
             address.sin_port = htons(port);
             status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
-            if (status == 0)
+            if (status == 0) {
+                gconfig->information.port = port;
                 break;
+            }
         }
 
         if (status == -1)
-            say_ret(NULL, "error finding available port for node creation (server).");
+            say_ret(NULL, "error finding available port for node creation (interface).");
         else
             break;
     }
 
-    if (listen(ssock, ns_param->max_connections) != 0)
+    if (listen(ssock, gconfig->max_connections) != 0)
         say_ret(NULL, "error listen server.");
+
+    pthread_mutex_unlock(&mutex_gconfig);
 
     // Prepare workers and nodes list.
     workers = worker_create_item(0);
     if (!workers)
         say_ret(0, "error create worker item.");
 
-    if (!prepare_workers(port))
+    if (!prepare_workers())
         say_ret(NULL, "error prepare workers.");
 
     // Node core interface communication.
@@ -100,7 +112,7 @@ void *node_server (void *tparam)
     return NULL;
 }
 
-static int prepare_workers (int port)
+static int prepare_workers (void)
 {
     thread_worker_t *worker;
     int status = -1, size = 0, result = 1;
@@ -136,9 +148,8 @@ static int prepare_workers (int port)
             result = 0;
             break;
         }
-        
+
         param->wid = worker->wid;
-        param->server_port = port;
 
         status = pthread_create(&worker->tid, NULL, worker_handler, param);
 
@@ -195,10 +206,6 @@ static void *worker_handler (void *tparam)
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
-    int server_port = 0;
-    char *id = NULL;
-
-    server_port = param->server_port;
 
     while (1) {
 
@@ -236,9 +243,8 @@ static void *worker_handler (void *tparam)
         status = send_handshake(sock, 
             "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n");
 
-        // Process communication.
         if (status == 1) {
-            // ...
+            // Process server communication...
         }
 
         /**

@@ -3,8 +3,9 @@
 #define VERBUM_NODE_COMMUNICATION
 
 #include "global.h"
+#include "node-global.h"
 
-int process_communication (int sock, char *id, int interface_port);
+int process_communication (int sock);
 
 #endif
 

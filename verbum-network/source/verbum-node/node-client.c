@@ -3,7 +3,7 @@
 
 void *node_client (void *tparam)
 {
-    node_param_t *param = (node_param_t *) tparam;
+    
 }
 
 

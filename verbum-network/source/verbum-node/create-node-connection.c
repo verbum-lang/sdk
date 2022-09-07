@@ -1,26 +1,47 @@
 
 #include "create-node-connection.h"
 
+extern pthread_mutex_t  mutex_gconfig;
+extern node_config_t   *gconfig;
+
 /**
  * type:
  *  0 = OUTPUT
  *  1 = INPUT
  */
 
-int create_node_connection(int sock, char *content, int type, char *id)
+int create_node_connection(int sock, char *content, int type)
 {
     char response_error [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char tmp [1024];
+    char *id = NULL;
     
     char *src_node_id      = NULL;
     char *dst_node_id      = NULL;
     char *dst_nm_address   = NULL;
  
-    int result = 0, dst_nm_port = 0, brk = 0;
+    int result = 0, dst_nm_port = 0, brk = 0, size = 0;
     int bytes = 0, status = 0, src_node_interface_port = 0;
         
-    if (!sock || !content || !id)
+    if (!sock || !content)
         goto cnc_error;
+
+    // Copy node information.
+    pthread_mutex_lock(&mutex_gconfig);
+
+    size = sizeof(char) * (strlen(gconfig->information.id) + 1);
+    id = (char *) malloc(size);
+
+    if (!id) {
+        pthread_mutex_unlock(&mutex_gconfig);
+        bytes = send(sock, response_error, strlen(response_error), 0);
+        return 0;
+    }
+
+    memset(id, 0x0, size);
+    memcpy(id, gconfig->information.id, strlen(gconfig->information.id));
+    
+    pthread_mutex_unlock(&mutex_gconfig);
 
     // Extract request information
     memset(tmp, 0x0, 1024);

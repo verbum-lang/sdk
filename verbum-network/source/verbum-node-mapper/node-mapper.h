@@ -5,7 +5,7 @@
 #include "global.h"
 
 // Thread workers limit.
-#define NM_THREAD_LIMIT 50
+#define NM_THREAD_LIMIT 100
 
 // Thread param.
 typedef struct {

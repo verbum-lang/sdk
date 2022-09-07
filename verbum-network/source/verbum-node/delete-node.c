@@ -1,7 +1,10 @@
 
 #include "delete-node.h"
 
-int delete_node (int sock, char *content, char *id)
+extern pthread_mutex_t  mutex_gconfig;
+extern node_config_t   *gconfig;
+
+int delete_node (int sock, char *content)
 {
     char tmp[1024], prefix [] = "delete-verbum-node:";
     char response_success  [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
@@ -9,7 +12,7 @@ int delete_node (int sock, char *content, char *id)
     char *ptr = NULL;
     int bytes = 0, status = 0;
 
-    if (!sock || !content || !id)
+    if (!sock || !content)
         return 0;
 
     // Extract node ID.
@@ -22,8 +25,12 @@ int delete_node (int sock, char *content, char *id)
     memcpy(tmp, ptr, strlen(ptr));
 
     // Check node.
-    if (strcmp(id, tmp) == 0)
+    pthread_mutex_lock(&mutex_gconfig);
+
+    if (strcmp(gconfig->information.id, tmp) == 0)
         status = 1;
+
+    pthread_mutex_unlock(&mutex_gconfig);
 
     // Finish.
     dn_end:

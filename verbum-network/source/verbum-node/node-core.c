@@ -4,27 +4,36 @@
 #include "ping-node-mapper.h"
 #include "add-on-node-mapper.h"
 
-static int              prepare_workers    (char *id, int port);
+static int              prepare_workers    (void);
 static thread_worker_t *worker_create_item (int wid);
 static int              worker_insert_item (thread_worker_t *new_worker);
 static void            *worker_handler     (void *tparam);
 
 static pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
 static thread_worker_t *workers       = NULL;
-       node_param_t    *nc_param;
+
+extern pthread_mutex_t  mutex_gconfig;
+extern node_config_t   *gconfig;
 
 void *node_core (void *tparam)
 {
     say("node core interface started!");
 
-    nc_param = (node_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
     int ssock  = -1, nsock = -1;
     int status = -1, port  =  0;
+    int node_mapper_port = 0, max_connections = 100;
     const int enable = 1;
     thread_worker_t *worker;
-        
+    
+    // Prepare mutex.
+    if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
+        say_ret(0, "mutex init failed - workers.");
+
+    // Prepare socket.
+    create_con:
+
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_family = AF_INET;
@@ -33,29 +42,47 @@ void *node_core (void *tparam)
         say_ret(NULL, "setsockopt (SO_REUSEADDR) failed.");
 
     // Search node interface port.
+
+    pthread_mutex_lock(&mutex_gconfig);
+    node_mapper_port = gconfig->node_mapper_port;
+    max_connections  = gconfig->max_connections;
+    pthread_mutex_unlock(&mutex_gconfig);
+
     while (1) {
         for (port=3333; port<65000; port++) {
-            if (port == nc_param->node_mapper_port)
+            if (port == node_mapper_port)
                 continue;
 
             address.sin_port = htons(port);
             status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
-            if (status == 0)
+            if (status == 0) 
                 break;
         }
 
-        if (status == -1)
-            say_ret(NULL, "error finding available port for node creation (interface).");
-        else
+        if (status == -1) {
+            say("error finding available port for node creation (interface).");
+            break;
+        } else
             break;
     }
 
-    if (listen(ssock, nc_param->max_connections) != 0)
-        say_ret(NULL, "error listen server.");
+    if (status == -1) {
+        close(ssock);
+        goto create_con;
+    }
+
+    if (listen(ssock, max_connections) != 0) {
+        say("error listen server.");
+        close(ssock);
+        goto create_con;
+    }
+
+    // Save node interface port.
+    pthread_mutex_lock(&mutex_gconfig);
+    gconfig->information.port = port;
+    pthread_mutex_unlock(&mutex_gconfig);
 
     // Register node on Node Mapper, and active ping controller.
-    nc_param->information.port = port;
-
     if (!add_node_on_node_mapper())
         say_ret(NULL, "error adding node in Node Mapper.");
 
@@ -67,7 +94,7 @@ void *node_core (void *tparam)
     if (!workers)
         say_ret(0, "error create worker item.");
 
-    if (!prepare_workers(nc_param->information.id, port))
+    if (!prepare_workers())
         say_ret(NULL, "error prepare workers.");
 
     // Node core interface communication.
@@ -112,13 +139,10 @@ void *node_core (void *tparam)
     return NULL;
 }
 
-static int prepare_workers (char *id, int port)
+static int prepare_workers (void)
 {
     thread_worker_t *worker;
     int status = -1, size = 0, result = 1;
-
-    if (!id)
-        return 0;
 
     // Prepare items.
     for (int a=1; a<NC_THREAD_LIMIT; a++) {
@@ -151,21 +175,8 @@ static int prepare_workers (char *id, int port)
             result = 0;
             break;
         }
-        
-        size = sizeof(char) * (strlen(id) + 1);
-        param->nid = (char *) malloc(size);
-
-        if (!param->nid) {
-            say("error memory allocation.");
-            result = 0;
-            break;
-        }
-
-        memset(param->nid, 0x0, size);
-        memcpy(param->nid, id, strlen(id));
 
         param->wid = worker->wid;
-        param->interface_port = port;
 
         status = pthread_create(&worker->tid, NULL, worker_handler, param);
 
@@ -222,11 +233,6 @@ static void *worker_handler (void *tparam)
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
-    int interface_port = 0;
-    char *id = NULL;
-
-    interface_port = param->interface_port;
-    mem_scopy_ret(param->nid, id, NULL);
 
     while (1) {
 
@@ -265,7 +271,7 @@ static void *worker_handler (void *tparam)
             "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n");
 
         if (status == 1)
-            process_communication(sock, id, interface_port);
+            process_communication(sock);
 
         /**
          * Finish.
