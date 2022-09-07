@@ -8,6 +8,7 @@
 // Thread workers limit.
 #define NC_THREAD_LIMIT 10
 
+// Global configurations.
 typedef struct {
 
     // General information.
@@ -23,12 +24,11 @@ typedef struct {
     } information;
 } node_config_t;
 
-// Thread param.
+// Worker types.
 typedef struct {
     int wid;                            // Worker ID.
 } worker_param_t;
 
-// Thread workers control.
 typedef struct thread_worker_st {
     pthread_t tid;                      // Thread ID.
     int wid;                            // Worker ID.
@@ -39,6 +39,12 @@ typedef struct thread_worker_st {
     int sock;                           // Current client socket.
     struct thread_worker_st *next;      // Next node pointer.
 } thread_worker_t;
+
+// Connections types.
+typedef struct node_connection_st {
+    int id;                             // Connection ID.
+    struct node_connection_st *next;    // Next node pointer.
+} node_connection_t;
 
 #endif
 

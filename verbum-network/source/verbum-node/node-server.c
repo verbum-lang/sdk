@@ -29,7 +29,7 @@ void *node_server (void *tparam)
     
     // Prepare mutex.
     if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
-        say_ret(0, "mutex init failed - workers.");
+        say_ret(NULL, "mutex init failed - workers.");
 
     // Prepare socket.
     create_con:

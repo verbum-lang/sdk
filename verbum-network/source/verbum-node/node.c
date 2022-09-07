@@ -1,6 +1,7 @@
 
 #include "node.h"
 #include "monitor-processes.h"
+#include "node-connection.h"
 #include "node-core.h"
 #include "node-server.h"
 #include "node-client.h"
@@ -27,12 +28,17 @@ int verbum_node (void)
         return 0; 
     
     /**
-     * Node API interface.
+     * Node connections controller.
+     */
+    create_thread_controller(node_connection);
+
+    /**
+     * Node Core interface.
      */
     create_thread_controller(node_core);
 
     /**
-     * Node server connections control.
+     * Node Server interface.
      */
     create_thread_controller(node_server);
 
