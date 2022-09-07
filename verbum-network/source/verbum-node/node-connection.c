@@ -2,6 +2,9 @@
 #include "node-connection.h"
 #include "generate-connection-id.h"
 
+static void *connection_ping_controller    (void *tparam);
+static int   ping_controller_communication (char *dst_node_id, char *dst_nm_address, int dst_nm_port);
+
 node_connection_t *connections;
 pthread_mutex_t    mutex_connections = PTHREAD_MUTEX_INITIALIZER;
 
@@ -35,7 +38,7 @@ void *node_connection (void *tparam)
             if (connection->status == 1) {
                 connection->status = 2;
                 
-                // Check data exists.
+                // Check data exists and enable ping controller.
                 if (connection->dst_node_id     && 
                     connection->dst_nm_address  &&
                     connection->dst_nm_port)
@@ -106,16 +109,23 @@ int connection_insert_item (node_connection_t *new_connection)
     return 1;
 }
 
-void *connection_ping_controller (void *tparam)
+static void *connection_ping_controller (void *tparam)
 {
     node_connection_param_t *param = (node_connection_param_t *) tparam;
     node_connection_t *connection;
-    char *connection_id = NULL;
+
+    char *connection_id  = NULL;
+    char *dst_node_id    = NULL;
+    char *dst_nm_address = NULL;
+    int   dst_nm_port    = 0;
+
+    int status = 0;
 
     mem_scopy_ret(param->cid, connection_id, NULL);
 
     while (1) {
         pthread_mutex_lock(&mutex_connections);
+        status = 0;
 
         for (connection=connections; connection != NULL; connection=connection->next) {
             if (connection->status != 2)
@@ -128,17 +138,67 @@ void *connection_ping_controller (void *tparam)
                 // Data exists - process connection.
                 if (connection->connection_status == 1) {
                     
-                }
+                    // Copy data.
+                    mem_scopy_goto(connection->dst_node_id, dst_node_id, cpc_mt_end);
+                    mem_scopy_goto(connection->dst_nm_address, dst_nm_address, cpc_mt_end);
+                    dst_nm_port = connection->dst_nm_port;
 
-                break;
+                    status = 1;
+                    break;
+                }
             }
         }
 
+        cpc_mt_end:
+
+        if (status != 1) {
+            mem_sfree(dst_node_id);
+            mem_sfree(dst_nm_address);
+        }
+
         pthread_mutex_unlock(&mutex_connections);
-        usleep(VERBUM_CONNECTION_PING_SEC_DELAY);
+
+        if (status != 1) {
+            sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
+            continue;
+        }
+
+        if (!dst_node_id || !dst_nm_address || !dst_nm_port) {
+            mem_sfree(dst_node_id);
+            mem_sfree(dst_nm_address);
+            sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
+            continue;
+        }
+
+        /**
+         * Process action.
+         */
+
+        status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port);
+
+        mem_sfree(dst_node_id);
+        mem_sfree(dst_nm_address);
+        sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
     }
 
     return NULL;
+}
+
+static int ping_controller_communication (char *dst_node_id, char *dst_nm_address, int dst_nm_port)
+{
+
+
+    if (!dst_node_id || !dst_nm_address || !dst_nm_port)
+        return 0;
+
+    say("> ping handler...");
+    say("> dst node id: %s", dst_node_id);
+    say("> dst nm address: %s", dst_nm_address);
+    say("> dst nm port: %d", dst_nm_port);
+
+
+
+    return 1;
 }
 
 

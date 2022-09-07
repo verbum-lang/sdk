@@ -7,7 +7,7 @@
 // Verbum node interfaces handshake.
 #define VERBUM_NODE_HANDSHAKE "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n"
 
-// Thread workers limit.
+// Thread workers limit (Node Core, Node Server).
 #define NC_THREAD_LIMIT 10
 
 // Global configurations.

@@ -38,7 +38,6 @@ typedef struct node_connection_st {
 void              *node_connection            (void *tparam);
 node_connection_t *connection_create_item     (void);
 int                connection_insert_item     (node_connection_t *new_connection);
-void              *connection_ping_controller (void *tparam)
 
 #endif
 
