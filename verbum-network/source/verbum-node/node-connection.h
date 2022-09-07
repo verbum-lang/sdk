@@ -23,17 +23,17 @@ typedef struct node_connection_st {
     int type;                           // Type:
                                         //  0 = output.
                                         //  1 = input.
-    char *src_node_id;                  // Source node ID.
-    char *dst_node_id;                  // Destination node ID.
+    char *dst_node_id;                  // Destination / target node ID.
     char *dst_nm_id;                    // Destination Node Mapper ID. 
     char *dst_nm_address;               // Destination Node Mapper address (IP).
-    char *dst_nm_port;                  // Destination Node Mapper interface port.
+    int   dst_nm_port;                  // Destination Node Mapper interface port.
 
     struct node_connection_st *next;    // Next node pointer.
 } node_connection_t;
 
 void              *node_connection        (void *tparam);
 node_connection_t *connection_create_item (void);
+int                connection_insert_item (node_connection_t *new_connection);
 
 #endif
 

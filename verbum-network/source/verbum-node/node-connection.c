@@ -7,6 +7,8 @@ pthread_mutex_t    mutex_connections = PTHREAD_MUTEX_INITIALIZER;
 
 void *node_connection (void *tparam)
 {
+    node_connection_t * connection;
+
     say("Node connection started!");
 
     /**
@@ -25,8 +27,19 @@ void *node_connection (void *tparam)
      */
 
     while (1) {
+        pthread_mutex_lock(&mutex_connections);
 
+        for (connection=connections; connection != NULL; connection=connection->next) {
+            if (connection->status == 1) {
+                connection->status = 2;
 
+                // ...
+
+                connection-> connection_status = 1;
+            }
+        }
+
+        pthread_mutex_unlock(&mutex_connections);
         usleep(1000);
     }
 
@@ -43,15 +56,33 @@ node_connection_t *connection_create_item (void)
     connection->connection_status   = 0;
     connection->type                = -1;
 
-    connection->src_node_id         = NULL;
     connection->dst_node_id         = NULL;
     connection->dst_nm_id           = NULL;
     connection->dst_nm_address      = NULL;
-    connection->dst_nm_port         = NULL;
+    connection->dst_nm_port         = 0;
 
     connection->next                = NULL;
 
     return connection;
 }
 
+int connection_insert_item (node_connection_t *new_connection)
+{
+    if (!new_connection)
+        return 0;
 
+    pthread_mutex_lock(&mutex_connections);
+    node_connection_t *connection = connections;
+
+    while (1) {
+        if (!connection->next) {
+            connection->next = new_connection;
+            break;
+        }
+
+        connection = connection->next;
+    }
+
+    pthread_mutex_unlock(&mutex_connections);
+    return 1;
+}

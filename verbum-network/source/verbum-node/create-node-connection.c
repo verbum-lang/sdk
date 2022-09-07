@@ -130,41 +130,74 @@ int create_node_connection(int sock, char *content, int type)
     return 0;
 }
 
-int create_node_output_connection (int sock, char *dst_node_id, char *dst_nm_address, int dst_nm_port)
+int create_node_output_connection (
+    int sock, char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
-    char response_success [] = VERBUM_DEFAULT_SUCCESS "-data-received-333-" VERBUM_EOH;
-    node_connection_t *connection = connection_create_item();
+    node_connection_t *nconnection = connection_create_item();
+    node_connection_t *connection;
+    char response_success [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    char *current_id = NULL;
+    int status = 0;
 
     if (!sock || !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
 
-    // Send request to connection controller.
-    say("> id: %s", connection->id);
+    if (!nconnection)
+        return 0;
 
-    // thread_worker_t *worker = workers;
+    // Copy connection ID to use.
+    mem_scopy_ret(nconnection->id, current_id, 0);
 
-    // while (1) {
-    //     if (!worker->next) {
-    //         worker->next = new_worker;
-    //         break;
-    //     }
+    // Enable connection manager flag.
+    nconnection->status            = 1;
+    nconnection->connection_status = 0;
 
-    //     worker = worker->next;
-    // }
+    // Prepare informations.
+    nconnection->type              = 0;
+    nconnection->dst_nm_port       = dst_nm_port;
 
+    mem_scopy_ret(dst_node_id, nconnection->dst_node_id, 0);
+    mem_scopy_ret(dst_nm_address, nconnection->dst_nm_address, 0);
 
-    // while (1) {
-    //     pthread_mutex_lock(&mutex_connections);
+    // Insert connection in controller.
+    if (!connection_insert_item(nconnection))
+        say_ret(0, "error insert connection item.");
+    
+    // Wait response.
+    while (1) {
+        pthread_mutex_lock(&mutex_connections);
 
-    //     for (connection=connections; connection != NULL; connection=connection->next) {
+        for (connection=connections; connection != NULL; connection=connection->next) {
+            if (connection->status != 2)
+                continue;
+            if (!connection->id)
+                continue;
+            
+            if (strcmp(connection->id, current_id) == 0) {
+                if (connection->connection_status == 1 ||
+                    connection->connection_status == 2  )
+                {
+                    status = connection->connection_status;
+                    break;
+                }
+            }
+        }
 
-    //     }
+        pthread_mutex_unlock(&mutex_connections);
 
-    //     pthread_mutex_unlock(&mutex_connections);
-    //     usleep(1000);
-    // }
+        if (status != 0)
+            break;
+            
+        usleep(1000);
+    }
+
+    // Error.
+    if (status == 2)
+        return 0;
 
     send(sock, response_success, strlen(response_success), 0);
+    mem_sfree(current_id);
+
     return 1;
 }
 
