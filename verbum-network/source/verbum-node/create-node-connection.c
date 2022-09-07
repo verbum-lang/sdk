@@ -1,5 +1,6 @@
 
 #include "create-node-connection.h"
+#include "node-connection.h"
 
 extern pthread_mutex_t    mutex_gconfig;
 extern node_config_t     *gconfig;
@@ -132,22 +133,36 @@ int create_node_connection(int sock, char *content, int type)
 int create_node_output_connection (int sock, char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
     char response_success [] = VERBUM_DEFAULT_SUCCESS "-data-received-333-" VERBUM_EOH;
-    node_connection_t *connection;
+    node_connection_t *connection = connection_create_item();
 
     if (!sock || !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
 
     // Send request to connection controller.
-    while (1) {
-        pthread_mutex_lock(&mutex_connections);
+    say("> id: %s", connection->id);
 
-        for (connection=connections; connection != NULL; connection=connection->next) {
-            
-        }
+    // thread_worker_t *worker = workers;
 
-        pthread_mutex_unlock(&mutex_connections);
-        usleep(1000);
-    }
+    // while (1) {
+    //     if (!worker->next) {
+    //         worker->next = new_worker;
+    //         break;
+    //     }
+
+    //     worker = worker->next;
+    // }
+
+
+    // while (1) {
+    //     pthread_mutex_lock(&mutex_connections);
+
+    //     for (connection=connections; connection != NULL; connection=connection->next) {
+
+    //     }
+
+    //     pthread_mutex_unlock(&mutex_connections);
+    //     usleep(1000);
+    // }
 
     send(sock, response_success, strlen(response_success), 0);
     return 1;

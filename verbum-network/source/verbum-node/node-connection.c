@@ -1,7 +1,6 @@
 
 #include "node-connection.h"
-
-static node_connection_t *connection_create_item (int cid);
+#include "generate-connection-id.h"
 
 node_connection_t *connections;
 pthread_mutex_t    mutex_connections = PTHREAD_MUTEX_INITIALIZER;
@@ -19,14 +18,14 @@ void *node_connection (void *tparam)
         say_ret(NULL, "mutex init failed - connections.");
     
     // Initialize connections struct.
-    connections = connection_create_item(0);
+    connections = connection_create_item();
 
     /**
      * Interface control.
      */
 
     while (1) {
-        
+
 
         usleep(1000);
     }
@@ -34,12 +33,12 @@ void *node_connection (void *tparam)
     return NULL;
 }
 
-static node_connection_t *connection_create_item (int cid)
+node_connection_t *connection_create_item (void)
 {
     node_connection_t * connection;
     mem_alloc_ret(connection, sizeof(node_connection_t), node_connection_t *, NULL);
 
-    connection->id                  = cid;
+    connection->id                  = NULL;
     connection->status              = 0;
     connection->connection_status   = 0;
     connection->type                = -1;
