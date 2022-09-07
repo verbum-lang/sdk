@@ -270,7 +270,7 @@ static void *worker_handler (void *tparam)
         status = send_handshake(sock, VERBUM_NODE_HANDSHAKE);
 
         if (status == 1)
-            process_communication(sock);
+            process_communication(sock, 0);
 
         /**
          * Finish.

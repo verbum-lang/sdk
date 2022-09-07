@@ -4,7 +4,30 @@
 #include "check-node-exists.h"
 #include "create-node-connection.h"
 
-int process_communication (int sock)
+static int process_communication_core   (int sock);
+static int process_communication_server (int sock);
+
+int process_communication (int sock, int sector)
+{
+    int result = 0;
+
+    switch (sector) {
+
+        // Node Core interface.
+        case 0:
+            result = process_communication_core(sock);
+            break;
+
+        // Node Server connections interface.
+        case 1:
+            result = process_communication_server(sock);
+            break;
+    }
+
+    return result;
+}
+
+static int process_communication_core (int sock)
 {
     char *response = NULL;
 
@@ -33,6 +56,24 @@ int process_communication (int sock)
      */
     else if (strstr(response, "create-verbum-node-output-connection:"))
         create_node_connection(sock, response, 0);
+
+    mem_sfree(response);
+    return 1;
+}
+
+static int process_communication_server (int sock)
+{
+    char *response = NULL;
+
+    if (!sock)
+        return 0;
+
+    // Node protocol communication.
+    response = get_recv_content(sock);
+    if (!response)
+        return 0;
+
+    // ...
 
     mem_sfree(response);
     return 1;

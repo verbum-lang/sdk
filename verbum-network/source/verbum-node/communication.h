@@ -5,7 +5,7 @@
 #include "global.h"
 #include "node-global.h"
 
-int process_communication (int sock);
+int process_communication (int sock, int sector);
 
 #endif
 
