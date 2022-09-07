@@ -1,5 +1,8 @@
 
 #include "node-server.h"
+#include "communication.h"
+#include "ping-node-mapper.h"
+#include "add-on-node-mapper.h"
 
 static int              prepare_workers    (void);
 static thread_worker_t *worker_create_item (int wid);
@@ -20,6 +23,7 @@ void *node_server (void *tparam)
     socklen_t address_size;
     int ssock  = -1, nsock = -1;
     int status = -1, port  =  0;
+    int node_mapper_port = 0, max_connections = 100;
     const int enable = 1;
     thread_worker_t *worker;
     
@@ -28,6 +32,8 @@ void *node_server (void *tparam)
         say_ret(0, "mutex init failed - workers.");
 
     // Prepare socket.
+    create_con:
+
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_family = AF_INET;
@@ -36,30 +42,44 @@ void *node_server (void *tparam)
         say_ret(NULL, "setsockopt (SO_REUSEADDR) failed.");
 
     // Search node interface port.
+
     pthread_mutex_lock(&mutex_gconfig);
+    node_mapper_port = gconfig->node_mapper_port;
+    max_connections  = gconfig->max_connections;
+    pthread_mutex_unlock(&mutex_gconfig);
 
     while (1) {
         for (port=3333; port<65000; port++) {
-            if (port == gconfig->node_mapper_port)
+            if (port == node_mapper_port)
                 continue;
 
             address.sin_port = htons(port);
             status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
-            if (status == 0) {
-                gconfig->information.port = port;
+            if (status == 0) 
                 break;
-            }
         }
 
-        if (status == -1)
-            say_ret(NULL, "error finding available port for node creation (interface).");
-        else
+        if (status == -1) {
+            say("error finding available port for node creation (interface).");
+            break;
+        } else
             break;
     }
 
-    if (listen(ssock, gconfig->max_connections) != 0)
-        say_ret(NULL, "error listen server.");
+    if (status == -1) {
+        close(ssock);
+        goto create_con;
+    }
 
+    if (listen(ssock, max_connections) != 0) {
+        say("error listen server.");
+        close(ssock);
+        goto create_con;
+    }
+
+    // Save node server interface port.
+    pthread_mutex_lock(&mutex_gconfig);
+    gconfig->information.server_port = port;
     pthread_mutex_unlock(&mutex_gconfig);
 
     // Prepare workers and nodes list.
@@ -240,12 +260,10 @@ static void *worker_handler (void *tparam)
          * Process actions.
          */
 
-        status = send_handshake(sock, 
-            "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n");
+        status = send_handshake(sock, VERBUM_NODE_HANDSHAKE);
 
-        if (status == 1) {
-            // Process server communication...
-        }
+        // if (status == 1)
+            // process_communication(sock);
 
         /**
          * Finish.

@@ -13,7 +13,7 @@ int add_node_on_node_mapper (void)
 
     pthread_mutex_lock(&mutex_gconfig);
     node_mapper_port = gconfig->node_mapper_port;
-    interface_port   = gconfig->information.port;
+    interface_port   = gconfig->information.core_port;
     pthread_mutex_unlock(&mutex_gconfig);
 
     while (1) {

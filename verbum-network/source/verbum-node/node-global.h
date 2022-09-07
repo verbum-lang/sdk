@@ -2,6 +2,9 @@
 #ifndef VERBUM_NODE_GLOBAL
 #define VERBUM_NODE_GLOBAL
 
+// Verbum node interfaces handshake.
+#define VERBUM_NODE_HANDSHAKE "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n"
+
 // Thread workers limit.
 #define NC_THREAD_LIMIT 10
 
@@ -15,7 +18,8 @@ typedef struct {
     // Node information.
     struct {
         char *id;                       // Node ID.
-        int port;                       // Node interface port.
+        int core_port;                  // Node Core interface port.
+        int server_port;                // Node server connection interface port.
     } information;
 } node_config_t;
 

@@ -29,7 +29,7 @@ int check_node_exists (int sock, char *content)
 
     if (strcmp(gconfig->information.id, tmp) == 0) {
         mem_scopy_goto(gconfig->information.id, id, cne_end_mt);
-        interface_port = gconfig->information.port;
+        interface_port = gconfig->information.core_port;
         status = 1;
     }
 

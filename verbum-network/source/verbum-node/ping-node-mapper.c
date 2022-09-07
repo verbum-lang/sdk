@@ -26,11 +26,11 @@ void *ping_node_handler (void *tparam)
 
     say("node ping controller:");
     say("node id: %s", gconfig->information.id);
-    say("node port (interface): %d", gconfig->information.port);
+    say("node port (interface): %d", gconfig->information.core_port);
 
     // Ports.
     node_mapper_port = gconfig->node_mapper_port;
-    interface_port   = gconfig->information.port;
+    interface_port   = gconfig->information.core_port;
 
     // Node ID.
     size = sizeof(char) * (strlen(gconfig->information.id) + 1);

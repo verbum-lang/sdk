@@ -79,7 +79,7 @@ void *node_core (void *tparam)
 
     // Save node interface port.
     pthread_mutex_lock(&mutex_gconfig);
-    gconfig->information.port = port;
+    gconfig->information.core_port = port;
     pthread_mutex_unlock(&mutex_gconfig);
 
     // Register node on Node Mapper, and active ping controller.
@@ -267,8 +267,7 @@ static void *worker_handler (void *tparam)
          * Process actions.
          */
 
-        status = send_handshake(sock, 
-            "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n");
+        status = send_handshake(sock, VERBUM_NODE_HANDSHAKE);
 
         if (status == 1)
             process_communication(sock);
