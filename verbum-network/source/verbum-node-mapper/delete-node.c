@@ -42,7 +42,7 @@ int delete_node (int sock, char *content)
             
             // Send request to node.
             while (1) {
-                char *response = process_delete_node(address, node->port, node->id);
+                char *response = process_delete_node(address, node->core_port, node->id);
                 if (response) {
                     if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
                         mem_sfree(response);

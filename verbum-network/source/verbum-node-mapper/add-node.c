@@ -34,7 +34,7 @@ int add_new_node (int sock, char *content)
     memset(port, 0x0, 256);
     memcpy(port, ptr, strlen(ptr));
 
-    node->port = atoi(port);
+    node->core_port = atoi(port);
 
     // Generate ID.
     id = generate_new_id();

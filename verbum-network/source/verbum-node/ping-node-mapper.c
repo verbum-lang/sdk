@@ -20,17 +20,21 @@ void *ping_node_handler (void *tparam)
 {
     char address [] = LOCALHOST;
     char *id = NULL;
-    int node_mapper_port = 0, interface_port = 0, size = 0;
+    int node_mapper_port = 0, size = 0;
+    int core_port = 0, server_port = 0;
     
+    wait_config:
     pthread_mutex_lock(&mutex_gconfig);
 
     say("node ping controller:");
     say("node id: %s", gconfig->information.id);
     say("node port (interface): %d", gconfig->information.core_port);
+    say("node port (server): %d", gconfig->information.core_port);
 
     // Ports.
     node_mapper_port = gconfig->node_mapper_port;
-    interface_port   = gconfig->information.core_port;
+    core_port        = gconfig->information.core_port;
+    server_port      = gconfig->information.server_port;
 
     // Node ID.
     size = sizeof(char) * (strlen(gconfig->information.id) + 1);
@@ -47,9 +51,12 @@ void *ping_node_handler (void *tparam)
 
     pthread_mutex_unlock(&mutex_gconfig);
 
+    if (!node_mapper_port || !core_port || !server_port)
+        goto wait_config;
+
     while (1) {
         char *response = 
-            process_ping_node(address, node_mapper_port, id, interface_port);
+            process_ping_node(address, node_mapper_port, id, core_port, server_port);
         
         if (response) {
             #ifdef NCDBG_PING

@@ -41,7 +41,7 @@ int check_node_exists (int sock, char *content)
             
             // Send message to node.
             while (1) {
-                char *response = process_check_node_exists(address, node->port, node->id);
+                char *response = process_check_node_exists(address, node->core_port, node->id);
                 if (response) {
                     if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
                         

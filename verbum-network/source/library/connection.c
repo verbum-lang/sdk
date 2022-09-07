@@ -314,14 +314,15 @@ char *process_generate_node_id (char *address, int nm_port, int node_port)
     return response;
 }
 
-char *process_ping_node (char *address, int nm_port, char *node_id, int node_port) 
+char *process_ping_node (
+    char *address, int nm_port, char *node_id, int core_port, int server_port) 
 {
     char prefix     [] = "ping-verbum-node:";
     char end_header [] = VERBUM_EOH;
     char *message      = NULL, *response = NULL;
     int size           = 0, sock = -1;
 
-    if (!address || !nm_port || !node_id || !node_port)
+    if (!address || !nm_port || !node_id || !core_port || !server_port)
         return NULL;
 
     while (1) {
@@ -335,7 +336,8 @@ char *process_ping_node (char *address, int nm_port, char *node_id, int node_por
     size = sizeof(char) * (strlen(prefix) + strlen(node_id) + 1024);
     mem_alloc_ret(message, size, char *, NULL);
     
-    sprintf(message, "%s%s:%d%s", prefix, node_id, node_port, end_header);
+    sprintf(message, "%s%s:%d:%d:%s", 
+        prefix, node_id, core_port, server_port, end_header);
     response = send_raw_data(sock, message);
 
     if (!response) {

@@ -20,7 +20,7 @@ char *get_recv_content                      (int sock);
 int   send_handshake                        (int sock, char *handshake);
 char *send_raw_data                         (int sock, char *message);
 char *process_generate_node_id              (char *address, int nm_port, int node_port);
-char *process_ping_node                     (char *address, int nm_port, char *node_id, int node_port);
+char *process_ping_node                     (char *address, int nm_port, char *node_id, int core_port, int server_port);
 char *process_delete_node                   (char *address, int node_port, char *node_id);
 char *process_check_node_exists             (char *address, int node_port, char *node_id);
 char *process_create_node_output_connection (char *src_node_address, 

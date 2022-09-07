@@ -34,12 +34,12 @@ int verbum_node (void)
     /**
      * Node server connections control.
      */
-    // create_thread_controller(node_server);
+    create_thread_controller(node_server);
 
     /**
      * Node client connections control.
      */
-    // create_thread_controller(node_client);
+    create_thread_controller(node_client);
 
     return 1;
 }

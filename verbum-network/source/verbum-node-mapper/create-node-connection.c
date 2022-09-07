@@ -103,7 +103,7 @@ int create_node_connection(int sock, char *content, int type)
 
         if (strcmp(node->id, src_node_id) == 0) {
             status = 1;
-            src_node_interface_port = node->port;
+            src_node_interface_port = node->core_port;
             break;
         }
     }
