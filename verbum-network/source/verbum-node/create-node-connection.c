@@ -1,8 +1,11 @@
 
 #include "create-node-connection.h"
 
-extern pthread_mutex_t  mutex_gconfig;
-extern node_config_t   *gconfig;
+extern pthread_mutex_t    mutex_gconfig;
+extern node_config_t     *gconfig;
+
+extern node_connection_t *connections;
+extern pthread_mutex_t    mutex_connections;
 
 /**
  * type:
