@@ -121,7 +121,7 @@ int get_node_list (int sock)
     pthread_mutex_unlock(&mutex_connections);
     pthread_mutex_unlock(&mutex_nodes);
 
-    if (!status) {
+    if (!status || !size) {
         size = 256;
         mem_salloc_ret(message, size, 0);
         sprintf(message, "nodes not found.\n");
