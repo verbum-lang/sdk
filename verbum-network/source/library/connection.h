@@ -27,7 +27,6 @@ char *process_create_node_output_connection (char *src_node_address,
                                              char *src_node_id, int src_node_interface_port, 
                                              char *dst_node_id, char *dst_nm_address, int dst_nm_port);
 char *process_connection_ping               (char *address, int node_port, char *node_id);
-char *process_delete_connection_node_mapper (char *address, int nm_port, char *connection_id);
 char *process_ping_connections              (char *address, int nm_port, char *connections_list);
 
 #endif

@@ -24,13 +24,10 @@ typedef struct node_connection_st {
                                         //  0 = Innactive.
                                         //  1 = Active.
 
-    int first_request_ok;               // Check first request ok.
-                                        //  0 = Not.
-                                        //  1 = Yes.
-
-    int enable_delete_item;             // Enable item deletion.
-                                        //  0 = Innactive.
-                                        //  1 = Active.
+    int connection_error;               // Error control.
+                                        //  0 = No errors.
+                                        //  1 = Error found.
+    int connection_error_count;         // Total erros.
 
     pthread_t tid_ping_controller;      // Thread handle - Ping controller.
     struct node_connection_st *next;    // Next node pointer.

@@ -187,7 +187,6 @@ int create_node_output_connection (
                     #endif
 
                     status = connection->connection_status;
-                    connection->first_request_ok = 1;
                     break;
                 }
             }
@@ -205,9 +204,10 @@ int create_node_output_connection (
     if (status == 3) 
         return 0;
 
+    // Success.
     send(sock, response_success, strlen(response_success), 0);
     mem_sfree(current_id);
-
+    
     return 1;
 }
 

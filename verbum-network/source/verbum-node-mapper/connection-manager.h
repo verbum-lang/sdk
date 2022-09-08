@@ -4,8 +4,8 @@
 
 #include "global.h"
 
-int check_connections_request (char *response);
-int update_connections        (int sock, char *content);
+int check_connections_request       (char *response);
+int update_connections              (int sock, char *content);
 
 #endif
 

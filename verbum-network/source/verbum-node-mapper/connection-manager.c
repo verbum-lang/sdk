@@ -145,6 +145,15 @@ static int process_connection_item (char *connection)
                     memset(ncon->last_connect_date, 0x0, 100);
                     memcpy(ncon->last_connect_date, value, strlen(value));
                 }
+
+                // Connection error.
+                else if (strcmp(name, "error") == 0) 
+                    ncon->connection_error = atoi(value);
+
+                // Connection error count.
+                else if (strcmp(name, "error-count") == 0) 
+                    ncon->connection_error_count = atoi(value);
+
             }
 
             if (connection[a] == '\0')
@@ -158,7 +167,7 @@ static int process_connection_item (char *connection)
             tmp[b++] = connection[a];
     }
 
-    #ifdef NMDBG
+    // #ifdef NMDBG
         say("item: \"%s\"", ncon->id);
         say("item: \"%d\"", ncon->type);
         say("item: \"%s\"", ncon->src_node_id);
@@ -167,7 +176,9 @@ static int process_connection_item (char *connection)
         say("item: \"%s\"", ncon->dst_nm_address);
         say("item: \"%d\"", ncon->dst_nm_port);
         say("item: \"%s\"", ncon->last_connect_date);
-    #endif
+        say("item: \"%d\"", ncon->connection_error);
+        say("item: \"%d\"", ncon->connection_error_count);
+    // #endif
 
     ncon->status = 1;
     pthread_mutex_lock(&mutex_connections);

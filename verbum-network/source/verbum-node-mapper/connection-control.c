@@ -9,14 +9,16 @@ node_connection_t *connection_create_item (void)
     node_connection_t *connection;
     mem_alloc_ret(connection, sizeof(node_connection_t), node_connection_t *, NULL);
 
-    connection->status          = 0;
-    connection->id              = NULL;
-    connection->type            = -1;
-    connection->dst_node_id     = NULL;
-    connection->dst_nm_id       = NULL;
-    connection->dst_nm_address  = NULL;
-    connection->dst_nm_port     = -1; 
-    connection->next            = NULL;
+    connection->status                  = 0;
+    connection->id                      = NULL;
+    connection->type                    = -1;
+    connection->dst_node_id             = NULL;
+    connection->dst_nm_id               = NULL;
+    connection->dst_nm_address          = NULL;
+    connection->dst_nm_port             = -1; 
+    connection->next                    = NULL;
+    connection->connection_error        = 0;
+    connection->connection_error_count  = 0;
     memset(connection->last_connect_date, 0x0, 100);
 
     return connection;

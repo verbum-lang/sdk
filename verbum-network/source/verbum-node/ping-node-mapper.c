@@ -86,8 +86,6 @@ void *ping_node_handler (void *tparam)
                     continue;
                 if (!connection->id)
                     continue;
-                if (connection->enable_delete_item == 1)
-                    continue;
 
                 // Prepare current data.
                 if (id)                             size += strlen(id);
@@ -110,6 +108,8 @@ void *ping_node_handler (void *tparam)
                         "dst-nm-addr:%s\n"
                         "dst-nm-port:%d\n"
                         "last-date:%s\n"
+                        "error:%d\n"
+                        "error-count:%d\n"
                         "\n", 
                         
                         connection->type,
@@ -119,7 +119,9 @@ void *ping_node_handler (void *tparam)
                         connection->dst_nm_id         ? connection->dst_nm_id         : default_value,
                         connection->dst_nm_address    ? connection->dst_nm_address    : default_value,
                         connection->dst_nm_port,
-                        connection->last_connect_date ? connection->last_connect_date : default_value
+                        connection->last_connect_date ? connection->last_connect_date : default_value,
+                        connection->connection_error,
+                        connection->connection_error_count
                     );
 
                     // Append data to full header data.
