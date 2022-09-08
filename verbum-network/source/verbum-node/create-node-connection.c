@@ -99,7 +99,7 @@ int create_node_connection(int sock, char *content, int type)
         !dst_nm_address || !dst_nm_port  )
         goto cnc_error;
 
-    #ifdef NCDBG
+    #ifdef NCDBG_CON
         say("src_node_id....: \"%s\"", src_node_id);
         say("dst_node_id....: \"%s\"", dst_node_id);
         say("dst_nm_address.: \"%s\"", dst_nm_address);
@@ -163,6 +163,10 @@ int create_node_output_connection (
     if (!connection_insert_item(nconnection))
         say_ret(0, "error insert connection item.");
     
+    #ifdef NCDBG_CON
+        say("start connection process.");
+    #endif
+
     // Wait response.
     while (1) {
         pthread_mutex_lock(&mutex_connections);
@@ -177,6 +181,11 @@ int create_node_output_connection (
                 if (connection->connection_status == 2 ||
                     connection->connection_status == 3  )
                 {
+                    #ifdef NCDBG_CON
+                        say("end connection control, status: %d", 
+                                connection->connection_status);
+                    #endif
+
                     status = connection->connection_status;
 
                     // Error.
@@ -196,8 +205,17 @@ int create_node_output_connection (
     }
 
     // Error.
-    if (status == 3)
+    if (status == 3) {
+        #ifdef NCDBG_CON
+            say("connection error.");
+        #endif
+
         return 0;
+    }
+
+    #ifdef NCDBG_CON
+        say("connection success.");
+    #endif
 
     send(sock, response_success, strlen(response_success), 0);
     mem_sfree(current_id);

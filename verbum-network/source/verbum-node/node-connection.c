@@ -12,7 +12,9 @@ void *node_connection (void *tparam)
 {
     node_connection_t * connection;
 
-    say("Node connection started!");
+    #ifdef NCDBG_CON
+        say("Node connection started!");
+    #endif
 
     /**
      * Initialization.
@@ -41,16 +43,23 @@ void *node_connection (void *tparam)
                 // Check data exists and enable ping controller.
                 if (connection->dst_node_id     && 
                     connection->dst_nm_address  &&
-                    connection->dst_nm_port)
+                    connection->dst_nm_port) {
+
+                    #ifdef NCDBG_CON
+                        say("data exists, enable connection_status flag.");
+                    #endif
+
                     connection->connection_status = 1;
+                }
             }
 
             // Delete item.
             else if (connection->enable_delete_item == 1) {
                 connection->enable_delete_item = 2;
 
-                // ...
-                say("delete item.");
+                #ifdef NCDBG_CON
+                    say("delete item.");
+                #endif
             }
         }
 
@@ -129,7 +138,6 @@ static void *connection_ping_controller (void *tparam)
     int   dst_nm_port    = 0;
 
     int status = 0, valid = 0, error = 0, size = 0;
-
     mem_scopy_ret(param->cid, connection_id, NULL);
 
     while (1) {
@@ -153,25 +161,19 @@ static void *connection_ping_controller (void *tparam)
                 else if (connection->ping_controller_enabled == 1) 
                     valid = 1;
 
-                if (valid == 1) {
+                if (valid) {
 
                     // Src node.
-                    size = sizeof(char) * (strlen(connection->dst_node_id) + 1);
-                    dst_node_id = (char *) malloc(size);
-
+                    mem_salloc(dst_node_id, strlen(connection->dst_node_id));
                     if (dst_node_id) {
-                        memset(dst_node_id, 0x0, strlen(connection->dst_node_id));
-                        memcpy(dst_node_id, connection->dst_node_id, strlen(connection->dst_node_id));
+                        mem_scopy(connection->dst_node_id, dst_node_id);
                         
                         // Dst node.
-                        size = sizeof(char) * (strlen(connection->dst_node_id) + 1);
-                        dst_nm_address = (char *) malloc(size);
-
+                        mem_salloc(dst_nm_address, strlen(connection->dst_node_id));
                         if (dst_nm_address) {
-                            memset(dst_nm_address, 0x0, strlen(connection->dst_nm_address));
-                            memcpy(dst_nm_address, connection->dst_nm_address, strlen(connection->dst_nm_address));
-
+                            mem_scopy(connection->dst_nm_address, dst_nm_address);
                             dst_nm_port = connection->dst_nm_port;
+
                             error = 1;
                         }
                     }
@@ -183,14 +185,11 @@ static void *connection_ping_controller (void *tparam)
         
         pthread_mutex_unlock(&mutex_connections);
 
-        if (error == 0) {
-            mem_sfree(dst_node_id);
-            mem_sfree(dst_nm_address);
-            sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
-            continue;
-        }
+        if (error == 0 || !dst_node_id || !dst_nm_address || !dst_nm_port) {
+            #ifdef NCDBG_CON
+                say("data error - ping controller.");
+            #endif
 
-        if (!dst_node_id || !dst_nm_address || !dst_nm_port) {
             mem_sfree(dst_node_id);
             mem_sfree(dst_nm_address);
             sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
@@ -204,7 +203,10 @@ static void *connection_ping_controller (void *tparam)
         error  = 0;
         status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port);
 
-        // Success.
+        #ifdef NCDBG_CON
+            say("communication status: %s", status);
+        #endif
+        
         pthread_mutex_lock(&mutex_connections);
 
         for (connection=connections; connection != NULL; connection=connection->next) {
@@ -217,14 +219,22 @@ static void *connection_ping_controller (void *tparam)
 
                 // Success.
                 if (status == 1) {
-                    connection->connection_status = 2;
+                    connection->connection_status       = 2;
                     connection->ping_controller_enabled = 1;
+
+                    #ifdef NCDBG_CON
+                        say("connection success - ping controller.");
+                    #endif
                 }
 
                 // Error.
                 else {
                     error = 1;
                     connection->connection_status = 3;
+
+                    #ifdef NCDBG_CON
+                        say("connection error - ping controller.");
+                    #endif
                 }
             }
         }
@@ -240,6 +250,10 @@ static void *connection_ping_controller (void *tparam)
         sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
     }
 
+    #ifdef NCDBG_CON
+        say("end ping controller.");
+    #endif
+
     return NULL;
 }
 
@@ -251,16 +265,34 @@ static int ping_controller_communication (char *dst_node_id, char *dst_nm_addres
     if (!dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
 
+    #ifdef NCDBG_CON
+        say("start communication - ping controller.");
+    #endif
+
     // Send request to node.
     char *response = process_connection_ping(dst_nm_address, dst_nm_port, dst_node_id);
 
     if (response) {
+        #ifdef NCDBG_CON
+            say("response: \"%s\"", response);
+        #endif
+
         if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
             mem_sfree(response);
             result = 1;
         }
 
         mem_sfree(response);
+    }
+
+    if (result == 1) {
+        #ifdef NCDBG_CON
+            say("communication success.");
+        #endif
+    } else {
+        #ifdef NCDBG_CON
+            say("communication error.");
+        #endif
     }
 
     return result;

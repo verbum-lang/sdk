@@ -76,8 +76,10 @@ static int process_communication_server (int sock)
     /**
      * Ping node / check connection.
      */
-    if (strstr(response, "connection-ping-verbum-node:"))
-
+    if (strstr(response, "connection-ping-verbum-node:")) {
+        char data[]= VERBUM_DEFAULT_SUCCESS "-Santissima Trindade-" VERBUM_EOH;
+        send(sock, data, strlen(data), 0);
+    }
 
     mem_sfree(response);
     return 1;

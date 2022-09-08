@@ -30,6 +30,22 @@
     } while(0)
 
 /**
+ * Simple memory allocation and copy.
+ */
+
+#define mem_salloc(DESTINATION, SIZE)                                                   \
+    do {                                                                                \
+        int size = sizeof(char) * (SIZE + 1);                                           \
+        dst_node_id = (char *) malloc(size);                                            \
+    } while(0)
+
+#define mem_scopy(SOURCE, DESTINATION)                                                  \
+    do {                                                                                \
+        memset(DESTINATION, 0x0, strlen(SOURCE));                                       \
+        memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
+    } while(0)
+
+/**
  * Memory allocation involving strings.
  */
 
