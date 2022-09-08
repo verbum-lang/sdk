@@ -159,6 +159,7 @@ static int process_connection_item (char *connection)
             tmp[b++] = connection[a];
     }
 
+
     // say("item: \"%s\"", ncon->id);
     // say("item: \"%d\"", ncon->type);
     // say("item: \"%s\"", ncon->src_node_id);
@@ -167,6 +168,7 @@ static int process_connection_item (char *connection)
     // say("item: \"%s\"", ncon->dst_nm_address);
     // say("item: \"%d\"", ncon->dst_nm_port);
     // say("item: \"%s\"", ncon->last_connect_date);
+
 
     pthread_mutex_lock(&mutex_connections);
 
