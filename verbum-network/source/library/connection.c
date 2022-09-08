@@ -530,4 +530,42 @@ char *process_delete_connection_node_mapper (char *address, int nm_port, char *c
     return response;
 }
 
+char *process_ping_connections (char *address, int nm_port, char *connections_list)
+{
+    char prefix     [] = "ping-verbum-connection:IHS\n\n";
+    char end_header [] = VERBUM_EOH;
+    char *message      = NULL, *response = NULL;
+    int sock = -1, size = 0, s1 = 0, s2 = 0, s3 = 0;
+
+    if (!address || !nm_port || !connections_list)
+        return NULL;
+
+    sock = create_connection(address, nm_port, 0);
+    if (sock == -1)
+        return NULL;
+
+    s1   = strlen(prefix);
+    s2   = strlen(connections_list);
+    s3   = strlen(end_header);
+    size = sizeof(char) * ( s1 + s2 + s3 + 1);
+    mem_alloc_ret(message, size, char *, NULL);
+
+    memcpy( message,            prefix,           s1);
+    memcpy(&message[ s1      ], connections_list, s2);
+    memcpy(&message[ s1 + s2 ], end_header,       s3);
+
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        mem_sfree(message);
+        return NULL;
+    }
+
+    mem_sfree(message);
+    close(sock);
+
+    return response;
+}
+
 

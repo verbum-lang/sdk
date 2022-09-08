@@ -101,7 +101,7 @@ void *ping_node_handler (void *tparam)
                 if (tmp) {
                     memset(tmp, 0x0, sizeof(char) * size);
                     sprintf(tmp, 
-                    
+
                         "type:%d\n"
                         "id:%s\n"
                         "src-node-id:%s\n"
@@ -124,8 +124,8 @@ void *ping_node_handler (void *tparam)
 
                     // Append data to full header data.
                     size = strlen(tmp);
-
                     data = (char *) realloc(data, sizeof(char) * (total_size + size + 1));
+                    
                     if (data) {
                         memcpy(&data[total_size], tmp, size);
                         total_size += size;
@@ -138,7 +138,16 @@ void *ping_node_handler (void *tparam)
         pthread_mutex_unlock(&mutex_connections);
 
         if (data && total_size > 0) {
-            say("full data:\n%s\n", data);
+            response2 = 
+                process_ping_connections(address, node_mapper_port, data);
+            
+            if (response2) {
+                #ifdef NCDBG_PING
+                    say("ping connections response: %s", response2);
+                #endif
+
+                mem_sfree(response2);
+            }
         }
 
         sleep(NODE_PING_LOOP_SEC_DELAY);
