@@ -82,19 +82,82 @@ int update_connections (int sock, char *content)
 
 static int process_connection_item (char *connection)
 {
-    char tmp[1024];
-
+    char tmp[1024], name[256], value[256];
+    
+    char *connection_id  = NULL;
+    char *src_node_id    = NULL;
+    char *dst_node_id    = NULL;
+    char *dst_nm_id      = NULL;
+    char *dst_nm_address = NULL;
+    char *last_date      = NULL;
+    int connection_type  = -1;
+    int dst_nm_port      = 0;
+    
     if (!connection)
         return 0;
 
     memset(tmp, 0x0, 1024);
 
-    for (int a=0,b=0; connection[a]!='\0'; a++) {
-        if (connection[a] == '\n') {
+    for (int a=0,b=0; ; a++) {
+        if (connection[a] == '\n' || connection[a] == '\0') {
             if (strstr(tmp, ":")) {
                 
-                
+                // Extract name and value.
+                memset(name,  0x0, 256);
+                memset(value, 0x0, 256);
+
+                for (int c=0,d=0,e=0; tmp[c]!='\0'; c++) {
+                    if (d == 0 && tmp[c] == ':')
+                        d = 1;
+                    else if (d == 1)
+                        value[e++] = tmp[c];
+                    else
+                        name[c] = tmp[c];
+                }
+
+                /**
+                 * Save data.
+                 */
+
+                // Connection type.
+                if (strcmp(name, "type") == 0) {
+                    if (value[0] == '0')
+                        connection_type = 0;
+                    else
+                        connection_type = 1;
+                }
+
+                // Connection ID.
+                else if (strcmp(name, "id") == 0) 
+                    mem_salloc_scopy(value, connection_id);
+
+                // Source node ID.
+                else if (strcmp(name, "src-node-id") == 0) 
+                    mem_salloc_scopy(value, src_node_id);
+
+                // Destination/target node ID.
+                else if (strcmp(name, "dst-node-id") == 0) 
+                    mem_salloc_scopy(value, dst_node_id);
+
+                // Destination/target Node Mapper ID.
+                else if (strcmp(name, "dst-nm-id") == 0) 
+                    mem_salloc_scopy(value, dst_nm_id);
+
+                // Destination/target Node Mapper address.
+                else if (strcmp(name, "dst-nm-addr") == 0) 
+                    mem_salloc_scopy(value, dst_nm_address);
+
+                // Destination/target Node Mapper port.
+                else if (strcmp(name, "dst-nm-port") == 0) 
+                    dst_nm_port = atoi(value);
+
+                // Last connection date.
+                else if (strcmp(name, "last-date") == 0) 
+                    mem_salloc_scopy(value, last_date);
             }
+
+            if (connection[a] == '\0')
+                break;
 
             b = 0;
             memset(tmp, 0x0, 1024);
@@ -103,6 +166,15 @@ static int process_connection_item (char *connection)
         else
             tmp[b++] = connection[a];
     }
+
+    say("item: \"%s\"", connection_id);
+    say("item: \"%d\"", connection_type);
+    say("item: \"%s\"", src_node_id);
+    say("item: \"%s\"", dst_node_id);
+    say("item: \"%s\"", dst_nm_id);
+    say("item: \"%s\"", dst_nm_address);
+    say("item: \"%d\"", dst_nm_port);
+    say("item: \"%s\"", last_date);
 
     return 1;
 }

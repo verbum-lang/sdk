@@ -45,6 +45,13 @@
         memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
     } while(0)
 
+#define mem_salloc_scopy(SOURCE, DESTINATION)                                           \
+    do {                                                                                \
+        mem_salloc(DESTINATION, strlen(SOURCE));                                        \
+        if (DESTINATION)                                                                \
+            mem_scopy(SOURCE, DESTINATION);                                             \
+    } while(0)
+
 /**
  * Memory allocation involving strings.
  */
