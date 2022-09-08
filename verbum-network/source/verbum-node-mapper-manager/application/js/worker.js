@@ -29,6 +29,7 @@ onmessage = function(ev) {
     else if (request.cmd == 'get-verbum-node-list') {
         connect_node_mapper(request.address, request.port, 'get-verbum-node-list:', (response) => {
             request.nodes = [];
+            request.connections = [];
             request.error_disconnect = false;
 
             if (response == ''                              ||
@@ -106,8 +107,70 @@ onmessage = function(ev) {
                             
                             // Connections information.
                             else {
-                                console.log('connections information');
-                                console.log(item)
+                                var lines = item.split("\n"); 
+                                var connection_id = -1;
+                                var connection_type = -1;
+                                var src_node_id = null;
+                                var dst_node_id = null;
+                                var dst_nm_id = null;
+                                var dst_nm_addr = null;
+                                var dst_nm_port = -1;
+                                var last_con_date = null;
+                                var con_error = -1;
+                                var con_error_count = -1;
+
+                                for (var b=0; b<lines.length; b++) {
+                                    var iitem = lines[b].toString().trim();
+                                    if (iitem.length <= 0)
+                                        continue;
+
+                                    var iparts = iitem.split(': ');
+                                    var name   = iparts[0].toString().trim();
+                                    var value  = iparts[1].toString().trim();
+                                    
+                                    if (name.length > 0 && value.length > 0) {
+                                        if (name == 'id')
+                                            connection_id = value;
+                                        else if (name == 'type')
+                                            connection_type = value;
+                                        else if (name == 'src-node-id')
+                                            src_node_id = value;
+                                        else if (name == 'dst-node-id')
+                                            dst_node_id = value;
+                                        else if (name == 'dst-nm-id')
+                                            dst_nm_id = value;
+                                        else if (name == 'dst-nm-addr')
+                                            dst_nm_addr = value;
+                                        else if (name == 'dst-nm-port')
+                                            dst_nm_port = value;
+                                        else if (name == 'last connection date')
+                                            last_con_date = value;
+                                        else if (name == 'error')
+                                            con_error = value;
+                                        else if (name == 'error count')
+                                            con_error_count = value;
+                                    }
+                                }
+
+                                if (connection_id != -1 && connection_type != -1 &&
+                                    src_node_id != null && dst_node_id != null   &&
+                                    dst_nm_id != null   && dst_nm_addr != null   &&
+                                    dst_nm_port != -1   && last_con_date != null &&
+                                    con_error != -1     && con_error_count != -1  )
+                                {
+                                    request.connections.push({
+                                        id: connection_id,
+                                        type: connection_type,
+                                        src_node_id: src_node_id,
+                                        dst_node_id: dst_node_id,
+                                        dst_nm_id: dst_nm_id,
+                                        dst_nm_addr: dst_nm_addr,
+                                        dst_nm_port: dst_nm_port,
+                                        last_connection_date: last_con_date,
+                                        error: con_error,
+                                        error_count: con_error_count
+                                    });
+                                }
                             }
                         }
                     }

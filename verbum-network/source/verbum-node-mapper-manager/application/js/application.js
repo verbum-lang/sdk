@@ -125,8 +125,11 @@ $(document).ready(() => {
 
 });
 
-function process_node_list (nds = [])
+function process_node_list (nds = [], cons = [])
 {
+    console.log(nds);
+    console.log(cons);
+
     // Nodes not found.
     if (nds.length == 0) {
         nodes = nds;
@@ -462,7 +465,7 @@ function process_worker (ev)
         if (request.error_disconnect == true) 
             window.interface.restart_application();
         else
-            process_node_list(request.nodes);
+            process_node_list(request.nodes, request.connections);
     }
 
     /**
