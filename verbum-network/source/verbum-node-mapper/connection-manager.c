@@ -177,7 +177,6 @@ static int process_connection_item (char *connection)
         if (!con->id)
             continue;
 
-        // Update data.
         if (strcmp(con->id, ncon->id) == 0) {
             found = 1;
 

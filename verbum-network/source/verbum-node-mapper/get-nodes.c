@@ -19,7 +19,7 @@ int get_node_list (int sock)
     #endif
 
     char *message = NULL;
-    char tmp [1024];
+    char tmp [2048];
     int size = 0, status = 1, a = 1;
     node_control_t *node;
     node_connection_t *connection;
@@ -32,7 +32,7 @@ int get_node_list (int sock)
             continue;
 
         // Node informations.
-        memset(tmp, 0x0, 1024);
+        memset(tmp, 0x0, 2048);
         sprintf(tmp, "node: %d\nid: %s\ncore port: %d\nserver port: %d\nlast connection date: %s\n\n", 
             a, node->id, node->core_port, node->server_port, node->last_connect_date);
         
@@ -53,14 +53,42 @@ int get_node_list (int sock)
             if (!connection->id)
                 continue;
 
-            // Update data.
             if (strcmp(connection->src_node_id, node->id) == 0) {
+                memset(tmp, 0x0, 2048);
 
+                sprintf(tmp,
+                        "id: %s\n" 
+                        "type: %d\n" 
+                        "src-node-id: %s\n" 
+                        "dst-node-id: %s\n" 
+                        "dst-nm-id: %s\n" 
+                        "dst-nm-addr: %s\n" 
+                        "dst-nm-port: %d\n" 
+                        "last connection date: %s\n\n",
+
+                        connection->id, 
+                        connection->type, 
+                        connection->src_node_id, 
+                        connection->dst_node_id, 
+                        connection->dst_nm_id, 
+                        connection->dst_nm_address, 
+                        connection->dst_nm_port, 
+                        connection->last_connect_date);
+                
+                message = (char *) realloc(message, sizeof(char) * (size + strlen(tmp) + 1));
+                if (!message) {
+                    status = 0;
+                    break;
+                }
+
+                memcpy(&message[size], tmp, strlen(tmp));
+                size += strlen(tmp);
+                message[size] = '\0';
             }
         }
 
         // End node informations.
-        memset(tmp, 0x0, 1024);
+        memset(tmp, 0x0, 2048);
         sprintf(tmp, "+++\n");
 
         message = (char *) realloc(message, sizeof(char) * (size + strlen(tmp) + 1));
