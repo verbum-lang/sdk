@@ -258,7 +258,7 @@ function ac_update_node_list ()
     var html = `
         <div class='row' >
 
-            <div class='col-md-12' >
+            <div class='col-md-12 ac-col-item ac-col-header' >
                 <div class='row' >
 
                     <div  class='col-md-5' >Node ID</div>
@@ -271,21 +271,28 @@ function ac_update_node_list ()
             </div>
     `;
 
-    for (var a=0; a<nodes.length; a++) {
-        html += `
-            <div class='col-md-12' >
-                <div class='row' >
+    for (var a=0,b=''; a<nodes.length; a++) {
+        if (nodes[a].id != ac_node_id) {
+            html += `
+                <div class='col-md-12 ac-col-item `+ b +`' >
+                    <div class='row' >
 
-                    <div  class='col-md-5' >`+ nodes[a].id +`</div>
-                    <div  class='col-md-3' >
-                        `+ nodes[a].core_port +`
-                        `+ nodes[a].server_port +`
+                        <div  class='col-md-5' >`+ nodes[a].id +`</div>
+                        <div  class='col-md-3' >
+                            `+ nodes[a].core_port +`
+                            `+ nodes[a].server_port +`
+                        </div>
+                        <div  class='col-md-4' >`+ nodes[a].last_connection_date +`</div>
+                
                     </div>
-                    <div  class='col-md-4' >`+ nodes[a].last_connection_date +`</div>
-            
                 </div>
-            </div>
-        `;
+            `;
+
+            if (b == '')
+                b = 'ac-col-item-bg';
+            else
+                b = '';
+        }
     }
 
     html += `

@@ -269,4 +269,27 @@ html, body {
   font-size: 8px;
 }
 
+.ac-col-header {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 7px;
+}
+
+.ac-col-item {
+  padding: 3px;
+}
+
+.ac-col-item:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ac-col-item-bg {
+  background-color: #cdcdcd;
+}
+
 
