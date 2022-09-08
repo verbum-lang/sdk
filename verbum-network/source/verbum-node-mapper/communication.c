@@ -7,7 +7,7 @@
 #include "delete-node.h"
 #include "check-node-exists.h"
 #include "create-node-connection.h"
-#include "connection-list.h"
+#include "connection-manager.h"
 
 int process_communication(int sock, char *path)
 {
@@ -36,7 +36,7 @@ int process_communication(int sock, char *path)
     /**
      * Connections list.
      */
-    else if (check_connections_list(response))
+    else if (check_connections_request(response))
         update_connections(sock, response);
 
     /**

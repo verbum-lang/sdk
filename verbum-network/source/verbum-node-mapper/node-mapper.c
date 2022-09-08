@@ -1,13 +1,17 @@
 
 #include "node-mapper.h"
 #include "node-control.h"
+#include "connection-control.h"
 #include "communication.h"
 
-pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
-thread_worker_t *workers       = NULL;
+pthread_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
+thread_worker_t          *workers       = NULL;
 
-extern node_control_t *nodes;
-extern pthread_mutex_t mutex_nodes;
+extern node_control_t    *nodes;
+extern pthread_mutex_t    mutex_nodes;
+
+extern pthread_mutex_t    mutex_connections;
+extern node_connection_t *connections;
 
 /**
  * Initialization.
@@ -26,7 +30,10 @@ int node_mapper (void)
     if (pthread_mutex_init(&mutex_nodes, NULL) != 0) 
         say_ret(0, "mutex init failed.");
 
-    // Prepare workers and nodes list.
+    if (pthread_mutex_init(&mutex_connections, NULL) != 0) 
+        say_ret(0, "mutex init failed.");
+
+    // Prepare workers, node list and connection list.
     workers = worker_create_item(0);
     if (!workers)
         say_ret(0, "error create worker item.");
@@ -34,6 +41,10 @@ int node_mapper (void)
     nodes = node_create_item();
     if (!nodes)
         say_ret(0, "error create node item.");
+
+    connections = connection_create_item();
+    if (!connections)
+        say_ret(0, "error create connection item.");
 
     // Prepare thread param.
     mem_alloc_ret(param, sizeof(interface_param_t), interface_param_t *, 0);
