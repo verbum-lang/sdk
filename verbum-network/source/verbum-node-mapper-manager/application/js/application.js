@@ -237,6 +237,14 @@ $(document).ready(() => {
     $('.btn-close-modal').on('click', () => {
         ac_close_modal();
     });
+
+    $('#btn-add-con').on('click', ()=> {
+        ac_add_new_connection();
+    });
+
+    // Default connection type.
+    $('#ac-con-type').val('output');
+    ac_change_con_type();
 });
 
 function ac_close_modal ()
@@ -303,8 +311,87 @@ function ac_update_node_list ()
     $('.ac-node-list').html(html);
 }
 
-function ac_change_dst_node (node_id) {
+function ac_change_dst_node (node_id) 
+{
     $('#ac-dst-node').val(node_id);
+}
+
+function ac_change_con_type () 
+{
+    var value = $('#ac-con-type').val();
+
+    if (value == 'input') {
+        $('#ac-nm-id').prop('disabled', false)
+        $('#ac-nm-address').prop('disabled', true)
+        $('#ac-nm-port').prop('disabled', true)
+        $('#ac-nm-address').val('')
+        $('#ac-nm-port').val('')
+    } else {
+        $('#ac-nm-id').prop('disabled', true)
+        $('#ac-nm-address').prop('disabled', false)
+        $('#ac-nm-port').prop('disabled', false)
+        $('#ac-nm-id').val('')
+    }
+}
+
+function ac_add_new_connection ()
+{
+    var src_node_id = '';
+    var dst_node_id = '';
+    var node_mapper_id = '';
+    var node_mapper_address = '';
+    var node_mapper_port = '';
+
+    // Validations.
+    var type = $('#ac-con-type').val();
+
+    if ($('#ac-src-node').val().length <= 0) {
+        alert('Invalid source Verbum Node ID.');
+        $('#ac-src-node').focus();
+        return false;
+    } else if ($('#ac-dst-node').val().length <= 0) {
+        alert('Invalid target Verbum Node ID.');
+        $('#ac-dst-node').focus();
+        return false;
+    }
+
+    src_node_id = $('#ac-src-node').val();
+    dst_node_id = $('#ac-dst-node').val();
+
+    if (type == 'input') {
+        if ($('#ac-nm-id').val().length <= 0) {
+            alert('Invalid Verbum Node Mapper ID.');
+            $('#ac-nm-id').focus();
+            return false;
+        }
+
+        node_mapper_id = $('#ac-nm-id').val();
+    } else {
+        if ($('#ac-nm-address').val().length <= 0) {
+            alert('Invalid Verbum Node Mapper address.');
+            $('#ac-nm-address').focus();
+            return false;
+        } else if ($('#ac-nm-port').val().length <= 0) {
+            alert('Invalid Verbum Node Mapper port.');
+            $('#ac-nm-port').focus();
+            return false;
+        }
+
+        node_mapper_address = $('#ac-nm-address').val();
+        node_mapper_port    = $('#ac-nm-port').val();
+    }
+
+    var information = {
+        type: type,
+        src_node_id: src_node_id,
+        dst_node_id: dst_node_id,
+        node_mapper_id: node_mapper_id,
+        node_mapper_address: node_mapper_address,
+        node_mapper_port: node_mapper_port
+    };
+
+    console.log('add new connection');
+    console.log(information);
 }
 
 /**

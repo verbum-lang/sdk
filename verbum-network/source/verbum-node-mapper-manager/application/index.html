@@ -139,6 +139,18 @@
                         <div class="row fix-row-1">
                             <div class="col-md-12">
                                 <div class="form-group fix-text-1">
+                                    <label for="ac-con-type">Connection type</label>
+                                    <select class="form-control" id="ac-con-type" onchange="javascript:ac_change_con_type();" >
+                                        <option value="input" >INPUT</option>
+                                        <option value="output" >OUTPUT</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row fix-row-1">
+                            <div class="col-md-12">
+                                <div class="form-group fix-text-1">
                                     <label for="ac-src-node">Source node</label>
                                     <input type="text" class="form-control" id="ac-src-node" placeholder="Source node">
                                 </div>
@@ -180,7 +192,7 @@
 
                         <div class="row fix-row-1">
                             <div class="col-md-12" style="text-align: right;">
-                                <button class="btn btn-success">
+                                <button class="btn btn-success" id="btn-add-con">
                                     <i class="feather-size-a" data-feather="check"></i> 
                                     Create connection
                                 </button>

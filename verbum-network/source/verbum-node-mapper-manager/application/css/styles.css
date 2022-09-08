@@ -268,6 +268,10 @@ html, body {
   font-size: 9px;
 }
 
+.fix-text-1 select {
+  font-size: 9px;
+}
+
 .fix-row-1 {
   padding-bottom: 10px;
 }
