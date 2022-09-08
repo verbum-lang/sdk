@@ -24,6 +24,10 @@ typedef struct node_connection_st {
                                         //  0 = Innactive.
                                         //  1 = Active.
 
+    int first_request_ok;               // Check first request ok.
+                                        //  0 = Not.
+                                        //  1 = Yes.
+
     int enable_delete_item;             // Enable item deletion.
                                         //  0 = Innactive.
                                         //  1 = Active.
@@ -43,9 +47,9 @@ typedef struct node_connection_st {
     struct node_connection_st *next;    // Next node pointer.
 } node_connection_t;
 
-void              *node_connection            (void *tparam);
-node_connection_t *connection_create_item     (void);
-int                connection_insert_item     (node_connection_t *new_connection);
+void              *node_connection        (void *tparam);
+node_connection_t *connection_create_item (void);
+int                connection_insert_item (node_connection_t *new_connection);
 
 #endif
 

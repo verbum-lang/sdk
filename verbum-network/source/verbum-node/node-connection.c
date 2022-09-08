@@ -54,7 +54,9 @@ void *node_connection (void *tparam)
             }
 
             // Delete item.
-            else if (connection->enable_delete_item == 1) {
+            else if (connection->first_request_ok   == 1 && 
+                     connection->enable_delete_item == 1  ) 
+            {
                 connection->enable_delete_item = 2;
 
                 #ifdef NCDBG_CON
@@ -84,6 +86,7 @@ node_connection_t *connection_create_item (void)
     connection->connection_status       = 0;
     connection->ping_controller_enabled = 0;
     connection->enable_delete_item      = 0;
+    connection->first_request_ok        = 0;
     connection->type                    = -1;
 
     connection->dst_node_id             = NULL;
@@ -162,10 +165,13 @@ static void *connection_ping_controller (void *tparam)
                 else if (connection->ping_controller_enabled == 1) 
                     valid = 1;
 
-                if (valid == 1) {
+                if (!valid) {
                     #ifdef NCDBG_CON
-                        say("request found.");
+                        say("flag error - ping controller.");
                     #endif
+                }
+
+                else {
 
                     // Src node.
                     mem_salloc(dst_node_id, strlen(connection->dst_node_id));
@@ -183,10 +189,6 @@ static void *connection_ping_controller (void *tparam)
                     }
 
                     break;
-                } else {
-                    #ifdef NCDBG_CON
-                        say("flag error - ping controller.");
-                    #endif
                 }
             }
         }
@@ -207,10 +209,6 @@ static void *connection_ping_controller (void *tparam)
         error  = 0;
         status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port);
 
-        #ifdef NCDBG_CON
-            say("communication status: %d", status);
-        #endif
-        
         pthread_mutex_lock(&mutex_connections);
 
         for (connection=connections; connection != NULL; connection=connection->next) {
@@ -225,16 +223,15 @@ static void *connection_ping_controller (void *tparam)
                 if (status == 1) {
                     connection->connection_status       = 2;
                     connection->ping_controller_enabled = 1;
-
-                    #ifdef NCDBG_CON
-                        say("connection success - ping controller.");
-                    #endif
                 }
 
                 // Error.
                 else {
                     error = 1;
                     connection->connection_status = 3;
+
+                    // Enable item deletion.
+                    connection->enable_delete_item = 1;
 
                     #ifdef NCDBG_CON
                         say("connection error - ping controller.");
@@ -270,10 +267,6 @@ static int ping_controller_communication (char *dst_node_id, char *dst_nm_addres
 
     if (!dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
-
-    #ifdef NCDBG_CON
-        say("start communication - ping controller.");
-    #endif
 
     // Connect to destination Node Mapper, and 
     // check destination Verbum Node exists.

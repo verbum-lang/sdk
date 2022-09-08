@@ -187,11 +187,7 @@ int create_node_output_connection (
                     #endif
 
                     status = connection->connection_status;
-
-                    // Error.
-                    if (status == 3)
-                        connection->enable_delete_item = 1;
-
+                    connection->first_request_ok = 1;
                     break;
                 }
         }
@@ -205,17 +201,8 @@ int create_node_output_connection (
     }
 
     // Error.
-    if (status == 3) {
-        #ifdef NCDBG_CON
-            say("connection error.");
-        #endif
-
+    if (status == 3) 
         return 0;
-    }
-
-    #ifdef NCDBG_CON
-        say("connection success.");
-    #endif
 
     send(sock, response_success, strlen(response_success), 0);
     mem_sfree(current_id);
