@@ -176,6 +176,25 @@ static void *connection_ping_controller (void *tparam)
 
         status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port);
 
+        // Success.
+        pthread_mutex_lock(&mutex_connections);
+
+        for (connection=connections; connection != NULL; connection=connection->next) {
+            if (connection->status != 2)
+                continue;
+            if (!connection->id)
+                continue;
+
+            if (strcmp(connection->id, connection_id) == 0) {
+                if (status == 1)
+                    connection->connection_status = 2;
+                else 
+                    connection->connection_status = 3;
+            }
+        }
+
+        pthread_mutex_unlock(&mutex_connections);
+        
         mem_sfree(dst_node_id);
         mem_sfree(dst_nm_address);
         sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
@@ -186,7 +205,8 @@ static void *connection_ping_controller (void *tparam)
 
 static int ping_controller_communication (char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
-    
+    int counter = 0;
+    int result  = 0;
 
     if (!dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
@@ -196,9 +216,26 @@ static int ping_controller_communication (char *dst_node_id, char *dst_nm_addres
     say("> dst nm address: %s", dst_nm_address);
     say("> dst nm port: %d", dst_nm_port);
 
+    // Send request to node.
+    while (1) {
+        char *response = process_connection_ping(dst_nm_address, dst_nm_port, dst_node_id);
+        if (response) {
+            if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+                mem_sfree(response);
+                result = 1;
+                break;
+            }
 
+            mem_sfree(response);
+        }
 
-    return 1;
+        usleep(1000);
+        counter++;
+        if (counter >= 3)
+            break;
+    }
+
+    return result;
 }
 
 

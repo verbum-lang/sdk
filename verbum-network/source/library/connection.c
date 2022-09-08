@@ -466,4 +466,36 @@ char *process_create_node_output_connection (char *src_node_address,
     return response;
 }
 
+char *process_connection_ping (char *address, int node_port, char *node_id)
+{
+    char prefix     [] = "connection-ping-verbum-node:";
+    char end_header [] = VERBUM_EOH;
+    char *message      = NULL, *response = NULL;
+    int size           = 0, sock = -1;
+
+    if (!address || !node_port || !node_id)
+        return NULL;
+
+    sock = create_connection(address, node_port, 0);
+    if (sock == -1)
+        return NULL;
+
+    size = sizeof(char) * (strlen(prefix) + strlen(node_id) + strlen(end_header) + 1);
+    mem_alloc_ret(message, size, char *, NULL);
+
+    sprintf(message, "%s%s%s", prefix, node_id, end_header);
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        mem_sfree(message);
+        return NULL;
+    }
+
+    mem_sfree(message);
+    close(sock);
+
+    return response;
+}
+
 

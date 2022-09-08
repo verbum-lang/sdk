@@ -231,6 +231,8 @@ function delete_node (node_id)
 /**
  * Add connection control.
  */
+
+var dbg_ac = true;
 var ac_node_id = null;
 
 $(document).ready(() => {
@@ -260,6 +262,19 @@ function add_connection (node_id)
 
     $('#ac-src-node').val(node_id);
     $('#modal-add-connection').modal('show');
+
+    if (dbg_ac == true) {
+        // Select first node.
+        for (var a=0; a<nodes.length; a++) {
+            if (nodes[a].id != node_id) {
+                $('#ac-dst-node').val(nodes[a].id);
+                break;
+            }
+        }
+
+        // Auto-send data.
+        ac_add_new_connection();
+    }
 }
 
 function ac_update_node_list ()
@@ -336,11 +351,11 @@ function ac_change_con_type ()
 
 function ac_add_new_connection ()
 {
-    var src_node_id = '';
-    var dst_node_id = '';
-    var node_mapper_id = '';
-    var node_mapper_address = '';
-    var node_mapper_port = '';
+    var src_node_id             = 'false';
+    var dst_node_id             = 'false';
+    var dst_node_mapper_id      = 'false';
+    var dst_node_mapper_address = 'false';
+    var dst_node_mapper_port    = 'false';
 
     // Validations.
     var type = $('#ac-con-type').val();
@@ -365,7 +380,7 @@ function ac_add_new_connection ()
             return false;
         }
 
-        node_mapper_id = $('#ac-nm-id').val();
+        dst_node_mapper_id = $('#ac-nm-id').val();
     } else {
         if ($('#ac-nm-address').val().length <= 0) {
             alert('Invalid Verbum Node Mapper address.');
@@ -377,21 +392,25 @@ function ac_add_new_connection ()
             return false;
         }
 
-        node_mapper_address = $('#ac-nm-address').val();
-        node_mapper_port    = $('#ac-nm-port').val();
+        dst_node_mapper_address = $('#ac-nm-address').val();
+        dst_node_mapper_port    = $('#ac-nm-port').val();
     }
 
     var information = {
         type: type,
         src_node_id: src_node_id,
         dst_node_id: dst_node_id,
-        node_mapper_id: node_mapper_id,
-        node_mapper_address: node_mapper_address,
-        node_mapper_port: node_mapper_port
+        dst_node_mapper_id: dst_node_mapper_id,
+        dst_node_mapper_address: dst_node_mapper_address,
+        dst_node_mapper_port: dst_node_mapper_port
     };
 
-    console.log('add new connection');
-    console.log(information);
+    send_request({
+        cmd: 'create-verbum-node-connection',
+        address: nm_address,
+        port: nm_port,
+        information: information
+    });
 }
 
 /**

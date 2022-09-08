@@ -73,7 +73,11 @@ static int process_communication_server (int sock)
     if (!response)
         return 0;
 
-    // ...
+    /**
+     * Ping node / check connection.
+     */
+    if (strstr(response, "connection-ping-verbum-node:"))
+
 
     mem_sfree(response);
     return 1;

@@ -26,6 +26,7 @@ char *process_check_node_exists             (char *address, int node_port, char 
 char *process_create_node_output_connection (char *src_node_address, 
                                              char *src_node_id, int src_node_interface_port, 
                                              char *dst_node_id, char *dst_nm_address, int dst_nm_port);
+char *process_connection_ping               (char *address, int node_port, char *node_id);
 
 #endif
 

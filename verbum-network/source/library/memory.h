@@ -104,6 +104,7 @@
         if (DESTINATION) {                                                              \
             memset(DESTINATION, 0x0, strlen(DESTINATION));                              \
             free(DESTINATION);                                                          \
+            DESTINATION = NULL;                                                         \
         }                                                                               \
     } while(0)
 
