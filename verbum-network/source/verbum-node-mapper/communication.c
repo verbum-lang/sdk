@@ -33,6 +33,12 @@ int process_communication(int sock, char *path)
         update_ping_node(sock, response);
 
     /**
+     * Connections list.
+     */
+    else if (check_connections_list(response))
+        update_connections(sock, response);
+
+    /**
      * Get node list.
      */
     else if (strstr(response, "get-verbum-node-list:"))

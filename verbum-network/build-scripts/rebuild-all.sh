@@ -106,6 +106,7 @@ gcc -o get-nodes.o              -c get-nodes.c
 gcc -o ping-node.o              -c ping-node.c
 gcc -o check-node-exists.o      -c check-node-exists.c
 gcc -o create-node-connection.o -c create-node-connection.c
+gcc -o connection-list.o        -c connection-list.c
 
 gcc -o verbum-node-mapper verbum-node-mapper.c             \
                           global.o                         \
@@ -122,6 +123,7 @@ gcc -o verbum-node-mapper verbum-node-mapper.c             \
                           ping-node.o                      \
                           check-node-exists.o              \
                           create-node-connection.o         \
+                          connection-list.o                \
                           $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
