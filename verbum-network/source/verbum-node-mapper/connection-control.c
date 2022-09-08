@@ -9,6 +9,7 @@ node_connection_t *connection_create_item (void)
     node_connection_t *connection;
     mem_alloc_ret(connection, sizeof(node_connection_t), node_connection_t *, NULL);
 
+    connection->status          = 0;
     connection->id              = NULL;
     connection->type            = -1;
     connection->dst_node_id     = NULL;

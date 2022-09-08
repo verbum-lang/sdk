@@ -75,15 +75,11 @@ int update_connections (int sock, char *content)
 static int process_connection_item (char *connection)
 {
     char tmp[1024], name[256], value[256];
+    node_connection_t *ncon = connection_create_item();
+    node_connection_t *con;
     
-    char *connection_id  = NULL;
-    char *src_node_id    = NULL;
-    char *dst_node_id    = NULL;
-    char *dst_nm_id      = NULL;
-    char *dst_nm_address = NULL;
-    char *last_date      = NULL;
-    int connection_type  = -1;
-    int dst_nm_port      = 0;
+    if (!ncon)
+        return 0;
     
     if (!connection)
         return 0;
@@ -114,38 +110,38 @@ static int process_connection_item (char *connection)
                 // Connection type.
                 if (strcmp(name, "type") == 0) {
                     if (value[0] == '0')
-                        connection_type = 0;
+                        ncon->type = 0;
                     else
-                        connection_type = 1;
+                        ncon->type = 1;
                 }
 
                 // Connection ID.
                 else if (strcmp(name, "id") == 0) 
-                    mem_salloc_scopy(value, connection_id);
+                    mem_salloc_scopy(value, ncon->id);
 
                 // Source node ID.
                 else if (strcmp(name, "src-node-id") == 0) 
-                    mem_salloc_scopy(value, src_node_id);
+                    mem_salloc_scopy(value, ncon->src_node_id);
 
                 // Destination/target node ID.
                 else if (strcmp(name, "dst-node-id") == 0) 
-                    mem_salloc_scopy(value, dst_node_id);
+                    mem_salloc_scopy(value, ncon->dst_node_id);
 
                 // Destination/target Node Mapper ID.
                 else if (strcmp(name, "dst-nm-id") == 0) 
-                    mem_salloc_scopy(value, dst_nm_id);
+                    mem_salloc_scopy(value, ncon->dst_nm_id);
 
                 // Destination/target Node Mapper address.
                 else if (strcmp(name, "dst-nm-addr") == 0) 
-                    mem_salloc_scopy(value, dst_nm_address);
+                    mem_salloc_scopy(value, ncon->dst_nm_address);
 
                 // Destination/target Node Mapper port.
                 else if (strcmp(name, "dst-nm-port") == 0) 
-                    dst_nm_port = atoi(value);
+                    ncon->dst_nm_port = atoi(value);
 
                 // Last connection date.
                 else if (strcmp(name, "last-date") == 0) 
-                    mem_salloc_scopy(value, last_date);
+                    mem_salloc_scopy(value, ncon->last_connect_date);
             }
 
             if (connection[a] == '\0')
@@ -159,27 +155,26 @@ static int process_connection_item (char *connection)
             tmp[b++] = connection[a];
     }
 
-    say("item: \"%s\"", connection_id);
-    say("item: \"%d\"", connection_type);
-    say("item: \"%s\"", src_node_id);
-    say("item: \"%s\"", dst_node_id);
-    say("item: \"%s\"", dst_nm_id);
-    say("item: \"%s\"", dst_nm_address);
-    say("item: \"%d\"", dst_nm_port);
-    say("item: \"%s\"", last_date);
+    say("item: \"%s\"", ncon->id);
+    say("item: \"%d\"", ncon->type);
+    say("item: \"%s\"", ncon->src_node_id);
+    say("item: \"%s\"", ncon->dst_node_id);
+    say("item: \"%s\"", ncon->dst_nm_id);
+    say("item: \"%s\"", ncon->dst_nm_address);
+    say("item: \"%d\"", ncon->dst_nm_port);
+    say("item: \"%s\"", ncon->last_connect_date);
 
     pthread_mutex_lock(&mutex_connections);
-    
-    pthread_mutex_unlock(&mutex_connections);
 
-    mem_sfree(connection_id);
-    mem_sfree(connection_type);
-    mem_sfree(src_node_id);
-    mem_sfree(dst_node_id);
-    mem_sfree(dst_nm_id);
-    mem_sfree(dst_nm_address);
-    mem_sfree(dst_nm_port);
-    mem_sfree(last_date);
+    // Search connection.
+    for (con=connections; con!=NULL; con=con->next) {
+        if (con->status != 1)
+            continue;
+
+        
+    }
+
+    pthread_mutex_unlock(&mutex_connections);
 
     return 1;
 }
