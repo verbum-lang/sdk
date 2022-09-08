@@ -7,6 +7,7 @@
 #include "delete-node.h"
 #include "check-node-exists.h"
 #include "create-node-connection.h"
+#include "connection-list.h"
 
 int process_communication(int sock, char *path)
 {

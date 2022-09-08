@@ -118,14 +118,14 @@ void *ping_node_handler (void *tparam)
                         connection->dst_node_id       ? connection->dst_node_id       : "null",
                         connection->dst_nm_id         ? connection->dst_nm_id         : "null",
                         connection->dst_nm_address    ? connection->dst_nm_address    : "null",
-                        connection->dst_nm_port       ? connection->dst_nm_port       : "null",
+                        connection->dst_nm_port,
                         connection->last_connect_date ? connection->last_connect_date : "null"
                     );
 
                     // Append data to full header data.
                     size = strlen(tmp);
                     data = (char *) realloc(data, sizeof(char) * (total_size + size + 1));
-                    
+
                     if (data) {
                         memcpy(&data[total_size], tmp, size);
                         total_size += size;
