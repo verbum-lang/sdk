@@ -20,7 +20,7 @@ int get_node_list (int sock)
 
     char *message = NULL;
     char tmp [2048];
-    int size = 0, status = 1, a = 1;
+    int size = 0, status = 1, a = 1, b = 1;
     node_control_t *node;
     node_connection_t *connection;
 
@@ -47,6 +47,8 @@ int get_node_list (int sock)
         message[size] = '\0';
 
         // Search connections.
+        b = 0;
+        
         for (connection=connections; connection!=NULL; connection=connection->next) {
             if (connection->status != 1)
                 continue;
@@ -57,6 +59,7 @@ int get_node_list (int sock)
                 memset(tmp, 0x0, 2048);
 
                 sprintf(tmp,
+                        "connection: %d\n" 
                         "id: %s\n" 
                         "type: %d\n" 
                         "src-node-id: %s\n" 
@@ -66,6 +69,7 @@ int get_node_list (int sock)
                         "dst-nm-port: %d\n" 
                         "last connection date: %s\n\n",
 
+                        b,
                         connection->id, 
                         connection->type, 
                         connection->src_node_id, 
@@ -84,6 +88,8 @@ int get_node_list (int sock)
                 memcpy(&message[size], tmp, strlen(tmp));
                 size += strlen(tmp);
                 message[size] = '\0';
+
+                b++;
             }
         }
 

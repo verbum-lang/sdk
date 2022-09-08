@@ -158,7 +158,7 @@ static int process_connection_item (char *connection)
             tmp[b++] = connection[a];
     }
 
-    // #ifdef NMDBG
+    #ifdef NMDBG
         say("item: \"%s\"", ncon->id);
         say("item: \"%d\"", ncon->type);
         say("item: \"%s\"", ncon->src_node_id);
@@ -167,38 +167,40 @@ static int process_connection_item (char *connection)
         say("item: \"%s\"", ncon->dst_nm_address);
         say("item: \"%d\"", ncon->dst_nm_port);
         say("item: \"%s\"", ncon->last_connect_date);
-    // #endif
+    #endif
 
     ncon->status = 1;
     pthread_mutex_lock(&mutex_connections);
 
     // Search connection.
     for (con=connections; con!=NULL; con=con->next) {
-        if (con->status != 1)
+        if (con->status != 1) {
+            last = con;
             continue;
-        if (!con->id)
+        }
+
+        if (!con->id) {
+            last = con;
             continue;
+        }
 
         if (strcmp(con->id, ncon->id) == 0) {
             found = 1;
 
             // Replace item.
-            if (con->next) {
+            if (!con->next) {
+                last->next = ncon;
+            } else {
                 last->next = ncon;
                 ncon->next = con->next;
-            } else
-                last->next = ncon;
+            }
 
-            // mem_sfree(con->id);
-            // mem_sfree(con->src_node_id);
-            // mem_sfree(con->dst_node_id);
-            // mem_sfree(con->dst_nm_id);
-            // mem_sfree(con->dst_nm_address);
+            mem_sfree(con->id);
+            mem_sfree(con->src_node_id);
+            mem_sfree(con->dst_node_id);
+            mem_sfree(con->dst_nm_id);
+            mem_sfree(con->dst_nm_address);
             free(con);
-
-            // memset(con->last_connect_date, 0x0, 100);
-            // memcpy(con->last_connect_date, 
-            //     ncon->last_connect_date, strlen(ncon->last_connect_date));
 
             break;
         }
