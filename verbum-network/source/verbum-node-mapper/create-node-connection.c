@@ -140,37 +140,28 @@ int create_node_output_connection (int   sock,
 {
     char  address [] = LOCALHOST;
     char *response_success = NULL;
-    int   result = 0, counter = 0;
-    int   status = 0, bytes = 0;
+    int   result = 0, status = 0, bytes = 0;
 
     if (!sock || !src_node_id || !src_node_interface_port ||
         !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
 
     // Send request to node.
-    while (1) {
-        char *response = process_create_node_output_connection(
-            address, src_node_id, src_node_interface_port, 
-            dst_node_id, dst_nm_address, dst_nm_port);
-        
-        if (response) {
-            if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+    char *response = process_create_node_output_connection(
+        address, src_node_id, src_node_interface_port, 
+        dst_node_id, dst_nm_address, dst_nm_port);
+    
+    if (response) {
+        if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
 
-                // Copy response.
-                mem_scopy_goto(response, response_success, cnoc_end);
-                mem_sfree(response);
-                
-                status = 1;
-                break;
-            }
-
+            // Copy response.
+            mem_scopy_goto(response, response_success, cnoc_end);
             mem_sfree(response);
+            
+            status = 1;
         }
-
-        usleep(1000);
-        counter++;
-        if (counter >= 3)
-            break;
+        
+        mem_sfree(response);
     }
 
     // Finish.

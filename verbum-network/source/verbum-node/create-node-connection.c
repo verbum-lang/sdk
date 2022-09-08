@@ -178,13 +178,18 @@ int create_node_output_connection (
                     connection->connection_status == 3  )
                 {
                     status = connection->connection_status;
+
+                    // Error.
+                    if (status == 3)
+                        connection->enable_delete_item = 1;
+
                     break;
                 }
         }
 
         pthread_mutex_unlock(&mutex_connections);
 
-        if (status != 0)
+        if (status != 0) 
             break;
             
         usleep(1000);

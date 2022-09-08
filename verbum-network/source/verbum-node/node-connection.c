@@ -44,6 +44,14 @@ void *node_connection (void *tparam)
                     connection->dst_nm_port)
                     connection->connection_status = 1;
             }
+
+            // Delete item.
+            else if (connection->enable_delete_item == 1) {
+                connection->enable_delete_item = 2;
+
+                // ...
+                say("delete item.");
+            }
         }
 
         pthread_mutex_unlock(&mutex_connections);
@@ -62,17 +70,18 @@ node_connection_t *connection_create_item (void)
     mem_alloc_ret(connection, 
         sizeof(node_connection_t), node_connection_t *, NULL);
 
-    connection->id                  = generate_connection_id();
-    connection->status              = 0;
-    connection->connection_status   = 0;
-    connection->type                = -1;
+    connection->id                      = generate_connection_id();
+    connection->status                  = 0;
+    connection->connection_status       = 0;
+    connection->ping_controller_enabled = 0;
+    connection->type                    = -1;
 
-    connection->dst_node_id         = NULL;
-    connection->dst_nm_id           = NULL;
-    connection->dst_nm_address      = NULL;
-    connection->dst_nm_port         = 0;
+    connection->dst_node_id             = NULL;
+    connection->dst_nm_id               = NULL;
+    connection->dst_nm_address          = NULL;
+    connection->dst_nm_port             = 0;
 
-    connection->next                = NULL;
+    connection->next                    = NULL;
 
     // Prepare thread.
     mem_alloc_ret(param, 
@@ -119,13 +128,14 @@ static void *connection_ping_controller (void *tparam)
     char *dst_nm_address = NULL;
     int   dst_nm_port    = 0;
 
-    int status = 0;
+    int status = 0, valid = 0, error = 0, size = 0;
 
     mem_scopy_ret(param->cid, connection_id, NULL);
 
     while (1) {
         pthread_mutex_lock(&mutex_connections);
-        status = 0;
+        valid  = 0;
+        error  = 0;
 
         for (connection=connections; connection != NULL; connection=connection->next) {
             if (connection->status != 2)
@@ -136,29 +146,46 @@ static void *connection_ping_controller (void *tparam)
             if (strcmp(connection->id, connection_id) == 0) {
                 
                 // Data exists - process connection.
-                if (connection->connection_status == 1) {
-                    
-                    // Copy data.
-                    mem_scopy_goto(connection->dst_node_id, dst_node_id, cpc_mt_end);
-                    mem_scopy_goto(connection->dst_nm_address, dst_nm_address, cpc_mt_end);
-                    dst_nm_port = connection->dst_nm_port;
+                if (connection->connection_status == 1)
+                    valid = 1;
 
-                    status = 1;
+                // Check ping controller.
+                else if (connection->ping_controller_enabled == 1) 
+                    valid = 1;
+
+                if (valid == 1) {
+
+                    // Src node.
+                    size = sizeof(char) * (strlen(connection->dst_node_id) + 1);
+                    dst_node_id = (char *) malloc(size);
+
+                    if (dst_node_id) {
+                        memset(dst_node_id, 0x0, strlen(connection->dst_node_id));
+                        memcpy(dst_node_id, connection->dst_node_id, strlen(connection->dst_node_id));
+                        
+                        // Dst node.
+                        size = sizeof(char) * (strlen(connection->dst_node_id) + 1);
+                        dst_nm_address = (char *) malloc(size);
+
+                        if (dst_nm_address) {
+                            memset(dst_nm_address, 0x0, strlen(connection->dst_nm_address));
+                            memcpy(dst_nm_address, connection->dst_nm_address, strlen(connection->dst_nm_address));
+
+                            dst_nm_port = connection->dst_nm_port;
+                            error = 1;
+                        }
+                    }
+
                     break;
                 }
             }
         }
-
-        cpc_mt_end:
-
-        if (status != 1) {
-            mem_sfree(dst_node_id);
-            mem_sfree(dst_nm_address);
-        }
-
+        
         pthread_mutex_unlock(&mutex_connections);
 
-        if (status != 1) {
+        if (error == 0) {
+            mem_sfree(dst_node_id);
+            mem_sfree(dst_nm_address);
             sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
             continue;
         }
@@ -174,6 +201,7 @@ static void *connection_ping_controller (void *tparam)
          * Process action.
          */
 
+        error  = 0;
         status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port);
 
         // Success.
@@ -186,10 +214,18 @@ static void *connection_ping_controller (void *tparam)
                 continue;
 
             if (strcmp(connection->id, connection_id) == 0) {
-                if (status == 1)
+
+                // Success.
+                if (status == 1) {
                     connection->connection_status = 2;
-                else 
+                    connection->ping_controller_enabled = 1;
+                }
+
+                // Error.
+                else {
+                    error = 1;
                     connection->connection_status = 3;
+                }
             }
         }
 
@@ -197,6 +233,10 @@ static void *connection_ping_controller (void *tparam)
         
         mem_sfree(dst_node_id);
         mem_sfree(dst_nm_address);
+
+        if (error == 1)
+            break;
+
         sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
     }
 
@@ -211,28 +251,16 @@ static int ping_controller_communication (char *dst_node_id, char *dst_nm_addres
     if (!dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
 
-    say("> ping handler...");
-    say("> dst node id: %s", dst_node_id);
-    say("> dst nm address: %s", dst_nm_address);
-    say("> dst nm port: %d", dst_nm_port);
-
     // Send request to node.
-    while (1) {
-        char *response = process_connection_ping(dst_nm_address, dst_nm_port, dst_node_id);
-        if (response) {
-            if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
-                mem_sfree(response);
-                result = 1;
-                break;
-            }
+    char *response = process_connection_ping(dst_nm_address, dst_nm_port, dst_node_id);
 
+    if (response) {
+        if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
             mem_sfree(response);
+            result = 1;
         }
 
-        usleep(1000);
-        counter++;
-        if (counter >= 3)
-            break;
+        mem_sfree(response);
     }
 
     return result;

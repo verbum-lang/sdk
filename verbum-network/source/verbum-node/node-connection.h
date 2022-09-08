@@ -13,12 +13,20 @@ typedef struct node_connection_st {
                                         //  1 = started by controller.
                                         //  2 = running (in use).
 
-    // Control / flags.
+    // Control flags.
     int connection_status;              // Status (connection):
                                         //  0 = inactive.
                                         //  1 = data exists - process connection.
                                         //  2 = success.
                                         //  3 = error.
+
+    int ping_controller_enabled;        // Activate ping controller.
+                                        //  0 = Innactive.
+                                        //  1 = Active.
+
+    int enable_delete_item;             // Enable item deletion.
+                                        //  0 = Innactive.
+                                        //  1 = Active.
 
     // Connection informations.
     int type;                           // Type:
