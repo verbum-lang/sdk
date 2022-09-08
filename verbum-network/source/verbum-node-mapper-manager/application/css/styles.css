@@ -279,6 +279,8 @@ html, body {
 .ac-node-list {
   padding: 20px;
   font-size: 8px;
+  max-height: 300px;
+  overflow-x: auto;
 }
 
 .ac-col-header {
