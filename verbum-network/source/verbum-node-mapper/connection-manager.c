@@ -74,9 +74,10 @@ int update_connections (int sock, char *content)
 
 static int process_connection_item (char *connection)
 {
-    char tmp[1024], name[256], value[256];
     node_connection_t *ncon = connection_create_item();
     node_connection_t *con;
+    char tmp[1024], name[256], value[256];
+    int found = 0;
     
     if (!ncon)
         return 0;
@@ -85,6 +86,7 @@ static int process_connection_item (char *connection)
         return 0;
 
     memset(tmp, 0x0, 1024);
+    ncon->status = 1;
 
     for (int a=0,b=0; ; a++) {
         if (connection[a] == '\n' || connection[a] == '\0') {
@@ -140,8 +142,10 @@ static int process_connection_item (char *connection)
                     ncon->dst_nm_port = atoi(value);
 
                 // Last connection date.
-                else if (strcmp(name, "last-date") == 0) 
-                    mem_salloc_scopy(value, ncon->last_connect_date);
+                else if (strcmp(name, "last-date") == 0) {
+                    memset(ncon->last_connect_date, 0x0, 100);
+                    memcpy(ncon->last_connect_date, value, strlen(value));
+                }
             }
 
             if (connection[a] == '\0')
@@ -155,14 +159,14 @@ static int process_connection_item (char *connection)
             tmp[b++] = connection[a];
     }
 
-    say("item: \"%s\"", ncon->id);
-    say("item: \"%d\"", ncon->type);
-    say("item: \"%s\"", ncon->src_node_id);
-    say("item: \"%s\"", ncon->dst_node_id);
-    say("item: \"%s\"", ncon->dst_nm_id);
-    say("item: \"%s\"", ncon->dst_nm_address);
-    say("item: \"%d\"", ncon->dst_nm_port);
-    say("item: \"%s\"", ncon->last_connect_date);
+    // say("item: \"%s\"", ncon->id);
+    // say("item: \"%d\"", ncon->type);
+    // say("item: \"%s\"", ncon->src_node_id);
+    // say("item: \"%s\"", ncon->dst_node_id);
+    // say("item: \"%s\"", ncon->dst_nm_id);
+    // say("item: \"%s\"", ncon->dst_nm_address);
+    // say("item: \"%d\"", ncon->dst_nm_port);
+    // say("item: \"%s\"", ncon->last_connect_date);
 
     pthread_mutex_lock(&mutex_connections);
 
@@ -170,11 +174,27 @@ static int process_connection_item (char *connection)
     for (con=connections; con!=NULL; con=con->next) {
         if (con->status != 1)
             continue;
+        if (!con->id)
+            continue;
 
-        
+        // Update data.
+        if (strcmp(con->id, ncon->id) == 0) {
+            found = 1;
+
+            // Date.
+            memset(con->last_connect_date, 0x0, 100);
+            memcpy(con->last_connect_date, 
+                ncon->last_connect_date, strlen(ncon->last_connect_date));
+
+            break;
+        }
     }
 
     pthread_mutex_unlock(&mutex_connections);
+
+    // Not found, insert new item.
+    if (!found)
+        connection_insert_item(ncon);
 
     return 1;
 }
