@@ -102,8 +102,8 @@ function process_success_connect (request)
  */
 
 // Node list control.
-var run_gnl = false;
-var nodes = [];
+var run_gnl        = false;
+var nodes          = [];
 var lastNodeLength = 0;
 
 $(document).ready(() => {
@@ -125,11 +125,8 @@ $(document).ready(() => {
 
 });
 
-function process_node_list (nds = [], cons = [])
+function process_node_list (nds = [])
 {
-    console.log(nds);
-    console.log(cons);
-
     // Nodes not found.
     if (nds.length == 0) {
         nodes = nds;
@@ -235,7 +232,7 @@ function delete_node (node_id)
  * Add connection control.
  */
 
-var dbg_ac = true;
+var dbg_ac     = false;
 var ac_node_id = null;
 
 $(document).ready(() => {
@@ -265,6 +262,14 @@ function add_connection (node_id)
 
     $('#ac-src-node').val(node_id);
     $('#modal-add-connection').modal('show');
+
+    // Select first node.
+    for (var a=0; a<nodes.length; a++) {
+        if (nodes[a].id != node_id) {
+            $('#ac-dst-node').val(nodes[a].id);
+            break;
+        }
+    }
 
     if (dbg_ac == true) {
         // Select first node.
@@ -464,8 +469,10 @@ function process_worker (ev)
     else if (request.cmd == 'get-verbum-node-list') {
         if (request.error_disconnect == true) 
             window.interface.restart_application();
-        else
-            process_node_list(request.nodes, request.connections);
+        else {
+            process_informations(request);
+            // process_node_list(request.nodes);
+        }
     }
 
     /**
@@ -486,8 +493,10 @@ function process_worker (ev)
     else if (request.cmd == 'delete-verbum-node') {
         if (request.status == false) 
             set_status('Error deleting node.', true);
-        else 
+        else {
             set_status('Node deleted successfully.', true);
+            process_delete_node(request);
+        }
 
         $('.btn-delete-node').prop('disabled', false);
     }
@@ -567,33 +576,89 @@ function show_network_graph ()
 }
 
 /**
- * HTML generation functions.
+ * Process request informations (nodes and connections).
  */
 
-function render_all_nodes ()
+function process_informations (request)
 {
-    var html = `
-        <table class="table table-dark table-borderless">
-            <tbody>
-    `;
+    nodes = request.nodes;
+    var connections = request.connections;
 
     for (var a=0; a<nodes.length; a++) {
         var node = nodes[a];
-        var prefix = 'cls-'+ node.id;
 
-        html += `
+        if (node.status != 1)
+            continue;
+
+        // Node.
+        if ($('.node-area-'+ node.id).length == 0)
+            append_node(node);
+        else
+            update_node(node);
+
+        // Output connections.
+        for (var b=0; b<connections.length; b++) {
+            if (node.id == connections[b].src_node_id && connections[b].type == 'output') {
+                var connection = connections[b];
+
+                console.log(node.id,'->', connection);
+
+                var prefix = 'node-connection-'+ node.id +'-'+
+                             'connection-'+ connection.id;
+
+                if ($('.'+ prefix).length == 0)
+                    append_output_connection(node, connection, prefix);
+                else
+                    update_output_connection(connection, prefix);
+            }
+        }
+    }
+
+    // Enable get information data.
+    run_gnl = false;
+
+    // Set status.
+    if (status_use == false) {
+        var upd = false;
+
+        if (nodes.length != lastNodeLength)
+            upd = true;
+        
+        var tx = $('.area-status').text().toString().trim();
+        if (tx.length <= 0) 
+            upd = true;
+
+        if (upd == true) {
+            lastNodeLength = nodes.length; 
+            set_status('Total nodes: '+ nodes.length, false);
+        }
+    }
+}
+
+function process_delete_node (request)
+{
+    for (var a=0; a<nodes.length; a++) {
+        if (nodes[a].id == request.node_id) {
+            nodes[a].status = 0;
+            break;
+        }
+    }
+
+    $('.node-area-'+ request.node_id).remove();
+}
+
+function append_node (node)
+{
+    var prefix = 'cls-'+ node.id;
+
+    var html = `
+        <table class="table table-dark table-borderless node-area-`+ node.id +`">
+            <tbody>
             <tr>
                 <th>
                     <table class="table table-dark table-borderless table-results-sec-1">
                         <tbody>
                             <tr>
-                                <th>
-                                    <div class="item">
-                                        <div class="sub-1">Node</div>
-                                        <div class="sub-2">`+ (a+1) +`</div>
-                                    </div>
-                                </th>
-                                
                                 <th>
                                     <div class="item">
                                         <div class="sub-1">Identification</div>
@@ -646,7 +711,106 @@ function render_all_nodes ()
                         <tbody>
                             <tr>
                                 <th>
-                                    `+ generate_connections_area_html(prefix) +`
+                                    <div class='cls-`+ node.id +`-connections-area' >
+
+                                        <table class="table table-dark table-borderless table-results-sec-3">
+                                        <thead>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th colspan='6' class="th-header-top con-th-1" >INPUT</th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col" class="th-header thh-s-1" >Target Node</th>
+                                                <th scope="col" class="th-header thh-s-2" >NM host</th>
+                                                <th scope="col" class="th-header thh-s-3" >NM port</th>
+                                                <th scope="col" class="th-header thh-s-4" >NM direct</th>
+                                                <th scope="col" class="th-header thh-s-5" >Ping</th>
+                                                <th scope="col" class="th-header thh-s-6" style="text-align:right;" >Manager</th>
+                                            </tr>
+                                        </tbody>
+                                        </table>
+
+                                        <div class='cls-`+ node.id +`-input-connections-area' >
+
+                                            <!--
+                                            <table class="table table-dark table-borderless table-results-sec-3">
+                                            <thead>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th class='nd-th-item thh-s-1' >verbum-node-2409308923</th>
+                                                    <th class='nd-th-item thh-s-2' >127.0.0.1</th>
+                                                    <th class='nd-th-item thh-s-3' >3333</th>
+                                                    <th class='nd-th-item thh-s-4' >YES</th>
+                                                    <th class='nd-th-item thh-s-5' >
+                                                        <div class="item-sub-1">
+                                                            31-07-2022 18-21-19
+                                                        </div>
+                                                    </th>
+                                                    <th class='nd-th-item thh-s-6' style="text-align:right;" >
+                                                        <button class='btn btn-2 btn-danger' >
+                                                            <i class="feather-size-b" data-feather="x"></i>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                            -->
+
+                                        </div>
+
+                                        <table class="table table-dark table-borderless table-results-sec-3">
+                                        <thead>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th colspan='6' class="th-header-top con-th-1" >OUTPUT</th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col" class="th-header thh-s-1" >Target Node</th>
+                                                <th scope="col" class="th-header thh-s-2" >NM host</th>
+                                                <th scope="col" class="th-header thh-s-3" >NM port</th>
+                                                <th scope="col" class="th-header thh-s-4" >Node S. port</th>
+                                                <th scope="col" class="th-header thh-s-5" >Ping</th>
+                                                <th scope="col" class="th-header thh-s-6" style="text-align:right;" >Manager</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="6" class="th-separator" ></th>
+                                            </tr>
+                                        </tbody>
+                                        </table>
+
+                                        <div class='cls-`+ node.id +`-output-connections-area' >
+
+                                            <!--
+                                            <table class="table table-dark table-borderless table-results-sec-3">
+                                            <thead>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th class='nd-th-item thh-s-1' >verbum-node-2409308923</th>
+                                                    <th class='nd-th-item thh-s-2' >127.0.0.1</th>
+                                                    <th class='nd-th-item thh-s-3' >3333</th>
+                                                    <th class='nd-th-item thh-s-4' >3334</th>
+                                                    <th class='nd-th-item thh-s-5' >
+                                                        <div class="item-sub-1">
+                                                            31-07-2022 18-21-19
+                                                        </div>
+                                                    </th>
+                                                    <th class='nd-th-item thh-s-6' style="text-align:right;" >
+                                                        <button class='btn btn-2 btn-danger' >
+                                                            <i class="feather-size-b" data-feather="x"></i>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                            -->
+
+                                        </div>
+
+                                    </div>
                                 </th>
                             </tr>
                         </tbody>
@@ -655,141 +819,81 @@ function render_all_nodes ()
                     <hr>
                 </th>
             </tr>
-        `;
-    }
-
-    html += `
-        </tbody>
+            </tbody>
         </table>
     `;
 
-    $('#node-list-results').html(html);
+    $('#node-list-results').append(html);
     feather.replace();
 }
 
-function render_information_nodes ()
+function update_node (node)
 {
-    for (var a=0; a<nodes.length; a++) {
-        var node = nodes[a];
-        var prefix = 'cls-'+ node.id;
+    var prefix = 'cls-'+ node.id;
 
-        $('.'+ prefix +'-core-port').text(node.core_port);
-        $('.'+ prefix +'-server-port').text(node.server_port);
-        $('.'+ prefix +'-last-con-date').text(node.last_connection_date);
-    }
+    $('.'+ prefix +'-core-port').text(node.core_port);
+    $('.'+ prefix +'-server-port').text(node.server_port);
+    $('.'+ prefix +'-last-con-date').text(node.last_connection_date);
 }
 
-function generate_connections_area_html (prefix)
+function append_output_connection (node, connection, prefix)
 {
     var html = `
-        <table class="table table-dark table-borderless table-results-sec-3">
+        <div class='`+ prefix +`' >
+            <table class="table table-dark table-borderless table-results-sec-3">
             <thead>
             </thead>
             <tbody>
                 <tr>
-                    <th colspan='6' class="th-header-top con-th-1" >INPUT</th>
-                </tr>
-
-                <tr>
-                    <th scope="col" class="th-header" >Source ID</th>
-                    <th scope="col" class="th-header" >NM host</th>
-                    <th scope="col" class="th-header" >NM port</th>
-                    <th scope="col" class="th-header" >NM direct</th>
-                    <th scope="col" class="th-header" >Ping</th>
-                    <th scope="col" class="th-header" style="text-align:right;" >Manager</th>
-                </tr>
-
-                <tr>
-                    <th colspan="6" class="th-separator" ></th>
-                </tr>
-
-                <tr>
-                    <th class='nd-th-item' >verbum-node-2409308923</th>
-                    <th class='nd-th-item' >127.0.0.1</th>
-                    <th class='nd-th-item' >3333</th>
-                    <th class='nd-th-item' >YES</th>
-                    <th class='nd-th-item' >
-                        <div class="item-sub-1">
-                            31-07-2022 18-21-19
+                    <th class='nd-th-item thh-s-1' >
+                        <div class='`+ prefix +`-dst-node-id' >
+                            `+ connection.dst_node_id +`
                         </div>
                     </th>
-                    <th class='nd-th-item' style="text-align:right;" >
-                        <button class='btn btn-2 btn-danger' >
-                            <i class="feather-size-b" data-feather="x"></i>
-                        </button>
-                    </th>
-                </tr>
-                <tr>
-                    <th class='nd-th-item' >verbum-node-2409308923</th>
-                    <th class='nd-th-item' >127.0.0.1</th>
-                    <th class='nd-th-item' >3333</th>
-                    <th class='nd-th-item' >NO</th>
-                    <th class='nd-th-item' >
-                        <div class="item-sub-1">
-                            31-07-2022 18-21-19
+                    <th class='nd-th-item thh-s-2' >
+                        <div class='`+ prefix +`-dst-nm-addr' >
+                            `+ connection.dst_nm_addr +`
                         </div>
                     </th>
-                    <th class='nd-th-item' style="text-align:right;" >
-                        <button class='btn btn-2 btn-danger' >
-                            <i class="feather-size-b" data-feather="x"></i>
-                        </button>
-                    </th>
-                </tr>
-                
-                <tr>
-                    <th colspan='6' class="th-header-top con-th-1" >OUTPUT</th>
-                </tr>
-
-                <tr>
-                    <th scope="col" class="th-header" >Destination ID</th>
-                    <th scope="col" class="th-header" >NM host</th>
-                    <th scope="col" class="th-header" >NM port</th>
-                    <th scope="col" class="th-header" >Node server port</th>
-                    <th scope="col" class="th-header" >Ping</th>
-                    <th scope="col" class="th-header" style="text-align:right;" >Manager</th>
-                </tr>
-
-                <tr>
-                    <th colspan="6" class="th-separator" ></th>
-                </tr>
-
-                <tr>
-                    <th class='nd-th-item' >verbum-node-2409308923</th>
-                    <th class='nd-th-item' >127.0.0.1</th>
-                    <th class='nd-th-item' >3333</th>
-                    <th class='nd-th-item' >3334</th>
-                    <th class='nd-th-item' >
-                        <div class="item-sub-1">
-                            31-07-2022 18-21-19
+                    <th class='nd-th-item thh-s-3' >
+                        <div class='`+ prefix +`-dst-nm-port' >
+                            `+ connection.dst_nm_addr +`
                         </div>
                     </th>
-                    <th class='nd-th-item' style="text-align:right;" >
-                        <button class='btn btn-2 btn-danger' >
-                            <i class="feather-size-b" data-feather="x"></i>
-                        </button>
-                    </th>
-                </tr>
-                <tr>
-                    <th class='nd-th-item' >verbum-node-2409308923</th>
-                    <th class='nd-th-item' >127.0.0.1</th>
-                    <th class='nd-th-item' >3333</th>
-                    <th class='nd-th-item' ></th>
-                    <th class='nd-th-item' >
-                        <div class="item-sub-1">
-                            31-07-2022 18-21-19
+                    <th class='nd-th-item thh-s-4' >
+                        <div class='`+ prefix +`-dst-node-sv-port' >
+                            `+ connection.dst_node_sv_port +`
                         </div>
                     </th>
-                    <th class='nd-th-item' style="text-align:right;" >
+                    <th class='nd-th-item thh-s-5' >
+                        <div class="item-sub-1">
+                            <div class='`+ prefix +`-last-date' >
+                                `+ connection.last_connection_date +`
+                            </div>
+                        </div>
+                    </th>
+                    <th class='nd-th-item thh-s-6' style="text-align:right;" >
                         <button class='btn btn-2 btn-danger' >
                             <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
                 </tr>
             </tbody>
-        </table>
+            </table>
+        </div>
     `;
 
-    return html;
+    $('.cls-'+ node.id +'-output-connections-area').append(html);
+    feather.replace();
+}
+
+function update_output_connection (connection, prefix)
+{
+    $('.'+ prefix +'-dst-node-id').text(connection.dst_node_id);
+    $('.'+ prefix +'-dst-nm-addr').text(connection.dst_nm_addr);
+    $('.'+ prefix +'-dst-nm-port').text(connection.dst_nm_port);
+    $('.'+ prefix +'-dst-node-sv-port').text(connection.dst_node_sv_port);
+    $('.'+ prefix +'-last-date').text(connection.last_connection_date);
 }
 
 

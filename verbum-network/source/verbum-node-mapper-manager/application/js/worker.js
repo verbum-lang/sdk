@@ -96,6 +96,7 @@ onmessage = function(ev) {
                                     id.length > 0 && date.length > 0                       )
                                 {
                                     request.nodes.push({
+                                        status: 1, // 1: active, 0: disabled.
                                         node: node,
                                         id: id,
                                         core_port: core_port,
@@ -118,6 +119,7 @@ onmessage = function(ev) {
                                 var last_con_date = null;
                                 var con_error = -1;
                                 var con_error_count = -1;
+                                var dst_node_sv_port = -1;
 
                                 for (var b=0; b<lines.length; b++) {
                                     var iitem = lines[b].toString().trim();
@@ -149,6 +151,8 @@ onmessage = function(ev) {
                                             con_error = value;
                                         else if (name == 'error count')
                                             con_error_count = value;
+                                        else if (name == 'dst-node-sv-port')
+                                            dst_node_sv_port = value;
                                     }
                                 }
 
@@ -168,7 +172,8 @@ onmessage = function(ev) {
                                         dst_nm_port: parseInt(dst_nm_port),
                                         last_connection_date: last_con_date,
                                         error: (con_error == '0' ? false : true),
-                                        error_count: parseInt(con_error_count)
+                                        error_count: parseInt(con_error_count),
+                                        dst_node_sv_port: parseInt(dst_node_sv_port)
                                     });
                                 }
                             }

@@ -217,7 +217,7 @@ html, body {
 
 .table-results-sec-3 .th-header {
   text-align: left;
-  background-color: #2c3034;;
+  background-color: #2c3034;
   font-weight: bold;
 }
 
@@ -235,7 +235,7 @@ html, body {
 }
 
 .nd-th-item {
-  padding: 2px !important;
+  padding: 0 !important;
   padding-left:  5px !important;
   padding-right: 5px !important;
 }
@@ -254,8 +254,34 @@ html, body {
 }
 
 /**
+ * Connections styles.
+ */
+
+/* Fix sizes. */
+.thh-s-2 {
+  width: 100px;
+}
+
+.thh-s-3 {
+  width: 50px;
+}
+
+.thh-s-4 {
+  width: 100px;
+}
+
+.thh-s-5 {
+  width: 100px;
+}
+
+.thh-s-6 {
+  width: 70px;
+}
+
+/**
  * Modal styles.
  */
+
 .modal {
   color: black;
 }
