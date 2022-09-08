@@ -36,7 +36,7 @@
 #define mem_salloc(DESTINATION, SIZE)                                                   \
     do {                                                                                \
         int size = sizeof(char) * (SIZE + 1);                                           \
-        dst_node_id = (char *) malloc(size);                                            \
+        DESTINATION = (char *) malloc(size);                                            \
     } while(0)
 
 #define mem_scopy(SOURCE, DESTINATION)                                                  \

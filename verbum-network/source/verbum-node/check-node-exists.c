@@ -10,7 +10,7 @@ int check_node_exists (int sock, char *content)
     char response_error     [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char response_success_p [] = VERBUM_DEFAULT_SUCCESS;
     char *ptr = NULL, *response_success = NULL, *id = NULL;
-    int bytes = 0, status = 0, size = 0, interface_port = 0;
+    int bytes = 0, status = 0, size = 0, core_port = 0, server_port = 0;
 
     if (!sock || !content)
         return 0;
@@ -29,7 +29,8 @@ int check_node_exists (int sock, char *content)
 
     if (strcmp(gconfig->information.id, tmp) == 0) {
         mem_scopy_goto(gconfig->information.id, id, cne_end_mt);
-        interface_port = gconfig->information.core_port;
+        core_port = gconfig->information.core_port;
+        server_port = gconfig->information.server_port;
         status = 1;
     }
 
@@ -53,8 +54,8 @@ int check_node_exists (int sock, char *content)
     // Return node information.
     sprintf(response_success, 
         "%s\n\n"
-        "verbum-node-information:%s:%d", 
-            response_success_p, id, interface_port);
+        "verbum-node-information:%s:%d:%d", 
+            response_success_p, id, core_port, server_port);
 
     bytes = send(sock, response_success, strlen(response_success), 0);
     return 1;

@@ -83,6 +83,7 @@ node_connection_t *connection_create_item (void)
     connection->status                  = 0;
     connection->connection_status       = 0;
     connection->ping_controller_enabled = 0;
+    connection->enable_delete_item      = 0;
     connection->type                    = -1;
 
     connection->dst_node_id             = NULL;
@@ -137,7 +138,7 @@ static void *connection_ping_controller (void *tparam)
     char *dst_nm_address = NULL;
     int   dst_nm_port    = 0;
 
-    int status = 0, valid = 0, error = 0, size = 0;
+    int status = 0, valid = 0, error = 0;
     mem_scopy_ret(param->cid, connection_id, NULL);
 
     while (1) {
@@ -161,7 +162,10 @@ static void *connection_ping_controller (void *tparam)
                 else if (connection->ping_controller_enabled == 1) 
                     valid = 1;
 
-                if (valid) {
+                if (valid == 1) {
+                    #ifdef NCDBG_CON
+                        say("request found.");
+                    #endif
 
                     // Src node.
                     mem_salloc(dst_node_id, strlen(connection->dst_node_id));
@@ -179,6 +183,10 @@ static void *connection_ping_controller (void *tparam)
                     }
 
                     break;
+                } else {
+                    #ifdef NCDBG_CON
+                        say("flag error - ping controller.");
+                    #endif
                 }
             }
         }
@@ -186,10 +194,6 @@ static void *connection_ping_controller (void *tparam)
         pthread_mutex_unlock(&mutex_connections);
 
         if (error == 0 || !dst_node_id || !dst_nm_address || !dst_nm_port) {
-            #ifdef NCDBG_CON
-                say("data error - ping controller.");
-            #endif
-
             mem_sfree(dst_node_id);
             mem_sfree(dst_nm_address);
             sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
@@ -204,7 +208,7 @@ static void *connection_ping_controller (void *tparam)
         status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port);
 
         #ifdef NCDBG_CON
-            say("communication status: %s", status);
+            say("communication status: %d", status);
         #endif
         
         pthread_mutex_lock(&mutex_connections);
@@ -259,8 +263,10 @@ static void *connection_ping_controller (void *tparam)
 
 static int ping_controller_communication (char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
-    int counter = 0;
-    int result  = 0;
+    int counter = 0, result = 0, valid = 0, server_port = 0;
+    char *response1 = NULL, *response2 = NULL;
+    char *ptr = NULL;
+    char tmp[1024];
 
     if (!dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
@@ -269,33 +275,70 @@ static int ping_controller_communication (char *dst_node_id, char *dst_nm_addres
         say("start communication - ping controller.");
     #endif
 
-    // Send request to node.
-    char *response = process_connection_ping(dst_nm_address, dst_nm_port, dst_node_id);
-
-    if (response) {
-        #ifdef NCDBG_CON
-            say("response: \"%s\"", response);
-        #endif
-
-        if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
-            mem_sfree(response);
-            result = 1;
-        }
-
-        mem_sfree(response);
+    // Connect to destination Node Mapper, and 
+    // check destination Verbum Node exists.
+    response1 = process_check_node_exists(dst_nm_address, dst_nm_port, dst_node_id);
+    if (response1) {
+        if (strstr(response1, VERBUM_DEFAULT_SUCCESS)) 
+            valid = 1;
     }
 
-    if (result == 1) {
-        #ifdef NCDBG_CON
-            say("communication success.");
-        #endif
-    } else {
-        #ifdef NCDBG_CON
-            say("communication error.");
-        #endif
+    if (!valid) 
+        goto end_error;
+    
+    // Extract server node port.
+    ptr = strstr(response1, "verbum-node-information:");
+    if (!ptr)
+        goto end_error;
+
+    ptr += strlen("verbum-node-information:");
+    memset(tmp, 0x0, 1024);
+
+    for (int a=0,b=0,c=0; ptr[a]!='\0'; a++) {
+        if (ptr[a] == ':') {
+            switch (c) {
+                /* Node ID.        */ case 0: break;
+                /* Node Core port. */ case 1: break;
+            }
+
+            c++;
+            b = 0;
+            memset(tmp, 0x0, 1024);
+        } 
+        
+        else
+            tmp[b++] = ptr[a];
     }
 
-    return result;
+    if (tmp) {
+        if (strlen(tmp) > 0)
+            server_port = atoi(tmp);
+    }
+
+    if (!server_port)
+        goto end_error;
+
+    // Connect to Node Server interface.
+    valid     = 0;
+    response2 = process_connection_ping(dst_nm_address, server_port, dst_node_id);
+
+    if (response2) {
+        if (strstr(response2, VERBUM_DEFAULT_SUCCESS)) 
+            valid = 1;
+    }
+
+    if (!valid) 
+        goto end_error;
+
+    mem_sfree(response1);
+    mem_sfree(response2);
+    return 1;
+
+    end_error:
+    mem_sfree(response1);
+    mem_sfree(response2);
+
+    return 0;
 }
 
 
