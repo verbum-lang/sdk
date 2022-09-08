@@ -1,8 +1,12 @@
 
 #include "ping-node-mapper.h"
+#include "node-connection.h"
 
-extern pthread_mutex_t  mutex_gconfig;
-extern node_config_t   *gconfig;
+extern pthread_mutex_t    mutex_gconfig;
+extern node_config_t     *gconfig;
+
+extern node_connection_t *connections;
+extern pthread_mutex_t    mutex_connections;
 
 int ping_node_action (void)
 {
@@ -18,10 +22,12 @@ int ping_node_action (void)
 
 void *ping_node_handler (void *tparam)
 {
+    char *response1 = NULL, *response2 = NULL;
     char address [] = LOCALHOST;
     char *id = NULL;
     int node_mapper_port = 0, size = 0;
     int core_port = 0, server_port = 0;
+    node_connection_t *connection;
     
     wait_config:
     pthread_mutex_lock(&mutex_gconfig);
@@ -55,16 +61,43 @@ void *ping_node_handler (void *tparam)
         goto wait_config;
 
     while (1) {
-        char *response = 
+        
+        // Ping updater.
+        response1 = 
             process_ping_node(address, node_mapper_port, id, core_port, server_port);
         
-        if (response) {
+        if (response1) {
             #ifdef NCDBG_PING
-                say("ping response: %s", response);
+                say("ping response: %s", response1);
             #endif
 
-            mem_sfree(response);
+            mem_sfree(response1);
         }
+
+        // Connection updater.
+        pthread_mutex_lock(&mutex_connections);
+        
+        if (connections) {
+            for (connection=connections; connection != NULL; connection=connection->next) {
+                if (connection->status != 2)
+                    continue;
+                if (!connection->id)
+                    continue;
+                if (connection->enable_delete_item == 1)
+                    continue;
+
+                say("connection type: \"%d\"", connection->type);
+                say("connection id..: \"%s\"", connection->id);
+                say("src_node_id....: \"%s\"", id);
+                say("dst_node_id....: \"%s\"", connection->dst_node_id);
+                say("dst_nm_id......: \"%s\"", connection->dst_nm_id);
+                say("dst_nm_address.: \"%s\"", connection->dst_nm_address);
+                say("dst_nm_port....: \"%d\"", connection->dst_nm_port);
+                say("last date......: \"%s\"", connection->last_connect_date);
+            }
+        }
+
+        pthread_mutex_unlock(&mutex_connections);
 
         sleep(NODE_PING_LOOP_SEC_DELAY);
     }

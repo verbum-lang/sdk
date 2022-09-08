@@ -11,7 +11,7 @@ typedef struct node_connection_st {
     int status;                         // Status (struct item):
                                         //  0 = free to use.
                                         //  1 = started by controller.
-                                        //  2 = running (in use).
+                                        //  2 = running / active (in use).
 
     // Control flags.
     int connection_status;              // Status (connection):
@@ -40,6 +40,8 @@ typedef struct node_connection_st {
     char *dst_nm_id;                    // Destination Node Mapper ID. 
     char *dst_nm_address;               // Destination Node Mapper address (IP).
     int   dst_nm_port;                  // Destination Node Mapper interface port.
+
+    char last_connect_date [100];       // Last connected date.
 
     // Thread.
     pthread_t tid_ping_controller;      // Thread handle - Ping controller.

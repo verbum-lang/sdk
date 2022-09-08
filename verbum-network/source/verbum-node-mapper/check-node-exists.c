@@ -15,7 +15,7 @@ int check_node_exists (int sock, char *content)
     char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char address           [] = LOCALHOST;
     char *ptr = NULL, *response_success = NULL;
-    int bytes = 0, status = 0, counter = 0;
+    int bytes = 0, status = 0, counter = 0, core_port = 0;
     node_control_t *node;
 
     if (!sock || !content)
@@ -32,42 +32,41 @@ int check_node_exists (int sock, char *content)
 
     // Search node.
     pthread_mutex_lock(&mutex_nodes);
-    
+
     for (node=nodes; node!=NULL; node=node->next) {
         if (node->status != 1)
             continue;
 
         if (strcmp(node->id, tmp) == 0) {
-            
-            // Send message to node.
-            while (1) {
-                char *response = process_check_node_exists(address, node->core_port, node->id);
-                if (response) {
-                    if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
-                        
-                        // Copy response.
-                        mem_scopy_goto(response, response_success, cne_end);
-                        mem_sfree(response);
-                        
-                        status = 1;
-                        break;
-                    }
-
-                    mem_sfree(response);
-                }
- 
-                usleep(1000);
-                counter++;
-                if (counter >= 3)
-                    break;
-            }
+            status = 1;
+            core_port = node->core_port;
             break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_nodes);
+            
+    // Send message to node.
+    if (status == 1) {
+        status = 0;
+
+        char *response = process_check_node_exists(address, core_port, tmp);
+        if (response) {
+            if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+                
+                // Copy response.
+                mem_scopy_goto(response, response_success, cne_end);
+                mem_sfree(response);
+                
+                status = 1;
+            }
+
+            mem_sfree(response);
         }
     }
 
     // Finish.
     cne_end:
-    pthread_mutex_unlock(&mutex_nodes);
 
     if (!status) {
         bytes = send(sock, response_error, strlen(response_error), 0);

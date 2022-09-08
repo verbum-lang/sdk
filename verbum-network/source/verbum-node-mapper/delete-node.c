@@ -19,7 +19,7 @@ int delete_node (int sock, char *content)
     char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char address           [] = LOCALHOST;
     char *ptr = NULL;
-    int bytes = 0, status = 0, counter = 0;
+    int bytes = 0, status = 0, counter = 0, core_port = 0;
     node_control_t *node;
 
     // Extract node ID.
@@ -39,25 +39,7 @@ int delete_node (int sock, char *content)
             continue;
 
         if (strcmp(node->id, tmp) == 0) {
-            
-            // Send request to node.
-            while (1) {
-                char *response = process_delete_node(address, node->core_port, node->id);
-                if (response) {
-                    if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
-                        mem_sfree(response);
-                        break;
-                    }
-
-                    mem_sfree(response);
-                }
- 
-                usleep(1000);
-                counter++;
-                if (counter >= 3)
-                    break;
-            }
-
+            core_port = node->core_port;
             status = 1;
             node->status = 0;
             break;
@@ -65,6 +47,26 @@ int delete_node (int sock, char *content)
     }
 
     pthread_mutex_unlock(&mutex_nodes);
+
+    // Send request to node.
+    if (status) {
+        while (1) {
+            char *response = process_delete_node(address, core_port, tmp);
+            if (response) {
+                if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+                    mem_sfree(response);
+                    break;
+                }
+
+                mem_sfree(response);
+            }
+
+            usleep(1000);
+            counter++;
+            if (counter >= 3)
+                break;
+        }
+    }
 
     // Finish.
     dn_end:

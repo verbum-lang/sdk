@@ -177,19 +177,20 @@ int create_node_output_connection (
             if (!connection->id)
                 continue;
             
-            if (strcmp(connection->id, current_id) == 0)
+            if (strcmp(connection->id, current_id) == 0) {
                 if (connection->connection_status == 2 ||
                     connection->connection_status == 3  )
                 {
                     #ifdef NCDBG_CON
                         say("end connection control, status: %d", 
-                                connection->connection_status);
+                                    connection->connection_status);
                     #endif
 
                     status = connection->connection_status;
                     connection->first_request_ok = 1;
                     break;
                 }
+            }
         }
 
         pthread_mutex_unlock(&mutex_connections);

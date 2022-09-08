@@ -498,4 +498,36 @@ char *process_connection_ping (char *address, int node_port, char *node_id)
     return response;
 }
 
+char *process_delete_connection_node_mapper (char *address, int nm_port, char *connection_id)
+{
+    char prefix     [] = "delete-verbum-node-connection:";
+    char end_header [] = VERBUM_EOH;
+    char *message      = NULL, *response = NULL;
+    int size           = 0, sock = -1;
+
+    if (!address || !nm_port || !connection_id)
+        return NULL;
+
+    sock = create_connection(address, nm_port, 0);
+    if (sock == -1)
+        return NULL;
+
+    size = sizeof(char) * (strlen(prefix) + strlen(connection_id) + strlen(end_header) + 1);
+    mem_alloc_ret(message, size, char *, NULL);
+
+    sprintf(message, "%s%s%s", prefix, connection_id, end_header);
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        mem_sfree(message);
+        return NULL;
+    }
+
+    mem_sfree(message);
+    close(sock);
+
+    return response;
+}
+
 

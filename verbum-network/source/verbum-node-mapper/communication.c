@@ -8,7 +8,7 @@
 #include "check-node-exists.h"
 #include "create-node-connection.h"
 
-int process_communication (int sock, char *path)
+int process_communication(int sock, char *path)
 {
     char *response = NULL;
 
@@ -71,5 +71,3 @@ int process_communication (int sock, char *path)
     mem_sfree(response);
     return 1;
 }
-
-

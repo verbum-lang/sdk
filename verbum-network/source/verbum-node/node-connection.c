@@ -3,14 +3,22 @@
 #include "generate-connection-id.h"
 
 static void *connection_ping_controller    (void *tparam);
-static int   ping_controller_communication (char *dst_node_id, char *dst_nm_address, int dst_nm_port);
+static int   ping_controller_communication (char *dst_node_id, char *dst_nm_address, 
+                                            int dst_nm_port, char *connection_id);
 
-node_connection_t *connections;
-pthread_mutex_t    mutex_connections = PTHREAD_MUTEX_INITIALIZER;
+extern pthread_mutex_t  mutex_gconfig;
+extern node_config_t   *gconfig;
+
+pthread_mutex_t         mutex_connections = PTHREAD_MUTEX_INITIALIZER;
+node_connection_t      *connections;
 
 void *node_connection (void *tparam)
 {
-    node_connection_t * connection;
+    node_connection_t *connection;
+    node_connection_t *con_last;
+    int node_mapper_port = 0;
+    char address [] = LOCALHOST;
+    char *response = NULL;
 
     #ifdef NCDBG_CON
         say("Node connection started!");
@@ -19,6 +27,10 @@ void *node_connection (void *tparam)
     /**
      * Initialization.
      */
+
+    pthread_mutex_lock(&mutex_gconfig);
+    node_mapper_port = gconfig->node_mapper_port;
+    pthread_mutex_unlock(&mutex_gconfig);
 
     // Prepare mutex.
     if (pthread_mutex_init(&mutex_connections, NULL) != 0) 
@@ -53,16 +65,34 @@ void *node_connection (void *tparam)
                 }
             }
 
-            // Delete item.
+            // Delete connection.
             else if (connection->first_request_ok   == 1 && 
                      connection->enable_delete_item == 1  ) 
             {
-                connection->enable_delete_item = 2;
-
                 #ifdef NCDBG_CON
-                    say("delete item.");
+                    say("delete connection.");
                 #endif
+
+                // Send request to Node Mapper.
+                response = process_delete_connection_node_mapper(address, node_mapper_port, connection->id);
+                
+                // Remove struct item.
+                if (connection->next)
+                    con_last->next = connection->next;
+                else
+                    con_last->next = NULL;
+
+                mem_sfree(response);
+                mem_sfree(connection->id);
+                mem_sfree(connection->dst_node_id);
+                mem_sfree(connection->dst_nm_id);
+                mem_sfree(connection->dst_nm_address);
+                free(connection);
+
+                continue;
             }
+
+            con_last = connection;
         }
 
         pthread_mutex_unlock(&mutex_connections);
@@ -207,7 +237,7 @@ static void *connection_ping_controller (void *tparam)
          */
 
         error  = 0;
-        status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port);
+        status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port, connection_id);
 
         pthread_mutex_lock(&mutex_connections);
 
@@ -258,14 +288,16 @@ static void *connection_ping_controller (void *tparam)
     return NULL;
 }
 
-static int ping_controller_communication (char *dst_node_id, char *dst_nm_address, int dst_nm_port)
+static int ping_controller_communication (
+    char *dst_node_id, char *dst_nm_address, int dst_nm_port, char *connection_id)
 {
     int counter = 0, result = 0, valid = 0, server_port = 0;
     char *response1 = NULL, *response2 = NULL;
-    char *ptr = NULL;
+    char *ptr = NULL, *date = NULL;
     char tmp[1024];
+    node_connection_t *connection;
 
-    if (!dst_node_id || !dst_nm_address || !dst_nm_port)
+    if (!dst_node_id || !dst_nm_address || !dst_nm_port || !connection_id)
         return 0;
 
     // Connect to destination Node Mapper, and 
@@ -323,6 +355,31 @@ static int ping_controller_communication (char *dst_node_id, char *dst_nm_addres
     if (!valid) 
         goto end_error;
 
+    // Search connection.
+    date = make_datetime();
+    if (date) {
+        pthread_mutex_lock(&mutex_connections);
+        
+        for (connection=connections; connection != NULL; connection=connection->next) {
+            if (connection->status != 2)
+                continue;
+            if (!connection->id)
+                continue;
+
+            // Update connection informations.
+            if (strcmp(connection->id, connection_id) == 0) {
+                
+                // Date.
+                memset(connection->last_connect_date, 0x0, 100);
+                sprintf(connection->last_connect_date, "%s", date);
+            }
+        }
+
+        pthread_mutex_unlock(&mutex_connections);
+        mem_sfree(date);
+    }
+
+    // Finish.
     mem_sfree(response1);
     mem_sfree(response2);
     return 1;
