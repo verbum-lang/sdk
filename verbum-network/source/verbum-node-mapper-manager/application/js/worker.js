@@ -160,15 +160,15 @@ onmessage = function(ev) {
                                 {
                                     request.connections.push({
                                         id: connection_id,
-                                        type: connection_type,
+                                        type: (connection_type == '0' ? 'output' : 'input'),
                                         src_node_id: src_node_id,
                                         dst_node_id: dst_node_id,
                                         dst_nm_id: dst_nm_id,
                                         dst_nm_addr: dst_nm_addr,
-                                        dst_nm_port: dst_nm_port,
+                                        dst_nm_port: parseInt(dst_nm_port),
                                         last_connection_date: last_con_date,
-                                        error: con_error,
-                                        error_count: con_error_count
+                                        error: (con_error == '0' ? false : true),
+                                        error_count: parseInt(con_error_count)
                                     });
                                 }
                             }
