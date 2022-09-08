@@ -44,8 +44,11 @@ onmessage = function(ev) {
             else {
                 var resp  = response.split('\r\n\r\n');
                 if (resp[1]) {
-                    var parts = resp[1].split('\n\n');
+                    var parts = resp[1].split('***\n');
 
+                    console.log(parts)
+
+                    if (0)
                     for (var a=0; a<parts.length; a++) {
                         var item = parts[a].toString().trim();
 
