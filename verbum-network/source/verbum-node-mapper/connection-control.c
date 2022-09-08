@@ -19,6 +19,7 @@ node_connection_t *connection_create_item (void)
     connection->next                    = NULL;
     connection->connection_error        = 0;
     connection->connection_error_count  = 0;
+    connection->dst_node_sv_port        = 0;
     memset(connection->last_connect_date, 0x0, 100);
 
     return connection;

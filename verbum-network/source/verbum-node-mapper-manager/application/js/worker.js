@@ -127,6 +127,9 @@ onmessage = function(ev) {
                                         continue;
 
                                     var iparts = iitem.split(': ');
+                                    if (!iparts[0] || !iparts[1])
+                                        continue;
+
                                     var name   = iparts[0].toString().trim();
                                     var value  = iparts[1].toString().trim();
                                     

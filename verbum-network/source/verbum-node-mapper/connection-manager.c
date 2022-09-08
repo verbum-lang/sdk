@@ -167,6 +167,10 @@ static int process_connection_item (char *connection)
                 else if (strcmp(name, "error-count") == 0) 
                     ncon->connection_error_count = atoi(value);
 
+                // Connection error count.
+                else if (strcmp(name, "dst-node-sv-port") == 0) 
+                    ncon->dst_node_sv_port = atoi(value);
+
             }
 
             if (connection[a] == '\0')
@@ -191,6 +195,7 @@ static int process_connection_item (char *connection)
         say("item: \"%s\"", ncon->last_connect_date);
         say("item: \"%d\"", ncon->connection_error);
         say("item: \"%d\"", ncon->connection_error_count);
+        say("item: \"%d\"", ncon->dst_node_sv_port);
     #endif
 
     ncon->status = 1;
@@ -199,17 +204,14 @@ static int process_connection_item (char *connection)
 
     // Search connection.
     for (con=connections; con!=NULL; con=con->next) {
-        if (con->status != 1) {
+        if (con->status != 1 || !con->id || !con->dst_node_id) {
             last = con;
             continue;
         }
 
-        if (!con->id) {
-            last = con;
-            continue;
-        }
-
-        if (strcmp(con->id, ncon->id) == 0) {
+        if (strcmp(con->id, ncon->id) == 0                  &&
+            strcmp(con->dst_node_id, ncon->dst_node_id) == 0 ) 
+        {
             found = 1;
 
             // Replace item.

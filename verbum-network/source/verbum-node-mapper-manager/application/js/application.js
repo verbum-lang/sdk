@@ -719,9 +719,9 @@ function append_node (node)
                                                 <th colspan='6' class="th-header-top con-th-1" >INPUT</th>
                                             </tr>
                                             <tr>
-                                                <th scope="col" class="th-header thh-s-1" >Target Node</th>
-                                                <th scope="col" class="th-header thh-s-2" >NM host</th>
-                                                <th scope="col" class="th-header thh-s-3" >NM port</th>
+                                                <th scope="col" class="th-header thh-s-1" >Target node</th>
+                                                <th scope="col" class="th-header thh-s-2" >NM ID</th>
+                                                <th scope="col" class="th-header thh-s-3" >NM address</th>
                                                 <th scope="col" class="th-header thh-s-4" >NM direct</th>
                                                 <th scope="col" class="th-header thh-s-5" >Ping</th>
                                                 <th scope="col" class="th-header thh-s-6" style="text-align:right;" >Manager</th>
@@ -729,47 +729,21 @@ function append_node (node)
                                         </tbody>
                                         </table>
 
-                                        <div class='cls-`+ node.id +`-input-connections-area' >
-
-                                            <!--
-                                            <table class="table table-dark table-borderless table-results-sec-3">
-                                            <thead>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th class='nd-th-item thh-s-1' >verbum-node-2409308923</th>
-                                                    <th class='nd-th-item thh-s-2' >127.0.0.1</th>
-                                                    <th class='nd-th-item thh-s-3' >3333</th>
-                                                    <th class='nd-th-item thh-s-4' >YES</th>
-                                                    <th class='nd-th-item thh-s-5' >
-                                                        <div class="item-sub-1">
-                                                            31-07-2022 18-21-19
-                                                        </div>
-                                                    </th>
-                                                    <th class='nd-th-item thh-s-6' style="text-align:right;" >
-                                                        <button class='btn btn-2 btn-danger' >
-                                                            <i class="feather-size-b" data-feather="x"></i>
-                                                        </button>
-                                                    </th>
-                                                </tr>
-                                            </tbody>
-                                            </table>
-                                            -->
-
-                                        </div>
+                                        <div class='cls-`+ node.id +`-input-connections-area' ></div>
 
                                         <table class="table table-dark table-borderless table-results-sec-3">
                                         <thead>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th colspan='6' class="th-header-top con-th-1" >OUTPUT</th>
+                                                <th colspan='7' class="th-header-top con-th-1" >OUTPUT</th>
                                             </tr>
                                             <tr>
+                                                <th scope="col" class="th-header thh-s-0" >ID</th>
                                                 <th scope="col" class="th-header thh-s-1" >Target Node</th>
-                                                <th scope="col" class="th-header thh-s-2" >NM host</th>
-                                                <th scope="col" class="th-header thh-s-3" >NM port</th>
-                                                <th scope="col" class="th-header thh-s-4" >Node S. port</th>
+                                                <th scope="col" class="th-header thh-s-2" >NM ID</th>
+                                                <th scope="col" class="th-header thh-s-3" >NM address</th>
+                                                <th scope="col" class="th-header thh-s-4" >N. S. port</th>
                                                 <th scope="col" class="th-header thh-s-5" >Ping</th>
                                                 <th scope="col" class="th-header thh-s-6" style="text-align:right;" >Manager</th>
                                             </tr>
@@ -779,34 +753,7 @@ function append_node (node)
                                         </tbody>
                                         </table>
 
-                                        <div class='cls-`+ node.id +`-output-connections-area' >
-
-                                            <!--
-                                            <table class="table table-dark table-borderless table-results-sec-3">
-                                            <thead>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th class='nd-th-item thh-s-1' >verbum-node-2409308923</th>
-                                                    <th class='nd-th-item thh-s-2' >127.0.0.1</th>
-                                                    <th class='nd-th-item thh-s-3' >3333</th>
-                                                    <th class='nd-th-item thh-s-4' >3334</th>
-                                                    <th class='nd-th-item thh-s-5' >
-                                                        <div class="item-sub-1">
-                                                            31-07-2022 18-21-19
-                                                        </div>
-                                                    </th>
-                                                    <th class='nd-th-item thh-s-6' style="text-align:right;" >
-                                                        <button class='btn btn-2 btn-danger' >
-                                                            <i class="feather-size-b" data-feather="x"></i>
-                                                        </button>
-                                                    </th>
-                                                </tr>
-                                            </tbody>
-                                            </table>
-                                            -->
-
-                                        </div>
+                                        <div class='cls-`+ node.id +`-output-connections-area' ></div>
 
                                     </div>
                                 </th>
@@ -843,24 +790,29 @@ function append_output_connection (node, connection, prefix)
             </thead>
             <tbody>
                 <tr>
+                    <th class='nd-th-item thh-s-0' >
+                        <div class='`+ prefix +`-id' >
+                            `+ prepare_connection_id(connection.id) +`
+                        </div>
+                    </th>
                     <th class='nd-th-item thh-s-1' >
                         <div class='`+ prefix +`-dst-node-id' >
                             `+ connection.dst_node_id +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-2' >
-                        <div class='`+ prefix +`-dst-nm-addr' >
-                            `+ connection.dst_nm_addr +`
+                        <div class='`+ prefix +`-dst-nm-id' >
+                        `+ connection.dst_nm_id +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-3' >
-                        <div class='`+ prefix +`-dst-nm-port' >
-                            `+ connection.dst_nm_addr +`
+                        <div class='`+ prefix +`-dst-nm-addr-port' >
+                        `+ connection.dst_nm_addr +`:`+ connection.dst_nm_port +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-4' >
                         <div class='`+ prefix +`-dst-node-sv-port' >
-                            `+ connection.dst_node_sv_port +`
+                            `+ prepare_ns_port(connection.dst_node_sv_port) +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-5' >
@@ -887,11 +839,26 @@ function append_output_connection (node, connection, prefix)
 
 function update_output_connection (connection, prefix)
 {
+    $('.'+ prefix +'-id').text(prepare_connection_id(connection.id));
     $('.'+ prefix +'-dst-node-id').text(connection.dst_node_id);
-    $('.'+ prefix +'-dst-nm-addr').text(connection.dst_nm_addr);
-    $('.'+ prefix +'-dst-nm-port').text(connection.dst_nm_port);
-    $('.'+ prefix +'-dst-node-sv-port').text(connection.dst_node_sv_port);
+    $('.'+ prefix +'-dst-nm-id').text(connection.dst_nm_id);
+    $('.'+ prefix +'-dst-nm-addr-port').text(connection.dst_nm_addr +':'+ connection.dst_nm_port);
+    $('.'+ prefix +'-dst-node-sv-port').text(prepare_ns_port(connection.dst_node_sv_port));
     $('.'+ prefix +'-last-date').text(connection.last_connection_date);
+}
+
+function prepare_connection_id (id)
+{
+    var parts = id.split('verbum-connection-');
+    return parts[1];
+}
+
+function prepare_ns_port (ns_port)
+{
+    if (ns_port == -1)
+        return 'not specified';
+
+    return ns_port;
 }
 
 

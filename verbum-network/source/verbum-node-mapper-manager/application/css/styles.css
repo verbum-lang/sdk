@@ -258,24 +258,38 @@ html, body {
  */
 
 /* Fix sizes. */
+.thh-s-0 {
+  width: 50px;
+  /* background-color: red !important; */
+}
+
+.thh-s-1 {
+  /* background-color: blue !important; */
+}
+
 .thh-s-2 {
   width: 100px;
+  /* background-color: yellow !important; */
 }
 
 .thh-s-3 {
-  width: 50px;
+  width: 120px;
+  /* background-color: purple !important; */
 }
 
 .thh-s-4 {
-  width: 100px;
+  width: 70px;
+  /* background-color: green !important; */
 }
 
 .thh-s-5 {
-  width: 100px;
+  width: 90px;
+  /* background-color: cyan !important; */
 }
 
 .thh-s-6 {
-  width: 70px;
+  width: 60px;
+  /* background-color: red !important; */
 }
 
 /**
