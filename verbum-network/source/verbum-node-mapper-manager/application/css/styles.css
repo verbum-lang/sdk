@@ -260,4 +260,13 @@ html, body {
   color: black;
 }
 
+.fix-row-1 {
+  padding-bottom: 10px;
+}
+
+.ac-node-list {
+  padding: 20px;
+  font-size: 8px;
+}
+
 

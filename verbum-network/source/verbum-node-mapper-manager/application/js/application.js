@@ -250,6 +250,49 @@ function add_connection (node_id)
     ac_node_id = node_id;
 
     $('#modal-add-connection').modal('show');
+    ac_update_node_list();
+}
+
+function ac_update_node_list ()
+{
+    var html = `
+        <div class='row' >
+
+            <div class='col-md-12' >
+                <div class='row' >
+
+                    <div  class='col-md-5' >Node ID</div>
+                    <div  class='col-md-3' >
+                        C. PORT - S. PORT
+                    </div>
+                    <div  class='col-md-4' >Last connection</div>
+            
+                </div>
+            </div>
+    `;
+
+    for (var a=0; a<nodes.length; a++) {
+        html += `
+            <div class='col-md-12' >
+                <div class='row' >
+
+                    <div  class='col-md-5' >`+ nodes[a].id +`</div>
+                    <div  class='col-md-3' >
+                        `+ nodes[a].core_port +`
+                        `+ nodes[a].server_port +`
+                    </div>
+                    <div  class='col-md-4' >`+ nodes[a].last_connection_date +`</div>
+            
+                </div>
+            </div>
+        `;
+    }
+
+    html += `
+        </div>
+    `;
+
+    $('.ac-node-list').html(html);
 }
 
 /**

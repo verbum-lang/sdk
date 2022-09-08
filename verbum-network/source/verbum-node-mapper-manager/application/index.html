@@ -128,39 +128,65 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title"><i class="feather-size-a" data-feather="plus"></i> New connection</h5>
+                        <h5 class="modal-title"><i class="feather-size-a" data-feather="plus"></i> Add new connection</h5>
                         <button type="button" class="close btn-close-modal" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         
-                        <form>
-                            <div class="form-group">
-                              <label for="ac-src-node">Source node</label>
-                              <input type="text" class="form-control" id="ac-src-node" placeholder="Source node">
+                        <!-- Form. -->
+                        <div class="row fix-row-1">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="ac-src-node">Source node</label>
+                                    <input type="text" class="form-control" id="ac-src-node" placeholder="Source node">
+                                </div>
                             </div>
-                            <div class="form-group">
-                              <label for="ac-dst-node">Target node</label>
-                              <input type="text" class="form-control" id="ac-dst-node" placeholder="Target node">
+                        </div>
+
+                        <div class="row fix-row-1">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="ac-dst-node">Target node</label>
+                                    <input type="text" class="form-control" id="ac-dst-node" placeholder="Target node">
+                                </div>
                             </div>
-                            <div class="form-group">
-                              <label for="ac-nm-id">Node Mapper ID</label>
-                              <input type="text" class="form-control" id="ac-nm-id" placeholder="Node Mapper ID">
+                            <div class="col-md-12">
+                                <div class="ac-node-list" ></div>
                             </div>
-                            <div class="form-group">
-                              <label for="ac-nm-address">Node Mapper address</label>
-                              <input type="text" class="form-control" id="ac-nm-address" placeholder="Node Mapper address">
+                        </div>
+
+                        <div class="row fix-row-1">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ac-nm-id">Node Mapper ID</label>
+                                    <input type="text" class="form-control" id="ac-nm-id" placeholder="Node Mapper ID" value="">
+                                </div>
                             </div>
-                            <div class="form-group">
-                              <label for="ac-nm-port">Node Mapper port</label>
-                              <input type="text" class="form-control" id="ac-nm-port" placeholder="Node Mapper port">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ac-nm-address">Node Mapper address</label>
+                                    <input type="text" class="form-control" id="ac-nm-address" placeholder="Node Mapper address" value="127.0.0.1">
+                                </div>
                             </div>
-                            <button class="btn btn-success">
-                                <i class="feather-size-a" data-feather="check"></i> 
-                                Add
-                            </button>
-                        </form>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ac-nm-port">Node Mapper port</label>
+                                    <input type="text" class="form-control" id="ac-nm-port" placeholder="Node Mapper port" value="3333">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row fix-row-1">
+                            <div class="col-md-12" style="text-align: right;">
+                                <button class="btn btn-success">
+                                    <i class="feather-size-a" data-feather="check"></i> 
+                                    Create connection
+                                </button>
+                            </div>
+                        </div>
+                        <!-- End of form. -->
                         
                     </div>
                 </div>
