@@ -67,7 +67,10 @@ int get_node_list (int sock)
                         "dst-nm-id: %s\n" 
                         "dst-nm-addr: %s\n" 
                         "dst-nm-port: %d\n" 
-                        "last connection date: %s\n\n",
+                        "last connection date: %s\n"
+                        "error: %d\n"
+                        "error count: %d\n"
+                        "\n",
 
                         b,
                         connection->id, 
@@ -77,7 +80,9 @@ int get_node_list (int sock)
                         connection->dst_nm_id, 
                         connection->dst_nm_address, 
                         connection->dst_nm_port, 
-                        connection->last_connect_date);
+                        connection->last_connect_date,
+                        connection->connection_error,
+                        connection->connection_error_count);
                 
                 message = (char *) realloc(message, sizeof(char) * (size + strlen(tmp) + 1));
                 if (!message) {

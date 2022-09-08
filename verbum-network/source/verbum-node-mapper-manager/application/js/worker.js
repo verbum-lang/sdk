@@ -36,7 +36,7 @@ onmessage = function(ev) {
                 response.indexOf('nodes not found') != -1    )  
                 postMessage(request);
             
-            else if (response == 'timeout' || response.indexOf('error: ') != -1) {
+            else if (response == 'timeout' || response.indexOf('internal-error: ') != -1) {
                 request.error_disconnect = true;
                 postMessage(request);
             } 
@@ -244,7 +244,7 @@ function connect_node_mapper (hostname, hostport, message, callback)
         if (idbg == true)
             console.log('error: '+ error.toString());
 
-        callback('error: '+ error.toString());
+        callback('internal-error: '+ error.toString());
     });
 }
 

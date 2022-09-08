@@ -104,6 +104,14 @@ static int process_connection_item (char *connection)
                         name[c] = tmp[c];
                 }
 
+                for (int e=0; value[e]!='\0'; e++) {
+                    switch (value[e]) {
+                        case '\n': case '\t': case '\r':
+                            value[e] = '\0';
+                            break;
+                    }
+                }
+
                 /**
                  * Save data.
                  */
@@ -182,6 +190,7 @@ static int process_connection_item (char *connection)
 
     ncon->status = 1;
     pthread_mutex_lock(&mutex_connections);
+
 
     // Search connection.
     for (con=connections; con!=NULL; con=con->next) {
