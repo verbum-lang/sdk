@@ -248,9 +248,10 @@ function ac_close_modal ()
 function add_connection (node_id)
 {
     ac_node_id = node_id;
-
-    $('#modal-add-connection').modal('show');
     ac_update_node_list();
+
+    $('#ac-src-node').val(node_id);
+    $('#modal-add-connection').modal('show');
 }
 
 function ac_update_node_list ()
@@ -274,7 +275,7 @@ function ac_update_node_list ()
     for (var a=0,b=''; a<nodes.length; a++) {
         if (nodes[a].id != ac_node_id) {
             html += `
-                <div class='col-md-12 ac-col-item `+ b +`' >
+                <div class='col-md-12 ac-col-item `+ b +`' onclick='javascript:ac_change_dst_node("`+ nodes[a].id +`");' >
                     <div class='row' >
 
                         <div  class='col-md-5' >`+ nodes[a].id +`</div>
@@ -300,6 +301,10 @@ function ac_update_node_list ()
     `;
 
     $('.ac-node-list').html(html);
+}
+
+function ac_change_dst_node (node_id) {
+    $('#ac-dst-node').val(node_id);
 }
 
 /**

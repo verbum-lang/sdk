@@ -260,6 +260,14 @@ html, body {
   color: black;
 }
 
+.fix-text-1 {
+  font-size: 9px;
+}
+
+.fix-text-1 input {
+  font-size: 9px;
+}
+
 .fix-row-1 {
   padding-bottom: 10px;
 }
@@ -279,6 +287,8 @@ html, body {
 
 .ac-col-item {
   padding: 3px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .ac-col-item:hover {

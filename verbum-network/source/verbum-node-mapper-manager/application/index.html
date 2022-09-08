@@ -124,7 +124,7 @@
         <!-- End of content. -->
 
         <!-- Modal add connection. -->
-        <div id="modal-add-connection" class="modal" tabindex="-1" role="dialog">
+        <div id="modal-add-connection" class="modal hide fade in" data-bs-keyboard="false" data-bs-backdrop="static" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -138,7 +138,7 @@
                         <!-- Form. -->
                         <div class="row fix-row-1">
                             <div class="col-md-12">
-                                <div class="form-group">
+                                <div class="form-group fix-text-1">
                                     <label for="ac-src-node">Source node</label>
                                     <input type="text" class="form-control" id="ac-src-node" placeholder="Source node">
                                 </div>
@@ -147,7 +147,7 @@
 
                         <div class="row fix-row-1">
                             <div class="col-md-12">
-                                <div class="form-group">
+                                <div class="form-group fix-text-1">
                                     <label for="ac-dst-node">Target node</label>
                                     <input type="text" class="form-control" id="ac-dst-node" placeholder="Target node">
                                 </div>
@@ -159,19 +159,19 @@
 
                         <div class="row fix-row-1">
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group fix-text-1">
                                     <label for="ac-nm-id">Node Mapper ID</label>
                                     <input type="text" class="form-control" id="ac-nm-id" placeholder="Node Mapper ID" value="">
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group fix-text-1">
                                     <label for="ac-nm-address">Node Mapper address</label>
                                     <input type="text" class="form-control" id="ac-nm-address" placeholder="Node Mapper address" value="127.0.0.1">
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group fix-text-1">
                                     <label for="ac-nm-port">Node Mapper port</label>
                                     <input type="text" class="form-control" id="ac-nm-port" placeholder="Node Mapper port" value="3333">
                                 </div>
