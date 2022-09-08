@@ -601,8 +601,6 @@ function process_informations (request)
             if (node.id == connections[b].src_node_id && connections[b].type == 'output') {
                 var connection = connections[b];
 
-                console.log(node.id,'->', connection);
-
                 var prefix = 'node-connection-'+ node.id +'-'+
                              'connection-'+ connection.id;
 
