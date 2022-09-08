@@ -12,7 +12,7 @@ char *generate_connection_id (void)
     int limit = 24, found = 0, size = 0;
     node_connection_t *connection;
 
-    memset(tmp, 0x0, 1023);
+    memset(tmp, 0x0, 1024);
     sprintf(tmp, "verbum-connection-%d%d%d", 
         random_number(100, 999),
         random_number(100, 999),
@@ -42,7 +42,7 @@ char *generate_connection_id (void)
         return generate_connection_id();
 
     mem_scopy_ret(tmp, id, NULL);
-    memset(tmp, 0x0, 1023);
+    memset(tmp, 0x0, 1024);
 
     return id;    
 }

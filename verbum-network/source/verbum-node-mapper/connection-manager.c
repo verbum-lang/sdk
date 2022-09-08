@@ -77,6 +77,7 @@ static int process_connection_item (char *connection)
     node_connection_t *ncon = connection_create_item();
     node_connection_t *con, *last;
     char tmp[1024], name[256], value[256];
+    char *ptr = NULL;
     int found = 0;
     
     if (!ncon)
@@ -95,22 +96,26 @@ static int process_connection_item (char *connection)
                 memset(name,  0x0, 256);
                 memset(value, 0x0, 256);
 
-                for (int c=0,d=0,e=0; tmp[c]!='\0'; c++) {
-                    if (d == 0 && tmp[c] == ':')
-                        d = 1;
-                    else if (d == 1)
-                        value[e++] = tmp[c];
+                for (int c=0; tmp[c]!='\0'; c++) {
+                    if (tmp[c] == '\n' || 
+                        tmp[c] == '\r' || 
+                        tmp[c] == '\t'  )
+                    {
+                        tmp[c] = '\0';
+                        break;
+                    }
+                }
+
+                for (int c=0; tmp[c]!='\0'; c++) {
+                    if (tmp[c] == ':')
+                        break;
                     else
                         name[c] = tmp[c];
                 }
 
-                for (int e=0; value[e]!='\0'; e++) {
-                    switch (value[e]) {
-                        case '\n': case '\t': case '\r':
-                            value[e] = '\0';
-                            break;
-                    }
-                }
+                ptr = strstr(tmp, ":");
+                ptr++;
+                memcpy(value, ptr, strlen(ptr));
 
                 /**
                  * Save data.
@@ -175,7 +180,7 @@ static int process_connection_item (char *connection)
             tmp[b++] = connection[a];
     }
 
-    // #ifdef NMDBG
+    #ifdef NMDBG
         say("item: \"%s\"", ncon->id);
         say("item: \"%d\"", ncon->type);
         say("item: \"%s\"", ncon->src_node_id);
@@ -186,7 +191,7 @@ static int process_connection_item (char *connection)
         say("item: \"%s\"", ncon->last_connect_date);
         say("item: \"%d\"", ncon->connection_error);
         say("item: \"%d\"", ncon->connection_error_count);
-    // #endif
+    #endif
 
     ncon->status = 1;
     pthread_mutex_lock(&mutex_connections);

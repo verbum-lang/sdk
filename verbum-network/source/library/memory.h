@@ -37,6 +37,9 @@
     do {                                                                                \
         int size = sizeof(char) * (SIZE + 1);                                           \
         DESTINATION = (char *) malloc(size);                                            \
+        if (DESTINATION) {                                                              \
+            memset(DESTINATION, 0x0, size);                                             \
+        }                                                                               \
     } while(0)
 
 #define mem_scopy(SOURCE, DESTINATION)                                                  \
