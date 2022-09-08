@@ -34,7 +34,7 @@ int process_communication(int sock, char *path)
         update_ping_node(sock, response);
 
     /**
-     * Connections list.
+     * Ping - Connections Manager.
      */
     else if (check_connections_request(response))
         update_connections(sock, response);

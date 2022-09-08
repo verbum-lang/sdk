@@ -2,6 +2,9 @@
 #include "connection-manager.h"
 #include "connection-control.h"
 
+extern pthread_mutex_t    mutex_connections;
+extern node_connection_t *connections;
+
 static int process_connection_item (char *connection);
 
 int check_connections_request (char *response)
@@ -68,17 +71,6 @@ int update_connections (int sock, char *content)
     
     return 1;
 }
-
-/*
-    type:0
-    id:verbum-connection-665529
-    src-node-id:verbum-node-804454856
-    dst-node-id:verbum-node-277920818
-    dst-nm-id:null
-    dst-nm-addr:127.0.0.1
-    dst-nm-port:3333
-    last-date:08-08-2022 04-31-59
-*/
 
 static int process_connection_item (char *connection)
 {
@@ -175,6 +167,19 @@ static int process_connection_item (char *connection)
     say("item: \"%s\"", dst_nm_address);
     say("item: \"%d\"", dst_nm_port);
     say("item: \"%s\"", last_date);
+
+    pthread_mutex_lock(&mutex_connections);
+    
+    pthread_mutex_unlock(&mutex_connections);
+
+    mem_sfree(connection_id);
+    mem_sfree(connection_type);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+    mem_sfree(dst_nm_id);
+    mem_sfree(dst_nm_address);
+    mem_sfree(dst_nm_port);
+    mem_sfree(last_date);
 
     return 1;
 }
