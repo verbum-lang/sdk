@@ -761,7 +761,6 @@ function append_node (node)
                         </tbody>
                     </table>
 
-                    <hr>
                 </th>
             </tr>
             </tbody>
