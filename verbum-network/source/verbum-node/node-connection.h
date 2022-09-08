@@ -7,13 +7,13 @@
 
 // Connections types.
 typedef struct node_connection_st {
-    char *id;                           // Connection ID.
+
+    // Control flags, and others.
     int status;                         // Status (struct item):
                                         //  0 = free to use.
                                         //  1 = started by controller.
                                         //  2 = running / active (in use).
 
-    // Control flags.
     int connection_status;              // Status (connection):
                                         //  0 = inactive.
                                         //  1 = data exists - process connection.
@@ -32,7 +32,11 @@ typedef struct node_connection_st {
                                         //  0 = Innactive.
                                         //  1 = Active.
 
+    pthread_t tid_ping_controller;      // Thread handle - Ping controller.
+    struct node_connection_st *next;    // Next node pointer.
+
     // Connection informations.
+    char *id;                           // Connection ID.
     int type;                           // Type:
                                         //  0 = output.
                                         //  1 = input.
@@ -42,11 +46,6 @@ typedef struct node_connection_st {
     int   dst_nm_port;                  // Destination Node Mapper interface port.
 
     char last_connect_date [100];       // Last connected date.
-
-    // Thread.
-    pthread_t tid_ping_controller;      // Thread handle - Ping controller.
-
-    struct node_connection_st *next;    // Next node pointer.
 } node_connection_t;
 
 void              *node_connection        (void *tparam);

@@ -22,10 +22,10 @@ int ping_node_action (void)
 
 void *ping_node_handler (void *tparam)
 {
-    char *response1 = NULL, *response2 = NULL;
     char address [] = LOCALHOST;
-    char *id = NULL;
-    int node_mapper_port = 0, size = 0;
+    char *response1 = NULL, *response2 = NULL;
+    char *id = NULL, *tmp = NULL, *data = NULL;
+    int node_mapper_port = 0, size = 0, total_size = 0;
     int core_port = 0, server_port = 0;
     node_connection_t *connection;
     
@@ -78,6 +78,9 @@ void *ping_node_handler (void *tparam)
         pthread_mutex_lock(&mutex_connections);
         
         if (connections) {
+            total_size = 0;
+            size = 1024;
+
             for (connection=connections; connection != NULL; connection=connection->next) {
                 if (connection->status != 2)
                     continue;
@@ -86,18 +89,57 @@ void *ping_node_handler (void *tparam)
                 if (connection->enable_delete_item == 1)
                     continue;
 
-                say("connection type: \"%d\"", connection->type);
-                say("connection id..: \"%s\"", connection->id);
-                say("src_node_id....: \"%s\"", id);
-                say("dst_node_id....: \"%s\"", connection->dst_node_id);
-                say("dst_nm_id......: \"%s\"", connection->dst_nm_id);
-                say("dst_nm_address.: \"%s\"", connection->dst_nm_address);
-                say("dst_nm_port....: \"%d\"", connection->dst_nm_port);
-                say("last date......: \"%s\"", connection->last_connect_date);
+                // Prepare current data.
+                if (id)                             size += strlen(id);
+                if (connection->id)                 size += strlen(connection->id);
+                if (connection->dst_node_id)        size += strlen(connection->dst_node_id);
+                if (connection->dst_nm_id)          size += strlen(connection->dst_nm_id);
+                if (connection->dst_nm_address)     size += strlen(connection->dst_nm_address);
+                if (connection->last_connect_date)  size += strlen(connection->last_connect_date);
+                
+                tmp = (char *) realloc(tmp, sizeof(char) * size);
+                if (tmp) {
+                    memset(tmp, 0x0, sizeof(char) * size);
+                    sprintf(tmp, 
+                    
+                        "type:%d\n"
+                        "id:%s\n"
+                        "src-node-id:%s\n"
+                        "dst-node-id:%s\n"
+                        "dst-nm-id:%s\n"
+                        "dst-nm-addr:%s\n"
+                        "dst-nm-port:%d\n"
+                        "last-date:%s\n"
+                        "\n", 
+                        
+                        connection->type,
+                        connection->id                ? connection->id                : "null",
+                                    id                ? id                            : "null",
+                        connection->dst_node_id       ? connection->dst_node_id       : "null",
+                        connection->dst_nm_id         ? connection->dst_nm_id         : "null",
+                        connection->dst_nm_address    ? connection->dst_nm_address    : "null",
+                        connection->dst_nm_port       ? connection->dst_nm_port       : "null",
+                        connection->last_connect_date ? connection->last_connect_date : "null"
+                    );
+
+                    // Append data to full header data.
+                    size = strlen(tmp);
+
+                    data = (char *) realloc(data, sizeof(char) * (total_size + size + 1));
+                    if (data) {
+                        memcpy(&data[total_size], tmp, size);
+                        total_size += size;
+                        data[total_size] = '\0';
+                    }
+                }
             }
         }
 
         pthread_mutex_unlock(&mutex_connections);
+
+        if (data && total_size > 0) {
+            say("full data:\n%s\n", data);
+        }
 
         sleep(NODE_PING_LOOP_SEC_DELAY);
     }
