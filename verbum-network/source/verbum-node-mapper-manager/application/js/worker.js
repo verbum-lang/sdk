@@ -44,69 +44,127 @@ onmessage = function(ev) {
             else {
                 var resp  = response.split('\r\n\r\n');
                 if (resp[1]) {
-                    var cparts = resp[1].split('+++\n');
-                    
-                    for (var n=0; n<cparts.length; n++) {
-                        var part_item = cparts[n].toString().trim();
-                        if (part_item.length <= 0)
-                            continue;
+                    var vs = 2;
 
-                        var parts = part_item.split("\n\n");
-                        
-                        for (var a=0,b=0; a<parts.length; a++,b++) {
+                    if (vs == 1) {
+                        var parts = resp[1].split('\n\n');
+
+                        for (var a=0; a<parts.length; a++) {
                             var item = parts[a].toString().trim();
 
                             if (item.length <= 0)
                                 continue;
 
-                            // Node informations.
-                            if (b == 0) {
-                                var lines       = item.split("\n");
-                                var node        = -1;
-                                var id          = '';
-                                var core_port   = -1;
-                                var server_port = -1;
-                                var date        = '';
+                            var lines       = item.split("\n");
+                            var node        = -1;
+                            var id          = '';
+                            var core_port   = -1;
+                            var server_port = -1;
+                            var date        = '';
 
-                                for (var b=0; b<lines.length; b++) {
-                                    var iitem = lines[b].toString().trim();
-                                    if (iitem.length <= 0)
-                                        continue;
+                            for (var b=0; b<lines.length; b++) {
+                                var iitem = lines[b].toString().trim();
+                                if (iitem.length <= 0)
+                                    continue;
 
-                                    var iparts = iitem.split(': ');
-                                    var name   = iparts[0].toString().trim();
-                                    var value  = iparts[1].toString().trim();
-                                    
-                                    if (name.length > 0 && value.length > 0) {
-                                        if (name == 'node')
-                                            node = value;
-                                        else if (name == 'id')
-                                            id = value;
-                                        else if (name == 'core port')
-                                            core_port = value;
-                                        else if (name == 'server port')
-                                            server_port = value;
-                                        else if (name == 'last connection date')
-                                            date = value;
-                                    }
+                                var iparts = iitem.split(': ');
+                                var name   = iparts[0].toString().trim();
+                                var value  = iparts[1].toString().trim();
+                                
+                                if (name.length > 0 && value.length > 0) {
+                                    if (name == 'node')
+                                        node = value;
+                                    else if (name == 'id')
+                                        id = value;
+                                    else if (name == 'core port')
+                                        core_port = value;
+                                    else if (name == 'server port')
+                                        server_port = value;
+                                    else if (name == 'last connection date')
+                                        date = value;
                                 }
+                            }
 
-                                if (node != -1    && core_port != -1 && server_port != -1 &&
-                                    id.length > 0 && date.length > 0                       )
-                                {
-                                    request.nodes.push({
-                                        node: node,
-                                        id: id,
-                                        core_port: core_port,
-                                        server_port: server_port,
-                                        last_connection_date: date
-                                    });
-                                }
-                            } 
+                            if (node != -1    && core_port != -1 && server_port != -1 &&
+                                id.length > 0 && date.length > 0                       )
+                            {
+                                request.nodes.push({
+                                    node: node,
+                                    id: id,
+                                    core_port: core_port,
+                                    server_port: server_port,
+                                    last_connection_date: date
+                                });
+                            }
+                        }
+                    }
+
+                    else {
+                        var cparts = resp[1].split('+++\n');
+                        
+                        for (var n=0; n<cparts.length; n++) {
+                            var part_item = cparts[n].toString().trim();
+                            if (part_item.length <= 0)
+                                continue;
+
+                            var parts = part_item.split("\n\n");
                             
-                            // Connections information.
-                            else {
-                                console.log('connections information');
+                            for (var a=0,b=0; a<parts.length; a++,b++) {
+                                var item = parts[a].toString().trim();
+
+                                if (item.length <= 0)
+                                    continue;
+
+                                // Node informations.
+                                if (b == 0) {
+                                    var lines       = item.split("\n");
+                                    var node        = -1;
+                                    var id          = '';
+                                    var core_port   = -1;
+                                    var server_port = -1;
+                                    var date        = '';
+
+                                    for (var b=0; b<lines.length; b++) {
+                                        var iitem = lines[b].toString().trim();
+                                        if (iitem.length <= 0)
+                                            continue;
+
+                                        var iparts = iitem.split(': ');
+                                        var name   = iparts[0].toString().trim();
+                                        var value  = iparts[1].toString().trim();
+                                        
+                                        if (name.length > 0 && value.length > 0) {
+                                            if (name == 'node')
+                                                node = value;
+                                            else if (name == 'id')
+                                                id = value;
+                                            else if (name == 'core port')
+                                                core_port = value;
+                                            else if (name == 'server port')
+                                                server_port = value;
+                                            else if (name == 'last connection date')
+                                                date = value;
+                                        }
+                                    }
+
+                                    if (node != -1    && core_port != -1 && server_port != -1 &&
+                                        id.length > 0 && date.length > 0                       )
+                                    {
+                                        request.nodes.push({
+                                            node: node,
+                                            id: id,
+                                            core_port: core_port,
+                                            server_port: server_port,
+                                            last_connection_date: date
+                                        });
+                                    }
+                                } 
+                                
+                                // Connections information.
+                                else {
+                                    console.log('connections information');
+                                    console.log(item)
+                                }
                             }
                         }
                     }

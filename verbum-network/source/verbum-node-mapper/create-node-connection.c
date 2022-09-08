@@ -86,13 +86,13 @@ int create_node_connection(int sock, char *content, int type)
         !dst_nm_id   || !dst_nm_address || !dst_nm_port)
         goto cnc_error;
 
-    // #ifdef NMDBG
+    #ifdef NMDBG
         say("src_node_id....: \"%s\"", src_node_id);
         say("dst_node_id....: \"%s\"", dst_node_id);
         say("dst_nm_id......: \"%s\"", dst_nm_id);
         say("dst_nm_address.: \"%s\"", dst_nm_address);
         say("dst_nm_port....: \"%d\"", dst_nm_port);
-    // #endif
+    #endif
 
     // Check node exists.
     pthread_mutex_lock(&mutex_nodes);

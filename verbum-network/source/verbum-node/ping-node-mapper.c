@@ -22,7 +22,7 @@ int ping_node_action (void)
 
 void *ping_node_handler (void *tparam)
 {
-    char address [] = LOCALHOST;
+    char address [] = LOCALHOST, default_value [] = "not specified";
     char *response1 = NULL, *response2 = NULL;
     char *id = NULL, *tmp = NULL, *data = NULL;
     int node_mapper_port = 0, size = 0, total_size = 0;
@@ -113,13 +113,13 @@ void *ping_node_handler (void *tparam)
                         "\n", 
                         
                         connection->type,
-                        connection->id                ? connection->id                : "null",
-                                    id                ? id                            : "null",
-                        connection->dst_node_id       ? connection->dst_node_id       : "null",
-                        connection->dst_nm_id         ? connection->dst_nm_id         : "null",
-                        connection->dst_nm_address    ? connection->dst_nm_address    : "null",
+                        connection->id                ? connection->id                : default_value,
+                                    id                ? id                            : default_value,
+                        connection->dst_node_id       ? connection->dst_node_id       : default_value,
+                        connection->dst_nm_id         ? connection->dst_nm_id         : default_value,
+                        connection->dst_nm_address    ? connection->dst_nm_address    : default_value,
                         connection->dst_nm_port,
-                        connection->last_connect_date ? connection->last_connect_date : "null"
+                        connection->last_connect_date ? connection->last_connect_date : default_value
                     );
 
                     // Append data to full header data.
