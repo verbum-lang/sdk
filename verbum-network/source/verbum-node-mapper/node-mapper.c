@@ -53,6 +53,7 @@ int node_mapper (void)
 
     // Copy path.
     mem_scopy_ret(global.configuration.path, param->path, 0);
+    mem_scopy_ret(global.configuration.node_mapper.id, param->id, 0);
 
     // Create thread.
     status = pthread_create(&tid, NULL, node_mapper_interface, param);
@@ -88,6 +89,9 @@ void *node_mapper_interface (void *tparam)
 
     if (!prepare_workers(param->path))
         say_ret(NULL, "error prepare workers.");
+
+    say("ID: %s", param->id);
+    say("Server port: %d", param->port);
 
     while (1) {
         

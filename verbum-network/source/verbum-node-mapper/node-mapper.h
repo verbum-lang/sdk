@@ -9,6 +9,7 @@
 
 // Thread param.
 typedef struct {
+    char *id;                           // Node Mapper ID.
     int port;                           // Server port.
     int max_connections;                // Server max connections.
     char *path;                         // Configuration file path.
