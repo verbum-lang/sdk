@@ -748,10 +748,11 @@ function append_node (node)
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th colspan='6' class="th-header-top con-th-1" >INPUT</th>
+                                                <th colspan='7' class="th-header-top con-th-1" >INPUT</th>
                                             </tr>
                                             <tr>
-                                                <th scope="col" class="th-header thh-s-1" >Target node</th>
+                                                <th scope="col" class="th-header thh-s-0" >ID</th>
+                                                <th scope="col" class="th-header thh-s-1" >Source node</th>
                                                 <th scope="col" class="th-header thh-s-2" >NM ID</th>
                                                 <th scope="col" class="th-header thh-s-3" >NM address</th>
                                                 <th scope="col" class="th-header thh-s-4" >NM direct</th>
@@ -772,7 +773,7 @@ function append_node (node)
                                             </tr>
                                             <tr>
                                                 <th scope="col" class="th-header thh-s-0" >ID</th>
-                                                <th scope="col" class="th-header thh-s-1" >Target Node</th>
+                                                <th scope="col" class="th-header thh-s-1" >Destination node</th>
                                                 <th scope="col" class="th-header thh-s-2" >NM ID</th>
                                                 <th scope="col" class="th-header thh-s-3" >NM address</th>
                                                 <th scope="col" class="th-header thh-s-4" >N. S. port</th>

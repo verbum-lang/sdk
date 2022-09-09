@@ -3,6 +3,7 @@
 #include "delete-node.h"
 #include "check-node-exists.h"
 #include "create-node-connection.h"
+#include "node-server-ping.h"
 
 static int process_communication_core   (int sock);
 static int process_communication_server (int sock);
@@ -76,10 +77,8 @@ static int process_communication_server (int sock)
     /**
      * Ping node / check connection.
      */
-    if (strstr(response, "connection-ping-verbum-node:")) {
-        char data[]= VERBUM_DEFAULT_SUCCESS "-Santissima Trindade-" VERBUM_EOH;
-        send(sock, data, strlen(data), 0);
-    }
+    if (strstr(response, "connection-ping-verbum-node:"))
+        server_ping(sock, response);
 
     mem_sfree(response);
     return 1;

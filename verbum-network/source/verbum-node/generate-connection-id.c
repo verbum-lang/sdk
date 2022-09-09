@@ -13,6 +13,8 @@ char *generate_connection_id (void)
     node_connection_t *connection;
 
     memset(tmp, 0x0, 1024);
+    sprintf(tmp, "verbum-connection-333"); 
+
     sprintf(tmp, "verbum-connection-%d%d%d", 
         random_number(100, 999),
         random_number(100, 999),

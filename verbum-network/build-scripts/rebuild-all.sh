@@ -57,6 +57,7 @@ gcc -o node-client.o            -c node-client.c
 gcc -o create-node-connection.o -c create-node-connection.c
 gcc -o node-global.o            -c node-global.c
 gcc -o generate-connection-id.o -c generate-connection-id.c
+gcc -o node-server-ping.o       -c node-server-ping.c
 
 gcc -o verbum-node        verbum-node.c                    \
                           global.o                         \
@@ -76,6 +77,7 @@ gcc -o verbum-node        verbum-node.c                    \
                           node-client.o                    \
                           node-global.o                    \
                           generate-connection-id.o         \
+                          node-server-ping.o               \
                           $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o

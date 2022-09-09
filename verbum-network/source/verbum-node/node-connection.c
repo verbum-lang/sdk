@@ -2,9 +2,9 @@
 #include "node-connection.h"
 #include "generate-connection-id.h"
 
-static void *connection_ping_controller    (void *tparam);
-static int   ping_controller_communication (char *dst_node_id, char *dst_nm_address, 
-                                            int dst_nm_port, char *connection_id);
+static void *connection_ping_controller  (void *tparam);
+static int ping_controller_communication (char *connection_id, char *src_node_id, int src_nm_port,
+                                          char *dst_node_id, char *dst_nm_address, int dst_nm_port);
 
 extern pthread_mutex_t  mutex_gconfig;
 extern node_config_t   *gconfig;
@@ -15,10 +15,6 @@ node_connection_t      *connections;
 void *node_connection (void *tparam)
 {
     node_connection_t *connection;
-    char address [] = LOCALHOST;
-    char *response = NULL, *connection_id = NULL;
-    int node_mapper_port = 0;
-    int action = 0;
 
     #ifdef NCDBG_CON
         say("Node connection started!");
@@ -27,10 +23,6 @@ void *node_connection (void *tparam)
     /**
      * Initialization.
      */
-
-    pthread_mutex_lock(&mutex_gconfig);
-    node_mapper_port = gconfig->node_mapper_port;
-    pthread_mutex_unlock(&mutex_gconfig);
 
     // Prepare mutex.
     if (pthread_mutex_init(&mutex_connections, NULL) != 0) 
@@ -44,7 +36,6 @@ void *node_connection (void *tparam)
      */
 
     while (1) {
-        action = 0;
         pthread_mutex_lock(&mutex_connections);
 
         for (connection=connections; connection != NULL; connection=connection->next) {
@@ -140,15 +131,36 @@ static void *connection_ping_controller (void *tparam)
     node_connection_t *connection;
 
     char *connection_id  = NULL;
+    char *src_node_id    = NULL;
     char *dst_node_id    = NULL;
     char *dst_nm_address = NULL;
     int   dst_nm_port    = 0;
+    int   src_nm_port    = 0;
 
     char *date = NULL;
     int status = 0, valid = 0, error = 0;
-    int count = 0;
+    int count = 0, fmem = 0;
+
     mem_scopy_ret(param->cid, connection_id, NULL);
 
+    // Copy node ID.
+    pthread_mutex_lock(&mutex_gconfig);
+
+    mem_salloc(src_node_id, strlen(gconfig->information.id));
+    if (src_node_id) {
+        mem_scopy(gconfig->information.id, src_node_id);
+        fmem = 1;
+    }
+
+    src_nm_port = gconfig->node_mapper_port;
+    pthread_mutex_unlock(&mutex_gconfig);
+
+    if (!fmem) {
+        say("error initialize ping controller.");
+        return NULL;
+    }
+
+    // Process actions.
     while (1) {
         pthread_mutex_lock(&mutex_connections);
         valid  = 0;
@@ -180,19 +192,28 @@ static void *connection_ping_controller (void *tparam)
 
                 else {
 
-                    // Src node.
+                    // Dst node id.
+                    fmem = 0;
                     mem_salloc(dst_node_id, strlen(connection->dst_node_id));
                     if (dst_node_id) {
                         mem_scopy(connection->dst_node_id, dst_node_id);
-                        
-                        // Dst node.
+                        fmem = 1;
+                    }
+
+                    // Dst NM address.
+                    if (fmem) {
+                        fmem = 0;
                         mem_salloc(dst_nm_address, strlen(connection->dst_node_id));
                         if (dst_nm_address) {
                             mem_scopy(connection->dst_nm_address, dst_nm_address);
-                            dst_nm_port = connection->dst_nm_port;
-                        
-                            error = 1;
+                            fmem = 1;
                         }
+                    }
+
+                    // Dst NM port.
+                    if (fmem) {
+                        dst_nm_port = connection->dst_nm_port;
+                        error = 1;
                     }
 
                     break;
@@ -216,8 +237,9 @@ static void *connection_ping_controller (void *tparam)
         count = 0;
 
         while (1) {
-            status = ping_controller_communication(
-                dst_node_id, dst_nm_address, dst_nm_port, connection_id);
+            status = 
+                ping_controller_communication(connection_id, 
+                    src_node_id, src_nm_port, dst_node_id, dst_nm_address, dst_nm_port);
             
             if (status == 1)
                 break;
@@ -290,7 +312,8 @@ static void *connection_ping_controller (void *tparam)
 }
 
 static int ping_controller_communication (
-    char *dst_node_id, char *dst_nm_address, int dst_nm_port, char *connection_id)
+    char *connection_id, char *src_node_id, int src_nm_port,
+    char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
     int counter = 0, result = 0, valid = 0, server_port = 0;
     char *response1 = NULL, *response2 = NULL;
@@ -346,7 +369,9 @@ static int ping_controller_communication (
 
     // Connect to Node Server interface.
     valid     = 0;
-    response2 = process_connection_ping(dst_nm_address, server_port, dst_node_id);
+    response2 = 
+        process_connection_ping(dst_nm_address, server_port, 
+            dst_node_id, src_node_id, src_nm_port);
 
     if (response2) {
         if (strstr(response2, VERBUM_DEFAULT_SUCCESS)) 
