@@ -77,6 +77,7 @@ node_connection_t *connection_create_item (void)
     connection->connection_error        = 0;
     connection->connection_error_count  = 0;
     connection->type                    = -1;
+    connection->remote_id               = NULL;
 
     connection->dst_node_id             = NULL;
     connection->dst_nm_id               = NULL;
@@ -369,7 +370,7 @@ static int ping_controller_communication (
     valid     = 0;
     response2 = 
         process_connection_ping(dst_nm_address, server_port, 
-            dst_node_id, src_node_id, src_nm_port);
+            dst_node_id, src_node_id, src_nm_port, connection_id);
 
     if (response2) {
         if (strstr(response2, VERBUM_DEFAULT_SUCCESS)) 

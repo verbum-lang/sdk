@@ -86,7 +86,7 @@ void *ping_node_handler (void *tparam)
                     continue;
                 if (!connection->id)
                     continue;
-
+                
                 // Prepare current data.
                 if (id)                             size += strlen(id);
                 if (connection->id)                 size += strlen(connection->id);

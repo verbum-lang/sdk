@@ -628,6 +628,14 @@ function process_informations (request)
         else
             update_node(node);
 
+        // Input connections.
+        for (var b=0; b<connections.length; b++) {
+            if (node.id == connections[b].src_node_id && connections[b].type == 'output') {
+                var connection = connections[b];
+                console.log(connection)
+            }
+        }
+
         // Output connections.
         for (var b=0; b<connections.length; b++) {
             if (node.id == connections[b].src_node_id && connections[b].type == 'output') {

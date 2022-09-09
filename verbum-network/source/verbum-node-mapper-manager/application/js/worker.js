@@ -229,9 +229,6 @@ onmessage = function(ev) {
 
         // Output connection.
         if (information.type == 'output') {
-            console.log('Create output connection');
-            console.log(information)
-
             request_raw += information.src_node_id              +':';
             request_raw += information.dst_node_id              +':';
             request_raw += information.dst_node_mapper_id       +':';

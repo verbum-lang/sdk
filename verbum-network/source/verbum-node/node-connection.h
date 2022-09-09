@@ -34,6 +34,7 @@ typedef struct node_connection_st {
 
     // Connection informations.
     char *id;                           // Connection ID.
+    char *remote_id;                    // Remote client connection ID (server connections).
     int type;                           // Type:
                                         //  0 = output.
                                         //  1 = input.
