@@ -250,6 +250,10 @@ static void *connection_ping_controller (void *tparam)
                     connection->connection_error = 1;
                     connection->connection_error_count++;
 
+                    // Error limit.
+                    if (connection->connection_error_count >= 1000000)
+                        connection->connection_error_count = 0;
+
                     #ifdef NCDBG_CON
                         say("connection error - ping controller.");
                     #endif

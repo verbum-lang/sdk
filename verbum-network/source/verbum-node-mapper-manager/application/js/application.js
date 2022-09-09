@@ -413,6 +413,14 @@ function ac_add_new_connection ()
         dst_node_mapper_port: dst_node_mapper_port
     };
 
+    $('#btn-add-con').prop('disabled', true);
+
+    $('.ac-con-response-area').html(`
+        <div class='inner' >
+            Creating new connection...
+        </div>
+    `);
+
     send_request({
         cmd: 'create-verbum-node-connection',
         address: nm_address,
@@ -499,6 +507,30 @@ function process_worker (ev)
         }
 
         $('.btn-delete-node').prop('disabled', false);
+    }
+
+    /**
+     * Add connection.
+     */
+    else if (request.cmd == 'create-verbum-node-connection') {
+        if (request.status == false) {
+            $('.ac-con-response-area').html(`
+                <div class='inner' >
+                    Error creating connection.
+                </div>
+            `);
+        } else {
+            $('.ac-con-response-area').html(`
+                <div class='inner' >
+                    Connection created successfully!
+                </div>
+            `);
+        }
+
+        setTimeout(()=>{
+            $('.ac-con-response-area').text('');
+            $('#btn-add-con').prop('disabled', false);
+        }, 3333);
     }
 }
 

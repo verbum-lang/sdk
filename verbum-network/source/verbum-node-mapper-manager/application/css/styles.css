@@ -352,4 +352,9 @@ html, body {
   background-color: #cdcdcd;
 }
 
+.ac-con-response-area .inner {
+  padding: 40px;
+  text-align: center;
+}
+
 

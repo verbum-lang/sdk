@@ -241,7 +241,13 @@ onmessage = function(ev) {
 
         // Send data to Node Mapper.
         connect_node_mapper(request.address, request.port, request_raw, (response) => {
-            console.log(response);
+            request.status = false;
+
+            if (response.indexOf('verbum-node-ok') != -1) {
+                request.status = true;
+                postMessage(request);
+            } else
+                postMessage(request);
         });
     }
 };
