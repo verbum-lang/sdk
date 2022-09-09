@@ -316,13 +316,18 @@ static int ping_controller_communication (
 {
     int counter = 0, result = 0, valid = 0, server_port = 0;
     char *response1 = NULL, *response2 = NULL;
-    char *ptr = NULL, *date = NULL;
+    char *ptr = NULL, *date = NULL, *node_mapper_id = NULL;
     char tmp[1024];
     node_connection_t *connection;
 
     if (!connection_id || !src_node_id || !src_nm_port ||
         !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
+
+    // Get current Node Mapper ID.
+    pthread_mutex_lock(&mutex_gconfig);
+    mem_salloc_scopy(gconfig->node_mapper_id, node_mapper_id);
+    pthread_mutex_unlock(&mutex_gconfig);
 
     // Connect to destination Node Mapper, and 
     // check destination Verbum Node exists.
@@ -371,7 +376,7 @@ static int ping_controller_communication (
     valid     = 0;
     response2 = 
         process_connection_ping(dst_nm_address, server_port, 
-            dst_node_id, src_node_id, src_nm_port, connection_id);
+            dst_node_id, src_node_id, src_nm_port, connection_id, node_mapper_id);
 
     if (response2) {
         if (strstr(response2, VERBUM_DEFAULT_SUCCESS ":")) 
@@ -395,7 +400,7 @@ static int ping_controller_communication (
             // Save node server interface port.
             connection->dst_node_sv_port = server_port;
 
-            // Node Mapper ID.
+            // Destination Node Mapper ID.
             ptr  = strstr(response2, VERBUM_DEFAULT_SUCCESS ":");
             ptr += strlen(VERBUM_DEFAULT_SUCCESS ":");
             mem_salloc_scopy(ptr, connection->dst_nm_id);
@@ -407,11 +412,13 @@ static int ping_controller_communication (
     pthread_mutex_unlock(&mutex_connections);
 
     // Finish.
+    mem_sfree(node_mapper_id);
     mem_sfree(response1);
     mem_sfree(response2);
     return 1;
 
     end_error:
+    mem_sfree(node_mapper_id);
     mem_sfree(response1);
     mem_sfree(response2);
 

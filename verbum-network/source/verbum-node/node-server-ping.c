@@ -17,6 +17,7 @@ int server_ping (int sock, char *content)
     char *src_node_id = NULL;
     char *dst_node_id = NULL;
     char *src_con_id  = NULL;
+    char *src_nm_id   = NULL;
     int   src_nm_port = 0;
 
     char *b_id = NULL;
@@ -73,6 +74,11 @@ int server_ping (int sock, char *content)
                 case 3:
                     mem_salloc_scopy(tmp, src_con_id);
                     break;
+
+                // Src Node Mapper ID.
+                case 4:
+                    mem_salloc_scopy(tmp, src_nm_id);
+                    break;
             }
 
             if (ptr[a] == '\0')
@@ -85,7 +91,7 @@ int server_ping (int sock, char *content)
             tmp[b++] = ptr[a];
     }
 
-    if (!dst_node_id || !src_node_id || !src_nm_port)
+    if (!dst_node_id || !src_node_id || !src_nm_port || !src_nm_id)
         goto error;
 
     // Check node.
@@ -105,6 +111,7 @@ int server_ping (int sock, char *content)
         say("> src_node_id: \"%s\"", src_node_id);
         say("> src_nm_port: \"%d\"", src_nm_port);
         say("> src_con_id.: \"%s\"", src_con_id);
+        say("> src_nm_id..: \"%s\"", src_nm_id);
     #endif
 
     // Prepare new connection element.
@@ -112,6 +119,7 @@ int server_ping (int sock, char *content)
 
     mem_salloc_scopy(src_con_id, nconnection->remote_id); 
     mem_salloc_scopy(src_node_id, nconnection->dst_node_id); 
+    mem_salloc_scopy(src_nm_id, nconnection->dst_nm_id); 
 
     nconnection->status             = 2;
     nconnection->connection_status  = 2;
@@ -255,7 +263,7 @@ int server_ping (int sock, char *content)
     nmsock = create_connection(b_dst_nm_address, b_dst_nm_port, 1);
     if (nmsock != -1) {
         close(nmsock);
-        
+
         pthread_mutex_lock(&mutex_connections);
 
         for (connection=connections; connection != NULL; connection=connection->next) {
