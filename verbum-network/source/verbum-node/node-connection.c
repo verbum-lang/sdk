@@ -4,7 +4,7 @@
 
 static void *connection_ping_controller    (void *tparam);
 static int   ping_controller_communication (char *dst_node_id, char *dst_nm_address, 
-                                            int dst_nm_port, char *connection_id);
+                                            int dst_nm_port);
 
 extern pthread_mutex_t  mutex_gconfig;
 extern node_config_t   *gconfig;
@@ -145,6 +145,7 @@ static void *connection_ping_controller (void *tparam)
 
     char *date = NULL;
     int status = 0, valid = 0, error = 0;
+    int count = 0;
     mem_scopy_ret(param->cid, connection_id, NULL);
 
     while (1) {
@@ -169,7 +170,7 @@ static void *connection_ping_controller (void *tparam)
                     valid = 1;
 
                 if (!valid) {
-                    #ifdef NCDBG_CON
+                    #ifdef NCDBG
                         say("flag error - ping controller.");
                     #endif
                 }
@@ -186,7 +187,7 @@ static void *connection_ping_controller (void *tparam)
                         if (dst_nm_address) {
                             mem_scopy(connection->dst_nm_address, dst_nm_address);
                             dst_nm_port = connection->dst_nm_port;
-
+                        
                             error = 1;
                         }
                     }
@@ -209,7 +210,17 @@ static void *connection_ping_controller (void *tparam)
          * Process action.
          */
 
-        status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port, connection_id);
+        count = 0;
+
+        while (1) {
+            status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port);
+            if (status == 1)
+                break;
+            
+            count++;
+            if (count >= 3)
+                break;
+        }
 
         pthread_mutex_lock(&mutex_connections);
 
@@ -244,7 +255,6 @@ static void *connection_ping_controller (void *tparam)
                 // Enable re-check.
                 connection->ping_controller_enabled = 1;
 
-
                 // Update connection date.
                 if (status == 1) {
                     date = make_datetime();
@@ -271,7 +281,7 @@ static void *connection_ping_controller (void *tparam)
 }
 
 static int ping_controller_communication (
-    char *dst_node_id, char *dst_nm_address, int dst_nm_port, char *connection_id)
+    char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
     int counter = 0, result = 0, valid = 0, server_port = 0;
     char *response1 = NULL, *response2 = NULL;
@@ -279,7 +289,7 @@ static int ping_controller_communication (
     char tmp[1024];
     node_connection_t *connection;
 
-    if (!dst_node_id || !dst_nm_address || !dst_nm_port || !connection_id)
+    if (!dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
 
     // Connect to destination Node Mapper, and 
@@ -333,7 +343,7 @@ static int ping_controller_communication (
         if (strstr(response2, VERBUM_DEFAULT_SUCCESS)) 
             valid = 1;
     }
-
+    
     if (!valid) 
         goto end_error;
 

@@ -394,7 +394,7 @@ char *process_check_node_exists (char *address, int node_port, char *node_id)
     if (!address || !node_port || !node_id)
         return NULL;
 
-    sock = create_connection(address, node_port, 0);
+    sock = create_connection(address, node_port, 1);
     if (sock == -1)
         return NULL;
 
@@ -476,7 +476,7 @@ char *process_connection_ping (char *address, int node_port, char *node_id)
     if (!address || !node_port || !node_id)
         return NULL;
 
-    sock = create_connection(address, node_port, 0);
+    sock = create_connection(address, node_port, 1);
     if (sock == -1)
         return NULL;
 
