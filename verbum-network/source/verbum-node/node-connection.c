@@ -6,11 +6,11 @@ static void *connection_ping_controller  (void *tparam);
 static int ping_controller_communication (char *connection_id, char *src_node_id, int src_nm_port,
                                           char *dst_node_id, char *dst_nm_address, int dst_nm_port);
 
-extern pthread_mutex_t  mutex_gconfig;
-extern node_config_t   *gconfig;
+extern pthread_mutex_t    mutex_gconfig;
+extern node_config_t     *gconfig;
 
-pthread_mutex_t         mutex_connections = PTHREAD_MUTEX_INITIALIZER;
-node_connection_t      *connections;
+extern pthread_mutex_t    mutex_connections;
+extern node_connection_t *connections;
 
 void *node_connection (void *tparam)
 {
@@ -24,10 +24,6 @@ void *node_connection (void *tparam)
      * Initialization.
      */
 
-    // Prepare mutex.
-    if (pthread_mutex_init(&mutex_connections, NULL) != 0) 
-        say_ret(NULL, "mutex init failed - connections.");
-    
     // Initialize connections struct.
     connections = connection_create_item();
 
@@ -143,25 +139,26 @@ static void *connection_ping_controller (void *tparam)
 
     mem_scopy_ret(param->cid, connection_id, NULL);
 
-    // Copy node ID.
-    pthread_mutex_lock(&mutex_gconfig);
-
-    mem_salloc(src_node_id, strlen(gconfig->information.id));
-    if (src_node_id) {
-        mem_scopy(gconfig->information.id, src_node_id);
-        fmem = 1;
-    }
-
-    src_nm_port = gconfig->node_mapper_port;
-    pthread_mutex_unlock(&mutex_gconfig);
-
-    if (!fmem) {
-        say("error initialize ping controller.");
-        return NULL;
-    }
-
-    // Process actions.
     while (1) {
+        // Wait node ID.
+        if (!src_node_id) {
+            pthread_mutex_lock(&mutex_gconfig);
+
+            if (gconfig->information.id) {
+                mem_salloc(src_node_id, strlen(gconfig->information.id));
+
+                if (src_node_id) 
+                    mem_scopy(gconfig->information.id, src_node_id);
+
+                src_nm_port = gconfig->node_mapper_port;
+            }
+            
+            pthread_mutex_unlock(&mutex_gconfig);
+            sleep(1);
+            continue;
+        }
+
+        // Process actions.
         pthread_mutex_lock(&mutex_connections);
         valid  = 0;
         error  = 0;
@@ -321,7 +318,8 @@ static int ping_controller_communication (
     char tmp[1024];
     node_connection_t *connection;
 
-    if (!dst_node_id || !dst_nm_address || !dst_nm_port)
+    if (!connection_id || !src_node_id || !src_nm_port ||
+        !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
 
     // Connect to destination Node Mapper, and 

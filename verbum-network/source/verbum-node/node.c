@@ -6,8 +6,11 @@
 #include "node-server.h"
 #include "node-client.h"
 
-pthread_mutex_t  mutex_gconfig = PTHREAD_MUTEX_INITIALIZER;
-node_config_t   *gconfig;
+pthread_mutex_t    mutex_gconfig = PTHREAD_MUTEX_INITIALIZER;
+node_config_t     *gconfig;
+
+pthread_mutex_t    mutex_connections = PTHREAD_MUTEX_INITIALIZER;
+node_connection_t *connections;
 
 int verbum_node (void)
 {
@@ -23,6 +26,10 @@ int verbum_node (void)
     if (pthread_mutex_init(&mutex_gconfig, NULL) != 0) 
         say_ret(0, "mutex init failed - global configuration.");
 
+    // Prepare mutex.
+    if (pthread_mutex_init(&mutex_connections, NULL) != 0) 
+        say_ret(0, "mutex init failed - connections.");
+    
     // Start Node Mapper monitor.
     if (!monitor_processes())
         return 0; 
@@ -30,6 +37,7 @@ int verbum_node (void)
     /**
      * Node connections controller.
      */
+
     create_thread_controller(node_connection);
 
     /**
