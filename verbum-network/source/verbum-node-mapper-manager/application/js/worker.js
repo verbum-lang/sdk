@@ -120,6 +120,7 @@ onmessage = function(ev) {
                                 var con_error = -1;
                                 var con_error_count = -1;
                                 var dst_node_sv_port = -1;
+                                var dst_nm_direct = false;
 
                                 for (var b=0; b<lines.length; b++) {
                                     var iitem = lines[b].toString().trim();
@@ -176,7 +177,8 @@ onmessage = function(ev) {
                                         last_connection_date: last_con_date,
                                         error: (con_error == '0' ? false : true),
                                         error_count: parseInt(con_error_count),
-                                        dst_node_sv_port: parseInt(dst_node_sv_port)
+                                        dst_node_sv_port: parseInt(dst_node_sv_port),
+                                        dst_nm_direct: dst_nm_direct
                                     });
                                 }
                             }

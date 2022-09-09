@@ -630,9 +630,16 @@ function process_informations (request)
 
         // Input connections.
         for (var b=0; b<connections.length; b++) {
-            if (node.id == connections[b].src_node_id && connections[b].type == 'output') {
+            if (node.id == connections[b].src_node_id && connections[b].type == 'input') {
                 var connection = connections[b];
-                console.log(connection)
+
+                var prefix = 'node-connection-'+ node.id +'-'+
+                             'connection-'+ connection.id;
+
+                if ($('.'+ prefix +'-input').length == 0)
+                    append_input_connection(node, connection, prefix);
+                else
+                    update_input_connection(connection, prefix);
             }
         }
 
@@ -644,7 +651,7 @@ function process_informations (request)
                 var prefix = 'node-connection-'+ node.id +'-'+
                              'connection-'+ connection.id;
 
-                if ($('.'+ prefix).length == 0)
+                if ($('.'+ prefix +'-output').length == 0)
                     append_output_connection(node, connection, prefix);
                 else
                     update_output_connection(connection, prefix);
@@ -824,40 +831,40 @@ function update_node (node)
 function append_output_connection (node, connection, prefix)
 {
     var html = `
-        <div class='`+ prefix +`' >
+        <div class='`+ prefix +`-output' >
             <table class="table table-dark table-borderless table-results-sec-3">
             <thead>
             </thead>
             <tbody>
                 <tr class='`+ prefix +`-tr' >
                     <th class='nd-th-item thh-s-0' >
-                        <div class='`+ prefix +`-id' >
+                        <div class='`+ prefix +`-output-id' >
                             `+ prepare_connection_id(connection.id) +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-1' >
-                        <div class='`+ prefix +`-dst-node-id' >
+                        <div class='`+ prefix +`-output-dst-node-id' >
                             `+ connection.dst_node_id +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-2' >
-                        <div class='`+ prefix +`-dst-nm-id' >
+                        <div class='`+ prefix +`-output-dst-nm-id' >
                         `+ connection.dst_nm_id +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-3' >
-                        <div class='`+ prefix +`-dst-nm-addr-port' >
+                        <div class='`+ prefix +`-output-dst-nm-addr-port' >
                         `+ connection.dst_nm_addr +`:`+ connection.dst_nm_port +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-4' >
-                        <div class='`+ prefix +`-dst-node-sv-port' >
+                        <div class='`+ prefix +`-output-dst-node-sv-port' >
                             `+ prepare_ns_port(connection.dst_node_sv_port) +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-5' >
                         <div class="item-sub-1">
-                            <div class='`+ prefix +`-last-date' >
+                            <div class='`+ prefix +`-output-last-date' >
                                 `+ connection.last_connection_date +`
                             </div>
                         </div>
@@ -879,17 +886,91 @@ function append_output_connection (node, connection, prefix)
 
 function update_output_connection (connection, prefix)
 {
-    $('.'+ prefix +'-id').text(prepare_connection_id(connection.id));
-    $('.'+ prefix +'-dst-node-id').text(connection.dst_node_id);
-    $('.'+ prefix +'-dst-nm-id').text(connection.dst_nm_id);
-    $('.'+ prefix +'-dst-nm-addr-port').text(connection.dst_nm_addr +':'+ connection.dst_nm_port);
-    $('.'+ prefix +'-dst-node-sv-port').text(prepare_ns_port(connection.dst_node_sv_port));
-    $('.'+ prefix +'-last-date').text(connection.last_connection_date);
+    $('.'+ prefix +'-output-id').text(prepare_connection_id(connection.id));
+    $('.'+ prefix +'-output-dst-node-id').text(connection.dst_node_id);
+    $('.'+ prefix +'-output-dst-nm-id').text(connection.dst_nm_id);
+    $('.'+ prefix +'-output-dst-nm-addr-port').text(connection.dst_nm_addr +':'+ connection.dst_nm_port);
+    $('.'+ prefix +'-output-dst-node-sv-port').text(prepare_ns_port(connection.dst_node_sv_port));
+    $('.'+ prefix +'-output-last-date').text(connection.last_connection_date);
 
-    $('.'+ prefix +'-tr').removeClass('error-connection-tr');
+    $('.'+ prefix +'-output-tr').removeClass('error-connection-tr');
     if (connection.error == true) {
         console.log(connection)
-        $('.'+ prefix +'-tr').addClass('error-connection-tr');
+        $('.'+ prefix +'-output-tr').addClass('error-connection-tr');
+    }
+}
+
+function append_input_connection (node, connection, prefix)
+{
+    var nm_direct = connection.dst_nm_direct == true ? 'YES' : 'NO';
+    
+    var html = `
+        <div class='`+ prefix +`-input' >
+            <table class="table table-dark table-borderless table-results-sec-3">
+            <thead>
+            </thead>
+            <tbody>
+                <tr class='`+ prefix +`-tr' >
+                    <th class='nd-th-item thh-s-0' >
+                        <div class='`+ prefix +`-input-id' >
+                            `+ prepare_connection_id(connection.id) +`
+                        </div>
+                    </th>
+                    <th class='nd-th-item thh-s-1' >
+                        <div class='`+ prefix +`-input-dst-node-id' >
+                            `+ connection.dst_node_id +`
+                        </div>
+                    </th>
+                    <th class='nd-th-item thh-s-2' >
+                        <div class='`+ prefix +`-input-dst-nm-id' >
+                        `+ connection.dst_nm_id +`
+                        </div>
+                    </th>
+                    <th class='nd-th-item thh-s-3' >
+                        <div class='`+ prefix +`-input-dst-nm-addr-port' >
+                        `+ connection.dst_nm_addr +`:`+ connection.dst_nm_port +`
+                        </div>
+                    </th>
+                    <th class='nd-th-item thh-s-4' >
+                        <div class='`+ prefix +`-input-dst-nm-direct' >
+                            `+ nm_direct +`
+                        </div>
+                    </th>
+                    <th class='nd-th-item thh-s-5' >
+                        <div class="item-sub-1">
+                            <div class='`+ prefix +`-input-last-date' >
+                                `+ connection.last_connection_date +`
+                            </div>
+                        </div>
+                    </th>
+                    <th class='nd-th-item thh-s-6' style="text-align:right;" >
+                        <button class='btn btn-2 btn-danger' >
+                            <i class="feather-size-b" data-feather="x"></i>
+                        </button>
+                    </th>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    `;
+
+    $('.cls-'+ node.id +'-input-connections-area').append(html);
+    feather.replace();
+}
+
+function update_input_connection (connection, prefix)
+{
+    $('.'+ prefix +'-input-id').text(prepare_connection_id(connection.id));
+    $('.'+ prefix +'-input-dst-node-id').text(connection.dst_node_id);
+    $('.'+ prefix +'-input-dst-nm-id').text(connection.dst_nm_id);
+    $('.'+ prefix +'-input-dst-nm-addr-port').text(connection.dst_nm_addr +':'+ connection.dst_nm_port);
+    $('.'+ prefix +'-input-dst-nm-direct').text( connection.dst_nm_direct == true ? 'YES' : 'NO' );
+    $('.'+ prefix +'-input-last-date').text(connection.last_connection_date);
+
+    $('.'+ prefix +'-input-tr').removeClass('error-connection-tr');
+    if (connection.error == true) {
+        console.log(connection)
+        $('.'+ prefix +'-input-tr').addClass('error-connection-tr');
     }
 }
 
