@@ -5,7 +5,7 @@
 extern pthread_mutex_t    mutex_connections;
 extern node_connection_t *connections;
 
-static int process_connection_item (int sock, char *connection);
+static int process_connection_item (char *connection);
 
 int check_connections_request (char *response)
 {
@@ -37,11 +37,13 @@ int check_connections_request (char *response)
 
 int update_connections (int sock, char *content)
 {
+    char success_message [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    char error_message   [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char header [] = "ping-verbum-connection:IHS\n\n";
     char tmp [1024];
     int s1 = strlen(header);
     int s2 = strlen(content);
-    int item = 0;
+    int item = 0, status = 0, bytes = 0;
 
     if (!sock || !content)
         return 0;
@@ -58,7 +60,9 @@ int update_connections (int sock, char *content)
         if (item) {
             item = 0;
 
-            process_connection_item(sock, tmp);
+            status = process_connection_item(tmp);
+            if (!status)
+                break;
 
             b = 0;
             a++;
@@ -69,22 +73,29 @@ int update_connections (int sock, char *content)
             tmp[b++] = content[a];
     }
     
+
+    // Send success message.
+    if (!status) {
+        bytes = send(sock, error_message, strlen(error_message), 0);
+        return 0;
+    }
+
+    bytes = send(sock, success_message, strlen(success_message), 0);
     return 1;
 }
 
-static int process_connection_item (int sock, char *connection)
+static int process_connection_item (char *connection)
 {
     node_connection_t *ncon = connection_create_item();
     node_connection_t *con, *last;
-    char success_message [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char tmp[1024], name[256], value[256];
     char *ptr = NULL;
-    int found = 0, bytes = 0;
+    int found = 0;
     
     if (!ncon)
         return 0;
     
-    if (!sock || !connection)
+    if (!connection)
         return 0;
 
     memset(tmp, 0x0, 1024);
@@ -202,7 +213,6 @@ static int process_connection_item (int sock, char *connection)
     ncon->status = 1;
     pthread_mutex_lock(&mutex_connections);
 
-
     // Search connection.
     for (con=connections; con!=NULL; con=con->next) {
         if (con->status != 1 || !con->id || !con->dst_node_id) {
@@ -242,9 +252,6 @@ static int process_connection_item (int sock, char *connection)
     // Not found, insert new item.
     if (!found)
         connection_insert_item(ncon);
-
-    // Send success message.
-    bytes = send(sock, success_message, strlen(success_message), 0);
 
     return 1;
 }
