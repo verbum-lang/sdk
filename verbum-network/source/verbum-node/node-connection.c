@@ -374,14 +374,14 @@ static int ping_controller_communication (
             dst_node_id, src_node_id, src_nm_port, connection_id);
 
     if (response2) {
-        if (strstr(response2, VERBUM_DEFAULT_SUCCESS)) 
+        if (strstr(response2, VERBUM_DEFAULT_SUCCESS ":")) 
             valid = 1;
     }
     
     if (!valid) 
         goto end_error;
-
-    // Save node server interface port.
+    
+    // Save informations.
     pthread_mutex_lock(&mutex_connections);
 
     for (connection=connections; connection != NULL; connection=connection->next) {
@@ -391,7 +391,15 @@ static int ping_controller_communication (
             continue;
 
         if (strcmp(connection->id, connection_id) == 0) {
+
+            // Save node server interface port.
             connection->dst_node_sv_port = server_port;
+
+            // Node Mapper ID.
+            ptr  = strstr(response2, VERBUM_DEFAULT_SUCCESS ":");
+            ptr += strlen(VERBUM_DEFAULT_SUCCESS ":");
+            mem_salloc_scopy(ptr, connection->dst_nm_id);
+
             break;
         }
     }

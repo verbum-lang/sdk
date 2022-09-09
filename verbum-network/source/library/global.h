@@ -51,6 +51,7 @@ typedef struct {
         // Node Mapper configuration.
         struct {
             int server_port;
+            char *id;
         } node_mapper;
     } configuration;
 } global_t;

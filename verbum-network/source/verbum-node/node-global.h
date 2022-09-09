@@ -15,6 +15,7 @@ typedef struct {
 
     // General information.
     char *path;                         // Configuration file path.
+    char *node_mapper_id;               // Node Mapper ID.
     int node_mapper_port;               // Node Mapper interface port.
     int max_connections;                // Max connection support to created servers.
 

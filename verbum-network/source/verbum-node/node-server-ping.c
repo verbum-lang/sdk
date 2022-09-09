@@ -10,7 +10,7 @@ extern node_connection_t *connections;
 
 int server_ping (int sock, char *content)
 {
-    char message_success [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    char message_success [] = VERBUM_DEFAULT_SUCCESS;
     char message_error   [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char prefix          [] = "connection-ping-verbum-node:";
 
@@ -22,6 +22,8 @@ int server_ping (int sock, char *content)
     char *b_id = NULL;
     char *b_dst_nm_address = NULL;
     int b_dst_nm_port = 0;
+
+    char *message_response = NULL;
 
     char tmp [1024];
     char *ptr = NULL, *date = NULL;
@@ -231,11 +233,23 @@ int server_ping (int sock, char *content)
             #endif
         }
     }
-
+    
     // Finish.
     success:
-    bytes = send(sock, message_success, strlen(message_success), 0);
+
+    // Prepare Node Mapper ID.
+    pthread_mutex_lock(&mutex_gconfig);
+    mem_salloc(message_response, 
+        strlen(message_success) + strlen(gconfig->node_mapper_id) + 256);
+
+    sprintf(message_response, "%s:%s%s", 
+        message_success, gconfig->node_mapper_id, VERBUM_EOH);
+    pthread_mutex_unlock(&mutex_gconfig);
+
+    // Send response.
+    bytes = send(sock, message_response, strlen(message_response), 0);
     close(sock);
+    mem_sfree(message_response);
 
     // Success, check Node Mapper direct connection support.
     nmsock = create_connection(b_dst_nm_address, b_dst_nm_port, 1);

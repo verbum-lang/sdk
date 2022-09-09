@@ -25,11 +25,17 @@ int configutation_read (void)
 
     // Node Mapper configuration.
     global.configuration.node_mapper.server_port = ini_read_number(
-        global.configuration.content, "VERBUM-NODE-MAPPER", "interface_server_port"
+        global.configuration.content, "VERBUM-NODE-MAPPER", "server_port"
+    );
+
+    global.configuration.node_mapper.id = ini_read_string(
+        global.configuration.content, "VERBUM-NODE-MAPPER", "id"
     );
 
     if (!global.configuration.node_mapper.server_port)
         say_ret(0, "Error read server port.");
+    else if (!global.configuration.node_mapper.id)
+        say_ret(0, "Error read Node Mapper ID.");
 
     return 1;
 }
