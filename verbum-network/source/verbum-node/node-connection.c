@@ -244,12 +244,15 @@ static void *connection_ping_controller (void *tparam)
                 // Enable re-check.
                 connection->ping_controller_enabled = 1;
 
+
                 // Update connection date.
-                date = make_datetime();
-                if (date) {
-                    memset(connection->last_connect_date, 0x0, 100);
-                    sprintf(connection->last_connect_date, "%s", date);
-                    mem_sfree(date);
+                if (status == 1) {
+                    date = make_datetime();
+                    if (date) {
+                        memset(connection->last_connect_date, 0x0, 100);
+                        sprintf(connection->last_connect_date, "%s", date);
+                        mem_sfree(date);
+                    }
                 }
 
                 break;
