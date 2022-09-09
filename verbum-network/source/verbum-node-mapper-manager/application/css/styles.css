@@ -292,8 +292,8 @@ html, body {
   /* background-color: red !important; */
 }
 
-.error-connection-tr th {
-  background-color: #dc3545 !important;
+.error-connection-item th {
+  background-color: #dc35455e !important;
 }
 
 /**

@@ -832,7 +832,7 @@ function append_output_connection (node, connection, prefix)
 {
     var html = `
         <div class='`+ prefix +`-output' >
-            <table class="table table-dark table-borderless table-results-sec-3">
+            <table class="table table-dark table-borderless table-results-sec-3" >
             <thead>
             </thead>
             <tbody>
@@ -893,11 +893,9 @@ function update_output_connection (connection, prefix)
     $('.'+ prefix +'-output-dst-node-sv-port').text(prepare_ns_port(connection.dst_node_sv_port));
     $('.'+ prefix +'-output-last-date').text(connection.last_connection_date);
 
-    $('.'+ prefix +'-output-tr').removeClass('error-connection-tr');
-    if (connection.error == true) {
-        console.log(connection)
-        $('.'+ prefix +'-output-tr').addClass('error-connection-tr');
-    }
+    $('.'+ prefix +'-output').removeClass('error-connection-item');
+    if (connection.error == true) 
+        $('.'+ prefix +'-output').addClass('error-connection-item');
 }
 
 function append_input_connection (node, connection, prefix)
@@ -967,11 +965,9 @@ function update_input_connection (connection, prefix)
     $('.'+ prefix +'-input-dst-nm-direct').text( connection.dst_nm_direct == true ? 'YES' : 'NO' );
     $('.'+ prefix +'-input-last-date').text(connection.last_connection_date);
 
-    $('.'+ prefix +'-input-tr').removeClass('error-connection-tr');
-    if (connection.error == true) {
-        console.log(connection)
-        $('.'+ prefix +'-input-tr').addClass('error-connection-tr');
-    }
+    $('.'+ prefix +'-input').removeClass('error-connection-item');
+    if (connection.error == true) 
+        $('.'+ prefix +'-input').addClass('error-connection-item');
 }
 
 function prepare_connection_id (id)
