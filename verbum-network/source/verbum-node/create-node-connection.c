@@ -153,7 +153,7 @@ int create_node_output_connection (
     nconnection->connection_status = 0;
 
     // Prepare informations.
-    nconnection->type              = 0;
+    nconnection->type              = 0; // Output connection.
     nconnection->dst_nm_port       = dst_nm_port;
 
     mem_scopy_ret(dst_node_id, nconnection->dst_node_id, 0);
@@ -175,6 +175,8 @@ int create_node_output_connection (
             if (connection->status != 2)
                 continue;
             if (!connection->id)
+                continue;
+            if (connection->type != 0)
                 continue;
             
             if (strcmp(connection->id, current_id) == 0) {

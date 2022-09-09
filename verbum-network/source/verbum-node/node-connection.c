@@ -49,8 +49,8 @@ void *node_connection (void *tparam)
 
         for (connection=connections; connection != NULL; connection=connection->next) {
 
-            // Enable connection to work.
-            if (connection->status == 1) {
+            // Enable connection to work (output, ping controller).
+            if (connection->status == 1 && connection->type == 0) {
                 connection->status = 2;
                 
                 // Check data exists and enable ping controller.
@@ -158,6 +158,8 @@ static void *connection_ping_controller (void *tparam)
             if (connection->status != 2)
                 continue;
             if (!connection->id)
+                continue;
+            if (connection->type != 0)
                 continue;
 
             if (strcmp(connection->id, connection_id) == 0) {
