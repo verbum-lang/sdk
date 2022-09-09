@@ -163,7 +163,9 @@ int server_ping (int sock, char *content)
         if (strcmp(connection->remote_id, nconnection->remote_id)     == 0 &&
             strcmp(connection->dst_node_id, nconnection->dst_node_id) == 0  )
         {
-            say("replace item\n");
+            #ifdef NCDBG
+                say("replace connection item.");
+            #endif
 
             found = 1;
 
@@ -209,6 +211,11 @@ int server_ping (int sock, char *content)
     if (!found) {
         if (!connection_insert_item(nconnection))
             goto error;
+        else {
+            #ifdef NCDBG
+                say("new connection!");
+            #endif
+        }
     }
 
     // Finish.
