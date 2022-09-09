@@ -292,6 +292,10 @@ html, body {
   /* background-color: red !important; */
 }
 
+.error-connection-tr th {
+  background-color: #dc3545 !important;
+}
+
 /**
  * Modal styles.
  */

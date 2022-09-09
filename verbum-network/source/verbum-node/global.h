@@ -26,8 +26,8 @@
 #endif
 
 // Debug messages.
-#define NCDBG
-#define NCDBG_CON
+// #define NCDBG
+// #define NCDBG_CON
 
 #endif
 

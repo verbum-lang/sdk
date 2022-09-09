@@ -723,7 +723,7 @@ function append_node (node)
                                                 <th scope="col" class="th-header thh-s-2" >NM ID</th>
                                                 <th scope="col" class="th-header thh-s-3" >NM address</th>
                                                 <th scope="col" class="th-header thh-s-4" >NM direct</th>
-                                                <th scope="col" class="th-header thh-s-5" >Ping</th>
+                                                <th scope="col" class="th-header thh-s-5" >Last connection</th>
                                                 <th scope="col" class="th-header thh-s-6" style="text-align:right;" >Manager</th>
                                             </tr>
                                         </tbody>
@@ -744,7 +744,7 @@ function append_node (node)
                                                 <th scope="col" class="th-header thh-s-2" >NM ID</th>
                                                 <th scope="col" class="th-header thh-s-3" >NM address</th>
                                                 <th scope="col" class="th-header thh-s-4" >N. S. port</th>
-                                                <th scope="col" class="th-header thh-s-5" >Ping</th>
+                                                <th scope="col" class="th-header thh-s-5" >Last connection</th>
                                                 <th scope="col" class="th-header thh-s-6" style="text-align:right;" >Manager</th>
                                             </tr>
                                             <tr>
@@ -788,7 +788,7 @@ function append_output_connection (node, connection, prefix)
             <thead>
             </thead>
             <tbody>
-                <tr>
+                <tr class='`+ prefix +`-tr' >
                     <th class='nd-th-item thh-s-0' >
                         <div class='`+ prefix +`-id' >
                             `+ prepare_connection_id(connection.id) +`
@@ -844,6 +844,12 @@ function update_output_connection (connection, prefix)
     $('.'+ prefix +'-dst-nm-addr-port').text(connection.dst_nm_addr +':'+ connection.dst_nm_port);
     $('.'+ prefix +'-dst-node-sv-port').text(prepare_ns_port(connection.dst_node_sv_port));
     $('.'+ prefix +'-last-date').text(connection.last_connection_date);
+
+    $('.'+ prefix +'-tr').removeClass('error-connection-tr');
+    if (connection.error == true) {
+        console.log(connection)
+        $('.'+ prefix +'-tr').addClass('error-connection-tr');
+    }
 }
 
 function prepare_connection_id (id)
