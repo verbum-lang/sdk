@@ -19,9 +19,14 @@ int server_ping (int sock, char *content)
     char *src_con_id  = NULL;
     int   src_nm_port = 0;
 
+    char *b_id = NULL;
+    char *b_dst_nm_address = NULL;
+    int b_dst_nm_port = 0;
+
     char tmp [1024];
     char *ptr = NULL, *date = NULL;
-    int bytes = 0, found = 0, status = 0, size = 0;
+    int bytes = 0, found = 0, status = 0;
+    int size = 0, nmsock = 0;
 
     struct sockaddr_in client_addr;
     socklen_t addrlen = sizeof(client_addr);
@@ -138,6 +143,14 @@ int server_ping (int sock, char *content)
         say("> last_connect_date: \"%s\"", nconnection->last_connect_date);
     #endif
 
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+    mem_sfree(src_con_id);
+
+    // Save to check Node Mapper direct connection.
+    mem_salloc_scopy(nconnection->dst_nm_address, b_dst_nm_address);
+    b_dst_nm_port = nconnection->dst_nm_port;
+
     // Search connection.
     status = 0;
     pthread_mutex_lock(&mutex_connections);
@@ -202,6 +215,7 @@ int server_ping (int sock, char *content)
         last = connection;
     }
 
+    mem_salloc_scopy(nconnection->id, b_id);
     pthread_mutex_unlock(&mutex_connections);
 
     if (status == 1)
@@ -221,10 +235,33 @@ int server_ping (int sock, char *content)
     // Finish.
     success:
     bytes = send(sock, message_success, strlen(message_success), 0);
+    close(sock);
+
+    // Success, check Node Mapper direct connection support.
+    nmsock = create_connection(b_dst_nm_address, b_dst_nm_port, 1);
+    if (nmsock != -1) {
+        close(nmsock);
+        
+        pthread_mutex_lock(&mutex_connections);
+
+        for (connection=connections; connection != NULL; connection=connection->next) {
+            if (strcmp(connection->id, b_id) == 0) {
+                connection->dst_nm_direct = 1;
+                break;
+            }
+        }
+
+        pthread_mutex_unlock(&mutex_connections);
+    }
+
+    mem_sfree(b_id);
+    mem_sfree(b_dst_nm_address);
     return 1;
 
     error:
     bytes = send(sock, message_error, strlen(message_error), 0);
+    mem_sfree(b_id);
+    mem_sfree(b_dst_nm_address);
     return 0;
 }
 

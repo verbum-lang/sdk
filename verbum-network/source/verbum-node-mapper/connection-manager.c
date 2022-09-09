@@ -179,9 +179,13 @@ static int process_connection_item (char *connection)
                 else if (strcmp(name, "error-count") == 0) 
                     ncon->connection_error_count = atoi(value);
 
-                // Connection error count.
+                // Destination node server interface port.
                 else if (strcmp(name, "dst-node-sv-port") == 0) 
                     ncon->dst_node_sv_port = atoi(value);
+
+                // Destination Node Mapper accepts direct connection.
+                else if (strcmp(name, "dst-nm-direct") == 0) 
+                    ncon->dst_nm_direct = atoi(value);
 
             }
 
@@ -208,6 +212,7 @@ static int process_connection_item (char *connection)
         say("item: \"%d\"", ncon->connection_error);
         say("item: \"%d\"", ncon->connection_error_count);
         say("item: \"%d\"", ncon->dst_node_sv_port);
+        say("item: \"%d\"", ncon->dst_nm_direct);
     #endif
 
     ncon->status = 1;

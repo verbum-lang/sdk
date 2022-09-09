@@ -71,6 +71,7 @@ int get_node_list (int sock)
                         "error: %d\n"
                         "error count: %d\n"
                         "dst-node-sv-port: %d\n"
+                        "dst-nm-direct: %d\n"
                         "\n",
 
                         b,
@@ -84,7 +85,8 @@ int get_node_list (int sock)
                         connection->last_connect_date,
                         connection->connection_error,
                         connection->connection_error_count,
-                        connection->dst_node_sv_port);
+                        connection->dst_node_sv_port,
+                        connection->dst_nm_direct);
                 
                 message = (char *) realloc(message, sizeof(char) * (size + strlen(tmp) + 1));
                 if (!message) {

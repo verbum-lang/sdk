@@ -18,9 +18,11 @@ typedef struct node_connection_st {
     int   dst_nm_port;                  // Destination Node Mapper interface port.
     int dst_node_sv_port;               // Destination node server port.
     char last_connect_date [100];       // Last connection date.
-
     int connection_error;               // Error.
     int connection_error_count;         // Error count.
+    int dst_nm_direct;                  // Checks if Node Mapper accepts direct connection.
+                                        //  0 = No.
+                                        //  1 = Yes.
 
     struct node_connection_st *next;    // Next node pointer.
 } node_connection_t;

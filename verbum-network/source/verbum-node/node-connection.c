@@ -84,6 +84,7 @@ node_connection_t *connection_create_item (void)
     connection->dst_nm_address          = NULL;
     connection->dst_nm_port             = 0;
     connection->dst_node_sv_port        = 0;
+    connection->dst_nm_direct           = 0;
 
     connection->next                    = NULL;
 

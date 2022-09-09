@@ -326,7 +326,7 @@ char *process_ping_node (
         return NULL;
 
     while (1) {
-        sock = create_connection(address, nm_port, 0);
+        sock = create_connection(address, nm_port, 1);
         if (sock != -1)
             break;
 
@@ -514,7 +514,7 @@ char *process_ping_connections (char *address, int nm_port, char *connections_li
     if (!address || !nm_port || !connections_list)
         return NULL;
 
-    sock = create_connection(address, nm_port, 0);
+    sock = create_connection(address, nm_port, 1);
     if (sock == -1)
         return NULL;
 
