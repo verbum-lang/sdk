@@ -836,7 +836,7 @@ function append_output_connection (node, connection, prefix)
             <thead>
             </thead>
             <tbody>
-                <tr class='`+ prefix +`-tr' >
+                <tr class='`+ prefix +`-output-tr' >
                     <th class='nd-th-item thh-s-0' >
                         <div class='`+ prefix +`-output-id' >
                             `+ prepare_connection_id(connection.id) +`
@@ -910,7 +910,7 @@ function append_input_connection (node, connection, prefix)
             <thead>
             </thead>
             <tbody>
-                <tr class='`+ prefix +`-tr' >
+                <tr class='`+ prefix +`-input-tr' >
                     <th class='nd-th-item thh-s-0' >
                         <div class='`+ prefix +`-input-id' >
                             `+ prepare_connection_id(connection.id) +`
