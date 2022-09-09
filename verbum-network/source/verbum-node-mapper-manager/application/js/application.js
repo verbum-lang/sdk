@@ -295,7 +295,7 @@ function ac_update_node_list ()
 
                     <div  class='col-md-5' >Node ID</div>
                     <div  class='col-md-3' >
-                        C. PORT - S. PORT
+                        C. PORT | S. PORT
                     </div>
                     <div  class='col-md-4' >Last connection</div>
             
@@ -311,7 +311,7 @@ function ac_update_node_list ()
 
                         <div  class='col-md-5' >`+ nodes[a].id +`</div>
                         <div  class='col-md-3' >
-                            `+ nodes[a].core_port +`
+                            `+ nodes[a].core_port +` |
                             `+ nodes[a].server_port +`
                         </div>
                         <div  class='col-md-4' >`+ nodes[a].last_connection_date +`</div>
