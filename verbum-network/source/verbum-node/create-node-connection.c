@@ -201,13 +201,22 @@ int create_node_output_connection (
     }
 
     // Error.
-    if (status == 3) 
+    if (status == 3) {
+        #ifdef NCDBG_CON
+            say("end (error) connection process.");
+        #endif
+
         return 0;
+    }
 
     // Success.
     send(sock, response_success, strlen(response_success), 0);
     mem_sfree(current_id);
     
+    #ifdef NCDBG_CON
+        say("end (success) connection process.");
+    #endif
+
     return 1;
 }
 

@@ -5,7 +5,7 @@
 extern pthread_mutex_t    mutex_connections;
 extern node_connection_t *connections;
 
-static int process_connection_item (char *connection);
+static int process_connection_item (int sock, char *connection);
 
 int check_connections_request (char *response)
 {
@@ -58,7 +58,7 @@ int update_connections (int sock, char *content)
         if (item) {
             item = 0;
 
-            process_connection_item(tmp);
+            process_connection_item(sock, tmp);
 
             b = 0;
             a++;
@@ -72,18 +72,19 @@ int update_connections (int sock, char *content)
     return 1;
 }
 
-static int process_connection_item (char *connection)
+static int process_connection_item (int sock, char *connection)
 {
     node_connection_t *ncon = connection_create_item();
     node_connection_t *con, *last;
+    char success_message [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char tmp[1024], name[256], value[256];
     char *ptr = NULL;
-    int found = 0;
+    int found = 0, bytes = 0;
     
     if (!ncon)
         return 0;
     
-    if (!connection)
+    if (!sock || !connection)
         return 0;
 
     memset(tmp, 0x0, 1024);
@@ -241,6 +242,9 @@ static int process_connection_item (char *connection)
     // Not found, insert new item.
     if (!found)
         connection_insert_item(ncon);
+
+    // Send success message.
+    bytes = send(sock, success_message, strlen(success_message), 0);
 
     return 1;
 }
