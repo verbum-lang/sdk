@@ -110,6 +110,7 @@ void *ping_node_handler (void *tparam)
                         "last-date:%s\n"
                         "error:%d\n"
                         "error-count:%d\n"
+                        "dst-node-sv-port:%d\n"
                         "\n", 
                         
                         connection->type,
@@ -121,7 +122,8 @@ void *ping_node_handler (void *tparam)
                         connection->dst_nm_port,
                         connection->last_connect_date ? connection->last_connect_date : default_value,
                         connection->connection_error,
-                        connection->connection_error_count
+                        connection->connection_error_count,
+                        connection->dst_node_sv_port
                     );
 
                     // Append data to full header data.

@@ -41,6 +41,7 @@ typedef struct node_connection_st {
     char *dst_nm_id;                    // Destination Node Mapper ID. 
     char *dst_nm_address;               // Destination Node Mapper address (IP).
     int   dst_nm_port;                  // Destination Node Mapper interface port.
+    int dst_node_sv_port;               // Destination node server port.
 
     char last_connect_date [100];       // Last connected date.
 } node_connection_t;

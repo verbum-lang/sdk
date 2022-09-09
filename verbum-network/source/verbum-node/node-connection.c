@@ -4,7 +4,7 @@
 
 static void *connection_ping_controller    (void *tparam);
 static int   ping_controller_communication (char *dst_node_id, char *dst_nm_address, 
-                                            int dst_nm_port);
+                                            int dst_nm_port, char *connection_id);
 
 extern pthread_mutex_t  mutex_gconfig;
 extern node_config_t   *gconfig;
@@ -95,6 +95,7 @@ node_connection_t *connection_create_item (void)
     connection->dst_nm_id               = NULL;
     connection->dst_nm_address          = NULL;
     connection->dst_nm_port             = 0;
+    connection->dst_node_sv_port        = 0;
 
     connection->next                    = NULL;
 
@@ -213,7 +214,9 @@ static void *connection_ping_controller (void *tparam)
         count = 0;
 
         while (1) {
-            status = ping_controller_communication(dst_node_id, dst_nm_address, dst_nm_port);
+            status = ping_controller_communication(
+                dst_node_id, dst_nm_address, dst_nm_port, connection_id);
+            
             if (status == 1)
                 break;
             
@@ -281,7 +284,7 @@ static void *connection_ping_controller (void *tparam)
 }
 
 static int ping_controller_communication (
-    char *dst_node_id, char *dst_nm_address, int dst_nm_port)
+    char *dst_node_id, char *dst_nm_address, int dst_nm_port, char *connection_id)
 {
     int counter = 0, result = 0, valid = 0, server_port = 0;
     char *response1 = NULL, *response2 = NULL;
@@ -346,6 +349,23 @@ static int ping_controller_communication (
     
     if (!valid) 
         goto end_error;
+
+    // Save node server interface port.
+    pthread_mutex_lock(&mutex_connections);
+
+    for (connection=connections; connection != NULL; connection=connection->next) {
+        if (connection->status != 2)
+            continue;
+        if (!connection->id)
+            continue;
+
+        if (strcmp(connection->id, connection_id) == 0) {
+            connection->dst_node_sv_port = server_port;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_connections);
 
     // Finish.
     mem_sfree(response1);
