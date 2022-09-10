@@ -8,20 +8,6 @@ extern node_config_t     *gconfig;
 extern pthread_mutex_t    mutex_connections;
 extern node_connection_t *connections;
 
-int server_pingx (int sock, char *content)
-{
-    if (check_protocol(LOCALHOST, 3333, 1) == 1) {
-        say("protocol OK");
-    } else {
-        say("protocol FAIL");
-    }
-
-    char message_success [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
-    send(sock, message_success, strlen(message_success), 0);
-
-    return 1;
-}
-
 int server_ping (int sock, char *content)
 {
     char message_success [] = VERBUM_DEFAULT_SUCCESS;
@@ -272,7 +258,6 @@ int server_ping (int sock, char *content)
 
     // Send response.
     bytes = send(sock, message_response, strlen(message_response), 0);
-    // close(sock);
     mem_sfree(message_response);
 
     // Check Node Mapper direct connection support.
