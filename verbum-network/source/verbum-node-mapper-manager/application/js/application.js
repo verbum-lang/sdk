@@ -754,14 +754,14 @@ function append_node (node)
                                 
                                 <th>
                                     <div class="item">
-                                        <div class="sub-1">Core Port</div>
+                                        <div class="sub-1">C. Port</div>
                                         <div class="sub-2 `+ prefix +`-core-port ">`+ node.core_port +`</div>
                                     </div>
                                 </th>
                                 
                                 <th>
                                     <div class="item">
-                                        <div class="sub-1">Server Port</div>
+                                        <div class="sub-1">S. Port</div>
                                         <div class="sub-2 `+ prefix +`-server-port ">`+ node.server_port +`</div>
                                     </div>
                                 </th>
@@ -808,12 +808,12 @@ function append_node (node)
                                             </tr>
                                             <tr>
                                                 <th scope="col" class="th-header thh-s-0" >ID</th>
-                                                <th scope="col" class="th-header thh-s-1" >Source node</th>
+                                                <th scope="col" class="th-header thh-s-1" >Target node</th>
                                                 <th scope="col" class="th-header thh-s-2" >NM ID</th>
                                                 <th scope="col" class="th-header thh-s-3" >NM address</th>
                                                 <th scope="col" class="th-header thh-s-4" >NM direct</th>
                                                 <th scope="col" class="th-header thh-s-5" >Last connection</th>
-                                                <th scope="col" class="th-header thh-s-6" style="text-align:right;" >Manager</th>
+                                                <th scope="col" class="th-header thh-s-6" style="text-align:right;" ></th>
                                             </tr>
                                         </tbody>
                                         </table>
@@ -829,12 +829,12 @@ function append_node (node)
                                             </tr>
                                             <tr>
                                                 <th scope="col" class="th-header thh-s-0" >ID</th>
-                                                <th scope="col" class="th-header thh-s-1" >Destination node</th>
+                                                <th scope="col" class="th-header thh-s-1" >Target node</th>
                                                 <th scope="col" class="th-header thh-s-2" >NM ID</th>
                                                 <th scope="col" class="th-header thh-s-3" >NM address</th>
-                                                <th scope="col" class="th-header thh-s-4" >N. S. port</th>
+                                                <th scope="col" class="th-header thh-s-4" >S. port</th>
                                                 <th scope="col" class="th-header thh-s-5" >Last connection</th>
-                                                <th scope="col" class="th-header thh-s-6" style="text-align:right;" >Manager</th>
+                                                <th scope="col" class="th-header thh-s-6" style="text-align:right;" ></th>
                                             </tr>
                                             <tr>
                                                 <th colspan="6" class="th-separator" ></th>
@@ -885,7 +885,7 @@ function append_output_connection (node, connection, prefix)
                     </th>
                     <th class='nd-th-item thh-s-1' >
                         <div class='`+ prefix +`-output-dst-node-id' >
-                            `+ connection.dst_node_id +`
+                            `+ prepare_node_id(connection.dst_node_id) +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-2' >
@@ -928,7 +928,7 @@ function append_output_connection (node, connection, prefix)
 function update_output_connection (connection, prefix)
 {
     $('.'+ prefix +'-output-id').text(prepare_connection_id(connection.id));
-    $('.'+ prefix +'-output-dst-node-id').text(connection.dst_node_id);
+    $('.'+ prefix +'-output-dst-node-id').text(prepare_node_id(connection.dst_node_id));
     $('.'+ prefix +'-output-dst-nm-id').text(connection.dst_nm_id);
     $('.'+ prefix +'-output-dst-nm-addr-port').text(connection.dst_nm_addr +':'+ connection.dst_nm_port);
     $('.'+ prefix +'-output-dst-node-sv-port').text(prepare_ns_port(connection.dst_node_sv_port));
@@ -957,7 +957,7 @@ function append_input_connection (node, connection, prefix)
                     </th>
                     <th class='nd-th-item thh-s-1' >
                         <div class='`+ prefix +`-input-dst-node-id' >
-                            `+ connection.dst_node_id +`
+                            `+ prepare_node_id(connection.dst_node_id) +`
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-2' >
@@ -1000,7 +1000,7 @@ function append_input_connection (node, connection, prefix)
 function update_input_connection (connection, prefix)
 {
     $('.'+ prefix +'-input-id').text(prepare_connection_id(connection.id));
-    $('.'+ prefix +'-input-dst-node-id').text(connection.dst_node_id);
+    $('.'+ prefix +'-input-dst-node-id').text(prepare_node_id(connection.dst_node_id));
     $('.'+ prefix +'-input-dst-nm-id').text(connection.dst_nm_id);
     $('.'+ prefix +'-input-dst-nm-addr-port').text(connection.dst_nm_addr +':'+ connection.dst_nm_port);
     $('.'+ prefix +'-input-dst-nm-direct').text( connection.dst_nm_direct == true ? 'YES' : 'NO' );
@@ -1014,6 +1014,12 @@ function update_input_connection (connection, prefix)
 function prepare_connection_id (id)
 {
     var parts = id.split('verbum-connection-');
+    return parts[1];
+}
+
+function prepare_node_id (id)
+{
+    var parts = id.split('verbum-node-');
     return parts[1];
 }
 
