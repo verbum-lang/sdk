@@ -688,6 +688,8 @@ function process_informations (request)
     nodes = request.nodes;
     var connections = request.connections;
 
+    console.log(request)
+
     for (var a=0; a<nodes.length; a++) {
         var node = nodes[a];
 
@@ -716,19 +718,19 @@ function process_informations (request)
         }
 
         // Output connections.
-        for (var b=0; b<connections.length; b++) {
-            if (node.id == connections[b].src_node_id && connections[b].type == 'output') {
-                var connection = connections[b];
+        // for (var b=0; b<connections.length; b++) {
+        //     if (node.id == connections[b].src_node_id && connections[b].type == 'output') {
+        //         var connection = connections[b];
 
-                var prefix = 'node-connection-'+ node.id +'-'+
-                             'connection-'+ connection.id;
+        //         var prefix = 'node-connection-'+ node.id +'-'+
+        //                      'connection-'+ connection.id;
 
-                if ($('.'+ prefix +'-output').length == 0)
-                    append_output_connection(node, connection, prefix);
-                else
-                    update_output_connection(connection, prefix);
-            }
-        }
+        //         if ($('.'+ prefix +'-output').length == 0)
+        //             append_output_connection(node, connection, prefix);
+        //         else
+        //             update_output_connection(connection, prefix);
+        //     }
+        // }
     }
 
     // Enable get information data.
