@@ -136,8 +136,8 @@ html, body {
 .area-network {
   position: absolute;
   right: 0;
-  top: 0;
-  height: calc(100% - 20px);
+  top: 70px;
+  height: calc(100% - 90px);
   width: calc(100% - 610px);
 }
 
@@ -302,6 +302,7 @@ html, body {
 
 .modal {
   color: black;
+  z-index: 333333333;
 }
 
 .fix-text-1 {
@@ -368,7 +369,7 @@ html, body {
   height: 70px;
   width: calc(100% - 610px);
   background-color: #2c3034;
-  z-index: 333333333;
+  z-index: 333333331;
   padding-top:  10px;
   padding-left: 10px;
 }

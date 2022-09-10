@@ -144,13 +144,13 @@ int server_ping (int sock, char *content)
     }
 
     #ifdef NCDBG
-        say("> id...............: \"%s\"", nconnection->id);
-        say("> remote id........: \"%s\"", nconnection->remote_id);
-        say("> type.............: \"%d\"", nconnection->type);
-        say("> dst_node_id......: \"%s\"", nconnection->dst_node_id);
-        say("> dst_nm_address...: \"%s\"", nconnection->dst_nm_address);
-        say("> dst_nm_port......: \"%d\"", nconnection->dst_nm_port);
-        say("> last_connect_date: \"%s\"", nconnection->last_connect_date);
+        say("> id...............: \"%s\"", nconnection->id);                // Current connection ID.
+        say("> remote id........: \"%s\"", nconnection->remote_id);         // Client connection ID.
+        say("> type.............: \"%d\"", nconnection->type);              // Input/output.
+        say("> dst_node_id......: \"%s\"", nconnection->dst_node_id);       // Target node ID (client/source Node ID).
+        say("> dst_nm_address...: \"%s\"", nconnection->dst_nm_address);    // Client Node Mapper address.
+        say("> dst_nm_port......: \"%d\"", nconnection->dst_nm_port);       // Client Node Mapper port.
+        say("> last_connect_date: \"%s\"", nconnection->last_connect_date); // Current date.
     #endif
 
     mem_sfree(src_node_id);
