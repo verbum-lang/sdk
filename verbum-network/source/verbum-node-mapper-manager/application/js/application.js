@@ -619,6 +619,8 @@ function process_network_viewer (request)
         else 
             viewer_running = false;
     }
+
+    update_network_statistics(request);
 }
 
 function show_network_graph ()
@@ -640,6 +642,7 @@ function show_network_graph ()
                     'font-size': '10px',
                     'text-outline-width': 1,
                     'text-outline-color': '#888',
+                    'background-color': '#0dcaf0',
                 }
             },
             {
@@ -656,6 +659,24 @@ function show_network_graph ()
     });
 
     viewer_running = false;        
+}
+
+function update_network_statistics (request)
+{    
+    var inpcons = 0;
+    var outcons = 0;
+
+    for (var a=0; a<request.connections.length; a++) {
+        if (request.connections[a].type == 'output')
+            outcons++;
+        else
+            inpcons++;
+    }
+
+    $('.nt-status-nodes').text(nodes.length)
+    $('.nt-status-con-all').text(request.connections.length)
+    $('.nt-status-con-input').text(inpcons)
+    $('.nt-status-con-output').text(outcons)
 }
 
 /**

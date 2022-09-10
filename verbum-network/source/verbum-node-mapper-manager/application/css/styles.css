@@ -357,4 +357,32 @@ html, body {
   text-align: center;
 }
 
+/**
+ * Network informations area.
+ */
+
+.network-information-area {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 70px;
+  width: calc(100% - 610px);
+  background-color: #2c3034;
+  z-index: 333333333;
+  padding-top:  10px;
+  padding-left: 10px;
+}
+
+.network-information-area table {
+  font-size: 7px;
+  width: 150px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.network-information-area table th {
+  text-align: left;
+  padding: 1px;
+}
+
 
