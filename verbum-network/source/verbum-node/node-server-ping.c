@@ -8,6 +8,20 @@ extern node_config_t     *gconfig;
 extern pthread_mutex_t    mutex_connections;
 extern node_connection_t *connections;
 
+int server_pingx (int sock, char *content)
+{
+    if (check_protocol(LOCALHOST, 3333, 1) == 1) {
+        say("protocol OK");
+    } else {
+        say("protocol FAIL");
+    }
+
+    char message_success [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    send(sock, message_success, strlen(message_success), 0);
+
+    return 1;
+}
+
 int server_ping (int sock, char *content)
 {
     char message_success [] = VERBUM_DEFAULT_SUCCESS;
@@ -21,15 +35,15 @@ int server_ping (int sock, char *content)
     int   src_nm_port = 0;
 
     char *b_id = NULL;
-    char *b_dst_nm_address = NULL;
-    int b_dst_nm_port = 0;
-
+    char *dst_nm_address = NULL;
+    int   dst_nm_port = 0;
     char *message_response = NULL;
+    char *response = NULL;
 
     char tmp [1024];
     char *ptr = NULL, *date = NULL;
     int bytes = 0, found = 0, status = 0;
-    int size = 0, nmsock = 0;
+    int size = 0, nmsock = -1;
 
     struct sockaddr_in client_addr;
     socklen_t addrlen = sizeof(client_addr);
@@ -115,16 +129,16 @@ int server_ping (int sock, char *content)
     #endif
 
     // Prepare new connection element.
-    nconnection = connection_create_item();
+    nconnection = connection_create_item(0);
 
     mem_salloc_scopy(src_con_id, nconnection->remote_id); 
     mem_salloc_scopy(src_node_id, nconnection->dst_node_id); 
     mem_salloc_scopy(src_nm_id, nconnection->dst_nm_id); 
 
-    nconnection->status             = 2;
-    nconnection->connection_status  = 2;
-    nconnection->type               = 1;
-    nconnection->dst_nm_port        = src_nm_port;
+    nconnection->status            = 2;
+    nconnection->connection_status = 2;
+    nconnection->type              = 1;
+    nconnection->dst_nm_port       = src_nm_port;
     
     date = make_datetime();
     if (date) {
@@ -156,10 +170,6 @@ int server_ping (int sock, char *content)
     mem_sfree(src_node_id);
     mem_sfree(dst_node_id);
     mem_sfree(src_con_id);
-
-    // Save to check Node Mapper direct connection.
-    mem_salloc_scopy(nconnection->dst_nm_address, b_dst_nm_address);
-    b_dst_nm_port = nconnection->dst_nm_port;
 
     // Search connection.
     status = 0;
@@ -205,6 +215,9 @@ int server_ping (int sock, char *content)
             memset(nconnection->id, 0x0, size);
             memcpy(nconnection->id, connection->id, strlen(connection->id));
 
+            // Copy to use in direct connection check.
+            mem_salloc_scopy(connection->id, b_id);
+
             // Replace item.
             if (!connection->next) {
                 last->next = nconnection;
@@ -225,14 +238,17 @@ int server_ping (int sock, char *content)
         last = connection;
     }
 
-    mem_salloc_scopy(nconnection->id, b_id);
     pthread_mutex_unlock(&mutex_connections);
 
-    if (status == 1)
+    if (status == 1) {
+        mem_sfree(b_id);
         goto error;
+    }
 
     // Not found, insert new item.
     if (!found) {
+        mem_salloc_scopy(nconnection->id, b_id);
+
         if (!connection_insert_item(nconnection))
             goto error;
         else {
@@ -256,17 +272,43 @@ int server_ping (int sock, char *content)
 
     // Send response.
     bytes = send(sock, message_response, strlen(message_response), 0);
-    close(sock);
+    // close(sock);
     mem_sfree(message_response);
 
-    // Success, check Node Mapper direct connection support.
-    nmsock = create_connection(b_dst_nm_address, b_dst_nm_port, 1);
-    if (nmsock != -1) {
-        close(nmsock);
+    // Check Node Mapper direct connection support.
+    pthread_mutex_lock(&mutex_connections);
 
+    for (connection=connections; connection != NULL; connection=connection->next) {
+        if (connection->status != 2) 
+            continue;
+        if (!connection->id)
+            continue;
+        if (connection->type != 1)
+            continue;
+
+        if (strcmp(connection->id, b_id) == 0) {
+            mem_salloc_scopy(connection->dst_nm_address, dst_nm_address);
+            dst_nm_port = connection->dst_nm_port;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_connections);
+
+    // Check direct connection.
+    if (check_protocol(dst_nm_address, dst_nm_port, 1) == 1) {
+    
+        // Update information.
         pthread_mutex_lock(&mutex_connections);
 
         for (connection=connections; connection != NULL; connection=connection->next) {
+            if (connection->status != 2)
+                continue;
+            if (!connection->id)
+                continue;
+            if (connection->type != 1)
+                continue;
+                
             if (strcmp(connection->id, b_id) == 0) {
                 connection->dst_nm_direct = 1;
                 break;
@@ -275,15 +317,13 @@ int server_ping (int sock, char *content)
 
         pthread_mutex_unlock(&mutex_connections);
     }
-
+    
+    mem_sfree(dst_nm_address);
     mem_sfree(b_id);
-    mem_sfree(b_dst_nm_address);
     return 1;
 
     error:
     bytes = send(sock, message_error, strlen(message_error), 0);
-    mem_sfree(b_id);
-    mem_sfree(b_dst_nm_address);
     return 0;
 }
 

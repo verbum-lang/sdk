@@ -51,7 +51,7 @@ typedef struct node_connection_st {
 } node_connection_t;
 
 void              *node_connection        (void *tparam);
-node_connection_t *connection_create_item (void);
+node_connection_t *connection_create_item (int prepare_thread);
 int                connection_insert_item (node_connection_t *new_connection);
 
 #endif

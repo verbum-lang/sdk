@@ -133,16 +133,14 @@ int create_node_connection(int sock, char *content, int type)
 int create_node_output_connection (
     int sock, char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
-    node_connection_t *nconnection = connection_create_item();
+    node_connection_t *nconnection = connection_create_item(1);
     node_connection_t *connection;
     char response_success [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char *current_id = NULL;
     int status = 0;
 
-    if (!sock || !dst_node_id || !dst_nm_address || !dst_nm_port)
-        return 0;
-
-    if (!nconnection)
+    if (!sock || !dst_node_id || !dst_nm_address || 
+        !dst_nm_port || !nconnection)
         return 0;
 
     // Copy connection ID to use.

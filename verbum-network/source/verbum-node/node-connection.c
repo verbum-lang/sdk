@@ -25,7 +25,7 @@ void *node_connection (void *tparam)
      */
 
     // Initialize connections struct.
-    connections = connection_create_item();
+    connections = connection_create_item(1);
 
     /**
      * Controller.
@@ -61,7 +61,7 @@ void *node_connection (void *tparam)
     return NULL;
 }
 
-node_connection_t *connection_create_item (void)
+node_connection_t *connection_create_item (int prepare_thread)
 {
     node_connection_t * connection;
     node_connection_param_t *param;
@@ -85,19 +85,21 @@ node_connection_t *connection_create_item (void)
     connection->dst_nm_port             = 0;
     connection->dst_node_sv_port        = 0;
     connection->dst_nm_direct           = 0;
-
+    
     connection->next                    = NULL;
 
     // Prepare thread.
-    mem_alloc_ret(param, 
-        sizeof(node_connection_param_t), node_connection_param_t *, NULL);
+    if (prepare_thread == 1) {
+        mem_alloc_ret(param, 
+            sizeof(node_connection_param_t), node_connection_param_t *, NULL);
 
-    mem_scopy_ret(connection->id, param->cid, NULL);
-    status = pthread_create(
-        &connection->tid_ping_controller, NULL, connection_ping_controller, param);
-    
-    if (status != 0)
-        say_ret(NULL, "error creating thread - ping controller.");
+        mem_scopy_ret(connection->id, param->cid, NULL);
+        status = pthread_create(
+            &connection->tid_ping_controller, NULL, connection_ping_controller, param);
+        
+        if (status != 0)
+            say_ret(NULL, "error creating thread - ping controller.");
+    }
 
     return connection;
 }
