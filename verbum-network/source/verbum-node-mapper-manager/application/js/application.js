@@ -481,17 +481,31 @@ function process_network_viewer (request)
 {
     if (viewer_running == false) {
         viewer_running = true;
+
         console.log('checking...');
 
-        var connections = request.connections;
+        // Prepare nodes and connections.
+        var pnodes = nodes;
+        var pconnections = [];
+        var cons = request.connections;
+
+        for (var a=0; a<cons.length; a++) {
+            if (cons[a].type == 'output')
+                for (var b=0; b<pnodes.length; b++)
+                    if (cons[a].dst_node_id == pnodes[b].id)
+                        pconnections.push(cons[a]);
+        }
+
+        // Process network viewer.
+        var connections = pconnections;
         var update = false;
         var nsize  = 0;
         var csize1 = 0;
         var csize2 = 0;
 
         // Nodes.
-        for (var a=0; a<nodes.length; a++) {
-            var node  = nodes[a];
+        for (var a=0; a<pnodes.length; a++) {
+            var node  = pnodes[a];
             var found = false;
 
             for (var b=0; b<gdata.length; b++) {
@@ -511,11 +525,11 @@ function process_network_viewer (request)
 
         // Check nodes length.
         for (var b=0; b<gdata.length; b++) {
-            if (gdata[b].data.type == 0 && gdata[b].data.disconnected == false)
+            if (gdata[b].data.type == 0)
                 nsize++;
         }
 
-        if (nsize != nodes.length)
+        if (nsize != pnodes.length)
             update = true;
 
         // Connections.
@@ -526,8 +540,7 @@ function process_network_viewer (request)
             if (connection.type == 'output') {
                 for (var b=0; b<gdata.length; b++) {
                     if (gdata[b].data.type == 1) {
-                        if (//gdata[b].data.cid    == connection.id          &&
-                            gdata[b].data.source == connection.src_node_id &&
+                        if (gdata[b].data.source == connection.src_node_id &&
                             gdata[b].data.target == connection.dst_node_id  )
                         {
                             found = true;
@@ -559,13 +572,15 @@ function process_network_viewer (request)
 
         // Update network.
         if (update == true) {
-            gdata = [];
-
             console.log('update network');
 
+            gdata = [];
+
             // Nodes.
-            for (var a=0; a<nodes.length; a++) {
-                var node  = nodes[a];
+            console.log('nodes:', pnodes);
+
+            for (var a=0; a<pnodes.length; a++) {
+                var node  = pnodes[a];
                 var parts = node.id.toString().split('verbum-node-');
                 var label = 'no name';
 
@@ -583,7 +598,7 @@ function process_network_viewer (request)
             }
 
             // Connections.
-            console.log(request.connections)
+            console.log('connections:', connections)
 
             for (var a=0; a<connections.length; a++) {
                 var connection = connections[a];
@@ -605,87 +620,12 @@ function process_network_viewer (request)
                     });
                 }
             }
-
-            // Check connections target.
-            for (var a=0; a<gdata.length; a++) {
-                if (gdata[a].data.type == 1) {
-                    var found = false;
-
-                    for (var b=0; b<gdata.length; b++) {
-                        if (gdata[b].data.type == 0) {
-                            if (gdata[a].data.target == gdata[b].data.id) {
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Add non-existing node.
-                    if (found == false) {
-                        var nid   = gdata[a].data.target;
-                        var parts = gdata[a].data.target.toString().split('verbum-node-');
-                        var label = 'no name';
-            
-                        if (parts[1]) 
-                            label = 'OFF: '+ parts[1].toString().trim();
-            
-                        gdata.push({
-                            data: { 
-                                type: 0,
-                                id: nid,
-                                label: label,
-                                disconnected: true,
-                            }
-                        });
-                    }
-                }
-            }
             
             show_network_graph();
         }
         
         else 
             viewer_running = false;
-    }
-}
-
-function update_network_viewer ()
-{
-    // prepare_network_graph();
-    // show_network_graph();
-}
-
-function prepare_network_graph ()
-{
-    var limit = Math.floor(Math.random() * 11);
-
-    if (limit < 3)
-        limit = 3;
-    
-    for (var a=0; a<limit; a++) {
-        gdata.push({
-            data: { 
-                type: 1,
-                id: 'id-'+ a, 
-                label: '00000000'+ a
-            }
-        });
-    }
-
-    for (var a=0; a<limit; a++) {
-        var target = (a+1);
-
-        if (target == limit)
-            target = 0;
-
-        gdata.push({
-            data: {
-                type: 2,
-                id: 'v-'+ a,
-                source: 'id-'+ a,
-                target: 'id-'+ target
-            }
-        });
     }
 }
 
