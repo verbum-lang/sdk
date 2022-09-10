@@ -93,8 +93,6 @@ function process_success_connect (request)
 
     $('.area-auth').addClass('hide-el');
     $('.area-general-content').removeClass('hide-el');
-
-    update_network_viewer();
 }
 
 /**
@@ -124,71 +122,6 @@ $(document).ready(() => {
     }, reconnect_timeout);
 
 });
-
-function process_node_list (nds = [])
-{
-    // Nodes not found.
-    if (nds.length == 0) {
-        nodes = nds;
-        render_all_nodes();
-    }
-
-    // Check nodes...
-    else {
-        var found = false;
-        var action = 1;
-
-        for (var a=0; a<nds.length; a++) {
-            var item = nds[a];
-
-            // Search node.
-            found = false;
-
-            for (var b=0; b<nodes.length; b++) {
-                if (nodes[b].id == item.id) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (nds.length != nodes.length)
-                found = false;
-
-            // Re-render.
-            if (found == false) {
-                action = 0;
-                break;
-            }
-        }
-
-        nodes = nds;
-
-        if (action == 0)
-            render_all_nodes();
-        else
-            render_information_nodes();
-    }
-    
-    // Enable do re-check.
-    run_gnl = false;
-
-    // Set status.
-    if (status_use == false) {
-        var upd = false;
-
-        if (nodes.length != lastNodeLength)
-            upd = true;
-        
-        var tx = $('.area-status').text().toString().trim();
-        if (tx.length <= 0) 
-            upd = true;
-
-        if (upd == true) {
-            lastNodeLength = nodes.length; 
-            set_status('Total nodes: '+ nodes.length, false);
-        }
-    }
-}
 
 // Buttons.
 $(document).ready(() => {
@@ -477,10 +410,8 @@ function process_worker (ev)
     else if (request.cmd == 'get-verbum-node-list') {
         if (request.error_disconnect == true) 
             window.interface.restart_application();
-        else {
+        else 
             process_informations(request);
-            // process_node_list(request.nodes);
-        }
     }
 
     /**
@@ -543,7 +474,69 @@ function send_request (request)
  * Networtk graph control.
  */
 
-var gData = [];
+var gdata = [];
+
+function process_network_viewer (request)
+{
+    var update = false;
+    var nsize  = 0;
+
+    // Nodes.
+    for (var a=0; a<nodes.length; a++) {
+        var node  = nodes[a];
+        var found = false;
+
+        for (var b=0; b<gdata.length; b++) {
+            if (gdata[b].data.type == 0) {
+                if (gdata[b].data.id == node.id) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        if (found == false) {
+            update = true;
+            break;
+        }
+    }
+
+    // Check nodes length.
+    for (var b=0; b<gdata.length; b++) {
+        if (gdata[b].data.type == 1) 
+            nsize++;
+    }
+
+    if (nsize != nodes.length)
+        update = true;
+
+    // Update network.
+    if (update == true) {
+        gdata = [];
+
+        console.log('update network');
+
+        for (var a=0; a<nodes.length; a++) {
+            var node  = nodes[a];
+            var parts = node.id.toString().split('verbum-node-');
+            var label = 'no name';
+
+            if (parts[1]) 
+                label = parts[1].toString().trim();
+            
+            gdata.push({
+                data: { 
+                    type: 1,
+                    id: node.id,
+                    label: label
+                }
+            });
+        }
+
+        console.log('gdata nodes:', gdata.length)
+        show_network_graph();
+    }
+}
 
 function update_network_viewer ()
 {
@@ -559,11 +552,11 @@ function prepare_network_graph ()
         limit = 3;
     
     for (var a=0; a<limit; a++) {
-        gData.push({
+        gdata.push({
             data: { 
+                type: 1,
                 id: 'id-'+ a, 
-                name: 'node '+ a, 
-                value: '00000000'+ a
+                label: '00000000'+ a
             }
         });
     }
@@ -574,8 +567,9 @@ function prepare_network_graph ()
         if (target == limit)
             target = 0;
 
-            gData.push({
+            gdata.push({
             data: {
+                type: 1,
                 id: 'v-'+ a,
                 source: 'id-'+ a,
                 target: 'id-'+ target
@@ -591,12 +585,12 @@ function show_network_graph ()
         boxSelectionEnabled: false,
         autounselectify: true,
         layout: { name: 'cola' },
-        elements: gData,
+        elements: gdata,
         
         style: [{
             selector: 'node',
             style: {
-                'content': 'data(value)',
+                'content': 'data(label)',
                 'text-valign': 'center',
                 'color': 'white',
                 'font-size': '10px',
@@ -678,6 +672,8 @@ function process_informations (request)
             set_status('Total nodes: '+ nodes.length, false);
         }
     }
+
+    process_network_viewer(request);
 }
 
 function process_delete_node (request)
