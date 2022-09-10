@@ -132,7 +132,7 @@ $(document).ready(() => {
     $('#btn-log-out').on('click', ()=> {
         window.interface.restart_application();
     });
-})
+});
 
 function create_node ()
 {
@@ -482,8 +482,6 @@ function process_network_viewer (request)
     if (viewer_running == false) {
         viewer_running = true;
 
-        console.log('checking...');
-
         // Prepare nodes and connections.
         var pnodes = nodes;
         var pconnections = [];
@@ -572,13 +570,9 @@ function process_network_viewer (request)
 
         // Update network.
         if (update == true) {
-            console.log('update network');
-
             gdata = [];
 
             // Nodes.
-            console.log('nodes:', pnodes);
-
             for (var a=0; a<pnodes.length; a++) {
                 var node  = pnodes[a];
                 var parts = node.id.toString().split('verbum-node-');
@@ -598,8 +592,6 @@ function process_network_viewer (request)
             }
 
             // Connections.
-            console.log('connections:', connections)
-
             for (var a=0; a<connections.length; a++) {
                 var connection = connections[a];
                 var parts      = connection.id.toString().split('verbum-connection-');
