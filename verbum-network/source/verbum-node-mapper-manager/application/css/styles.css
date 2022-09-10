@@ -362,7 +362,7 @@ html, body {
  * Network informations area.
  */
 
-.network-information-area {
+.area-network-information {
   position: absolute;
   right: 0;
   top: 0;
@@ -374,14 +374,14 @@ html, body {
   padding-left: 10px;
 }
 
-.network-information-area table {
+.area-network-information table {
   font-size: 7px;
   width: 150px;
   color: white;
   text-transform: uppercase;
 }
 
-.network-information-area table th {
+.area-network-information table th {
   text-align: left;
   padding: 1px;
 }

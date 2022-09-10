@@ -93,6 +93,7 @@ function process_success_connect (request)
 
     $('.area-auth').addClass('hide-el');
     $('.area-general-content').removeClass('hide-el');
+    $('.area-network-information').removeClass('hide-el');
 }
 
 /**
