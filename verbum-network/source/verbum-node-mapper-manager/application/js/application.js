@@ -514,8 +514,6 @@ function process_network_viewer (request)
         update = true;
 
     // Connections.
-    console.log('connections:', connections)
-
     for (var a=0; a<connections.length; a++) {
         var connection = connections[a];
         var found      = false;
@@ -598,7 +596,45 @@ function process_network_viewer (request)
             }
         }
 
-        show_network_graph();
+        // Check connections target.
+        for (var a=0; a<gdata.length; a++) {
+            if (gdata[a].data.type == 1) {
+                var found = false;
+
+                for (var b=0; b<gdata.length; b++) {
+                    if (gdata[b].data.type == 0) {
+                        if (gdata[a].data.target == gdata[b].data.id) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                // Add non-existing node.
+                if (found == false) {
+                    var nid   = 'off:'+ gdata[a].data.target;
+                    var parts = gdata[a].data.target.toString().split('verbum-node-');
+                    var label = 'no name';
+        
+                    if (parts[1]) 
+                        label = 'OFF: '+ parts[1].toString().trim();
+        
+                    gdata.push({
+                        data: { 
+                            type: 0,
+                            id: nid,
+                            label: label
+                        }
+                    });
+
+                    gdata[a].data.target = nid;
+                }
+            }
+        }
+    
+        console.log(gdata)
+
+        // show_network_graph();
     }
 }
 
