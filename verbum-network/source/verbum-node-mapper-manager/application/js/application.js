@@ -630,17 +630,29 @@ function show_network_graph ()
         layout: { name: 'cola' },
         elements: gdata,
         
-        style: [{
-            selector: 'node',
-            style: {
-                'content': 'data(label)',
-                'text-valign': 'center',
-                'color': 'white',
-                'font-size': '10px',
-                'text-outline-width': 1,
-                'text-outline-color': '#888',
+        style: [
+            {
+                selector: 'node',
+                style: {
+                    'content': 'data(label)',
+                    'text-valign': 'center',
+                    'color': 'white',
+                    'font-size': '10px',
+                    'text-outline-width': 1,
+                    'text-outline-color': '#888',
+                }
+            },
+            {
+                selector: 'edge',
+                style: {
+                    'width': 3,
+                    'line-color': '#ccc',
+                    'target-arrow-color': '#ccc',
+                    'target-arrow-shape': 'triangle',
+                    'curve-style': 'bezier'
+                }
             }
-        }]
+        ]
     });
 
     viewer_running = false;        
