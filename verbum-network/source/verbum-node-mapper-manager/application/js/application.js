@@ -664,20 +664,30 @@ function show_network_graph ()
 
 function update_network_statistics (request)
 {    
-    var inpcons = 0;
-    var outcons = 0;
+    var inpcons_all  = 0;
+    var outcons_all  = 0;
+    var outcons_on   = 0;
+    var outcons_off  = 0;
+    var outcons_text = '0 | 0 + 0';
 
     for (var a=0; a<request.connections.length; a++) {
-        if (request.connections[a].type == 'output')
-            outcons++;
-        else
-            inpcons++;
+        if (request.connections[a].type == 'output') {
+            outcons_all++;
+
+            if (request.connections[a].error == true)
+                outcons_off++;
+
+            outcons_on = outcons_all - outcons_off;
+        } else
+            inpcons_all++;
     }
+
+    outcons_text = outcons_all +' | '+ outcons_on +' + '+ outcons_off;
 
     $('.nt-status-nodes').text(nodes.length)
     $('.nt-status-con-all').text(request.connections.length)
-    $('.nt-status-con-input').text(inpcons)
-    $('.nt-status-con-output').text(outcons)
+    $('.nt-status-con-input').text(inpcons_all)
+    $('.nt-status-con-output').text(outcons_text)
 }
 
 /**
