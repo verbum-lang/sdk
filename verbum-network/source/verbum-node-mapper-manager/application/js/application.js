@@ -478,8 +478,11 @@ var gdata = [];
 
 function process_network_viewer (request)
 {
+    var connections = request.connections;
     var update = false;
     var nsize  = 0;
+    var csize1 = 0;
+    var csize2 = 0;
 
     // Nodes.
     for (var a=0; a<nodes.length; a++) {
@@ -503,11 +506,51 @@ function process_network_viewer (request)
 
     // Check nodes length.
     for (var b=0; b<gdata.length; b++) {
-        if (gdata[b].data.type == 1) 
+        if (gdata[b].data.type == 0) 
             nsize++;
     }
 
     if (nsize != nodes.length)
+        update = true;
+
+    // Connections.
+    console.log('connections:', connections)
+
+    for (var a=0; a<connections.length; a++) {
+        var connection = connections[a];
+        var found      = false;
+        
+        if (connection.type == 'output') {
+            for (var b=0; b<gdata.length; b++) {
+                if (gdata[b].data.type == 1) {
+                    if (gdata[b].data.source == connection.src_node_id &&
+                        gdata[b].data.target == connection.dst_node_id )
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found == false) {
+                update = true;
+                break;
+            }
+        }
+    }
+
+    // Check connections length.
+    for (var a=0; a<connections.length; a++) {
+        if (connections[a].type == 'output') 
+            csize1++;
+    }
+
+    for (var b=0; b<gdata.length; b++) {
+        if (gdata[b].data.type == 1) 
+            csize2++;
+    }
+
+    if (csize1 != csize2)
         update = true;
 
     // Update network.
@@ -516,6 +559,7 @@ function process_network_viewer (request)
 
         console.log('update network');
 
+        // Nodes.
         for (var a=0; a<nodes.length; a++) {
             var node  = nodes[a];
             var parts = node.id.toString().split('verbum-node-');
@@ -526,14 +570,34 @@ function process_network_viewer (request)
             
             gdata.push({
                 data: { 
-                    type: 1,
+                    type: 0,
                     id: node.id,
                     label: label
                 }
             });
         }
 
-        console.log('gdata nodes:', gdata.length)
+        // Connections.
+        for (var a=0; a<connections.length; a++) {
+            var connection = connections[a];
+            var parts      = connection.id.toString().split('verbum-connection-');
+            var label      = 'no name';
+
+            if (parts[1]) 
+                label = parts[1].toString().trim();
+        
+            if (connection.type == 'output') {
+                gdata.push({
+                    data: {
+                        type: 1,
+                        id: 'vc-'+ a,
+                        source: connection.src_node_id,
+                        target: connection.dst_node_id
+                    }
+                });
+            }
+        }
+
         show_network_graph();
     }
 }
@@ -567,9 +631,9 @@ function prepare_network_graph ()
         if (target == limit)
             target = 0;
 
-            gdata.push({
+        gdata.push({
             data: {
-                type: 1,
+                type: 2,
                 id: 'v-'+ a,
                 source: 'id-'+ a,
                 target: 'id-'+ target
