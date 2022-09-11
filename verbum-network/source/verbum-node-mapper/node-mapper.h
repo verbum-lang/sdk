@@ -33,14 +33,14 @@ typedef struct thread_worker_st {
     struct thread_worker_st *next;      // Next node pointer.
 } thread_worker_t;
 
-int              node_mapper                 (void);
-int              prepare_node_mapper         (void);
-int              prepare_connections_timeout (void);
-void            *node_mapper_interface       (void *tparam);
-int              prepare_workers             (char *path);
-thread_worker_t *worker_create_item          (int wid);
-int              worker_insert_item          (thread_worker_t *new_worker);
-void            *worker_handler              (void *tparam);
+int              node_mapper             (void);
+int              prepare_node_mapper     (void);
+int              prepare_timeout_control (void);
+void            *node_mapper_interface   (void *tparam);
+int              prepare_workers         (char *path);
+thread_worker_t *worker_create_item      (int wid);
+int              worker_insert_item      (thread_worker_t *new_worker);
+void            *worker_handler          (void *tparam);
 
 #endif
 

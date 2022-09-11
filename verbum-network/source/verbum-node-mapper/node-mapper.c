@@ -2,8 +2,8 @@
 #include "node-mapper.h"
 #include "node-control.h"
 #include "connection-control.h"
-#include "connection-timeout.h"
 #include "communication.h"
+#include "timeout-control.h"
 
 pthread_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
 thread_worker_t          *workers       = NULL;
@@ -46,7 +46,7 @@ int node_mapper (void)
     if (!prepare_node_mapper())
         return 0;
 
-    if (!prepare_connections_timeout())
+    if (!prepare_timeout_control())
         return 0;
 
     return 1;
@@ -75,7 +75,7 @@ int prepare_node_mapper (void)
     return 1;
 }
 
-int prepare_connections_timeout (void)
+int prepare_timeout_control (void)
 {
     int status = 0, size = 0;
     pthread_t tid;
@@ -91,9 +91,9 @@ int prepare_connections_timeout (void)
     mem_scopy_ret(global.configuration.node_mapper.id, param->id, 0);
 
     // Create thread.
-    status = pthread_create(&tid, NULL, connection_timeout_control, param);
+    status = pthread_create(&tid, NULL, timeout_control, param);
     if (status != 0)
-        say_ret(0, "error creating thread - connections timeout control.");
+        say_ret(0, "error creating thread - timeout control (nodes and connections).");
 
     return 1;
 }

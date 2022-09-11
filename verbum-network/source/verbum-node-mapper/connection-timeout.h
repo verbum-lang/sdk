@@ -1,10 +1,10 @@
 
-#ifndef VERBUM_CONNECTION_TIMEOUT
-#define VERBUM_CONNECTION_TIMEOUT
+#ifndef VERBUM_TIMEOUT_CONTROL
+#define VERBUM_TIMEOUT_CONTROL
 
 #include "global.h"
 
-void *connection_timeout_control (void *tparam);
+void *timeout_control (void *tparam);
 
 #endif
 
