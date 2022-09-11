@@ -478,6 +478,8 @@ function send_request (request)
 var gdata = [];
 var gdata_view = [];
 var viewer_running = false;
+var last_nodes = [];
+var last_connections = [];
 
 function process_network_viewer (request)
 {
@@ -577,8 +579,25 @@ function process_network_viewer (request)
         if (csize1 != csize2)
             update = true;
 
+        // Check connection error flag updated.
+        for (var a=0; a<last_connections.length; a++) {
+            for (var b=0; b<request.connections.length; b++) {
+                var lcon = last_connections[a];
+                var ncon = request.connections[b];
+
+                if (lcon.id == ncon.id                   &&
+                    lcon.src_node_id == ncon.src_node_id &&
+                    lcon.dst_node_id == ncon.dst_node_id )
+                {
+                    if (ncon.error != lcon.error)
+                        update = true;
+                }
+            }
+        }
+
         // Update network.
         if (update == true) {
+            console.log('update');
             gdata = [];
 
             // Nodes.
@@ -634,6 +653,10 @@ function process_network_viewer (request)
         
         else 
             viewer_running = false;
+            
+        // Save last nodes and connections.
+        last_nodes = request.nodes;
+        last_connections = request.connections;
     }
 }
 
@@ -677,11 +700,11 @@ function process_inactive_items (request)
                         var parts = connection.dst_node_id.toString().split('verbum-node-');
                         var label = 'no name';
 
-                        if (parts[1]) 
+                        if (parts[1])
                             label = parts[1].toString().trim();
                     
                         gdata_append.push({
-                            data: { 
+                            data: {
                                 type: 0,
                                 id: connection.dst_node_id,
                                 label: label,
@@ -756,7 +779,6 @@ function process_inactive_items (request)
 function show_network_graph ()
 {
     (function () {
-
         var cy = cytoscape({
             container: document.getElementById('area-network-graph'),
             boxSelectionEnabled: false,
