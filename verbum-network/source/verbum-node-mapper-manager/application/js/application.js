@@ -713,9 +713,8 @@ function process_inactive_items (request)
         // Check connection exists.
         for (var b=0; b<gdata.length; b++) {
             if (gdata[b].data.type == 1) {
-                if (gdata[b].data.source == dst_node_id      &&
-                    gdata[b].data.target == src_node_id      &&
-                    gdata[b].data.error  == connection.error  )
+                if (gdata[b].data.source == dst_node_id &&
+                    gdata[b].data.target == src_node_id  )
                 {
                     found = true;
                     break;
