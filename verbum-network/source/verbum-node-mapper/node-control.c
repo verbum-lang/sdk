@@ -9,11 +9,12 @@ node_control_t *node_create_item (void)
     node_control_t *node;
     mem_alloc_ret(node, sizeof(node_control_t), node_control_t *, NULL);
 
-    node->status      = 0;
-    node->core_port   = 0;
-    node->server_port = 0;
-    node->id          = NULL;
-    node->next        = NULL;
+    node->status                = 0;
+    node->core_port             = 0;
+    node->server_port           = 0;
+    node->id                    = NULL;
+    node->next                  = NULL;
+    node->offline_by_timeout    = 0;
     memset(node->last_connect_date, 0x0, 100);
 
     return node;

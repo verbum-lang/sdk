@@ -11,6 +11,7 @@ typedef struct node_control_st {
     int core_port;                      // Node core interface port.
     int server_port;                    // Node server interface port.
     char last_connect_date [100];       // d-m-Y h:m:s
+    int offline_by_timeout;             // Offline by timeout (0 = not, 1 = yes).
     struct node_control_st *next;       // Next node pointer.
 } node_control_t;
 

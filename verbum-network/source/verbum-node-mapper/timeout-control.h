@@ -6,6 +6,9 @@
 
 // #define DBGTC
 
+// Node timeout - auto remove.
+#define VERBUM_NODE_SEC_TIMEOUT_ERROR               10
+
 // Update error connection flag.
 #define VERBUM_CONNECTION_SEC_TIMEOUT_ERROR         10
 

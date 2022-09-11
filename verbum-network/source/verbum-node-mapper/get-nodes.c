@@ -33,8 +33,8 @@ int get_node_list (int sock)
 
         // Node informations.
         memset(tmp, 0x0, 2048);
-        sprintf(tmp, "node: %d\nid: %s\ncore port: %d\nserver port: %d\nlast connection date: %s\n\n", 
-            a, node->id, node->core_port, node->server_port, node->last_connect_date);
+        sprintf(tmp, "node: %d\nid: %s\ncore port: %d\nserver port: %d\nlast connection date: %s\noffline by timeout: %d\n\n", 
+            a, node->id, node->core_port, node->server_port, node->last_connect_date, node->offline_by_timeout);
         
         message = (char *) realloc(message, sizeof(char) * (size + strlen(tmp) + 1));
         if (!message) {

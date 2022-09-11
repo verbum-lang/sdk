@@ -68,6 +68,7 @@ onmessage = function(ev) {
                                 var core_port   = -1;
                                 var server_port = -1;
                                 var date        = '';
+                                var offline     = 0;
 
                                 for (var b=0; b<lines.length; b++) {
                                     var iitem = lines[b].toString().trim();
@@ -89,6 +90,8 @@ onmessage = function(ev) {
                                             server_port = value;
                                         else if (name == 'last connection date')
                                             date = value;
+                                        else if (name == 'offline by timeout')
+                                            offline = parseInt(value);
                                     }
                                 }
 
@@ -101,10 +104,11 @@ onmessage = function(ev) {
                                         id: id,
                                         core_port: core_port,
                                         server_port: server_port,
-                                        last_connection_date: date
+                                        last_connection_date: date,
+                                        offline: (offline == 1 ? true : false)
                                     });
                                 }
-                            } 
+                            }
                             
                             // Connections information.
                             else {
