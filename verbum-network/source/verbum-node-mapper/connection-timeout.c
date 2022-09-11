@@ -16,7 +16,20 @@ void *timeout_control (void *tparam)
     while (1) {
 
         // Nodes.
+        pthread_mutex_lock(&mutex_nodes);
 
+        for (node=nodes; node!=NULL; node=node->next) {
+            if (node->status != 1) {
+                last_node = node;
+                continue;
+            }
+
+            say("node -> id: %s - date: %s", node->id, node->last_connect_date);
+
+            last_node = node;
+        }
+
+        pthread_mutex_unlock(&mutex_nodes);
 
         // Connections.
         pthread_mutex_lock(&mutex_connections);
@@ -30,7 +43,7 @@ void *timeout_control (void *tparam)
                 continue;
             }
 
-            say("id: %s - date: %s", connection->id, connection->last_connect_date);
+            say("connection -> id: %s - date: %s", connection->id, connection->last_connect_date);
 
             last_connection = connection;
         }
