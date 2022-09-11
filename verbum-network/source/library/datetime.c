@@ -36,7 +36,7 @@ char *make_datetime (void)
     if (strlen(sec) == 1)
         sprintf(sec, "0%d",  tms->tm_sec);
 
-    sprintf(date, "%s-%s-%s %s-%s-%s", 
+    sprintf(date, "%s-%s-%s %s:%s:%s", 
         day, mon, year, hour, min, sec);
 
     return date;
@@ -69,6 +69,10 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
     start = prepare_date_data(start_date);
     end   = prepare_date_data(end_date);
 
+    #ifdef DBGDT
+        say("start(%d): %s - end(%d): %s", start.status, start_date, end.status, end_date);
+    #endif
+
     if (!start.status || !end.status)
         return 0;
 
@@ -85,8 +89,8 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
         return 0;
 
     #ifdef DBGDT
-        say("start: %d-%d-%d %d:%d:%d\n"
-            "end..: %d-%d-%d %d:%d:%d\n",
+        printf("start: %d-%d-%d %d:%d:%d\n"
+               "end..: %d-%d-%d %d:%d:%d\n",
                     start.day, start.mon, start.year, start.hour, start.min, start.sec,
                     end.day, end.mon, end.year, end.hour, end.min, end.sec);
     #endif
@@ -115,12 +119,12 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
     final_seconds = date_seconds + hour_seconds;
 
     #ifdef DBGDT
-        say("%d %d %d - %d %d %d\n", 
+        printf("%d %d %d - %d %d %d\n", 
             (int) day,  (int) mon, (int) year, 
             (int) hour, (int) min, (int) sec);
-        say("total date secs: %f\n", date_seconds);
-        say("total hour secs: %f\n", hour_seconds);
-        say("final secs: %f\n", final_seconds);
+        printf("total date secs: %f\n", date_seconds);
+        printf("total hour secs: %f\n", hour_seconds);
+        printf("final secs: %f - %f\n", final_seconds, interval_seconds);
     #endif
 
     // Check interval.

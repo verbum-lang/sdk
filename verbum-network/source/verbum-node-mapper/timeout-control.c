@@ -51,10 +51,7 @@ void *timeout_control (void *tparam)
             if (current_date) {
                 if (date_difference(connection->last_connect_date, 
                     current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
-                {
-                    say("> timeout: %s - %s", 
-                        connection->last_connect_date, current_date);
-                    
+                {                    
                     connection->connection_error = 1;
                     connection->connection_error_count++;
                 } else {
