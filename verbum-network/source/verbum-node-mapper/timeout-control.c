@@ -51,15 +51,16 @@ void *timeout_control (void *tparam)
             if (current_date) {
                 if (date_difference(connection->last_connect_date, 
                     current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
-                {                    
+                {
+                    say("Timeout: %s, %s", connection->last_connect_date, current_date);
+                    say("Type: %d, Src: %s, Dst: %s\n", 
+                        connection->type, connection->src_node_id, connection->dst_node_id);
+
                     connection->connection_error = 1;
                     connection->connection_error_count++;
 
                     if (connection->connection_error_count >= 1000000)
                         connection->connection_error_count = 0;
-                } else {
-                    connection->connection_error = 0;
-                    connection->connection_error_count = 0;
                 }
 
                 mem_sfree(current_date);

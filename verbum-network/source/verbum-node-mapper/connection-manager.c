@@ -1,6 +1,7 @@
 
 #include "connection-manager.h"
 #include "connection-control.h"
+#include "timeout-control.h"
 
 extern pthread_mutex_t    mutex_connections;
 extern node_connection_t *connections;
@@ -89,7 +90,7 @@ static int process_connection_item (char *connection)
     node_connection_t *ncon = connection_create_item();
     node_connection_t *con, *last;
     char tmp[1024], name[256], value[256];
-    char *ptr = NULL;
+    char *ptr = NULL, *current_date = NULL;
     int found = 0;
     
     if (!ncon)
@@ -215,7 +216,30 @@ static int process_connection_item (char *connection)
         say("item: \"%d\"", ncon->dst_nm_direct);
     #endif
 
+    // Status flag.
     ncon->status = 1;
+
+    // Check input connections timeout.
+    current_date = make_datetime();
+    if (current_date) {
+        if (date_difference(ncon->last_connect_date, 
+            current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
+        {
+            say("Update connections.");
+            say("Timeout: %s, %s", ncon->last_connect_date, current_date);
+            say("Type: %d, Src: %s, Dst: %s\n", 
+                ncon->type, ncon->src_node_id, ncon->dst_node_id);
+
+            ncon->connection_error = 1;
+            ncon->connection_error_count++;
+
+            if (ncon->connection_error_count >= 1000000)
+                ncon->connection_error_count = 0;
+        }
+
+        mem_sfree(current_date);
+    }
+
     pthread_mutex_lock(&mutex_connections);
 
     // Search connection.
@@ -258,6 +282,8 @@ static int process_connection_item (char *connection)
     // Not found, insert new item.
     if (!found)
         connection_insert_item(ncon);
+
+    say("Update connection success!");
 
     return 1;
 }

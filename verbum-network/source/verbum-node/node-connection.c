@@ -235,21 +235,9 @@ static void *connection_ping_controller (void *tparam)
          * Process action.
          */
 
-        count = 0;
-
-        while (1) {
-            status = 
-                ping_controller_communication(connection_id, 
+        status = ping_controller_communication(connection_id, 
                     src_node_id, src_nm_port, dst_node_id, dst_nm_address, dst_nm_port);
-            
-            if (status == 1)
-                break;
-            
-            count++;
-            if (count >= 3)
-                break;
-        }
-
+        
         pthread_mutex_lock(&mutex_connections);
 
         for (connection=connections; connection != NULL; connection=connection->next) {

@@ -128,7 +128,10 @@ void *ping_node_handler (void *tparam)
                         connection->dst_nm_direct
                     );
 
-                    say("error flag: %d", connection->connection_error);
+                    say("id: %s", connection->id);
+                    say("src_node_id: %s", id);
+                    say("dst_node_id: %s", connection->dst_node_id);
+                    say("error flag: %d\n", connection->connection_error);
 
                     // Append data to full header data.
                     size = strlen(tmp);
