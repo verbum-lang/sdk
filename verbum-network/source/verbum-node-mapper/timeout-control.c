@@ -1,5 +1,6 @@
 
 #include "timeout-control.h"
+#include "node-control.h"
 #include "connection-control.h"
 
 extern node_control_t    *nodes;
@@ -10,7 +11,7 @@ extern node_connection_t *connections;
 
 void *timeout_control (void *tparam)
 {
-    node_control_t *node, last_node;
+    node_control_t *node, *last_node;
     node_connection_t *connection, *last_connection;
 
     while (1) {
