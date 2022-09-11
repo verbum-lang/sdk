@@ -547,7 +547,8 @@ function process_network_viewer (request)
                 for (var b=0; b<gdata.length; b++) {
                     if (gdata[b].data.type == 1) {
                         if (gdata[b].data.source == connection.src_node_id &&
-                            gdata[b].data.target == connection.dst_node_id  )
+                            gdata[b].data.target == connection.dst_node_id &&
+                            gdata[b].data.error  == connection.error        )
                         {
                             found = true;
                             break;
@@ -610,12 +611,19 @@ function process_network_viewer (request)
                     label = parts[1].toString().trim();
             
                 if (connection.type == 'output') {
+                    var color = '#ccc';
+
+                    if (connection.error == true)
+                        color = '#dc3545';
+
                     gdata.push({
                         data: {
                             type: 1,
                             id: 'vc-'+ a,
                             source: connection.src_node_id,
-                            target: connection.dst_node_id
+                            target: connection.dst_node_id,
+                            color: color,
+                            error: connection.error
                         }
                     });
                 }
@@ -705,8 +713,9 @@ function process_inactive_items (request)
         // Check connection exists.
         for (var b=0; b<gdata.length; b++) {
             if (gdata[b].data.type == 1) {
-                if (gdata[b].data.source == dst_node_id &&
-                    gdata[b].data.target == src_node_id  )
+                if (gdata[b].data.source == dst_node_id      &&
+                    gdata[b].data.target == src_node_id      &&
+                    gdata[b].data.error  == connection.error  )
                 {
                     found = true;
                     break;
@@ -714,14 +723,21 @@ function process_inactive_items (request)
             }
         }
 
-        // Add node.
+        // Add connection.
         if (found == false) {
+            var color = '#ccc';
+
+            if (connection.error == true)
+                color = '#dc3545';
+
             gdata_append.push({
                 data: {
                     type: 1,
                     id: 'vc-'+ ctype +'-'+ a,
                     source: dst_node_id,
-                    target: src_node_id
+                    target: src_node_id,
+                    color: color,
+                    error: connection.error
                 }
             });
         }
@@ -735,7 +751,6 @@ function process_inactive_items (request)
     for (var a=0; a<gdata_append.length; a++)
         gdata_view.push(gdata_append[a]);
 
-    console.log(gdata_view)
     show_network_graph();
 }
 
@@ -765,8 +780,8 @@ function show_network_graph ()
                 selector: 'edge',
                 style: {
                     'width': 3,
-                    'line-color': '#ccc',
-                    'target-arrow-color': '#ccc',
+                    'line-color': 'data(color)',
+                    'target-arrow-color': 'data(color)',
                     'target-arrow-shape': 'triangle',
                     'curve-style': 'bezier'
                 }
