@@ -99,22 +99,9 @@ int delete_node (int sock, char *content)
 
     // Send request to node auto-close.
     if (status == 1) {
-        while (1) {
-            char *response = process_delete_node(address, core_port, tmp);
-            if (response) {
-                if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
-                    mem_sfree(response);
-                    break;
-                }
-
-                mem_sfree(response);
-            }
-
-            usleep(1000);
-            counter++;
-            if (counter >= 3)
-                break;
-        }
+        char *response = process_delete_node(address, core_port, tmp);
+        if (response)
+            mem_sfree(response);
     }
 
     // Finish.
