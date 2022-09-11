@@ -28,7 +28,7 @@ char *make_datetime (void)
     if (strlen(day) == 1)
         sprintf(day, "0%d",  tms->tm_mday);
     if (strlen(mon) == 1)
-        sprintf(mon, "0%d",  tms->tm_mon);
+        sprintf(mon, "0%d",  (tms->tm_mon + 1));
     if (strlen(hour) == 1)
         sprintf(hour, "0%d", tms->tm_hour);
     if (strlen(min) == 1)
