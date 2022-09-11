@@ -486,6 +486,10 @@ function process_network_viewer (request)
     if (viewer_running == false) {
         viewer_running = true;
 
+        /**
+         * Process active nodes and active connections.
+         */
+
         // Prepare nodes and connections.
         var pnodes = nodes;
         var pconnections = [];
@@ -609,7 +613,7 @@ function process_network_viewer (request)
                     gdata.push({
                         data: {
                             type: 1,
-                            id: 'vco-'+ a,
+                            id: 'vc-'+ a,
                             source: connection.src_node_id,
                             target: connection.dst_node_id
                         }
@@ -617,8 +621,7 @@ function process_network_viewer (request)
                 }
             }
             
-            // Process external and disconnected items.
-            process_external_disconnected_network_items(request);
+            process_inactive_items(request);
         }
         
         else 
@@ -626,94 +629,101 @@ function process_network_viewer (request)
     }
 }
 
-function process_external_disconnected_network_items (request)
+/**
+ * Process inactive nodes and connections.
+ */
+
+function process_inactive_items (request)
 {
     var connections  = request.connections;
     var gdata_append = [];
 
-    console.log('nodes:', nodes);
-    console.log('connections:', connections);
-
+    // Checks if Target Nodes exist.
+    // If they don't exist, then create them.
     for (var a=0; a<gdata.length; a++) {
         if (gdata[a].data.type != 0)
             continue;
             
         var node = gdata[a].data;
 
-        // Input connections.
         for (var b=0; b<connections.length; b++) {
             var connection = connections[b];
+            
+            if (connection.src_node_id == node.id) {
+                if (connection.type == 'input' || connection.type == 'output') {
 
-            if (connection.src_node_id == node.id && connection.type == 'input') {
+                    // Check node exists.
+                    var found = false;
 
-                // Check node exists.
-                var found = false;
-
-                for (var c=0; c<gdata.length; c++) {
-                    if (gdata[c].data.type == 0 &&
-                        gdata[c].data.id   == connection.dst_node_id) 
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-
-                // Node external.
-                if (found == false) {
-                    var parts = connection.dst_node_id.toString().split('verbum-node-');
-                    var label = 'no name';
-
-                    if (parts[1]) 
-                        label = parts[1].toString().trim();
-                
-                    gdata_append.push({
-                        data: { 
-                            type: 0,
-                            id: connection.dst_node_id,
-                            label: label,
-                            color: '#fd7e14',
-                            disconnected: false
+                    for (var c=0; c<gdata.length; c++) {
+                        if (gdata[c].data.type == 0 &&
+                            gdata[c].data.id   == connection.dst_node_id) 
+                        {
+                            found = true;
+                            break;
                         }
-                    });
+                    }
+
+                    // Add node.
+                    if (found == false) {
+                        var parts = connection.dst_node_id.toString().split('verbum-node-');
+                        var label = 'no name';
+
+                        if (parts[1]) 
+                            label = parts[1].toString().trim();
+                    
+                        gdata_append.push({
+                            data: { 
+                                type: 0,
+                                id: connection.dst_node_id,
+                                label: label,
+                                color: '#fd7e14',
+                                disconnected: false
+                            }
+                        });
+                    }
                 }
             }
         }
     }
 
-    console.log('gdata:', gdata);
-    console.log('gdata_append:', gdata_append);
-
-    // Process input connections.
+    // Checks if the connections exist, 
+    // and performs the appropriate actions.
     for (var a=0; a<connections.length; a++) {
-        var connection = connections[a];
+        var connection  = connections[a];
+        var found       = false;
+        var dst_node_id = connection.dst_node_id;
+        var src_node_id = connection.src_node_id;
+        var ctype       = 'i';
 
-        if (connection.type == 'input') {
-            console.log(connection);
-
-            // Check connection exists.
-            var found = false;
-
-            for (var b=0; b<gdata.length; b++) {
-                if (gdata[b].data.type == 1) {
-                    if (gdata[b].data.source == connection.dst_node_id &&
-                        gdata[b].data.target == connection.src_node_id  )
-                    {
-                        found = true;
-                        break;
-                    }
+        if (connection.type == 'output') {
+            dst_node_id = connection.src_node_id;
+            src_node_id = connection.dst_node_id;
+            ctype       = 'o';
+        }
+    
+        // Check connection exists.
+        for (var b=0; b<gdata.length; b++) {
+            if (gdata[b].data.type == 1) {
+                if (gdata[b].data.source == dst_node_id &&
+                    gdata[b].data.target == src_node_id  )
+                {
+                    found = true;
+                    break;
                 }
             }
+        }
 
-            if (found == false) {
-                gdata_append.push({
-                    data: {
-                        type: 1,
-                        id: 'vci-'+ a,
-                        source: connection.dst_node_id,
-                        target: connection.src_node_id
-                    }
-                });
-            }
+        // Add node.
+        if (found == false) {
+            gdata_append.push({
+                data: {
+                    type: 1,
+                    id: 'vc-'+ ctype +'-'+ a,
+                    source: dst_node_id,
+                    target: src_node_id
+                }
+            });
         }
     }
 
