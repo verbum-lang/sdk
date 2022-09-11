@@ -42,45 +42,170 @@ char *make_datetime (void)
     return date;
 }
 
-double date_difference_now (char *start)
+/**
+ * This function returns an approximate value, and not exactly 
+ * according to the Gregorian calendar.
+ * 
+ * Format: 11-09-2022 01:50:00
+ * 
+ * start_date - minor date.
+ * end_date   - major date.
+ * 
+ * Result:
+ *  1 = Success, >= interval.
+ *  0 = Errror, date not >= interval.
+ */
+
+int date_difference (char *start_date, char *end_date, double interval_seconds)
 {
-    struct tm tm_start, *tm_end;
-    time_t time_start, time_end, now;
-    double time_difference = 0;
+    date_diff_t start, end;
+    double day  = 0, mon = 0, year = 0, date_seconds = 0;
+    double hour = 0, min = 0, sec  = 0, hour_seconds = 0;
+    double final_seconds = 0;
 
-    memset(&tm_start, 0x0, sizeof(tm_start));
-    memset(&tm_end, 0x0, sizeof(tm_end));
-    memset(&time_start, 0x0, sizeof(time_start));
-    memset(&time_end, 0x0, sizeof(time_end));
-    memset(&now, 0x0, sizeof(now));
+    if (!start_date || !end_date || !interval_seconds)
+        return 0;
+    
+    start = prepare_date_data(start_date);
+    end   = prepare_date_data(end_date);
 
-    now    = time(NULL);
-    tm_end = localtime(&now);
+    if (!start.status || !end.status)
+        return 0;
 
-    strptime(start, "%d-%m-%Y %H:%M:%S", &tm_start);
+    if (strcmp(start_date, end_date) == 0)
+        return 0;
 
-    time_start = mktime(&tm_start);
-    time_end   = mktime(tm_end);
+    // Date validation.
+    if (start.year > end.year)
+        return 0;
+    if (start.year == end.year && start.mon > end.mon)
+        return 0;
+    if (start.year == end.year && start.mon == end.mon && 
+        start.day > end.day)
+        return 0;
 
-    return difftime(time_end, time_start);
+    #ifdef DBGDT
+        say("start: %d-%d-%d %d:%d:%d\n"
+            "end..: %d-%d-%d %d:%d:%d\n",
+                    start.day, start.mon, start.year, start.hour, start.min, start.sec,
+                    end.day, end.mon, end.year, end.hour, end.min, end.sec);
+    #endif
+
+    // Date difference.
+    year = end.year - start.year;
+    mon  = end.mon  - start.mon;
+    day  = end.day  - start.day;
+
+    year = 365      * year;
+    mon  = 30.4167  * mon;
+
+    date_seconds = (year + mon + day) * 86400;
+
+    // Hour difference.
+    hour = end.hour - start.hour;
+    min  = end.min  - start.min;
+    sec  = end.sec  - start.sec;
+
+    hour_seconds = (hour * 3600) + (min * 60) + sec; 
+
+    if (date_seconds == 0 && hour_seconds < 0)
+        return 0;
+
+    // Final seconds difference.
+    final_seconds = date_seconds + hour_seconds;
+
+    #ifdef DBGDT
+        say("%d %d %d - %d %d %d\n", 
+            (int) day,  (int) mon, (int) year, 
+            (int) hour, (int) min, (int) sec);
+        say("total date secs: %f\n", date_seconds);
+        say("total hour secs: %f\n", hour_seconds);
+        say("final secs: %f\n", final_seconds);
+    #endif
+
+    // Check interval.
+    if (final_seconds >= interval_seconds)
+        return 1;
+
+    return 0;
 }
 
-double date_difference (char *start, char *end)
+date_diff_t prepare_date_data (char *idate)
 {
-    struct tm tm_start, tm_end;
-    time_t time_start, time_end;
-    double time_difference = 0;
+    date_diff_t date;
+    char tmp [100];
 
-    memset(&tm_start, 0x0, sizeof(tm_start));
-    memset(&tm_end, 0x0, sizeof(tm_end));
+    date.day    = 0;
+    date.mon    = 0;
+    date.year   = 0;
+    date.hour   = 0;
+    date.min    = 0;
+    date.sec    = 0;
+    date.status = 0;
 
-    strptime(start, "%d-%m-%Y %H:%M:%S", &tm_start);
-    strptime(end, "%d-%m-%Y %H:%M:%S", &tm_end);
+    memset(tmp, 0x0, 100);
 
-    time_start = mktime(&tm_start);
-    time_end   = mktime(&tm_end);
+    if (!idate)
+        return date;
 
-    return difftime(time_end, time_start);
+    if (!strstr(idate, "-") || 
+        !strstr(idate, " ") || 
+        !strstr(idate, ":")  )
+        return date;
+
+    for (int a=0,b=0,c=0; ; a++) {
+
+        if (idate[a] == '-' || idate[a] == ' ' || 
+            idate[a] == ':' || idate[a] == '\0' )
+        {
+            switch (c) {
+                case 0:
+                    date.day = prepare_atoi(tmp);
+                    break;
+                case 1:
+                    date.mon = prepare_atoi(tmp);
+                    break;
+                case 2:
+                    date.year = prepare_atoi(tmp);
+                    break;
+                case 3:
+                    date.hour = prepare_atoi(tmp);
+                    break;
+                case 4:
+                    date.min = prepare_atoi(tmp);
+                    break;
+                case 5:
+                    date.sec = prepare_atoi(tmp);
+                    date.status = 1;
+                    break;
+            }
+
+            c ++ ;
+            b = 0;
+            memset(tmp, 0x0, 100);
+
+            if (idate[a] == '\0')
+                break;
+        }
+
+        else
+            tmp[b++] = idate[a];
+    }
+
+    return date;
+}
+
+int prepare_atoi (char *number)
+{
+    char *ptr  = number;
+
+    if (!number)
+        return 0;
+
+    if (number[0] == '0')
+        ptr++;
+
+    return atoi(ptr);
 }
 
 

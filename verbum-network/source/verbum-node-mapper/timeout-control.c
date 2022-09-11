@@ -47,18 +47,23 @@ void *timeout_control (void *tparam)
              * Check input connections timeout.
              */
 
-            // if (date_difference_now(connection->last_connect_date) >= VERBUM_CONNECTION_SEC_TIMEOUT_ERROR) {
-                // char *date = make_datetime();
-                // say("> %s -> %f", connection->last_connect_date, date_difference_now(connection->last_connect_date));
-                // say("> %s, %s -> %f", connection->last_connect_date, date, date_difference(connection->last_connect_date, date));
-                // say("+++");
+            char *current_date = make_datetime();
+            if (current_date) {
+                if (date_difference(connection->last_connect_date, 
+                    current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
+                {
+                    say("> timeout: %s - %s", 
+                        connection->last_connect_date, current_date);
+                    
+                    connection->connection_error = 1;
+                    connection->connection_error_count++;
+                } else {
+                    connection->connection_error = 0;
+                    connection->connection_error_count = 0;
+                }
 
-                // connection->connection_error = 1;
-                // connection->connection_error_count++;
-            // } else {
-            //     connection->connection_error = 0;
-            //     connection->connection_error_count = 0;
-            // }
+                mem_sfree(current_date);
+            }
 
             last_connection = connection;
         }
