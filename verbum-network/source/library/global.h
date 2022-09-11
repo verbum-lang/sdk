@@ -12,6 +12,7 @@
 #include <errno.h> 
 #include <dirent.h>
 #include <signal.h>
+#include <locale.h>
 
 #include <sys/time.h>
 #include <sys/types.h> 

@@ -19,7 +19,7 @@ char *make_datetime (void)
     memset(sec,  0x0, 5);
 
     sprintf(day,  "%d", tms->tm_mday);
-    sprintf(mon,  "%d", tms->tm_mon);
+    sprintf(mon,  "%d", (tms->tm_mon + 1));
     sprintf(year, "%d", (1900 + tms->tm_year));
     sprintf(hour, "%d", tms->tm_hour);
     sprintf(min,  "%d", tms->tm_min);
