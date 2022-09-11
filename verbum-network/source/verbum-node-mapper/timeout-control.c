@@ -54,6 +54,9 @@ void *timeout_control (void *tparam)
                 {                    
                     connection->connection_error = 1;
                     connection->connection_error_count++;
+
+                    if (connection->connection_error_count >= 1000000)
+                        connection->connection_error_count = 0;
                 } else {
                     connection->connection_error = 0;
                     connection->connection_error_count = 0;

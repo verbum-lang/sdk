@@ -755,39 +755,42 @@ function process_inactive_items (request)
 
 function show_network_graph ()
 {
-    var cy = cytoscape({
-        container: document.getElementById('area-network-graph'),
-        boxSelectionEnabled: false,
-        autounselectify: true,
-        layout: { name: 'cola' },
-        elements: gdata_view,
-        
-        style: [
-            {
-                selector: 'node',
-                style: {
-                    'content': 'data(label)',
-                    'text-valign': 'center',
-                    'color': 'white',
-                    'font-size': '10px',
-                    'text-outline-width': 1,
-                    'text-outline-color': '#888',
-                    'background-color': 'data(color)',
-                }
-            },
-            {
-                selector: 'edge',
-                style: {
-                    'width': 3,
-                    'line-color': 'data(color)',
-                    'target-arrow-color': 'data(color)',
-                    'target-arrow-shape': 'triangle',
-                    'curve-style': 'bezier'
-                }
-            }
-        ]
-    });
+    (function () {
 
+        var cy = cytoscape({
+            container: document.getElementById('area-network-graph'),
+            boxSelectionEnabled: false,
+            autounselectify: true,
+            layout: { name: 'cola' },
+            elements: gdata_view,
+            
+            style: [
+                {
+                    selector: 'node',
+                    style: {
+                        'content': 'data(label)',
+                        'text-valign': 'center',
+                        'color': 'white',
+                        'font-size': '10px',
+                        'text-outline-width': 1,
+                        'text-outline-color': '#888',
+                        'background-color': 'data(color)',
+                    }
+                },
+                {
+                    selector: 'edge',
+                    style: {
+                        'width': 3,
+                        'line-color': 'data(color)',
+                        'target-arrow-color': 'data(color)',
+                        'target-arrow-shape': 'triangle',
+                        'curve-style': 'bezier'
+                    }
+                }
+            ]
+        });
+    })();
+    
     viewer_running = false;        
 }
 
