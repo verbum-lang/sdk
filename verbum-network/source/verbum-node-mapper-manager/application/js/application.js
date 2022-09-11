@@ -595,6 +595,14 @@ function process_network_viewer (request)
             }
         }
 
+        // Difference connections size.
+        if (last_connections.length != request.connections.length) {
+            update = true;
+            
+            // Update connections list.
+            update_connections_list(request);
+        }
+
         // Update network.
         if (update == true) {
             gdata = [];
@@ -932,6 +940,48 @@ function process_informations (request)
     }
 
     process_network_viewer(request);
+}
+
+function update_connections_list (request)
+{
+    for (var a=0; a<nodes.length; a++) {
+        var node = nodes[a];
+
+        if (node.status != 1)
+            continue;
+
+        console.log('node:', node);
+
+        // Check last connections exists.
+        for (var b=0; b<last_connections.length; b++) {
+            if (node.id == last_connections[b].src_node_id) {
+                var last  = last_connections[b];
+                var found = false;
+
+                // Check connection exists.
+                for (var c=0; c<request.connections.length; c++) {
+                    if (node.id == request.connections[c].src_node_id) {
+                        var current = request.connections[c];
+
+                        if (last.id == current.id                   &&
+                            last.dst_node_id == current.dst_node_id  )
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (found == false) {
+                    var prefix = 'node-connection-'+ node.id +'-'+
+                                 'connection-'+ last.id;
+
+                    $('.'+ prefix +'-'+ last.type).remove();
+                }
+
+            }
+        }
+    }
 }
 
 function process_delete_node (request)
