@@ -48,8 +48,10 @@ void *timeout_control (void *tparam)
              */
 
             // if (date_difference_now(connection->last_connect_date) >= VERBUM_CONNECTION_SEC_TIMEOUT_ERROR) {
-
-                say("> %s -> %f", connection->last_connect_date, date_difference_now(connection->last_connect_date));
+                // char *date = make_datetime();
+                // say("> %s -> %f", connection->last_connect_date, date_difference_now(connection->last_connect_date));
+                // say("> %s, %s -> %f", connection->last_connect_date, date, date_difference(connection->last_connect_date, date));
+                // say("+++");
 
                 // connection->connection_error = 1;
                 // connection->connection_error_count++;
