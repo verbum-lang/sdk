@@ -111,6 +111,7 @@ gcc -o create-node-connection.o -c create-node-connection.c
 gcc -o connection-manager.o     -c connection-manager.c
 gcc -o connection-control.o     -c connection-control.c
 gcc -o timeout-control.o        -c timeout-control.c
+gcc -o delete-connection.o      -c delete-connection.c
 
 gcc -o verbum-node-mapper verbum-node-mapper.c             \
                           global.o                         \
@@ -130,6 +131,7 @@ gcc -o verbum-node-mapper verbum-node-mapper.c             \
                           connection-manager.o             \
                           connection-control.o             \
                           timeout-control.o                \
+                          delete-connection.o              \
                           $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o

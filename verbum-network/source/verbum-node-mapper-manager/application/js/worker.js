@@ -265,7 +265,7 @@ onmessage = function(ev) {
                                 information.id          +':'+
                                 information.src_node_id +':'+
                                 information.dst_node_id +':'+
-                                information.type            ;
+                                (information.type == 'input' ? '0' : '1');
 
         // Send data to Node Mapper.
         connect_node_mapper(request.address, request.port, request_raw, (response) => {

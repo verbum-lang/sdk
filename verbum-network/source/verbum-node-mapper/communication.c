@@ -8,6 +8,7 @@
 #include "check-node-exists.h"
 #include "create-node-connection.h"
 #include "connection-manager.h"
+#include "delete-connection.h"
 
 int process_communication(int sock, char *path)
 {
@@ -74,6 +75,12 @@ int process_communication(int sock, char *path)
      */
     else if (strstr(response, "create-verbum-node-input-connection:"))
         create_node_connection(sock, response, 1);
+
+    /**
+     * Delete connection.
+     */
+    else if (strstr(response, "delete-verbum-connection:"))
+        delete_connection(sock, response);
 
     mem_sfree(response);
     return 1;
