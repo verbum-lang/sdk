@@ -950,8 +950,6 @@ function update_connections_list (request)
         if (node.status != 1)
             continue;
 
-        console.log('node:', node);
-
         // Check last connections exists.
         for (var b=0; b<last_connections.length; b++) {
             if (node.id == last_connections[b].src_node_id) {
