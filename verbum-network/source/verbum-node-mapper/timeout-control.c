@@ -25,7 +25,7 @@ void *timeout_control (void *tparam)
                 continue;
             }
 
-            say("node -> id: %s - date: %s", node->id, node->last_connect_date);
+            // say("node -> id: %s - date: %s", node->id, node->last_connect_date);
 
             last_node = node;
         }
