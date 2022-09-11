@@ -59,7 +59,7 @@ int delete_connection (int sock, char *content)
 
     if (!connection_id || !src_node_id || !dst_node_id || connection_type == -1)
         return 0;
-
+    
     say("Connection type: \"%d\"", connection_type);
     say("Connection ID..: \"%s\"", connection_id);
     say("Src node ID....: \"%s\"", src_node_id);
