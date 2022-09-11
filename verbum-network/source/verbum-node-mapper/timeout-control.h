@@ -11,7 +11,7 @@
 
 // Auto remove node.
 #define VERBUM_NODE_AUTO_REMOVE
-#define VERBUM_NODE_SEC_TIMEOUT_AUTO_REMOVE         10
+#define VERBUM_NODE_SEC_TIMEOUT_AUTO_REMOVE         30
 
 // Update error connection flag.
 #define VERBUM_CONNECTION_SEC_TIMEOUT_ERROR         10

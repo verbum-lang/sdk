@@ -54,10 +54,10 @@ void *timeout_control (void *tparam)
                 if (date_difference(node->last_connect_date, 
                         current_date, VERBUM_NODE_SEC_TIMEOUT_AUTO_REMOVE))
                 {
-                    // #ifdef DBGTC
+                    #ifdef DBGTC
                         say("Auto remove node - timeout.");
                         say("node -> id: %s - date: %s", node->id, node->last_connect_date);
-                    // #endif
+                    #endif
 
                     if (!node->next)
                         last_node->next = NULL;

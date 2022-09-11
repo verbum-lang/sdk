@@ -481,6 +481,10 @@ var viewer_running = false;
 var last_nodes = [];
 var last_connections = [];
 
+/**
+ * Process active nodes and active connections.
+ */
+
 function process_network_viewer (request)
 {
     update_network_statistics(request);
@@ -489,7 +493,7 @@ function process_network_viewer (request)
         viewer_running = true;
 
         /**
-         * Process active nodes and active connections.
+         * Nodes.
          */
 
         // Prepare nodes and connections.
@@ -542,7 +546,13 @@ function process_network_viewer (request)
         if (nsize != pnodes.length)
             update = true;
 
-        // Connections.
+        // Check deleted nodes.
+        check_deleted_nodes();
+
+        /**
+         * Connections.
+         */
+
         for (var a=0; a<connections.length; a++) {
             var connection = connections[a];
             var found      = false;
@@ -984,6 +994,26 @@ function update_connections_list (request)
                 }
 
             }
+        }
+    }
+}
+
+function check_deleted_nodes ()
+{
+    for (var a=0; a<last_nodes.length; a++) {
+        var last  = last_nodes[a];
+        var found = false;
+        
+        for (var b=0; b<nodes.length; b++) {
+            var node = nodes[b];
+            if (last.id == node.id) {
+                found = true;
+                break;
+            }
+        }
+
+        if (found == false) {
+            $('.node-area-'+ last.id).remove();
         }
     }
 }
