@@ -2,6 +2,7 @@
 #include "node-mapper.h"
 #include "node-control.h"
 #include "connection-control.h"
+#include "connection-timeout.h"
 #include "communication.h"
 
 pthread_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
@@ -19,10 +20,6 @@ extern node_connection_t *connections;
 
 int node_mapper (void)
 {
-    int status = 0, size = 0;
-    pthread_t tid;
-    interface_param_t *param;
-
     // Prepare mutex.
     if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
         say_ret(0, "mutex init failed - workers.");
@@ -46,6 +43,21 @@ int node_mapper (void)
     if (!connections)
         say_ret(0, "error create connection item.");
 
+    if (!prepare_node_mapper())
+        return 0;
+
+    if (!prepare_connections_timeout())
+        return 0;
+
+    return 1;
+}
+
+int prepare_node_mapper (void)
+{
+    int status = 0, size = 0;
+    pthread_t tid;
+    interface_param_t *param;
+
     // Prepare thread param.
     mem_alloc_ret(param, sizeof(interface_param_t), interface_param_t *, 0);
     param->max_connections = SERVERS_MAX_CONNECTION;
@@ -58,7 +70,30 @@ int node_mapper (void)
     // Create thread.
     status = pthread_create(&tid, NULL, node_mapper_interface, param);
     if (status != 0)
-        say_ret(0, "error while creating thread - control of Node Mapper interface.");
+        say_ret(0, "error creating thread - control of Node Mapper interface.");
+
+    return 1;
+}
+
+int prepare_connections_timeout (void)
+{
+    int status = 0, size = 0;
+    pthread_t tid;
+    interface_param_t *param;
+
+    // Prepare thread param.
+    mem_alloc_ret(param, sizeof(interface_param_t), interface_param_t *, 0);
+    param->max_connections = SERVERS_MAX_CONNECTION;
+    param->port            = global.configuration.node_mapper.server_port;
+
+    // Copy path.
+    mem_scopy_ret(global.configuration.path, param->path, 0);
+    mem_scopy_ret(global.configuration.node_mapper.id, param->id, 0);
+
+    // Create thread.
+    status = pthread_create(&tid, NULL, connection_timeout_control, param);
+    if (status != 0)
+        say_ret(0, "error creating thread - connections timeout control.");
 
     return 1;
 }

@@ -110,6 +110,7 @@ gcc -o check-node-exists.o      -c check-node-exists.c
 gcc -o create-node-connection.o -c create-node-connection.c
 gcc -o connection-manager.o     -c connection-manager.c
 gcc -o connection-control.o     -c connection-control.c
+gcc -o connection-timeout.o     -c connection-timeout.c
 
 gcc -o verbum-node-mapper verbum-node-mapper.c             \
                           global.o                         \
@@ -128,6 +129,7 @@ gcc -o verbum-node-mapper verbum-node-mapper.c             \
                           create-node-connection.o         \
                           connection-manager.o             \
                           connection-control.o             \
+                          connection-timeout.o             \
                           $LIBRARY_OBJECTS $LIBRARY_LIBS
 
 rm -rf *.o
