@@ -255,6 +255,24 @@ onmessage = function(ev) {
                 postMessage(request);
         });
     }
+
+    /**
+     * Delete connection.
+     */
+    else if (request.cmd == 'delete-verbum-connection') {
+        var information = request.information;
+        var request_raw = 'delete-verbum-connection:'       + 
+                                information.id          +':'+
+                                information.src_node_id +':'+
+                                information.dst_node_id +':'+
+                                information.type            ;
+
+        // Send data to Node Mapper.
+        connect_node_mapper(request.address, request.port, request_raw, (response) => {
+            console.log('delete verbum connection response:');
+            console.log(response);
+        });
+    }
 };
 
 /**

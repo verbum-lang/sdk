@@ -1030,6 +1030,23 @@ function process_delete_node (request)
     $('.node-area-'+ request.node_id).remove();
 }
 
+function delete_connection (id, src_node_id, dst_node_id, type)
+{
+    var information = {
+        type: type,
+        id: id,
+        src_node_id, src_node_id,
+        dst_node_id, dst_node_id
+    };
+
+    send_request({
+        cmd: 'delete-verbum-connection',
+        address: nm_address,
+        port: nm_port,
+        information: information
+    });
+}
+
 function append_node (node)
 {
     var prefix = 'cls-'+ node.id;
@@ -1168,6 +1185,11 @@ function update_node (node)
 
 function append_output_connection (node, connection, prefix)
 {
+    var delete_params = '"'+ connection.id          +'",'+
+                        '"'+ connection.src_node_id +'",'+
+                        '"'+ connection.dst_node_id +'",'+
+                        '"'+ connection.type        +'",';
+
     var html = `
         <div class='`+ prefix +`-output' >
             <table class="table table-dark table-borderless table-results-sec-3" >
@@ -1208,7 +1230,7 @@ function append_output_connection (node, connection, prefix)
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-6' style="text-align:right;" >
-                        <button class='btn btn-2 btn-danger' >
+                        <button class='btn btn-2 btn-danger' onclick='javascript:delete_connection(`+ delete_params +`);' >
                             <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
@@ -1240,6 +1262,11 @@ function append_input_connection (node, connection, prefix)
 {
     var nm_direct = connection.dst_nm_direct == true ? 'YES' : 'NO';
     
+    var delete_params = '"'+ connection.id          +'",'+
+                        '"'+ connection.src_node_id +'",'+
+                        '"'+ connection.dst_node_id +'",'+
+                        '"'+ connection.type        +'",';
+
     var html = `
         <div class='`+ prefix +`-input' >
             <table class="table table-dark table-borderless table-results-sec-3">
@@ -1280,7 +1307,7 @@ function append_input_connection (node, connection, prefix)
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-6' style="text-align:right;" >
-                        <button class='btn btn-2 btn-danger' >
+                        <button class='btn btn-2 btn-danger' onclick='javascript:delete_connection(`+ delete_params +`);' >
                             <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
