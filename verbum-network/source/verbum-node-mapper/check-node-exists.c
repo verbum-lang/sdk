@@ -46,7 +46,7 @@ int check_node_exists (int sock, char *content)
 
     pthread_mutex_unlock(&mutex_nodes);
             
-    // Send message to node.
+    // Send message to node (core port).
     if (status == 1) {
         status = 0;
 

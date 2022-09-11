@@ -20,7 +20,7 @@ int process_communication(int sock, char *path)
     response = get_recv_content(sock);
     if (!response)
         return 0;
-
+    
     /**
      * Generate new node ID, and save.
      */
