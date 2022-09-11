@@ -43,18 +43,22 @@ void *timeout_control (void *tparam)
                 continue;
             }
 
-            /**
-             * Check input connections timeout.
-             */
-
             char *current_date = make_datetime();
             if (current_date) {
+
+                /**
+                 * Check input connections timeout.
+                 */
+
                 if (date_difference(connection->last_connect_date, 
                     current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
                 {
-                    say("Timeout: %s, %s", connection->last_connect_date, current_date);
-                    say("Type: %d, Src: %s, Dst: %s\n", 
-                        connection->type, connection->src_node_id, connection->dst_node_id);
+                    #ifdef DBGTC
+                        say("Enable error flag - timeout.");
+                        say("Timeout: %s, %s", connection->last_connect_date, current_date);
+                        say("Type: %d, Src: %s, Dst: %s\n", 
+                            connection->type, connection->src_node_id, connection->dst_node_id);
+                    #endif
 
                     connection->connection_error = 1;
                     connection->connection_error_count++;
@@ -62,6 +66,40 @@ void *timeout_control (void *tparam)
                     if (connection->connection_error_count >= 1000000)
                         connection->connection_error_count = 0;
                 }
+
+                /**
+                 * Check connections to auto-remove.
+                 */
+                
+                #ifdef VERBUM_CONNECTION_AUTO_REMOVE
+                    if (date_difference(connection->last_connect_date, 
+                        current_date, VERBUM_CONNECTION_SEC_TIMEOUT_AUTO_REMOVE)) 
+                    {
+                        #ifdef DBGTC
+                            say("Auto remove connection - timeout.");
+                            say("Timeout: %s, %s", connection->last_connect_date, current_date);
+                            say("Type: %d, Src: %s, Dst: %s\n", 
+                                connection->type, connection->src_node_id, connection->dst_node_id);
+                        #endif
+                        
+                        if (!connection->next)
+                            last_connection->next = NULL;
+                        else 
+                            last_connection->next = connection->next;
+
+                        mem_sfree(connection->id);
+                        mem_sfree(connection->src_node_id);
+                        mem_sfree(connection->dst_node_id);
+                        mem_sfree(connection->dst_nm_id);
+                        mem_sfree(connection->dst_nm_address);
+                        free(connection);
+
+                        mem_sfree(current_date);
+
+                        // Closes the loop as connection->next is null.
+                        break;
+                    }
+                #endif
 
                 mem_sfree(current_date);
             }

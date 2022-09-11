@@ -44,7 +44,7 @@ int update_connections (int sock, char *content)
     char tmp [1024];
     int s1 = strlen(header);
     int s2 = strlen(content);
-    int item = 0, status = 0, bytes = 0;
+    int item = 0, bytes = 0, request_error = 0, request_count = 0;
 
     if (!sock || !content)
         return 0;
@@ -61,9 +61,9 @@ int update_connections (int sock, char *content)
         if (item) {
             item = 0;
 
-            status = process_connection_item(tmp);
-            if (!status)
-                break;
+            request_count ++;
+            if (process_connection_item(tmp) == 0)
+                request_error ++;
 
             b = 0;
             a++;
@@ -76,7 +76,7 @@ int update_connections (int sock, char *content)
     
 
     // Send success message.
-    if (!status) {
+    if (request_count != 0 && request_error >= request_count) {
         bytes = send(sock, error_message, strlen(error_message), 0);
         return 0;
     }
@@ -91,7 +91,7 @@ static int process_connection_item (char *connection)
     node_connection_t *con, *last;
     char tmp[1024], name[256], value[256];
     char *ptr = NULL, *current_date = NULL;
-    int found = 0;
+    int found = 0, auto_remove = 0;
     
     if (!ncon)
         return 0;
@@ -219,16 +219,19 @@ static int process_connection_item (char *connection)
     // Status flag.
     ncon->status = 1;
 
-    // Check input connections timeout.
     current_date = make_datetime();
     if (current_date) {
+
+        // Check input connections timeout.
         if (date_difference(ncon->last_connect_date, 
-            current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
+                current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
         {
-            say("Update connections.");
-            say("Timeout: %s, %s", ncon->last_connect_date, current_date);
-            say("Type: %d, Src: %s, Dst: %s\n", 
-                ncon->type, ncon->src_node_id, ncon->dst_node_id);
+            #ifdef NMDBG
+                say("Enable error flag - timeout - update connections.");
+                say("Timeout: %s, %s", ncon->last_connect_date, current_date);
+                say("Type: %d, Src: %s, Dst: %s\n", 
+                    ncon->type, ncon->src_node_id, ncon->dst_node_id);
+            #endif
 
             ncon->connection_error = 1;
             ncon->connection_error_count++;
@@ -237,8 +240,27 @@ static int process_connection_item (char *connection)
                 ncon->connection_error_count = 0;
         }
 
+        // Checks auto-remove.
+        #ifdef VERBUM_CONNECTION_AUTO_REMOVE
+            if (date_difference(ncon->last_connect_date, 
+                    current_date, VERBUM_CONNECTION_SEC_TIMEOUT_AUTO_REMOVE)) 
+            {
+                #ifdef NMDBG
+                    say("Auto remove - timeout - update connections.");
+                    say("Timeout: %s, %s", ncon->last_connect_date, current_date);
+                    say("Type: %d, Con ID: %s", ncon->type, ncon->id);
+                    say("Src: %s, Dst: %s\n", ncon->src_node_id, ncon->dst_node_id);
+                #endif
+
+                auto_remove = 1;
+            }
+        #endif
+        
         mem_sfree(current_date);
     }
+
+    if (auto_remove == 1)
+        return 0;
 
     pthread_mutex_lock(&mutex_connections);
 
@@ -283,7 +305,9 @@ static int process_connection_item (char *connection)
     if (!found)
         connection_insert_item(ncon);
 
-    say("Update connection success!");
+    #ifdef NMDBG
+        say("Update connection success!");
+    #endif
 
     return 1;
 }

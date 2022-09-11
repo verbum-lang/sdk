@@ -15,7 +15,7 @@ int ping_node_action (void)
 
     status = pthread_create(&tid, NULL, ping_node_handler, NULL);
     if (status != 0)
-        say_ret(0, "error while creating thread - ping node controller.");
+        say_ret(0, "error creating thread - ping node controller.");
 
     return 1;
 }
