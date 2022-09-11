@@ -42,4 +42,45 @@ char *make_datetime (void)
     return date;
 }
 
+double date_difference_now (char *start)
+{
+    struct tm tm_start, *tm_end;
+    time_t time_start, time_end, now;
+    double time_difference = 0;
+
+    memset(&tm_start, 0x0, sizeof(tm_start));
+    memset(&tm_end, 0x0, sizeof(tm_end));
+    memset(&time_start, 0x0, sizeof(time_start));
+    memset(&time_end, 0x0, sizeof(time_end));
+    memset(&now, 0x0, sizeof(now));
+
+    now    = time(NULL);
+    tm_end = localtime(&now);
+
+    strptime(start, "%d-%m-%Y %H:%M:%S", &tm_start);
+
+    time_start = mktime(&tm_start);
+    time_end   = mktime(tm_end);
+
+    return difftime(time_end, time_start);
+}
+
+double date_difference (char *start, char *end)
+{
+    struct tm tm_start, tm_end;
+    time_t time_start, time_end;
+    double time_difference = 0;
+
+    memset(&tm_start, 0x0, sizeof(tm_start));
+    memset(&tm_end, 0x0, sizeof(tm_end));
+
+    strptime(start, "%d-%m-%Y %H:%M:%S", &tm_start);
+    strptime(end, "%d-%m-%Y %H:%M:%S", &tm_end);
+
+    time_start = mktime(&tm_start);
+    time_end   = mktime(&tm_end);
+
+    return difftime(time_end, time_start);
+}
+
 

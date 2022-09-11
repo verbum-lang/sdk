@@ -32,7 +32,6 @@ void *timeout_control (void *tparam)
 
         pthread_mutex_unlock(&mutex_nodes);
 
-        // Connections.
         pthread_mutex_lock(&mutex_connections);
 
         for (connection=connections; connection!=NULL; connection=connection->next) {
@@ -44,7 +43,20 @@ void *timeout_control (void *tparam)
                 continue;
             }
 
-            say("connection -> id: %s - date: %s", connection->id, connection->last_connect_date);
+            /**
+             * Check input connections timeout.
+             */
+
+            // if (date_difference_now(connection->last_connect_date) >= VERBUM_CONNECTION_SEC_TIMEOUT_ERROR) {
+
+                say("> %s -> %f", connection->last_connect_date, date_difference_now(connection->last_connect_date));
+
+                // connection->connection_error = 1;
+                // connection->connection_error_count++;
+            // } else {
+            //     connection->connection_error = 0;
+            //     connection->connection_error_count = 0;
+            // }
 
             last_connection = connection;
         }

@@ -4,7 +4,9 @@
 
 #include "global.h"
 
-char *make_datetime (void);
+char   *make_datetime       (void);
+double date_difference_now  (char *start);
+double  date_difference     (char *start, char *end);
 
 #endif
 

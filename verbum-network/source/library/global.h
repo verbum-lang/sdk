@@ -2,6 +2,8 @@
 #ifndef VERBUM_LIBRARY_GLOBAL
 #define VERBUM_LIBRARY_GLOBAL
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
