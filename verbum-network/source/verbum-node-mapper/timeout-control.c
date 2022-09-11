@@ -39,7 +39,11 @@ void *timeout_control (void *tparam)
                     current_date, VERBUM_NODE_SEC_TIMEOUT_ERROR))
             {
                 node->offline_by_timeout = 1;
-                say("node -> id: %s - date: %s", node->id, node->last_connect_date);
+
+                #ifdef DBGTC
+                    say("Enable offline flag - timeout.");
+                    say("node -> id: %s - date: %s", node->id, node->last_connect_date);
+                #endif
             }
             
             last_node = node;
