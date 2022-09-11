@@ -476,10 +476,13 @@ function send_request (request)
  */
 
 var gdata = [];
+var gdata_view = [];
 var viewer_running = false;
 
 function process_network_viewer (request)
 {
+    update_network_statistics(request);
+
     if (viewer_running == false) {
         viewer_running = true;
 
@@ -587,6 +590,7 @@ function process_network_viewer (request)
                         type: 0,
                         id: node.id,
                         label: label,
+                        color: '#0dcaf0',
                         disconnected: false
                     }
                 });
@@ -605,8 +609,7 @@ function process_network_viewer (request)
                     gdata.push({
                         data: {
                             type: 1,
-                            id: 'vc-'+ a,
-                            cid: connection.id,
+                            id: 'vco-'+ a,
                             source: connection.src_node_id,
                             target: connection.dst_node_id
                         }
@@ -614,14 +617,116 @@ function process_network_viewer (request)
                 }
             }
             
-            show_network_graph();
+            // Process external and disconnected items.
+            process_external_disconnected_network_items(request);
         }
         
         else 
             viewer_running = false;
     }
+}
 
-    update_network_statistics(request);
+function process_external_disconnected_network_items (request)
+{
+    var connections  = request.connections;
+    var gdata_append = [];
+
+    console.log('nodes:', nodes);
+    console.log('connections:', connections);
+
+    for (var a=0; a<gdata.length; a++) {
+        if (gdata[a].data.type != 0)
+            continue;
+            
+        var node = gdata[a].data;
+
+        // Input connections.
+        for (var b=0; b<connections.length; b++) {
+            var connection = connections[b];
+
+            if (connection.src_node_id == node.id && connection.type == 'input') {
+
+                // Check node exists.
+                var found = false;
+
+                for (var c=0; c<gdata.length; c++) {
+                    if (gdata[c].data.type == 0 &&
+                        gdata[c].data.id   == connection.dst_node_id) 
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                // Node external.
+                if (found == false) {
+                    var parts = connection.dst_node_id.toString().split('verbum-node-');
+                    var label = 'no name';
+
+                    if (parts[1]) 
+                        label = parts[1].toString().trim();
+                
+                    gdata_append.push({
+                        data: { 
+                            type: 0,
+                            id: connection.dst_node_id,
+                            label: label,
+                            color: '#fd7e14',
+                            disconnected: false
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    console.log('gdata:', gdata);
+    console.log('gdata_append:', gdata_append);
+
+    // Process input connections.
+    for (var a=0; a<connections.length; a++) {
+        var connection = connections[a];
+
+        if (connection.type == 'input') {
+            console.log(connection);
+
+            // Check connection exists.
+            var found = false;
+
+            for (var b=0; b<gdata.length; b++) {
+                if (gdata[b].data.type == 1) {
+                    if (gdata[b].data.source == connection.dst_node_id &&
+                        gdata[b].data.target == connection.src_node_id  )
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found == false) {
+                gdata_append.push({
+                    data: {
+                        type: 1,
+                        id: 'vci-'+ a,
+                        source: connection.dst_node_id,
+                        target: connection.src_node_id
+                    }
+                });
+            }
+        }
+    }
+
+    // Update data.
+    gdata_view = [];
+    for (var a=0; a<gdata.length; a++)
+        gdata_view.push(gdata[a]);
+
+    for (var a=0; a<gdata_append.length; a++)
+        gdata_view.push(gdata_append[a]);
+
+    console.log(gdata_view)
+    show_network_graph();
 }
 
 function show_network_graph ()
@@ -631,7 +736,7 @@ function show_network_graph ()
         boxSelectionEnabled: false,
         autounselectify: true,
         layout: { name: 'cola' },
-        elements: gdata,
+        elements: gdata_view,
         
         style: [
             {
@@ -643,7 +748,7 @@ function show_network_graph ()
                     'font-size': '10px',
                     'text-outline-width': 1,
                     'text-outline-color': '#888',
-                    'background-color': '#0dcaf0',
+                    'background-color': 'data(color)',
                 }
             },
             {
@@ -699,8 +804,6 @@ function process_informations (request)
     nodes = request.nodes;
     var connections = request.connections;
 
-    console.log(request)
-
     for (var a=0; a<nodes.length; a++) {
         var node = nodes[a];
 
@@ -717,7 +820,6 @@ function process_informations (request)
         for (var b=0; b<connections.length; b++) {
             if (node.id == connections[b].src_node_id && connections[b].type == 'input') {
                 var connection = connections[b];
-                console.log(node.id, connection)
 
                 var prefix = 'node-connection-'+ node.id +'-'+
                              'connection-'+ connection.id;
@@ -744,10 +846,7 @@ function process_informations (request)
             }
         }
     }
-
-    console.log('+++')
-
-
+    
     // Enable get information data.
     run_gnl = false;
 
