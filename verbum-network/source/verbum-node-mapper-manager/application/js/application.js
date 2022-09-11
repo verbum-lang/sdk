@@ -793,7 +793,25 @@ function show_network_graph ()
 
 function update_network_statistics (request)
 {    
+    // Input.
     var inpcons_all  = 0;
+    var inpcons_on   = 0;
+    var inpcons_off  = 0;
+    var inpcons_text = '0 | 0 + 0';
+    
+    for (var a=0; a<request.connections.length; a++) {
+        if (request.connections[a].type == 'input') {
+            inpcons_all++;
+
+            if (request.connections[a].error == true)
+                inpcons_off++;
+        }
+    }
+    
+    inpcons_on = inpcons_all - inpcons_off;
+    inpcons_text = inpcons_all +' | '+ inpcons_on +' + '+ inpcons_off;
+
+    // Output.
     var outcons_all  = 0;
     var outcons_on   = 0;
     var outcons_off  = 0;
@@ -805,17 +823,15 @@ function update_network_statistics (request)
 
             if (request.connections[a].error == true)
                 outcons_off++;
-
-            outcons_on = outcons_all - outcons_off;
-        } else
-            inpcons_all++;
+        }
     }
 
+    outcons_on = outcons_all - outcons_off;
     outcons_text = outcons_all +' | '+ outcons_on +' + '+ outcons_off;
 
     $('.nt-status-nodes').text(nodes.length)
     $('.nt-status-con-all').text(request.connections.length)
-    $('.nt-status-con-input').text(inpcons_all)
+    $('.nt-status-con-input').text(inpcons_text)
     $('.nt-status-con-output').text(outcons_text)
 }
 
