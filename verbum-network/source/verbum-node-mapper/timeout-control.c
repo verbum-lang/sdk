@@ -45,7 +45,32 @@ void *timeout_control (void *tparam)
                     say("node -> id: %s - date: %s", node->id, node->last_connect_date);
                 #endif
             }
-            
+
+            /**
+             * Auto remove node.
+             */
+
+            #ifdef VERBUM_NODE_AUTO_REMOVE
+                if (date_difference(node->last_connect_date, 
+                        current_date, VERBUM_NODE_SEC_TIMEOUT_AUTO_REMOVE))
+                {
+                    // #ifdef DBGTC
+                        say("Auto remove node - timeout.");
+                        say("node -> id: %s - date: %s", node->id, node->last_connect_date);
+                    // #endif
+
+                    if (!node->next)
+                        last_node->next = NULL;
+                    else 
+                        last_node->next = node->next;
+
+                    mem_sfree(node->id);
+                    free(node);
+
+                    break;
+                }
+            #endif
+
             last_node = node;
         }
 
