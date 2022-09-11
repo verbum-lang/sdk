@@ -518,7 +518,9 @@ function process_network_viewer (request)
 
             for (var b=0; b<gdata.length; b++) {
                 if (gdata[b].data.type == 0) {
-                    if (gdata[b].data.id == node.id) {
+                    if (gdata[b].data.id == node.id && 
+                        gdata[b].data.external == node.offline) 
+                    {
                         found = true;
                         break;
                     }
@@ -612,6 +614,10 @@ function process_network_viewer (request)
                 var node  = pnodes[a];
                 var parts = node.id.toString().split('verbum-node-');
                 var label = 'no name';
+                var color = '#0dcaf0';
+
+                if (node.offline == true)
+                    color = '#fd7e14';
 
                 if (parts[1]) 
                     label = parts[1].toString().trim();
@@ -621,8 +627,8 @@ function process_network_viewer (request)
                         type: 0,
                         id: node.id,
                         label: label,
-                        color: '#0dcaf0',
-                        disconnected: false
+                        color: color,
+                        external: node.offline
                     }
                 });
             }
@@ -716,7 +722,7 @@ function process_inactive_items (request)
                                 id: connection.dst_node_id,
                                 label: label,
                                 color: '#fd7e14',
-                                disconnected: false
+                                external: true
                             }
                         });
                     }
