@@ -597,7 +597,6 @@ function process_network_viewer (request)
 
         // Update network.
         if (update == true) {
-            console.log('update');
             gdata = [];
 
             // Nodes.
