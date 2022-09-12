@@ -545,4 +545,48 @@ char *process_ping_connections (char *address, int nm_port, char *connections_li
     return response;
 }
 
+char *process_delete_connection (
+    char *address, int core_port, char *src_node_id, char *connection_id, char *dst_node_id)
+{
+    char prefix     [] = "delete-verbum-connection:";
+    char end_header [] = VERBUM_EOH;
+    char separator  [] = ":";
+    char *message      = NULL, *response = NULL;
+    int sock = -1, size = 0;
+    int s1 = 0, s2 = 0, s3 = 0, s4 = 0, s5 = 0;
+
+    if (!address || !core_port || !src_node_id || !connection_id || !dst_node_id)
+        return NULL;
+
+    sock = create_connection(address, core_port, 1);
+    if (sock == -1)
+        return NULL;
+
+    s1 = strlen(prefix);
+    s2 = strlen(src_node_id);
+    s3 = strlen(connection_id);
+    s4 = strlen(dst_node_id);
+    s5 = strlen(end_header);
+
+    size = sizeof(char) * (s1 + s2 + s3 + s4 + s5 + 256);
+    mem_alloc_ret(message, size, char *, NULL);
+
+    // prefix:con-id:src-node:dst-node:EOH
+    sprintf(message, "%s%s:%s:%s%s", 
+                prefix, connection_id, src_node_id, dst_node_id, end_header);
+    
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        mem_sfree(message);
+        return NULL;
+    }
+
+    mem_sfree(message);
+    close(sock);
+
+    return response;
+}
+
 
