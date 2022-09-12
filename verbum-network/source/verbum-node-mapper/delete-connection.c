@@ -99,51 +99,49 @@ int delete_connection (int sock, char *content)
     else if (connection_type == 0) {
         char *response = process_delete_connection(address, core_port, 
                 connection_id, src_node_id, dst_node_id, connection_type);
-        
-        if (response) {
-            say("Delete con resp: \"%s\"", response);
+                
+        if (response)
             mem_sfree(response);
-        }
 
         // Delete connection.
-        // pthread_mutex_lock(&mutex_connections);
+        pthread_mutex_lock(&mutex_connections);
 
-        // for (connection=connections; connection!=NULL; connection=connection->next) {
-        //     if (!connection->id) {
-        //         last_connection = connection;
-        //         continue;
-        //     } else if (!connection->src_node_id) {
-        //         last_connection = connection;
-        //         continue;
-        //     } else if (!connection->dst_node_id) {
-        //         last_connection = connection;
-        //         continue;
-        //     }
+        for (connection=connections; connection!=NULL; connection=connection->next) {
+            if (!connection->id) {
+                last_connection = connection;
+                continue;
+            } else if (!connection->src_node_id) {
+                last_connection = connection;
+                continue;
+            } else if (!connection->dst_node_id) {
+                last_connection = connection;
+                continue;
+            }
 
-        //     if (strcmp(connection->id, connection_id)        == 0 &&
-        //         strcmp(connection->src_node_id, src_node_id) == 0 &&
-        //         strcmp(connection->dst_node_id, dst_node_id) == 0 &&
-        //         connection->type == contype)
-        //     {
-        //         if (!connection->next)
-        //             last_connection->next = NULL;
-        //         else 
-        //             last_connection->next = connection->next;
+            if (strcmp(connection->id, connection_id)        == 0 &&
+                strcmp(connection->src_node_id, src_node_id) == 0 &&
+                strcmp(connection->dst_node_id, dst_node_id) == 0 &&
+                connection->type == connection_type                )
+            {
+                if (!connection->next)
+                    last_connection->next = NULL;
+                else 
+                    last_connection->next = connection->next;
 
-        //         mem_sfree(connection->id);
-        //         mem_sfree(connection->src_node_id);
-        //         mem_sfree(connection->dst_node_id);
-        //         mem_sfree(connection->dst_nm_id);
-        //         mem_sfree(connection->dst_nm_address);
-        //         free(connection);
+                mem_sfree(connection->id);
+                mem_sfree(connection->src_node_id);
+                mem_sfree(connection->dst_node_id);
+                mem_sfree(connection->dst_nm_id);
+                mem_sfree(connection->dst_nm_address);
+                free(connection);
 
-        //         break;
-        //     }
+                break;
+            }
         
-        //     last_connection = connection;
-        // }
+            last_connection = connection;
+        }
 
-        // pthread_mutex_unlock(&mutex_connections);
+        pthread_mutex_unlock(&mutex_connections);
     }
 
     return 1;
