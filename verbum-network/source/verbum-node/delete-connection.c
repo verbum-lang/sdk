@@ -196,6 +196,10 @@ int delete_connection_server (int sock, char *content)
     char *dst_node_id   = NULL;
 
     node_connection_t *connection, *last;
+    char *current_connection_id = NULL;
+    char *response = NULL;
+    char address [] = LOCALHOST;
+    int node_mapper_port = 0;
 
     if (!sock || !content)
         goto error;
@@ -239,7 +243,7 @@ int delete_connection_server (int sock, char *content)
     }
 
     if (!connection_id || !src_node_id || !dst_node_id)
-        return 0;
+        goto error;
     
     // Check node.
     pthread_mutex_lock(&mutex_gconfig);
@@ -247,12 +251,14 @@ int delete_connection_server (int sock, char *content)
     if (strcmp(gconfig->information.id, dst_node_id) == 0)
         status = 1;
 
+    node_mapper_port = gconfig->node_mapper_port;
+
     pthread_mutex_unlock(&mutex_gconfig);
 
     if (!status)
         goto error;
 
-    // Search connection.
+    // Search and delete connection.
     status = 0;
     pthread_mutex_lock(&mutex_connections);
 
@@ -271,6 +277,9 @@ int delete_connection_server (int sock, char *content)
         if (strcmp(connection->remote_id, connection_id) == 0 &&
             strcmp(connection->dst_node_id, src_node_id) == 0  )
         {
+            // Save current connection ID.
+            mem_salloc_scopy(connection->id, current_connection_id);
+
             // Remove item.
             if (!connection->next)
                 last->next = NULL;
@@ -292,6 +301,15 @@ int delete_connection_server (int sock, char *content)
     }
 
     pthread_mutex_unlock(&mutex_connections);
+
+    // Delete connection from Node Mapper.
+    response = process_delete_connection_server(address, node_mapper_port, 
+                    current_connection_id, dst_node_id, src_node_id);
+
+    if (response) 
+        mem_sfree(response);
+
+    mem_sfree(current_connection_id);
 
     // Finish.
     success:

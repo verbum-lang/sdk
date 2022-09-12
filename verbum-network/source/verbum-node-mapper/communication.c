@@ -82,6 +82,9 @@ int process_communication(int sock, char *path)
     else if (strstr(response, "delete-verbum-connection:"))
         delete_connection(sock, response);
 
+    else if (strstr(response, "delete-verbum-connection-server:"))
+        delete_connection_server(sock, response);
+
     mem_sfree(response);
     return 1;
 }

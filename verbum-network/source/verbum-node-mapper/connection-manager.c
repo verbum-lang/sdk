@@ -271,7 +271,7 @@ static int process_connection_item (char *connection)
             continue;
         }
 
-        if (strcmp(con->id, ncon->id) == 0                   &&
+        if (strcmp(con->id, ncon->id)                   == 0 &&
             strcmp(con->src_node_id, ncon->src_node_id) == 0 &&
             strcmp(con->dst_node_id, ncon->dst_node_id) == 0 &&
             con->type == ncon->type                           ) 
