@@ -997,7 +997,7 @@ function show_force_graph_network_graph ()
             .linkDirectionalArrowRelPos(1)
             .linkCurveRotation('rotation')
             .linkCurvature('curvature')
-
+            .warmupTicks(1000) // Stop animation.
             .nodeThreeObjectExtend(true)
             .nodeThreeObject(node => {
                 const sprite = new SpriteText(node.label);
