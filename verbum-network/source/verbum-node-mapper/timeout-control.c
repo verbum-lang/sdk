@@ -14,6 +14,7 @@ void *timeout_control (void *tparam)
     node_control_t *node, *last_node;
     node_connection_t *connection, *last_connection;
     char *current_date = NULL;
+    int status = 0;
 
     while (1) {
         current_date = make_datetime();
@@ -123,20 +124,35 @@ void *timeout_control (void *tparam)
                             connection->type, connection->src_node_id, connection->dst_node_id);
                     #endif
                     
-                    if (!connection->next)
-                        last_connection->next = NULL;
-                    else 
-                        last_connection->next = connection->next;
+                    status = 0;
 
-                    mem_sfree(connection->id);
-                    mem_sfree(connection->src_node_id);
-                    mem_sfree(connection->dst_node_id);
-                    mem_sfree(connection->dst_nm_id);
-                    mem_sfree(connection->dst_nm_address);
-                    free(connection);
+                    // Output.
+                    #ifdef VERBUM_CONNECTION_AUTO_REMOVE_OUTPUT
+                        if (connection->type == 0)
+                            status = 1;
+                    #endif
+                    
+                    #ifdef VERBUM_CONNECTION_AUTO_REMOVE_INPUT
+                        if (connection->type == 1)
+                            status = 1;
+                    #endif
 
-                    // Closes the loop as connection->next is null.
-                    break;
+                    if (status == 1) {
+                        if (!connection->next)
+                            last_connection->next = NULL;
+                        else 
+                            last_connection->next = connection->next;
+
+                        mem_sfree(connection->id);
+                        mem_sfree(connection->src_node_id);
+                        mem_sfree(connection->dst_node_id);
+                        mem_sfree(connection->dst_nm_id);
+                        mem_sfree(connection->dst_nm_address);
+                        free(connection);
+
+                        // Closes the loop as connection->next is null.
+                        break;
+                    }
                 }
             #endif
 
