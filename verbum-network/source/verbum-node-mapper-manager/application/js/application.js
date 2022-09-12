@@ -890,9 +890,13 @@ function show_network_graph ()
                 }
             ]
         });
+
+        // cy.elements().layout({
+        //     name: "cola",
+        //     animate: false,
+        //     // animationDuration: 0,
+        // }).run();
     })();
-    
-    viewer_running = false;        
 }
 
 function update_network_statistics (request)
