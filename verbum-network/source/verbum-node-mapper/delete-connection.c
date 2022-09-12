@@ -11,6 +11,8 @@ extern node_connection_t *connections;
 
 int delete_connection (int sock, char *content)
 {
+    char response_success  [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char prefix [] = "delete-verbum-connection:";
     char tmp [1024];
     char *ptr = NULL;
@@ -23,14 +25,14 @@ int delete_connection (int sock, char *content)
     node_connection_t *connection, *last_connection;
     node_control_t *node;
     char address [] = LOCALHOST;
-    int core_port = 0, status = 0;
+    int core_port = 0, status = 0, bytes = 0;
 
     if (!sock || !content)
         return 0;
 
     ptr = strstr(content, prefix);
     if (!ptr)
-        return 0;
+        goto error;
 
     ptr += strlen(prefix);
     memset(tmp, 0x0, 1024);
@@ -71,7 +73,7 @@ int delete_connection (int sock, char *content)
     }
 
     if (!connection_id || !src_node_id || !dst_node_id || connection_type == -1)
-        return 0;
+        goto error;
     
     // Search node.
     pthread_mutex_lock(&mutex_nodes);
@@ -90,7 +92,7 @@ int delete_connection (int sock, char *content)
     pthread_mutex_unlock(&mutex_nodes);
 
     if (!status)
-        return 0;
+        goto error;
 
     // Input.
     if (connection_type == 1) {  }
@@ -144,7 +146,14 @@ int delete_connection (int sock, char *content)
         pthread_mutex_unlock(&mutex_connections);
     }
 
+    // Finish.
+    success:
+    bytes = send(sock, response_success, strlen(response_success), 0);
     return 1;
+
+    error:
+    bytes = send(sock, response_error, strlen(response_error), 0);
+    return 0;
 }
 
 int delete_connection_server (int sock, char *content)
@@ -164,7 +173,7 @@ int delete_connection_server (int sock, char *content)
     node_connection_t *connection, *last_connection;
 
     if (!sock || !content)
-        goto error;
+        return 0;
 
     ptr = strstr(content, prefix);
     if (!ptr)

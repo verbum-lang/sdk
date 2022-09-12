@@ -29,7 +29,7 @@ int delete_connection (int sock, char *content)
     int node_server_port = 0;
 
     if (!sock || !content)
-        goto error;
+        return 0;
 
     ptr = strstr(content, prefix);
     if (!ptr)
@@ -202,7 +202,7 @@ int delete_connection_server (int sock, char *content)
     int node_mapper_port = 0;
 
     if (!sock || !content)
-        goto error;
+        return 0;
 
     ptr = strstr(content, prefix);
     if (!ptr)

@@ -464,6 +464,18 @@ function process_worker (ev)
             $('#btn-add-con').prop('disabled', false);
         }, 1000);
     }
+
+    /**
+     * Delete connection.
+     */
+    else if (request.cmd == 'delete-verbum-connection') {
+        if (request.status == false) 
+            set_status('Error deleting connection.', true);
+        else
+            set_status('Connection deleted successfully.', true);
+
+        $('.btn-delete-connection').prop('disabled', false);
+    }
 }
 
 function send_request (request)
@@ -1032,6 +1044,10 @@ function process_delete_node (request)
 
 function delete_connection (id, src_node_id, dst_node_id, type)
 {
+    status_use = true;
+    set_status('Deleting connection...', false);
+    $('.btn-delete-connection').prop('disabled', true);
+
     var information = {
         type: type,
         id: id,
@@ -1230,7 +1246,7 @@ function append_output_connection (node, connection, prefix)
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-6' style="text-align:right;" >
-                        <button class='btn btn-2 btn-danger' onclick='javascript:delete_connection(`+ delete_params +`);' >
+                        <button class='btn btn-2 btn-danger btn-delete-connection' onclick='javascript:delete_connection(`+ delete_params +`);' >
                             <i class="feather-size-b" data-feather="x"></i>
                         </button>
                     </th>
@@ -1307,9 +1323,7 @@ function append_input_connection (node, connection, prefix)
                         </div>
                     </th>
                     <th class='nd-th-item thh-s-6' style="text-align:right;" >
-                        <button class='btn btn-2 btn-danger' onclick='javascript:delete_connection(`+ delete_params +`);' >
-                            <i class="feather-size-b" data-feather="x"></i>
-                        </button>
+
                     </th>
                 </tr>
             </tbody>
