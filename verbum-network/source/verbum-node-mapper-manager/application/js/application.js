@@ -993,11 +993,13 @@ function show_force_graph_network_graph ()
             .height(height_area)
             .showNavInfo(false)
             .backgroundColor('#2c3034')
-            .linkDirectionalArrowLength(3.5)
+            .linkDirectionalArrowLength(9)
             .linkDirectionalArrowRelPos(1)
             .linkCurveRotation('rotation')
             .linkCurvature('curvature')
-            .warmupTicks(1000) // Stop animation.
+            .warmupTicks(1000).cooldownTicks(0) // Stop animation.
+            .linkOpacity(1)
+            .nodeOpacity(0.5)
             .nodeThreeObjectExtend(true)
             .nodeThreeObject(node => {
                 const sprite = new SpriteText(node.label);
