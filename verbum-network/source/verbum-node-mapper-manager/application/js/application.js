@@ -1005,12 +1005,7 @@ function show_force_graph_network_graph ()
                 sprite.color = 'white';
                 sprite.textHeight = 5;
                 // sprite.position.set(20, 0, 0);
-                // sprite.color = "white";
-                // sprite.backgroundColor = node.color;
-                // sprite.borderWidth = 0;
-                // sprite.textHeight = 2;
                 // sprite.padding = [12, 1];
-                // sprite.borderRadius = 5;
 
                 return sprite;
             })
