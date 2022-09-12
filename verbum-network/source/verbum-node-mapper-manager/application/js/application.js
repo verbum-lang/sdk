@@ -9,7 +9,7 @@ var auto_auth = true;
 
 // Global.
 var wk = null;
-var nm_address = null, nm_port = null;
+var nm_address = null, nm_port = null, nm_id = null;
 var status_use = false;
 
 // Initialization.
@@ -88,6 +88,7 @@ function process_success_connect (request)
 {
     nm_address = request.address;
     nm_port    = request.port;
+    nm_id      = request.nm_id;
 
     show_status_connect_message('', false);
 
@@ -281,13 +282,13 @@ function ac_change_con_type ()
         $('#ac-nm-id').prop('disabled', false)
         $('#ac-nm-address').prop('disabled', true)
         $('#ac-nm-port').prop('disabled', true)
-        $('#ac-nm-address').val('')
-        $('#ac-nm-port').val('')
+        $('#ac-nm-address').val(nm_address)
+        $('#ac-nm-port').val(nm_port)
     } else {
         $('#ac-nm-id').prop('disabled', true)
         $('#ac-nm-address').prop('disabled', false)
         $('#ac-nm-port').prop('disabled', false)
-        $('#ac-nm-id').val('')
+        $('#ac-nm-id').val(nm_id)
     }
 }
 
