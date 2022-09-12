@@ -252,10 +252,6 @@ int delete_connection_server (int sock, char *content)
     if (!status)
         goto error;
 
-    say("> remote id..: %s", connection_id);
-    say("> target node: %s", src_node_id);
-    say("> source node: %s", dst_node_id);
-
     // Search connection.
     status = 0;
     pthread_mutex_lock(&mutex_connections);
@@ -275,8 +271,6 @@ int delete_connection_server (int sock, char *content)
         if (strcmp(connection->remote_id, connection_id) == 0 &&
             strcmp(connection->dst_node_id, src_node_id) == 0  )
         {
-            say("delete server connection.");
-
             // Remove item.
             if (!connection->next)
                 last->next = NULL;
