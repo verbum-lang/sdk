@@ -673,6 +673,7 @@ function process_network_viewer (request)
 
         // Update network.
         if (update == true) {
+            console.log('update')
             gdata = [];
 
             // Nodes.
@@ -897,6 +898,8 @@ function show_network_graph ()
         //     // animationDuration: 0,
         // }).run();
     })();
+
+    viewer_running = false;
 }
 
 function update_network_statistics (request)
