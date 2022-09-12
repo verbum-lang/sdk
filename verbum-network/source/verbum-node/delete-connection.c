@@ -101,6 +101,12 @@ int delete_connection (int sock, char *content)
             strcmp(connection->dst_node_id, dst_node_id) == 0   &&
             connection->type == connection_type                  )
         {
+            // Kill thread.
+            if (connection->tr_ping_controller_enabled == 1) {
+                // ...
+            }
+
+            // Remove item.
             if (!connection->next)
                 last->next = NULL;
             else 

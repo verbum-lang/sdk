@@ -70,23 +70,24 @@ node_connection_t *connection_create_item (int prepare_thread)
     mem_alloc_ret(connection, 
         sizeof(node_connection_t), node_connection_t *, NULL);
 
-    connection->id                      = generate_connection_id();
-    connection->status                  = 0;
-    connection->connection_status       = 0;
-    connection->ping_controller_enabled = 0;
-    connection->connection_error        = 0;
-    connection->connection_error_count  = 0;
-    connection->type                    = -1;
-    connection->remote_id               = NULL;
+    connection->id                          = generate_connection_id();
+    connection->status                      = 0;
+    connection->connection_status           = 0;
+    connection->ping_controller_enabled     = 0;
+    connection->connection_error            = 0;
+    connection->connection_error_count      = 0;
+    connection->type                        = -1;
+    connection->remote_id                   = NULL;
 
-    connection->dst_node_id             = NULL;
-    connection->dst_nm_id               = NULL;
-    connection->dst_nm_address          = NULL;
-    connection->dst_nm_port             = 0;
-    connection->dst_node_sv_port        = 0;
-    connection->dst_nm_direct           = 0;
+    connection->dst_node_id                 = NULL;
+    connection->dst_nm_id                   = NULL;
+    connection->dst_nm_address              = NULL;
+    connection->dst_nm_port                 = 0;
+    connection->dst_node_sv_port            = 0;
+    connection->dst_nm_direct               = 0;
     
-    connection->next                    = NULL;
+    connection->next                        = NULL;
+    connection->tr_ping_controller_enabled  = 0;
 
     // Prepare thread.
     if (prepare_thread == 1) {
@@ -99,6 +100,8 @@ node_connection_t *connection_create_item (int prepare_thread)
         
         if (status != 0)
             say_ret(NULL, "error creating thread - ping controller.");
+        else
+            connection->tr_ping_controller_enabled = 1;
     }
 
     return connection;

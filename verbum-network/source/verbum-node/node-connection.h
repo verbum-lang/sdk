@@ -30,6 +30,8 @@ typedef struct node_connection_st {
     int connection_error_count;         // Total erros.
 
     pthread_t tid_ping_controller;      // Thread handle - Ping controller.
+    int tr_ping_controller_enabled;     // 0 = Disabled, 1 = Enabled.
+    int tr_kill_thread;                 // 0 = No, 1 = Yes (kill).
     struct node_connection_st *next;    // Next node pointer.
 
     // Connection informations.
