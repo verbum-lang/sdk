@@ -4,6 +4,7 @@
 #include "check-node-exists.h"
 #include "create-node-connection.h"
 #include "node-server-ping.h"
+#include "delete-connection.h"
 
 static int process_communication_core   (int sock);
 static int process_communication_server (int sock);
@@ -57,6 +58,12 @@ static int process_communication_core (int sock)
      */
     else if (strstr(response, "create-verbum-node-output-connection:"))
         create_node_connection(sock, response, 0);
+
+    /**
+     * Delete connection.
+     */
+    else if (strstr(response, "delete-verbum-connection:"))
+        delete_connection(sock, response);
 
     mem_sfree(response);
     return 1;

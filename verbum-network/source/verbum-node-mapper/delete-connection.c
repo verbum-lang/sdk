@@ -73,11 +73,6 @@ int delete_connection (int sock, char *content)
     if (!connection_id || !src_node_id || !dst_node_id || connection_type == -1)
         return 0;
     
-    say("Connection type: \"%d\"", connection_type);
-    say("Connection ID..: \"%s\"", connection_id);
-    say("Src node ID....: \"%s\"", src_node_id);
-    say("Dst node ID....: \"%s\"", dst_node_id);
-
     // Search node.
     pthread_mutex_lock(&mutex_nodes);
     
@@ -85,7 +80,7 @@ int delete_connection (int sock, char *content)
         if (node->status != 1) 
             continue;
 
-        if (strcmp(node->id, tmp) == 0) {
+        if (strcmp(node->id, src_node_id) == 0) {
             core_port = node->core_port;
             status = 1;
             break;
@@ -94,56 +89,60 @@ int delete_connection (int sock, char *content)
 
     pthread_mutex_unlock(&mutex_nodes);
 
+    if (!status)
+        return 0;
 
     // Input.
     if (connection_type == 0) {  }
 
     // Output.
     else if (connection_type == 1) {
-        char *response = process_delete_connection(address, core_port, src_node_id, connection_id, dst_node_id);
+        char *response = process_delete_connection(address, core_port, 
+                src_node_id, connection_id, dst_node_id, connection_type);
+        
         if (response) {
             say("Delete con resp: \"%s\"", response);
             mem_sfree(response);
         }
 
         // Delete connection.
-        pthread_mutex_lock(&mutex_connections);
+        // pthread_mutex_lock(&mutex_connections);
 
-        for (connection=connections; connection!=NULL; connection=connection->next) {
-            if (!connection->id) {
-                last_connection = connection;
-                continue;
-            } else if (!connection->src_node_id) {
-                last_connection = connection;
-                continue;
-            } else if (!connection->dst_node_id) {
-                last_connection = connection;
-                continue;
-            }
+        // for (connection=connections; connection!=NULL; connection=connection->next) {
+        //     if (!connection->id) {
+        //         last_connection = connection;
+        //         continue;
+        //     } else if (!connection->src_node_id) {
+        //         last_connection = connection;
+        //         continue;
+        //     } else if (!connection->dst_node_id) {
+        //         last_connection = connection;
+        //         continue;
+        //     }
 
-            if (strcmp(connection->id, connection_id)        == 0 &&
-                strcmp(connection->src_node_id, src_node_id) == 0 &&
-                strcmp(connection->dst_node_id, dst_node_id) == 0  )
-            {
-                if (!connection->next)
-                    last_connection->next = NULL;
-                else 
-                    last_connection->next = connection->next;
+        //     if (strcmp(connection->id, connection_id)        == 0 &&
+        //         strcmp(connection->src_node_id, src_node_id) == 0 &&
+        //         strcmp(connection->dst_node_id, dst_node_id) == 0  )
+        //     {
+        //         if (!connection->next)
+        //             last_connection->next = NULL;
+        //         else 
+        //             last_connection->next = connection->next;
 
-                mem_sfree(connection->id);
-                mem_sfree(connection->src_node_id);
-                mem_sfree(connection->dst_node_id);
-                mem_sfree(connection->dst_nm_id);
-                mem_sfree(connection->dst_nm_address);
-                free(connection);
+        //         mem_sfree(connection->id);
+        //         mem_sfree(connection->src_node_id);
+        //         mem_sfree(connection->dst_node_id);
+        //         mem_sfree(connection->dst_nm_id);
+        //         mem_sfree(connection->dst_nm_address);
+        //         free(connection);
 
-                break;
-            }
+        //         break;
+        //     }
         
-            last_connection = connection;
-        }
+        //     last_connection = connection;
+        // }
 
-        pthread_mutex_unlock(&mutex_connections);
+        // pthread_mutex_unlock(&mutex_connections);
     }
 
     return 1;
