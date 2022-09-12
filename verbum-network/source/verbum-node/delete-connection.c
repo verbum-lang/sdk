@@ -195,6 +195,8 @@ int delete_connection_server (int sock, char *content)
     char *src_node_id   = NULL;
     char *dst_node_id   = NULL;
 
+    node_connection_t *connection, *last;
+
     if (!sock || !content)
         goto error;
 
@@ -253,6 +255,49 @@ int delete_connection_server (int sock, char *content)
     say("> remote id..: %s", connection_id);
     say("> target node: %s", src_node_id);
     say("> source node: %s", dst_node_id);
+
+    // Search connection.
+    status = 0;
+    pthread_mutex_lock(&mutex_connections);
+
+    for (connection=connections; connection != NULL; connection=connection->next) {
+        if (!connection->id) {
+            last = connection;
+            continue;
+        } else if (!connection->remote_id) {
+            last = connection;
+            continue;
+        } else if (!connection->dst_node_id) {
+            last = connection;
+            continue;
+        } 
+
+        if (strcmp(connection->remote_id, connection_id) == 0 &&
+            strcmp(connection->dst_node_id, src_node_id) == 0  )
+        {
+            say("delete server connection.");
+
+            // Remove item.
+            if (!connection->next)
+                last->next = NULL;
+            else 
+                last->next = connection->next;
+
+            mem_sfree(connection->id);
+            mem_sfree(connection->remote_id);
+            mem_sfree(connection->dst_node_id);
+            mem_sfree(connection->dst_nm_id);
+            mem_sfree(connection->dst_nm_address);
+            free(connection);
+
+            status = 1;
+            break;
+        }
+
+        last = connection;
+    }
+
+    pthread_mutex_unlock(&mutex_connections);
 
     // Finish.
     success:
