@@ -90,6 +90,10 @@ function process_success_connect (request)
     // nm_port    = request.port;
     // nm_id      = request.nm_id;
 
+    $('.information-nm-id').text(nm_id);
+    $('.information-nm-address').text(nm_address);
+    $('.information-nm-port').text(nm_port);
+
     // Update form - add connection.
     ac_change_con_type();
 
