@@ -86,9 +86,9 @@ function check_node_mapper_connection (address, port)
 
 function process_success_connect (request)
 {
-    nm_address = request.address;
-    nm_port    = request.port;
-    nm_id      = request.nm_id;
+    // nm_address = request.address;
+    // nm_port    = request.port;
+    // nm_id      = request.nm_id;
 
     // Update form - add connection.
     ac_change_con_type();
@@ -296,6 +296,14 @@ function ac_change_con_type ()
         $('#ac-nm-port').val(nm_port)
         $('#ac-nm-id').val('')
     }
+
+    // Fixed information.
+    $('#ac-nm-address').val(nm_address)
+    $('#ac-nm-port').val(nm_port)
+    $('#ac-nm-id').val(nm_id)
+    $('#ac-nm-id').prop('disabled', true)
+    $('#ac-nm-address').prop('disabled', true)
+    $('#ac-nm-port').prop('disabled', true)
 }
 
 function ac_add_new_connection ()
@@ -408,8 +416,33 @@ function process_worker (ev)
                     nm_auth();
                 }, 4000)
             }
-        } else
+        } else {
+            nm_address = request.address;
+            nm_port    = request.port;
+
+            // Get NM ID.
+            send_request({
+                cmd: 'get-verbum-node-node-mapper-id',
+                address: nm_address,
+                port: nm_port
+            });
+        }
+    }
+
+    else if (request.cmd == 'get-verbum-node-node-mapper-id') {
+        if (request.status == false) {
+            show_status_connect_message('Error connecting to the server.', true);
+
+            // Auto auth.
+            if (auto_auth == true) {
+                setTimeout(()=> {
+                    nm_auth();
+                }, 4000)
+            }
+        } else {
+            nm_id = request.nm_id;
             process_success_connect(request);
+        }
     }
 
     /**

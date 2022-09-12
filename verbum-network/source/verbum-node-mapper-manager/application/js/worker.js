@@ -14,10 +14,30 @@ onmessage = function(ev) {
     if (request.cmd == 'check-connection') {
         connect_node_mapper(request.address, request.port, '', (response) => {
             request.status = false;
-            request.nm_id  = 'TEST';
 
             if (response.indexOf('Verbum Node Mapper') != -1) {
                 request.status = true;
+                postMessage(request);
+            } else
+                postMessage(request);
+        });
+    }
+
+    /**
+     * Get Node Mapper ID.
+     */
+    else if (request.cmd == 'get-verbum-node-node-mapper-id') {
+        connect_node_mapper(request.address, request.port, 'get-verbum-node-node-mapper-id:', (response) => {
+            request.status = false;
+
+            if (response.indexOf('verbum-node-mapper-id:') != -1) {
+                request.status = true;
+
+                var nm_id = response.split('verbum-node-mapper-id:');
+                nm_id = nm_id[1].split('\r\n\r\n');
+                nm_id = nm_id[0].toString().trim();
+
+                request.nm_id = nm_id;
                 postMessage(request);
             } else
                 postMessage(request);

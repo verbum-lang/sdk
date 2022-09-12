@@ -122,7 +122,7 @@ void *node_mapper_interface (void *tparam)
     if (listen(ssock, param->max_connections) != 0) 
         say_ret(NULL, "error listen server.");
 
-    if (!prepare_workers(param->path))
+    if (!prepare_workers(param->path, param->id))
         say_ret(NULL, "error prepare workers.");
 
     say("ID: %s", param->id);
@@ -166,12 +166,12 @@ void *node_mapper_interface (void *tparam)
     }
 }
 
-int prepare_workers (char *path)
+int prepare_workers (char *path, char *nm_id)
 {
     thread_worker_t *worker;
     int status = -1, size = 0, result = 1;
 
-    if (!path)
+    if (!path || !nm_id)
         return 0;
 
     // Prepare items.
@@ -206,17 +206,13 @@ int prepare_workers (char *path)
             break;
         }
         
-        size = sizeof(char) * (strlen(path) + 1);
-        param->path = (char *) malloc(size);
+        // Path.
+        mem_salloc_scopy(path, param->path);
 
-        if (!param->path) {
-            say("error memory allocation.");
-            result = 0;
-            break;
-        }
+        // NM ID.
+        mem_salloc_scopy(nm_id, param->nm_id);
 
-        memset(param->path, 0x0, size);
-        memcpy(param->path, path, strlen(path));
+        // Worker ID.
         param->wid = worker->wid;
         
         status = pthread_create(&worker->tid, NULL, worker_handler, param);
@@ -274,9 +270,10 @@ void *worker_handler (void *tparam)
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
-    char *path = NULL;
+    char *path = NULL, *nm_id = NULL;
 
     mem_scopy_ret(param->path, path, NULL);
+    mem_scopy_ret(param->nm_id, nm_id, NULL);
 
     while (1) {
 
@@ -315,7 +312,7 @@ void *worker_handler (void *tparam)
             "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\r\n\r\n");
 
         if (status == 1)
-            process_communication(sock, path);
+            process_communication(sock, path, nm_id);
 
         /**
          * Finish.

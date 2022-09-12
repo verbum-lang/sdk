@@ -10,11 +10,13 @@
 #include "connection-manager.h"
 #include "delete-connection.h"
 
-int process_communication(int sock, char *path)
+static int get_node_mapper_id (int sock, char *nm_id);
+
+int process_communication(int sock, char *path, char *nm_id)
 {
     char *response = NULL;
 
-    if (!sock || !path)
+    if (!sock || !path || !nm_id)
         return 0;
 
     // Node Mapper protocol communication.
@@ -23,9 +25,15 @@ int process_communication(int sock, char *path)
         return 0;
     
     /**
+     * Get Node Mapper ID.
+     */
+    if (strstr(response, "get-verbum-node-node-mapper-id:"))
+        get_node_mapper_id(sock, nm_id);
+
+    /**
      * Generate new node ID, and save.
      */
-    if (strstr(response, "generate-verbum-node-id:"))
+    else if (strstr(response, "generate-verbum-node-id:"))
         add_new_node(sock, response);
 
     /**
@@ -88,3 +96,27 @@ int process_communication(int sock, char *path)
     mem_sfree(response);
     return 1;
 }
+
+static int get_node_mapper_id (int sock, char *nm_id)
+{
+    char default_success []= VERBUM_DEFAULT_SUCCESS;
+    char default_eoh     []= VERBUM_EOH;
+    char *response = NULL;
+    int bytes = 0, size = 0;
+
+    if (!sock || !nm_id)
+        return 0;
+
+    size = strlen(default_success) + strlen(default_eoh) + strlen(nm_id) + 256;
+    response = (char *) malloc(size);
+    if (!response)
+        return 0;
+
+    memset(response, 0x0, size);
+    sprintf(response, "%s\n\nverbum-node-mapper-id:%s%s", default_success, nm_id, default_eoh);
+
+    bytes = send(sock, response, strlen(response), 0);
+    return 1;
+}
+
+

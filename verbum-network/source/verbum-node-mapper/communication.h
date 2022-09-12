@@ -4,7 +4,7 @@
 
 #include "global.h"
 
-int process_communication (int sock, char *path);
+int process_communication (int sock, char *path, char *nm_id);
 
 #endif
 

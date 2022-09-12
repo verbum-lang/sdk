@@ -18,6 +18,7 @@ typedef struct {
 // Thread param.
 typedef struct {
     int wid;                            // Worker ID.
+    char *nm_id;                        // Node Mapper ID.
     char *path;                         // Configuration file path.
 } worker_param_t;
 
@@ -37,7 +38,7 @@ int              node_mapper             (void);
 int              prepare_node_mapper     (void);
 int              prepare_timeout_control (void);
 void            *node_mapper_interface   (void *tparam);
-int              prepare_workers         (char *path);
+int              prepare_workers         (char *path, char *nm_id);
 thread_worker_t *worker_create_item      (int wid);
 int              worker_insert_item      (thread_worker_t *new_worker);
 void            *worker_handler          (void *tparam);
