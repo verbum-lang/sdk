@@ -673,7 +673,6 @@ function process_network_viewer (request)
 
         // Update network.
         if (update == true) {
-            console.log('update')
             gdata = [];
 
             // Nodes.
@@ -853,10 +852,229 @@ function process_inactive_items (request)
     for (var a=0; a<gdata_append.length; a++)
         gdata_view.push(gdata_append[a]);
 
-    show_network_graph();
+    // show_cytoscape_network_graph();
+    show_force_graph_network_graph();
 }
 
-function show_network_graph ()
+var force_graph_init = false;
+var fGraph = null;
+var hoverNode = null;
+
+var fgdata = {
+    nodes: [],
+    links: []
+};
+
+function show_force_graph_network_graph ()
+{
+    console.log(gdata_view)
+
+    fgdata = {
+        nodes: [],
+        links: []
+    };
+
+    // Nodes.
+    for (var a=0; a<gdata_view.length; a++) {
+        if (gdata_view[a].data.type != 0) 
+            continue;
+
+        var node  = gdata_view[a].data;
+        var found = false;
+
+        for (var b=0; b<fgdata.nodes.length; b++) {
+            var nd = fgdata.nodes[b];
+            if (nd.id == node.id) {
+                found = true;
+                break;
+            }
+        }
+
+        if (found == false) {
+            fgdata.nodes.push({
+                id: node.id,
+                color: node.color,
+                label: node.label
+            });
+        }
+    }
+
+    // Connections.
+    for (var a=0; a<gdata_view.length; a++) {
+        if (gdata_view[a].data.type != 1) 
+            continue;
+
+        var connection = gdata_view[a].data;
+
+        fgdata.links.push({
+            id: 'fg-con-'+ a,
+            source: connection.source,
+            target: connection.target,
+            color: connection.color,
+            rotation: 0,
+            curvature: 0
+        });
+    }
+
+    // Configure connections rotation.
+    for (var a=0; a<fgdata.links.length; a++) {
+        var total_connections = 0;
+
+        for (var b=0; b<fgdata.links.length; b++) {
+            if (fgdata.links[a].source == fgdata.links[b].source &&
+                fgdata.links[a].target == fgdata.links[b].target  )
+            {
+                total_connections++;
+            }
+        }
+
+        if (total_connections > 1) {
+            for (var b=0,c=false; b<fgdata.links.length; b++) {
+                if (fgdata.links[a].source == fgdata.links[b].source &&
+                    fgdata.links[a].target == fgdata.links[b].target  )
+                {
+                    if (c == false) {
+                        c = true;
+                        fgdata.links[b].curvature = b * 0.05;
+                    } else {
+                        c = false;
+                        fgdata.links[b].curvature = b * -0.05;
+                    }
+                }
+            }
+        }
+    }
+
+    // Prepare data params.
+    fgdata.links.forEach(link => {
+        var a, b;
+
+        for (var x=0; x<fgdata.nodes.length; x++) {
+            if (fgdata.nodes[x].id == link.source) {
+                a = fgdata.nodes[x];
+                break;
+            }
+        }
+        
+        for (var x=0; x<fgdata.nodes.length; x++) {
+            if (fgdata.nodes[x].id == link.target) {
+                b = fgdata.nodes[x];
+                break;
+            }
+        }
+        
+        if (!a.neighbors)
+            a.neighbors = [];
+        if (!b.neighbors)
+            b.neighbors = [];
+        
+        a.neighbors.push(b);
+        b.neighbors.push(a);
+
+        !a.links && (a.links = []);
+        !b.links && (b.links = []);
+        
+        a.links.push(link);
+        b.links.push(link);
+    });
+
+    // Graph.
+    if (force_graph_init == false) {
+        force_graph_init = true;
+        
+        var width_area   = $('#area-network-graph').width();
+        var height_area  = $('#area-network-graph').height();
+        var elem         = document.getElementById("area-network-graph");
+
+        const highlightNodes = new Set();
+        const highlightLinks = new Set();
+
+        fGraph = ForceGraph3D()(elem)
+            .graphData(fgdata)
+            .width(width_area)
+            .height(height_area)
+            .showNavInfo(false)
+            .backgroundColor('#2c3034')
+            .linkDirectionalArrowLength(3.5)
+            .linkDirectionalArrowRelPos(1)
+            .linkCurveRotation('rotation')
+            .linkCurvature('curvature')
+
+            .nodeThreeObjectExtend(true)
+            .nodeThreeObject(node => {
+                const sprite = new SpriteText(node.label);
+                
+                sprite.color = 'white';
+                sprite.textHeight = 5;
+                // sprite.position.set(20, 0, 0);
+
+                // sprite.color = "white";
+                // sprite.backgroundColor = node.color;
+                // sprite.borderWidth = 0;
+                // sprite.textHeight = 2;
+                // sprite.padding = [12, 1];
+                // sprite.borderRadius = 5;
+
+                return sprite;
+            })
+
+            .nodeColor(node => highlightNodes.has(node) ? node === hoverNode ? 'rgb(255,0,0)' : 'rgb(255,160,0)' : node.color)
+            .linkWidth(link => highlightLinks.has(link) ? 2 : 1)
+            .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
+            .linkDirectionalParticleWidth(4)
+            .linkColor(link => {
+                return link.color;
+            })
+
+            .onNodeHover(node => {
+                // no state change
+                if ((!node && !highlightNodes.size) || (node && hoverNode === node)) return;
+    
+                highlightNodes.clear();
+                highlightLinks.clear();
+
+                if (node) {
+                    highlightNodes.add(node);
+                    
+                    if (node.hasOwnProperty('neighbors'))
+                        node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
+                    
+                    if (node.hasOwnProperty('links'))
+                        node.links.forEach(link => highlightLinks.add(link));
+                }
+    
+                hoverNode = node || null;
+                updateHighlight();
+            })
+            
+            .onLinkHover(link => {
+                highlightNodes.clear();
+                highlightLinks.clear();
+    
+                if (link) {
+                    highlightLinks.add(link);
+                    highlightNodes.add(link.source);
+                    highlightNodes.add(link.target);
+                }
+    
+                updateHighlight();
+            })
+        
+    } else {
+        fGraph.graphData(fgdata);
+    }
+
+    viewer_running = false;
+}
+
+function updateHighlight() {
+    fGraph
+        .nodeColor(fGraph.nodeColor())
+        .linkWidth(fGraph.linkWidth())
+        .linkDirectionalParticles(fGraph.linkDirectionalParticles());
+}
+
+function show_cytoscape_network_graph ()
 {
     (function () {
         var cy = cytoscape({

@@ -8,6 +8,7 @@ html, body {
   background-color: #2c3034;
   color: white;
   overflow: hidden;
+  user-select: none;
 }
 
 .hide-el {
@@ -396,6 +397,14 @@ html, body {
   padding-right: 10px;
   padding-top: 7px;
   font-size: 7px;
+}
+
+/**
+ * Force Graph styles.
+ */
+
+.graph-node-label {
+
 }
 
 
