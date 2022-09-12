@@ -546,7 +546,7 @@ char *process_ping_connections (char *address, int nm_port, char *connections_li
 }
 
 char *process_delete_connection (char *address, int core_port, 
-    char *src_node_id, char *connection_id, char *dst_node_id, int type)
+    char *connection_id, char *src_node_id, char *dst_node_id, int type)
 {
     char prefix     [] = "delete-verbum-connection:";
     char end_header [] = VERBUM_EOH;
@@ -571,7 +571,6 @@ char *process_delete_connection (char *address, int core_port,
     size = sizeof(char) * (s1 + s2 + s3 + s4 + s5 + 256);
     mem_alloc_ret(message, size, char *, NULL);
 
-    // prefix:con-id:src-node:dst-node:EOH
     sprintf(message, "%s%s:%s:%s:%d%s", 
                 prefix, connection_id, src_node_id, 
                     dst_node_id, type, end_header);

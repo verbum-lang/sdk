@@ -93,12 +93,12 @@ int delete_connection (int sock, char *content)
         return 0;
 
     // Input.
-    if (connection_type == 0) {  }
+    if (connection_type == 1) {  }
 
     // Output.
-    else if (connection_type == 1) {
+    else if (connection_type == 0) {
         char *response = process_delete_connection(address, core_port, 
-                src_node_id, connection_id, dst_node_id, connection_type);
+                connection_id, src_node_id, dst_node_id, connection_type);
         
         if (response) {
             say("Delete con resp: \"%s\"", response);
@@ -122,7 +122,8 @@ int delete_connection (int sock, char *content)
 
         //     if (strcmp(connection->id, connection_id)        == 0 &&
         //         strcmp(connection->src_node_id, src_node_id) == 0 &&
-        //         strcmp(connection->dst_node_id, dst_node_id) == 0  )
+        //         strcmp(connection->dst_node_id, dst_node_id) == 0 &&
+        //         connection->type == contype)
         //     {
         //         if (!connection->next)
         //             last_connection->next = NULL;
