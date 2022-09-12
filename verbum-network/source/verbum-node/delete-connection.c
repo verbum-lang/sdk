@@ -163,7 +163,7 @@ int delete_connection (int sock, char *content)
     // Output connection: send request do server.
     // Connects to the server port, as the core port may 
     // only be available locally (for design reasons).
-    if (connection_id == 0) {
+    if (connection_type == 0) {
         response = process_delete_connection_server(nm_address, node_server_port, 
                         connection_id, src_node_id, dst_node_id);
 
@@ -210,15 +210,15 @@ int delete_connection_server (int sock, char *content)
         if (ptr[a] == ':' || ptr[a] == '\0') {
             
             switch (c) {
-                // Connection ID.
+                // Connection ID (client).
                 case 0:
                     mem_salloc_scopy(tmp, connection_id);
                     break;
-                // Source node ID.
+                // Source node ID (client).
                 case 1:
                     mem_salloc_scopy(tmp, src_node_id);
                     break;
-                // Destination/target node ID.
+                // Destination/target node ID (client).
                 case 2:
                     mem_salloc_scopy(tmp, dst_node_id);
                     break;
@@ -242,7 +242,7 @@ int delete_connection_server (int sock, char *content)
     // Check node.
     pthread_mutex_lock(&mutex_gconfig);
 
-    if (strcmp(gconfig->information.id, src_node_id) == 0)
+    if (strcmp(gconfig->information.id, dst_node_id) == 0)
         status = 1;
 
     pthread_mutex_unlock(&mutex_gconfig);
@@ -250,9 +250,9 @@ int delete_connection_server (int sock, char *content)
     if (!status)
         goto error;
 
-    say("> cid: %s", connection_id);
-    say("> src: %s", src_node_id);
-    say("> dst: %s", dst_node_id);
+    say("> remote id..: %s", connection_id);
+    say("> target node: %s", src_node_id);
+    say("> source node: %s", dst_node_id);
 
     // Finish.
     success:
