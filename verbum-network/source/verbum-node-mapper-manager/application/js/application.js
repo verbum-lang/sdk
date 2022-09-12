@@ -867,8 +867,6 @@ var fgdata = {
 
 function show_force_graph_network_graph ()
 {
-    console.log(gdata_view)
-
     fgdata = {
         nodes: [],
         links: []
@@ -1007,7 +1005,6 @@ function show_force_graph_network_graph ()
                 sprite.color = 'white';
                 sprite.textHeight = 5;
                 // sprite.position.set(20, 0, 0);
-
                 // sprite.color = "white";
                 // sprite.backgroundColor = node.color;
                 // sprite.borderWidth = 0;
@@ -1059,7 +1056,10 @@ function show_force_graph_network_graph ()
     
                 updateHighlight();
             })
-        
+            .onNodeRightClick(node => {
+                window.location.href = "#id-node-area-"+ node.id;
+            })  
+
     } else {
         fGraph.graphData(fgdata);
     }
@@ -1337,7 +1337,7 @@ function append_node (node)
     var prefix = 'cls-'+ node.id;
 
     var html = `
-        <table class="table table-dark table-borderless node-area-`+ node.id +`">
+        <table class="table table-dark table-borderless node-area-`+ node.id +`" id="id-node-area-`+ node.id +`">
             <tbody>
             <tr>
                 <th>
