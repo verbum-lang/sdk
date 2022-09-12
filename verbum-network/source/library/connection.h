@@ -31,6 +31,8 @@ char *process_connection_ping               (char *address, int node_port, char 
 char *process_ping_connections              (char *address, int nm_port, char *connections_list);
 char *process_delete_connection             (char *address, int core_port, char *connection_id, 
                                              char *src_node_id, char *dst_node_id, int type);
+char *process_delete_connection_server      (char *address, int node_port, 
+                                             char *connection_id, char *src_node_id, char *dst_node_id);
 
 #endif
 

@@ -87,6 +87,12 @@ static int process_communication_server (int sock)
     if (strstr(response, "connection-ping-verbum-node:"))
         server_ping(sock, response);
 
+    /**
+     * Delete connection.
+     */
+    else if (strstr(response, "delete-verbum-connection-server:"))
+        delete_connection_server(sock, response);
+
     mem_sfree(response);
     return 1;
 }
