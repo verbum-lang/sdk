@@ -130,39 +130,47 @@ void *node_mapper_interface (void *tparam)
 
     while (1) {
         
-        // Checks if the thread is free to use.
-        pthread_mutex_lock(&mutex_workers);
-        
-        for (worker=workers; worker!=NULL; worker=worker->next) {
-            if (worker->status == 0) {
+        // Process connection.
+        nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
+        if (nsock != -1) {
 
-                // Process connection.
-                nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
-                if (nsock != -1) {
+            #ifdef NMDBG
+                say("connection accepted!");
+            #endif
 
-                    #ifdef NMDBG
-                        say("connection accepted!");
-                    #endif
+            // Configure socket.
+            struct timeval tms;
+            tms.tv_sec  = CONNECTIONS_TIMEOUT1;
+            tms.tv_usec = 0;
+            setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
-                    // Configure socket.
-                    struct timeval tms;
-                    tms.tv_sec  = CONNECTIONS_TIMEOUT1;
-                    tms.tv_usec = 0;
-                    setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+            // Checks if the thread is free to use.
+            pthread_mutex_lock(&mutex_workers);
+            
+            while (1) {
+                status = 0;
 
-                    // Send signal do worker.
-                    worker->sock   = nsock;
-                    worker->status = 1;
+                for (worker=workers; worker!=NULL; worker=worker->next) {
+                    if (worker->status == 0) {
 
-                } else
-                    debug_print("error accept client.");
+                        // Send signal do worker.
+                        worker->sock   = nsock;
+                        worker->status = 1;
 
-                break;
+                        status = 1;
+                        break;
+                    }
+                }
+
+                if (status)
+                    break;
             }
-        }
 
-        pthread_mutex_unlock(&mutex_workers);
-        usleep(100);
+            pthread_mutex_unlock(&mutex_workers);
+        } else
+            debug_print("error accept client.");
+
+        usleep(1000);
     }
 }
 
