@@ -104,6 +104,7 @@ void *node_mapper_interface (void *tparam)
     struct sockaddr_in address;
     socklen_t address_size;
     int ssock = -1, nsock = -1, status = -1, block = 0;
+    int sstep = 0, slimit = 33;
     const int enable = 1;
     thread_worker_t *worker;
 
@@ -145,34 +146,28 @@ void *node_mapper_interface (void *tparam)
             setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
             // Checks if the thread is free to use.
+            status = 0;
             pthread_mutex_lock(&mutex_workers);
-            
-            while (1) {
-                status = 0;
 
-                for (worker=workers; worker!=NULL; worker=worker->next) {
-                    if (worker->status == 0) {
+            for (worker=workers; worker!=NULL; worker=worker->next) {
+                if (worker->status == 0) {
 
-                        // Send signal do worker.
-                        worker->sock   = nsock;
-                        worker->status = 1;
+                    // Send signal do worker.
+                    worker->sock   = nsock;
+                    worker->status = 1;
 
-                        status = 1;
-                        break;
-                    }
-                }
-
-                if (status)
+                    status = 1;
                     break;
-
-                usleep(1000);
+                }
             }
 
             pthread_mutex_unlock(&mutex_workers);
+
+            if (status == 0)
+                close(nsock);
+                
         } else
             debug_print("error accept client.");
-
-        usleep(1000);
     }
 }
 
@@ -279,7 +274,7 @@ void *worker_handler (void *tparam)
     worker_param_t  *param = (worker_param_t *) tparam;
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
-    int status = 0, size = 0;
+    int status = 0, size = 0, sstep = 0, slimit = 33;
     char *path = NULL, *nm_id = NULL;
 
     mem_scopy_ret(param->path, path, NULL);
@@ -292,7 +287,6 @@ void *worker_handler (void *tparam)
          */
 
         run = 0;
-        sleep(1);
         pthread_mutex_lock(&mutex_workers);
         
         for (worker=workers; worker!=NULL; worker=worker->next) {
@@ -307,8 +301,16 @@ void *worker_handler (void *tparam)
         
         pthread_mutex_unlock(&mutex_workers);
 
-        if (run == 0)
+        if (run == 0) {
+            if (sstep <= slimit)
+                sstep++;
+            else {
+                sstep = 0;
+                sleep(1);
+            }
+            
             continue;
+        }
 
         #ifdef NMDBG
             say("task started!");

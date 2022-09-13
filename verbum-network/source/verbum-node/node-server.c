@@ -24,6 +24,7 @@ void *node_server (void *tparam)
     int ssock  = -1, nsock = -1;
     int status = -1, port  =  0;
     int node_mapper_port = 0, max_connections = 100;
+    int sstep = 0, slimit = 0;
     const int enable = 1;
     thread_worker_t *worker;
     
@@ -101,7 +102,7 @@ void *node_server (void *tparam)
                 say("connection accepted!");
             #endif
 
-            say("accept node server.");
+            // say("accept node server.");
 
             // Configure socket.
             struct timeval tms;
@@ -110,35 +111,28 @@ void *node_server (void *tparam)
             setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
             // Checks if the thread is free to use.
+            status = 0;
             pthread_mutex_lock(&mutex_workers);
-            
-            while (1) {
-                status = 0;
+        
+            for (worker=workers; worker!=NULL; worker=worker->next) {
+                if (worker->status == 0) {
 
-                for (worker=workers; worker!=NULL; worker=worker->next) {
-                    if (worker->status == 0) {
-
-                        // Send signal do worker.
-                        worker->sock   = nsock;
-                        worker->status = 1;
-                        
-                        status = 1;
-                        break;
-                    }
-                }
-
-                if (status)
+                    // Send signal do worker.
+                    worker->sock   = nsock;
+                    worker->status = 1;
+                    
+                    status = 1;
                     break;
-
-                usleep(1000);
+                }
             }
 
             pthread_mutex_unlock(&mutex_workers);
 
+            if (status == 0)
+                close(nsock);
+
         } else
             debug_print("error accept client.");
-
-        usleep(1000);
     }
 
     close(ssock);
@@ -238,7 +232,7 @@ static void *worker_handler (void *tparam)
     worker_param_t  *param = (worker_param_t *) tparam;
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
-    int status = 0, size = 0;
+    int status = 0, size = 0, sstep = 0, slimit = 33;
 
     while (1) {
 
@@ -247,7 +241,6 @@ static void *worker_handler (void *tparam)
          */
 
         run = 0;
-        sleep(1);
         pthread_mutex_lock(&mutex_workers);
         
         for (worker=workers; worker!=NULL; worker=worker->next) {
@@ -262,8 +255,16 @@ static void *worker_handler (void *tparam)
         
         pthread_mutex_unlock(&mutex_workers);
 
-        if (run == 0)
+        if (run == 0) {
+            if (sstep <= slimit)
+                sstep++;
+            else {
+                sstep = 0;
+                sleep(1);
+            }
+
             continue;
+        }
 
         #ifdef NCDBG
             say("task started!");
@@ -273,16 +274,16 @@ static void *worker_handler (void *tparam)
          * Process actions.
          */
 
-        say("process server request.");
+        // say("process server request.");
 
         status = send_handshake(sock, VERBUM_NODE_HANDSHAKE);
 
-        say("send_handshake() OK!");
+        // say("send_handshake() OK!");
 
         if (status == 1)
             process_communication(sock, 1);
 
-        say("process_communication() OK!");
+        // say("process_communication() OK!");
 
         /**
          * Finish.
