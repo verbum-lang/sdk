@@ -283,7 +283,7 @@ int server_ping (int sock, char *content)
     pthread_mutex_unlock(&mutex_connections);
 
     // Check direct connection.
-    if (check_protocol(dst_nm_address, dst_nm_port, 1) == 1) {
+    if (process_check_direct_nm(dst_nm_address, dst_nm_port) == 1) {
     
         // Update information.
         pthread_mutex_lock(&mutex_connections);

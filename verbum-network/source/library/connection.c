@@ -72,6 +72,7 @@ int create_connection (char *address, int port, int enable_timeout)
         say_ret(-1, "error connect socket.");
 
     // Select enabled.
+    if (0)
     if (enable_timeout == 1) {
         #ifdef CONDBG
             say("process select...");
@@ -103,14 +104,14 @@ int create_connection (char *address, int port, int enable_timeout)
         say_end_con(-1, "error remove non-blocking socket.");
 
     // Set recv timeout.
-    if (enable_timeout == 1) {
+    // if (enable_timeout == 1) {
         struct timeval tms;
         tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
         tms.tv_usec = 0;
 
         if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval)) != 0)
             say_end_con(-1, "error setsocketopt.");
-    }
+    // }
 
     // Receive data.
     #ifdef CONDBG
@@ -361,7 +362,7 @@ char *process_delete_node (char *address, int node_port, char *node_id)
     if (!address || !node_port || !node_id)
         return NULL;
 
-    sock = create_connection(address, node_port, 0);
+    sock = create_connection(address, node_port, 1);
     if (sock == -1)
         return NULL;
 
@@ -429,7 +430,7 @@ char *process_create_node_output_connection (char *src_node_address,
         !dst_nm_address || !dst_nm_port)
         return NULL;
 
-    sock = create_connection(src_node_address, src_node_interface_port, 0);
+    sock = create_connection(src_node_address, src_node_interface_port, 1);
     if (sock == -1)
         return NULL;
 
@@ -630,6 +631,32 @@ char *process_delete_connection_server(char *address, int node_port,
     close(sock);
 
     return response;
+}
+
+int process_check_direct_nm (char *address, int nm_port)
+{
+    char message [] = "check-direct-node-mapper:" VERBUM_EOH;
+    char *response = NULL;
+    int sock = -1;
+
+    if (!address || !nm_port)
+        return 0;
+
+    sock = create_connection(address, nm_port, 1);
+    if (sock == -1)
+        return 0;
+
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        return 0;
+    }
+
+    mem_sfree(response);
+    close(sock);
+    
+    return 1;
 }
 
 

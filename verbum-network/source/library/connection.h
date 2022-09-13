@@ -33,6 +33,7 @@ char *process_delete_connection             (char *address, int core_port, char 
                                              char *src_node_id, char *dst_node_id, int type);
 char *process_delete_connection_server      (char *address, int node_port, 
                                              char *connection_id, char *src_node_id, char *dst_node_id);
+int   process_check_direct_nm               (char *address, int nm_port);
 
 #endif
 
