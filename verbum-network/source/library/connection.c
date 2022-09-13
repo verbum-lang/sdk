@@ -19,7 +19,6 @@
 int create_connection (char *address, int port, int enable_timeout)
 {
     int status     = -1, sock = -1, flags  = 0;
-    int timeout    = CONNECTIONS_TIMEOUT1;
     char *packet   = NULL;
     char header [] = "Verbum Node";
 
@@ -59,7 +58,7 @@ int create_connection (char *address, int port, int enable_timeout)
         time(&end);
         diff = difftime(end, start);
 
-        if (diff >= (double) timeout)
+        if (diff >= (double) CONNECTION_TIMEOUT_CONNECT_SELECT)
             break;
     
         usleep(1000);
@@ -81,7 +80,7 @@ int create_connection (char *address, int port, int enable_timeout)
         struct timeval stv;
         fd_set rfds;
 
-        stv.tv_sec = timeout;
+        stv.tv_sec = CONNECTION_TIMEOUT_CONNECT_SELECT;
         stv.tv_usec = 0;
 
         FD_ZERO(&rfds);
@@ -106,7 +105,7 @@ int create_connection (char *address, int port, int enable_timeout)
     // Set recv timeout.
     if (enable_timeout == 1) {
         struct timeval tms;
-        tms.tv_sec  = CONNECTIONS_TIMEOUT1;
+        tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
         tms.tv_usec = 0;
 
         if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval)) != 0)

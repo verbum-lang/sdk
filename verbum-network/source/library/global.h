@@ -25,14 +25,17 @@
 #include <pthread.h>
 
 // General configurations.
-#define CONNECTIONS_TIMEOUT1            10
-#define LOCALHOST                       "127.0.0.1"
-#define SERVERS_MAX_CONNECTION          1000
+#define LOCALHOST                           "127.0.0.1"
+#define SERVERS_MAX_CONNECTION              1000
+
+// Timeout.
+#define CONNECTION_TIMEOUT_CONNECT_SELECT   2
+#define CONNECTION_TIMEOUT_RECV             10
 
 // Default response (socket).
-#define VERBUM_DEFAULT_SUCCESS          "verbum-node-ok"
-#define VERBUM_DEFAULT_ERROR            "verbum-node-fail"
-#define VERBUM_EOH                      "\r\n\r\n"
+#define VERBUM_DEFAULT_SUCCESS              "verbum-node-ok"
+#define VERBUM_DEFAULT_ERROR                "verbum-node-fail"
+#define VERBUM_EOH                          "\r\n\r\n"
 
 // Configurations e definations.
 #define initialization main // Entry point.

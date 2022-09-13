@@ -116,7 +116,7 @@ void *node_core (void *tparam)
 
                     // Configure socket.
                     struct timeval tms;
-                    tms.tv_sec  = CONNECTIONS_TIMEOUT1;
+                    tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
                     tms.tv_usec = 0;
                     setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
