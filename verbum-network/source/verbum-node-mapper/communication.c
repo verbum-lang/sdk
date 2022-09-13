@@ -79,12 +79,6 @@ int process_communication(int sock, char *path, char *nm_id)
         create_node_connection(sock, response, 0);
 
     /**
-     * Create node input connection.
-     */
-    else if (strstr(response, "create-verbum-node-input-connection:"))
-        create_node_connection(sock, response, 1);
-
-    /**
      * Delete connection.
      */
     else if (strstr(response, "delete-verbum-connection:"))

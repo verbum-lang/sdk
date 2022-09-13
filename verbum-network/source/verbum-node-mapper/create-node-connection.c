@@ -119,9 +119,6 @@ int create_node_connection(int sock, char *content, int type)
                 sock, src_node_id, src_node_interface_port,
                 dst_node_id, dst_nm_address, dst_nm_port);
             break;
-        case 1:
-            // Input connections...
-            break;
     }
 
     // Success.
