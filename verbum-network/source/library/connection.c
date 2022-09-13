@@ -61,7 +61,7 @@ int create_connection (char *address, int port, int enable_timeout)
         if (diff >= (double) CONNECTION_TIMEOUT_CONNECT_SELECT)
             break;
     
-        usleep(1000);
+        sleep(1);
     }
     
     #ifdef CONDBG

@@ -128,8 +128,9 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
     #endif
 
     // Check interval.
-    if (final_seconds >= interval_seconds)
+    if (final_seconds >= interval_seconds) {
         return 1;
+    }
 
     return 0;
 }

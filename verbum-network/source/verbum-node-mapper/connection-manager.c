@@ -91,7 +91,7 @@ static int process_connection_item (char *connection)
     node_connection_t *con, *last;
     char tmp[1024], name[256], value[256];
     char *ptr = NULL, *current_date = NULL;
-    int found = 0, auto_remove = 0;
+    int found = 0, auto_remove = 0, status = 0;
     
     if (!ncon)
         return 0;
@@ -218,20 +218,21 @@ static int process_connection_item (char *connection)
 
     // Status flag.
     ncon->status = 1;
-
+    auto_remove  = 0;
     current_date = make_datetime();
+    
     if (current_date) {
 
         // Check input connections timeout.
         if (date_difference(ncon->last_connect_date, 
                 current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
         {
-            #ifdef NMDBG
+            // #ifdef NMDBG
                 say("Enable error flag - timeout - update connections.");
                 say("Timeout: %s, %s", ncon->last_connect_date, current_date);
                 say("Type: %d, Src: %s, Dst: %s\n", 
                     ncon->type, ncon->src_node_id, ncon->dst_node_id);
-            #endif
+            // #endif
 
             ncon->connection_error = 1;
             ncon->connection_error_count++;
@@ -252,7 +253,22 @@ static int process_connection_item (char *connection)
                     say("Src: %s, Dst: %s\n", ncon->src_node_id, ncon->dst_node_id);
                 #endif
 
-                auto_remove = 1;
+                status = 0;
+
+                // Output.
+                #ifdef VERBUM_CONNECTION_AUTO_REMOVE_OUTPUT
+                    if (ncon->type == 0)
+                        status = 1;
+                #endif
+                
+                // Input.
+                #ifdef VERBUM_CONNECTION_AUTO_REMOVE_INPUT
+                    if (ncon->type == 1)
+                        status = 1;
+                #endif
+
+                if (status == 1)
+                    auto_remove = 1;
             }
         #endif
         

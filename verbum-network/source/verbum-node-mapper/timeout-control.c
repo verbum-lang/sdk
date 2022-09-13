@@ -95,12 +95,12 @@ void *timeout_control (void *tparam)
             if (date_difference(connection->last_connect_date, 
                 current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
             {
-                #ifdef DBGTC
+                // #ifdef DBGTC
                     say("Enable error flag - timeout.");
                     say("Timeout: %s, %s", connection->last_connect_date, current_date);
                     say("Type: %d, Src: %s, Dst: %s\n", 
                         connection->type, connection->src_node_id, connection->dst_node_id);
-                #endif
+                // #endif
 
                 connection->connection_error = 1;
                 connection->connection_error_count++;
@@ -132,6 +132,7 @@ void *timeout_control (void *tparam)
                             status = 1;
                     #endif
                     
+                    // Input.
                     #ifdef VERBUM_CONNECTION_AUTO_REMOVE_INPUT
                         if (connection->type == 1)
                             status = 1;

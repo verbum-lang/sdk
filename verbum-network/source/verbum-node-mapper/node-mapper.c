@@ -100,6 +100,8 @@ int prepare_timeout_control (void)
 
 void *node_mapper_interface (void *tparam)
 {
+    say("Node mapper interface - started!");
+
     interface_param_t *param = (interface_param_t *) tparam;
     struct sockaddr_in address;
     socklen_t address_size;
@@ -130,39 +132,43 @@ void *node_mapper_interface (void *tparam)
 
     while (1) {
         
-        // Checks if the thread is free to use.
-        pthread_mutex_lock(&mutex_workers);
-        
-        for (worker=workers; worker!=NULL; worker=worker->next) {
-            if (worker->status == 0) {
+        // Process connection.
+        nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
+        if (nsock != -1) {
 
-                // Process connection.
-                nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
-                if (nsock != -1) {
+            #ifdef NMDBG
+                say("connection accepted!");
+            #endif
 
-                    #ifdef NMDBG
-                        say("connection accepted!");
-                    #endif
+            // Configure socket.
+            struct timeval tms;
+            tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
+            tms.tv_usec = 0;
+            setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
-                    // Configure socket.
-                    struct timeval tms;
-                    tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
-                    tms.tv_usec = 0;
-                    setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+            // Checks if the thread is free to use.
+            status = 0;
+            pthread_mutex_lock(&mutex_workers);
+            
+            for (worker=workers; worker!=NULL; worker=worker->next) {
+                if (worker->status == 0) {
 
                     // Send signal do worker.
-                    worker->sock   = nsock;
                     worker->status = 1;
+                    worker->sock   = nsock;
 
-                } else
-                    debug_print("error accept client.");
-
-                break;
+                    status = 1;
+                    break;
+                }
             }
-        }
 
-        pthread_mutex_unlock(&mutex_workers);
-        usleep(100);
+            pthread_mutex_unlock(&mutex_workers);
+
+            if (status == 0)
+                close(nsock);
+
+        } else
+            debug_print("error accept client.");
     }
 }
 
@@ -270,6 +276,7 @@ void *worker_handler (void *tparam)
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
+    int sstep = 0, slimit = NM_THREAD_LIMIT;
     char *path = NULL, *nm_id = NULL;
 
     mem_scopy_ret(param->path, path, NULL);
@@ -282,7 +289,6 @@ void *worker_handler (void *tparam)
          */
 
         run = 0;
-        usleep(100);
         pthread_mutex_lock(&mutex_workers);
         
         for (worker=workers; worker!=NULL; worker=worker->next) {
@@ -297,8 +303,16 @@ void *worker_handler (void *tparam)
         
         pthread_mutex_unlock(&mutex_workers);
 
-        if (run == 0)
+        if (run == 0) {
+            if (sstep < slimit) 
+                sstep++;
+            else {
+                sstep = 0;
+                sleep(1);
+            }
+
             continue;
+        }
 
         #ifdef NMDBG
             say("task started!");

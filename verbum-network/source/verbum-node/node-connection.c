@@ -146,6 +146,7 @@ static void *connection_ping_controller (void *tparam)
     char *date = NULL;
     int status = 0, valid = 0, error = 0;
     int count = 0, fmem = 0;
+    int counter = 0, ping_check_limit = 5;
 
     mem_scopy_ret(param->cid, connection_id, NULL);
 
@@ -243,10 +244,24 @@ static void *connection_ping_controller (void *tparam)
         /**
          * Process action.
          */
+
+        counter = 0;
+        status  = 0;
         
-        status = ping_controller_communication(connection_id, 
-                    src_node_id, src_nm_port, dst_node_id, dst_nm_address, dst_nm_port);
-        
+        while (1) {
+            status = ping_controller_communication(connection_id, 
+                        src_node_id, src_nm_port, dst_node_id, dst_nm_address, dst_nm_port);
+
+            if (status == 1)
+                break;
+
+            if (counter >= ping_check_limit)
+                break;
+
+            counter++;
+            sleep(1);
+        }
+
         pthread_mutex_lock(&mutex_connections);
 
         for (connection=connections; connection != NULL; connection=connection->next) {
@@ -286,7 +301,7 @@ static void *connection_ping_controller (void *tparam)
 
                 // Enable re-check.
                 connection->ping_controller_enabled = 1;
-
+                
                 // Update connection date.
                 if (status == 1) {
                     date = make_datetime();
@@ -322,23 +337,14 @@ static int ping_controller_communication (
     char tmp[1024];
     node_connection_t *connection;
 
-    // if (src_node_id)
-    //     say("ping_controller_communication(%s) - 1", src_node_id);
-    // else
-    //     say("ping_controller_communication(NO CONNECTION ID) - 1");
-
     if (!connection_id || !src_node_id || !src_nm_port ||
         !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
-
-    // say("ping_controller_communication(%s) - 2", src_node_id);
 
     // Get current Node Mapper ID.
     pthread_mutex_lock(&mutex_gconfig);
     mem_salloc_scopy(gconfig->node_mapper_id, node_mapper_id);
     pthread_mutex_unlock(&mutex_gconfig);
-
-    // say("ping_controller_communication(%s) - 3", src_node_id);
 
     // Connect to destination Node Mapper, and 
     // check destination Verbum Node exists.
@@ -348,13 +354,9 @@ static int ping_controller_communication (
             valid = 1;
     }
 
-    // say("ping_controller_communication(%s) - 4", src_node_id);
-
     if (!valid) 
         goto end_error;
     
-    // say("ping_controller_communication(%s) - 5", src_node_id);
-
     // Extract server node port.
     ptr = strstr(response1, "verbum-node-information:");
     if (!ptr)
@@ -387,8 +389,6 @@ static int ping_controller_communication (
     if (!server_port)
         goto end_error;
 
-    // say("ping_controller_communication(%s) - 6", src_node_id);
-
     // Connect to Node Server interface.
     valid     = 0;
     response2 = 
@@ -400,13 +400,9 @@ static int ping_controller_communication (
             valid = 1;
     }
     
-    // say("ping_controller_communication(%s) - 7", src_node_id);
-
     if (!valid) 
         goto end_error;
     
-    // say("ping_controller_communication(%s) - 8", src_node_id);
-
     // Save informations.
     pthread_mutex_lock(&mutex_connections);
 
@@ -431,8 +427,6 @@ static int ping_controller_communication (
     }
 
     pthread_mutex_unlock(&mutex_connections);
-
-    // say("ping_controller_communication(%s) - 9", src_node_id);
 
     // Finish.
     mem_sfree(node_mapper_id);
