@@ -129,6 +129,8 @@ void *node_server (void *tparam)
 
                 if (status)
                     break;
+
+                usleep(1000);
             }
 
             pthread_mutex_unlock(&mutex_workers);
@@ -245,7 +247,7 @@ static void *worker_handler (void *tparam)
          */
 
         run = 0;
-        usleep(100);
+        sleep(1);
         pthread_mutex_lock(&mutex_workers);
         
         for (worker=workers; worker!=NULL; worker=worker->next) {

@@ -17,11 +17,11 @@ void *timeout_control (void *tparam)
     int status = 0;
 
     while (1) {
+        sleep(1);
+
         current_date = make_datetime();
-        if (!current_date) {
-            sleep(1);
+        if (!current_date)
             continue;
-        }
 
         // Nodes.
         pthread_mutex_lock(&mutex_nodes);
@@ -160,9 +160,7 @@ void *timeout_control (void *tparam)
         }
 
         pthread_mutex_unlock(&mutex_connections);
-
         mem_sfree(current_date);
-        sleep(1);
     }
 
     return NULL;
