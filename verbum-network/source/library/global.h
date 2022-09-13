@@ -26,7 +26,7 @@
 
 // General configurations.
 #define LOCALHOST                           "127.0.0.1"
-#define SERVERS_MAX_CONNECTION              1000
+#define SERVERS_MAX_CONNECTION              SOMAXCONN
 
 // Timeout.
 #define CONNECTION_TIMEOUT_CONNECT_SELECT   2

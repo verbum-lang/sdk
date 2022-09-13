@@ -74,6 +74,8 @@ void *ping_node_handler (void *tparam)
                     continue;
                 if (!connection->id)
                     continue;
+                if (connection->type == 1 && connection->checking_direct == 0)
+                    continue;
                 
                 // Prepare current data.
                 if (id)                             size += strlen(id);

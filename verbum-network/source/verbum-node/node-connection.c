@@ -146,7 +146,7 @@ static void *connection_ping_controller (void *tparam)
     char *date = NULL;
     int status = 0, valid = 0, error = 0;
     int count = 0, fmem = 0;
-    int counter = 0, ping_check_limit = 5;
+    int counter = 0, check_limit = 5;
 
     mem_scopy_ret(param->cid, connection_id, NULL);
 
@@ -255,7 +255,7 @@ static void *connection_ping_controller (void *tparam)
             if (status == 1)
                 break;
 
-            if (counter >= ping_check_limit)
+            if (counter >= check_limit)
                 break;
 
             counter++;

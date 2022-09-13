@@ -37,6 +37,7 @@ int server_ping (int sock, char *content)
     socklen_t addrlen = sizeof(client_addr);
     char client_ip [100];
     int client_port = -1;
+    int counter = 0, check_limit = 5;
 
     node_connection_t *connection;
     node_connection_t *nconnection;
@@ -283,27 +284,43 @@ int server_ping (int sock, char *content)
     pthread_mutex_unlock(&mutex_connections);
 
     // Check direct connection.
-    if (process_check_direct_nm(dst_nm_address, dst_nm_port) == 1) {
+    counter = 0;
+    status  = 0;
     
-        // Update information.
-        pthread_mutex_lock(&mutex_connections);
+    while (1) {
+        status = process_check_direct_nm(dst_nm_address, dst_nm_port);
+        if (status == 1)
+            break;
 
-        for (connection=connections; connection != NULL; connection=connection->next) {
-            if (connection->status != 2)
-                continue;
-            if (!connection->id)
-                continue;
-            if (connection->type != 1)
-                continue;
-                
-            if (strcmp(connection->id, b_id) == 0) {
-                connection->dst_nm_direct = 1;
-                break;
-            }
-        }
+        if (counter >= check_limit)
+            break;
 
-        pthread_mutex_unlock(&mutex_connections);
+        counter++;
+        sleep(1);
     }
+
+    // Update information.
+    pthread_mutex_lock(&mutex_connections);
+
+    for (connection=connections; connection != NULL; connection=connection->next) {
+        if (connection->status != 2)
+            continue;
+        if (!connection->id)
+            continue;
+        if (connection->type != 1)
+            continue;
+            
+        if (strcmp(connection->id, b_id) == 0) {
+            if (status == 1)
+                connection->dst_nm_direct = 1;
+
+            // Check complete.
+            connection->checking_direct = 1;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_connections);
     
     mem_sfree(dst_nm_address);
     mem_sfree(b_id);
