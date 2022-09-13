@@ -93,39 +93,50 @@ void *node_server (void *tparam)
     // Node core interface communication.
     while (1) {
         
-        // Checks if the thread is free to use.
-        pthread_mutex_lock(&mutex_workers);
-        
-        for (worker=workers; worker!=NULL; worker=worker->next) {
-            if (worker->status == 0) {
+        // Process connection.
+        nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
+        if (nsock != -1) {
 
-                // Process connection.
-                nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
-                if (nsock != -1) {
+            #ifdef NCDBG
+                say("connection accepted!");
+            #endif
 
-                    #ifdef NCDBG
-                        say("connection accepted!");
-                    #endif
+            say("accept node server.");
 
-                    // Configure socket.
-                    struct timeval tms;
-                    tms.tv_sec  = CONNECTIONS_TIMEOUT1;
-                    tms.tv_usec = 0;
-                    setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+            // Configure socket.
+            struct timeval tms;
+            tms.tv_sec  = CONNECTIONS_TIMEOUT1;
+            tms.tv_usec = 0;
+            setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
-                    // Send signal do worker.
-                    worker->sock   = nsock;
-                    worker->status = 1;
+            // Checks if the thread is free to use.
+            pthread_mutex_lock(&mutex_workers);
+            
+            while (1) {
+                status = 0;
 
-                } else
-                    debug_print("error accept client.");
+                for (worker=workers; worker!=NULL; worker=worker->next) {
+                    if (worker->status == 0) {
 
-                break;
+                        // Send signal do worker.
+                        worker->sock   = nsock;
+                        worker->status = 1;
+                        
+                        status = 1;
+                        break;
+                    }
+                }
+
+                if (status)
+                    break;
             }
-        }
 
-        pthread_mutex_unlock(&mutex_workers);
-        usleep(100);
+            pthread_mutex_unlock(&mutex_workers);
+
+        } else
+            debug_print("error accept client.");
+
+        usleep(1000);
     }
 
     close(ssock);
@@ -260,10 +271,16 @@ static void *worker_handler (void *tparam)
          * Process actions.
          */
 
+        say("process server request.");
+
         status = send_handshake(sock, VERBUM_NODE_HANDSHAKE);
+
+        say("send_handshake() OK!");
 
         if (status == 1)
             process_communication(sock, 1);
+
+        say("process_communication() OK!");
 
         /**
          * Finish.

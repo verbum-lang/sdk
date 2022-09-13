@@ -10,6 +10,8 @@ extern node_connection_t *connections;
 
 int server_ping (int sock, char *content)
 {
+    say("server_ping()");
+
     char message_success [] = VERBUM_DEFAULT_SUCCESS;
     char message_error   [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char prefix          [] = "connection-ping-verbum-node:";

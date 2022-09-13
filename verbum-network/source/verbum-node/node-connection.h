@@ -32,6 +32,8 @@ typedef struct node_connection_st {
     pthread_t tid_ping_controller;      // Thread handle - Ping controller.
     int tr_ping_controller_enabled;     // 0 = Disabled, 1 = Enabled.
     int tr_kill_thread;                 // 0 = No, 1 = Yes (kill).
+
+    int running;                        // Connection ping in use.
     struct node_connection_st *next;    // Next node pointer.
 
     // Connection informations.
