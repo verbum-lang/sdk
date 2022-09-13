@@ -104,18 +104,18 @@ void *node_server (void *tparam)
 
             // say("accept node server.");
 
-            // Configure socket.
-            struct timeval tms;
-            tms.tv_sec  = CONNECTIONS_TIMEOUT1;
-            tms.tv_usec = 0;
-            setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
-
             // Checks if the thread is free to use.
             status = 0;
             pthread_mutex_lock(&mutex_workers);
         
             for (worker=workers; worker!=NULL; worker=worker->next) {
                 if (worker->status == 0) {
+
+                    // Configure socket.
+                    struct timeval tms;
+                    tms.tv_sec  = CONNECTIONS_TIMEOUT1;
+                    tms.tv_usec = 0;
+                    setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
                     // Send signal do worker.
                     worker->sock   = nsock;
