@@ -54,7 +54,7 @@ int verbum_node (void)
     /**
      * Node client connections control.
      */
-    // create_thread_controller(node_client);
+    create_thread_controller(node_client);
 
     return 1;
 }
