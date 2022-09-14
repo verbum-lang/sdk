@@ -104,14 +104,14 @@ int create_connection (char *address, int port, int enable_timeout)
         say_end_con(-1, "error remove non-blocking socket.");
 
     // Set recv timeout.
-    // if (enable_timeout == 1) {
+    if (enable_timeout == 1) {
         struct timeval tms;
         tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
         tms.tv_usec = 0;
 
         if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval)) != 0)
             say_end_con(-1, "error setsocketopt.");
-    // }
+    }
 
     // Receive data.
     #ifdef CONDBG
