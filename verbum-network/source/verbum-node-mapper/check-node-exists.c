@@ -15,7 +15,8 @@ int check_node_exists (int sock, char *content)
     char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char address           [] = LOCALHOST;
     char *ptr = NULL, *response_success = NULL;
-    int bytes = 0, status = 0, counter = 0, core_port = 0;
+    char *response = NULL;
+    int bytes = 0, status = 0, counter = 0, limit = 5, core_port = 0;
     node_control_t *node;
 
     if (!sock || !content)
@@ -50,18 +51,29 @@ int check_node_exists (int sock, char *content)
     if (status == 1) {
         status = 0;
 
-        char *response = process_check_node_exists(address, core_port, tmp);
-        if (response) {
-            if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
-                
-                // Copy response.
-                mem_scopy_goto(response, response_success, cne_end);
+        while (1) {
+            response = process_check_node_exists(address, core_port, tmp);
+            if (response) {
+                if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+                    
+                    // Copy response.
+                    mem_scopy_goto(response, response_success, cne_end);
+                    mem_sfree(response);
+                    
+                    status = 1;
+                    break;
+                }
+
                 mem_sfree(response);
-                
-                status = 1;
+            } else {
+                say("error process_check_node_exists() -> %d", counter);
             }
 
-            mem_sfree(response);
+            counter++;
+            if (counter >= limit)
+                break;
+
+            sleep(1);
         }
     }
 
