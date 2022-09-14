@@ -7,14 +7,14 @@
 // #define DBGTC
 
 // Update offline flag.
-#define VERBUM_NODE_SEC_TIMEOUT_ERROR               60
+#define VERBUM_NODE_SEC_TIMEOUT_ERROR               5 // 60
 
 // Auto remove node.
 // #define VERBUM_NODE_AUTO_REMOVE
 #define VERBUM_NODE_SEC_TIMEOUT_AUTO_REMOVE         120
 
 // Update error connection flag.
-#define VERBUM_CONNECTION_SEC_TIMEOUT_ERROR         60
+#define VERBUM_CONNECTION_SEC_TIMEOUT_ERROR         5 // 60
 
 // Auto remove connection.
 #define VERBUM_CONNECTION_AUTO_REMOVE

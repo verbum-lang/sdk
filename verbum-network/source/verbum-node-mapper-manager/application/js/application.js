@@ -1118,12 +1118,74 @@ function show_cytoscape_network_graph ()
 }
 
 function update_network_statistics (request)
-{    
+{
+    // Nodes.
+    var nodes_all   = 0;
+    var nodes_on    = 0;
+    var nodes_off   = 0;
+    var nodes_text  = '0';
+    var connections = request.connections;
+    var node_ids    = [];
+
+    for (var a=0; a<connections.length; a++) {
+        var src_node = connections[a].src_node_id;
+        var dst_node = connections[a].dst_node_id;
+        var found    = false;
+
+        for (var b=0; b<node_ids.length; b++) {
+            if (node_ids[b] == src_node) {
+                found = true
+                break;
+            }
+        }
+
+        if (found == false)
+            node_ids.push(src_node);
+        
+        found = false;
+
+        for (var b=0; b<node_ids.length; b++) {
+            if (node_ids[b] == dst_node) {
+                found = true
+                break;
+            }
+        }
+
+        if (found == false)
+            node_ids.push(dst_node);
+    }
+    
+    for (var a=0; a<nodes.length; a++) {
+        var found = false;
+
+        for (var b=0; b<node_ids.length; b++) {
+            if (node_ids[b] == nodes[a].id) {
+                found = true
+                break;
+            }
+        }
+
+        if (found == false)
+            node_ids.push(nodes[a].id);
+    }
+
+    for (var a=0; a<nodes.length; a++) {
+        if (nodes[a].offline == false)
+            nodes_on++;
+    }
+
+    nodes_off = node_ids.length - nodes_on;
+    nodes_all = nodes_on + nodes_off;
+    nodes_text = 
+        `<div class='sts-item' >`+ nodes_all +'</div>'+ 
+        `<div class='sts-item sts-prop sts-on' >`+ nodes_on  +'</div>'+ 
+        `<div class='sts-item sts-prop `+ ( nodes_off > 0 ? 'sts-off' : '' ) +`' >`+ nodes_off +'</div>';
+
     // Input.
     var inpcons_all  = 0;
     var inpcons_on   = 0;
     var inpcons_off  = 0;
-    var inpcons_text = '0 | 0 + 0';
+    var inpcons_text = '0';
     
     for (var a=0; a<request.connections.length; a++) {
         if (request.connections[a].type == 'input') {
@@ -1135,13 +1197,16 @@ function update_network_statistics (request)
     }
     
     inpcons_on = inpcons_all - inpcons_off;
-    inpcons_text = inpcons_all +' | '+ inpcons_on +' + '+ inpcons_off;
+    inpcons_text = 
+        `<div class='sts-item ' >`+ inpcons_all +'</div>'+ 
+        `<div class='sts-item sts-prop sts-on' >`+ inpcons_on  +'</div>'+ 
+        `<div class='sts-item sts-prop `+ ( inpcons_off > 0 ? 'sts-off' : '' ) +`' >`+ inpcons_off +'</div>';
 
     // Output.
     var outcons_all  = 0;
     var outcons_on   = 0;
     var outcons_off  = 0;
-    var outcons_text = '0 | 0 + 0';
+    var outcons_text = '0';
 
     for (var a=0; a<request.connections.length; a++) {
         if (request.connections[a].type == 'output') {
@@ -1153,12 +1218,20 @@ function update_network_statistics (request)
     }
 
     outcons_on = outcons_all - outcons_off;
-    outcons_text = outcons_all +' | '+ outcons_on +' + '+ outcons_off;
+    outcons_text = 
+        `<div class='sts-item ' >`+ outcons_all +'</div>'+
+        `<div class='sts-item sts-prop sts-on' >`+ outcons_on  +'</div>'+
+        `<div class='sts-item sts-prop `+ ( outcons_off > 0 ? 'sts-off' : '' ) +`' >`+ outcons_off +'</div>';
 
-    $('.nt-status-nodes').text(nodes.length)
-    $('.nt-status-con-all').text(request.connections.length)
-    $('.nt-status-con-input').text(inpcons_text)
-    $('.nt-status-con-output').text(outcons_text)
+    $('.nt-status-con-all').html( `
+        <div class='sts-item sts-fix-1' >`+ request.connections.length +`</div>
+        <div class='sts-item sts-prop' ></div>
+        <div class='sts-item sts-prop' ></div>
+    `)
+
+    $('.nt-status-nodes').html(nodes_text)
+    $('.nt-status-con-input').html(inpcons_text)
+    $('.nt-status-con-output').html(outcons_text)
 }
 
 /**
