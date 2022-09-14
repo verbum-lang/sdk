@@ -119,13 +119,13 @@ void *node_mapper_interface (void *tparam)
 
     status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
     if (status != 0)
-        say_ret(NULL, "error bind server.");
+        say_exit("error bind server.");
 
     if (listen(ssock, param->max_connections) != 0) 
-        say_ret(NULL, "error listen server.");
+        say_exit("error listen server.");
 
     if (!prepare_workers(param->path, param->id))
-        say_ret(NULL, "error prepare workers.");
+        say_exit("error prepare workers.");
 
     say("ID: %s", param->id);
     say("Server port: %d", param->port);

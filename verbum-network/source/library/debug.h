@@ -69,6 +69,12 @@
         return;                                                                         \
     } while(0)
 
+#define say_exit(fmt, ...)                                                              \
+    do {                                                                                \
+        lib_say(PACKAGE_NAME PACKAGE_PREFIX_ARROW fmt, ##__VA_ARGS__);                  \
+        exit(0);                                                                        \
+    } while(0)
+
 /**
  * Macros with return value.
  */

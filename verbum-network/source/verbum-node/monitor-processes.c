@@ -82,7 +82,7 @@ void check_connection_interface (char *path, int node_mapper_port)
             }
         }
 
-        usleep(1000);
+        sleep(1);
     }
 
     #ifdef MONITOR_DBG
