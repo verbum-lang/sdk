@@ -208,7 +208,7 @@ int create_node_output_connection (
     }
 
     // Success.
-    send(sock, response_success, strlen(response_success), 0);
+    send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     mem_sfree(current_id);
     
     #ifdef NCDBG_CON

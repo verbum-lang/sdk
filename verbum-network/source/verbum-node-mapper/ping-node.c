@@ -122,7 +122,7 @@ int update_ping_node (int sock, char *content)
         free(node_information);
     }
 
-    bytes = send(sock, response, strlen(response), 0);
+    bytes = send(sock, response, strlen(response), VERBUM_SEND_FLAGS);
     success:
     mem_sfree(date);
     return 1;

@@ -173,7 +173,7 @@ int delete_connection (int sock, char *content)
 
     // Finish.
     success:
-    bytes = send(sock, response_success, strlen(response_success), 0);
+    bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     return 1;
 
     error:
@@ -312,7 +312,7 @@ int delete_connection_server (int sock, char *content)
 
     // Finish.
     success:
-    bytes = send(sock, response_success, strlen(response_success), 0);
+    bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     return 1;
 
     error:

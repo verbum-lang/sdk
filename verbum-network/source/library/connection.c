@@ -155,11 +155,14 @@ char *get_recv_content (int sock)
     int bytes = -1, status = 0, eoh = 0;
     int bytes_received = 0, size = 0;
 
+    if (!sock)
+        return NULL;
+
     while (1) {
         memset(tmp, 0x0, 128);
         bytes = recv(sock, tmp, 128, 0);
 
-        if (bytes <= -1) 
+        if (bytes <= -1)
             break;
 
         else if (bytes == 0) {
@@ -235,7 +238,7 @@ int send_handshake (int sock, char *handshake)
         return 0;
 
     while (1) {
-        status = send(sock, handshake, strlen(handshake), 0);
+        status = send(sock, handshake, strlen(handshake), VERBUM_SEND_FLAGS);
         
         if (status > 0) {
             result = 1;
@@ -261,7 +264,7 @@ char *send_raw_data (int sock, char *message)
     if (!sock || !message)
         return NULL;
 
-    status = send(sock, message, strlen(message), 0);
+    status = send(sock, message, strlen(message), VERBUM_SEND_FLAGS);
     if (status == -1) 
         say_ret(NULL, "error send raw data.");
     

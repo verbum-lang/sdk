@@ -334,6 +334,7 @@ void *worker_handler (void *tparam)
 
         w_finish:
         close(sock);
+
         pthread_mutex_lock(&mutex_workers);
         
         for (worker=workers; worker!=NULL; worker=worker->next) {

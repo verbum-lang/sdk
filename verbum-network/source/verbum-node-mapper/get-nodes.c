@@ -132,7 +132,7 @@ int get_node_list (int sock)
         size = strlen(message);
     }
 
-    status = send(sock, message, size, 0);
+    status = send(sock, message, size, VERBUM_SEND_FLAGS);
     mem_sfree(message);
     return 1;
 }

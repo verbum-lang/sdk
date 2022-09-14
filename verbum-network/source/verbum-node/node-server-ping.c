@@ -258,7 +258,7 @@ int server_ping (int sock, char *content)
     pthread_mutex_unlock(&mutex_gconfig);
 
     // Send response.
-    bytes = send(sock, message_response, strlen(message_response), 0);
+    bytes = send(sock, message_response, strlen(message_response), VERBUM_SEND_FLAGS);
     mem_sfree(message_response);
 
     // Check Node Mapper direct connection support.

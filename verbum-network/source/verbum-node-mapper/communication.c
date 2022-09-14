@@ -26,7 +26,7 @@ int process_communication(int sock, char *path, char *nm_id)
     response = get_recv_content(sock);
     if (!response)
         return 0;
-    
+
     /**
      * Get Node Mapper ID.
      */
@@ -102,7 +102,7 @@ int process_communication(int sock, char *path, char *nm_id)
     }
 
     error:
-    bytes = send(sock, error_message, strlen(error_message), 0);
+    bytes = send(sock, error_message, strlen(error_message), VERBUM_SEND_FLAGS);
     return 0;
 }
 
@@ -124,7 +124,7 @@ static int get_node_mapper_id (int sock, char *nm_id)
     memset(response, 0x0, size);
     sprintf(response, "%s\n\nverbum-node-mapper-id:%s%s", default_success, nm_id, default_eoh);
 
-    bytes = send(sock, response, strlen(response), 0);
+    bytes = send(sock, response, strlen(response), VERBUM_SEND_FLAGS);
     return 1;
 }
 
@@ -136,7 +136,7 @@ static int check_direct_connection (int sock)
     char default_success []= VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     int bytes = 0;
     
-    bytes = send(sock, default_success, strlen(default_success), 0);
+    bytes = send(sock, default_success, strlen(default_success), VERBUM_SEND_FLAGS);
     return 1;
 }
 

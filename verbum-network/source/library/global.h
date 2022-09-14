@@ -24,6 +24,8 @@
 
 #include <pthread.h>
 
+#define VERBUM_SEND_FLAGS                   MSG_NOSIGNAL
+
 // General configurations.
 #define LOCALHOST                           "127.0.0.1"
 #define SERVERS_MAX_CONNECTION              SOMAXCONN

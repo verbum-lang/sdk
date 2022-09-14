@@ -78,7 +78,7 @@ int update_connections (int sock, char *content)
     if (request_count != 0 && request_error >= request_count)
         return 0;
 
-    bytes = send(sock, success_message, strlen(success_message), 0);
+    bytes = send(sock, success_message, strlen(success_message), VERBUM_SEND_FLAGS);
     return 1;
 }
 

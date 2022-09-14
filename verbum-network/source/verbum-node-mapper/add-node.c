@@ -59,7 +59,7 @@ int add_new_node (int sock, char *content)
     mem_alloc_ret(resp, size, char *, 0);
 
     sprintf(resp, "%s\r\n\r\n", node->id);
-    bytes = send(sock, resp, strlen(resp), 0);
+    bytes = send(sock, resp, strlen(resp), VERBUM_SEND_FLAGS);
 
     if (bytes == strlen(resp)) {
         if (!node_insert_item(node)) 

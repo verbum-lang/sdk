@@ -168,7 +168,7 @@ int create_node_output_connection (int   sock,
         return 0;
     }
 
-    bytes = send(sock, response_success, strlen(response_success), 0);
+    bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     return 1;
 }
 

@@ -110,7 +110,7 @@ int delete_node (int sock, char *content)
     if (!status) 
         return 0;
 
-    bytes = send(sock, response_success, strlen(response_success), 0);
+    bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     return 1;
 }
 

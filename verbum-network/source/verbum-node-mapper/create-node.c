@@ -15,7 +15,7 @@ int create_node (int sock, char *path)
 
     system_execution_ret(0, "verbum-node -c \"%s\" &", path);
 
-    status = send(sock, response, strlen(response), 0);
+    status = send(sock, response, strlen(response), VERBUM_SEND_FLAGS);
     return 1;
 }
 
