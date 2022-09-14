@@ -29,11 +29,11 @@ int update_ping_node (int sock, char *content)
 
     ptr = strstr(content, prefix);
     if (!ptr) 
-        goto upn_end;
+        goto error;
 
     node_information = node_create_item();
     if (!node_information)
-        goto upn_end;
+        goto error;
 
     node_information->status = 1;
     sprintf(node_information->last_connect_date, "%s", date);
@@ -123,10 +123,13 @@ int update_ping_node (int sock, char *content)
     }
 
     bytes = send(sock, response, strlen(response), 0);
-
-    upn_end:
+    success:
     mem_sfree(date);
     return 1;
+
+    error:
+    mem_sfree(date);
+    return 0;
 }
 
 

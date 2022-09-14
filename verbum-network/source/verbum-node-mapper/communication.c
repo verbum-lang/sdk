@@ -16,6 +16,7 @@ static int check_direct_connection (int sock);
 int process_communication(int sock, char *path, char *nm_id)
 {
     char *response = NULL;
+    int   status   = 0;
 
     if (!sock || !path || !nm_id)
         return 0;
@@ -29,7 +30,7 @@ int process_communication(int sock, char *path, char *nm_id)
      * Get Node Mapper ID.
      */
     if (strstr(response, "get-verbum-node-node-mapper-id:"))
-        get_node_mapper_id(sock, nm_id);
+        status = get_node_mapper_id(sock, nm_id);
 
     /**
      * Generate new node ID, and save.
@@ -41,7 +42,7 @@ int process_communication(int sock, char *path, char *nm_id)
      * Ping node.
      */
     else if (strstr(response, "ping-verbum-node:"))
-        update_ping_node(sock, response);
+        status = update_ping_node(sock, response);
 
     /**
      * Ping - Connections Manager.
