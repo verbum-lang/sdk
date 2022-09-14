@@ -224,12 +224,12 @@ static int process_connection_item (char *connection)
         if (date_difference(ncon->last_connect_date, 
                 current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
         {
-            // #ifdef NMDBG
+            #ifdef NMDBG
                 say("Enable error flag - timeout - update connections.");
                 say("Timeout: %s, %s", ncon->last_connect_date, current_date);
                 say("Type: %d, Src: %s, Dst: %s\n", 
                     ncon->type, ncon->src_node_id, ncon->dst_node_id);
-            // #endif
+            #endif
 
             ncon->connection_error = 1;
             ncon->connection_error_count++;
