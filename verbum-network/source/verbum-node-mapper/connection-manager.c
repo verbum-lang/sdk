@@ -39,7 +39,6 @@ int check_connections_request (char *response)
 int update_connections (int sock, char *content)
 {
     char success_message [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
-    char error_message   [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char header [] = "ping-verbum-connection:IHS\n\n";
     char tmp [1024];
     int s1 = strlen(header);
@@ -76,10 +75,8 @@ int update_connections (int sock, char *content)
     
 
     // Send success message.
-    if (request_count != 0 && request_error >= request_count) {
-        bytes = send(sock, error_message, strlen(error_message), 0);
+    if (request_count != 0 && request_error >= request_count)
         return 0;
-    }
 
     bytes = send(sock, success_message, strlen(success_message), 0);
     return 1;

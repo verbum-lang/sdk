@@ -127,7 +127,6 @@ int create_node_connection(int sock, char *content, int type)
 
     // Error.
     cnc_error:
-    bytes = send(sock, response_error, strlen(response_error), 0);
     return 0;
 }
 

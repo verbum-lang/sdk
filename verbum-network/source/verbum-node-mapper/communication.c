@@ -15,8 +15,9 @@ static int check_direct_connection (int sock);
 
 int process_communication(int sock, char *path, char *nm_id)
 {
+    char error_message [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char *response = NULL;
-    int   status   = 0;
+    int   status   = 0, bytes = 0;
 
     if (!sock || !path || !nm_id)
         return 0;
@@ -24,7 +25,7 @@ int process_communication(int sock, char *path, char *nm_id)
     // Node Mapper protocol communication.
     response = get_recv_content(sock);
     if (!response)
-        return 0;
+        goto error;
     
     /**
      * Get Node Mapper ID.
@@ -36,7 +37,7 @@ int process_communication(int sock, char *path, char *nm_id)
      * Generate new node ID, and save.
      */
     else if (strstr(response, "generate-verbum-node-id:"))
-        add_new_node(sock, response);
+        status = add_new_node(sock, response);
 
     /**
      * Ping node.
@@ -48,55 +49,60 @@ int process_communication(int sock, char *path, char *nm_id)
      * Ping - Connections Manager.
      */
     else if (check_connections_request(response))
-        update_connections(sock, response);
+        status = update_connections(sock, response);
 
     /**
      * Get node list.
      */
     else if (strstr(response, "get-verbum-node-list:"))
-        get_node_list(sock);
+        status = get_node_list(sock);
 
     /**
      * Create new node.
      */
     else if (strstr(response, "create-verbum-node:"))
-        create_node(sock, path);
+        status = create_node(sock, path);
 
     /**
      * Delete node.
      */
     else if (strstr(response, "delete-verbum-node:"))
-        delete_node(sock, response);
+        status = delete_node(sock, response);
 
     /**
      * Check node exists.
      */
     else if (strstr(response, "check-verbum-node-exists:"))
-        check_node_exists(sock, response);
+        status = check_node_exists(sock, response);
 
     /**
      * Create node output connection.
      */
     else if (strstr(response, "create-verbum-node-output-connection:"))
-        create_node_connection(sock, response, 0);
+        status = create_node_connection(sock, response, 0);
 
     /**
      * Delete connection.
      */
     else if (strstr(response, "delete-verbum-connection:"))
-        delete_connection(sock, response);
+        status = delete_connection(sock, response);
 
     else if (strstr(response, "delete-verbum-connection-server:"))
-        delete_connection_server(sock, response);
+        status = delete_connection_server(sock, response);
 
     /**
      * Check direct connection.
      */
     else if (strstr(response, "check-direct-node-mapper:"))
-        check_direct_connection(sock);
+        status = check_direct_connection(sock);
 
+    success:
     mem_sfree(response);
     return 1;
+
+    error:
+    bytes = send(sock, error_message, strlen(error_message), 0);
+    return 0;
 }
 
 static int get_node_mapper_id (int sock, char *nm_id)

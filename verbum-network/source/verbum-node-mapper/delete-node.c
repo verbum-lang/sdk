@@ -107,10 +107,8 @@ int delete_node (int sock, char *content)
     // Finish.
     dn_end:
 
-    if (!status) {
-        bytes = send(sock, response_error, strlen(response_error), 0);
+    if (!status) 
         return 0;
-    }
 
     bytes = send(sock, response_success, strlen(response_success), 0);
     return 1;
