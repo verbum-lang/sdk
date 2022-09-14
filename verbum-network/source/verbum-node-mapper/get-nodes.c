@@ -134,7 +134,6 @@ int get_node_list (int sock)
 
     status = send(sock, message, size, 0);
     mem_sfree(message);
-
     return 1;
 }
 

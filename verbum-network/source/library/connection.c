@@ -72,7 +72,6 @@ int create_connection (char *address, int port, int enable_timeout)
         say_ret(-1, "error connect socket.");
 
     // Select enabled.
-    if (0)
     if (enable_timeout == 1) {
         #ifdef CONDBG
             say("process select...");
