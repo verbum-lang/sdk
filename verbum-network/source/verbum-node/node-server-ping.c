@@ -10,10 +10,7 @@ extern node_connection_t *connections;
 
 int server_ping (int sock, char *content)
 {
-    // say("server_ping()");
-
     char message_success [] = VERBUM_DEFAULT_SUCCESS;
-    char message_error   [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char prefix          [] = "connection-ping-verbum-node:";
 
     char *src_node_id = NULL;
@@ -134,7 +131,8 @@ int server_ping (int sock, char *content)
         memset(nconnection->last_connect_date, 0x0, 100);
         sprintf(nconnection->last_connect_date, "%s", date);
         mem_sfree(date);
-    }
+    } else
+        goto error;
 
     // Remote client IP.
     memset(client_ip, 0x0, 100);
@@ -327,7 +325,6 @@ int server_ping (int sock, char *content)
     return 1;
 
     error:
-    bytes = send(sock, message_error, strlen(message_error), 0);
     return 0;
 }
 

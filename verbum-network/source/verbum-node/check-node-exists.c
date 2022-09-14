@@ -7,7 +7,6 @@ extern node_config_t   *gconfig;
 int check_node_exists (int sock, char *content)
 {
     char tmp[1024], prefix  [] = "check-verbum-node-exists:";
-    char response_error     [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char response_success_p [] = VERBUM_DEFAULT_SUCCESS;
     char *ptr = NULL, *response_success = NULL, *id = NULL;
     int bytes = 0, status = 0, size = 0, core_port = 0, server_port = 0;
@@ -40,10 +39,8 @@ int check_node_exists (int sock, char *content)
     cne_end:
 
     // Error.
-    if (!status) {
-        bytes = send(sock, response_error, strlen(response_error), 0);
+    if (!status) 
         return 0;
-    }
 
     // Success.
     status = 0;

@@ -25,7 +25,7 @@ int process_communication(int sock, char *path, char *nm_id)
     // Node Mapper protocol communication.
     response = get_recv_content(sock);
     if (!response)
-        goto error;
+        return 0;
     
     /**
      * Get Node Mapper ID.
@@ -96,9 +96,10 @@ int process_communication(int sock, char *path, char *nm_id)
     else if (strstr(response, "check-direct-node-mapper:"))
         status = check_direct_connection(sock);
 
-    success:
-    mem_sfree(response);
-    return 1;
+    if (status) {
+        mem_sfree(response);
+        return 1;
+    }
 
     error:
     bytes = send(sock, error_message, strlen(error_message), 0);

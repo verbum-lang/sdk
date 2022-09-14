@@ -31,7 +31,9 @@ int process_communication (int sock, int sector)
 
 static int process_communication_core (int sock)
 {
+    char error_message [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char *response = NULL;
+    int   status   = 0, bytes = 0;
 
     if (!sock)
         return 0;
@@ -45,33 +47,41 @@ static int process_communication_core (int sock)
      * Delete node.
      */
     if (strstr(response, "delete-verbum-node:"))
-        delete_node(sock, response);
+        status = delete_node(sock, response);
 
     /**
      * Check node exists.
      */
     else if (strstr(response, "check-verbum-node-exists:"))
-        check_node_exists(sock, response);
+        status = check_node_exists(sock, response);
 
     /**
      * Create node output connection.
      */
     else if (strstr(response, "create-verbum-node-output-connection:"))
-        create_node_connection(sock, response, 0);
+        status = create_node_connection(sock, response, 0);
 
     /**
      * Delete connection.
      */
     else if (strstr(response, "delete-verbum-connection:"))
-        delete_connection(sock, response);
+        status = delete_connection(sock, response);
 
-    mem_sfree(response);
-    return 1;
+    if (status) {
+        mem_sfree(response);
+        return 1;
+    }
+
+    error:
+    bytes = send(sock, error_message, strlen(error_message), 0);
+    return 0;
 }
 
 static int process_communication_server (int sock)
 {
+    char error_message [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char *response = NULL;
+    int   status   = 0, bytes = 0;
 
     if (!sock)
         return 0;
@@ -85,16 +95,22 @@ static int process_communication_server (int sock)
      * Ping node / check connection.
      */
     if (strstr(response, "connection-ping-verbum-node:"))
-        server_ping(sock, response);
+        status = server_ping(sock, response);
 
     /**
      * Delete connection.
      */
     else if (strstr(response, "delete-verbum-connection-server:"))
-        delete_connection_server(sock, response);
+        status = delete_connection_server(sock, response);
 
-    mem_sfree(response);
-    return 1;
+    if (status) {
+        mem_sfree(response);
+        return 1;
+    }
+
+    error:
+    bytes = send(sock, error_message, strlen(error_message), 0);
+    return 0;
 }
 
 

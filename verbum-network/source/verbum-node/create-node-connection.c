@@ -38,7 +38,6 @@ int create_node_connection(int sock, char *content, int type)
 
     if (!id) {
         pthread_mutex_unlock(&mutex_gconfig);
-        bytes = send(sock, response_error, strlen(response_error), 0);
         return 0;
     }
 
@@ -122,11 +121,10 @@ int create_node_connection(int sock, char *content, int type)
 
     // Success.
     if (result)
-        return result;
+        return 1;
 
     // Error.
     cnc_error:
-    bytes = send(sock, response_error, strlen(response_error), 0);
     return 0;
 }
 

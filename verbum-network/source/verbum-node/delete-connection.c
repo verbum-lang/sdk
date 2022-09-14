@@ -177,7 +177,6 @@ int delete_connection (int sock, char *content)
     return 1;
 
     error:
-    bytes = send(sock, response_error, strlen(response_error), 0);
     return 0;
 }
 
@@ -317,7 +316,6 @@ int delete_connection_server (int sock, char *content)
     return 1;
 
     error:
-    bytes = send(sock, response_error, strlen(response_error), 0);
     return 0;
 }
 
