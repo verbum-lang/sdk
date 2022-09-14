@@ -32,7 +32,7 @@ app.once('ready', () => {
   win.setMenuBarVisibility(false)
   win.center()
   win.webContents.setUserAgent(globalUserAgent);
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'application/index.html'),

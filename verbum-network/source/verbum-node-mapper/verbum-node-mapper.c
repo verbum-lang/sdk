@@ -22,9 +22,14 @@ int initialization (int argc, char *argv[])
         say_ret(0, "Invalid configuration.");
 
     /**
+     * Initializations.
+     */
+    if (!ignore_sigpipe())
+        say_ret(0, "sigaction() error.");
+
+    /**
      * Start Verbum Node Mapper.
      */
-
     if (!node_mapper())
         say_ret(0, "Error initializing Verbum Node Mapper.");
     

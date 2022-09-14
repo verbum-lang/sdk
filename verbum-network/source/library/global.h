@@ -24,6 +24,10 @@
 
 #include <pthread.h>
 
+#ifndef MSG_NOSIGNAL
+#define MSG_NOSIGNAL 0
+#endif
+
 #define VERBUM_SEND_FLAGS                   MSG_NOSIGNAL
 
 // General configurations.
@@ -64,7 +68,8 @@ typedef struct {
 
 global_t global;
 
-int random_number (int min, int max);
+int random_number  (int min, int max);
+int ignore_sigpipe (void);
 
 // Macros.
 #ifndef PATH_MAX
