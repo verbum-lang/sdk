@@ -65,8 +65,6 @@ int check_node_exists (int sock, char *content)
                 }
 
                 mem_sfree(response);
-            } else {
-                say("error process_check_node_exists() -> %d", counter);
             }
 
             counter++;

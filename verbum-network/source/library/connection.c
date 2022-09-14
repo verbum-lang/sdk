@@ -120,7 +120,8 @@ int create_connection (char *address, int port, int enable_timeout)
     
     packet = get_recv_content(sock);
     if (!packet)
-        say_end_con(-1, "error recv content.");
+        // say_end_con(-1, "error recv content.");
+        return -1;
     
     // Check header.
     if (!strstr(packet, header))
@@ -267,7 +268,8 @@ char *send_raw_data (int sock, char *message)
     
     response = get_recv_content(sock);
     if (!response)
-        say_ret(NULL, "error recv data.");
+        // say_ret(NULL, "error recv data.");
+        return NULL;
 
     // Check message.
     if (!strstr(response, prefix)) {

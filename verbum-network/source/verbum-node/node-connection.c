@@ -103,8 +103,6 @@ node_connection_t *connection_create_item (int prepare_thread)
             say_ret(NULL, "error creating thread - ping controller.");
         else
             connection->tr_ping_controller_enabled = 1;
-
-        say("connection_ping_controller() thread created!");
     }
 
     return connection;
