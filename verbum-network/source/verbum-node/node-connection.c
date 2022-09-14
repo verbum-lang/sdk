@@ -257,7 +257,6 @@ static void *connection_ping_controller (void *tparam)
                 break;
 
             counter++;
-            sleep(1);
         }
 
         pthread_mutex_lock(&mutex_connections);

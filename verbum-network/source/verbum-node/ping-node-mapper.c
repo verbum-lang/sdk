@@ -62,6 +62,18 @@ void *ping_node_handler (void *tparam)
 
     while (1) {
         
+        // Ping updater.
+        response1 = 
+            process_ping_node(address, node_mapper_port, id, core_port, server_port);
+        
+        if (response1) {
+            #ifdef NCDBG_PING
+                say("ping response: %s", response1);
+            #endif
+
+            mem_sfree(response1);
+        }
+
         // Connection updater.
         pthread_mutex_lock(&mutex_connections);
         
@@ -154,18 +166,6 @@ void *ping_node_handler (void *tparam)
 
                 mem_sfree(response2);
             }
-        }
-
-        // Ping updater.
-        response1 = 
-            process_ping_node(address, node_mapper_port, id, core_port, server_port);
-        
-        if (response1) {
-            #ifdef NCDBG_PING
-                say("ping response: %s", response1);
-            #endif
-
-            mem_sfree(response1);
         }
 
         sleep(NODE_PING_LOOP_SEC_DELAY);

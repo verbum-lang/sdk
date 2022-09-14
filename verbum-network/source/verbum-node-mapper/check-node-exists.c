@@ -70,8 +70,6 @@ int check_node_exists (int sock, char *content)
             counter++;
             if (counter >= limit)
                 break;
-
-            sleep(1);
         }
     }
 
