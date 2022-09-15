@@ -32,6 +32,8 @@ typedef struct node_connection_st {
     int checking_direct;                // Checking direct Node Mapper connection
                                         //  0 = Check wait.
                                         //  1 = Check complete.
+                                        
+    int delete_enabled;                 // Delete connection, kill thread handle.
 
     pthread_t tid_ping_controller;      // Thread handle - Ping controller.
     int tr_ping_controller_enabled;     // 0 = Disabled, 1 = Enabled.

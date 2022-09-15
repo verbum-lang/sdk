@@ -132,21 +132,21 @@ int delete_connection (int sock, char *content)
         {
             // Kill thread.
             if (connection->tr_ping_controller_enabled == 1) {
-                // ...
+                connection->delete_enabled = 1;
             }
 
             // Remove item.
-            if (!connection->next)
-                last->next = NULL;
-            else 
-                last->next = connection->next;
+            // if (!connection->next)
+            //     last->next = NULL;
+            // else 
+            //     last->next = connection->next;
 
-            mem_sfree(connection->id);
-            mem_sfree(connection->remote_id);
-            mem_sfree(connection->dst_node_id);
-            mem_sfree(connection->dst_nm_id);
-            mem_sfree(connection->dst_nm_address);
-            free(connection);
+            // mem_sfree(connection->id);
+            // mem_sfree(connection->remote_id);
+            // mem_sfree(connection->dst_node_id);
+            // mem_sfree(connection->dst_nm_id);
+            // mem_sfree(connection->dst_nm_address);
+            // free(connection);
 
             status = 1;
             break;

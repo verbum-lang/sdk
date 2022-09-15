@@ -89,6 +89,7 @@ node_connection_t *connection_create_item (int prepare_thread)
     
     connection->next                        = NULL;
     connection->tr_ping_controller_enabled  = 0;
+    connection->delete_enabled              = 0;
 
     // Prepare thread.
     if (prepare_thread == 1) {
@@ -132,7 +133,7 @@ int connection_insert_item (node_connection_t *new_connection)
 static void *connection_ping_controller (void *tparam)
 {
     node_connection_param_t *param = (node_connection_param_t *) tparam;
-    node_connection_t *connection;
+    node_connection_t *connection, *last;
 
     char *connection_id  = NULL;
     char *src_node_id    = NULL;
@@ -145,6 +146,7 @@ static void *connection_ping_controller (void *tparam)
     int status = 0, valid = 0, error = 0;
     int count = 0, fmem = 0;
     int counter = 0, check_limit = 5;
+    int delete_connection = 0;
 
     mem_scopy_ret(param->cid, connection_id, NULL);
 
@@ -173,17 +175,46 @@ static void *connection_ping_controller (void *tparam)
         error  = 0;
 
         for (connection=connections; connection != NULL; connection=connection->next) {
-            if (connection->status != 2)
+            if (connection->status != 2) {
+                last = connection;
                 continue;
-            if (!connection->id)
+            }
+
+            if (!connection->id) {
+                last = connection;
                 continue;
-            if (connection->type != 0)
+            }
+
+            if (connection->type != 0) {
+                last = connection;
                 continue;
+            }
 
             if (strcmp(connection->id, connection_id) == 0 && connection->running == 0) {
                 
+                // Check delete connection.
+                if (connection->delete_enabled == 1) {
+                    delete_connection = 1;
+                    error = 0;
+
+                    // Remove item.
+                    if (!connection->next)
+                        last->next = NULL;
+                    else 
+                        last->next = connection->next;
+
+                    mem_sfree(connection->id);
+                    mem_sfree(connection->remote_id);
+                    mem_sfree(connection->dst_node_id);
+                    mem_sfree(connection->dst_nm_id);
+                    mem_sfree(connection->dst_nm_address);
+                    free(connection);
+                    
+                    break;
+                }
+
                 // Data exists - process connection.
-                if (connection->connection_status == 1)
+                else if (connection->connection_status == 1)
                     valid = 1;
 
                 // Check ping controller.
@@ -225,12 +256,20 @@ static void *connection_ping_controller (void *tparam)
                     break;
                 }
             }
+
+            last = connection;
         }
 
         if (error == 1 && dst_node_id || dst_nm_address || dst_nm_port) 
             connection->running = 1;
         
         pthread_mutex_unlock(&mutex_connections);
+
+        if (delete_connection == 1) {
+            mem_sfree(dst_node_id);
+            mem_sfree(dst_nm_address);
+            break;
+        }
 
         if (error == 0 || !dst_node_id || !dst_nm_address || !dst_nm_port) {
             mem_sfree(dst_node_id);
@@ -320,6 +359,8 @@ static void *connection_ping_controller (void *tparam)
 
         sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
     }
+
+    say("thread connection finished!");
 
     return NULL;
 }
