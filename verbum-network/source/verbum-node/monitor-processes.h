@@ -15,7 +15,8 @@
 #define MONITOR_ENABLE_PERSISTENCE
 
 // Delay (sec) to kill a process (Node Mapper).
-#define MONITOR_DELAY_TO_KILL 5
+#define MONITOR_DELAY_TO_KILL           60
+#define VERBUM_MONITOR_CHECK_TIMEOUT    5
 
 typedef struct {
     char *path;

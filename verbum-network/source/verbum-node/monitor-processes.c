@@ -62,6 +62,9 @@ void check_connection_interface (char *path, int node_mapper_port)
             say("failed check protocol.");
         #endif
 
+        system_execution_noret("verbum-node-mapper -c \"%s\" &", path);
+
+        /*
         pid_t pid = check_process_running("verbum-node-mapper");
         if (pid == -1)
             system_execution_noret("verbum-node-mapper -c \"%s\" &", path);
@@ -81,8 +84,9 @@ void check_connection_interface (char *path, int node_mapper_port)
                 #endif
             }
         }
+        */
 
-        sleep(1);
+        sleep(VERBUM_MONITOR_CHECK_TIMEOUT);
     }
 
     #ifdef MONITOR_DBG
