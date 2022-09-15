@@ -360,8 +360,6 @@ static void *connection_ping_controller (void *tparam)
         sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
     }
 
-    say("thread connection finished!");
-
     return NULL;
 }
 
