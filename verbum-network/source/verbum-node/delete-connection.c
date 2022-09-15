@@ -131,9 +131,8 @@ int delete_connection (int sock, char *content)
             connection->type == connection_type                  )
         {
             // Kill thread.
-            if (connection->tr_ping_controller_enabled == 1) {
+            if (connection->tr_ping_controller_enabled == 1) 
                 connection->delete_enabled = 1;
-            }
             
             status = 1;
             break;

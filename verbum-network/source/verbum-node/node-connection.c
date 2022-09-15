@@ -360,6 +360,7 @@ static void *connection_ping_controller (void *tparam)
         sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
     }
 
+    pthread_exit(NULL);
     return NULL;
 }
 

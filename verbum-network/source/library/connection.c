@@ -118,9 +118,13 @@ int create_connection (char *address, int port, int enable_timeout)
     #endif
     
     packet = get_recv_content(sock);
-    if (!packet)
-        // say_end_con(-1, "error recv content.");
+    if (!packet) {
+        #ifdef CONDBG
+            say("error recv content.");
+        #endif
+        
         return -1;
+    }
     
     // Check header.
     if (!strstr(packet, header))
@@ -232,7 +236,7 @@ char *get_recv_content (int sock)
 
 int send_handshake (int sock, char *handshake)
 {
-    int status = -1, result = 0, counter = 0;
+    int status = -1, result = 0, counter = 0, limit = 5;
 
     if (!sock || !handshake)
         return 0;
@@ -240,19 +244,17 @@ int send_handshake (int sock, char *handshake)
     while (1) {
         status = send(sock, handshake, strlen(handshake), VERBUM_SEND_FLAGS);
         
-        if (status > 0) {
-            result = 1;
+        if (status > 0)
             break;
-        }
 
         usleep(1000);
         counter++;
 
-        if (counter >= 10)
+        if (counter >= limit)
             break;
     }
 
-    return result;
+    return (status > 0) ? 1 : 0;
 }
 
 char *send_raw_data (int sock, char *message)
@@ -269,9 +271,13 @@ char *send_raw_data (int sock, char *message)
         say_ret(NULL, "error send raw data.");
     
     response = get_recv_content(sock);
-    if (!response)
-        // say_ret(NULL, "error recv data.");
+    if (!response) {
+        #ifdef CONDBG
+            say("error recv data.");
+        #endif
+
         return NULL;
+    }
 
     // Check message.
     if (!strstr(response, prefix)) {
