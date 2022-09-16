@@ -5,7 +5,7 @@
 #include "global.h"
 #include "node-global.h"
 
-#define VERBUM_NODE_CONNECTION_SEC_TIMEOUT 3
+#define VERBUM_NODE_CONNECTION_SEC_TIMEOUT 1
 
 // Connections types.
 typedef struct node_connection_st {

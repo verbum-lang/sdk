@@ -195,7 +195,7 @@ int create_node_output_connection (
         if (status != 0) 
             break;
             
-        usleep(10000);
+        usleep(1000);
     }
 
     // Error.

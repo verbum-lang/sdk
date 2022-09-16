@@ -55,7 +55,7 @@ void *node_connection (void *tparam)
         }
 
         pthread_mutex_unlock(&mutex_connections);
-        usleep(10000);
+        usleep(1000);
     }
 
     return NULL;
