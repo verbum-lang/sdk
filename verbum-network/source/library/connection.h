@@ -30,11 +30,17 @@ int   check_protocol                        (char *address, int port, int enable
 char *get_recv_content                      (int sock);
 int   send_handshake                        (int sock, char *handshake);
 char *send_raw_data                         (int sock, char *message);
+char *process_request                       (int   type,          int timeout,
+                                             char *src_nm_id,     char *src_nm_address,  int src_nm_port, 
+                                             char *src_node_id,   int   src_core_port,   int src_server_port, 
+                                             char *dst_nm_id,     char *dst_nm_address,  int dst_nm_port,
+                                             char *dst_node_id,   int   dst_server_port,
+                                             char *connection_id, int connection_type,   char *connection_list);
 
-char *process_generate_node_id              (char *address, int nm_port, int node_port);
-char *process_ping_node                     (char *address, int nm_port, char *node_id, int core_port, int server_port);
-char *process_delete_node                   (char *address, int node_port, char *node_id);
-char *process_check_node_exists             (char *address, int node_port, char *node_id);
+char *process_generate_node_id              (char *src_nm_address, int src_nm_port, int src_core_port);
+char *process_ping_node                     (char *src_nm_address, int src_nm_port, char *src_node_id, int src_core_port, int src_server_port);
+char *process_delete_node                   (char *src_nm_address, int src_nm_port, char *src_node_id);
+char *process_check_node_exists             (char *src_nm_address, int src_nm_port, char *src_node_id);
 char *process_create_node_output_connection (char *src_node_address, 
                                              char *src_node_id, int src_node_interface_port, 
                                              char *dst_node_id, char *dst_nm_address, int dst_nm_port);
@@ -46,14 +52,6 @@ char *process_delete_connection             (char *address, int core_port, char 
 char *process_delete_connection_server      (char *address, int node_port, 
                                              char *connection_id, char *src_node_id, char *dst_node_id);
 int   process_check_direct_nm               (char *address, int nm_port);
-
-char *process_request (
-    int   type,          int timeout,
-    char *src_nm_id,     char *src_nm_address,  int src_nm_port, 
-    char *src_node_id,   int   src_core_port,   int src_server_port, 
-    char *dst_nm_id,     char *dst_nm_address,  int dst_nm_port,
-    char *dst_node_id,   int   dst_server_port,
-    char *connection_id, int connection_type,   char *connection_list);
 
 #endif
 

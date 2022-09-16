@@ -478,33 +478,34 @@ char *process_request (
     return response;
 }
 
-char *process_generate_node_id (char *address, int nm_port, int node_port) 
+char *process_generate_node_id (char *src_nm_address, int src_nm_port, int src_core_port) 
 {
     return process_request(
-        VERBUM_GENERATE_NODE_ID, 0, NULL, address, nm_port, NULL, node_port, 
+        VERBUM_GENERATE_NODE_ID, 0, NULL, src_nm_address, src_nm_port, NULL, src_core_port, 
             0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_ping_node (
-    char *address, int nm_port, char *node_id, int core_port, int server_port) 
+    char *src_nm_address, int src_nm_port, char *src_node_id, int src_core_port, int src_server_port) 
 {
     return process_request(
         VERBUM_PING_NODE, 1, NULL,
-            address, nm_port, node_id, core_port, server_port, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
+            src_nm_address, src_nm_port, 
+                src_node_id, src_core_port, src_server_port, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
-char *process_delete_node (char *address, int node_port, char *node_id) 
+char *process_delete_node (char *src_nm_address, int src_nm_port, char *src_node_id) 
 {
     return process_request(
         VERBUM_DELETE_NODE, 1, NULL,
-            address, node_port, node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
+            src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
-char *process_check_node_exists (char *address, int node_port, char *node_id)
+char *process_check_node_exists (char *src_nm_address, int src_nm_port, char *src_node_id)
 {
     return process_request(
         VERBUM_CHECK_NODE_EXISTS, 1, NULL,
-            address, node_port, node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
+            src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_create_node_output_connection (char *src_node_address, 

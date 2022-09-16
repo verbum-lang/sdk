@@ -6,20 +6,18 @@ extern node_config_t   *gconfig;
 
 int add_node_on_node_mapper (void)
 {
-    char address [] = LOCALHOST;
-    char *id        = NULL;
-    int result      = 0, size = 0;
-    int node_mapper_port = 0, interface_port = 0;
+    char nm_address [] = LOCALHOST;
+    char *id           = NULL;
+    int result         = 0, size = 0;
+    int node_mapper_port = 0, core_port = 0;
 
     pthread_mutex_lock(&mutex_gconfig);
     node_mapper_port = gconfig->node_mapper_port;
-    interface_port   = gconfig->information.core_port;
+    core_port        = gconfig->information.core_port;
     pthread_mutex_unlock(&mutex_gconfig);
 
     while (1) {
-        id = process_generate_node_id(
-                address, node_mapper_port, interface_port);
-
+        id = process_generate_node_id(nm_address, node_mapper_port, core_port);
         if (id) {
 
             // Check is valid Verbum Node ID.
