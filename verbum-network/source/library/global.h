@@ -36,7 +36,7 @@
 
 // Timeout.
 #define CONNECTION_TIMEOUT_CONNECT_SELECT   2
-#define CONNECTION_TIMEOUT_RECV             5 //15
+#define CONNECTION_TIMEOUT_RECV             15
 
 // Default response (socket).
 #define VERBUM_DEFAULT_SUCCESS              "verbum-node-ok"
