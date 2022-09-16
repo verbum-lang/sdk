@@ -21,11 +21,13 @@ int create_connection (char *address, int port, int enable_timeout)
     int status     = -1, sock = -1, flags  = 0;
     char *packet   = NULL;
     char header [] = "Verbum Node";
-    struct sockaddr_in saddress;
-    time_t start, end;
-    double diff;
 
-    time(&start);
+    struct sockaddr_in saddress;
+    struct timeval stv;
+    struct timeval tms;
+    time_t start, end;
+    fd_set rfds;
+    double diff;
 
     // Configure connection.
     saddress.sin_family      = AF_INET;
@@ -48,6 +50,8 @@ int create_connection (char *address, int port, int enable_timeout)
     #ifdef CONDBG
         say("process connect...");
     #endif
+
+    time(&start);
 
     while (1) {
         status = connect(sock, (struct sockaddr*) &saddress, sizeof(saddress));
@@ -76,9 +80,6 @@ int create_connection (char *address, int port, int enable_timeout)
             say("process select...");
         #endif
 
-        struct timeval stv;
-        fd_set rfds;
-
         stv.tv_sec = CONNECTION_TIMEOUT_CONNECT_SELECT;
         stv.tv_usec = 0;
 
@@ -103,7 +104,6 @@ int create_connection (char *address, int port, int enable_timeout)
 
     // Set recv timeout.
     if (enable_timeout == 1) {
-        struct timeval tms;
         tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
         tms.tv_usec = 0;
 
@@ -300,7 +300,7 @@ char *process_request (
     char *connection_id, int connection_type,   char *connection_list)
 {
     char *nm_address = NULL, *message = NULL, *response = NULL;
-    int   nm_port = 0, sock = -1, size = 1024;
+    int   nm_port = 0, sock = -1, size = 1024, counter = 0, limit = 5;
 
     if (src_nm_id)       size += strlen(src_nm_id);
     if (src_nm_address)  size += strlen(src_nm_address);
@@ -400,6 +400,10 @@ char *process_request (
         if (sock != -1)
             break;
 
+        if (counter >= limit)
+            break;
+
+        counter++;
         usleep(1000);
     }
 

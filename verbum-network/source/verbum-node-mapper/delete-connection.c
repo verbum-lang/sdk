@@ -99,6 +99,7 @@ int delete_connection (int sock, char *content)
 
     // Output.
     else if (connection_type == 0) {
+
         char *response = process_delete_connection(
             address, src_node_id, core_port, dst_node_id, connection_id, connection_type);
 
