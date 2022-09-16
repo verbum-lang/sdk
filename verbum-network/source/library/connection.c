@@ -71,8 +71,13 @@ int create_connection (char *address, int port, int enable_timeout)
         say("connect finished, status: %d", status);
     #endif
     
-    if (status == -1)
-        say_ret(-1, "error connect socket.");
+    if (status == -1) {
+        #ifdef CONDBG
+            say("error connect socket.");
+        #endif
+
+        return -1;
+    }
 
     // Select enabled.
     if (enable_timeout == 1) {
@@ -127,8 +132,13 @@ int create_connection (char *address, int port, int enable_timeout)
     }
     
     // Check header.
-    if (!strstr(packet, header))
-        say_end_con(-1, "header not found on packet.");
+    if (!strstr(packet, header)) {
+        #ifdef CONDBG
+            say("header not found on packet.");
+        #endif
+
+        return -1;
+    }
 
     #ifdef CONDBG
         say("connection success!");
@@ -267,8 +277,13 @@ char *send_raw_data (int sock, char *message)
         return NULL;
 
     status = send(sock, message, strlen(message), VERBUM_SEND_FLAGS);
-    if (status == -1) 
-        say_ret(NULL, "error send raw data.");
+    if (status == -1) {
+        #ifdef CONDBG
+           say("error send raw data.");
+        #endif
+
+        return NULL;
+    }
     
     response = get_recv_content(sock);
     if (!response) {
