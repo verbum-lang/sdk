@@ -170,6 +170,9 @@ void *node_mapper_interface (void *tparam)
         } else
             debug_print("error accept client.");
     }
+
+    close(ssock);
+    return NULL;
 }
 
 int prepare_workers (char *path, char *nm_id)
@@ -276,7 +279,6 @@ void *worker_handler (void *tparam)
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
-    int sstep = 0, slimit = NM_THREAD_LIMIT;
     char *path = NULL, *nm_id = NULL;
 
     mem_scopy_ret(param->path, path, NULL);
@@ -304,13 +306,7 @@ void *worker_handler (void *tparam)
         pthread_mutex_unlock(&mutex_workers);
 
         if (run == 0) {
-            if (sstep < slimit) 
-                sstep++;
-            else {
-                sstep = 0;
-                sleep(1);
-            }
-
+            sleep(1);
             continue;
         }
 

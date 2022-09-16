@@ -317,17 +317,6 @@ char *process_request (
     char *nm_address = NULL, *message = NULL, *response = NULL;
     int   nm_port = 0, sock = -1, size = 1024, counter = 0, limit = 5;
 
-    if (src_nm_id)       size += strlen(src_nm_id);
-    if (src_nm_address)  size += strlen(src_nm_address);
-    if (src_node_id)     size += strlen(src_node_id);
-    if (dst_nm_id)       size += strlen(dst_nm_id);
-    if (dst_nm_address)  size += strlen(dst_nm_address);
-    if (dst_node_id)     size += strlen(dst_node_id);
-    if (connection_id)   size += strlen(connection_id);
-    if (connection_list) size += strlen(connection_list);
-
-    mem_alloc_ret(message, mem_smake_size(size), char *, NULL);
-
     switch (type) {
         case VERBUM_CON_GENERATE_NODE_ID:
             if (!src_nm_address || !src_nm_port || !src_core_port)
@@ -421,6 +410,17 @@ char *process_request (
         counter++;
         usleep(1000);
     }
+
+    if (src_nm_id)       size += strlen(src_nm_id);
+    if (src_nm_address)  size += strlen(src_nm_address);
+    if (src_node_id)     size += strlen(src_node_id);
+    if (dst_nm_id)       size += strlen(dst_nm_id);
+    if (dst_nm_address)  size += strlen(dst_nm_address);
+    if (dst_node_id)     size += strlen(dst_node_id);
+    if (connection_id)   size += strlen(connection_id);
+    if (connection_list) size += strlen(connection_list);
+
+    mem_alloc_ret(message, mem_smake_size(size), char *, NULL);
 
     switch (type) {
         case VERBUM_CON_GENERATE_NODE_ID:

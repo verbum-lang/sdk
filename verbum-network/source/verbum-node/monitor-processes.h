@@ -4,8 +4,6 @@
 
 #include "global.h"
 
-// Show/hide monitor debug messages.
-// Show = defined, hide = undefined.
 // #define MONITOR_DBG
 
 // Enable/disable Node Mapper.
@@ -13,10 +11,6 @@
 
 // Enable/disable persistence (process).
 #define MONITOR_ENABLE_PERSISTENCE
-
-// Delay (sec) to kill a process (Node Mapper).
-#define MONITOR_DELAY_TO_KILL           60
-#define VERBUM_MONITOR_CHECK_TIMEOUT    5
 
 typedef struct {
     char *path;

@@ -3,7 +3,6 @@
 #define VERBUM_GLOBAL
 
 #define CURRENT_PACKAGE_NAME                "Verbum Node"
-#define NODE_PING_LOOP_SEC_DELAY            1
 #define VERBUM_CONNECTION_PING_SEC_DELAY    1
 
 #include "../library/global.h"

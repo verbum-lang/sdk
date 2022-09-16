@@ -63,30 +63,7 @@ void check_connection_interface (char *path, int node_mapper_port)
         #endif
 
         system_execution_noret("verbum-node-mapper -c \"%s\" &", path);
-
-        /*
-        pid_t pid = check_process_running("verbum-node-mapper");
-        if (pid == -1)
-            system_execution_noret("verbum-node-mapper -c \"%s\" &", path);
-        else {
-            sleep(MONITOR_DELAY_TO_KILL);
-            status = check_protocol(address, node_mapper_port, 1);
-
-            if (status == 0) {
-                #ifdef MONITOR_DBG
-                    say("Node Mapper kill process.");
-                #endif
-                
-                kill(pid, SIGKILL);
-            } else {
-                #ifdef MONITOR_DBG
-                    say("success check protocol.");
-                #endif
-            }
-        }
-        */
-
-        sleep(VERBUM_MONITOR_CHECK_TIMEOUT);
+        sleep(1);
     }
 
     #ifdef MONITOR_DBG

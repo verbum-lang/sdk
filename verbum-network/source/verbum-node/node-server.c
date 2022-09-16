@@ -230,7 +230,6 @@ static void *worker_handler (void *tparam)
     thread_worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
-    int sstep = 0, slimit = NC_THREAD_LIMIT;
 
     while (1) {
 
@@ -239,7 +238,6 @@ static void *worker_handler (void *tparam)
          */
 
         run = 0;
-        usleep(100);
         pthread_mutex_lock(&mutex_workers);
         
         for (worker=workers; worker!=NULL; worker=worker->next) {
@@ -255,13 +253,7 @@ static void *worker_handler (void *tparam)
         pthread_mutex_unlock(&mutex_workers);
 
         if (run == 0) {
-            if (sstep < slimit) 
-                sstep++;
-            else {
-                sstep = 0;
-                sleep(1);
-            }
-
+            sleep(1);
             continue;
         }
 

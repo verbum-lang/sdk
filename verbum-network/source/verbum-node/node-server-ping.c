@@ -294,7 +294,6 @@ int server_ping (int sock, char *content)
             break;
 
         counter++;
-        sleep(1);
     }
 
     // Update information.

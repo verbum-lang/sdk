@@ -55,7 +55,7 @@ void *node_connection (void *tparam)
         }
 
         pthread_mutex_unlock(&mutex_connections);
-        usleep(1000);
+        usleep(10000);
     }
 
     return NULL;
@@ -165,7 +165,7 @@ static void *connection_ping_controller (void *tparam)
             }
             
             pthread_mutex_unlock(&mutex_gconfig);
-            sleep(1);
+            sleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
             continue;
         }
 
@@ -274,7 +274,7 @@ static void *connection_ping_controller (void *tparam)
         if (error == 0 || !dst_node_id || !dst_nm_address || !dst_nm_port) {
             mem_sfree(dst_node_id);
             mem_sfree(dst_nm_address);
-            sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
+            sleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
             continue;
         }
 
@@ -356,8 +356,7 @@ static void *connection_ping_controller (void *tparam)
         
         mem_sfree(dst_node_id);
         mem_sfree(dst_nm_address);
-
-        sleep(VERBUM_CONNECTION_PING_SEC_DELAY);
+        sleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
     }
 
     pthread_exit(NULL);
@@ -373,7 +372,7 @@ static int ping_controller_communication (
     char *ptr = NULL, *date = NULL, *node_mapper_id = NULL;
     char tmp[1024];
     node_connection_t *connection;
-
+    
     if (!connection_id || !src_node_id || !src_nm_port ||
         !dst_node_id || !dst_nm_address || !dst_nm_port)
         return 0;
@@ -382,7 +381,7 @@ static int ping_controller_communication (
     pthread_mutex_lock(&mutex_gconfig);
     mem_salloc_scopy(gconfig->node_mapper_id, node_mapper_id);
     pthread_mutex_unlock(&mutex_gconfig);
-
+    
     // Connect to destination Node Mapper, and 
     // check destination Verbum Node exists.
     response1 = process_check_node_exists(dst_nm_address, dst_nm_port, dst_node_id);
@@ -390,7 +389,7 @@ static int ping_controller_communication (
         if (strstr(response1, VERBUM_DEFAULT_SUCCESS)) 
             valid = 1;
     }
-
+    
     if (!valid) 
         goto end_error;
     

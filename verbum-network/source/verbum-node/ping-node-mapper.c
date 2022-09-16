@@ -170,7 +170,7 @@ void *ping_node_handler (void *tparam)
             }
         }
 
-        sleep(NODE_PING_LOOP_SEC_DELAY);
+        sleep(1);
     }
 }
 
