@@ -29,15 +29,16 @@
 #endif
 
 #define VERBUM_SEND_FLAGS                   MSG_NOSIGNAL
-#define VERBUM_CHECK_DELETION_LIMIT         5
+#define VERBUM_CHECK_DELETION_LIMIT         10
 
 // General configurations.
 #define LOCALHOST                           "127.0.0.1"
 #define SERVERS_MAX_CONNECTION              SOMAXCONN
 
 // Timeout.
-#define CONNECTION_TIMEOUT_LIMIT            10
-#define CONNECTION_TIMEOUT_RECV             15
+#define CONNECTION_TIMEOUT_LIMIT            60
+#define CONNECTION_TIMEOUT_SELECT           2
+#define CONNECTION_TIMEOUT_RECV             60
 
 // Default response (socket).
 #define VERBUM_DEFAULT_SUCCESS              "verbum-node-ok"

@@ -51,25 +51,9 @@ int create_connection (char *address, int port, int enable_timeout)
         say("process connect...");
     #endif
 
-    /*
-    while (1) {
-        status = connect(sock, (struct sockaddr*) &saddress, sizeof(saddress));
-        if (status != -1) 
-            break;
-
-        time(&end);
-        diff = difftime(end, start);
-
-        if (diff >= (double) CONNECTION_TIMEOUT_CONNECT_SELECT)
-            break;
-    
-        usleep(1000);
-    }
-    */
-
     for (int timeout=1; timeout<=CONNECTION_TIMEOUT_LIMIT; timeout++) {
         time(&start);
-        
+
         while (1) {
             status = connect(sock, (struct sockaddr*) &saddress, sizeof(saddress));
             if (status != -1) 
@@ -106,7 +90,7 @@ int create_connection (char *address, int port, int enable_timeout)
             say("process select...");
         #endif
 
-        stv.tv_sec = 2;
+        stv.tv_sec  = CONNECTION_TIMEOUT_SELECT;
         stv.tv_usec = 0;
 
         FD_ZERO(&rfds);
