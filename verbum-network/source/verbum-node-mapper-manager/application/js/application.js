@@ -1117,6 +1117,8 @@ function show_cytoscape_network_graph ()
     viewer_running = false;
 }
 
+var dbg_error_count = 0;
+
 function update_network_statistics (request)
 {
     // Nodes.
@@ -1234,12 +1236,10 @@ function update_network_statistics (request)
     $('.nt-status-con-output').html(outcons_text)
 
     if (inpcons_off > 0 || outcons_off > 0) {
-        errortest++;
-        console.log('total erros: ' + errortest +' - '+ (new Date()).toString());
+        dbg_error_count++;
+        console.log('dbg - total erros: ' + dbg_error_count +' - '+ (new Date()).toString());
     }
 }
-
-var errortest = 0;
 
 /**
  * Process request informations (nodes and connections).
