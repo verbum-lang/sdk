@@ -36,7 +36,6 @@ char *process_request                       (int   type,           int   timeout
                                              char *dst_nm_id,      char *dst_nm_address,  int   dst_nm_port,
                                              char *dst_node_id,    int   dst_server_port,
                                              char *connection_id,  int   connection_type, char *connection_list);
-
 char *process_generate_node_id              (char *src_nm_address, int   src_nm_port,     int   src_core_port);
 char *process_ping_node                     (char *src_nm_address, int   src_nm_port,     char *src_node_id, 
                                              int   src_core_port,  int   src_server_port);
