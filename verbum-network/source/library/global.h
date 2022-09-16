@@ -36,7 +36,7 @@
 #define SERVERS_MAX_CONNECTION              SOMAXCONN
 
 // Timeout.
-#define CONNECTION_TIMEOUT_LIMIT            60
+#define CONNECTION_TIMEOUT_LIMIT            10
 #define CONNECTION_TIMEOUT_SELECT           2
 #define CONNECTION_TIMEOUT_RECV             60
 
