@@ -1232,7 +1232,14 @@ function update_network_statistics (request)
     $('.nt-status-nodes').html(nodes_text)
     $('.nt-status-con-input').html(inpcons_text)
     $('.nt-status-con-output').html(outcons_text)
+
+    if (inpcons_off > 0 || outcons_off > 0) {
+        errortest++;
+        console.log('total erros: ' + errortest +' - '+ (new Date()).toString());
+    }
 }
+
+var errortest = 0;
 
 /**
  * Process request informations (nodes and connections).
