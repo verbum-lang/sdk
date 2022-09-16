@@ -107,7 +107,8 @@ int create_connection (char *address, int port, int enable_timeout)
         tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
         tms.tv_usec = 0;
 
-        if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval)) != 0)
+        if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, 
+                (const char*)&tms, sizeof(struct timeval)) != 0)
             say_end_con(-1, "error setsocketopt.");
     }
 
@@ -322,7 +323,8 @@ char *process_request (
             break;
 
         case VERBUM_CON_PING_NODE:
-            if (!src_nm_address || !src_nm_port || !src_node_id || !src_core_port || !src_server_port)
+            if (!src_nm_address || !src_nm_port     || !src_node_id || 
+                !src_core_port  || !src_server_port                  )
                 return NULL;
 
             nm_address = src_nm_address;
@@ -403,7 +405,7 @@ char *process_request (
         sock = create_connection(nm_address, nm_port, timeout);
         if (sock != -1)
             break;
-            
+
         usleep(1000);
     }
 
@@ -481,36 +483,42 @@ char *process_request (
 char *process_generate_node_id (char *src_nm_address, int src_nm_port, int src_core_port) 
 {
     return process_request(
-        VERBUM_CON_GENERATE_NODE_ID, 0, NULL, src_nm_address, src_nm_port, NULL, src_core_port, 
-            0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
+        VERBUM_CON_GENERATE_NODE_ID, 0, NULL, 
+            src_nm_address, src_nm_port, NULL, src_core_port, 
+                0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_ping_node (
-    char *src_nm_address, int src_nm_port, char *src_node_id, int src_core_port, int src_server_port) 
+    char *src_nm_address, int src_nm_port,    char *src_node_id, 
+    int   src_core_port,  int src_server_port ) 
 {
     return process_request(
         VERBUM_CON_PING_NODE, 1, NULL,
             src_nm_address, src_nm_port, 
-                src_node_id, src_core_port, src_server_port, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
+                src_node_id, src_core_port, src_server_port, 
+                    NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_delete_node (char *src_nm_address, int src_nm_port, char *src_node_id) 
 {
     return process_request(
         VERBUM_CON_DELETE_NODE, 1, NULL,
-            src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
+            src_nm_address, src_nm_port, src_node_id, 
+                0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_check_node_exists (char *src_nm_address, int src_nm_port, char *src_node_id)
 {
     return process_request(
         VERBUM_CON_CHECK_NODE_EXISTS, 1, NULL,
-            src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
+            src_nm_address, src_nm_port, src_node_id, 
+                0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
-char *process_create_node_output_connection (char *src_nm_address, 
-                                             char *src_node_id, int   src_core_port, 
-                                             char *dst_node_id, char *dst_nm_address, int dst_nm_port)
+char *process_create_node_output_connection (
+    char *src_nm_address, 
+    char *src_node_id,    int   src_core_port, 
+    char *dst_node_id,    char *dst_nm_address, int dst_nm_port)
 {
     return process_request(
         VERBUM_CON_CREATE_NODE_OUTPUT_CONNECTION, 1, NULL,
@@ -523,29 +531,33 @@ char *process_connection_ping (
     char *dst_node_id, int   dst_server_port, char *connection_id)
 {
     return process_request(VERBUM_CON_CONNECTION_PING_NODE, 1,
-                src_nm_id, src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, 
-                    dst_node_id, dst_server_port, connection_id, 0, NULL);
+        src_nm_id, src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, 
+            dst_node_id, dst_server_port, connection_id, 0, NULL);
 }
 
 char *process_ping_connections (char *src_nm_address, int src_nm_port, char *connections_list)
 {
     return process_request(VERBUM_CON_CONNECTION_PING_NODE_MAPPER, 1, NULL,
-        src_nm_address, src_nm_port, NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, connections_list);
+        src_nm_address, src_nm_port, 
+            NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, connections_list);
 }
 
 char *process_delete_connection (
-    char *src_nm_address, char *src_node_id, int src_core_port, char *dst_node_id, char *connection_id, int connection_type)
+    char *src_nm_address, char *src_node_id,   int src_core_port, 
+    char *dst_node_id,    char *connection_id, int connection_type)
 {
     return process_request(VERBUM_CON_DELETE_CONNECTION, 1, NULL,
         src_nm_address, 0, src_node_id, src_core_port, 0, NULL, NULL, 0, 
             dst_node_id, 0, connection_id, connection_type, NULL);
 }
 
-char *process_delete_connection_server(char *src_nm_address, int src_nm_port, 
-    char *src_node_id, char *dst_node_id, char *connection_id)
+char *process_delete_connection_server(
+    char *src_nm_address, int   src_nm_port, 
+    char *src_node_id,    char *dst_node_id, char *connection_id)
 {
     return process_request(VERBUM_CON_DELETE_CONNECTION_SERVER, 1, NULL,
-        src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, dst_node_id, 0, connection_id, 0, NULL);
+        src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, 
+            dst_node_id, 0, connection_id, 0, NULL);
 }
 
 int process_check_direct_nm (char *src_nm_address, int src_nm_port)
