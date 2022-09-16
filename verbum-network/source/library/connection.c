@@ -279,7 +279,7 @@ char *send_raw_data (int sock, char *message)
         return NULL;
     }
 
-    // Check message.
+    // Check message is valid.
     if (!strstr(response, prefix)) {
         mem_sfree(response);
         return NULL;
@@ -317,86 +317,80 @@ char *process_request (
         case VERBUM_CON_GENERATE_NODE_ID:
             if (!src_nm_address || !src_nm_port || !src_core_port)
                 return NULL;
-
-            nm_address = src_nm_address;
-            nm_port    = src_nm_port;
             break;
 
         case VERBUM_CON_PING_NODE:
             if (!src_nm_address || !src_nm_port     || !src_node_id || 
                 !src_core_port  || !src_server_port                  )
                 return NULL;
-
-            nm_address = src_nm_address;
-            nm_port    = src_nm_port;
             break;
 
         case VERBUM_CON_DELETE_NODE:
             if (!src_nm_address || !src_nm_port || !src_node_id)
                 return NULL;
-
-            nm_address = src_nm_address;
-            nm_port    = src_nm_port;
             break;
 
         case VERBUM_CON_CHECK_NODE_EXISTS:
             if (!src_nm_address || !src_nm_port || !src_node_id)
                 return NULL;
-
-            nm_address = src_nm_address;
-            nm_port    = src_nm_port;
-            break;
-
-        case VERBUM_CON_CREATE_NODE_OUTPUT_CONNECTION:
-            if (!src_nm_address || !src_core_port || !src_node_id || 
-                !dst_nm_address || !dst_nm_port   || !dst_node_id  )
-                return NULL;
-
-            nm_address = src_nm_address;
-            nm_port    = src_core_port;
-            break;
-
-        case VERBUM_CON_CONNECTION_PING_NODE:
-            if (!src_nm_id   || !src_nm_address  || !src_nm_port || !src_node_id ||
-                !dst_node_id || !dst_server_port || !connection_id                )
-                return NULL;
-
-            nm_address = src_nm_address;
-            nm_port    = dst_server_port;
             break;
 
         case VERBUM_CON_CONNECTION_PING_NODE_MAPPER:
             if (!src_nm_address || !src_nm_port || !connection_list)
                 return NULL;
-
-            nm_address = src_nm_address;
-            nm_port    = src_nm_port;
-            break;
-
-        case VERBUM_CON_DELETE_CONNECTION:
-            if (!src_nm_address || !src_node_id   || !src_core_port ||
-                !dst_node_id    || !connection_id                    )
-                return NULL;
-
-            nm_address = src_nm_address;
-            nm_port    = src_core_port;
             break;
 
         case VERBUM_CON_DELETE_CONNECTION_SERVER:
             if (!src_nm_address || !src_nm_port || !src_node_id ||
                 !dst_node_id    || !connection_id                )
                 return NULL;
-
-            nm_address = src_nm_address;
-            nm_port    = src_nm_port;
             break;
 
         case VERBUM_CON_CHECK_DIRECT_NODE_MAPPER:
             if (!src_nm_address || !src_nm_port)
                 return NULL;
+            break;
 
+        case VERBUM_CON_CREATE_NODE_OUTPUT_CONNECTION:
+            if (!src_nm_address || !src_core_port || !src_node_id || 
+                !dst_nm_address || !dst_nm_port   || !dst_node_id  )
+                return NULL;
+            break;
+
+        case VERBUM_CON_DELETE_CONNECTION:
+            if (!src_nm_address || !src_node_id   || !src_core_port ||
+                !dst_node_id    || !connection_id                    )
+                return NULL;
+            break;
+
+        case VERBUM_CON_CONNECTION_PING_NODE:
+            if (!src_nm_id   || !src_nm_address  || !src_nm_port || !src_node_id ||
+                !dst_node_id || !dst_server_port || !connection_id                )
+                return NULL;
+            break;
+    }
+
+    switch (type) {
+        case VERBUM_CON_GENERATE_NODE_ID:
+        case VERBUM_CON_PING_NODE:
+        case VERBUM_CON_DELETE_NODE:
+        case VERBUM_CON_CHECK_NODE_EXISTS:
+        case VERBUM_CON_CONNECTION_PING_NODE_MAPPER:
+        case VERBUM_CON_DELETE_CONNECTION_SERVER:
+        case VERBUM_CON_CHECK_DIRECT_NODE_MAPPER:
             nm_address = src_nm_address;
             nm_port    = src_nm_port;
+            break;
+
+        case VERBUM_CON_CREATE_NODE_OUTPUT_CONNECTION:
+        case VERBUM_CON_DELETE_CONNECTION:
+            nm_address = src_nm_address;
+            nm_port    = src_core_port;
+            break;
+
+        case VERBUM_CON_CONNECTION_PING_NODE:
+            nm_address = src_nm_address;
+            nm_port    = dst_server_port;
             break;
     }
 
