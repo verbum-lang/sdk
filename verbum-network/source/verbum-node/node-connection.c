@@ -368,6 +368,7 @@ static int ping_controller_communication (
     char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
     int counter = 0, result = 0, valid = 0, server_port = 0;
+    int delete_enabled = 0;
     char *response1 = NULL, *response2 = NULL;
     char *ptr = NULL, *date = NULL, *node_mapper_id = NULL;
     char tmp[1024];
@@ -426,6 +427,26 @@ static int ping_controller_communication (
         goto end_error;
 
     // Connect to Node Server interface.
+    pthread_mutex_lock(&mutex_connections);
+
+    for (connection=connections; connection != NULL; connection=connection->next) {
+        if (connection->status != 2)
+            continue;
+        if (!connection->id)
+            continue;
+
+        if (strcmp(connection->id, connection_id) == 0) {
+            if (connection->delete_enabled == 1) 
+                delete_enabled = 1;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_connections);
+
+    if (delete_enabled)
+        goto end_error;
+
     valid     = 0;
     response2 = process_connection_ping(node_mapper_id, dst_nm_address, 
                     src_nm_port, src_node_id, dst_node_id, server_port, connection_id);

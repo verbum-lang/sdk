@@ -150,12 +150,27 @@ int delete_connection (int sock, char *content)
     // Connects to the server port, as the core port may 
     // only be available locally (for design reasons).
     if (connection_type == 0) {
-        response = process_delete_connection_server(nm_address, node_server_port, 
-                        src_node_id, dst_node_id, connection_id);
+        status = 0;
 
-        if (response) 
-            mem_sfree(response);
+        for (int a=0; a<VERBUM_CHECK_DELETION_LIMIT; a++) {
+            response = process_delete_connection_server(nm_address, node_server_port, 
+                            src_node_id, dst_node_id, connection_id);
+
+            if (response) {
+                if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+                    status = 1;
+                    break;
+                }
+
+                mem_sfree(response);
+            }
+
+            sleep(1);
+        }
     }
+
+    if (!status)
+        goto error;
 
     // Finish.
     success:
@@ -288,13 +303,28 @@ int delete_connection_server (int sock, char *content)
     pthread_mutex_unlock(&mutex_connections);
 
     // Delete connection from Node Mapper.
-    response = process_delete_connection_server(address, node_mapper_port, 
-                    dst_node_id, src_node_id, current_connection_id);
+    status = 0;
 
-    if (response) 
-        mem_sfree(response);
+    for (int a=0; a<VERBUM_CHECK_DELETION_LIMIT; a++) {
+        response = process_delete_connection_server(address, node_mapper_port, 
+                        dst_node_id, src_node_id, current_connection_id);
+
+        if (response) {
+            if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+                status = 1;
+                break;
+            }
+
+            mem_sfree(response);
+        }
+
+        sleep(1);
+    }
 
     mem_sfree(current_connection_id);
+
+    if (!status)
+        goto error;
 
     // Finish.
     success:

@@ -51,8 +51,7 @@ int create_connection (char *address, int port, int enable_timeout)
         say("process connect...");
     #endif
 
-    time(&start);
-
+    /*
     while (1) {
         status = connect(sock, (struct sockaddr*) &saddress, sizeof(saddress));
         if (status != -1) 
@@ -65,6 +64,28 @@ int create_connection (char *address, int port, int enable_timeout)
             break;
     
         usleep(1000);
+    }
+    */
+
+    for (int timeout=1; timeout<=CONNECTION_TIMEOUT_LIMIT; timeout++) {
+        time(&start);
+        
+        while (1) {
+            status = connect(sock, (struct sockaddr*) &saddress, sizeof(saddress));
+            if (status != -1) 
+                break;
+
+            time(&end);
+            diff = difftime(end, start);
+
+            if (diff >= (double) timeout)
+                break;
+        
+            usleep(1000);
+        }
+
+        if (status != -1) 
+            break;
     }
     
     #ifdef CONDBG
@@ -85,7 +106,7 @@ int create_connection (char *address, int port, int enable_timeout)
             say("process select...");
         #endif
 
-        stv.tv_sec = CONNECTION_TIMEOUT_CONNECT_SELECT;
+        stv.tv_sec = 2;
         stv.tv_usec = 0;
 
         FD_ZERO(&rfds);

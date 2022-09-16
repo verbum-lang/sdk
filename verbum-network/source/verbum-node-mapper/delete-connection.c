@@ -26,6 +26,7 @@ int delete_connection (int sock, char *content)
     node_control_t *node;
     char address [] = LOCALHOST;
     int core_port = 0, status = 0, bytes = 0;
+    char *response = NULL;
 
     if (!sock || !content)
         return 0;
@@ -100,11 +101,19 @@ int delete_connection (int sock, char *content)
     // Output.
     else if (connection_type == 0) {
 
-        char *response = process_delete_connection(
-            address, src_node_id, core_port, dst_node_id, connection_id, connection_type);
+        for (int a=0; a<VERBUM_CHECK_DELETION_LIMIT; a++) {
+            response = process_delete_connection(
+                address, src_node_id, core_port, dst_node_id, connection_id, connection_type);
 
-        if (response)
-            mem_sfree(response);
+            if (response) {
+                if (strstr(response, VERBUM_DEFAULT_SUCCESS))
+                    break;
+
+                mem_sfree(response);
+            }
+
+            sleep(1);
+        }
 
         // Delete connection.
         pthread_mutex_lock(&mutex_connections);

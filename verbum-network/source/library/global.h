@@ -29,13 +29,14 @@
 #endif
 
 #define VERBUM_SEND_FLAGS                   MSG_NOSIGNAL
+#define VERBUM_CHECK_DELETION_LIMIT         5
 
 // General configurations.
 #define LOCALHOST                           "127.0.0.1"
 #define SERVERS_MAX_CONNECTION              SOMAXCONN
 
 // Timeout.
-#define CONNECTION_TIMEOUT_CONNECT_SELECT   2
+#define CONNECTION_TIMEOUT_LIMIT            10
 #define CONNECTION_TIMEOUT_RECV             15
 
 // Default response (socket).
