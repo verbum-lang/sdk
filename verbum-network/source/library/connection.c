@@ -21,9 +21,13 @@ int create_connection (char *address, int port, int enable_timeout)
     int status     = -1, sock = -1, flags  = 0;
     char *packet   = NULL;
     char header [] = "Verbum Node";
+    struct sockaddr_in saddress;
+    time_t start, end;
+    double diff;
+
+    time(&start);
 
     // Configure connection.
-    struct sockaddr_in saddress;
     saddress.sin_family      = AF_INET;
     saddress.sin_addr.s_addr = INADDR_ANY;
     saddress.sin_port        = htons( port );
@@ -44,11 +48,6 @@ int create_connection (char *address, int port, int enable_timeout)
     #ifdef CONDBG
         say("process connect...");
     #endif
-
-    time_t start, end;
-    double diff;
-
-    time(&start);
 
     while (1) {
         status = connect(sock, (struct sockaddr*) &saddress, sizeof(saddress));
@@ -288,28 +287,184 @@ char *send_raw_data (int sock, char *message)
     return response;
 }
 
-char *process_generate_node_id (char *address, int nm_port, int node_port) 
+char *process_request (
+    int   type,          int timeout,
+
+    char *src_nm_id,     char *src_nm_address,  int src_nm_port, 
+    char *src_node_id,   int   src_core_port,   int src_server_port, 
+
+    char *dst_nm_id,     char *dst_nm_address,  int dst_nm_port,
+    char *dst_node_id,   int   dst_server_port,
+
+    char *connection_id, int connection_type,   char *connection_list)
 {
-    char prefix     [] = "generate-verbum-node-id:";
-    char end_header [] = VERBUM_EOH;
-    char *message      = NULL, *response = NULL;
-    int size           = 0, sock = -1;
+    char *nm_address = NULL, *message = NULL, *response = NULL;
+    int   nm_port = 0, sock = -1, size = 1024;
 
-    if (!address || !nm_port || !node_port)
-        return NULL;
+    if (src_nm_id)       size += strlen(src_nm_id);
+    if (src_nm_address)  size += strlen(src_nm_address);
+    if (src_node_id)     size += strlen(src_node_id);
+    if (dst_nm_id)       size += strlen(dst_nm_id);
+    if (dst_nm_address)  size += strlen(dst_nm_address);
+    if (dst_node_id)     size += strlen(dst_node_id);
+    if (connection_id)   size += strlen(connection_id);
+    if (connection_list) size += strlen(connection_list);
 
+    mem_alloc_ret(message, mem_smake_size(size), char *, NULL);
+
+    switch (type) {
+        case VERBUM_GENERATE_NODE_ID:
+            if (!src_nm_address || !src_nm_port || !src_core_port)
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = src_nm_port;
+            break;
+
+        case VERBUM_PING_NODE:
+            if (!src_nm_address || !src_nm_port || !src_node_id || !src_core_port || !src_server_port)
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = src_nm_port;
+            break;
+
+        case VERBUM_DELETE_NODE:
+            if (!src_nm_address || !src_nm_port || !src_node_id)
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = src_nm_port;
+            break;
+
+        case VERBUM_CHECK_NODE_EXISTS:
+            if (!src_nm_address || !src_nm_port || !src_node_id)
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = src_nm_port;
+            break;
+
+        case VERBUM_CREATE_NODE_OUTPUT_CONNECTION:
+            if (!src_nm_address || !src_core_port || !src_node_id || 
+                !dst_nm_address || !dst_nm_port   || !dst_node_id  )
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = src_core_port;
+            break;
+
+        case VERBUM_CONNECTION_PING_NODE:
+            if (!src_nm_id   || !src_nm_address  || !src_nm_port || !src_node_id ||
+                !dst_node_id || !dst_server_port || !connection_id                )
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = dst_server_port;
+            break;
+
+        case VERBUM_CONNECTION_PING_NODE_MAPPER:
+            if (!src_nm_address || !src_nm_port || !connection_list)
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = src_nm_port;
+            break;
+
+        case VERBUM_DELETE_CONNECTION:
+            if (!src_nm_address || !src_node_id   || !src_core_port ||
+                !dst_node_id    || !connection_id                    )
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = src_core_port;
+            break;
+
+        case VERBUM_DELETE_CONNECTION_SERVER:
+            if (!src_nm_address || !src_nm_port || !src_node_id ||
+                !dst_node_id    || !connection_id                )
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = src_nm_port;
+            break;
+
+        case VERBUM_CHECK_DIRECT_NODE_MAPPER:
+            if (!src_nm_address || !src_nm_port)
+                return NULL;
+
+            nm_address = src_nm_address;
+            nm_port    = src_nm_port;
+            break;
+    }
+
+    // Start connection.
     while (1) {
-        sock = create_connection(address, nm_port, 0);
+        sock = create_connection(nm_address, nm_port, timeout);
         if (sock != -1)
             break;
 
         usleep(1000);
     }
 
-    size = sizeof(char) * (strlen(prefix) + 1024);
-    mem_alloc_ret(message, size, char *, NULL);
+    switch (type) {
+        case VERBUM_GENERATE_NODE_ID:
+            sprintf(message, "generate-verbum-node-id:%d" VERBUM_EOH, src_core_port);
+            break;
 
-    sprintf(message, "%s%d%s", prefix, node_port, end_header);
+        case VERBUM_PING_NODE:
+            sprintf(message, "ping-verbum-node:%s:%d:%d:" VERBUM_EOH, 
+                 src_node_id, src_core_port , src_server_port);
+            break;
+
+        case VERBUM_DELETE_NODE:
+            sprintf(message, "delete-verbum-node:%s" VERBUM_EOH, src_node_id);
+            break;
+
+        case VERBUM_CHECK_NODE_EXISTS:
+            sprintf(message, "check-verbum-node-exists:%s" VERBUM_EOH, src_node_id);
+            break;
+
+        case VERBUM_CREATE_NODE_OUTPUT_CONNECTION:
+            sprintf(message, "create-verbum-node-output-connection:%s:%s:%s:%d" VERBUM_EOH, 
+                        src_node_id, dst_node_id, dst_nm_address, dst_nm_port);
+            break;
+
+        case VERBUM_CONNECTION_PING_NODE:
+            sprintf(message, "connection-ping-verbum-node:%s:%s:%d:%s:%s" VERBUM_EOH,  
+                        dst_node_id, src_node_id, src_nm_port, connection_id, src_nm_id);
+            break;
+
+        case VERBUM_CONNECTION_PING_NODE_MAPPER: {
+                char prefix     [] = "ping-verbum-connection:IHS\n\n";
+                char end_header [] = VERBUM_EOH;
+
+                int s1 = strlen(prefix);
+                int s2 = strlen(connection_list);
+                int s3 = strlen(end_header);
+
+                memcpy( message,            prefix,          s1);
+                memcpy(&message[ s1      ], connection_list, s2);
+                memcpy(&message[ s1 + s2 ], end_header,      s3);
+            }
+            break;
+
+        case VERBUM_DELETE_CONNECTION:
+            sprintf(message, "delete-verbum-connection:%s:%s:%s:%d" VERBUM_EOH, 
+                        connection_id, src_node_id, dst_node_id, connection_type);
+            break;
+
+        case VERBUM_DELETE_CONNECTION_SERVER:
+            sprintf(message, "delete-verbum-connection-server:%s:%s:%s" VERBUM_EOH, 
+                        connection_id, src_node_id, dst_node_id);
+            break;
+
+        case VERBUM_CHECK_DIRECT_NODE_MAPPER:
+            sprintf(message, "check-direct-node-mapper:" VERBUM_EOH);
+            break;
+    }
+    
+    // Send request.
     response = send_raw_data(sock, message);
 
     if (!response) {
@@ -320,352 +475,88 @@ char *process_generate_node_id (char *address, int nm_port, int node_port)
 
     mem_sfree(message);
     close(sock);
-    
     return response;
+}
+
+char *process_generate_node_id (char *address, int nm_port, int node_port) 
+{
+    return process_request(
+        VERBUM_GENERATE_NODE_ID, 0, NULL, address, nm_port, NULL, node_port, 
+            0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_ping_node (
     char *address, int nm_port, char *node_id, int core_port, int server_port) 
 {
-    char prefix     [] = "ping-verbum-node:";
-    char end_header [] = VERBUM_EOH;
-    char *message      = NULL, *response = NULL;
-    int size           = 0, sock = -1;
-
-    if (!address || !nm_port || !node_id || !core_port || !server_port)
-        return NULL;
-
-    while (1) {
-        sock = create_connection(address, nm_port, 1);
-        if (sock != -1)
-            break;
-
-        usleep(1000);
-    }
-    
-    size = sizeof(char) * (strlen(prefix) + strlen(node_id) + 1024);
-    mem_alloc_ret(message, size, char *, NULL);
-    
-    sprintf(message, "%s%s:%d:%d:%s", 
-        prefix, node_id, core_port, server_port, end_header);
-    response = send_raw_data(sock, message);
-
-    if (!response) {
-        close(sock);
-        mem_sfree(message);
-        return NULL;
-    }
-
-    mem_sfree(message);
-    close(sock);
-    
-    return response;
+    return process_request(
+        VERBUM_PING_NODE, 1, NULL,
+            address, nm_port, node_id, core_port, server_port, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_delete_node (char *address, int node_port, char *node_id) 
 {
-    char prefix     [] = "delete-verbum-node:";
-    char end_header [] = VERBUM_EOH;
-    char *message      = NULL, *response = NULL;
-    int size           = 0, sock = -1;
-
-    if (!address || !node_port || !node_id)
-        return NULL;
-
-    sock = create_connection(address, node_port, 1);
-    if (sock == -1)
-        return NULL;
-
-    size = sizeof(char) * (strlen(prefix) + strlen(node_id) + strlen(end_header) + 1);
-    mem_alloc_ret(message, size, char *, NULL);
-
-    sprintf(message, "%s%s%s", prefix, node_id, end_header);
-    response = send_raw_data(sock, message);
-
-    if (!response) {
-        close(sock);
-        mem_sfree(message);
-        return NULL;
-    }
-
-    mem_sfree(message);
-    close(sock);
-
-    return response;
+    return process_request(
+        VERBUM_DELETE_NODE, 1, NULL,
+            address, node_port, node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_check_node_exists (char *address, int node_port, char *node_id)
 {
-    char prefix     [] = "check-verbum-node-exists:";
-    char end_header [] = VERBUM_EOH;
-    char *message      = NULL, *response = NULL;
-    int size           = 0, sock = -1;
-
-    if (!address || !node_port || !node_id)
-        return NULL;
-
-    sock = create_connection(address, node_port, 1);
-    if (sock == -1)
-        return NULL;
-
-    size = sizeof(char) * (strlen(prefix) + strlen(node_id) + strlen(end_header) + 1);
-    mem_alloc_ret(message, size, char *, NULL);
-
-    sprintf(message, "%s%s%s", prefix, node_id, end_header);
-    response = send_raw_data(sock, message);
-
-    if (!response) {
-        close(sock);
-        mem_sfree(message);
-        return NULL;
-    }
-
-    mem_sfree(message);
-    close(sock);
-
-    return response;
+    return process_request(
+        VERBUM_CHECK_NODE_EXISTS, 1, NULL,
+            address, node_port, node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_create_node_output_connection (char *src_node_address, 
                                              char *src_node_id, int   src_node_interface_port, 
                                              char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
-    char prefix     [] = "create-verbum-node-output-connection:";
-    char end_header [] = VERBUM_EOH;
-    char *message      = NULL, *response = NULL;
-    int size           = 0, sock = -1;
-
-    if (!src_node_address || !src_node_id || 
-        !src_node_interface_port || !dst_node_id || 
-        !dst_nm_address || !dst_nm_port)
-        return NULL;
-
-    sock = create_connection(src_node_address, src_node_interface_port, 1);
-    if (sock == -1)
-        return NULL;
-
-    size = sizeof(char) * (
-                strlen(prefix) + 
-                strlen(src_node_id) + 
-                strlen(dst_node_id) + 
-                strlen(dst_nm_address) + 
-                strlen(end_header) + 
-                1024);
-
-    mem_alloc_ret(message, size, char *, NULL);
-
-    sprintf(message, "%s%s:%s:%s:%d%s", 
-                prefix, 
-                src_node_id, 
-                dst_node_id,
-                dst_nm_address,
-                dst_nm_port,
-                end_header);
-
-    response = send_raw_data(sock, message);
-
-    if (!response) {
-        close(sock);
-        mem_sfree(message);
-        return NULL;
-    }
-
-    mem_sfree(message);
-    close(sock);
-
-    return response;
+    return process_request(
+        VERBUM_CREATE_NODE_OUTPUT_CONNECTION, 1, NULL,
+            src_node_address, 0, src_node_id, src_node_interface_port, 0, NULL, 
+                dst_nm_address, dst_nm_port, dst_node_id, 0, NULL, 0, NULL);
 }
 
 char *process_connection_ping (char *address, int node_port, 
     char *dst_node_id, char *src_node_id, int src_nm_port, 
     char *connection_id, char *node_mapper_id)
 {
-    char prefix     [] = "connection-ping-verbum-node:";
-    char end_header [] = VERBUM_EOH;
-    char *message      = NULL, *response = NULL;
-    int size           = 0, sock = -1;
-
-    if (!address || !node_port || !dst_node_id || 
-        !src_node_id || !src_nm_port || !connection_id || !node_mapper_id)
-        return NULL;
-
-    sock = create_connection(address, node_port, 1);
-    if (sock == -1)
-        return NULL;
-
-    size = sizeof(char) * (strlen(prefix) + strlen(dst_node_id) + 
-        strlen(src_node_id) + strlen(connection_id) + 
-        strlen(node_mapper_id) + strlen(end_header) + 256);
-    
-    mem_alloc_ret(message, size, char *, NULL);
-
-    sprintf(message, "%s%s:%s:%d:%s:%s%s", prefix, 
-        dst_node_id, src_node_id, src_nm_port, 
-        connection_id, node_mapper_id, end_header);
-    
-    response = send_raw_data(sock, message);
-
-    if (!response) {
-        close(sock);
-        mem_sfree(message);
-        return NULL;
-    }
-
-    mem_sfree(message);
-    close(sock);
-
-    return response;
+    return process_request(VERBUM_CONNECTION_PING_NODE, 1,
+                node_mapper_id, address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, 
+                    dst_node_id, node_port, connection_id, 0, NULL);
 }
 
 char *process_ping_connections (char *address, int nm_port, char *connections_list)
 {
-    char prefix     [] = "ping-verbum-connection:IHS\n\n";
-    char end_header [] = VERBUM_EOH;
-    char *message      = NULL, *response = NULL;
-    int sock = -1, size = 0, s1 = 0, s2 = 0, s3 = 0;
-
-    if (!address || !nm_port || !connections_list)
-        return NULL;
-
-    sock = create_connection(address, nm_port, 1);
-    if (sock == -1)
-        return NULL;
-
-    s1   = strlen(prefix);
-    s2   = strlen(connections_list);
-    s3   = strlen(end_header);
-    size = sizeof(char) * ( s1 + s2 + s3 + 1);
-    mem_alloc_ret(message, size, char *, NULL);
-
-    memcpy( message,            prefix,           s1);
-    memcpy(&message[ s1      ], connections_list, s2);
-    memcpy(&message[ s1 + s2 ], end_header,       s3);
-
-    response = send_raw_data(sock, message);
-
-    if (!response) {
-        close(sock);
-        mem_sfree(message);
-        return NULL;
-    }
-
-    mem_sfree(message);
-    close(sock);
-
-    return response;
+    return process_request(VERBUM_CONNECTION_PING_NODE_MAPPER, 1, NULL,
+        address, nm_port, NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, connections_list);
 }
 
 char *process_delete_connection (char *address, int core_port, 
     char *connection_id, char *src_node_id, char *dst_node_id, int type)
 {
-    char prefix     [] = "delete-verbum-connection:";
-    char end_header [] = VERBUM_EOH;
-    char separator  [] = ":";
-    char *message      = NULL, *response = NULL;
-    int sock = -1, size = 0;
-    int s1 = 0, s2 = 0, s3 = 0, s4 = 0, s5 = 0;
-
-    if (!address || !core_port || !src_node_id || !connection_id || !dst_node_id)
-        return NULL;
-
-    sock = create_connection(address, core_port, 1);
-    if (sock == -1)
-        return NULL;
-
-    s1 = strlen(prefix);
-    s2 = strlen(src_node_id);
-    s3 = strlen(connection_id);
-    s4 = strlen(dst_node_id);
-    s5 = strlen(end_header);
-
-    size = sizeof(char) * (s1 + s2 + s3 + s4 + s5 + 256);
-    mem_alloc_ret(message, size, char *, NULL);
-
-    sprintf(message, "%s%s:%s:%s:%d%s", 
-                prefix, connection_id, src_node_id, 
-                    dst_node_id, type, end_header);
-
-    response = send_raw_data(sock, message);
-
-    if (!response) {
-        close(sock);
-        mem_sfree(message);
-        return NULL;
-    }
-
-    mem_sfree(message);
-    close(sock);
-
-    return response;
+    return process_request(VERBUM_DELETE_CONNECTION, 1, NULL,
+        address, 0, src_node_id, core_port, 0, NULL, NULL, 0, dst_node_id, 0, connection_id, type, NULL);
 }
 
 char *process_delete_connection_server(char *address, int node_port, 
     char *connection_id, char *src_node_id, char *dst_node_id)
 {
-    char prefix     [] = "delete-verbum-connection-server:";
-    char end_header [] = VERBUM_EOH;
-    char separator  [] = ":";
-    char *message      = NULL, *response = NULL;
-    int sock = -1, size = 0;
-    int s1 = 0, s2 = 0, s3 = 0, s4 = 0, s5 = 0;
-
-    if (!address || !node_port || !src_node_id || !connection_id || !dst_node_id)
-        return NULL;
-
-    sock = create_connection(address, node_port, 1);
-    if (sock == -1)
-        return NULL;
-
-    s1 = strlen(prefix);
-    s2 = strlen(src_node_id);
-    s3 = strlen(connection_id);
-    s4 = strlen(dst_node_id);
-    s5 = strlen(end_header);
-
-    size = sizeof(char) * (s1 + s2 + s3 + s4 + s5 + 256);
-    mem_alloc_ret(message, size, char *, NULL);
-
-    sprintf(message, "%s%s:%s:%s%s", 
-                prefix, connection_id, src_node_id, 
-                    dst_node_id, end_header);
-
-    response = send_raw_data(sock, message);
-
-    if (!response) {
-        close(sock);
-        mem_sfree(message);
-        return NULL;
-    }
-
-    mem_sfree(message);
-    close(sock);
-
-    return response;
+    return process_request(VERBUM_DELETE_CONNECTION_SERVER, 1, NULL,
+        address, node_port, src_node_id, 0, 0, NULL, NULL, 0, dst_node_id, 0, connection_id, 0, NULL);
 }
 
 int process_check_direct_nm (char *address, int nm_port)
 {
-    char message [] = "check-direct-node-mapper:" VERBUM_EOH;
     char *response = NULL;
-    int sock = -1;
 
-    if (!address || !nm_port)
+    response = process_request(VERBUM_CHECK_DIRECT_NODE_MAPPER, 1, NULL,
+        address, nm_port, NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
+
+    if (!response)
         return 0;
-
-    sock = create_connection(address, nm_port, 1);
-    if (sock == -1)
-        return 0;
-
-    response = send_raw_data(sock, message);
-
-    if (!response) {
-        close(sock);
-        return 0;
-    }
 
     mem_sfree(response);
-    close(sock);
-    
     return 1;
 }
 

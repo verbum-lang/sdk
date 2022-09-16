@@ -134,6 +134,12 @@
         }                                                                               \
     } while(0)
 
+/**
+ * Others.
+ */
+
+#define mem_smake_size(SIZE) sizeof(char) * (SIZE)
+
 #endif
 
 
