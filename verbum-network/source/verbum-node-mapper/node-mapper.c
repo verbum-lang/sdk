@@ -306,7 +306,7 @@ void *worker_handler (void *tparam)
         pthread_mutex_unlock(&mutex_workers);
 
         if (run == 0) {
-            sleep(1);
+            usleep(100000);
             continue;
         }
 

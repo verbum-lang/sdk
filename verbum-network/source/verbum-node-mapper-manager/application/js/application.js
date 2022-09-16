@@ -1240,6 +1240,9 @@ function update_network_statistics (request)
 
 function process_informations (request)
 {
+    // Enable get information data.
+    run_gnl = false;
+
     nodes = request.nodes;
     var connections = request.connections;
 
@@ -1286,9 +1289,6 @@ function process_informations (request)
         }
     }
     
-    // Enable get information data.
-    run_gnl = false;
-
     // Set status.
     if (status_use == false) {
         var upd = false;

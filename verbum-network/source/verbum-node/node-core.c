@@ -98,7 +98,6 @@ void *node_core (void *tparam)
         say_ret(NULL, "error prepare workers.");
 
     // Node core interface communication.
-    // Node core interface communication.
     while (1) {
         
         // Checks if the thread is free to use.
@@ -257,7 +256,7 @@ static void *worker_handler (void *tparam)
         pthread_mutex_unlock(&mutex_workers);
 
         if (run == 0) {
-            sleep(1);
+            usleep(100000);
             continue;
         }
 

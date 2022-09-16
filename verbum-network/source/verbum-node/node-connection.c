@@ -55,7 +55,7 @@ void *node_connection (void *tparam)
         }
 
         pthread_mutex_unlock(&mutex_connections);
-        usleep(1000);
+        usleep(100000);
     }
 
     return NULL;
@@ -165,7 +165,7 @@ static void *connection_ping_controller (void *tparam)
             }
             
             pthread_mutex_unlock(&mutex_gconfig);
-            sleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
+            usleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
             continue;
         }
 
@@ -274,7 +274,7 @@ static void *connection_ping_controller (void *tparam)
         if (error == 0 || !dst_node_id || !dst_nm_address || !dst_nm_port) {
             mem_sfree(dst_node_id);
             mem_sfree(dst_nm_address);
-            sleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
+            usleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
             continue;
         }
 
@@ -356,7 +356,7 @@ static void *connection_ping_controller (void *tparam)
         
         mem_sfree(dst_node_id);
         mem_sfree(dst_nm_address);
-        sleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
+        usleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
     }
 
     pthread_exit(NULL);
