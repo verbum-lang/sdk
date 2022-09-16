@@ -428,10 +428,9 @@ static int ping_controller_communication (
 
     // Connect to Node Server interface.
     valid     = 0;
-    response2 = 
-        process_connection_ping(dst_nm_address, server_port, 
-            dst_node_id, src_node_id, src_nm_port, connection_id, node_mapper_id);
-
+    response2 = process_connection_ping(node_mapper_id, dst_nm_address, 
+                    src_nm_port, src_node_id, dst_node_id, server_port, connection_id);
+        
     if (response2) {
         if (strstr(response2, VERBUM_DEFAULT_SUCCESS ":")) 
             valid = 1;

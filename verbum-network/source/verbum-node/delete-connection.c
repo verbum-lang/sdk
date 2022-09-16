@@ -151,7 +151,7 @@ int delete_connection (int sock, char *content)
     // only be available locally (for design reasons).
     if (connection_type == 0) {
         response = process_delete_connection_server(nm_address, node_server_port, 
-                        connection_id, src_node_id, dst_node_id);
+                        src_node_id, dst_node_id, connection_id);
 
         if (response) 
             mem_sfree(response);
@@ -289,7 +289,7 @@ int delete_connection_server (int sock, char *content)
 
     // Delete connection from Node Mapper.
     response = process_delete_connection_server(address, node_mapper_port, 
-                    current_connection_id, dst_node_id, src_node_id);
+                    dst_node_id, src_node_id, current_connection_id);
 
     if (response) 
         mem_sfree(response);

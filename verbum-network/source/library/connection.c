@@ -313,7 +313,7 @@ char *process_request (
     mem_alloc_ret(message, mem_smake_size(size), char *, NULL);
 
     switch (type) {
-        case VERBUM_GENERATE_NODE_ID:
+        case VERBUM_CON_GENERATE_NODE_ID:
             if (!src_nm_address || !src_nm_port || !src_core_port)
                 return NULL;
 
@@ -321,7 +321,7 @@ char *process_request (
             nm_port    = src_nm_port;
             break;
 
-        case VERBUM_PING_NODE:
+        case VERBUM_CON_PING_NODE:
             if (!src_nm_address || !src_nm_port || !src_node_id || !src_core_port || !src_server_port)
                 return NULL;
 
@@ -329,7 +329,7 @@ char *process_request (
             nm_port    = src_nm_port;
             break;
 
-        case VERBUM_DELETE_NODE:
+        case VERBUM_CON_DELETE_NODE:
             if (!src_nm_address || !src_nm_port || !src_node_id)
                 return NULL;
 
@@ -337,7 +337,7 @@ char *process_request (
             nm_port    = src_nm_port;
             break;
 
-        case VERBUM_CHECK_NODE_EXISTS:
+        case VERBUM_CON_CHECK_NODE_EXISTS:
             if (!src_nm_address || !src_nm_port || !src_node_id)
                 return NULL;
 
@@ -345,7 +345,7 @@ char *process_request (
             nm_port    = src_nm_port;
             break;
 
-        case VERBUM_CREATE_NODE_OUTPUT_CONNECTION:
+        case VERBUM_CON_CREATE_NODE_OUTPUT_CONNECTION:
             if (!src_nm_address || !src_core_port || !src_node_id || 
                 !dst_nm_address || !dst_nm_port   || !dst_node_id  )
                 return NULL;
@@ -354,7 +354,7 @@ char *process_request (
             nm_port    = src_core_port;
             break;
 
-        case VERBUM_CONNECTION_PING_NODE:
+        case VERBUM_CON_CONNECTION_PING_NODE:
             if (!src_nm_id   || !src_nm_address  || !src_nm_port || !src_node_id ||
                 !dst_node_id || !dst_server_port || !connection_id                )
                 return NULL;
@@ -363,7 +363,7 @@ char *process_request (
             nm_port    = dst_server_port;
             break;
 
-        case VERBUM_CONNECTION_PING_NODE_MAPPER:
+        case VERBUM_CON_CONNECTION_PING_NODE_MAPPER:
             if (!src_nm_address || !src_nm_port || !connection_list)
                 return NULL;
 
@@ -371,7 +371,7 @@ char *process_request (
             nm_port    = src_nm_port;
             break;
 
-        case VERBUM_DELETE_CONNECTION:
+        case VERBUM_CON_DELETE_CONNECTION:
             if (!src_nm_address || !src_node_id   || !src_core_port ||
                 !dst_node_id    || !connection_id                    )
                 return NULL;
@@ -380,7 +380,7 @@ char *process_request (
             nm_port    = src_core_port;
             break;
 
-        case VERBUM_DELETE_CONNECTION_SERVER:
+        case VERBUM_CON_DELETE_CONNECTION_SERVER:
             if (!src_nm_address || !src_nm_port || !src_node_id ||
                 !dst_node_id    || !connection_id                )
                 return NULL;
@@ -389,7 +389,7 @@ char *process_request (
             nm_port    = src_nm_port;
             break;
 
-        case VERBUM_CHECK_DIRECT_NODE_MAPPER:
+        case VERBUM_CON_CHECK_DIRECT_NODE_MAPPER:
             if (!src_nm_address || !src_nm_port)
                 return NULL;
 
@@ -403,39 +403,39 @@ char *process_request (
         sock = create_connection(nm_address, nm_port, timeout);
         if (sock != -1)
             break;
-
+            
         usleep(1000);
     }
 
     switch (type) {
-        case VERBUM_GENERATE_NODE_ID:
+        case VERBUM_CON_GENERATE_NODE_ID:
             sprintf(message, "generate-verbum-node-id:%d" VERBUM_EOH, src_core_port);
             break;
 
-        case VERBUM_PING_NODE:
+        case VERBUM_CON_PING_NODE:
             sprintf(message, "ping-verbum-node:%s:%d:%d:" VERBUM_EOH, 
                  src_node_id, src_core_port , src_server_port);
             break;
 
-        case VERBUM_DELETE_NODE:
+        case VERBUM_CON_DELETE_NODE:
             sprintf(message, "delete-verbum-node:%s" VERBUM_EOH, src_node_id);
             break;
 
-        case VERBUM_CHECK_NODE_EXISTS:
+        case VERBUM_CON_CHECK_NODE_EXISTS:
             sprintf(message, "check-verbum-node-exists:%s" VERBUM_EOH, src_node_id);
             break;
 
-        case VERBUM_CREATE_NODE_OUTPUT_CONNECTION:
+        case VERBUM_CON_CREATE_NODE_OUTPUT_CONNECTION:
             sprintf(message, "create-verbum-node-output-connection:%s:%s:%s:%d" VERBUM_EOH, 
                         src_node_id, dst_node_id, dst_nm_address, dst_nm_port);
             break;
 
-        case VERBUM_CONNECTION_PING_NODE:
+        case VERBUM_CON_CONNECTION_PING_NODE:
             sprintf(message, "connection-ping-verbum-node:%s:%s:%d:%s:%s" VERBUM_EOH,  
                         dst_node_id, src_node_id, src_nm_port, connection_id, src_nm_id);
             break;
 
-        case VERBUM_CONNECTION_PING_NODE_MAPPER: {
+        case VERBUM_CON_CONNECTION_PING_NODE_MAPPER: {
                 char prefix     [] = "ping-verbum-connection:IHS\n\n";
                 char end_header [] = VERBUM_EOH;
 
@@ -449,17 +449,17 @@ char *process_request (
             }
             break;
 
-        case VERBUM_DELETE_CONNECTION:
+        case VERBUM_CON_DELETE_CONNECTION:
             sprintf(message, "delete-verbum-connection:%s:%s:%s:%d" VERBUM_EOH, 
                         connection_id, src_node_id, dst_node_id, connection_type);
             break;
 
-        case VERBUM_DELETE_CONNECTION_SERVER:
+        case VERBUM_CON_DELETE_CONNECTION_SERVER:
             sprintf(message, "delete-verbum-connection-server:%s:%s:%s" VERBUM_EOH, 
                         connection_id, src_node_id, dst_node_id);
             break;
 
-        case VERBUM_CHECK_DIRECT_NODE_MAPPER:
+        case VERBUM_CON_CHECK_DIRECT_NODE_MAPPER:
             sprintf(message, "check-direct-node-mapper:" VERBUM_EOH);
             break;
     }
@@ -481,7 +481,7 @@ char *process_request (
 char *process_generate_node_id (char *src_nm_address, int src_nm_port, int src_core_port) 
 {
     return process_request(
-        VERBUM_GENERATE_NODE_ID, 0, NULL, src_nm_address, src_nm_port, NULL, src_core_port, 
+        VERBUM_CON_GENERATE_NODE_ID, 0, NULL, src_nm_address, src_nm_port, NULL, src_core_port, 
             0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
@@ -489,7 +489,7 @@ char *process_ping_node (
     char *src_nm_address, int src_nm_port, char *src_node_id, int src_core_port, int src_server_port) 
 {
     return process_request(
-        VERBUM_PING_NODE, 1, NULL,
+        VERBUM_CON_PING_NODE, 1, NULL,
             src_nm_address, src_nm_port, 
                 src_node_id, src_core_port, src_server_port, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
@@ -497,62 +497,63 @@ char *process_ping_node (
 char *process_delete_node (char *src_nm_address, int src_nm_port, char *src_node_id) 
 {
     return process_request(
-        VERBUM_DELETE_NODE, 1, NULL,
+        VERBUM_CON_DELETE_NODE, 1, NULL,
             src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
 char *process_check_node_exists (char *src_nm_address, int src_nm_port, char *src_node_id)
 {
     return process_request(
-        VERBUM_CHECK_NODE_EXISTS, 1, NULL,
+        VERBUM_CON_CHECK_NODE_EXISTS, 1, NULL,
             src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
-char *process_create_node_output_connection (char *src_node_address, 
-                                             char *src_node_id, int   src_node_interface_port, 
+char *process_create_node_output_connection (char *src_nm_address, 
+                                             char *src_node_id, int   src_core_port, 
                                              char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
     return process_request(
-        VERBUM_CREATE_NODE_OUTPUT_CONNECTION, 1, NULL,
-            src_node_address, 0, src_node_id, src_node_interface_port, 0, NULL, 
+        VERBUM_CON_CREATE_NODE_OUTPUT_CONNECTION, 1, NULL,
+            src_nm_address, 0, src_node_id, src_core_port, 0, NULL, 
                 dst_nm_address, dst_nm_port, dst_node_id, 0, NULL, 0, NULL);
 }
 
-char *process_connection_ping (char *address, int node_port, 
-    char *dst_node_id, char *src_node_id, int src_nm_port, 
-    char *connection_id, char *node_mapper_id)
+char *process_connection_ping (
+    char *src_nm_id,   char *src_nm_address,  int src_nm_port,    char *src_node_id, 
+    char *dst_node_id, int   dst_server_port, char *connection_id)
 {
-    return process_request(VERBUM_CONNECTION_PING_NODE, 1,
-                node_mapper_id, address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, 
-                    dst_node_id, node_port, connection_id, 0, NULL);
+    return process_request(VERBUM_CON_CONNECTION_PING_NODE, 1,
+                src_nm_id, src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, 
+                    dst_node_id, dst_server_port, connection_id, 0, NULL);
 }
 
-char *process_ping_connections (char *address, int nm_port, char *connections_list)
+char *process_ping_connections (char *src_nm_address, int src_nm_port, char *connections_list)
 {
-    return process_request(VERBUM_CONNECTION_PING_NODE_MAPPER, 1, NULL,
-        address, nm_port, NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, connections_list);
+    return process_request(VERBUM_CON_CONNECTION_PING_NODE_MAPPER, 1, NULL,
+        src_nm_address, src_nm_port, NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, connections_list);
 }
 
-char *process_delete_connection (char *address, int core_port, 
-    char *connection_id, char *src_node_id, char *dst_node_id, int type)
+char *process_delete_connection (
+    char *src_nm_address, char *src_node_id, int src_core_port, char *dst_node_id, char *connection_id, int connection_type)
 {
-    return process_request(VERBUM_DELETE_CONNECTION, 1, NULL,
-        address, 0, src_node_id, core_port, 0, NULL, NULL, 0, dst_node_id, 0, connection_id, type, NULL);
+    return process_request(VERBUM_CON_DELETE_CONNECTION, 1, NULL,
+        src_nm_address, 0, src_node_id, src_core_port, 0, NULL, NULL, 0, 
+            dst_node_id, 0, connection_id, connection_type, NULL);
 }
 
-char *process_delete_connection_server(char *address, int node_port, 
-    char *connection_id, char *src_node_id, char *dst_node_id)
+char *process_delete_connection_server(char *src_nm_address, int src_nm_port, 
+    char *src_node_id, char *dst_node_id, char *connection_id)
 {
-    return process_request(VERBUM_DELETE_CONNECTION_SERVER, 1, NULL,
-        address, node_port, src_node_id, 0, 0, NULL, NULL, 0, dst_node_id, 0, connection_id, 0, NULL);
+    return process_request(VERBUM_CON_DELETE_CONNECTION_SERVER, 1, NULL,
+        src_nm_address, src_nm_port, src_node_id, 0, 0, NULL, NULL, 0, dst_node_id, 0, connection_id, 0, NULL);
 }
 
-int process_check_direct_nm (char *address, int nm_port)
+int process_check_direct_nm (char *src_nm_address, int src_nm_port)
 {
     char *response = NULL;
 
-    response = process_request(VERBUM_CHECK_DIRECT_NODE_MAPPER, 1, NULL,
-        address, nm_port, NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
+    response = process_request(VERBUM_CON_CHECK_DIRECT_NODE_MAPPER, 1, NULL,
+        src_nm_address, src_nm_port, NULL, 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 
     if (!response)
         return 0;
