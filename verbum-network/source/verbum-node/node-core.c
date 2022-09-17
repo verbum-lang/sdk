@@ -23,7 +23,7 @@ void *node_core (void *tparam)
     socklen_t address_size;
     int ssock  = -1, nsock = -1;
     int status = -1, port  =  0;
-    int node_mapper_port = 0, max_connections = 100;
+    int node_mapper_port = 0, max_connections = SERVERS_MAX_CONNECTION;
     const int enable = 1;
     thread_worker_t *worker;
     
