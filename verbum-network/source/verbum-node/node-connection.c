@@ -340,6 +340,9 @@ static void *connection_ping_controller (void *tparam)
         usleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
     }
 
+    mem_sfree(connection_id);
+    mem_sfree(src_node_id);
+
     pthread_exit(NULL);
     return NULL;
 }
@@ -373,12 +376,12 @@ static int ping_controller_communication (
     }
     
     if (!valid) 
-        goto end_error;
+        goto error;
     
     // Extract server node port.
     ptr = strstr(response1, "verbum-node-information:");
     if (!ptr)
-        goto end_error;
+        goto error;
 
     ptr += strlen("verbum-node-information:");
     memset(tmp, 0x0, 1024);
@@ -405,7 +408,7 @@ static int ping_controller_communication (
     }
 
     if (!server_port)
-        goto end_error;
+        goto error;
 
     // Connect to Node Server interface.
     pthread_mutex_lock(&mutex_connections);
@@ -419,6 +422,7 @@ static int ping_controller_communication (
         if (strcmp(connection->id, connection_id) == 0) {
             if (connection->delete_enabled == 1) 
                 delete_enabled = 1;
+                
             break;
         }
     }
@@ -426,7 +430,7 @@ static int ping_controller_communication (
     pthread_mutex_unlock(&mutex_connections);
 
     if (delete_enabled)
-        goto end_error;
+        goto error;
 
     valid     = 0;
     response2 = process_connection_ping(node_mapper_id, dst_nm_address, 
@@ -438,7 +442,7 @@ static int ping_controller_communication (
     }
     
     if (!valid) 
-        goto end_error;
+        goto error;
     
     // Save informations.
     pthread_mutex_lock(&mutex_connections);
@@ -478,7 +482,7 @@ static int ping_controller_communication (
     mem_sfree(response2);
     return 1;
 
-    end_error:
+    error:
     mem_sfree(node_mapper_id);
     mem_sfree(response1);
     mem_sfree(response2);

@@ -212,6 +212,7 @@ int server_ping (int sock, char *content)
                 nconnection->next = connection->next;
             }
 
+            mem_sfree(connection->remote_id);
             mem_sfree(connection->id);
             mem_sfree(connection->dst_node_id);
             mem_sfree(connection->dst_nm_id);

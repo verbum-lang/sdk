@@ -18,8 +18,8 @@ int create_node_connection(int sock, char *content, int type)
 {
     char response_error [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char tmp [1024];
+
     char *id = NULL;
-    
     char *src_node_id      = NULL;
     char *dst_node_id      = NULL;
     char *dst_nm_address   = NULL;
@@ -28,7 +28,7 @@ int create_node_connection(int sock, char *content, int type)
     int bytes = 0, status = 0, src_node_interface_port = 0;
         
     if (!sock || !content)
-        goto cnc_error;
+        goto error;
 
     // Copy node information.
     pthread_mutex_lock(&mutex_gconfig);
@@ -96,7 +96,7 @@ int create_node_connection(int sock, char *content, int type)
 
     if (!src_node_id    || !dst_node_id || 
         !dst_nm_address || !dst_nm_port  )
-        goto cnc_error;
+        goto error;
 
     #ifdef NCDBG_CON
         say("src_node_id....: \"%s\"", src_node_id);
@@ -107,7 +107,7 @@ int create_node_connection(int sock, char *content, int type)
 
     // Check node is valid.
     if (strcmp(id, src_node_id) != 0)
-        goto cnc_error;
+        goto error;
     
     switch (type) {
         case 0:
@@ -130,7 +130,7 @@ int create_node_connection(int sock, char *content, int type)
     }
     
     // Error.
-    cnc_error:
+    error:
 
     mem_sfree(id);
     mem_sfree(src_node_id);
@@ -216,6 +216,7 @@ int create_node_output_connection (
             say("end (error) connection process.");
         #endif
 
+        mem_sfree(current_id);
         return 0;
     }
 

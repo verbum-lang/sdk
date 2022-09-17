@@ -158,6 +158,7 @@ int delete_connection (int sock, char *content)
 
             if (response) {
                 if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+                    mem_sfree(response);
                     status = 1;
                     break;
                 }
@@ -322,6 +323,7 @@ int delete_connection_server (int sock, char *content)
 
         if (response) {
             if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
+                mem_sfree(response);
                 status = 1;
                 break;
             }

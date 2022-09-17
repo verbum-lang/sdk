@@ -72,7 +72,6 @@ static int process_communication_core (int sock)
         return 1;
     }
 
-    error:
     bytes = send(sock, error_message, strlen(error_message), VERBUM_SEND_FLAGS);
     mem_sfree(response);
     return 0;
@@ -97,7 +96,7 @@ static int process_communication_server (int sock)
      */
     if (strstr(response, "connection-ping-verbum-node:"))
         status = server_ping(sock, response);
-
+    
     /**
      * Delete connection.
      */
@@ -109,7 +108,6 @@ static int process_communication_server (int sock)
         return 1;
     }
 
-    error:
     bytes = send(sock, error_message, strlen(error_message), VERBUM_SEND_FLAGS);
     mem_sfree(response);
     return 0;
