@@ -370,7 +370,7 @@ static int ping_controller_communication (
     int counter = 0, result = 0, valid = 0, server_port = 0;
     int delete_enabled = 0;
     char *response1 = NULL, *response2 = NULL;
-    char *ptr = NULL, *date = NULL, *node_mapper_id = NULL;
+    char *ptr = NULL, *node_mapper_id = NULL;
     char tmp[1024];
     node_connection_t *connection;
     

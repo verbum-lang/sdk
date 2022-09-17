@@ -175,9 +175,20 @@ int delete_connection (int sock, char *content)
     // Finish.
     success:
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
+
+    mem_sfree(nm_address);
+    mem_sfree(connection_id);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+
     return 1;
 
     error:
+    mem_sfree(nm_address);
+    mem_sfree(connection_id);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+    
     return 0;
 }
 
@@ -321,17 +332,26 @@ int delete_connection_server (int sock, char *content)
         sleep(1);
     }
 
-    mem_sfree(current_connection_id);
-
     if (!status)
         goto error;
 
     // Finish.
     success:
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
+
+    mem_sfree(current_connection_id);
+    mem_sfree(connection_id);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+
     return 1;
 
     error:
+    mem_sfree(current_connection_id);
+    mem_sfree(connection_id);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+
     return 0;
 }
 

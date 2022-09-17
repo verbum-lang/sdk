@@ -39,7 +39,6 @@ int add_node_on_node_mapper (void)
             }
 
             mem_sfree(id);
-            break;
         }
 
         usleep(1000);
@@ -60,8 +59,8 @@ int add_node_on_node_mapper (void)
     }
 
     pthread_mutex_unlock(&mutex_gconfig);
-    mem_sfree(id);
     
+    mem_sfree(id);
     return result;
 }
 

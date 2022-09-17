@@ -122,11 +122,23 @@ int create_node_connection(int sock, char *content, int type)
     }
 
     // Success.
-    if (result)
-        return result;
+    if (result) {
+        mem_sfree(src_node_id);
+        mem_sfree(dst_node_id);
+        mem_sfree(dst_nm_id);
+        mem_sfree(dst_nm_address);
+
+        return 1;
+    }
 
     // Error.
     cnc_error:
+
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+    mem_sfree(dst_nm_id);
+    mem_sfree(dst_nm_address);
+
     return 0;
 }
 
@@ -169,6 +181,7 @@ int create_node_output_connection (int   sock,
     }
 
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
+    mem_sfree(response_success);
     return 1;
 }
 

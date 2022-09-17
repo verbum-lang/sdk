@@ -120,11 +120,23 @@ int create_node_connection(int sock, char *content, int type)
     }
 
     // Success.
-    if (result)
-        return 1;
+    if (result) {
+        mem_sfree(id);
+        mem_sfree(src_node_id);
+        mem_sfree(dst_node_id);
+        mem_sfree(dst_nm_address);
 
+        return 1;
+    }
+    
     // Error.
     cnc_error:
+
+    mem_sfree(id);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+    mem_sfree(dst_nm_address);
+
     return 0;
 }
 

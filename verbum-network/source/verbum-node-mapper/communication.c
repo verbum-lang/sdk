@@ -15,7 +15,7 @@ static int check_direct_connection (int sock);
 
 int process_communication(int sock, char *path, char *nm_id)
 {
-    char error_message [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
+    char  error_message [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char *response = NULL;
     int   status   = 0, bytes = 0;
 
@@ -96,10 +96,10 @@ int process_communication(int sock, char *path, char *nm_id)
     else if (strstr(response, "check-direct-node-mapper:"))
         status = check_direct_connection(sock);
 
-    if (status) {
-        mem_sfree(response);
+    mem_sfree(response);
+
+    if (status)
         return 1;
-    }
 
     error:
     bytes = send(sock, error_message, strlen(error_message), VERBUM_SEND_FLAGS);
@@ -125,6 +125,9 @@ static int get_node_mapper_id (int sock, char *nm_id)
     sprintf(response, "%s\n\nverbum-node-mapper-id:%s%s", default_success, nm_id, default_eoh);
 
     bytes = send(sock, response, strlen(response), VERBUM_SEND_FLAGS);
+
+    memset(response, 0x0, size);
+    mem_sfree(response);
     return 1;
 }
 

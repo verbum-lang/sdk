@@ -292,9 +292,9 @@ static int process_connection_item (char *connection)
             found = 1;
 
             // Replace item.
-            if (!con->next) {
+            if (!con->next) 
                 last->next = ncon;
-            } else {
+            else {
                 last->next = ncon;
                 ncon->next = con->next;
             }

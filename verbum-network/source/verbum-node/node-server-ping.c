@@ -23,7 +23,6 @@ int server_ping (int sock, char *content)
     char *dst_nm_address = NULL;
     int   dst_nm_port = 0;
     char *message_response = NULL;
-    char *response = NULL;
 
     char tmp [1024];
     char *ptr = NULL, *date = NULL;
@@ -319,11 +318,22 @@ int server_ping (int sock, char *content)
 
     pthread_mutex_unlock(&mutex_connections);
     
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+    mem_sfree(src_con_id);
+    mem_sfree(src_nm_id);
     mem_sfree(dst_nm_address);
     mem_sfree(b_id);
     return 1;
 
     error:
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+    mem_sfree(src_con_id);
+    mem_sfree(src_nm_id);
+    mem_sfree(dst_nm_address);
+    mem_sfree(b_id);
+
     return 0;
 }
 

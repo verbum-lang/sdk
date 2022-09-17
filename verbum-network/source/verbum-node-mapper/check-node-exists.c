@@ -80,6 +80,7 @@ int check_node_exists (int sock, char *content)
         return 0;
 
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
+    mem_sfree(response_success);
     return 1;
 }
 

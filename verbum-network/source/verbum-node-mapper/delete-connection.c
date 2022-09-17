@@ -156,12 +156,21 @@ int delete_connection (int sock, char *content)
         pthread_mutex_unlock(&mutex_connections);
     }
 
+    mem_sfree(connection_id);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+
     // Finish.
     success:
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     return 1;
 
     error:
+
+    mem_sfree(connection_id);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+
     return 0;
 }
 
@@ -262,12 +271,21 @@ int delete_connection_server (int sock, char *content)
 
     pthread_mutex_unlock(&mutex_connections);
 
+    mem_sfree(connection_id);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+
     // Finish.
     success:
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     return 1;
 
     error:
+    
+    mem_sfree(connection_id);
+    mem_sfree(src_node_id);
+    mem_sfree(dst_node_id);
+
     return 0;
 }
 

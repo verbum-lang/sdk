@@ -74,6 +74,7 @@ static int process_communication_core (int sock)
 
     error:
     bytes = send(sock, error_message, strlen(error_message), VERBUM_SEND_FLAGS);
+    mem_sfree(response);
     return 0;
 }
 
@@ -110,6 +111,7 @@ static int process_communication_server (int sock)
 
     error:
     bytes = send(sock, error_message, strlen(error_message), VERBUM_SEND_FLAGS);
+    mem_sfree(response);
     return 0;
 }
 

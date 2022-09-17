@@ -493,8 +493,8 @@ char *process_request (
         return NULL;
     }
 
-    mem_sfree(message);
     close(sock);
+    mem_sfree(message);
     return response;
 }
 

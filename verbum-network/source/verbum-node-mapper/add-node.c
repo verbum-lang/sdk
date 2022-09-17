@@ -62,8 +62,11 @@ int add_new_node (int sock, char *content)
     bytes = send(sock, resp, strlen(resp), VERBUM_SEND_FLAGS);
 
     if (bytes == strlen(resp)) {
-        if (!node_insert_item(node)) 
-            say_ret(0, "error insert node item.");
+        if (!node_insert_item(node)) {
+            say("error insert node item.");
+            mem_sfree(resp);
+            goto ann_end;
+        }
     } else {
         memset(node->id, 0x0, strlen(node->id));
         free(node->id);
