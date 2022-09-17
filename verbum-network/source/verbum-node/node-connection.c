@@ -143,8 +143,7 @@ static void *connection_ping_controller (void *tparam)
     int   src_nm_port    = 0;
 
     char *date = NULL;
-    int status = 0, valid = 0, error = 0;
-    int count = 0, fmem = 0;
+    int status = 0, valid = 0;
     int counter = 0, check_limit = 5;
     int delete_connection = 0;
 
@@ -172,7 +171,6 @@ static void *connection_ping_controller (void *tparam)
         // Process actions.
         pthread_mutex_lock(&mutex_connections);
         valid  = 0;
-        error  = 0;
 
         for (connection=connections; connection != NULL; connection=connection->next) {
             if (connection->status != 2) {
@@ -195,7 +193,6 @@ static void *connection_ping_controller (void *tparam)
                 // Check delete connection.
                 if (connection->delete_enabled == 1) {
                     delete_connection = 1;
-                    error = 0;
 
                     // Remove item.
                     if (!connection->next)
@@ -221,37 +218,24 @@ static void *connection_ping_controller (void *tparam)
                 else if (connection->ping_controller_enabled == 1) 
                     valid = 1;
 
-                if (!valid) {
-                    #ifdef NCDBG
-                        say("flag error - ping controller.");
-                    #endif
-                }
-
-                else {
-
+                // Process data.
+                if (valid) {
+                    
                     // Dst node id.
-                    fmem = 0;
                     mem_salloc(dst_node_id, strlen(connection->dst_node_id));
-                    if (dst_node_id) {
+                    if (dst_node_id) 
                         mem_scopy(connection->dst_node_id, dst_node_id);
-                        fmem = 1;
-                    }
 
                     // Dst NM address.
-                    if (fmem) {
-                        fmem = 0;
-                        mem_salloc(dst_nm_address, strlen(connection->dst_node_id));
-                        if (dst_nm_address) {
-                            mem_scopy(connection->dst_nm_address, dst_nm_address);
-                            fmem = 1;
-                        }
-                    }
+                    mem_salloc(dst_nm_address, strlen(connection->dst_node_id));
+                    if (dst_nm_address) 
+                        mem_scopy(connection->dst_nm_address, dst_nm_address);
 
                     // Dst NM port.
-                    if (fmem) {
-                        dst_nm_port = connection->dst_nm_port;
-                        error = 1;
-                    }
+                    dst_nm_port = connection->dst_nm_port;
+
+                    if (dst_node_id && dst_nm_address && dst_nm_port)
+                        connection->running = 1;
 
                     break;
                 }
@@ -260,9 +244,6 @@ static void *connection_ping_controller (void *tparam)
             last = connection;
         }
 
-        if (error == 1 && dst_node_id || dst_nm_address || dst_nm_port) 
-            connection->running = 1;
-        
         pthread_mutex_unlock(&mutex_connections);
 
         if (delete_connection == 1) {
@@ -271,7 +252,7 @@ static void *connection_ping_controller (void *tparam)
             break;
         }
 
-        if (error == 0 || !dst_node_id || !dst_nm_address || !dst_nm_port) {
+        if (!dst_node_id || !dst_nm_address || !dst_nm_port) {
             mem_sfree(dst_node_id);
             mem_sfree(dst_nm_address);
             usleep(VERBUM_NODE_CONNECTION_SEC_TIMEOUT);
@@ -368,14 +349,14 @@ static int ping_controller_communication (
     char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
     int counter = 0, result = 0, valid = 0, server_port = 0;
-    int delete_enabled = 0;
+    int delete_enabled = 0, size = 0;
     char *response1 = NULL, *response2 = NULL;
     char *ptr = NULL, *node_mapper_id = NULL;
     char tmp[1024];
     node_connection_t *connection;
     
-    if (!connection_id || !src_node_id || !src_nm_port ||
-        !dst_node_id || !dst_nm_address || !dst_nm_port)
+    if (!connection_id || !src_node_id    || !src_nm_port ||
+        !dst_node_id   || !dst_nm_address || !dst_nm_port  )
         return 0;
 
     // Get current Node Mapper ID.
@@ -476,7 +457,14 @@ static int ping_controller_communication (
             // Destination Node Mapper ID.
             ptr  = strstr(response2, VERBUM_DEFAULT_SUCCESS ":");
             ptr += strlen(VERBUM_DEFAULT_SUCCESS ":");
-            mem_salloc_scopy(ptr, connection->dst_nm_id);
+
+            size = sizeof(char) * (strlen(ptr) + 1);
+            connection->dst_nm_id = (char *) realloc(connection->dst_nm_id, size);
+            
+            if (connection->dst_nm_id) {
+                memset(connection->dst_nm_id, 0x0, size);
+                memcpy(connection->dst_nm_id, ptr, strlen(ptr));
+            }
 
             break;
         }
