@@ -161,7 +161,6 @@ int delete_connection (int sock, char *content)
     mem_sfree(dst_node_id);
 
     // Finish.
-    success:
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     return 1;
 
@@ -276,7 +275,6 @@ int delete_connection_server (int sock, char *content)
     mem_sfree(dst_node_id);
 
     // Finish.
-    success:
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     return 1;
 

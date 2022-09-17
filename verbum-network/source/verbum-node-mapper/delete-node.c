@@ -22,7 +22,7 @@ int delete_node (int sock, char *content)
     char response_success  [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
     char address           [] = LOCALHOST;
-    char *ptr = NULL;
+    char *ptr = NULL, *response = NULL;
     int bytes = 0, status = 0, counter = 0, core_port = 0;
     node_control_t *node, *nlast;
     node_connection_t *con, *last;
@@ -99,7 +99,7 @@ int delete_node (int sock, char *content)
 
     // Send request to node auto-close.
     if (status == 1) {
-        char *response = process_delete_node(address, core_port, tmp);
+        response = process_delete_node(address, core_port, tmp);
         if (response)
             mem_sfree(response);
     }

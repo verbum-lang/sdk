@@ -147,7 +147,7 @@ int create_node_output_connection (int   sock,
                                    char *dst_node_id, char *dst_nm_address, int dst_nm_port)
 {
     char  address [] = LOCALHOST;
-    char *response_success = NULL;
+    char *response_success = NULL, *response = NULL;
     int   result = 0, status = 0, bytes = 0;
 
     if (!sock || !src_node_id || !src_node_interface_port ||
@@ -155,7 +155,7 @@ int create_node_output_connection (int   sock,
         return 0;
 
     // Send request to node.
-    char *response = process_create_node_output_connection(
+    response = process_create_node_output_connection(
         address, src_node_id, src_node_interface_port, 
         dst_node_id, dst_nm_address, dst_nm_port);
     
@@ -163,17 +163,17 @@ int create_node_output_connection (int   sock,
         if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
 
             // Copy response.
-            mem_scopy_goto(response, response_success, cnoc_end);
+            mem_scopy_goto(response, response_success, error);
             mem_sfree(response);
             
             status = 1;
         }
-        
-        mem_sfree(response);
+        else
+            mem_sfree(response);
     }
 
     // Finish.
-    cnoc_end:
+    error:
     
     if (!status) {
         mem_sfree(response_success);

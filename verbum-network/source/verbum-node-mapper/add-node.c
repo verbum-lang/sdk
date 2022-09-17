@@ -64,7 +64,6 @@ int add_new_node (int sock, char *content)
     if (bytes == strlen(resp)) {
         if (!node_insert_item(node)) {
             say("error insert node item.");
-            mem_sfree(resp);
             goto ann_end;
         }
     } else {
@@ -73,11 +72,10 @@ int add_new_node (int sock, char *content)
         free(node);
     }
 
-    mem_sfree(resp);
-
     // Fail.
     ann_end:
 
+    mem_sfree(resp);
     mem_sfree(id);
     mem_sfree(date);
 

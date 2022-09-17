@@ -112,17 +112,23 @@ int update_ping_node (int sock, char *content)
 
     pthread_mutex_unlock(&mutex_nodes);
 
-    // New existing node.
+    // New node.
     if (found == 0) {
-        if (!node_insert_item(node_information))
-            say_ret(0, "error insert node item.");
+        if (!node_insert_item(node_information)) {
+            say("error add node.");
+
+            mem_sfree(node_information->id);
+            free(node_information);
+        }
     }
+    
     else {
         mem_sfree(node_information->id);
         free(node_information);
     }
 
     bytes = send(sock, response, strlen(response), VERBUM_SEND_FLAGS);
+    
     success:
     mem_sfree(date);
     return 1;

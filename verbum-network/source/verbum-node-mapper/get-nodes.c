@@ -126,12 +126,16 @@ int get_node_list (int sock)
     pthread_mutex_unlock(&mutex_nodes);
 
     if (!status || !size) {
-        size = 256;
-        mem_salloc_ret(message, size, 0);
-        sprintf(message, "nodes not found.\n");
-        size = strlen(message);
+        size    = sizeof(char) * 256;
+        message = (char *) realloc(message, size);
+        
+        if (message) {
+            memset(message, 0x0, size);
+            sprintf(message, "nodes not found.\n");
+            size = strlen(message);
+        }
     }
-
+    
     status = send(sock, message, size, VERBUM_SEND_FLAGS);
     mem_sfree(message);
     return 1;
