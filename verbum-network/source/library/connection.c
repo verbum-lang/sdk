@@ -142,6 +142,7 @@ int create_connection (char *address, int port, int enable_timeout)
             say("header not found on packet.");
         #endif
 
+        mem_sfree(packet);
         return -1;
     }
 
@@ -149,6 +150,7 @@ int create_connection (char *address, int port, int enable_timeout)
         say("connection success!");
     #endif
 
+    mem_sfree(packet);
     return sock;
 }
 

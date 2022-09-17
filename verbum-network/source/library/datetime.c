@@ -6,7 +6,7 @@ char *make_datetime (void)
 {
     time_t now      = time(NULL);
     struct tm *tms  = localtime(&now);
-    char * date     = NULL;
+    char *date      = NULL;
     char day[5], mon[5], year[5], hour[5], min[5], sec[5];
     
     mem_salloc_ret(date, 100, NULL);
@@ -201,7 +201,7 @@ date_diff_t prepare_date_data (char *idate)
 
 int prepare_atoi (char *number)
 {
-    char *ptr  = number;
+    char *ptr = number;
 
     if (!number)
         return 0;

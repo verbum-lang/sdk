@@ -40,9 +40,7 @@ void *monitor_processes_handler (void *param)
 
 void open_processes (char *path)
 {
-    pid_t pid = check_process_running("verbum-node-mapper");
-    if (pid == -1)
-        system_execution_noret("verbum-node-mapper -c \"%s\" &", path);
+    system_execution_noret("verbum-node-mapper -c \"%s\" &", path);
 }
 
 void check_connection_interface (char *path, int node_mapper_port)
