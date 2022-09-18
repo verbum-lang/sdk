@@ -64,8 +64,7 @@ int add_new_node (int sock, char *content)
     if (bytes == strlen(resp)) {
         if (!node_insert_item(node)) {
             say("error insert node item.");
-            free(node->id);
-            free(node);
+            goto ann_end;
         }
     } else {
         memset(node->id, 0x0, strlen(node->id));
