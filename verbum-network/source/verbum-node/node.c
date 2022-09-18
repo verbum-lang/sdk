@@ -1,10 +1,9 @@
 
 #include "node.h"
 #include "monitor-processes.h"
-#include "node-connection.h"
 #include "node-core.h"
-#include "node-server.h"
 #include "node-client.h"
+#include "node-server.h"
 
 pthread_mutex_t    mutex_gconfig = PTHREAD_MUTEX_INITIALIZER;
 node_config_t     *gconfig;
@@ -36,25 +35,19 @@ int verbum_node (void)
         return 0; 
     
     /**
-     * Node connections controller.
-     */
-
-    create_thread_controller(node_connection);
-
-    /**
      * Node Core interface.
      */
     create_thread_controller(node_core);
 
     /**
-     * Node Server interface.
-     */
-    create_thread_controller(node_server);
-
-    /**
      * Node client connections control.
      */
     create_thread_controller(node_client);
+
+    /**
+     * Node Server interface.
+     */
+    create_thread_controller(node_server);
 
     return 1;
 }

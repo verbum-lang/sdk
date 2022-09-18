@@ -1,6 +1,6 @@
 
 #include "node-server-ping.h"
-#include "node-connection.h"
+#include "node-client.h"
 
 extern pthread_mutex_t    mutex_gconfig;
 extern node_config_t     *gconfig;

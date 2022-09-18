@@ -1,6 +1,6 @@
 
 #include "generate-connection-id.h"
-#include "node-connection.h"
+#include "node-client.h"
 
 extern node_connection_t *connections;
 extern pthread_mutex_t    mutex_connections;
