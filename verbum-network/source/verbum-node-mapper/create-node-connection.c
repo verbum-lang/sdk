@@ -161,15 +161,11 @@ int create_node_output_connection (int   sock,
     
     if (response) {
         if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
-
-            // Copy response.
             mem_scopy_goto(response, response_success, error);
-            mem_sfree(response);
-            
             status = 1;
         }
-        else
-            mem_sfree(response);
+        
+        mem_sfree(response);
     }
 
     // Finish.

@@ -57,7 +57,7 @@ int check_node_exists (int sock, char *content)
                 if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
                     
                     // Copy response.
-                    mem_scopy_goto(response, response_success, cne_end);
+                    mem_scopy_goto(response, response_success, error);
                     mem_sfree(response);
                     
                     status = 1;
@@ -74,14 +74,18 @@ int check_node_exists (int sock, char *content)
     }
 
     // Finish.
-    cne_end:
+    if (!status) {
+        mem_sfree(response_success);
+        return 0;
+    }
 
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     mem_sfree(response_success);
-
-    if (!status) 
-        return 0;
     return 1;
+
+    error:
+    mem_sfree(response_success);
+    return 0;
 }
 
 
