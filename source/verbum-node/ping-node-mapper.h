@@ -5,8 +5,7 @@
 #include "global.h"
 #include "node-global.h"
 
-int   ping_node_action  (void);
-void *ping_node_handler (void *tparam);
+int ping_node_action (void);
 
 #endif
 

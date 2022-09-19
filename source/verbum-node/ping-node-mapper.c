@@ -2,6 +2,8 @@
 #include "ping-node-mapper.h"
 #include "node-client.h"
 
+static void *ping_node_handler (void *tparam);
+
 extern pthread_mutex_t    node_mutex_gconfig;
 extern node_config_t     *node_gconfig;
 
@@ -20,7 +22,7 @@ int ping_node_action (void)
     return 1;
 }
 
-void *ping_node_handler (void *tparam)
+static void *ping_node_handler (void *tparam)
 {
     char address [] = LOCALHOST, default_value [] = "not specified";
     char *response1 = NULL, *response2 = NULL;
