@@ -1,31 +1,53 @@
 
-#include "global.h"
+#include "prepare-settings.h"
+
 #include "../../verbum-node/include/node.h"
 #include "../../verbum-node-mapper/include/node-mapper.h"
 
 int initialization (int argc, char *argv[]) 
 {
-    say("Verbum started");
-
-    // Default configuration.
-    char node_mapper_id [] = "IHS-333111333";
-    global.configuration.node_mapper.server_port = 3333;
-    mem_scopy_ret(node_mapper_id, global.configuration.node_mapper.id, 0);
+    #ifdef VERBUM_DEBUG
+        say("Verbum started");
+    #endif
 
     /**
      * Initialize.
      */
 
-    if (!ignore_sigpipe())
-        say_ret(0, "sigaction() error.");
+    if (prepare_settings(argc, argv)) {
+        #ifdef VERBUM_DEBUG
+            say("Settings prepared successfully!");
+        #endif
+    } else
+        say_ret(0, "Error preparing settings."); 
+
+    if (ignore_sigpipe()) {
+        #ifdef VERBUM_DEBUG
+            say("ignore_sigpipe() success!");
+        #endif
+    } else
+        say_ret(0, "sigaction() error."); 
+
+
+    /**
+     * Start Verbum Node Mapper.
+     */
 
     verbum_node_mapper();
     
-    if (!verbum_node())
+
+    /**
+     * Start Verbum Node.
+     */
+
+    if (verbum_node()) {
+        #ifdef VERBUM_DEBUG
+            say("ignore_sigpipe() success!");
+        #endif
+    } else
         say_ret(0, "Error start Verbum Node.");
-        
-    infinite_loop();
     
+    infinite_loop();
     return 0;
 }
 

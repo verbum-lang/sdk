@@ -20,6 +20,8 @@ rm -rf verbum
 # Build utils
 #
 
+echo "Build utils"
+
 cd ../sdk/source/utils/source/
 rm -rf *.o
 
@@ -33,15 +35,16 @@ gcc -o ini_file.o                       -c ini_file.c                   $INCLUDE
 gcc -o process.o                        -c process.c                    $INCLUDE_PARAM
 gcc -o connection.o                     -c connection.c                 $INCLUDE_PARAM
 
-LP=" ../../utils/source"
-UTILS_OBJECTS=""
-UTILS_OBJECTS+="$LP/global.o $LP/memory.o $LP/debug.o $LP/application.o"
-UTILS_OBJECTS+="$LP/file.o $LP/ini_file.o $LP/connection.o $LP/process.o $LP/datetime.o"
+UP=" ../../utils/source"
+UTILS_OBJECTS="$UP/global.o $UP/memory.o $UP/debug.o $UP/application.o"
+UTILS_OBJECTS+="$UP/file.o $UP/ini_file.o $UP/connection.o $UP/process.o $UP/datetime.o"
 
 
 # ***
 # Build verbum-node
 #
+
+echo "Build Verbum Node"
 
 cd ../../verbum-node/source/
 rm -rf *.o
@@ -75,6 +78,8 @@ VERBUM_NODE_OBJECTS+="$VNP/generate-connection-id.o $VNP/node-server-ping.o $VNP
 # Build verbum-node-mapper
 #
 
+echo "Build Verbum Node Mapper"
+
 cd ../../verbum-node-mapper/source/
 rm -rf *.o
 
@@ -106,11 +111,17 @@ VERBUM_NM_OBJECTS+="$NMP/timeout-control.o $NMP/delete-connection.o"
 # Build verbum
 #
 
+echo "Build Verbum"
+
 cd ../../verbum/source/
 rm -rf *.o
 rm -rf verbum
 
-gcc -o verbum verbum.c $UTILS_OBJECTS $VERBUM_NODE_OBJECTS $VERBUM_NM_OBJECTS $LIBS $INCLUDE_PARAM
+gcc -o prepare-settings.o               -c prepare-settings.c           $INCLUDE_PARAM
+
+VERBUM_OBJECTS=" prepare-settings.o "
+
+gcc -o verbum verbum.c $VERBUM_OBJECTS $UTILS_OBJECTS $VERBUM_NODE_OBJECTS $VERBUM_NM_OBJECTS $LIBS $INCLUDE_PARAM
 
 cp verbum ../../../../sdk-binaries/
 

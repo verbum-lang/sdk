@@ -60,7 +60,7 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
                                     result.svalue = (char *) malloc(size);
 
                                     if (!result.svalue) {
-                                        debug_print("error allocating memory.");
+                                        say("error allocating memory.");
                                         goto ir_end;
                                     }
 

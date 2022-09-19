@@ -260,7 +260,7 @@ static void *node_mapper_interface (void *tparam)
                 case_item(ETIMEDOUT);
             }
 
-            debug_print("Verbum Node Mapper, error accept client: %s - %s", strerr, strerror(errno));
+            say("Verbum Node Mapper, error accept client: %s - %s", strerr, strerror(errno));
         }
     }
 

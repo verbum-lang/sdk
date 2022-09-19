@@ -155,7 +155,7 @@ void *node_server (void *tparam)
                 case_item(ETIMEDOUT);
             }
 
-            debug_print("Verbum Node Server, error accept client: %s - %s", strerr, strerror(errno));
+            say("Verbum Node Server, error accept client: %s - %s", strerr, strerror(errno));
         }
     }
 
