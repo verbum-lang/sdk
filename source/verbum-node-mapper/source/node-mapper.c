@@ -20,10 +20,10 @@ static void              *worker_handler          (void *tparam);
 static pthread_mutex_t    mutex_workers           = PTHREAD_MUTEX_INITIALIZER;
 static worker_t          *workers                 = NULL;
 
-extern node_control_t    *nm_nodes;
-extern pthread_mutex_t    nm_mutex_nodes;
-extern pthread_mutex_t    nm_mutex_connections;
-extern node_connection_t *nm_connections;
+extern node_control_t    *node_mapper_nodes;
+extern pthread_mutex_t    node_mapper_mutex_nodes;
+extern pthread_mutex_t    node_mapper_mutex_connections;
+extern node_connection_t *node_mapper_connections;
 
 int initialize_node_mapper (void)
 {
@@ -71,11 +71,11 @@ int open_node_mapper_process (void)
 
     // Close all file descriptors.
     fd_limit = (int) sysconf(_SC_OPEN_MAX);
+
     for (int fd = STDERR_FILENO + 1; fd < fd_limit; fd++) {
 #ifndef VNM_BLOCK_FORK_STDOUT
         if (fd != 1)
 #endif
-
         close(fd);
     }
 
@@ -103,10 +103,10 @@ static int prepare_mutex (void)
     if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
         say_ret(0, "Mutex initializing failed - Workers.");
 
-    if (pthread_mutex_init(&nm_mutex_nodes, NULL) != 0) 
+    if (pthread_mutex_init(&node_mapper_mutex_nodes, NULL) != 0) 
         say_ret(0, "Mutex initializing failed - Nodes.");
 
-    if (pthread_mutex_init(&nm_mutex_connections, NULL) != 0) 
+    if (pthread_mutex_init(&node_mapper_mutex_connections, NULL) != 0) 
         say_ret(0, "Mutex initializing failed - Connections.");
 
     return 1;
@@ -118,12 +118,12 @@ static int prepare_data_control (void)
     if (!workers)
         say_ret(0, "Error create worker control.");
     
-    nm_nodes = nm_node_create_item();
-    if (!nm_nodes)
+    node_mapper_nodes = nm_node_create_item();
+    if (!node_mapper_nodes)
         say_ret(0, "Error create node control.");
 
-    nm_connections = nm_connection_create_item();
-    if (!nm_connections)
+    node_mapper_connections = nm_connection_create_item();
+    if (!node_mapper_connections)
         say_ret(0, "Error create connection control.");
 
     return 1;
