@@ -1,6 +1,6 @@
 
 #include "monitor-processes.h"
-#include "../verbum-node-mapper/node-mapper.h"
+#include "../../verbum-node-mapper/include/node-mapper.h"
 
 static void *monitor_processes_handler  (void *param);
 static void  check_connection_interface (int node_mapper_port);

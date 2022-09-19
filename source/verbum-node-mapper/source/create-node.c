@@ -1,6 +1,6 @@
 
 #include "create-node.h"
-#include "../verbum-node/node.h"
+#include "../../verbum-node/include/node.h"
 
 int create_node (int sock)
 {

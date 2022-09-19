@@ -1,7 +1,7 @@
 
 #include "global.h"
-#include "../verbum-node/node.h"
-#include "../verbum-node-mapper/node-mapper.h"
+#include "../../verbum-node/include/node.h"
+#include "../../verbum-node-mapper/include/node-mapper.h"
 
 int initialization (int argc, char *argv[]) 
 {
