@@ -46,7 +46,6 @@ UTILS_OBJECTS+="$LP/file.o $LP/ini_file.o $LP/connection.o $LP/process.o $LP/dat
 cd ../../verbum-node/source/
 rm -rf *.o
 
-gcc -o global.o                         -c global.c                     $INCLUDE_PARAM
 gcc -o node.o                           -c node.c                       $INCLUDE_PARAM
 gcc -o monitor-processes.o              -c monitor-processes.c          $INCLUDE_PARAM
 gcc -o node-core.o                      -c node-core.c                  $INCLUDE_PARAM
@@ -65,7 +64,7 @@ gcc -o delete-connection.o              -c delete-connection.c          $INCLUDE
 
 VNP=" ../../verbum-node/source"
 VERBUM_NODE_OBJECTS=""
-VERBUM_NODE_OBJECTS+="$VNP/global.o $VNP/node.o $VNP/monitor-processes.o $VNP/node-core.o"
+VERBUM_NODE_OBJECTS+="$VNP/node.o $VNP/monitor-processes.o $VNP/node-core.o"
 VERBUM_NODE_OBJECTS+="$VNP/add-on-node-mapper.o $VNP/ping-node-mapper.o $VNP/communication.o"
 VERBUM_NODE_OBJECTS+="$VNP/delete-node.o $VNP/check-node-exists.o $VNP/node-server.o"
 VERBUM_NODE_OBJECTS+="$VNP/node-client.o $VNP/create-node-connection.o $VNP/node-global.o"
@@ -79,7 +78,6 @@ VERBUM_NODE_OBJECTS+="$VNP/generate-connection-id.o $VNP/node-server-ping.o $VNP
 cd ../../verbum-node-mapper/source/
 rm -rf *.o
 
-gcc -o global.o                         -c global.c                     $INCLUDE_PARAM
 gcc -o node-mapper.o                    -c node-mapper.c                $INCLUDE_PARAM
 gcc -o node-control.o                   -c node-control.c               $INCLUDE_PARAM
 gcc -o communication.o                  -c communication.c              $INCLUDE_PARAM
@@ -98,7 +96,7 @@ gcc -o delete-connection.o              -c delete-connection.c          $INCLUDE
 
 NMP=" ../../verbum-node-mapper/source"
 VERBUM_NM_OBJECTS=""
-VERBUM_NM_OBJECTS+="$NMP/global.o $NMP/node-mapper.o $NMP/node-control.o $NMP/communication.o"
+VERBUM_NM_OBJECTS+="$NMP/node-mapper.o $NMP/node-control.o $NMP/communication.o"
 VERBUM_NM_OBJECTS+="$NMP/add-node.o $NMP/create-node.o $NMP/delete-node.o $NMP/generate-node-id.o"
 VERBUM_NM_OBJECTS+="$NMP/get-nodes.o $NMP/ping-node.o $NMP/check-node-exists.o"
 VERBUM_NM_OBJECTS+="$NMP/create-node-connection.o $NMP/connection-manager.o $NMP/connection-control.o"
@@ -112,8 +110,7 @@ cd ../../verbum/source/
 rm -rf *.o
 rm -rf verbum
 
-gcc -o global.o -c     global.c $INCLUDE_PARAM
-gcc -o verbum verbum.c global.o $UTILS_OBJECTS $VERBUM_NODE_OBJECTS $VERBUM_NM_OBJECTS $LIBS $INCLUDE_PARAM
+gcc -o verbum verbum.c $UTILS_OBJECTS $VERBUM_NODE_OBJECTS $VERBUM_NM_OBJECTS $LIBS $INCLUDE_PARAM
 
 cp verbum ../../../../sdk-binaries/
 
