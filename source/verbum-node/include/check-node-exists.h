@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_VN_CHECK_NODE_EXISTS
-#define VERBUM_VN_CHECK_NODE_EXISTS
+#ifndef VERBUM_NODE_CHECK_EXISTS
+#define VERBUM_NODE_CHECK_EXISTS
 
 #include "global.h"
 #include "node-global.h"

@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_VN_SERVER
-#define VERBUM_VN_SERVER
+#ifndef VERBUM_NODE_SERVER
+#define VERBUM_NODE_SERVER
 
 #include "global.h"
 #include "node-global.h"

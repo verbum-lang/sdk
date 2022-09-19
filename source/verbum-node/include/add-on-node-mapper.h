@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_VN_ADD_ON_NODE_MAPPER
-#define VERBUM_VN_ADD_ON_NODE_MAPPER
+#ifndef VERBUM_NODE_ADD_ON_NM
+#define VERBUM_NODE_ADD_ON_NM
 
 #include "global.h"
 #include "node-global.h"

@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_VN_NODE_INTERFACE
-#define VERBUM_VN_NODE_INTERFACE
+#ifndef VERBUM_NODE_CORE
+#define VERBUM_NODE_CORE
 
 #include "global.h"
 #include "node-global.h"

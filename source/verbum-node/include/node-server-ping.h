@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_VN_SERVER_PING
-#define VERBUM_VN_SERVER_PING
+#ifndef VERBUM_NODE_SERVER_PING
+#define VERBUM_NODE_SERVER_PING
 
 #include "global.h"
 #include "node-global.h"

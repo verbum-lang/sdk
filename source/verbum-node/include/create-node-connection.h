@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_VN_CREATE_NODE_CONNECTION
-#define VERBUM_VN_CREATE_NODE_CONNECTION
+#ifndef VERBUM_NODE_CREATE_CONNECTION
+#define VERBUM_NODE_CREATE_CONNECTION
 
 #include "global.h"
 #include "node-global.h"

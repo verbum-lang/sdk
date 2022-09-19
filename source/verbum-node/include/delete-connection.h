@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_VN_DELETE_CONNECTION
-#define VERBUM_VN_DELETE_CONNECTION
+#ifndef VERBUM_NODE_DELETE_CONNECTION
+#define VERBUM_NODE_DELETE_CONNECTION
 
 #include "global.h"
 #include "node-global.h"

@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_VN_DELETE_NODE
-#define VERBUM_VN_DELETE_NODE
+#ifndef VERBUM_NODE_DELETE_NODE
+#define VERBUM_NODE_DELETE_NODE
 
 #include "global.h"
 #include "node-global.h"
