@@ -19,9 +19,7 @@
  */
 
 // If enabled, blocks STDOUT (fork).
-#define VN_BLOCK_FORK_STDOUT
-
-#define VERBUM_NODE_DEBUG
+// #define VN_BLOCK_FORK_STDOUT
 
 #endif
 

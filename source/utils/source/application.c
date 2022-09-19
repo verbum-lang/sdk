@@ -5,8 +5,8 @@
 
 void system_open_bg_application (char *cmd)
 {
-    pid_t pid = 0;
-    int fd    = -1;
+    int fd, fd_limit;
+    pid_t pid;
 
     if (!cmd)
         say_noret("invalid command.");
@@ -22,7 +22,8 @@ void system_open_bg_application (char *cmd)
     if (pid > 0)
        return;
 
-    // On success: New session. The child process becomes session leader.
+    // On success: New session.
+    // The child process becomes session leader.
     if (setsid() < 0)
         say_noret("error setsid.");       
 
@@ -35,7 +36,8 @@ void system_open_bg_application (char *cmd)
         exit(0);
 
     // Close all open file descriptors.
-    for (fd = sysconf(_SC_OPEN_MAX); fd > 0; fd--)
+    fd_limit = (int) sysconf(_SC_OPEN_MAX);
+    for (fd = STDERR_FILENO + 1; fd < fd_limit; fd++)
         close(fd);
 
     // Reopen stdin (fd = 0), stdout (fd = 1), stderr (fd = 2).
@@ -43,6 +45,11 @@ void system_open_bg_application (char *cmd)
     stdout = fopen("/dev/null", "w+");
     stderr = fopen("/dev/null", "w+");
     
+    signal(SIGCHLD, SIG_IGN); // ignore child.
+    signal(SIGTSTP, SIG_IGN); // ignore tty signals.
+    signal(SIGTTOU, SIG_IGN);
+    signal(SIGTTIN, SIG_IGN);
+
     system(cmd);
     exit(0);
 }

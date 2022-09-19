@@ -1,11 +1,8 @@
 
-#ifndef VERBUM_NM_NODE_MAPPER
-#define VERBUM_NM_NODE_MAPPER
+#ifndef VERBUM_NM
+#define VERBUM_NM
 
 #include "global.h"
-
-// Thread workers limit.
-#define NM_THREAD_LIMIT 200
 
 // Thread param.
 typedef struct {
@@ -20,8 +17,8 @@ typedef struct {
     char *nm_id;                        // Node Mapper ID.
 } nm_worker_param_t;
 
-int node_mapper (void);
-int verbum_node_mapper (void);
+int initialize_node_mapper (void);
+int open_node_mapper       (void);
 
 #endif
 

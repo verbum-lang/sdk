@@ -1,57 +1,64 @@
 
+#include "verbum.h"
 #include "prepare-settings.h"
 
-#include "../../verbum-node/include/node.h"
-#include "../../verbum-node-mapper/include/node-mapper.h"
+static int preparations      (int argc, char *argv[]);
+static int start_node_mapper (void);
+static int start_node        (void);
 
 int initialization (int argc, char *argv[]) 
 {
-    #ifdef VERBUM_DEBUG
-        say("Verbum started");
-    #endif
+    say_debug("Verbum started.");
 
+    if (preparations(argc, argv)) 
+        say_debug("Preparations carried out successfully.");
+    else
+        say_ret(0, "Error performing initial preparations.");
+    
+    start_node_mapper();
+    // start_node();
+    infinite_loop();
 
-    /**
-     * Initialize.
-     */
+    return 0;
+}
 
-    if (prepare_settings(argc, argv)) {
-        #ifdef VERBUM_DEBUG
-            say("Settings prepared successfully!");
-        #endif
-    }
+static int preparations (int argc, char *argv[])
+{
+    prepare_settings(argc, argv);
 
-    if (ignore_sigpipe()) {
-        #ifdef VERBUM_DEBUG
-            say("SIGPIPE ignored.");
-        #endif
-    } else
-        say_ret(0, "Error ignoring SIGPIPE."); 
+    if (!ignore_sigpipe())
+        say_ret(0, "Error ignoring SIGPIPE.");
 
+    return 1;
+}
 
-    /**
-     * Start Verbum Node Mapper.
-     */
-
+static int start_node_mapper (void)
+{
     if (global.configuration.node_mapper.id          &&
         global.configuration.node_mapper.server_port  )
-        verbum_node_mapper();
+    {
+        open_node_mapper();
+        return 1;
+    }
     
+    say_debug("Insufficient settings for Node Mapper startup.");
+    return 0;
+}
 
-    /**
-     * Start Verbum Node.
-     */
-
-    if (global.configuration.node.id) {
-        if (verbum_node()) {
-            #ifdef VERBUM_DEBUG
-                say("Verbum node successfully started!");
-            #endif
-        } else
+static int start_node (void)
+{
+    if (global.configuration.node.id                 &&
+        global.configuration.node_mapper.server_port  )
+    {
+        if (verbum_node())
+            say_debug("Verbum node successfully started!");
+        else
             say_ret(0, "Error start Verbum Node.");
+
+        return 1;
     }
 
-    infinite_loop();
+    say_debug("Insufficient settings for Node startup.");
     return 0;
 }
 

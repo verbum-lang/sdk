@@ -20,14 +20,6 @@
 
 #define VERBUM_LANGUAGE_VERSION "1.0.0"
 
-
-/**
- * Project macros.
- */
-
-#define VERBUM_DEBUG
-
-
 #endif
 
 

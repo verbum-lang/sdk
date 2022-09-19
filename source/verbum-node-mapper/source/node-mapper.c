@@ -5,6 +5,8 @@
 #include "communication.h"
 #include "timeout-control.h"
 
+static int              prepare_mutex           (void);
+static int              prepare_data_control    (void);
 static int              prepare_node_mapper     (void);
 static int              prepare_timeout_control (void);
 static void            *node_mapper_interface   (void *tparam);
@@ -13,48 +15,25 @@ static thread_worker_t *worker_create_item      (int wid);
 static int              worker_insert_item      (thread_worker_t *new_worker);
 static void            *worker_handler          (void *tparam);
 
-static pthread_mutex_t    mutex_workers = PTHREAD_MUTEX_INITIALIZER;
-static thread_worker_t   *workers       = NULL;
-
+static pthread_mutex_t    mutex_workers         = PTHREAD_MUTEX_INITIALIZER;
+static thread_worker_t   *workers               = NULL;
 extern node_control_t    *nm_nodes;
 extern pthread_mutex_t    nm_mutex_nodes;
-
 extern pthread_mutex_t    nm_mutex_connections;
 extern node_connection_t *nm_connections;
 
-/**
- * Initialization.
- */
-
-int node_mapper (void)
+int initialize_node_mapper (void)
 {
-    say("Verbum Node Mapper started!");
+    say_debug("Verbum Node Mapper started.");
 
     if (!ignore_sigpipe())
-        say_ret(0, "sigaction() error.");
+        say_ret(0, "Error ignoring SIGPIPE.");
 
-    // Prepare mutex.
-    if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
-        say_ret(0, "mutex init failed - workers.");
+    if (!prepare_mutex())
+        say_ret(0, "Error preparing mutex.");
 
-    if (pthread_mutex_init(&nm_mutex_nodes, NULL) != 0) 
-        say_ret(0, "mutex init failed.");
-
-    if (pthread_mutex_init(&nm_mutex_connections, NULL) != 0) 
-        say_ret(0, "mutex init failed.");
-
-    // Prepare workers, node list and connection list.
-    workers = worker_create_item(0);
-    if (!workers)
-        say_ret(0, "error create worker item.");
-    
-    nm_nodes = nm_node_create_item();
-    if (!nm_nodes)
-        say_ret(0, "error create node item.");
-
-    nm_connections = nm_connection_create_item();
-    if (!nm_connections)
-        say_ret(0, "error create connection item.");
+    if (!prepare_data_control())
+        say_ret(0, "Error preparing data control.");
 
     if (!prepare_node_mapper())
         return 0;
@@ -65,27 +44,52 @@ int node_mapper (void)
     return 1;
 }
 
-int verbum_node_mapper (void)
+static int prepare_mutex (void)
 {
-    pid_t pid = 0;
-    int fd    = -1, fdlimit = -1;
+    if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
+        say_ret(0, "Mutex initializing failed - Workers.");
 
-    // Fork off the parent process.
+    if (pthread_mutex_init(&nm_mutex_nodes, NULL) != 0) 
+        say_ret(0, "Mutex initializing failed - Nodes.");
+
+    if (pthread_mutex_init(&nm_mutex_connections, NULL) != 0) 
+        say_ret(0, "Mutex initializing failed - Connections.");
+
+    return 1;
+}
+
+static int prepare_data_control (void)
+{
+    workers = worker_create_item(0);
+    if (!workers)
+        say_ret(0, "Error create worker control.");
+    
+    nm_nodes = nm_node_create_item();
+    if (!nm_nodes)
+        say_ret(0, "Error create node control.");
+
+    nm_connections = nm_connection_create_item();
+    if (!nm_connections)
+        say_ret(0, "Error create connection control.");
+
+    return 1;
+}
+
+int open_node_mapper (void)
+{
+    int fd, fd_limit;
+    pid_t pid;
+
     pid = fork();
 
-    // Error.
     if (pid < 0)
-        say_ret(0, "error open fork.");
-    
-    // Success: Let the parent terminate.
+        say_ret(0, "error open fork.");    
     if (pid > 0)
        return 0;
 
-    // On success: New session. The child process becomes session leader.
     if (setsid() < 0)
         say_ret(0, "error setsid.");       
 
-    // Fork off the parent process.
     pid = fork();
 
     if (pid < 0)
@@ -93,23 +97,26 @@ int verbum_node_mapper (void)
     if (pid > 0) 
         exit(0);
 
-    // Close all open file descriptors.
-    // for (fd = (int) sysconf(_SC_OPEN_MAX); fd > 0; fd--)
-    //     if (fd != 1) // stdout.
-    //         close(fd);
-
-    fdlimit = (int) sysconf(_SC_OPEN_MAX);
-    for (int fd = STDERR_FILENO + 1; fd < fdlimit; fd++)
+    // Close all file descriptors.
+    fd_limit = (int) sysconf(_SC_OPEN_MAX);
+    for (int fd = STDERR_FILENO + 1; fd < fd_limit; fd++) {
+#ifndef VNM_BLOCK_FORK_STDOUT
         if (fd != 1)
-            close(fd);
+#endif
 
-    // Reopen stdin (fd = 0), stdout (fd = 1), stderr (fd = 2).
+        close(fd);
+    }
+
     stdin  = fopen("/dev/null", "r" );
     stderr = fopen("/dev/null", "w+");
-    // stdout = fopen("/dev/null", "w+");
+    
+#ifndef VNM_BLOCK_FORK_STDOUT
+    stdout = fopen("/dev/null", "w+");
+#endif
 
-    signal(SIGCHLD, SIG_IGN); // ignore child.
-    signal(SIGTSTP, SIG_IGN); // ignore tty signals.
+    // Ignore child and tty signals.
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
     signal(SIGTTOU, SIG_IGN);
     signal(SIGTTIN, SIG_IGN);
 
@@ -117,7 +124,6 @@ int verbum_node_mapper (void)
         exit(0);
 
     infinite_loop();
-    return 0;
 }
 
 static int prepare_node_mapper (void)
@@ -277,7 +283,7 @@ static int prepare_workers (char *nm_id)
         return 0;
 
     // Prepare items.
-    for (int a=1; a<NM_THREAD_LIMIT; a++) {
+    for (int a=1; a<VNM_WORKER_THREAD_LIMIT; a++) {
         thread_worker_t *new_worker = worker_create_item(a);
 
         if (!new_worker) {

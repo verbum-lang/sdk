@@ -1,5 +1,6 @@
 
 #include "global.h"
+#include "debug.h"
 
 int random_number (int min, int max)
 {
@@ -7,7 +8,7 @@ int random_number (int min, int max)
 }
 
 int ignore_sigpipe (void)
-{
+{    
     // signal(SIGPIPE, SIG_IGN);
     // sigaction(SIGPIPE, &(struct sigaction){SIG_IGN}, NULL);
 
