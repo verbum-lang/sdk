@@ -49,6 +49,9 @@
 // Limit of attempts to delete a connection.
 #define VERBUM_CHECK_DELETION_LIMIT         10
 
+// Protocol handshake.
+#define VERBUM_NODE_HANDSHAKE               "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n"
+#define VERBUM_NODE_MAPPER_HANDSHAKE        "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\r\n\r\n"
 
 /**
  * Global application settings.

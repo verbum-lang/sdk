@@ -14,7 +14,7 @@ typedef struct {
 // Thread param.
 typedef struct {
     int wid;                            // Worker ID.
-    char *nm_id;                        // Node Mapper ID.
+    char *node_mapper_id;
 } nm_worker_param_t;
 
 int initialize_node_mapper   (void);

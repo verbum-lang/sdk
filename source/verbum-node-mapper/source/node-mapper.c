@@ -5,15 +5,17 @@
 #include "communication.h"
 #include "timeout-control.h"
 
-static int                prepare_mutex     (void);
-static int                prepare_data      (void);
-static int                prepare_interface (void);
-static int                prepare_timeout   (void);
-static void              *prepare_server    (void *_param);
-static int                prepare_workers   (char *node_mapper_id);
-static worker_t          *create_worker     (int worker_id);
-static int                insert_worker     (worker_t *n_worker);
-static void              *worker_controller (void *_param);
+static int                prepare_mutex      (void);
+static int                prepare_data       (void);
+static int                prepare_interface  (void);
+static int                prepare_timeout    (void);
+static void              *prepare_server     (void *_param);
+static int                prepare_workers    (char *node_mapper_id);
+static worker_t          *create_worker      (int worker_id);
+static int                insert_worker      (worker_t *n_worker);
+static int                server_connections (int ssock);
+static int                process_client     (int sock);
+static void              *worker_controller  (void *_param);
 
 static pthread_mutex_t    mutex_workers     = PTHREAD_MUTEX_INITIALIZER;
 static worker_t          *workers           = NULL;
@@ -157,13 +159,9 @@ static int prepare_timeout (void)
 static void *prepare_server (void *_param)
 {
     param_t *param = (param_t *) _param;
-    sockaddr_in_t client;
-    socklen_t client_size;
-    worker_t *worker;
-    int ssock, nsock, status;
     
-    ssock = prepare_server_socket(param->port, param->max_connections);
-    if (ssock == -1)
+    int sock = prepare_server_socket(param->port, param->max_connections);
+    if (sock == -1)
         say_exit("Error creating server socket.");
 
     if (!prepare_workers(param->id))
@@ -172,47 +170,57 @@ static void *prepare_server (void *_param)
     say("Node Mapper ID: %s",   param->id);
     say("Node Mapper port: %d", param->port);
 
-    while (1) {
+    server_connections(sock);
+}
+
+static int server_connections (int ssock)
+{
+    sockaddr_in_t client;
+    socklen_t size;
+    int sock;
+
+    if (!ssock)
+        return 0;
+
+    while (1) {        
+        size = sizeof(client);
+        sock = accept(ssock, (struct sockaddr*) &client, &size);
         
-        // Process connection.
-        client_size = sizeof(client);
-        nsock       = accept(ssock, (struct sockaddr*) &client, &client_size);
-        
-        if (nsock == -1) 
+        if (sock == -1) 
             show_accept_error();
         else {
+            set_recv_timeout(sock);
 
-            // Configure socket.
-            struct timeval tms;
-            tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
-            tms.tv_usec = 0;
-            setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+            if (!process_client(sock))
+                close(sock);
+        }
+    }
+}
 
-            // Checks if the thread is free to use.
-            status = 0;
-            pthread_mutex_lock(&mutex_workers);
-            
-            for (worker=workers; worker!=NULL; worker=worker->next) {
-                if (worker->status == 0) {
+static int process_client (int sock)
+{
+    worker_t *worker;
+    int status = 0;
 
-                    // Send signal do worker.
-                    worker->status = 1;
-                    worker->sock   = nsock;
+    if (!sock)
+        return 0;
 
-                    status = 1;
-                    break;
-                }
-            }
+    pthread_mutex_lock(&mutex_workers);
+    
+    for (worker=workers; worker!=NULL; worker=worker->next) {
+        if (worker->status == 0) {
 
-            pthread_mutex_unlock(&mutex_workers);
+            // Send signal do worker.
+            worker->status = 1;
+            worker->sock   = sock;
 
-            if (status == 0)
-                close(nsock);
+            status = 1;
+            break;
         }
     }
 
-    close(ssock);
-    return NULL;
+    pthread_mutex_unlock(&mutex_workers);
+    return status;
 }
 
 static int prepare_workers (char *node_mapper_id)
@@ -241,7 +249,7 @@ static int prepare_workers (char *node_mapper_id)
         if (!param)
             say_ret(0, "Error allocating memory (worker param).");
         
-        mem_salloc_scopy(node_mapper_id, param->nm_id);
+        mem_salloc_scopy(node_mapper_id, param->node_mapper_id);
         param->wid = worker->wid;
         
         if (pthread_create(&worker->tid, NULL, worker_controller, param) != 0) 
@@ -286,15 +294,11 @@ static int insert_worker (worker_t *n_worker)
     return 1;
 }
 
-static void *worker_controller (void *tparam)
+static void *worker_controller (void *_param)
 {
-    nm_worker_param_t  *param = (nm_worker_param_t *) tparam;
+    nm_worker_param_t *param = (nm_worker_param_t *) _param;
     worker_t *worker;
     int wid = -1, run = 0, sock = -1;
-    int status = 0, size = 0;
-    char *path = NULL, *nm_id = NULL;
-
-    mem_scopy_ret(param->nm_id, nm_id, NULL);
 
     while (1) {
 
@@ -330,11 +334,8 @@ static void *worker_controller (void *tparam)
          * Process actions.
          */
 
-        status = send_handshake(sock, 
-            "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\r\n\r\n");
-
-        if (status == 1)
-            node_mapper_communication(sock, nm_id);
+        if (send_handshake(sock, VERBUM_NODE_MAPPER_HANDSHAKE))
+            node_mapper_communication(sock, param->node_mapper_id);
 
         /**
          * Finish.

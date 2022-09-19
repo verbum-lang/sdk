@@ -32,6 +32,22 @@ int prepare_server_socket (int port, int max_connections)
     return sock;
 }
 
+int set_recv_timeout (int sock)
+{
+    struct timeval tms;
+
+    if (!sock)
+        return 0;
+
+    tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
+    tms.tv_usec = 0;
+    
+    if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval))!= 0)
+        return 0;
+        
+    return 1;
+}
+
 /**
  * Create non-blocking socket connection.
  * 
