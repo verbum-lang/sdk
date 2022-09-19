@@ -110,7 +110,6 @@ gcc -o global.o -c global.c
 
 gcc -o verbum verbum.c global.o $LIBRARY_OBJECTS $VERBUM_NODE_OBJECTS $VERBUM_NM_OBJECTS $LIBS
 
-
 cp verbum ../../../sdk-binaries/
 
 # Clean files (.o files).
