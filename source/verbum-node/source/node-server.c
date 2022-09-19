@@ -5,12 +5,12 @@
 #include "add-on-node-mapper.h"
 
 static int              prepare_workers    (void);
-static thread_worker_t *worker_create_item (int wid);
-static int              worker_insert_item (thread_worker_t *new_worker);
+static worker_t *worker_create_item (int wid);
+static int              worker_insert_item (worker_t *new_worker);
 static void            *worker_handler     (void *tparam);
 
 static pthread_mutex_t  mutex_workers = PTHREAD_MUTEX_INITIALIZER;
-static thread_worker_t *workers       = NULL;
+static worker_t *workers       = NULL;
 
 extern pthread_mutex_t  node_mutex_gconfig;
 extern node_config_t   *node_gconfig;
@@ -25,7 +25,7 @@ void *node_server (void *tparam)
     int status = -1, port  =  0;
     int node_mapper_port = 0, max_connections = 100;
     const int enable = 1;
-    thread_worker_t *worker;
+    worker_t *worker;
     
     // Prepare mutex.
     if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
@@ -165,12 +165,12 @@ void *node_server (void *tparam)
 
 static int prepare_workers (void)
 {
-    thread_worker_t *worker;
+    worker_t *worker;
     int status = -1, size = 0, result = 1;
 
     // Prepare items.
     for (int a=1; a<NC_THREAD_LIMIT; a++) {
-        thread_worker_t *new_worker = worker_create_item(a);
+        worker_t *new_worker = worker_create_item(a);
 
         if (!new_worker) {
             say("error allocationg memory.");
@@ -217,10 +217,10 @@ static int prepare_workers (void)
     return result;
 }
 
-static thread_worker_t *worker_create_item (int wid)
+static worker_t *worker_create_item (int wid)
 {
-    thread_worker_t * worker;
-    mem_alloc_ret(worker, sizeof(thread_worker_t), thread_worker_t *, NULL);
+    worker_t * worker;
+    mem_alloc_ret(worker, sizeof(worker_t), worker_t *, NULL);
 
     worker->wid    = wid;
     worker->sock   = -1;
@@ -230,13 +230,13 @@ static thread_worker_t *worker_create_item (int wid)
     return worker;
 }
 
-static int worker_insert_item (thread_worker_t *new_worker)
+static int worker_insert_item (worker_t *new_worker)
 {
     if (!new_worker)
         return 0;
 
     pthread_mutex_lock(&mutex_workers);
-    thread_worker_t *worker = workers;
+    worker_t *worker = workers;
 
     while (1) {
         if (!worker->next) {
@@ -254,7 +254,7 @@ static int worker_insert_item (thread_worker_t *new_worker)
 static void *worker_handler (void *tparam)
 {
     node_worker_param_t  *param = (node_worker_param_t *) tparam;
-    thread_worker_t *worker;
+    worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
 

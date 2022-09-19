@@ -5,18 +5,19 @@
 #include "communication.h"
 #include "timeout-control.h"
 
-static int              prepare_mutex           (void);
-static int              prepare_data_control    (void);
-static int              prepare_node_mapper     (void);
-static int              prepare_timeout_control (void);
-static void            *node_mapper_interface   (void *tparam);
-static int              prepare_workers         (char *nm_id);
-static thread_worker_t *worker_create_item      (int wid);
-static int              worker_insert_item      (thread_worker_t *new_worker);
-static void            *worker_handler          (void *tparam);
+static int                prepare_mutex           (void);
+static int                prepare_data_control    (void);
+static int                prepare_node_mapper     (void);
+static int                prepare_timeout_control (void);
+static void              *node_mapper_interface   (void *tparam);
+static int                prepare_workers         (char *nm_id);
+static worker_t          *worker_create_item      (int wid);
+static int                worker_insert_item      (worker_t *new_worker);
+static void              *worker_handler          (void *tparam);
 
-static pthread_mutex_t    mutex_workers         = PTHREAD_MUTEX_INITIALIZER;
-static thread_worker_t   *workers               = NULL;
+static pthread_mutex_t    mutex_workers           = PTHREAD_MUTEX_INITIALIZER;
+static worker_t          *workers                 = NULL;
+
 extern node_control_t    *nm_nodes;
 extern pthread_mutex_t    nm_mutex_nodes;
 extern pthread_mutex_t    nm_mutex_connections;
@@ -44,38 +45,7 @@ int initialize_node_mapper (void)
     return 1;
 }
 
-static int prepare_mutex (void)
-{
-    if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
-        say_ret(0, "Mutex initializing failed - Workers.");
-
-    if (pthread_mutex_init(&nm_mutex_nodes, NULL) != 0) 
-        say_ret(0, "Mutex initializing failed - Nodes.");
-
-    if (pthread_mutex_init(&nm_mutex_connections, NULL) != 0) 
-        say_ret(0, "Mutex initializing failed - Connections.");
-
-    return 1;
-}
-
-static int prepare_data_control (void)
-{
-    workers = worker_create_item(0);
-    if (!workers)
-        say_ret(0, "Error create worker control.");
-    
-    nm_nodes = nm_node_create_item();
-    if (!nm_nodes)
-        say_ret(0, "Error create node control.");
-
-    nm_connections = nm_connection_create_item();
-    if (!nm_connections)
-        say_ret(0, "Error create connection control.");
-
-    return 1;
-}
-
-int open_node_mapper (void)
+int open_node_mapper_process (void)
 {
     int fd, fd_limit;
     pid_t pid;
@@ -120,10 +90,41 @@ int open_node_mapper (void)
     signal(SIGTTOU, SIG_IGN);
     signal(SIGTTIN, SIG_IGN);
 
-    if (!node_mapper())
+    if (!initialize_node_mapper())
         exit(0);
 
     infinite_loop();
+}
+
+static int prepare_mutex (void)
+{
+    if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
+        say_ret(0, "Mutex initializing failed - Workers.");
+
+    if (pthread_mutex_init(&nm_mutex_nodes, NULL) != 0) 
+        say_ret(0, "Mutex initializing failed - Nodes.");
+
+    if (pthread_mutex_init(&nm_mutex_connections, NULL) != 0) 
+        say_ret(0, "Mutex initializing failed - Connections.");
+
+    return 1;
+}
+
+static int prepare_data_control (void)
+{
+    workers = worker_create_item(0);
+    if (!workers)
+        say_ret(0, "Error create worker control.");
+    
+    nm_nodes = nm_node_create_item();
+    if (!nm_nodes)
+        say_ret(0, "Error create node control.");
+
+    nm_connections = nm_connection_create_item();
+    if (!nm_connections)
+        say_ret(0, "Error create connection control.");
+
+    return 1;
 }
 
 static int prepare_node_mapper (void)
@@ -179,7 +180,7 @@ static void *node_mapper_interface (void *tparam)
     socklen_t client_size;
     int ssock = -1, nsock = -1, status = -1, block = 0;
     const int enable = 1;
-    thread_worker_t *worker;
+    worker_t *worker;
 
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
@@ -276,7 +277,7 @@ static void *node_mapper_interface (void *tparam)
 
 static int prepare_workers (char *nm_id)
 {
-    thread_worker_t *worker;
+    worker_t *worker;
     int status = -1, size = 0, result = 1;
 
     if (!nm_id)
@@ -284,7 +285,7 @@ static int prepare_workers (char *nm_id)
 
     // Prepare items.
     for (int a=1; a<VNM_WORKER_THREAD_LIMIT; a++) {
-        thread_worker_t *new_worker = worker_create_item(a);
+        worker_t *new_worker = worker_create_item(a);
 
         if (!new_worker) {
             say("error allocationg memory.");
@@ -335,10 +336,10 @@ static int prepare_workers (char *nm_id)
     return result;
 }
 
-static thread_worker_t *worker_create_item (int wid)
+static worker_t *worker_create_item (int wid)
 {
-    thread_worker_t * worker;
-    mem_alloc_ret(worker, sizeof(thread_worker_t), thread_worker_t *, NULL);
+    worker_t * worker;
+    mem_alloc_ret(worker, sizeof(worker_t), worker_t *, NULL);
 
     worker->wid    = wid;
     worker->sock   = -1;
@@ -348,13 +349,13 @@ static thread_worker_t *worker_create_item (int wid)
     return worker;
 }
 
-static int worker_insert_item (thread_worker_t *new_worker)
+static int worker_insert_item (worker_t *new_worker)
 {
     if (!new_worker)
         return 0;
 
     pthread_mutex_lock(&mutex_workers);
-    thread_worker_t *worker = workers;
+    worker_t *worker = workers;
 
     while (1) {
         if (!worker->next) {
@@ -372,7 +373,7 @@ static int worker_insert_item (thread_worker_t *new_worker)
 static void *worker_handler (void *tparam)
 {
     nm_worker_param_t  *param = (nm_worker_param_t *) tparam;
-    thread_worker_t *worker;
+    worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
     char *path = NULL, *nm_id = NULL;

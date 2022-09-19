@@ -17,8 +17,8 @@ typedef struct {
     char *nm_id;                        // Node Mapper ID.
 } nm_worker_param_t;
 
-int initialize_node_mapper (void);
-int open_node_mapper       (void);
+int initialize_node_mapper   (void);
+int open_node_mapper_process (void);
 
 #endif
 
