@@ -12,6 +12,10 @@ int initialization (int argc, char *argv[])
     global.configuration.node_mapper.server_port = 3333;
     mem_scopy_ret(node_mapper_id, global.configuration.node_mapper.id, 0);
 
+    /**
+     * Initialize.
+     */
+
     if (!ignore_sigpipe())
         say_ret(0, "sigaction() error.");
 
