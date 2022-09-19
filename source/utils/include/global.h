@@ -94,13 +94,15 @@ global_t global;
 
 #endif
 
+#define case_item_a(ITEM) case ITEM: sprintf(str, #ITEM); break
+
 
 /**
  * Prototypes.
  */
 
-int random_number  (int min, int max);
-int ignore_sigpipe (void);
-
+int random_number      (int min, int max);
+int ignore_sigpipe     (void);
+void show_accept_error (void);
 
 

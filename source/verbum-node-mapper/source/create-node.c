@@ -2,7 +2,7 @@
 #include "create-node.h"
 #include "../../verbum-node/include/node.h"
 
-int create_node (int sock)
+int create_new_node (int sock)
 {
     if (!sock)
         return 0;

@@ -3,8 +3,8 @@
 #include "connection-control.h"
 #include "timeout-control.h"
 
-extern pthread_mutex_t    nm_mutex_connections;
-extern node_connection_t *nm_connections;
+extern pthread_mutex_t    node_mapper_mutex_connections;
+extern node_connection_t *node_mapper_connections;
 
 static int process_connection_item (char *connection);
 
@@ -275,10 +275,10 @@ static int process_connection_item (char *connection)
     if (auto_remove == 1)
         return 0;
 
-    pthread_mutex_lock(&nm_mutex_connections);
+    pthread_mutex_lock(&node_mapper_mutex_connections);
 
     // Search connection.
-    for (con=nm_connections; con!=NULL; con=con->next) {
+    for (con=node_mapper_connections; con!=NULL; con=con->next) {
         if (con->status != 1 || !con->id || !con->dst_node_id) {
             last = con;
             continue;
@@ -312,7 +312,7 @@ static int process_connection_item (char *connection)
         last = con;
     }
 
-    pthread_mutex_unlock(&nm_mutex_connections);
+    pthread_mutex_unlock(&node_mapper_mutex_connections);
 
     // Not found, insert new item.
     if (!found)

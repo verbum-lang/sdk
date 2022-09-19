@@ -3,13 +3,13 @@
 #include "node-control.h"
 #include "connection-control.h"
 
-extern node_control_t    *nm_nodes;
-extern pthread_mutex_t    nm_mutex_nodes;
+extern node_control_t    *node_mapper_nodes;
+extern pthread_mutex_t    node_mapper_mutex_nodes;
 
-extern pthread_mutex_t    nm_mutex_connections;
-extern node_connection_t *nm_connections;
+extern pthread_mutex_t    node_mapper_mutex_connections;
+extern node_connection_t *node_mapper_connections;
 
-void *timeout_control (void *tparam)
+void *timeout_controller (void *tparam)
 {
     node_control_t *node, *last_node;
     node_connection_t *connection, *last_connection;
@@ -24,9 +24,9 @@ void *timeout_control (void *tparam)
             continue;
 
         // Nodes.
-        pthread_mutex_lock(&nm_mutex_nodes);
+        pthread_mutex_lock(&node_mapper_mutex_nodes);
 
-        for (node=nm_nodes; node!=NULL; node=node->next) {
+        for (node=node_mapper_nodes; node!=NULL; node=node->next) {
             if (node->status != 1) {
                 last_node = node;
                 continue;
@@ -75,11 +75,11 @@ void *timeout_control (void *tparam)
             last_node = node;
         }
 
-        pthread_mutex_unlock(&nm_mutex_nodes);
+        pthread_mutex_unlock(&node_mapper_mutex_nodes);
 
-        pthread_mutex_lock(&nm_mutex_connections);
+        pthread_mutex_lock(&node_mapper_mutex_connections);
 
-        for (connection=nm_connections; connection!=NULL; connection=connection->next) {
+        for (connection=node_mapper_connections; connection!=NULL; connection=connection->next) {
             if (connection->status != 1) {
                 last_connection = connection;
                 continue;
@@ -160,7 +160,7 @@ void *timeout_control (void *tparam)
             last_connection = connection;
         }
 
-        pthread_mutex_unlock(&nm_mutex_connections);
+        pthread_mutex_unlock(&node_mapper_mutex_connections);
         mem_sfree(current_date);
     }
 

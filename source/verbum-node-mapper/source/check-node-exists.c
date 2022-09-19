@@ -2,8 +2,8 @@
 #include "check-node-exists.h"
 #include "node-control.h"
 
-extern node_control_t *nm_nodes;
-extern pthread_mutex_t nm_mutex_nodes;
+extern node_control_t *node_mapper_nodes;
+extern pthread_mutex_t node_mapper_mutex_nodes;
 
 int nm_check_node_exists (int sock, char *content)
 {
@@ -32,9 +32,9 @@ int nm_check_node_exists (int sock, char *content)
     memcpy(tmp, ptr, strlen(ptr));
 
     // Search node.
-    pthread_mutex_lock(&nm_mutex_nodes);
+    pthread_mutex_lock(&node_mapper_mutex_nodes);
 
-    for (node=nm_nodes; node!=NULL; node=node->next) {
+    for (node=node_mapper_nodes; node!=NULL; node=node->next) {
         if (node->status != 1)
             continue;
 
@@ -45,7 +45,7 @@ int nm_check_node_exists (int sock, char *content)
         }
     }
 
-    pthread_mutex_unlock(&nm_mutex_nodes);
+    pthread_mutex_unlock(&node_mapper_mutex_nodes);
             
     // Send message to node (core port).
     if (status == 1) {

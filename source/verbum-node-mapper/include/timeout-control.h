@@ -22,7 +22,7 @@
 // #define VERBUM_CONNECTION_AUTO_REMOVE_OUTPUT
 #define VERBUM_CONNECTION_SEC_TIMEOUT_AUTO_REMOVE   120
 
-void *timeout_control (void *tparam);
+void *timeout_controller (void *tparam);
 
 #endif
 

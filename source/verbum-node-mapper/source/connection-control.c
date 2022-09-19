@@ -1,8 +1,8 @@
 
 #include "connection-control.h"
 
-pthread_mutex_t    nm_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
-node_connection_t *nm_connections       = NULL;
+pthread_mutex_t    node_mapper_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
+node_connection_t *node_mapper_connections       = NULL;
 
 node_connection_t *nm_connection_create_item (void)
 {
@@ -31,8 +31,8 @@ int nm_connection_insert_item (node_connection_t *new_connection)
     if (!new_connection)
         return 0;
 
-    pthread_mutex_lock(&nm_mutex_connections);
-    node_connection_t *connection = nm_connections;
+    pthread_mutex_lock(&node_mapper_mutex_connections);
+    node_connection_t *connection = node_mapper_connections;
 
     while (1) {
         if (!connection->next) {
@@ -43,7 +43,7 @@ int nm_connection_insert_item (node_connection_t *new_connection)
         connection = connection->next;
     }
 
-    pthread_mutex_unlock(&nm_mutex_connections);
+    pthread_mutex_unlock(&node_mapper_mutex_connections);
     return 1;
 }
 

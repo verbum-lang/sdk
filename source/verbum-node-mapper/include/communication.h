@@ -4,7 +4,7 @@
 
 #include "global.h"
 
-int node_mapper_process_communication (int sock, char *nm_id);
+int node_mapper_communication (int sock, char *nm_id);
 
 #endif
 

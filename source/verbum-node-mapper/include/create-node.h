@@ -4,7 +4,7 @@
 
 #include "global.h"
 
-int create_node (int sock);
+int create_new_node (int sock);
 
 #endif
 

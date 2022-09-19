@@ -15,7 +15,7 @@ int add_new_node (int sock, char *content)
     char port[256], prefix []= "generate-verbum-node-id:";
     char *id = NULL, *ptr = NULL, *date = NULL, *resp = NULL;
     int bytes = 0, size = 0, result = 1;
-    node_control_t *node = nm_node_create_item();
+    node_control_t *node = create_node();
 
     if (!node)
         say_ret(0, "error create node item.");
@@ -62,7 +62,7 @@ int add_new_node (int sock, char *content)
     bytes = send(sock, resp, strlen(resp), VERBUM_SEND_FLAGS);
 
     if (bytes == strlen(resp)) {
-        if (!nm_node_insert_item(node)) {
+        if (!insert_node(node)) {
             say("error insert node item.");
 
             memset(node->id, 0x0, strlen(node->id));

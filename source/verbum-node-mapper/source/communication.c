@@ -13,7 +13,7 @@
 static int get_node_mapper_id      (int sock, char *nm_id);
 static int check_direct_connection (int sock);
 
-int node_mapper_process_communication (int sock, char *nm_id)
+int node_mapper_communication (int sock, char *nm_id)
 {
     char  error_message [] = VERBUM_DEFAULT_ERROR VERBUM_EOH;
     char *response = NULL;
@@ -61,7 +61,7 @@ int node_mapper_process_communication (int sock, char *nm_id)
      * Create new node.
      */
     else if (strstr(response, "create-verbum-node:"))
-        status = create_node(sock);
+        status = create_new_node(sock);
 
     /**
      * Delete node.

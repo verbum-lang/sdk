@@ -3,11 +3,11 @@
 #include "node-control.h"
 #include "connection-control.h"
 
-extern node_control_t    *nm_nodes;
-extern pthread_mutex_t    nm_mutex_nodes;
+extern node_control_t    *node_mapper_nodes;
+extern pthread_mutex_t    node_mapper_mutex_nodes;
 
-extern pthread_mutex_t    nm_mutex_connections;
-extern node_connection_t *nm_connections;
+extern pthread_mutex_t    node_mapper_mutex_connections;
+extern node_connection_t *node_mapper_connections;
 
 int nm_delete_node (int sock, char *content)
 {
@@ -37,9 +37,9 @@ int nm_delete_node (int sock, char *content)
     memcpy(tmp, ptr, strlen(ptr));
 
     // Remove node (struct node control).
-    pthread_mutex_lock(&nm_mutex_nodes);
+    pthread_mutex_lock(&node_mapper_mutex_nodes);
     
-    for (node=nm_nodes; node!=NULL; node=node->next) {
+    for (node=node_mapper_nodes; node!=NULL; node=node->next) {
         if (node->status != 1) {
             nlast = node;
             continue;
@@ -62,13 +62,13 @@ int nm_delete_node (int sock, char *content)
         nlast = node;
     }
 
-    pthread_mutex_unlock(&nm_mutex_nodes);
+    pthread_mutex_unlock(&node_mapper_mutex_nodes);
 
     // Remove node connections.
     if (status == 1) {
-        pthread_mutex_lock(&nm_mutex_connections);
+        pthread_mutex_lock(&node_mapper_mutex_connections);
         
-        for (con=nm_connections; con!=NULL; con=con->next) {
+        for (con=node_mapper_connections; con!=NULL; con=con->next) {
             if (con->status != 1 || !con->id || !con->dst_node_id) {
                 last = con;
                 continue;
@@ -94,7 +94,7 @@ int nm_delete_node (int sock, char *content)
             last = con;
         }
 
-        pthread_mutex_unlock(&nm_mutex_connections);
+        pthread_mutex_unlock(&node_mapper_mutex_connections);
     }
 
     // Send request to node auto-close.

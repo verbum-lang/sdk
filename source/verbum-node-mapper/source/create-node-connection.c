@@ -6,8 +6,8 @@ static int create_node_output_connection (int   sock,
                                           char *src_node_id, int   src_node_interface_port, 
                                           char *dst_node_id, char *dst_nm_address, int dst_nm_port);
 
-extern node_control_t *nm_nodes;
-extern pthread_mutex_t nm_mutex_nodes;
+extern node_control_t *node_mapper_nodes;
+extern pthread_mutex_t node_mapper_mutex_nodes;
 
 /**
  * type:
@@ -99,9 +99,9 @@ int nm_create_node_connection (int sock, char *content, int type)
     #endif
 
     // Check node exists.
-    pthread_mutex_lock(&nm_mutex_nodes);
+    pthread_mutex_lock(&node_mapper_mutex_nodes);
     
-    for (node=nm_nodes; node!=NULL; node=node->next) {
+    for (node=node_mapper_nodes; node!=NULL; node=node->next) {
         if (node->status != 1)
             continue;
 
@@ -112,7 +112,7 @@ int nm_create_node_connection (int sock, char *content, int type)
         }
     }
 
-    pthread_mutex_unlock(&nm_mutex_nodes);
+    pthread_mutex_unlock(&node_mapper_mutex_nodes);
 
     if (!status) 
         goto cnc_error;

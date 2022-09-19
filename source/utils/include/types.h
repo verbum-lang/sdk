@@ -19,6 +19,13 @@ typedef struct worker_s {
     struct worker_s *next;     // Next item pointer.
 } worker_t;
 
+
+/**
+ * Socket connections types.
+ */
+
+typedef struct sockaddr_in sockaddr_in_t;
+
 #endif
 
 

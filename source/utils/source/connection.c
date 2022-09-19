@@ -1,6 +1,36 @@
 
 #include "connection.h"
 #include "memory.h"
+#include "types.h"
+
+int prepare_server_socket (int port, int max_connections)
+{
+    sockaddr_in_t address;
+    const int enable = 1;
+    int sock;
+
+    if (!port)
+        return -1;
+
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_family      = AF_INET;
+    address.sin_port        = htons(port);
+
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock == -1)
+        say_ret(-1, "Error creating socket.");
+
+    if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) != 0)
+        say_ret(-1, "Setsockopt failed (SO_REUSEADDR).");
+
+    if (bind(sock, (struct sockaddr*) &address, sizeof(address)) != 0)
+        say_ret(-1, "Error bind socket.");
+
+    if (listen(sock, max_connections) != 0) 
+        say_ret(-1, "Error listen socket.");
+
+    return sock;
+}
 
 /**
  * Create non-blocking socket connection.

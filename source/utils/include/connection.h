@@ -24,6 +24,7 @@
         return RETURN;                      \
     } while(0)
 
+int   prepare_server_socket                 (int   port,           int   max_connections);
 int   create_connection                     (char *address,        int   port,            int enable_timeout);
 int   check_protocol                        (char *address,        int   port,            int enable_timeout);
 char *get_recv_content                      (int   sock);

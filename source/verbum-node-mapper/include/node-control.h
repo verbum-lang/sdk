@@ -15,8 +15,8 @@ typedef struct node_control_st {
     struct node_control_st *next;       // Next node pointer.
 } node_control_t;
 
-node_control_t *nm_node_create_item (void);
-int             nm_node_insert_item (node_control_t *new_node);
+node_control_t *create_node (void);
+int             insert_node (node_control_t *new_node);
 
 #endif
 

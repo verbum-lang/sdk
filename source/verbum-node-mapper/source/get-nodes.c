@@ -3,11 +3,11 @@
 #include "node-control.h"
 #include "connection-control.h"
 
-extern node_control_t    *nm_nodes;
-extern pthread_mutex_t    nm_mutex_nodes;
+extern node_control_t    *node_mapper_nodes;
+extern pthread_mutex_t    node_mapper_mutex_nodes;
 
-extern pthread_mutex_t    nm_mutex_connections;
-extern node_connection_t *nm_connections;
+extern pthread_mutex_t    node_mapper_mutex_connections;
+extern node_connection_t *node_mapper_connections;
 
 int get_node_list (int sock)
 {
@@ -24,10 +24,10 @@ int get_node_list (int sock)
     node_control_t *node;
     node_connection_t *connection;
 
-    pthread_mutex_lock(&nm_mutex_nodes);
-    pthread_mutex_lock(&nm_mutex_connections);
+    pthread_mutex_lock(&node_mapper_mutex_nodes);
+    pthread_mutex_lock(&node_mapper_mutex_connections);
     
-    for (node=nm_nodes; node!=NULL; node=node->next) {
+    for (node=node_mapper_nodes; node!=NULL; node=node->next) {
         if (node->status != 1)
             continue;
 
@@ -49,7 +49,7 @@ int get_node_list (int sock)
         // Search connections.
         b = 0;
         
-        for (connection=nm_connections; connection!=NULL; connection=connection->next) {
+        for (connection=node_mapper_connections; connection!=NULL; connection=connection->next) {
             if (connection->status != 1)
                 continue;
             if (!connection->id)
@@ -122,8 +122,8 @@ int get_node_list (int sock)
         a++;
     }
 
-    pthread_mutex_unlock(&nm_mutex_connections);
-    pthread_mutex_unlock(&nm_mutex_nodes);
+    pthread_mutex_unlock(&node_mapper_mutex_connections);
+    pthread_mutex_unlock(&node_mapper_mutex_nodes);
 
     if (!status || !size) {
         size    = sizeof(char) * 256;
