@@ -18,15 +18,14 @@ int initialization (int argc, char *argv[])
         #ifdef VERBUM_DEBUG
             say("Settings prepared successfully!");
         #endif
-    } else
-        say_ret(0, "Error preparing settings."); 
+    }
 
     if (ignore_sigpipe()) {
         #ifdef VERBUM_DEBUG
-            say("ignore_sigpipe() success!");
+            say("SIGPIPE ignored.");
         #endif
     } else
-        say_ret(0, "sigaction() error."); 
+        say_ret(0, "Error ignoring SIGPIPE."); 
 
 
     /**
@@ -42,7 +41,7 @@ int initialization (int argc, char *argv[])
 
     if (verbum_node()) {
         #ifdef VERBUM_DEBUG
-            say("ignore_sigpipe() success!");
+            say("Verbum node successfully started!");
         #endif
     } else
         say_ret(0, "Error start Verbum Node.");
