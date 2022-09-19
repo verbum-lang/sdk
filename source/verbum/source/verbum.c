@@ -10,6 +10,7 @@ int initialization (int argc, char *argv[])
         say("Verbum started");
     #endif
 
+
     /**
      * Initialize.
      */
@@ -32,20 +33,24 @@ int initialization (int argc, char *argv[])
      * Start Verbum Node Mapper.
      */
 
-    verbum_node_mapper();
+    if (global.configuration.node_mapper.id          &&
+        global.configuration.node_mapper.server_port  )
+        verbum_node_mapper();
     
 
     /**
      * Start Verbum Node.
      */
 
-    if (verbum_node()) {
-        #ifdef VERBUM_DEBUG
-            say("Verbum node successfully started!");
-        #endif
-    } else
-        say_ret(0, "Error start Verbum Node.");
-    
+    if (global.configuration.node.id) {
+        if (verbum_node()) {
+            #ifdef VERBUM_DEBUG
+                say("Verbum node successfully started!");
+            #endif
+        } else
+            say_ret(0, "Error start Verbum Node.");
+    }
+
     infinite_loop();
     return 0;
 }

@@ -2,7 +2,7 @@
 #ifndef VERBUM_UTILS_DEBUG
 #define VERBUM_UTILS_DEBUG
 
-// #define ENABLE_DEBUG_DETAILS
+#define ENABLE_DEBUG_DETAILS
 
 /**
  * Internal macros.

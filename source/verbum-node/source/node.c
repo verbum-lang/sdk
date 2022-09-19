@@ -5,7 +5,7 @@
 #include "node-client.h"
 #include "node-server.h"
 
-pthread_mutex_t    node_mutex_gconfig = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t    node_mutex_gconfig     = PTHREAD_MUTEX_INITIALIZER;
 node_config_t     *node_gconfig;
 
 pthread_mutex_t    node_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
@@ -13,6 +13,10 @@ node_connection_t *node_connections;
 
 int verbum_node (void)
 {
+    #ifdef VERBUM_NODE_DEBUG
+        say("Verbum Node started!");
+    #endif
+
     if (!ignore_sigpipe())
         say_ret(0, "sigaction() error.");
 
@@ -22,17 +26,14 @@ int verbum_node (void)
     node_gconfig->path             = NULL;
     node_gconfig->max_connections  = SERVERS_MAX_CONNECTION;
     node_gconfig->node_mapper_port = global.configuration.node_mapper.server_port;
-    mem_scopy_ret(global.configuration.node_mapper.id, node_gconfig->node_mapper_id, 0);
 
     // Prepare mutex.
     if (pthread_mutex_init(&node_mutex_gconfig, NULL) != 0) 
         say_ret(0, "mutex init failed - global configuration.");
 
-    // Prepare mutex.
     if (pthread_mutex_init(&node_mutex_connections, NULL) != 0) 
         say_ret(0, "mutex init failed - connections.");
     
-    // Start Node Mapper monitor.
     if (!monitor_processes())
         return 0; 
     
@@ -54,7 +55,7 @@ int verbum_node (void)
     return 1;
 }
 
-int create_new_verbum_node (void)
+int create_verbum_node (void)
 {
     pid_t pid = 0;
     int fd    = -1, fdlimit = -1;
@@ -83,10 +84,6 @@ int create_new_verbum_node (void)
         exit(0);
 
     // Close all open file descriptors.
-    // for (fd = sysconf(_SC_OPEN_MAX); fd > 0; fd--)
-    //     if (fd != 1) // stdout.
-    //         close(fd);
-
     fdlimit = (int) sysconf(_SC_OPEN_MAX);
     for (int fd = STDERR_FILENO + 1; fd < fdlimit; fd++)
         if (fd != 1)
@@ -95,7 +92,10 @@ int create_new_verbum_node (void)
     // Reopen stdin (fd = 0), stdout (fd = 1), stderr (fd = 2).
     stdin  = fopen("/dev/null", "r" );
     stderr = fopen("/dev/null", "w+");
-    // stdout = fopen("/dev/null", "w+");
+
+    #ifdef VN_BLOCK_FORK_STDOUT
+        stdout = fopen("/dev/null", "w+");
+    #endif
     
     signal(SIGCHLD, SIG_IGN); // ignore child.
     signal(SIGTSTP, SIG_IGN); // ignore tty signals.

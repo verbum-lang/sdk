@@ -14,7 +14,7 @@ int create_node (int sock)
     char response [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     int status       = -1;
 
-    create_new_verbum_node();
+    create_verbum_node();
 
     status = send(sock, response, strlen(response), VERBUM_SEND_FLAGS);
     return 1;

@@ -1,21 +1,29 @@
 
 #include "prepare-settings.h"
 
-static void usage (void);
+static void usage (int invalid, int option);
 
 int prepare_settings (int argc, char *argv[])
 {
     int opt = -1;
+	opterr  = 0;
 
+	global.configuration.node.id		 		 = NULL;
 	global.configuration.node_mapper.id 		 = NULL;
 	global.configuration.node_mapper.server_port = 0;
 
-	while ((opt = getopt(argc, argv, "p:i:")) != -1) {
+	while ((opt = getopt(argc, argv, "p:m:i:")) != -1) {
 		switch (opt) {
 			case 'i':
+				mem_salloc_scopy(optarg, global.configuration.node.id);
+				if (!global.configuration.node.id) 
+					say_exit("Cannot alloc memory for Node ID.");
+				break;
+
+			case 'm':
 				mem_salloc_scopy(optarg, global.configuration.node_mapper.id);
 				if (!global.configuration.node_mapper.id) 
-					say_exit("Cannot alloc memory for -i Node Mapper ID.");
+					say_exit("Cannot alloc memory for Node Mapper ID.");
 				break;
 
 			case 'p':
@@ -23,24 +31,27 @@ int prepare_settings (int argc, char *argv[])
 				break;
 
 			case '?':
-				say("Unknown option: '%c'\n", optopt);
-				usage();
+				usage(1, optopt);
 				break;
 		}
 	}
 
-	if (!global.configuration.node_mapper.server_port || 
-		!global.configuration.node_mapper.id		   )
-		usage();
+	if (!global.configuration.node.id)
+		usage(0, 0);
 
     return 1;
 }
 
-static void usage (void)
+static void usage (int invalid, int option)
 {
 	say("Verbum Programming Language - v" VERBUM_LANGUAGE_VERSION "\n");
-	say("Options: \n");
-	say("\t-i    - Node Mapper ID.");
+
+	if (invalid) 
+		say("Unknown option: %c\n", option);
+
+	say("Options: ");
+	say("\t-i    - Node ID.");
+	say("\t-m    - Node Mapper ID.");
 	say("\t-p    - Node Mapper server port.\n");
 
 	exit(0);

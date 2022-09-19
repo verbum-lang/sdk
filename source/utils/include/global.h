@@ -57,7 +57,10 @@
 typedef struct {
     struct {
 
-        // Node Mapper configuration.
+        struct {
+            char *id;
+        } node;
+        
         struct {
             int server_port;
             char *id;
