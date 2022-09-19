@@ -26,6 +26,7 @@ int verbum_node (void)
     node_gconfig->path             = NULL;
     node_gconfig->max_connections  = SERVERS_MAX_CONNECTION;
     node_gconfig->node_mapper_port = global.configuration.node_mapper.server_port;
+    mem_scopy_ret(global.configuration.node_mapper.id, node_gconfig->node_mapper_id, 0);
 
     // Prepare mutex.
     if (pthread_mutex_init(&node_mutex_gconfig, NULL) != 0) 
