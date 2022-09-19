@@ -24,6 +24,13 @@
 
 
 /**
+ * General settings.
+ */
+
+#define VERBUM_USLEEP_GENERAL               100000
+
+
+/**
  * Connection settings.
  */
 
@@ -53,27 +60,6 @@
 #define VERBUM_NODE_HANDSHAKE               "Verbum Node - v1.0.0 - I Love Jesus <3\r\n\r\n"
 #define VERBUM_NODE_MAPPER_HANDSHAKE        "Verbum Node Mapper - v1.0.0 - I Love Jesus <3\r\n\r\n"
 
-/**
- * Global application settings.
- */
-
-typedef struct {
-    struct {
-
-        struct {
-            char *id;
-        } node;
-        
-        struct {
-            int server_port;
-            char *id;
-        } node_mapper;
-        
-    } configuration;
-} global_t;
-
-global_t global;
-
 
 /**
  * Global macros.
@@ -95,9 +81,26 @@ global_t global;
             sleep(3);           \
     } while (0)
 
-#endif
-
 #define case_item_a(ITEM) case ITEM: sprintf(str, #ITEM); break
+
+
+/**
+ * Global application settings.
+ */
+
+typedef struct {
+    struct {
+        struct {
+            char *id;
+        } node;
+        
+        struct {
+            int server_port;
+            char *id;
+        } node_mapper;
+    } configuration;
+} global_t;
+global_t global;
 
 
 /**
@@ -107,5 +110,7 @@ global_t global;
 int random_number      (int min, int max);
 int ignore_sigpipe     (void);
 void show_accept_error (void);
+
+#endif
 
 

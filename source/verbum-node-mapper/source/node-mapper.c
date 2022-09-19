@@ -322,7 +322,7 @@ static void *worker_controller (void *_param)
         pthread_mutex_unlock(&mutex_workers);
 
         if (run == 0) {
-            usleep(100000);
+            usleep(VERBUM_USLEEP_GENERAL);
             continue;
         }
 

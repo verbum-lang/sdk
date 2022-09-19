@@ -18,7 +18,7 @@
  * Project macros.
  */
 
-// If enabled, blocks STDOUT (fork).
+// If defined, blocks STDOUT (fork).
 // #define VN_BLOCK_FORK_STDOUT
 
 #endif

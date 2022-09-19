@@ -16,8 +16,8 @@ int initialization (int argc, char *argv[])
         say_ret(0, "Error performing initial preparations.");
     
     start_node_mapper();
-    // start_node();
-    
+    start_node();
+
     return 0;
 }
 
@@ -49,12 +49,7 @@ static int start_node (void)
     if (global.configuration.node.id                 &&
         global.configuration.node_mapper.server_port  )
     {
-        // if (verbum_node())
-        //     say_debug("Verbum node successfully started!");
-        // else
-        //     say_ret(0, "Error start Verbum Node.");
-
-        // open_node_process();
+        open_node_process();
         return 1;
     }
 

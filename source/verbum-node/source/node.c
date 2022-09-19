@@ -11,7 +11,7 @@ node_config_t     *node_gconfig;
 pthread_mutex_t    node_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
 node_connection_t *node_connections;
 
-int verbum_node (void)
+int initialize_node (void)
 {
     say_debug("Verbum Node started!");
 
@@ -60,28 +60,21 @@ int verbum_node (void)
     return 1;
 }
 
-int create_verbum_node (void)
+int open_node_process (void)
 {
-    pid_t pid = 0;
-    int fd    = -1, fdlimit = -1;
+    int fd, fd_limit;
+    pid_t pid;
 
-    // Fork off the parent process.
     pid = fork();
 
-    // Error.
     if (pid < 0)
-        say_ret(0, "error open fork.");
-
-    // Success: Let the parent terminate.
+        say_ret(0, "error open fork.");    
     if (pid > 0)
        return 0;
 
-    // On success: New session. 
-    // The child process becomes session leader.
     if (setsid() < 0)
         say_ret(0, "error setsid.");       
 
-    // Fork off the parent process.
     pid = fork();
 
     if (pid < 0)
@@ -89,30 +82,33 @@ int create_verbum_node (void)
     if (pid > 0) 
         exit(0);
 
-    // Close all open file descriptors.
-    fdlimit = (int) sysconf(_SC_OPEN_MAX);
-    for (int fd = STDERR_FILENO + 1; fd < fdlimit; fd++)
-        if (fd != 1)
-            close(fd);
+    // Close all file descriptors.
+    fd_limit = (int) sysconf(_SC_OPEN_MAX);
 
-    // Reopen stdin (fd = 0), stdout (fd = 1), stderr (fd = 2).
+    for (int fd = STDERR_FILENO + 1; fd < fd_limit; fd++) {
+#ifndef VN_BLOCK_FORK_STDOUT
+        if (fd != 1)
+#endif
+        close(fd);
+    }
+
     stdin  = fopen("/dev/null", "r" );
     stderr = fopen("/dev/null", "w+");
-
-    #ifdef VN_BLOCK_FORK_STDOUT
-        stdout = fopen("/dev/null", "w+");
-    #endif
     
-    signal(SIGCHLD, SIG_IGN); // ignore child.
-    signal(SIGTSTP, SIG_IGN); // ignore tty signals.
+#ifndef VN_BLOCK_FORK_STDOUT
+    stdout = fopen("/dev/null", "w+");
+#endif
+
+    // Ignore child and tty signals.
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
     signal(SIGTTOU, SIG_IGN);
     signal(SIGTTIN, SIG_IGN);
 
-    if (!verbum_node())
+    if (!initialize_node())
         exit(0);
 
     infinite_loop();
-    return 0;
 }
 
 
