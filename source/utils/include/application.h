@@ -28,6 +28,7 @@
     } while(0)
 
 void system_open_bg_application (char *cmd);
+int  open_application           (int application);
 char *get_relative_path         (void);
 char *get_real_path             (char *path);
 

@@ -28,7 +28,8 @@
  */
 
 #define VERBUM_USLEEP_GENERAL               100000
-
+#define VERBUM_NODE_APPLICATION             1
+#define VERBUM_NODE_MAPPER_APPLICATION      2
 
 /**
  * Connection settings.

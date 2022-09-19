@@ -29,7 +29,7 @@ static void *monitor_processes_handler (void *param)
 {
     prepare_param_t *prepare_param = (prepare_param_t *) param;
 
-    open_node_mapper_process();
+    open_application(VERBUM_NODE_MAPPER_APPLICATION);
 
     #ifdef MONITOR_ENABLE_PERSISTENCE
         while (1) {            
@@ -56,7 +56,7 @@ static void check_connection_interface (int node_mapper_port)
             say("failed check protocol.");
         #endif
 
-        open_node_mapper_process();
+        open_application(VERBUM_NODE_MAPPER_APPLICATION);
         sleep(1);
     }
 

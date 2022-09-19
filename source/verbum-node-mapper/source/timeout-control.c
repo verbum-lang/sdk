@@ -9,6 +9,16 @@ extern pthread_mutex_t    node_mapper_mutex_nodes;
 extern pthread_mutex_t    node_mapper_mutex_connections;
 extern node_connection_t *node_mapper_connections;
 
+int prepare_timeout (void)
+{
+    pthread_t tid;
+
+    if (pthread_create(&tid, NULL, timeout_controller, NULL) != 0)
+        say_ret(0, "Error creating thread - timeout control (nodes and connections).");
+
+    return 1;
+}
+
 void *timeout_controller (void *tparam)
 {
     node_control_t *node, *last_node;

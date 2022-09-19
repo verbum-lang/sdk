@@ -8,7 +8,6 @@
 static int                prepare_mutex      (void);
 static int                prepare_data       (void);
 static int                prepare_interface  (void);
-static int                prepare_timeout    (void);
 static void              *prepare_server     (void *_param);
 static int                prepare_workers    (char *node_mapper_id);
 static worker_t          *create_worker      (int worker_id);
@@ -45,57 +44,6 @@ int initialize_node_mapper (void)
         say_ret(0, "Error preparing timeout control.");
 
     return 1;
-}
-
-int open_node_mapper_process (void)
-{
-    int fd, fd_limit;
-    pid_t pid;
-
-    pid = fork();
-
-    if (pid < 0)
-        say_ret(0, "error open fork.");    
-    if (pid > 0)
-       return 0;
-
-    if (setsid() < 0)
-        say_ret(0, "error setsid.");       
-
-    pid = fork();
-
-    if (pid < 0)
-        say_ret(0, "error open fork.");
-    if (pid > 0) 
-        exit(0);
-
-    // Close all file descriptors.
-    fd_limit = (int) sysconf(_SC_OPEN_MAX);
-
-    for (int fd = STDERR_FILENO + 1; fd < fd_limit; fd++) {
-#ifndef VNM_BLOCK_FORK_STDOUT
-        if (fd != 1)
-#endif
-        close(fd);
-    }
-
-    stdin  = fopen("/dev/null", "r" );
-    stderr = fopen("/dev/null", "w+");
-    
-#ifndef VNM_BLOCK_FORK_STDOUT
-    stdout = fopen("/dev/null", "w+");
-#endif
-
-    // Ignore child and tty signals.
-    signal(SIGCHLD, SIG_IGN);
-    signal(SIGTSTP, SIG_IGN);
-    signal(SIGTTOU, SIG_IGN);
-    signal(SIGTTIN, SIG_IGN);
-
-    if (!initialize_node_mapper())
-        exit(0);
-
-    infinite_loop();
 }
 
 static int prepare_mutex (void)
@@ -142,16 +90,6 @@ static int prepare_interface (void)
 
     if (pthread_create(&tid, NULL, prepare_server, param) != 0)
         say_ret(0, "Error creating thread - control of Node Mapper interface.");
-
-    return 1;
-}
-
-static int prepare_timeout (void)
-{
-    pthread_t tid;
-
-    if (pthread_create(&tid, NULL, timeout_controller, NULL) != 0)
-        say_ret(0, "Error creating thread - timeout control (nodes and connections).");
 
     return 1;
 }
@@ -298,14 +236,10 @@ static void *worker_controller (void *_param)
 {
     nm_worker_param_t *param = (nm_worker_param_t *) _param;
     worker_t *worker;
-    int wid = -1, run = 0, sock = -1;
+    int wid, run, sock;
 
-    while (1) {
-
-        /**
-         * Checks if there is order to execute thread.
-         */
-
+    do {
+        // Checks if there is order to execute thread.
         run = 0;
         pthread_mutex_lock(&mutex_workers);
         
@@ -321,29 +255,17 @@ static void *worker_controller (void *_param)
         
         pthread_mutex_unlock(&mutex_workers);
 
-        if (run == 0) {
+        if (!run) {
             usleep(VERBUM_USLEEP_GENERAL);
             continue;
         }
 
-        #ifdef NMDBG
-            say("task started!");
-        #endif
-
-        /**
-         * Process actions.
-         */
-
+        // Process actions.
         if (send_handshake(sock, VERBUM_NODE_MAPPER_HANDSHAKE))
             node_mapper_communication(sock, param->node_mapper_id);
 
-        /**
-         * Finish.
-         */
-
-        w_finish:
+        // Finish.
         close(sock);
-
         pthread_mutex_lock(&mutex_workers);
         
         for (worker=workers; worker!=NULL; worker=worker->next) {
@@ -355,9 +277,7 @@ static void *worker_controller (void *_param)
         }
         
         pthread_mutex_unlock(&mutex_workers);
-    }
-
-    return NULL;
+    } while (1);
 }
 
 

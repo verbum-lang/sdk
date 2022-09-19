@@ -36,7 +36,7 @@ static int start_node_mapper (void)
     if (global.configuration.node_mapper.id          &&
         global.configuration.node_mapper.server_port  )
     {
-        open_node_mapper_process();
+        open_application(VERBUM_NODE_MAPPER_APPLICATION);
         return 1;
     }
     
@@ -49,7 +49,7 @@ static int start_node (void)
     if (global.configuration.node.id                 &&
         global.configuration.node_mapper.server_port  )
     {
-        open_node_process();
+        open_application(VERBUM_NODE_APPLICATION);
         return 1;
     }
 

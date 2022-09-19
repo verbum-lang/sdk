@@ -3,6 +3,9 @@
 #include "memory.h"
 #include "debug.h"
 
+#include "../../verbum-node/include/node.h"
+#include "../../verbum-node-mapper/include/node-mapper.h"
+
 void system_open_bg_application (char *cmd)
 {
     int fd, fd_limit;
@@ -52,6 +55,70 @@ void system_open_bg_application (char *cmd)
 
     system(cmd);
     exit(0);
+}
+
+int open_application (int application)
+{
+    int fd, fd_limit;
+    pid_t pid;
+
+    pid = fork();
+
+    if (pid < 0)
+        say_ret(0, "error open fork.");    
+    if (pid > 0)
+       return 0;
+
+    if (setsid() < 0)
+        say_ret(0, "error setsid.");       
+
+    pid = fork();
+
+    if (pid < 0)
+        say_ret(0, "error open fork.");
+    if (pid > 0) 
+        exit(0);
+
+    // Close all file descriptors.
+    fd_limit = (int) sysconf(_SC_OPEN_MAX);
+
+    for (int fd = STDERR_FILENO + 1; fd < fd_limit; fd++) {
+#ifndef VNM_BLOCK_FORK_STDOUT
+        if (fd != 1)
+#endif
+        close(fd);
+    }
+
+    stdin  = fopen("/dev/null", "r" );
+    stderr = fopen("/dev/null", "w+");
+    
+#ifndef VNM_BLOCK_FORK_STDOUT
+    stdout = fopen("/dev/null", "w+");
+#endif
+
+    // Ignore child and tty signals.
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
+    signal(SIGTTOU, SIG_IGN);
+    signal(SIGTTIN, SIG_IGN);
+
+    switch (application) {
+        case VERBUM_NODE_APPLICATION:
+            if (!initialize_node())
+                exit(0);
+            break;
+
+        case VERBUM_NODE_MAPPER_APPLICATION:
+            if (!initialize_node_mapper())
+                exit(0);
+            break;
+
+        default:
+            exit(0);
+            break;
+    }
+
+    infinite_loop();
 }
 
 char *get_relative_path (void)
