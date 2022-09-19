@@ -9,7 +9,7 @@ typedef struct {
     char *id;                           // Node Mapper ID.
     int port;                           // Server port.
     int max_connections;                // Server max connections.
-} interface_param_t;
+} param_t;
 
 // Thread param.
 typedef struct {

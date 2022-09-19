@@ -7,9 +7,11 @@
 
 static int                prepare_mutex           (void);
 static int                prepare_data_control    (void);
-static int                prepare_node_mapper     (void);
+static int                prepare_interface       (void);
 static int                prepare_timeout_control (void);
-static void              *node_mapper_interface   (void *tparam);
+static void              *worker_interface        (void *tparam);
+
+
 static int                prepare_workers         (char *nm_id);
 static worker_t          *worker_create_item      (int wid);
 static int                worker_insert_item      (worker_t *new_worker);
@@ -36,11 +38,11 @@ int initialize_node_mapper (void)
     if (!prepare_data_control())
         say_ret(0, "Error preparing data control.");
 
-    if (!prepare_node_mapper())
-        return 0;
+    if (!prepare_interface())
+        say_ret(0, "Error preparing Node Mapper interface.");
 
     if (!prepare_timeout_control())
-        return 0;
+        say_ret(0, "Error preparing timeout control.");
 
     return 1;
 }
@@ -127,55 +129,38 @@ static int prepare_data_control (void)
     return 1;
 }
 
-static int prepare_node_mapper (void)
+static int prepare_interface (void)
 {
-    int status = 0, size = 0;
     pthread_t tid;
-    interface_param_t *param;
+    param_t *param;
 
-    // Prepare thread param.
-    mem_alloc_ret(param, sizeof(interface_param_t), interface_param_t *, 0);
+    mem_alloc_ret(param, sizeof(param_t), param_t *, 0);
+
     param->max_connections = SERVERS_MAX_CONNECTION;
     param->port            = global.configuration.node_mapper.server_port;
-
-    // Copy path.
     mem_scopy_ret(global.configuration.node_mapper.id, param->id, 0);
 
-    // Create thread.
-    status = pthread_create(&tid, NULL, node_mapper_interface, param);
-    if (status != 0)
-        say_ret(0, "error creating thread - control of Node Mapper interface.");
+    if (pthread_create(&tid, NULL, worker_interface, param) != 0)
+        say_ret(0, "Error creating thread - control of Node Mapper interface.");
 
     return 1;
 }
 
 static int prepare_timeout_control (void)
 {
-    int status = 0, size = 0;
     pthread_t tid;
-    interface_param_t *param;
 
-    // Prepare thread param.
-    mem_alloc_ret(param, sizeof(interface_param_t), interface_param_t *, 0);
-    param->max_connections = SERVERS_MAX_CONNECTION;
-    param->port            = global.configuration.node_mapper.server_port;
-
-    // Copy path.
-    mem_scopy_ret(global.configuration.node_mapper.id, param->id, 0);
-
-    // Create thread.
-    status = pthread_create(&tid, NULL, timeout_control, param);
-    if (status != 0)
-        say_ret(0, "error creating thread - timeout control (nodes and connections).");
+    if (pthread_create(&tid, NULL, timeout_control, NULL) != 0)
+        say_ret(0, "Error creating thread - timeout control (nodes and connections).");
 
     return 1;
 }
 
-static void *node_mapper_interface (void *tparam)
+static void *worker_interface (void *tparam)
 {
     say("Node mapper interface - started!");
 
-    interface_param_t *param = (interface_param_t *) tparam;
+    param_t *param = (param_t *) tparam;
     struct sockaddr_in address, client;
     socklen_t client_size;
     int ssock = -1, nsock = -1, status = -1, block = 0;
