@@ -29,6 +29,7 @@
         memset(DESTINATION, 0x0, SIZE);                                                 \
     } while(0)
 
+
 /**
  * Simple memory allocation and copy.
  */
@@ -54,6 +55,7 @@
         if (DESTINATION)                                                                \
             mem_scopy(SOURCE, DESTINATION);                                             \
     } while(0)
+
 
 /**
  * Memory allocation involving strings.
@@ -121,6 +123,7 @@
         memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
     } while (0)
 
+
 /**
  * Memory clear.
  */
@@ -133,6 +136,7 @@
             DESTINATION = NULL;                                                         \
         }                                                                               \
     } while(0)
+
 
 /**
  * Others.
