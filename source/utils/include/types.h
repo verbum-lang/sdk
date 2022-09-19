@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_TYPES
-#define VERBUM_TYPES
+#ifndef VERBUM_UTILS_TYPES
+#define VERBUM_UTILS_TYPES
 
 // Thread workers control.
 typedef struct thread_worker_st {

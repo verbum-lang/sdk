@@ -69,7 +69,7 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
     start = prepare_date_data(start_date);
     end   = prepare_date_data(end_date);
 
-    #ifdef DBGDT
+    #ifdef DATETIME_DEBUG
         say("start(%d): %s - end(%d): %s", start.status, start_date, end.status, end_date);
     #endif
 
@@ -88,7 +88,7 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
         start.day > end.day)
         return 0;
 
-    #ifdef DBGDT
+    #ifdef DATETIME_DEBUG
         printf("start: %d-%d-%d %d:%d:%d\n"
                "end..: %d-%d-%d %d:%d:%d\n",
                     start.day, start.mon, start.year, start.hour, start.min, start.sec,
@@ -118,7 +118,7 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
     // Final seconds difference.
     final_seconds = date_seconds + hour_seconds;
 
-    #ifdef DBGDT
+    #ifdef DATETIME_DEBUG
         printf("%d %d %d - %d %d %d\n", 
             (int) day,  (int) mon, (int) year, 
             (int) hour, (int) min, (int) sec);

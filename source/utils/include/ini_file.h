@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_LIBRARY_INI_FILE
-#define VERBUM_LIBRARY_INI_FILE
+#ifndef VERBUM_UTILS_INI_FILE
+#define VERBUM_UTILS_INI_FILE
 
 #include "global.h"
 

@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_LIBRARY_GLOBAL
-#define VERBUM_LIBRARY_GLOBAL
+#ifndef VERBUM_UTILS_GLOBAL
+#define VERBUM_UTILS_GLOBAL
 
 #include <stdio.h>
 #include <string.h>
@@ -13,7 +13,6 @@
 #include <dirent.h>
 #include <signal.h>
 #include <locale.h>
-
 #include <sys/time.h>
 #include <sys/types.h> 
 #include <sys/socket.h> 
@@ -21,34 +20,40 @@
 #include <netinet/in.h> 
 #include <arpa/inet.h>
 #include <fcntl.h>
-
 #include <pthread.h>
 
-#ifndef MSG_NOSIGNAL
-#define MSG_NOSIGNAL 0
-#endif
 
-#define VERBUM_SEND_FLAGS                   MSG_NOSIGNAL
-#define VERBUM_CHECK_DELETION_LIMIT         10
+/**
+ * Connection settings.
+ */
 
 // General configurations.
 #define LOCALHOST                           "127.0.0.1"
 #define SERVERS_MAX_CONNECTION              SOMAXCONN
 
-// Timeout.
-#define CONNECTION_TIMEOUT_LIMIT            10
-#define CONNECTION_TIMEOUT_SELECT           2
-#define CONNECTION_TIMEOUT_RECV             60
+// Send function flags.
+#define VERBUM_SEND_FLAGS                   MSG_NOSIGNAL
 
-// Default response (socket).
+// Information represented in seconds.
+#define CONNECTION_TIMEOUT_LIMIT            10  // Connect.
+#define CONNECTION_TIMEOUT_SELECT           2   // Select.
+#define CONNECTION_TIMEOUT_RECV             60  // Recv.
+
+// Default response (protocol).
 #define VERBUM_DEFAULT_SUCCESS              "verbum-node-ok"
 #define VERBUM_DEFAULT_ERROR                "verbum-node-fail"
+
+// End of header.
 #define VERBUM_EOH                          "\r\n\r\n"
 
-// Configurations e definations.
-#define initialization main // Entry point.
+// Limit of attempts to delete a connection.
+#define VERBUM_CHECK_DELETION_LIMIT         10
 
-// Global application data control.
+
+/**
+ * Global application settings.
+ */
+
 typedef struct {
     struct {
 
@@ -63,12 +68,19 @@ typedef struct {
 
 global_t global;
 
-int random_number  (int min, int max);
-int ignore_sigpipe (void);
 
-// Macros.
+/**
+ * Global macros.
+ */
+
+#define initialization main
+
 #ifndef PATH_MAX
 #define PATH_MAX 4096
+#endif
+
+#ifndef MSG_NOSIGNAL
+#define MSG_NOSIGNAL 0
 #endif
 
 #define infinite_loop()         \
@@ -78,5 +90,14 @@ int ignore_sigpipe (void);
     } while (0)
 
 #endif
+
+
+/**
+ * Prototypes.
+ */
+
+int random_number  (int min, int max);
+int ignore_sigpipe (void);
+
 
 

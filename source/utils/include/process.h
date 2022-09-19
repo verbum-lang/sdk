@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_LIBRARY_PROCESS
-#define VERBUM_LIBRARY_PROCESS
+#ifndef VERBUM_UTILS_PROCESS
+#define VERBUM_UTILS_PROCESS
 
 #include "global.h"
 

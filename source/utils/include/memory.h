@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_LIBRARY_MEMORY
-#define VERBUM_LIBRARY_MEMORY
+#ifndef VERBUM_UTILS_MEMORY
+#define VERBUM_UTILS_MEMORY
 
 #include "global.h"
 #include "debug.h"

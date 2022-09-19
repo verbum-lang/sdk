@@ -1,10 +1,10 @@
 
-#ifndef VERBUM_LIBRARY_DATETIME
-#define VERBUM_LIBRARY_DATETIME
+#ifndef VERBUM_UTILS_DATETIME
+#define VERBUM_UTILS_DATETIME
 
 #include "global.h"
 
-// #define DBGDT
+// #define DATETIME_DEBUG
 
 typedef struct {
     int day;

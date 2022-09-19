@@ -26,8 +26,6 @@ cd ../sdk/source/utils/source/
 rm -rf *.o
 
 gcc -o global.o                         -c global.c                     $INCLUDE_PARAM
-gcc -o memory.o                         -c memory.c                     $INCLUDE_PARAM
-gcc -o debug.o                          -c debug.c                      $INCLUDE_PARAM
 gcc -o application.o                    -c application.c                $INCLUDE_PARAM
 gcc -o datetime.o                       -c datetime.c                   $INCLUDE_PARAM
 gcc -o file.o                           -c file.c                       $INCLUDE_PARAM
@@ -36,8 +34,8 @@ gcc -o process.o                        -c process.c                    $INCLUDE
 gcc -o connection.o                     -c connection.c                 $INCLUDE_PARAM
 
 UP=" ../../utils/source"
-UTILS_OBJECTS="$UP/global.o $UP/memory.o $UP/debug.o $UP/application.o"
-UTILS_OBJECTS+="$UP/file.o $UP/ini_file.o $UP/connection.o $UP/process.o $UP/datetime.o"
+UTILS_OBJECTS="$UP/global.o $UP/application.o $UP/file.o $UP/ini_file.o"
+UTILS_OBJECTS+="$UP/connection.o $UP/process.o $UP/datetime.o"
 
 
 # ***
