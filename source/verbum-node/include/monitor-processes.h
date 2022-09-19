@@ -4,10 +4,10 @@
 
 #include "global.h"
 
-// #define MONITOR_DBG
+#define MONITOR_DBG
 
 // Enable/disable Node Mapper.
-// #define MONITOR_ENABLE_NODE_MAPPER
+#define MONITOR_ENABLE_NODE_MAPPER
 
 // Enable/disable persistence (process).
 #define MONITOR_ENABLE_PERSISTENCE
