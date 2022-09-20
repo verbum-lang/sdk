@@ -16,8 +16,8 @@ static int           server_connections (int ssock);
 static int           process_client     (int sock);
 static void         *worker_controller  (void *_param);
 
-static p_mutex_t     mutex_workers     = PTHREAD_MUTEX_INITIALIZER;
-static worker_t     *workers           = NULL;
+static p_mutex_t     mutex_workers      = PTHREAD_MUTEX_INITIALIZER;
+static worker_t     *workers            = NULL;
 
 extern node_t       *node_mapper_nodes;
 extern p_mutex_t     node_mapper_mutex_nodes;

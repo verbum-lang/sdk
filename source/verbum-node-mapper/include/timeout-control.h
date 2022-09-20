@@ -4,7 +4,7 @@
 
 #include "global.h"
 
-// #define DBGTC
+// #define VERBUM_DEBUG_TIMEOUT
 
 // Update offline flag.
 #define VERBUM_NODE_SEC_TIMEOUT_ERROR               60
