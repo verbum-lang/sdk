@@ -31,6 +31,9 @@
 #define VERBUM_NODE_APPLICATION             1
 #define VERBUM_NODE_MAPPER_APPLICATION      2
 
+// If defined, blocks STDOUT (fork).
+// #define BLOCK_FORK_STDOUT
+
 /**
  * Connection settings.
  */

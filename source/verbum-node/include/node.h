@@ -15,8 +15,7 @@
             say_ret(0, "error creating thread (node_core, node_client, node_server).");                     \
     } while (0)
 
-int initialize_node   (void);
-int open_node_process (void);
+int initialize_node (void);
 
 #endif
 

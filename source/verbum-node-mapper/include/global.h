@@ -18,9 +18,6 @@
  * Project macros.
  */
 
-// If defined, blocks STDOUT (fork).
-#define VNM_BLOCK_FORK_STDOUT
-
 // Total threads (workers) to process server requests.
 #define VNM_WORKER_THREAD_LIMIT 200
 

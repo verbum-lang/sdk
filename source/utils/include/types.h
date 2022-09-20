@@ -25,6 +25,7 @@ typedef struct worker_s {
  */
 
 typedef struct sockaddr_in sockaddr_in_t;
+typedef pthread_mutex_t p_mutex_t;
 
 #endif
 

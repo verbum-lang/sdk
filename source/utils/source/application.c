@@ -83,7 +83,7 @@ int open_application (int application)
     fd_limit = (int) sysconf(_SC_OPEN_MAX);
 
     for (int fd = STDERR_FILENO + 1; fd < fd_limit; fd++) {
-#ifndef VNM_BLOCK_FORK_STDOUT
+#ifndef BLOCK_FORK_STDOUT
         if (fd != 1)
 #endif
         close(fd);
@@ -92,7 +92,7 @@ int open_application (int application)
     stdin  = fopen("/dev/null", "r" );
     stderr = fopen("/dev/null", "w+");
     
-#ifndef VNM_BLOCK_FORK_STDOUT
+#ifndef BLOCK_FORK_STDOUT
     stdout = fopen("/dev/null", "w+");
 #endif
 

@@ -13,14 +13,6 @@
 #include "../../utils/include/datetime.h"
 #include "../../utils/include/types.h"
 
-
-/**
- * Project macros.
- */
-
-// If defined, blocks STDOUT (fork).
-// #define VN_BLOCK_FORK_STDOUT
-
 #endif
 
 

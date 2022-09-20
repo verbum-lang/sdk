@@ -5,24 +5,24 @@
 #include "communication.h"
 #include "timeout-control.h"
 
-static int                prepare_mutex      (void);
-static int                prepare_data       (void);
-static int                prepare_interface  (void);
-static void              *prepare_server     (void *_param);
-static int                prepare_workers    (char *node_mapper_id);
-static worker_t          *create_worker      (int worker_id);
-static int                insert_worker      (worker_t *n_worker);
-static int                server_connections (int ssock);
-static int                process_client     (int sock);
-static void              *worker_controller  (void *_param);
+static int           prepare_mutex      (void);
+static int           prepare_data       (void);
+static int           prepare_interface  (void);
+static void         *prepare_server     (void *_param);
+static int           prepare_workers    (char *node_mapper_id);
+static worker_t     *create_worker      (int worker_id);
+static int           insert_worker      (worker_t *n_worker);
+static int           server_connections (int ssock);
+static int           process_client     (int sock);
+static void         *worker_controller  (void *_param);
 
-static pthread_mutex_t    mutex_workers     = PTHREAD_MUTEX_INITIALIZER;
-static worker_t          *workers           = NULL;
+static p_mutex_t     mutex_workers     = PTHREAD_MUTEX_INITIALIZER;
+static worker_t     *workers           = NULL;
 
-extern node_control_t    *node_mapper_nodes;
-extern pthread_mutex_t    node_mapper_mutex_nodes;
-extern pthread_mutex_t    node_mapper_mutex_connections;
-extern node_connection_t *node_mapper_connections;
+extern node_t       *node_mapper_nodes;
+extern p_mutex_t     node_mapper_mutex_nodes;
+extern p_mutex_t     node_mapper_mutex_connections;
+extern connection_t *node_mapper_connections;
 
 int initialize_node_mapper (void)
 {
@@ -164,7 +164,7 @@ static int process_client (int sock)
 static int prepare_workers (char *node_mapper_id)
 {
     worker_t *worker;
-    nm_worker_param_t *param;
+    wparam_t *param;
 
     if (!node_mapper_id)
         return 0;
@@ -183,7 +183,7 @@ static int prepare_workers (char *node_mapper_id)
     pthread_mutex_lock(&mutex_workers);
     
     for (worker=workers; worker!=NULL; worker=worker->next) {
-        param = (nm_worker_param_t *) malloc(sizeof(nm_worker_param_t));
+        param = (wparam_t *) malloc(sizeof(wparam_t));
         if (!param)
             say_ret(0, "Error allocating memory (worker param).");
         
@@ -234,7 +234,7 @@ static int insert_worker (worker_t *n_worker)
 
 static void *worker_controller (void *_param)
 {
-    nm_worker_param_t *param = (nm_worker_param_t *) _param;
+    wparam_t *param = (wparam_t *) _param;
     worker_t *worker;
     int wid, run, sock;
 

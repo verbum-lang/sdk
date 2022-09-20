@@ -15,7 +15,7 @@ typedef struct {
 typedef struct {
     int wid;                            // Worker ID.
     char *node_mapper_id;
-} nm_worker_param_t;
+} wparam_t;
 
 int initialize_node_mapper (void);
 
