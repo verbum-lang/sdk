@@ -7,11 +7,11 @@
 // #define VERBUM_DEBUG_TIMEOUT
 
 // Update offline flag.
-#define VERBUM_NODE_SEC_TIMEOUT_ERROR               60
+#define VERBUM_TIMEOUT_NODE_ERROR                   10//60
 
 // Auto remove node.
-// #define VERBUM_NODE_AUTO_REMOVE
-#define VERBUM_NODE_SEC_TIMEOUT_AUTO_REMOVE         120
+#define VERBUM_NODE_AUTO_REMOVE
+#define VERBUM_TIMEOUT_NODE_AUTO_REMOVE             15//120
 
 // Update error connection flag.
 #define VERBUM_TIMEOUT_CON_ERROR                    60
@@ -20,7 +20,7 @@
 #define VERBUM_CONNECTION_AUTO_REMOVE
 #define VERBUM_CONNECTION_AUTO_REMOVE_INPUT
 // #define VERBUM_CONNECTION_AUTO_REMOVE_OUTPUT
-#define VERBUM_TIMEOUT_CON_AUTO_REMOVE              10 //120
+#define VERBUM_TIMEOUT_CON_AUTO_REMOVE              5 //120
 
 int prepare_timeout (void);
 

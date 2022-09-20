@@ -5,6 +5,8 @@
 
 static void *timeout_controller     (void *_param);
 static int   check_nodes            (void);
+static int   timeout_node           (node_t *node);
+static int   auto_remove_node       (node_t *node, node_t *last);
 static int   check_connections      (void);
 static int   timeout_connection     (connection_t *con);
 static int   auto_remove_connection (connection_t *con, connection_t *last);
@@ -35,7 +37,7 @@ static void *timeout_controller (void *_param)
 
 static int check_nodes (void)
 {
-    node_t *node, *last_node;
+    node_t *node, *last;
     char *date = make_datetime();
     
     if (!date)
@@ -44,67 +46,81 @@ static int check_nodes (void)
     pthread_mutex_lock(&node_mapper_mutex_nodes);
 
     for (node=node_mapper_nodes; node!=NULL; node=node->next) {
-        if (node->status != 1) {
-            last_node = node;
-            continue;
-        }
+        if (node->status == 1) {
 
-        // Checks node timeout - enable offline flag.
-        if (date_difference(
-                node->last_connect_date, date, VERBUM_NODE_SEC_TIMEOUT_ERROR)) 
-        {
-            node->offline_by_timeout = 1;
+            timeout_node(node);
 
-            #ifdef VERBUM_DEBUG_TIMEOUT
-                say("Enable offline flag - timeout.");
-                say("node -> id: %s - date: %s", node->id, node->last_connect_date);
+            #ifdef VERBUM_NODE_AUTO_REMOVE
+                auto_remove_node(node, last);
             #endif
         }
 
-        // Auto remove node.
-        #ifdef VERBUM_NODE_AUTO_REMOVE
-            if (date_difference(
-                    node->last_connect_date, date, VERBUM_NODE_SEC_TIMEOUT_AUTO_REMOVE))
-            {
-                #ifdef VERBUM_DEBUG_TIMEOUT
-                    say("Auto remove node - timeout.");
-                    say("node -> id: %s - date: %s", 
-                            node->id, node->last_connect_date);
-                #endif
-
-                if (!node->next)
-                    last_node->next = NULL;
-                else 
-                    last_node->next = node->next;
-
-                mem_sfree(node->id);
-                free(node);
-                break;
-            }
-        #endif
-
-        last_node = node;
+        last = node;
     }
 
     pthread_mutex_unlock(&node_mapper_mutex_nodes);
-    mem_sfree(date);
+    return 1;
+}
 
+static int timeout_node (node_t *node)
+{
+    char *date = make_datetime();
+
+    if (!date || !node)
+        return 0;
+
+    if (date_difference(node->last_connect_date, date, VERBUM_TIMEOUT_NODE_ERROR)) 
+    {
+        node->offline_by_timeout = 1;
+
+        #ifdef VERBUM_DEBUG_TIMEOUT
+            say("Enable offline flag - timeout control.");
+            say("node -> id: %s - date: %s", node->id, node->last_connect_date);
+        #endif
+    }
+
+    mem_sfree(date);
+    return 1;
+}
+
+static int auto_remove_node (node_t *node, node_t *last)
+{
+    char *date = make_datetime();
+
+    if (!date || !node || !last)
+        return 0;
+
+    if (date_difference(node->last_connect_date, date, VERBUM_TIMEOUT_NODE_AUTO_REMOVE))
+    {
+        #ifdef VERBUM_DEBUG_TIMEOUT
+            say("Auto remove node - timeout control.");
+            say("node -> id: %s - date: %s", node->id, node->last_connect_date);
+        #endif
+
+        if (!node->next)
+            last->next = NULL;
+        else 
+            last->next = node->next;
+
+        mem_sfree(node->id);
+        free(node);
+    }
+
+    mem_sfree(date);
     return 1;
 }
 
 static int check_connections (void)
 {
     connection_t *con, *last;
-    
+
     pthread_mutex_lock(&node_mapper_mutex_connections);
 
     for (con=node_mapper_connections; con!=NULL; con=con->next) {
         if (con->status == 1 && con->id) {
 
-            // Updates the connection status if it times out.
             timeout_connection(con);
 
-            // Automatically removes connection if it times out.
             #ifdef VERBUM_CONNECTION_AUTO_REMOVE
                 auto_remove_connection(con, last);
             #endif
@@ -140,6 +156,7 @@ static int timeout_connection (connection_t *con)
     }
 
     mem_sfree(date);
+    return 1;
 }
 
 static int auto_remove_connection (connection_t *con, connection_t *last)
@@ -159,13 +176,11 @@ static int auto_remove_connection (connection_t *con, connection_t *last)
                 con->type, con->src_node_id, con->dst_node_id);
         #endif
         
-        // Output.
         #ifdef VERBUM_CONNECTION_AUTO_REMOVE_OUTPUT
             if (con->type == 0)
                 status = 1;
         #endif
         
-        // Input.
         #ifdef VERBUM_CONNECTION_AUTO_REMOVE_INPUT
             if (con->type == 1)
                 status = 1;
@@ -187,6 +202,7 @@ static int auto_remove_connection (connection_t *con, connection_t *last)
     }
 
     mem_sfree(date);
+    return 1;
 }
 
 
