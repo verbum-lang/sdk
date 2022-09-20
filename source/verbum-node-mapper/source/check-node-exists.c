@@ -2,8 +2,8 @@
 #include "check-node-exists.h"
 #include "node-control.h"
 
-extern node_control_t *node_mapper_nodes;
-extern pthread_mutex_t node_mapper_mutex_nodes;
+extern node_t *node_mapper_nodes;
+extern p_mutex_t node_mapper_mutex_nodes;
 
 int nm_check_node_exists (int sock, char *content)
 {
@@ -17,7 +17,7 @@ int nm_check_node_exists (int sock, char *content)
     char *ptr = NULL, *response_success = NULL;
     char *response = NULL;
     int bytes = 0, status = 0, counter = 0, limit = 5, core_port = 0;
-    node_control_t *node;
+    node_t *node;
 
     if (!sock || !content)
         return 0;

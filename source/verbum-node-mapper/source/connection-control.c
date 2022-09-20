@@ -1,13 +1,13 @@
 
 #include "connection-control.h"
 
-pthread_mutex_t    node_mapper_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
-node_connection_t *node_mapper_connections       = NULL;
+p_mutex_t    node_mapper_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
+connection_t *node_mapper_connections       = NULL;
 
-node_connection_t *nm_connection_create_item (void)
+connection_t *nm_connection_create_item (void)
 {
-    node_connection_t *connection;
-    mem_alloc_ret(connection, sizeof(node_connection_t), node_connection_t *, NULL);
+    connection_t *connection;
+    mem_alloc_ret(connection, sizeof(connection_t), connection_t *, NULL);
 
     connection->status                  = 0;
     connection->id                      = NULL;
@@ -26,13 +26,13 @@ node_connection_t *nm_connection_create_item (void)
     return connection;
 }
 
-int nm_connection_insert_item (node_connection_t *new_connection)
+int nm_connection_insert_item (connection_t *new_connection)
 {
     if (!new_connection)
         return 0;
 
     pthread_mutex_lock(&node_mapper_mutex_connections);
-    node_connection_t *connection = node_mapper_connections;
+    connection_t *connection = node_mapper_connections;
 
     while (1) {
         if (!connection->next) {

@@ -2,8 +2,8 @@
 #include "ping-node.h"
 #include "node-control.h"
 
-extern node_control_t *node_mapper_nodes;
-extern pthread_mutex_t node_mapper_mutex_nodes;
+extern node_t *node_mapper_nodes;
+extern p_mutex_t node_mapper_mutex_nodes;
 
 int update_ping_node (int sock, char *content)
 {
@@ -20,8 +20,8 @@ int update_ping_node (int sock, char *content)
     char *ptr = NULL, *date = NULL;
     int bytes = 0, index = -1, found = 0, size = 0;
     int brk = 0;
-    node_control_t *node_information;
-    node_control_t *node;
+    node_t *node_information;
+    node_t *node;
 
     date = make_datetime();
     if (!date)

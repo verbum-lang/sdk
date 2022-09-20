@@ -3,11 +3,11 @@
 #include "node-control.h"
 #include "connection-control.h"
 
-extern node_control_t    *node_mapper_nodes;
-extern pthread_mutex_t    node_mapper_mutex_nodes;
+extern node_t    *node_mapper_nodes;
+extern p_mutex_t    node_mapper_mutex_nodes;
 
-extern pthread_mutex_t    node_mapper_mutex_connections;
-extern node_connection_t *node_mapper_connections;
+extern p_mutex_t    node_mapper_mutex_connections;
+extern connection_t *node_mapper_connections;
 
 int nm_delete_node (int sock, char *content)
 {
@@ -24,8 +24,8 @@ int nm_delete_node (int sock, char *content)
     char address           [] = LOCALHOST;
     char *ptr = NULL, *response = NULL;
     int bytes = 0, status = 0, counter = 0, core_port = 0;
-    node_control_t *node, *nlast;
-    node_connection_t *con, *last;
+    node_t *node, *nlast;
+    connection_t *con, *last;
 
     // Extract node ID.
     ptr = strstr(content, prefix);

@@ -3,11 +3,11 @@
 #include "node-control.h"
 #include "connection-control.h"
 
-extern node_control_t    *node_mapper_nodes;
-extern pthread_mutex_t    node_mapper_mutex_nodes;
+extern node_t    *node_mapper_nodes;
+extern p_mutex_t    node_mapper_mutex_nodes;
 
-extern pthread_mutex_t    node_mapper_mutex_connections;
-extern node_connection_t *node_mapper_connections;
+extern p_mutex_t    node_mapper_mutex_connections;
+extern connection_t *node_mapper_connections;
 
 int get_node_list (int sock)
 {
@@ -21,8 +21,8 @@ int get_node_list (int sock)
     char *message = NULL;
     char tmp [2048];
     int size = 0, status = 1, a = 1, b = 1;
-    node_control_t *node;
-    node_connection_t *connection;
+    node_t *node;
+    connection_t *connection;
 
     pthread_mutex_lock(&node_mapper_mutex_nodes);
     pthread_mutex_lock(&node_mapper_mutex_connections);

@@ -3,8 +3,11 @@
 #include "node-control.h"
 #include "connection-control.h"
 
-static int check_nodes       (void);
-static int check_connections (void);
+static void *timeout_controller     (void *_param);
+static int   check_nodes            (void);
+static int   check_connections      (void);
+static int   timeout_connection     (connection_t *con);
+static int   auto_remove_connection (connection_t *con, connection_t *last);
 
 extern node_t       *node_mapper_nodes;
 extern p_mutex_t     node_mapper_mutex_nodes;
@@ -21,15 +24,13 @@ int prepare_timeout (void)
     return 1;
 }
 
-void *timeout_controller (void *tparam)
+static void *timeout_controller (void *_param)
 {
     while (1) {
-        sleep(1);
         check_nodes();
         check_connections();
+        sleep(1);
     }
-
-    return NULL;
 }
 
 static int check_nodes (void)
@@ -93,89 +94,99 @@ static int check_nodes (void)
 
 static int check_connections (void)
 {
-    connection_t *connection, *last_connection;
-    char *date = make_datetime();
-    int status;
+    connection_t *con, *last;
     
-    if (!date)
-        return 0;
-
     pthread_mutex_lock(&node_mapper_mutex_connections);
 
-    for (connection=node_mapper_connections; connection!=NULL; connection=connection->next) {
-        if (connection->status != 1 || !connection->id) {
-            last_connection = connection;
-            continue;
-        }
+    for (con=node_mapper_connections; con!=NULL; con=con->next) {
+        if (con->status == 1 && con->id) {
 
-        // Check input connections timeout.
-        if (date_difference(connection->last_connect_date, 
-                date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
-        {
-            #ifdef DBGTC
-                say("Enable error flag - timeout.");
-                say("Timeout: %s, %s", connection->last_connect_date, date);
-                say("Type: %d, Src: %s, Dst: %s\n", 
-                    connection->type, connection->src_node_id, connection->dst_node_id);
+            // Updates the connection status if it times out.
+            timeout_connection(con);
+
+            // Automatically removes connection if it times out.
+            #ifdef VERBUM_CONNECTION_AUTO_REMOVE
+                auto_remove_connection(con, last);
             #endif
-
-            connection->connection_error = 1;
-            connection->connection_error_count++;
-
-            if (connection->connection_error_count >= 1000000)
-                connection->connection_error_count = 0;
         }
 
-        // Check connections to auto-remove.
-        #ifdef VERBUM_CONNECTION_AUTO_REMOVE
-            if (date_difference(connection->last_connect_date, 
-                    date, VERBUM_CONNECTION_SEC_TIMEOUT_AUTO_REMOVE)) 
-            {
-                #ifdef DBGTC
-                    say("Auto remove connection - timeout.");
-                    say("Timeout: %s, %s", connection->last_connect_date, date);
-                    say("Type: %d, Src: %s, Dst: %s\n", 
-                        connection->type, connection->src_node_id, connection->dst_node_id);
-                #endif
-                
-                status = 0;
-
-                // Output.
-                #ifdef VERBUM_CONNECTION_AUTO_REMOVE_OUTPUT
-                    if (connection->type == 0)
-                        status = 1;
-                #endif
-                
-                // Input.
-                #ifdef VERBUM_CONNECTION_AUTO_REMOVE_INPUT
-                    if (connection->type == 1)
-                        status = 1;
-                #endif
-
-                if (status) {
-                    if (!connection->next)
-                        last_connection->next = NULL;
-                    else 
-                        last_connection->next = connection->next;
-
-                    mem_sfree(connection->id);
-                    mem_sfree(connection->src_node_id);
-                    mem_sfree(connection->dst_node_id);
-                    mem_sfree(connection->dst_nm_id);
-                    mem_sfree(connection->dst_nm_address);
-                    free(connection);
-                    break;
-                }
-            }
-        #endif
-
-        last_connection = connection;
+        last = con;
     }
 
     pthread_mutex_unlock(&node_mapper_mutex_connections);
-    mem_sfree(date);
-
     return 1;
+}
+
+static int timeout_connection (connection_t *con)
+{
+    char *date = make_datetime();
+
+    if (!date || !con)
+        return 0;
+
+    if (date_difference(con->last_connect_date, date, VERBUM_TIMEOUT_CON_ERROR)) {
+        #ifdef DBGTC
+            say("Enable error flag - timeout control.");
+            say("Timeout: %s, %s", con->last_connect_date, date);
+            say("Type: %d, Src: %s, Dst: %s\n", 
+                con->type, con->src_node_id, con->dst_node_id);
+        #endif
+
+        con->connection_error = 1;
+        con->connection_error_count++;
+
+        if (con->connection_error_count >= 1000000)
+            con->connection_error_count = 0;
+    }
+
+    mem_sfree(date);
+}
+
+static int auto_remove_connection (connection_t *con, connection_t *last)
+{
+    char *date = make_datetime();
+    int status = 0;
+
+    if (!date || !con || !last)
+        return 0;
+
+    if (date_difference(con->last_connect_date, date, VERBUM_TIMEOUT_CON_AUTO_REMOVE))
+    {
+        #ifdef VERBUM_DEBUG_TIMEOUT
+            say("Auto remove connection - timeout control.");
+            say("Timeout: %s, %s", con->last_connect_date, date);
+            say("Type: %d, Src: %s, Dst: %s\n", 
+                con->type, con->src_node_id, con->dst_node_id);
+        #endif
+        
+        // Output.
+        #ifdef VERBUM_CONNECTION_AUTO_REMOVE_OUTPUT
+            if (con->type == 0)
+                status = 1;
+        #endif
+        
+        // Input.
+        #ifdef VERBUM_CONNECTION_AUTO_REMOVE_INPUT
+            if (con->type == 1)
+                status = 1;
+        #endif
+
+        if (status) {
+            if (!con->next)
+                last->next = NULL;
+            else 
+                last->next = con->next;
+
+            mem_sfree(con->id);
+            mem_sfree(con->src_node_id);
+            mem_sfree(con->dst_node_id);
+            mem_sfree(con->dst_nm_id);
+            mem_sfree(con->dst_nm_address);
+            free(con);
+        }
+    }
+
+    mem_sfree(date);
 }
 
 

@@ -6,8 +6,8 @@ static int create_node_output_connection (int   sock,
                                           char *src_node_id, int   src_node_interface_port, 
                                           char *dst_node_id, char *dst_nm_address, int dst_nm_port);
 
-extern node_control_t *node_mapper_nodes;
-extern pthread_mutex_t node_mapper_mutex_nodes;
+extern node_t *node_mapper_nodes;
+extern p_mutex_t node_mapper_mutex_nodes;
 
 /**
  * type:
@@ -28,7 +28,7 @@ int nm_create_node_connection (int sock, char *content, int type)
     int result = 0, dst_nm_port = 0, brk = 0;
     int bytes = 0, status = 0, src_node_interface_port = 0;
     
-    node_control_t *node;
+    node_t *node;
     
     if (!sock || !content)
         goto cnc_error;

@@ -15,7 +15,7 @@ int add_new_node (int sock, char *content)
     char port[256], prefix []= "generate-verbum-node-id:";
     char *id = NULL, *ptr = NULL, *date = NULL, *resp = NULL;
     int bytes = 0, size = 0, result = 1;
-    node_control_t *node = create_node();
+    node_t *node = create_node();
 
     if (!node)
         say_ret(0, "error create node item.");

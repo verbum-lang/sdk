@@ -3,8 +3,8 @@
 #include "connection-control.h"
 #include "timeout-control.h"
 
-extern pthread_mutex_t    node_mapper_mutex_connections;
-extern node_connection_t *node_mapper_connections;
+extern p_mutex_t    node_mapper_mutex_connections;
+extern connection_t *node_mapper_connections;
 
 static int process_connection_item (char *connection);
 
@@ -84,8 +84,8 @@ int update_connections (int sock, char *content)
 
 static int process_connection_item (char *connection)
 {
-    node_connection_t *ncon = nm_connection_create_item();
-    node_connection_t *con, *last;
+    connection_t *ncon = nm_connection_create_item();
+    connection_t *con, *last;
     char tmp[1024], name[256], value[256];
     char *ptr = NULL, *current_date = NULL;
     int found = 0, auto_remove = 0, status = 0;
@@ -222,7 +222,7 @@ static int process_connection_item (char *connection)
 
         // Check input connections timeout.
         if (date_difference(ncon->last_connect_date, 
-                current_date, VERBUM_CONNECTION_SEC_TIMEOUT_ERROR)) 
+                current_date, VERBUM_TIMEOUT_CON_ERROR)) 
         {
             #ifdef NMDBG
                 say("Enable error flag - timeout - update connections.");
@@ -241,7 +241,7 @@ static int process_connection_item (char *connection)
         // Checks auto-remove.
         #ifdef VERBUM_CONNECTION_AUTO_REMOVE
             if (date_difference(ncon->last_connect_date, 
-                    current_date, VERBUM_CONNECTION_SEC_TIMEOUT_AUTO_REMOVE)) 
+                    current_date, VERBUM_TIMEOUT_CON_AUTO_REMOVE)) 
             {
                 #ifdef NMDBG
                     say("Auto remove - timeout - update connections.");

@@ -2,15 +2,15 @@
 #include "generate-node-id.h"
 #include "node-control.h"
 
-extern node_control_t *node_mapper_nodes;
-extern pthread_mutex_t node_mapper_mutex_nodes;
+extern node_t *node_mapper_nodes;
+extern p_mutex_t node_mapper_mutex_nodes;
 
 char *generate_new_id (void)
 {
     char *id = NULL;
     char tmp [1024];
     int limit = 24, found = 0, size = 0;
-    node_control_t *node;
+    node_t *node;
 
     memset(tmp, 0x0, 1024);
     sprintf(tmp, "verbum-node-%d%d%d", 

@@ -14,16 +14,15 @@
 #define VERBUM_NODE_SEC_TIMEOUT_AUTO_REMOVE         120
 
 // Update error connection flag.
-#define VERBUM_CONNECTION_SEC_TIMEOUT_ERROR         60
+#define VERBUM_TIMEOUT_CON_ERROR                    60
 
 // Auto remove connection.
 #define VERBUM_CONNECTION_AUTO_REMOVE
 #define VERBUM_CONNECTION_AUTO_REMOVE_INPUT
 // #define VERBUM_CONNECTION_AUTO_REMOVE_OUTPUT
-#define VERBUM_CONNECTION_SEC_TIMEOUT_AUTO_REMOVE   120
+#define VERBUM_TIMEOUT_CON_AUTO_REMOVE              10 //120
 
-int   prepare_timeout    (void);
-void *timeout_controller (void *tparam);
+int prepare_timeout (void);
 
 #endif
 
