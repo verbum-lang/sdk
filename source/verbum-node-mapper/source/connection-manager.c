@@ -279,7 +279,9 @@ static int process_connection_item (char *connection)
 
     // Search connection.
     for (con=node_mapper_connections; con!=NULL; con=con->next) {
-        if (con->status != 1 || !con->id || !con->dst_node_id) {
+        if (!con->id          || !con->src_node_id || 
+            !con->dst_node_id ||  con->status != 1  ) 
+        {
             last = con;
             continue;
         }

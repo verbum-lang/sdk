@@ -93,6 +93,7 @@
  */
 
 typedef struct {
+    int test;
     struct {
         struct {
             char *id;

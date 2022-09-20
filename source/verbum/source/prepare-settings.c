@@ -8,6 +8,7 @@ int prepare_settings (int argc, char *argv[])
     int opt = -1;
 	
 	opterr = 0;
+	global.test = 0;
 	global.configuration.node.id = NULL;
 	global.configuration.node_mapper.id = NULL;
 	global.configuration.node_mapper.server_port = 0;
@@ -15,7 +16,7 @@ int prepare_settings (int argc, char *argv[])
 	if (argc == 1)
 		usage(0, 0);
 
-	while ((opt = getopt(argc, argv, "p:m:i:")) != -1) {
+	while ((opt = getopt(argc, argv, "p:m:i:j:")) != -1) {
 		switch (opt) {
 			case 'i':
 				mem_salloc_scopy(optarg, global.configuration.node.id);
@@ -31,6 +32,10 @@ int prepare_settings (int argc, char *argv[])
 
 			case 'p':
 				global.configuration.node_mapper.server_port = atoi(optarg);
+				break;
+
+			case 'j':
+				global.test = atoi(optarg);
 				break;
 
 			case '?':

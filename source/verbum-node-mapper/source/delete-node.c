@@ -65,37 +65,37 @@ int nm_delete_node (int sock, char *content)
     pthread_mutex_unlock(&node_mapper_mutex_nodes);
 
     // Remove node connections.
-    if (status == 1) {
-        pthread_mutex_lock(&node_mapper_mutex_connections);
+    // if (status == 1) {
+    //     pthread_mutex_lock(&node_mapper_mutex_connections);
         
-        for (con=node_mapper_connections; con!=NULL; con=con->next) {
-            if (con->status != 1 || !con->id || !con->dst_node_id) {
-                last = con;
-                continue;
-            }
+    //     for (con=node_mapper_connections; con!=NULL; con=con->next) {
+    //         if (con->status != 1 || !con->id || !con->dst_node_id) {
+    //             last = con;
+    //             continue;
+    //         }
 
-            // Remove item.
-            if (strcmp(con->src_node_id, tmp) == 0) {
-                if (!con->next)
-                    last->next = NULL;
-                else 
-                    last->next = con->next;
+    //         // Remove item.
+    //         if (strcmp(con->src_node_id, tmp) == 0) {
+    //             if (!con->next)
+    //                 last->next = NULL;
+    //             else 
+    //                 last->next = con->next;
 
-                mem_sfree(con->id);
-                mem_sfree(con->src_node_id);
-                mem_sfree(con->dst_node_id);
-                mem_sfree(con->dst_nm_id);
-                mem_sfree(con->dst_nm_address);
-                free(con);
+    //             mem_sfree(con->id);
+    //             mem_sfree(con->src_node_id);
+    //             mem_sfree(con->dst_node_id);
+    //             mem_sfree(con->dst_nm_id);
+    //             mem_sfree(con->dst_nm_address);
+    //             free(con);
 
-                break;
-            }
+    //             break;
+    //         }
 
-            last = con;
-        }
+    //         last = con;
+    //     }
 
-        pthread_mutex_unlock(&node_mapper_mutex_connections);
-    }
+    //     pthread_mutex_unlock(&node_mapper_mutex_connections);
+    // }
 
     // Send request to node auto-close.
     if (status == 1) {

@@ -27,6 +27,8 @@ int node_mapper_communication (int sock, char *nm_id)
     if (!response)
         return 0;
 
+    // say("> %s", response);
+
     /**
      * Get Node Mapper ID.
      */

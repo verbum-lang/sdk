@@ -15,8 +15,30 @@ int initialization (int argc, char *argv[])
     else
         say_ret(0, "Error performing initial preparations.");
     
-    start_node_mapper();
-    start_node();
+    switch (global.test)
+    {
+    case 1:
+        start_node_mapper();
+        start_node();
+        break;
+    case 2:
+        start_node_mapper();
+        break;
+    case 3:
+        start_node();
+        break;
+    case 4:
+        initialize_node();
+        infinite_loop();
+        break;
+    case 5:
+        initialize_node_mapper();
+        infinite_loop();
+        break;
+    default:
+        start_node();
+        break;
+    }
 
     return 0;
 }

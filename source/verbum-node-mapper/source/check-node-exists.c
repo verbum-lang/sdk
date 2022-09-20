@@ -13,6 +13,7 @@ int nm_check_node_exists (int sock, char *content)
 
     char tmp[1024], prefix [] = "check-verbum-node-exists:";
     char response_error    [] = VERBUM_DEFAULT_ERROR   VERBUM_EOH;
+    char eoh [] = VERBUM_EOH;
     char address           [] = LOCALHOST;
     char *ptr = NULL, *response_success = NULL;
     char *response = NULL;
@@ -46,7 +47,7 @@ int nm_check_node_exists (int sock, char *content)
     }
 
     pthread_mutex_unlock(&node_mapper_mutex_nodes);
-            
+
     // Send message to node (core port).
     if (status == 1) {
         status = 0;
@@ -56,11 +57,13 @@ int nm_check_node_exists (int sock, char *content)
             if (response) {
                 if (strstr(response, VERBUM_DEFAULT_SUCCESS)) {
                     
-                    // Copy response.
-                    mem_scopy_goto(response, response_success, error);
+                    mem_salloc(response_success, strlen(response) + strlen(eoh));
+                    if (response_success) {
+                        sprintf(response_success, "%s%s", response, eoh);
+                        status = 1;
+                    }
+
                     mem_sfree(response);
-                    
-                    status = 1;
                     break;
                 }
 
@@ -82,10 +85,6 @@ int nm_check_node_exists (int sock, char *content)
     bytes = send(sock, response_success, strlen(response_success), VERBUM_SEND_FLAGS);
     mem_sfree(response_success);
     return 1;
-
-    error:
-    mem_sfree(response_success);
-    return 0;
 }
 
 

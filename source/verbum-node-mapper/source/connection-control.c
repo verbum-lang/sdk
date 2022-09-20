@@ -1,7 +1,7 @@
 
 #include "connection-control.h"
 
-p_mutex_t    node_mapper_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
+p_mutex_t     node_mapper_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
 connection_t *node_mapper_connections       = NULL;
 
 connection_t *nm_connection_create_item (void)
