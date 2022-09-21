@@ -14,7 +14,7 @@ onmessage = function(ev) {
     if (request.cmd == 'check-connection') {
         connect_node_mapper(request.address, request.port, '', (response) => {
             request.status = false;
-            
+
             if (response.indexOf('Verbum Node Mapper') != -1) {
                 request.status = true;
                 postMessage(request);
