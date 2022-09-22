@@ -111,8 +111,8 @@ void *node_mapper_interface (void *tparam)
     say("Node mapper interface - started!");
 
     interface_param_t *param = (interface_param_t *) tparam;
-    struct sockaddr_in address;
-    socklen_t address_size;
+    struct sockaddr_in address, client;
+    socklen_t client_size;
     int ssock = -1, nsock = -1, status = -1, block = 0;
     const int enable = 1;
     thread_worker_t *worker;
@@ -141,7 +141,9 @@ void *node_mapper_interface (void *tparam)
     while (1) {
         
         // Process connection.
-        nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
+        client_size = sizeof(client);
+        nsock = accept(ssock, (struct sockaddr*) &client, &client_size);
+
         if (nsock != -1) {
 
             #ifdef NMDBG

@@ -19,8 +19,8 @@ void *node_core (void *tparam)
 {
     say("node core interface started!");
 
-    struct sockaddr_in address;
-    socklen_t address_size;
+    struct sockaddr_in address, client;
+    socklen_t client_size;
     int ssock  = -1, nsock = -1;
     int status = -1, port  =  0;
     int node_mapper_port = 0, max_connections = SERVERS_MAX_CONNECTION;
@@ -101,7 +101,9 @@ void *node_core (void *tparam)
     while (1) {
         
         // Process connection.
-        nsock = accept(ssock, (struct sockaddr*) &address, &address_size);
+        client_size = sizeof(client);
+        nsock = accept(ssock, (struct sockaddr*) &client, &client_size);
+
         if (nsock != -1) {
 
             #ifdef NCDBG
