@@ -24,10 +24,11 @@ gcc -o file.o           -c file.c
 gcc -o ini_file.o       -c ini_file.c
 gcc -o process.o        -c process.c
 gcc -o connection.o     -c connection.c
+gcc -o preparation.o    -c preparation.c
 
 LIBRARY_OBJECTS="  ../../library/global.o ../../library/memory.o ../../library/debug.o ../../library/application.o  "
 LIBRARY_OBJECTS+=" ../../library/file.o   ../../library/ini_file.o ../../library/connection.o ../../library/process.o "
-LIBRARY_OBJECTS+=" ../../library/datetime.o "
+LIBRARY_OBJECTS+=" ../../library/datetime.o ../../library/preparation.o "
 
 LIBRARY_LIBS=" -lpthread "
 

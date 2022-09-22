@@ -13,6 +13,10 @@ node_connection_t *node_connections;
 
 int verbum_node (void)
 {
+    // General preparation.
+    if (!general_preparation())
+        say_ret(0, "general preparation failed.");
+
     // Prepare global configurations.
     mem_alloc_ret(gconfig, sizeof(node_config_t), node_config_t *, 0);
 

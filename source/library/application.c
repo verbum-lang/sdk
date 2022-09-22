@@ -53,10 +53,10 @@ void system_open_bg_application (char *cmd)
     exit(0);
 }
 
-int open_application (int application)
+int 
+open_application (int application)
 {
     int fd, fd_limit;
-    pthread_t tid;
     pid_t pid;
 
     pid = fork();
@@ -101,15 +101,13 @@ int open_application (int application)
 
     switch (application) {
         case VERBUM_NODE_APPLICATION:
-            pthread_create(&tid, NULL, verbum_node_open_process, NULL);
-            // if (!verbum_node())
-            //     exit(0);
+            if (!verbum_node())
+                exit(0);
             break;
 
         case VERBUM_NODE_MAPPER_APPLICATION:
-            pthread_create(&tid, NULL, verbum_node_mapper_open_process, NULL);
-            // if (!node_mapper())
-            //     exit(0);
+            if (!node_mapper())
+                exit(0);
             break;
 
         default:
@@ -118,16 +116,6 @@ int open_application (int application)
     }
 
     infinite_loop();
-}
-
-void *verbum_node_open_process (void *_param)
-{
-    verbum_node();
-}
-
-void *verbum_node_mapper_open_process (void *_param)
-{
-    node_mapper();
 }
 
 char *get_relative_path (void)

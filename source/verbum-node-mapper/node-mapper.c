@@ -28,6 +28,10 @@ extern node_connection_t *node_mapper_connections;
 
 int node_mapper (void)
 {
+    // General preparation.
+    if (!general_preparation())
+        say_ret(0, "general preparation failed.");
+
     // Prepare mutex.
     if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
         say_ret(0, "mutex init failed - workers.");

@@ -17,6 +17,7 @@
 #include "../library/datetime.h"
 #include "../library/connection.h"
 #include "../library/types.h"
+#include "../library/preparation.h"
 
 // Re-define macros.
 // #ifdef      PACKAGE_NAME

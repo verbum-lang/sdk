@@ -17,11 +17,13 @@
 
 static void usage (int invalid, int option);
 static int prepare_settings (int argc, char *argv[]);
-
-int app_open = 0;
+static void *start_verbum_node_mapper (void *_param);
+static void *start_verbum_node (void *_param);
 
 int initialization (int argc, char *argv[]) 
 {
+	pthread_t tid;
+
     say("Verbum started.");
 
     prepare_settings(argc, argv);
@@ -30,21 +32,22 @@ int initialization (int argc, char *argv[])
     say("Node Mapper ID..: %s", global.configuration.node_mapper.id);
     say("Node Mapper port: %d", global.configuration.node_mapper.server_port);
 
-    if (app_open == 1) {
-		say("Open Verbum Node!\n");
-	    // verbum_node();
-		open_application(VERBUM_NODE_APPLICATION);
-	} else if (app_open == 2) {
-		say("Open Verbum Node Mapper!\n");
-		// node_mapper();
-		open_application(VERBUM_NODE_MAPPER_APPLICATION);
-	} else {
-		say("No open apps.\n");
-		return 0;
-	}
+	pthread_create(&tid, NULL, start_verbum_node_mapper, NULL);
+	pthread_create(&tid, NULL, start_verbum_node, NULL);
 
-	// infinite_loop();
+	infinite_loop();
     return 0;
+}
+
+static void *start_verbum_node_mapper (void *_param)
+{
+	open_application(VERBUM_NODE_MAPPER_APPLICATION);
+}
+
+static void *start_verbum_node (void *_param)
+{
+	if (!verbum_node())
+		say_exit("Error creating Verbum Node.");
 }
 
 static int prepare_settings (int argc, char *argv[])
@@ -59,7 +62,7 @@ static int prepare_settings (int argc, char *argv[])
 	if (argc == 1)
 		usage(0, 0);
 
-	while ((opt = getopt(argc, argv, "p:m:i:j:")) != -1) {
+	while ((opt = getopt(argc, argv, "p:m:i:")) != -1) {
 		switch (opt) {
 			case 'i':
 				mem_salloc_scopy(optarg, global.configuration.node.id);
@@ -75,10 +78,6 @@ static int prepare_settings (int argc, char *argv[])
 
 			case 'p':
 				global.configuration.node_mapper.server_port = atoi(optarg);
-				break;
-
-			case 'j':
-				app_open = atoi(optarg);
 				break;
 
 			case '?':
