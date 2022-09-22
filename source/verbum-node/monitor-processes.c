@@ -1,6 +1,10 @@
 
 #include "monitor-processes.h"
 
+static void *monitor_processes_handler (void *param);
+static void  open_process              (void);
+static void *start_verbum_node_mapper  (void *param);
+
 int monitor_processes (void)
 {
     int status = -1;
@@ -14,71 +18,39 @@ int monitor_processes (void)
 
         prepare_param->path             = NULL;
         prepare_param->node_mapper_port = global.configuration.node_mapper.server_port;    
-        // mem_scopy_ret(global.configuration.path, prepare_param->path, 0);
 
         status = pthread_create(&tid, NULL, monitor_processes_handler, prepare_param);
         if (status != 0)
-            say_ret(0, "error while creating thread - control of Node Mapper and Fault Tolerance.");
+            say_ret(0, "error creating thread - control of Node Mapper Monitor.");
     #endif
 
     return 1;
 }
 
-void *monitor_processes_handler (void *param)
+static void *monitor_processes_handler (void *param)
 {
     prepare_param_t *prepare_param = (prepare_param_t *) param;
     char address [] = LOCALHOST;
 
-    // open_processes(prepare_param->path);
-
     #ifdef MONITOR_ENABLE_PERSISTENCE
         while (1) {            
-            // check_connection_interface(
-            //     prepare_param->path, prepare_param->node_mapper_port);
-
             if (!check_protocol(address, prepare_param->node_mapper_port, 1)) 
-                open_application(VERBUM_NODE_MAPPER_APPLICATION);
+                open_process();
 
             sleep(1);
         }
     #endif
 }
 
-void open_processes (char *path)
+static void open_process (void)
 {
-    // #ifdef MONITOR_DBG
-        say("monitor -> app open.");
-    // #endif
-    
-    // system_execution_noret("verbum-node-mapper -c \"%s\" &", path);
-    open_application(VERBUM_NODE_MAPPER_APPLICATION);
+    pthread_t tid;
+    pthread_create(&tid, NULL, start_verbum_node_mapper, NULL);
 }
 
-void check_connection_interface (char *path, int node_mapper_port)
+static void *start_verbum_node_mapper (void *param)
 {
-    char address [] = LOCALHOST;
-    int status      = -1, sock = -1;
-
-    // Node Mapper.
-    #ifdef MONITOR_DBG
-        say("Node Mapper - checking...");
-        say("Node Mapper - server port: %d", node_mapper_port);
-    #endif
-
-    while (!check_protocol(address, node_mapper_port, 1))
-    {
-        #ifdef MONITOR_DBG
-            say("failed check protocol.");
-        #endif
-
-        open_processes(path);
-        // system_execution_noret("verbum-node-mapper -c \"%s\" &", path);
-        sleep(1);
-    }
-
-    #ifdef MONITOR_DBG
-        say("Node Mapper online.");
-    #endif
+    open_application(VERBUM_NODE_MAPPER_APPLICATION);
 }
 
 

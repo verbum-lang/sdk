@@ -22,7 +22,7 @@ static void *start_verbum_node (void *_param);
 
 int initialization (int argc, char *argv[]) 
 {
-	pthread_t tid;
+	pthread_t tid1, tid2;
 
     say("Verbum started.");
 
@@ -32,8 +32,8 @@ int initialization (int argc, char *argv[])
     say("Node Mapper ID..: %s", global.configuration.node_mapper.id);
     say("Node Mapper port: %d", global.configuration.node_mapper.server_port);
 
-	pthread_create(&tid, NULL, start_verbum_node_mapper, NULL);
-	pthread_create(&tid, NULL, start_verbum_node, NULL);
+	pthread_create(&tid1, NULL, start_verbum_node_mapper, NULL);
+	pthread_create(&tid2, NULL, start_verbum_node, NULL);
 
 	infinite_loop();
     return 0;
