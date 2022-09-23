@@ -4,7 +4,7 @@
 #include "timeout-control.h"
 
 extern pthread_mutex_t    node_mapper_mutex_connections;
-extern node_connection_t *node_mapper_connections;
+extern node_mapper_connection_t *node_mapper_connections;
 
 static int process_connection_item (char *connection);
 
@@ -84,8 +84,8 @@ int node_mapper_update_connections (int sock, char *content)
 
 static int process_connection_item (char *connection)
 {
-    node_connection_t *ncon = node_mapper_connection_create_item();
-    node_connection_t *con, *last;
+    node_mapper_connection_t *ncon = node_mapper_connection_create_item();
+    node_mapper_connection_t *con, *last;
     char tmp[1024], name[256], value[256];
     char *ptr = NULL, *current_date = NULL;
     int found = 0, auto_remove = 0, status = 0;

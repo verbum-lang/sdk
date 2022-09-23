@@ -6,10 +6,10 @@
 #include "node-server.h"
 
 pthread_mutex_t    mutex_gconfig = PTHREAD_MUTEX_INITIALIZER;
-node_config_t     *gconfig;
+node_config_t     *gconfig = NULL;
 
 pthread_mutex_t    node_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
-node_connection_t *node_connections;
+node_connection_t *node_connections = NULL;
 
 int verbum_node (void)
 {

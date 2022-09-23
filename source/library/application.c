@@ -53,8 +53,7 @@ void system_open_bg_application (char *cmd)
     exit(0);
 }
 
-int 
-open_application (int application)
+int open_application (int application)
 {
     int fd, fd_limit;
     pid_t pid;
@@ -65,7 +64,7 @@ open_application (int application)
     pid = fork();
 
     if (pid < 0)
-        say_ret(0, "error open fork.");    
+        say_ret(0, "error open fork() 1.");    
     if (pid > 0)
        return 0;
 
@@ -75,7 +74,7 @@ open_application (int application)
     pid = fork();
 
     if (pid < 0)
-        say_exit("error open fork.");
+        say_exit("error open fork() 2.");
     if (pid > 0) 
         say_exit("fork() 2.");
 

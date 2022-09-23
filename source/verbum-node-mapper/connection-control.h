@@ -5,7 +5,7 @@
 #include "global.h"
 
 // Node connections struct control.
-typedef struct node_connection_st {
+typedef struct node_mapper_connection_t {
     int status;                         // Status control.
     char *id;                           // Connection ID.
     int type;                           // Type:
@@ -24,11 +24,11 @@ typedef struct node_connection_st {
                                         //  0 = No.
                                         //  1 = Yes.
 
-    struct node_connection_st *next;    // Next node pointer.
-} node_connection_t;
+    struct node_mapper_connection_t *next;    // Next node pointer.
+} node_mapper_connection_t;
 
-node_connection_t *node_mapper_connection_create_item (void);
-int                node_mapper_connection_insert_item (node_connection_t *new_connection);
+node_mapper_connection_t *node_mapper_connection_create_item (void);
+int                node_mapper_connection_insert_item (node_mapper_connection_t *new_connection);
 
 #endif
 

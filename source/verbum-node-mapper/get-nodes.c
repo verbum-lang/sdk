@@ -7,7 +7,7 @@ extern node_control_t    *node_mapper_nodes;
 extern pthread_mutex_t    node_mapper_mutex_nodes;
 
 extern pthread_mutex_t    node_mapper_mutex_connections;
-extern node_connection_t *node_mapper_connections;
+extern node_mapper_connection_t *node_mapper_connections;
 
 int node_mapper_get_node_list (int sock)
 {
@@ -22,7 +22,7 @@ int node_mapper_get_node_list (int sock)
     char tmp [2048];
     int size = 0, status = 1, a = 1, b = 1;
     node_control_t *node;
-    node_connection_t *connection;
+    node_mapper_connection_t *connection;
 
     pthread_mutex_lock(&node_mapper_mutex_nodes);
     pthread_mutex_lock(&node_mapper_mutex_connections);

@@ -7,7 +7,7 @@ extern node_control_t    *node_mapper_nodes;
 extern pthread_mutex_t    node_mapper_mutex_nodes;
 
 extern pthread_mutex_t    node_mapper_mutex_connections;
-extern node_connection_t *node_mapper_connections;
+extern node_mapper_connection_t *node_mapper_connections;
 
 int node_mapper_delete_node (int sock, char *content)
 {
@@ -25,7 +25,7 @@ int node_mapper_delete_node (int sock, char *content)
     char *ptr = NULL, *response = NULL;
     int bytes = 0, status = 0, counter = 0, core_port = 0;
     node_control_t *node, *nlast;
-    node_connection_t *con, *last;
+    node_mapper_connection_t *con, *last;
 
     // Extract node ID.
     ptr = strstr(content, prefix);

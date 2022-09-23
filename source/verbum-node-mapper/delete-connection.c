@@ -7,7 +7,7 @@ extern node_control_t    *node_mapper_nodes;
 extern pthread_mutex_t    node_mapper_mutex_nodes;
 
 extern pthread_mutex_t    node_mapper_mutex_connections;
-extern node_connection_t *node_mapper_connections;
+extern node_mapper_connection_t *node_mapper_connections;
 
 int node_mapper_delete_connection (int sock, char *content)
 {
@@ -22,7 +22,7 @@ int node_mapper_delete_connection (int sock, char *content)
     char *dst_node_id   = NULL;
     int connection_type = -1; // 0 = Input, 1 = Output.
 
-    node_connection_t *connection, *last_connection;
+    node_mapper_connection_t *connection, *last_connection;
     node_control_t *node;
     char address [] = LOCALHOST;
     int core_port = 0, status = 0, bytes = 0;
@@ -187,7 +187,7 @@ int node_mapper_delete_connection_server (int sock, char *content)
     char *src_node_id   = NULL;
     char *dst_node_id   = NULL;
 
-    node_connection_t *connection, *last_connection;
+    node_mapper_connection_t *connection, *last_connection;
 
     if (!sock || !content)
         return 0;

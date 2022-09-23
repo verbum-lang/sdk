@@ -10,9 +10,7 @@ int node_mapper_create_node (int sock, char *path)
     if (!sock)
         return 0;
 
-    #ifdef NMDBG
-        say("create verbum node - called.");
-    #endif
+    say("creating verbum node...");
 
     char response [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     int status       = -1;

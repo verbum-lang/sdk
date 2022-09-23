@@ -7,12 +7,12 @@ extern node_control_t    *node_mapper_nodes;
 extern pthread_mutex_t    node_mapper_mutex_nodes;
 
 extern pthread_mutex_t    node_mapper_mutex_connections;
-extern node_connection_t *node_mapper_connections;
+extern node_mapper_connection_t *node_mapper_connections;
 
 void *node_mapper_timeout_control (void *tparam)
 {
     node_control_t *node, *last_node;
-    node_connection_t *connection, *last_connection;
+    node_mapper_connection_t *connection, *last_connection;
     char *current_date = NULL;
     int status = 0;
 
