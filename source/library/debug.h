@@ -2,11 +2,13 @@
 #ifndef VERBUM_DEBUG
 #define VERBUM_DEBUG
 
-#include <stdio.h>  // sprintf
-#include <string.h> // strlen, memset
-#include <unistd.h> // sleep
-#include <time.h>   // time, localtime
-#include <stdlib.h> // malloc, free
+#include <stdio.h>      // sprintf
+#include <string.h>     // strlen, memset
+#include <unistd.h>     // sleep, getpid
+#include <sys/types.h>  // pid_t
+#include <time.h>       // time, localtime
+#include <stdlib.h>     // malloc, free
+
 
 /**
  * Settings.
@@ -17,12 +19,18 @@
 #define VERBUM_DEBUG_R_ADDRESS              "127.0.0.1"
 #define VERBUM_DEBUG_CONNECTION_TIMEOUT     1
 
+
+/**
+ * Internal macros.
+ */
+
 #define lib_debug_print_internal(DEBUG_FLAG, FMT, ...)                      \
     do {                                                                    \
         time_t now     = time(NULL);                                        \
         struct tm *tms = localtime(&now);                                   \
         char *buffer   = NULL;                                              \
         int size       = 0;                                                 \
+        pid_t pid      = getpid();                                          \
         char hour[5], min[5], sec[5];                                       \
                                                                             \
         memset(hour, 0x0, 5);                                               \
@@ -47,12 +55,12 @@
             memset(buffer, 0, size);                                        \
                                                                             \
             if (DEBUG_FLAG == 1)                                            \
-                sprintf(buffer, "[%s:%s:%s] -> %s:%d:%s(): " FMT "\n",      \
-                    hour, min, sec,                                         \
+                sprintf(buffer, "[%s:%s:%s]: [%d] -> %s:%d:%s(): "          \
+                    FMT "\n", hour, min, sec, (int) pid,                    \
                         __FILE__, __LINE__, __func__, ##__VA_ARGS__ );      \
             else                                                            \
-                sprintf(buffer, "[%s:%s:%s]: " FMT "\n",                    \
-                    hour, min, sec, ##__VA_ARGS__ );                        \
+                sprintf(buffer, "[%s:%s:%s]: %d -> " FMT "\n",              \
+                    hour, min, sec, (int) pid, ##__VA_ARGS__ );             \
                                                                             \
             verbum_debug_send_data(buffer);                                 \
                                                                             \
@@ -76,71 +84,42 @@
     #define say_debug_detail(FMT, ...)  do { } while (0)
 #endif
 
-int verbum_debug_send_data (char *content);
-
-
-
-
-
-
-#define PACKAGE_NAME            "Verbum Network"
-#define PACKAGE_PREFIX_ARROW    " -> "
 
 /**
  * External macros.
  */
 
-#define debug_print(fmt, ...)                                                           \
-    do {                                                                                \
-        printf(fmt "\n", ##__VA_ARGS__);                                                \
+#define say(FMT, ...)                                                       \
+    do {                                                                    \
+        say_debug(FMT "\n", ##__VA_ARGS__);                                 \
     } while (0)
 
-#define say(fmt, ...)                                                                   \
-    do {                                                                                \
-        printf(fmt "\n", ##__VA_ARGS__);                                                \
-    } while(0)
-
-#define say_ret(RETURN, fmt, ...)                                                       \
-    do {                                                                                \
-        printf(fmt "\n", ##__VA_ARGS__);                                                \
-        return RETURN;                                                                  \
-    } while(0)
-
-#define say_noret(fmt, ...)                                                             \
-    do {                                                                                \
-        printf(fmt "\n", ##__VA_ARGS__);                                                \
-        return;                                                                         \
-    } while(0)
-
-#define say_exit(fmt, ...)                                                              \
-    do {                                                                                \
-        printf(fmt "\n", ##__VA_ARGS__);                                                \
-        exit(0);                                                                        \
-    } while(0)
-
-
-/**
- * Macros with return value.
- */
-
-#define debug_ret(RETURN, fmt, ...)                                                     \
-    do {                                                                                \
-        debug_print(fmt, ##__VA_ARGS__);                                                \
-        return RETURN;                                                                  \
-    } while (0)
-    
-#define debug_noret(fmt, ...)                                                           \
-    do {                                                                                \
-        debug_print(fmt, ##__VA_ARGS__);                                                \
-        return;                                                                         \
-    } while (0)
-    
-#define debug_goto(GOTO, fmt, ...)                                                      \
-    do {                                                                                \
-        debug_print(fmt, ##__VA_ARGS__);                                                \
-        goto GOTO;                                                                      \
+#define say_ret(RETURN, FMT, ...)                                           \
+    do {                                                                    \
+        say_debug(FMT "\n", ##__VA_ARGS__);                                 \
+        return RETURN;                                                      \
     } while (0)
 
+#define say_noret(FMT, ...)                                                 \
+    do {                                                                    \
+        say_debug(FMT "\n", ##__VA_ARGS__);                                 \
+        return;                                                             \
+    } while (0)
+
+#define say_exit(FMT, ...)                                                  \
+    do {                                                                    \
+        say_debug(FMT "\n", ##__VA_ARGS__);                                 \
+        exit(0);                                                            \
+    } while (0)
+
+#define say_goto(GOTO, FMT, ...)                                            \
+    do {                                                                    \
+        say_debug(FMT "\n", ##__VA_ARGS__);                                 \
+        goto GOTO;                                                          \
+    } while (0)
+
+
+int verbum_debug_send_data (char *content);
 
 #endif
 

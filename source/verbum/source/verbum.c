@@ -24,7 +24,7 @@ int initialization (int argc, char *argv[])
 {
 	pthread_t tid1, tid2;
 
-    say("Verbum started.");
+    say_debug("Verbum started.");
 
     prepare_settings(argc, argv);
 

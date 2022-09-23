@@ -48,7 +48,7 @@ void *node_ping_node_handler (void *tparam)
 
     if (!id) {
         pthread_mutex_unlock(&mutex_gconfig);
-        debug_print("error allocating memory.");
+        say("error allocating memory.");
         return NULL;
     }
 

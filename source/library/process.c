@@ -18,8 +18,10 @@ pid_t check_process_running (char *name)
     char buffer [512];
 
     directory = opendir("/proc");
-    if (!directory)
-        debug_ret((pid_t) -1, "can't open /proc.");
+    if (!directory) {
+        say("can't open /proc.");
+        return -1;
+    }
 
     while ((dirdata = readdir(directory)) != NULL) {
 

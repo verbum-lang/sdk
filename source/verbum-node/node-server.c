@@ -131,7 +131,7 @@ void *node_server (void *tparam)
                 close(nsock);
 
         } else
-            debug_print("error accept client.");
+            say("error accept client.");
     }
 
     close(ssock);

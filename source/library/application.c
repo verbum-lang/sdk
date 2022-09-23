@@ -15,14 +15,14 @@ void system_open_bg_application (char *cmd)
     int fd    = -1;
 
     if (!cmd)
-        debug_noret("invalid command.");
+        say_noret("invalid command.");
 
     // Fork off the parent process.
     pid = fork();
 
     // Error.
     if (pid < 0)
-        debug_noret("error open fork.");
+        say_noret("error open fork.");
 
     // Success: Let the parent terminate.
     if (pid > 0)
@@ -30,13 +30,13 @@ void system_open_bg_application (char *cmd)
 
     // On success: New session. The child process becomes session leader.
     if (setsid() < 0)
-        debug_noret("error setsid.");       
+        say_noret("error setsid.");       
 
     // Fork off the parent process.
     pid = fork();
 
     if (pid < 0)
-        debug_noret("error open fork.");
+        say_noret("error open fork.");
     if (pid > 0) 
         exit(0);
 

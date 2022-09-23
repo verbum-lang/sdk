@@ -182,7 +182,7 @@ void *node_mapper_interface (void *tparam)
                 close(nsock);
 
         } else
-            debug_print("error accept client.");
+            say("error accept client.");
     }
 
     close(ssock);

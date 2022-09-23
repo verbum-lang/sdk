@@ -14,7 +14,7 @@
         DESTINATION = (CASTING) malloc(SIZE);                                           \
                                                                                         \
         if (!DESTINATION)                                                               \
-            debug_ret(RETURN, "error allocating memory.");                              \
+            say_ret(RETURN, "error allocating memory.");                              \
                                                                                         \
         memset(DESTINATION, 0x0, SIZE);                                                 \
     } while(0)
@@ -24,7 +24,7 @@
         DESTINATION = (CASTING) malloc(SIZE);                                           \
                                                                                         \
         if (!DESTINATION)                                                               \
-            debug_noret("error allocating memory.");                                    \
+            say_noret("error allocating memory.");                                    \
                                                                                         \
         memset(DESTINATION, 0x0, SIZE);                                                 \
     } while(0)
@@ -66,7 +66,7 @@
         DESTINATION = (char *) malloc(msize);                                           \
                                                                                         \
         if (!DESTINATION)                                                               \
-            debug_ret(RETURN, "error allocating memory.");                              \
+            say_ret(RETURN, "error allocating memory.");                              \
                                                                                         \
         memset(DESTINATION, 0x0, msize);                                                \
     } while (0)
@@ -77,7 +77,7 @@
         DESTINATION = (char *) malloc(msize);                                           \
                                                                                         \
         if (!DESTINATION)                                                               \
-            debug_noret("error allocating memory.");                                    \
+            say_noret("error allocating memory.");                                    \
                                                                                         \
         memset(DESTINATION, 0x0, msize);                                                \
     } while (0)
@@ -88,7 +88,7 @@
         DESTINATION = (char *) malloc(msize);                                           \
                                                                                         \
         if (!DESTINATION)                                                               \
-            debug_goto(GOTO, "error allocating memory.");                               \
+            say_goto(GOTO, "error allocating memory.");                               \
                                                                                         \
         memset(DESTINATION, 0x0, msize);                                                \
     } while (0)
@@ -97,7 +97,7 @@
 #define mem_scopy_ret(SOURCE, DESTINATION, RETURN)                                      \
     do {                                                                                \
         if (!SOURCE)                                                                    \
-            debug_ret(RETURN, "invalid data.");                                         \
+            say_ret(RETURN, "invalid data.");                                         \
                                                                                         \
         mem_salloc_ret(DESTINATION, strlen(SOURCE), RETURN);                            \
         memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
@@ -106,7 +106,7 @@
 #define mem_scopy_noret(SOURCE, DESTINATION)                                            \
     do {                                                                                \
         if (!SOURCE)                                                                    \
-            debug_noret("invalid data.");                                               \
+            say_noret("invalid data.");                                               \
                                                                                         \
         mem_salloc_noret(DESTINATION, strlen(SOURCE));                                  \
         memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
@@ -115,7 +115,7 @@
 #define mem_scopy_goto(SOURCE, DESTINATION, GOTO)                                       \
     do {                                                                                \
         if (!SOURCE)                                                                    \
-            debug_goto(GOTO, "invalid data.");                                          \
+            say_goto(GOTO, "invalid data.");                                          \
                                                                                         \
         mem_salloc_goto(DESTINATION, strlen(SOURCE), GOTO);                             \
         memcpy(DESTINATION, SOURCE, strlen(SOURCE));                                    \
