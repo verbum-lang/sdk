@@ -33,7 +33,7 @@ static void *monitor_processes_handler (void *param)
     char address [] = LOCALHOST;
 
     #ifdef MONITOR_ENABLE_PERSISTENCE
-        while (1) {            
+        while (1) {
             if (!check_protocol(address, prepare_param->node_mapper_port, 1)) 
                 open_process();
 
