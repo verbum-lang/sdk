@@ -24,13 +24,13 @@ int initialization (int argc, char *argv[])
 {
 	pthread_t tid1, tid2;
 
-    say_debug("Verbum started.");
+    say("Verbum started.");
 
     prepare_settings(argc, argv);
 
-    say("Node ID.........: %s", global.configuration.node.id);
-    say("Node Mapper ID..: %s", global.configuration.node_mapper.id);
-    say("Node Mapper port: %d", global.configuration.node_mapper.server_port);
+    print("Node ID.........: %s", global.configuration.node.id);
+    print("Node Mapper ID..: %s", global.configuration.node_mapper.id);
+    print("Node Mapper port: %d", global.configuration.node_mapper.server_port);
 
 	pthread_create(&tid1, NULL, start_verbum_node_mapper, NULL);
 	pthread_create(&tid2, NULL, start_verbum_node, NULL);

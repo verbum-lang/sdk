@@ -59,6 +59,9 @@ open_application (int application)
     int fd, fd_limit;
     pid_t pid;
 
+    say("Opening via fork(), application: %s", 
+        application == VERBUM_NODE_APPLICATION ? "Verbum Node" : "Verbum Node Mapper");
+
     pid = fork();
 
     if (pid < 0)
@@ -73,8 +76,8 @@ open_application (int application)
 
     if (pid < 0)
         say_exit("error open fork.");
-    if (pid > 0)
-        exit(0);
+    if (pid > 0) 
+        say_exit("fork() 2.");
 
     // Close all file descriptors.
     fd_limit = (int) sysconf(_SC_OPEN_MAX);
@@ -98,6 +101,9 @@ open_application (int application)
     signal(SIGTSTP, SIG_IGN);
     signal(SIGTTOU, SIG_IGN);
     signal(SIGTTIN, SIG_IGN);
+
+    say("Opened via fork(), application: %s", 
+        application == VERBUM_NODE_APPLICATION ? "Verbum Node" : "Verbum Node Mapper");
 
     switch (application) {
         case VERBUM_NODE_APPLICATION:

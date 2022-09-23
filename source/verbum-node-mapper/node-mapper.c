@@ -127,20 +127,20 @@ void *node_mapper_interface (void *tparam)
     address.sin_port        = htons(param->port);
 
     if (setsockopt(ssock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
-        say_ret(NULL, "setsockopt (SO_REUSEADDR) failed.");
+        say_ret(NULL, "Setsockopt (SO_REUSEADDR) failed.");
 
     status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
     if (status != 0)
-        say_exit("error bind server.");
+        say_exit("Error bind server.");
 
     if (listen(ssock, param->max_connections) != 0) 
-        say_exit("error listen server.");
+        say_exit("Error listen server.");
 
     if (!prepare_workers(param->path, param->id))
-        say_exit("error prepare workers.");
+        say_exit("Error prepare workers.");
 
-    say("ID: %s", param->id);
-    say("Server port: %d", param->port);
+    say("Node ID: %s", param->id);
+    say("Node server port: %d", param->port);
 
     while (1) {
         
@@ -182,7 +182,7 @@ void *node_mapper_interface (void *tparam)
                 close(nsock);
 
         } else
-            say("error accept client.");
+            say("Error accept client.");
     }
 
     close(ssock);

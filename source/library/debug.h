@@ -89,6 +89,11 @@
  * External macros.
  */
 
+#define print(FMT, ...)                                                     \
+    do {                                                                    \
+        printf(FMT "\n", ##__VA_ARGS__);                                    \
+    } while (0)
+
 #define say(FMT, ...)                                                       \
     do {                                                                    \
         say_debug(FMT "\n", ##__VA_ARGS__);                                 \
@@ -108,7 +113,7 @@
 
 #define say_exit(FMT, ...)                                                  \
     do {                                                                    \
-        say_debug(FMT "\n", ##__VA_ARGS__);                                 \
+        say_debug(FMT " Application finished.\n", ##__VA_ARGS__);           \
         exit(0);                                                            \
     } while (0)
 
