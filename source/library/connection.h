@@ -25,8 +25,8 @@
         return RETURN;                      \
     } while(0)
 
-int   create_connection                     (char *address,        int   port,            int enable_timeout);
-int   check_protocol                        (char *address,        int   port,            int enable_timeout);
+int   create_connection                     (char *address,        int   port,            int enable_timeout, int one_connection);
+int   check_protocol                        (char *address,        int   port,            int enable_timeout, int one_connection);
 char *get_recv_content                      (int   sock);
 int   send_handshake                        (int   sock,           char *handshake);
 char *send_raw_data                         (int   sock,           char *message);
@@ -53,7 +53,7 @@ char *process_delete_connection             (char *src_nm_address, char *src_nod
 char *process_delete_connection_server      (char *src_nm_address, int   src_nm_port, 
                                              char *src_node_id,    char *dst_node_id,     char *connection_id);
 int   process_check_direct_nm               (char *src_nm_address, int   src_nm_port);
-int   process_create_node_fork_controller   (char *address,        int   port);
+int   process_create_node                   (char *address,        int   port);
 
 #endif
 

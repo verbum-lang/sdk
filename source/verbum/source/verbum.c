@@ -17,6 +17,7 @@
 
 static void usage (int invalid, int option);
 static int prepare_settings (int argc, char *argv[]);
+static void *check_and_open_fork_controller (void *_param);
 static void *start_fork_controller (void *_param);
 static int open_fork_controller_process (void);
 static int fork_controller (void);
@@ -25,6 +26,7 @@ static void open_node_mapper (void);
 static void *start_verbum_node_mapper (void *param);
 static int create_verbum_node (void);
 static void *create_verbum_node_th (void *_param);
+static void *start_new_node (void *_param);
 
 typedef struct {
 	int node_mapper_port;
@@ -42,15 +44,50 @@ int initialization (int argc, char *argv[])
 
 	// Start fork controller.
 	pthread_t tid1;
-	pthread_create(&tid1, NULL, start_fork_controller, NULL);
+	pthread_create(&tid1, NULL, check_and_open_fork_controller, NULL);
 
-	
+	// Create new node.
+	pthread_t tid2;
+	nm_param_t *param = (nm_param_t *) malloc (sizeof(nm_param_t));
 
+	param->node_mapper_port = global.configuration.node_mapper.server_port;
+	pthread_create(&tid2, NULL, start_new_node, param);
+
+	infinite_loop();
     return 0;
+}
+
+static void *check_and_open_fork_controller (void *_param)
+{
+	char address []= LOCALHOST;
+	int sock = -1, status = 0;
+	char *response = NULL;
+	char message[]= "no-data:" VERBUM_EOH;
+	pthread_t tid1;
+
+	say("Checking Fork Controller connection.");
+
+	sock = check_protocol(address, VERBUM_FORK_CONTROLLER_PORT, 1, 1);
+
+	if (sock != -1) {
+		response = send_raw_data(sock, message);
+		if (response) {
+			status = 1;
+			mem_sfree(response);
+		}
+
+		close(sock);
+	} 
+
+	if (!status) 
+		pthread_create(&tid1, NULL, start_fork_controller, NULL);
+
+	say("Fork Controller OK.");
 }
 
 static void *start_fork_controller (void *_param)
 {
+	say("Open new Fork Controller connection.");
 	open_fork_controller_process();
 }
 
@@ -159,8 +196,10 @@ static int fork_controller (void)
 			response = get_recv_content(nsock);
 			if (response) {
 
-    			if (strstr(response, "create-verbum-node:"))
+    			if (strstr(response, "create-verbum-node:")) {
 					create_verbum_node();
+					sleep(1);
+				}
 
 				send(nsock, success_message, strlen(success_message), VERBUM_SEND_FLAGS);
 				mem_sfree(response);
@@ -182,12 +221,12 @@ static void *node_mapper_monitor_th (void *_param)
 
 	open_node_mapper();
 
-	while (1) {
-		if (!check_protocol(address, param->node_mapper_port, 1)) 
-			open_node_mapper();
+	// while (1) {
+	// 	if (!check_protocol(address, param->node_mapper_port, 1, 0)) 
+	// 		open_node_mapper();
 
-		sleep(1);
-	}
+	// 	sleep(1);
+	// }
 
 	return NULL;
 }
@@ -215,6 +254,25 @@ static void *create_verbum_node_th (void *_param)
 {
 	open_application(VERBUM_NODE_APPLICATION);
 	return NULL;
+}
+
+static void *start_new_node (void *_param)
+{
+	nm_param_t *param = (nm_param_t *) _param;
+	char address []= LOCALHOST;
+
+	say("Creating new node by Verbum...");
+	say("NM port: %d", param->node_mapper_port);
+
+	while (1) {
+		if (process_create_node(address, param->node_mapper_port))
+			break;
+		else
+			say("Error creating new node by Verbum.");
+	}
+
+	say("New node created by Verbum.");
+	exit(0);
 }
 
 static int prepare_settings (int argc, char *argv[])

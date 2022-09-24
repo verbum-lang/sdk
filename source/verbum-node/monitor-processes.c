@@ -8,7 +8,7 @@ static void *start_verbum_node_mapper  (void *param);
 int monitor_processes (void)
 {
     return 1;
-    
+
     int status = -1;
     pthread_t tid;
     prepare_param_t *prepare_param;
@@ -35,12 +35,12 @@ static void *monitor_processes_handler (void *param)
     char address [] = LOCALHOST;
 
     #ifdef MONITOR_ENABLE_PERSISTENCE
-        while (1) {
-            if (!check_protocol(address, prepare_param->node_mapper_port, 1)) 
-                open_process();
+        // while (1) {
+        //     if (!check_protocol(address, prepare_param->node_mapper_port, 1)) 
+        //         open_process();
 
-            sleep(1);
-        }
+        //     sleep(1);
+        // }
     #endif
 }
 

@@ -10,13 +10,16 @@
  * enable_timeout: 
  *       0 = disabled.
  *       1 = enabled.
+ * one_connection:
+ *       0 = disabled.
+ *       1 = enabled.
  * 
  * Return: 
  *      -1 = error.
  *   != -1 = socket.
  */
 
-int create_connection (char *address, int port, int enable_timeout)
+int create_connection (char *address, int port, int enable_timeout, int one_connection)
 {
     int status     = -1, sock = -1, flags  = 0;
     char *packet   = NULL;
@@ -69,6 +72,9 @@ int create_connection (char *address, int port, int enable_timeout)
         }
 
         if (status != -1) 
+            break;
+
+        if (one_connection)
             break;
     }
     
@@ -154,19 +160,18 @@ int create_connection (char *address, int port, int enable_timeout)
     return sock;
 }
 
-int check_protocol (char *address, int port, int enable_timeout)
+int check_protocol (char *address, int port, int enable_timeout, int one_connection)
 {
     int sock = -1;
 
     if (!address || !port)
-        return 0;
+        return -1;
 
-    sock = create_connection(address, port, enable_timeout);
+    sock = create_connection(address, port, enable_timeout, one_connection);
     if (sock == -1)
-        return 0;
+        return -1;
 
-    close(sock);
-    return 1;
+    return sock;
 }
 
 char *get_recv_content (int sock)
@@ -407,7 +412,7 @@ char *process_request (
 
     // Start connection.
     while (1) {
-        sock = create_connection(nm_address, nm_port, timeout);
+        sock = create_connection(nm_address, nm_port, timeout, 0);
         if (sock != -1)
             break;
 
@@ -594,14 +599,14 @@ int process_check_direct_nm (char *src_nm_address, int src_nm_port)
     return 1;
 }
 
-int process_create_node_fork_controller (char *address, int port)
+int process_create_node (char *address, int port)
 {
     int sock = -1, counter = 0, limit = 5;
     char *response = NULL;
     char message []= "create-verbum-node:" VERBUM_EOH;
 
     while (1) {
-        sock = create_connection(address, port, 1);
+        sock = create_connection(address, port, 1, 0);
         if (sock != -1)
             break;
 
@@ -611,6 +616,9 @@ int process_create_node_fork_controller (char *address, int port)
         counter++;
         usleep(1000);
     }
+
+    if (!sock || sock == -1)
+        return 0;
 
     response = send_raw_data(sock, message);
 

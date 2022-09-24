@@ -21,7 +21,8 @@ extern pthread_mutex_t    node_mapper_mutex_connections;
 extern node_mapper_connection_t *node_mapper_connections;
 
 int general_preparation (void)
-{    
+{
+    return 1;
     say("general preparations called.");
 
     // Destroy all mutex.
