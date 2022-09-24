@@ -506,7 +506,7 @@ function process_worker (ev)
         setTimeout(()=>{
             $('.ac-con-response-area').text('');
             $('#btn-add-con').prop('disabled', false);
-        }, 1000);
+        }, 300);
     }
 
     /**

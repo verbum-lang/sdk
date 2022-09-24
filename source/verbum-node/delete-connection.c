@@ -288,7 +288,7 @@ int node_delete_connection_server (int sock, char *content)
 
         if (strcmp(connection->remote_id, connection_id) == 0 &&
             strcmp(connection->dst_node_id, src_node_id) == 0  )
-        {
+        {   
             // Save current connection ID.
             mem_salloc_scopy(connection->id, current_connection_id);
 
