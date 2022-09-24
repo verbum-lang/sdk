@@ -198,7 +198,7 @@ static int fork_controller (void)
 
     			if (strstr(response, "create-verbum-node:")) {
 					create_verbum_node();
-					sleep(1);
+					usleep(10000);
 				}
 
 				send(nsock, success_message, strlen(success_message), VERBUM_SEND_FLAGS);
