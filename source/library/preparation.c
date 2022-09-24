@@ -23,12 +23,26 @@ extern node_mapper_connection_t *node_mapper_connections;
 int general_preparation (void)
 {
     say("general preparations called.");
-    
-    if (!gconfig)
-        say("gconfig is empty");
-    else
-        say("gconfig is data found");
-        
+
+    // Destroy all mutex.
+    pthread_mutex_destroy(&mutex_gconfig);
+    pthread_mutex_destroy(&node_mutex_connections);
+    pthread_mutex_destroy(&node_mapper_mutex_nodes);
+    pthread_mutex_destroy(&node_mapper_mutex_connections);
+
+    // CLear gconfig.
+    if (gconfig) {
+        say("gconfig data found.");
+
+        mem_sfree(gconfig->path);
+        mem_sfree(gconfig->node_mapper_id);
+        mem_sfree(gconfig->information.id);
+        free(gconfig);
+
+        gconfig = NULL;
+    } else
+        say("gconfig is empty.");
+
     // Clear Node Mapper nodes.
     if (node_mapper_nodes) {
         node_control_t *next, *node = node_mapper_nodes;

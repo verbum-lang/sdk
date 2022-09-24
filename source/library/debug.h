@@ -55,7 +55,7 @@
             memset(buffer, 0, size);                                        \
                                                                             \
             if (DEBUG_FLAG == 1)                                            \
-                sprintf(buffer, "[%s:%s:%s]: [%d] -> %s:%d:%s(): "          \
+                sprintf(buffer, "[%s:%s:%s]: %d -> %s:%d:%s(): "            \
                     FMT "\n", hour, min, sec, (int) pid,                    \
                         __FILE__, __LINE__, __func__, ##__VA_ARGS__ );      \
             else                                                            \
