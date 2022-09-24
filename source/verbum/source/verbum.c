@@ -181,7 +181,7 @@ static int fork_controller (void)
         nsock = accept(ssock, (struct sockaddr*) &client, &client_size);
 
         if (nsock != -1) {
-			say("Fork connection aceepted!");
+			say("Fork Controller connection accepted!");
 
             // Configure socket.
             tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
@@ -215,19 +215,33 @@ static void *node_mapper_monitor_th (void *_param)
 {
 	nm_param_t *param = (nm_param_t *) _param;
 	char address [] = LOCALHOST;
+	int sock = -1, status = 0;
+	char *response = NULL;
+	char message[]= "no-data:" VERBUM_EOH;
 
 	say("Node Mapper monitor started!");
 	say("Node Mapper server port: %d", param->node_mapper_port);
 
-	open_node_mapper();
+	while (1) {
+		status = 0;
+		sock   = check_protocol(address, param->node_mapper_port, 1, 1);
 
-	// while (1) {
-	// 	if (!check_protocol(address, param->node_mapper_port, 1, 0)) 
-	// 		open_node_mapper();
+		if (sock != -1) {
+			response = send_raw_data(sock, message);
+			if (response) {
+				status = 1;
+				mem_sfree(response);
+			}
 
-	// 	sleep(1);
-	// }
+			close(sock);
+		}
 
+		if (!status)
+			open_node_mapper();
+
+		sleep(1);
+	}
+	
 	return NULL;
 }
 
