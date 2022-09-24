@@ -28,6 +28,8 @@
 #define MSG_NOSIGNAL 0
 #endif
 
+#define VERBUM_FORK_CONTROLLER_PORT 	    3331
+
 #define VERBUM_SEND_FLAGS                   MSG_NOSIGNAL
 #define VERBUM_CHECK_DELETION_LIMIT         10
 

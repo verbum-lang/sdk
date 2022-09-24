@@ -16,8 +16,10 @@ int node_mapper_create_node (int sock, char *path)
 
     char response [] = VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     int status       = -1;
+    char address []= LOCALHOST;
     
-    pthread_create(&tid, NULL, start_verbum_node, NULL);
+    // pthread_create(&tid, NULL, start_verbum_node, NULL);
+    process_create_node_fork_controller(address, VERBUM_FORK_CONTROLLER_PORT);
 
     status = send(sock, response, strlen(response), VERBUM_SEND_FLAGS);
     return 1;

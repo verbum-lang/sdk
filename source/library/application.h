@@ -5,8 +5,8 @@
 #include "global.h"
 #include "memory.h"
 
-#define VERBUM_NODE_APPLICATION         1
-#define VERBUM_NODE_MAPPER_APPLICATION  2
+#define VERBUM_NODE_APPLICATION             1
+#define VERBUM_NODE_MAPPER_APPLICATION      2
 
 /**
  * System execution.

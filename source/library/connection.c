@@ -594,4 +594,34 @@ int process_check_direct_nm (char *src_nm_address, int src_nm_port)
     return 1;
 }
 
+int process_create_node_fork_controller (char *address, int port)
+{
+    int sock = -1, counter = 0, limit = 5;
+    char *response = NULL;
+    char message []= "create-verbum-node:" VERBUM_EOH;
+
+    while (1) {
+        sock = create_connection(address, port, 1);
+        if (sock != -1)
+            break;
+
+        if (counter >= limit)
+            break;
+
+        counter++;
+        usleep(1000);
+    }
+
+    response = send_raw_data(sock, message);
+
+    if (!response) {
+        close(sock);
+        return 0;
+    }
+
+    close(sock);
+    mem_sfree(response);
+    return 1;
+}
+
 

@@ -7,6 +7,8 @@ static void *start_verbum_node_mapper  (void *param);
 
 int monitor_processes (void)
 {
+    return 1;
+    
     int status = -1;
     pthread_t tid;
     prepare_param_t *prepare_param;
