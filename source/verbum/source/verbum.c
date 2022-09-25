@@ -21,11 +21,11 @@ static void prepare_settings (int argc, char *argv[]);
 static void set_default_options (void);
 static void check_params (int argc, char *argv[]);
 static void usage (void);
-
 static void *check_and_open_fork_controller (void *_param);
 static void *start_fork_controller (void *_param);
 static int open_fork_controller_process (void);
 static int fork_controller (void);
+static void prepare_fork_data (void);
 static void *node_mapper_monitor_th (void *_param);
 static void open_node_mapper (void);
 static void *start_verbum_node_mapper (void *param);
@@ -159,6 +159,8 @@ static int fork_controller (void)
 	char *response = NULL;
 	char success_message []= VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
 
+	prepare_fork_data();
+
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_family      = AF_INET;
@@ -214,6 +216,14 @@ static int fork_controller (void)
         } else
             say("Error accept client - fork controller.");
     }
+}
+
+static void prepare_fork_data (void)
+{
+	if (global.configuration.node.id) {
+		free(global.configuration.node.id);
+		global.configuration.node.id = NULL;
+	}
 }
 
 static void *node_mapper_monitor_th (void *_param)
