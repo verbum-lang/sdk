@@ -295,7 +295,7 @@ static int create_verbum_node (char *response)
     ptr += strlen(prefix);
 	
 	// Current node ID.
-	if (ptr && strlen(ptr)) {
+	if (ptr && strlen(ptr) > 0) {
 		size = sizeof(char) * (strlen(ptr) + 1);
 		global.configuration.node.id = (char *) realloc(global.configuration.node.id, size);
 
