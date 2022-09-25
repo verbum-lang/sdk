@@ -12,9 +12,17 @@ int add_node_on_node_mapper (void)
     int node_mapper_port = 0, core_port = 0;
 
     pthread_mutex_lock(&mutex_gconfig);
+
+    if (gconfig->information.id)
+        result = 1;
+
     node_mapper_port = gconfig->node_mapper_port;
     core_port        = gconfig->information.core_port;
+    
     pthread_mutex_unlock(&mutex_gconfig);
+
+    if (result)
+        return 1;
 
     while (1) {
         id = process_generate_node_id(nm_address, node_mapper_port, core_port);

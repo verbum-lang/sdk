@@ -154,7 +154,8 @@ static void *connection_ping_controller (void *tparam)
         if (!src_node_id) {
             pthread_mutex_lock(&mutex_gconfig);
 
-            if (gconfig->information.id) {
+            // Node core started, and node ID ok.
+            if (gconfig->information.id && gconfig->information.core_port) {
                 mem_salloc(src_node_id, strlen(gconfig->information.id));
 
                 if (src_node_id) 

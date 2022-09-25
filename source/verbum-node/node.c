@@ -25,6 +25,9 @@ int verbum_node (void)
     gconfig->node_mapper_port = global.configuration.node_mapper.server_port;
 
     mem_scopy_ret(global.configuration.node_mapper.id, gconfig->node_mapper_id, 0);
+    
+    if (global.configuration.node.id)
+        mem_salloc_scopy(global.configuration.node.id, gconfig->information.id);
 
     // Prepare mutex.
     if (pthread_mutex_init(&mutex_gconfig, NULL) != 0) 
