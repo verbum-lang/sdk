@@ -103,7 +103,8 @@ LIBRARY_NM+="$NNP/connection-manager.o $NNP/connection-control.o $NNP/timeout-co
 
 cd ../verbum/source
 
-gcc -o verbum verbum.c $LIBRARY_OBJECTS $LIBRARY_VN $LIBRARY_NM $LIBRARY_LIBS
+LIBRARY_V=" -I../include"
+gcc -o verbum verbum.c $LIBRARY_OBJECTS $LIBRARY_VN $LIBRARY_NM $LIBRARY_V $LIBRARY_LIBS
 
 rm -rf ../../../../sdk-binaries/verbum
 mv verbum ../../../../sdk-binaries/verbum

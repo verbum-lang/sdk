@@ -1,4 +1,6 @@
 
+#include "verbum.h"
+
 #include "../../library/global.h"
 #include "../../library/debug.h"
 #include "../../library/application.h"
@@ -15,8 +17,11 @@
 
 #define VERBUM_LANGUAGE_VERSION "1.0.0"
 
-static void usage (int invalid, int option);
-static int prepare_settings (int argc, char *argv[]);
+static void prepare_settings (int argc, char *argv[]);
+static void set_default_options (void);
+static void check_params (int argc, char *argv[]);
+static void usage (void);
+
 static void *check_and_open_fork_controller (void *_param);
 static void *start_fork_controller (void *_param);
 static int open_fork_controller_process (void);
@@ -291,64 +296,68 @@ static void *start_new_node (void *_param)
 	exit(0);
 }
 
-// verbum
-// verbum --node-id IESUS --node-mapper-id IHS --node-mapper-port 3333
-
-static int prepare_settings (int argc, char *argv[])
+static void prepare_settings (int argc, char *argv[])
 {
-    int opt = -1;
-	
-	opterr = 0;
 	global.configuration.node.id = NULL;
 	global.configuration.node_mapper.id = NULL;
 	global.configuration.node_mapper.server_port = 0;
 
-	if (argc == 1)
-		usage(0, 0);
-
-	while ((opt = getopt(argc, argv, "p:m:i:")) != -1) {
-		switch (opt) {
-			case 'i':
-				mem_salloc_scopy(optarg, global.configuration.node.id);
-				if (!global.configuration.node.id) 
-					say_exit("Cannot alloc memory for Node ID.");
-				break;
-
-			case 'm':
-				mem_salloc_scopy(optarg, global.configuration.node_mapper.id);
-				if (!global.configuration.node_mapper.id) 
-					say_exit("Cannot alloc memory for Node Mapper ID.");
-				break;
-
-			case 'p':
-				global.configuration.node_mapper.server_port = atoi(optarg);
-				break;
-
-			case '?':
-				usage(1, optopt);
-				break;
-		}
-	}
-	
-    return 1;
+	check_params(argc, argv);
+	set_default_options();
 }
 
-static void usage (int invalid, int option)
+static void set_default_options (void)
 {
-	say("Verbum Programming Language - v" VERBUM_LANGUAGE_VERSION "\n");
+	char node_mapper_id []= VERBUM_DEFAULT_NODE_MAPPER_ID;
 
-	if (invalid) 
-		say("Unknown option: %c\n", option);
+	if (!global.configuration.node_mapper.server_port)
+		global.configuration.node_mapper.server_port = VERBUM_DEFAULT_NODE_MAPPER_S_PORT;
+	
+	if (!global.configuration.node_mapper.id)
+		mem_salloc_scopy(node_mapper_id, global.configuration.node_mapper.id);
+}
 
-	say("Options:");
-	say("\t-i    - Node ID.");
-	say("\t-m    - Node Mapper ID.");
-	say("\t-p    - Node Mapper server port.\n");
+static void check_params (int argc, char *argv[])
+{
+	char *option = NULL;
+	char *value  = NULL;
+	
+	for (int a=1; a < argc; a++) {
+		option = argv[a];
 
-	say("Examples:");
-	say("\tverbum -m \"IHS-333\" -p 3333                 - Open Node Mapper.");
-	say("\tverbum -i \"IESUS\"   -p 3333                 - Open Node.");
-	say("\tverbum -m \"IHS-333\" -i \"IESUS\" -p 3333      - Open Node and Node Mapper.\n");
+		if (strcmp(option, "--help") == 0 ||
+			strcmp(option, "-h")     == 0  )
+			usage();
+
+		if ( (a+1) < argc ) {
+			value = argv[a+1];
+
+			if (strcmp(option, "--node-id") == 0) 
+				mem_salloc_scopy(value, global.configuration.node.id);
+			
+			else if (strcmp(option, "--node-mapper-id") == 0) 
+				mem_salloc_scopy(value, global.configuration.node_mapper.id);
+			
+			else if (strcmp(option, "--node-mapper-port") == 0) 
+				global.configuration.node_mapper.server_port = atoi(value);
+			
+			a++;
+		}
+	}
+}
+
+static void usage (void)
+{
+	print("\nVerbum Programming Language - v" VERBUM_LANGUAGE_VERSION "\n");
+
+	print("Options:");
+	print("\t--node-id            - Custom Node ID.");
+	print("\t--node-mapper-id     - Custom Node Mapper ID.");
+	print("\t--node-mapper-port   - Custom Node Mapper server port.\n");
+
+	print("Examples:");
+	print("\tverbum");
+	print("\tverbum --node-id IESUS --node-mapper-id IHS --node-mapper-port 3333\n");
 
 	exit(0);
 }
