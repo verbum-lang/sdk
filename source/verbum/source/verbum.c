@@ -42,6 +42,8 @@ int initialization (int argc, char *argv[])
     print("Node Mapper ID..: %s", global.configuration.node_mapper.id);
     print("Node Mapper port: %d", global.configuration.node_mapper.server_port);
 
+	return 0;
+
 	// Start fork controller.
 	pthread_t tid1;
 	pthread_create(&tid1, NULL, check_and_open_fork_controller, NULL);
@@ -288,6 +290,9 @@ static void *start_new_node (void *_param)
 	say("New node created by Verbum.");
 	exit(0);
 }
+
+// verbum
+// verbum --node-id IESUS --node-mapper-id IHS --node-mapper-port 3333
 
 static int prepare_settings (int argc, char *argv[])
 {
