@@ -28,10 +28,11 @@ int node_mapper_create_node (int sock, char *content)
         return 0;
 
     ptr += strlen(prefix);
-    mem_salloc_scopy(ptr, node_param);
-
+    
     // Check node ID exists.
     if (ptr && strlen(ptr) > 0) {
+        mem_salloc_scopy(ptr, node_param);
+        
         pthread_mutex_lock(&node_mapper_mutex_nodes);
 
         for (node=node_mapper_nodes; node!=NULL; node=node->next) {

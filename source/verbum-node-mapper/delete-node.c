@@ -68,19 +68,26 @@ int node_mapper_delete_node (int sock, char *content)
     if (status == 1) {
         pthread_mutex_lock(&node_mapper_mutex_connections);
         
-        for (con=node_mapper_connections; con!=NULL; con=con->next) {
+        for (con=node_mapper_connections; con!=NULL; ) {
             if (con->status != 1 || !con->id || !con->dst_node_id) {
                 last = con;
+                con  = con->next;
                 continue;
             }
 
             // Remove item.
             if (strcmp(con->src_node_id, tmp) == 0) {
-                if (!con->next)
+                
+                // Last item.
+                if (!con->next) {
                     last->next = NULL;
-                else 
-                    last->next = con->next;
+                    break;
+                }
 
+                // Not last item.
+                last->next = con->next;
+
+                // Clear data.
                 mem_sfree(con->id);
                 mem_sfree(con->src_node_id);
                 mem_sfree(con->dst_node_id);
@@ -88,10 +95,14 @@ int node_mapper_delete_node (int sock, char *content)
                 mem_sfree(con->dst_nm_address);
                 free(con);
 
-                break;
+                // Continue checking...
+                con = last->next;
             }
 
-            last = con;
+            else {
+                last = con;
+                con  = con->next;
+            }
         }
 
         pthread_mutex_unlock(&node_mapper_mutex_connections);

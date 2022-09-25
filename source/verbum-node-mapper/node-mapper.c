@@ -139,8 +139,8 @@ void *node_mapper_interface (void *tparam)
     if (!prepare_workers(param->path, param->id))
         say_exit("Error prepare workers.");
 
-    say("Node ID: %s", param->id);
-    say("Node server port: %d", param->port);
+    say("Node Mapper ID: %s", param->id);
+    say("Node Mapper server port: %d", param->port);
 
     while (1) {
         

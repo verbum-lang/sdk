@@ -605,16 +605,23 @@ int process_create_node (char *address, int port, char *node_param)
     char *response = NULL;
     char *message = NULL;
     
-    if (!address || !port || !node_param)
+    if (!address || !port)
         return 0;
 
-    size = sizeof(char) * (strlen(node_param) + 100);
+    if (!node_param) 
+        size = sizeof(char) * 100;
+    else
+        size = sizeof(char) * (strlen(node_param) + 100);
+
     message = (char *) malloc(size);
     if (!message)
         return 0;
-    
     memset(message, 0, size);
-    sprintf(message, "create-verbum-node:%s" VERBUM_EOH, node_param);
+
+    if (!node_param) 
+        sprintf(message, "create-verbum-node:" VERBUM_EOH);
+    else 
+        sprintf(message, "create-verbum-node:%s" VERBUM_EOH, node_param);
 
     while (1) {
         sock = create_connection(address, port, 1, 0);

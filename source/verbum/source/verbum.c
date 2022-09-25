@@ -57,10 +57,11 @@ int initialization (int argc, char *argv[])
 	nm_param_t *param = (nm_param_t *) malloc (sizeof(nm_param_t));
 
 	param->node_mapper_port = global.configuration.node_mapper.server_port;
+	param->node_id = NULL;
 
 	if (global.configuration.node.id)
 		mem_salloc_scopy(global.configuration.node.id, param->node_id);
-
+	
 	pthread_create(&tid2, NULL, start_new_node, param);
 
 	infinite_loop();
@@ -291,6 +292,8 @@ static int create_verbum_node (char *response)
     ptr = strstr(response, prefix);
     if (!ptr)
         return 0;
+
+	say("fork controller, response: %s", response);
 
     ptr += strlen(prefix);
 	
