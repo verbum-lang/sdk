@@ -197,7 +197,7 @@ static int fork_controller (void)
 			say("Fork Controller connection accepted!");
 
             // Configure socket.
-            tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
+            tms.tv_sec  = 1;
             tms.tv_usec = 0;
             setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
 
