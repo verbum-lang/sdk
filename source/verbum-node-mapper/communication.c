@@ -61,7 +61,7 @@ int node_mapper_process_communication(int sock, char *path, char *nm_id)
      * Create new node.
      */
     else if (strstr(response, "create-verbum-node:"))
-        status = node_mapper_create_node(sock, path);
+        status = node_mapper_create_node(sock, response);
 
     /**
      * Delete node.

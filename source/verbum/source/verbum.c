@@ -29,12 +29,13 @@ static void prepare_fork_data (void);
 static void *node_mapper_monitor_th (void *_param);
 static void open_node_mapper (void);
 static void *start_verbum_node_mapper (void *param);
-static int create_verbum_node (void);
+static int create_verbum_node (char *response);
 static void *create_verbum_node_th (void *_param);
 static void *start_new_node (void *_param);
 
 typedef struct {
 	int node_mapper_port;
+	char *node_id;
 } nm_param_t;
 
 int initialization (int argc, char *argv[]) 
@@ -56,6 +57,10 @@ int initialization (int argc, char *argv[])
 	nm_param_t *param = (nm_param_t *) malloc (sizeof(nm_param_t));
 
 	param->node_mapper_port = global.configuration.node_mapper.server_port;
+
+	if (global.configuration.node.id)
+		mem_salloc_scopy(global.configuration.node.id, param->node_id);
+
 	pthread_create(&tid2, NULL, start_new_node, param);
 
 	infinite_loop();
@@ -204,7 +209,7 @@ static int fork_controller (void)
 			if (response) {
 
     			if (strstr(response, "create-verbum-node:")) {
-					create_verbum_node();
+					create_verbum_node(response);
 					usleep(100000);
 				}
 
@@ -271,11 +276,41 @@ static void *start_verbum_node_mapper (void *param)
     open_application(VERBUM_NODE_MAPPER_APPLICATION);
 }
 
-static int create_verbum_node (void)
+static int create_verbum_node (char *response)
 {
 	pthread_t tid1;
-	pthread_create(&tid1, NULL, create_verbum_node_th, NULL);
+	int size = 0;
+    char *node_param = NULL;
+    char *ptr = NULL;
+    char prefix []= "create-verbum-node:";
 
+	if (!response)
+		return 0;
+
+	// Prepare data.	
+    ptr = strstr(response, prefix);
+    if (!ptr)
+        return 0;
+
+    ptr += strlen(prefix);
+	
+	// Current node ID.
+	if (ptr && strlen(ptr)) {
+		size = sizeof(char) * (strlen(ptr) + 1);
+		global.configuration.node.id = (char *) realloc(global.configuration.node.id, size);
+
+		if (global.configuration.node.id) {
+			memset(global.configuration.node.id, 0, size);
+			memcpy(global.configuration.node.id, ptr, strlen(ptr));
+		}
+
+		say("Current node ID: %s", global.configuration.node.id);
+	} else {
+		global.configuration.node.id = NULL;
+	}
+
+	// Create node process.
+	pthread_create(&tid1, NULL, create_verbum_node_th, NULL);
 	return 0;
 }
 
@@ -294,7 +329,7 @@ static void *start_new_node (void *_param)
 	say("NM port: %d", param->node_mapper_port);
 
 	while (1) {
-		if (process_create_node(address, param->node_mapper_port))
+		if (process_create_node(address, param->node_mapper_port, param->node_id))
 			break;
 		else
 			say("Error creating new node by Verbum.");

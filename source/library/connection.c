@@ -599,11 +599,22 @@ int process_check_direct_nm (char *src_nm_address, int src_nm_port)
     return 1;
 }
 
-int process_create_node (char *address, int port)
+int process_create_node (char *address, int port, char *node_param)
 {
-    int sock = -1, counter = 0, limit = 5;
+    int sock = -1, counter = 0, limit = 5, size = 0;
     char *response = NULL;
-    char message []= "create-verbum-node:" VERBUM_EOH;
+    char *message = NULL;
+    
+    if (!address || !port || !node_param)
+        return 0;
+
+    size = sizeof(char) * (strlen(node_param) + 100);
+    message = (char *) malloc(size);
+    if (!message)
+        return 0;
+    
+    memset(message, 0, size);
+    sprintf(message, "create-verbum-node:%s" VERBUM_EOH, node_param);
 
     while (1) {
         sock = create_connection(address, port, 1, 0);
@@ -621,6 +632,7 @@ int process_create_node (char *address, int port)
         return 0;
 
     response = send_raw_data(sock, message);
+    mem_sfree(message);
 
     if (!response) {
         close(sock);

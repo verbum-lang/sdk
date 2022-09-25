@@ -4,7 +4,7 @@
 
 #include "global.h"
 
-int node_mapper_create_node (int sock, char *path);
+int node_mapper_create_node (int sock, char *content);
 
 #endif
 

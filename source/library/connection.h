@@ -53,7 +53,7 @@ char *process_delete_connection             (char *src_nm_address, char *src_nod
 char *process_delete_connection_server      (char *src_nm_address, int   src_nm_port, 
                                              char *src_node_id,    char *dst_node_id,     char *connection_id);
 int   process_check_direct_nm               (char *src_nm_address, int   src_nm_port);
-int   process_create_node                   (char *address,        int   port);
+int   process_create_node                   (char *address,        int   port, char *node_param);
 
 #endif
 
