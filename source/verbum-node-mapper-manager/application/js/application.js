@@ -1703,8 +1703,12 @@ function prepare_connection_id (id)
 
 function prepare_node_id (id)
 {
-    var parts = id.split('verbum-node-');
-    return parts[1];
+    if (id.indexOf('verbum-node-') != -1) {
+        var parts = id.split('verbum-node-');
+        return parts[1];
+    } else {
+        return id;
+    }
 }
 
 function prepare_ns_port (ns_port)
