@@ -14,6 +14,9 @@ int initialization (int argc, char *argv[])
     print("Node Mapper ID..: %s", global.configuration.node_mapper.id);
     print("Node Mapper port: %d", global.configuration.node_mapper.server_port);
 
+    if (!ignore_sigpipe())
+        say_ret(0, "sigaction() error.");
+
 	initialize_fork_controller();
 	initialize_node_creation();
 

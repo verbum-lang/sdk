@@ -1,8 +1,8 @@
 
 #include "fork-controller.h"
 
-#include "../../verbum-node/node.h"
-#include "../../verbum-node-mapper/node-mapper.h"
+#include "../../node/header/node.h"
+#include "../../node-mapper/header/node-mapper.h"
 
 static void            *worker_interface   (void *tparam);
 static int              prepare_workers    (void);
