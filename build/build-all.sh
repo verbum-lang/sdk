@@ -1,5 +1,6 @@
 #!/bin/bash
 
+clear
 echo "$(date '+%H:%M:%S'): Build started!"
 
 
@@ -123,11 +124,12 @@ NODE_MAPPER_OBJ+=" $NNP/timeout-control.o     $NNP/delete-connection.o"
 echo "$(date '+%H:%M:%S'): Building Verbum..."
 cd ../../verbum/source
 
+gcc -o initialization.o             -c initialization.c             $HEADER
 gcc -o prepare-settings.o           -c prepare-settings.c           $HEADER
 gcc -o fork-controller.o            -c fork-controller.c            $HEADER
 gcc -o node-creation.o              -c node-creation.c              $HEADER
 
-VERBUM_OBJ="prepare-settings.o fork-controller.o node-creation.o"
+VERBUM_OBJ="initialization.o prepare-settings.o fork-controller.o node-creation.o"
 
 rm -rf verbum
 gcc -o verbum verbum.c $HEADER $UTILS_OBJ $NODE_OBJ $NODE_MAPPER_OBJ $VERBUM_OBJ $LIBRARIES 
@@ -136,7 +138,7 @@ rm -rf ../../../../sdk-binaries/verbum
 mv verbum ../../../../sdk-binaries/verbum
 
 
-# 
+#
 # Clean files (.o files).
 #
 
