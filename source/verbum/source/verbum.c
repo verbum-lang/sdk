@@ -17,8 +17,8 @@ int initialization (int argc, char *argv[])
     if (!ignore_sigpipe())
         say_ret(0, "sigaction() error.");
 
-	initialize_fork_controller();
-	initialize_node_creation();
+    initialize_fork_controller();
+    initialize_node_creation();
 
 	infinite_loop();
     return 0;
