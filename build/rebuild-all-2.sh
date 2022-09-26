@@ -24,11 +24,10 @@ gcc -o file.o           -c file.c
 gcc -o ini_file.o       -c ini_file.c
 gcc -o process.o        -c process.c
 gcc -o connection.o     -c connection.c
-gcc -o preparation.o    -c preparation.c
 
 LIBRARY_OBJECTS="  ../../library/global.o ../../library/memory.o ../../library/debug.o ../../library/application.o  "
 LIBRARY_OBJECTS+=" ../../library/file.o   ../../library/ini_file.o ../../library/connection.o ../../library/process.o "
-LIBRARY_OBJECTS+=" ../../library/datetime.o ../../library/preparation.o "
+LIBRARY_OBJECTS+=" ../../library/datetime.o "
 
 LIBRARY_LIBS=" -lpthread "
 
@@ -104,11 +103,15 @@ LIBRARY_NM+="$NNP/connection-manager.o $NNP/connection-control.o $NNP/timeout-co
 cd ../verbum/source
 
 LIBRARY_V=" -I../include"
-gcc -o verbum verbum.c $LIBRARY_OBJECTS $LIBRARY_VN $LIBRARY_NM $LIBRARY_V $LIBRARY_LIBS
+
+gcc -o fork-controller.o -c fork-controller.c $LIBRARY_V
+
+gcc -o verbum verbum.c fork-controller.o $LIBRARY_OBJECTS $LIBRARY_VN $LIBRARY_NM $LIBRARY_V $LIBRARY_LIBS
 
 rm -rf ../../../../sdk-binaries/verbum
 mv verbum ../../../../sdk-binaries/verbum
 
+rm -rf *.o
 cd ../../verbum-node
 rm -rf *.o
 cd ../verbum-node-mapper
