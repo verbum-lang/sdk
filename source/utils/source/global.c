@@ -1,5 +1,5 @@
 
-#include "../header/global.h"
+#include "global.h"
 
 int random_number (int min, int max)
 {

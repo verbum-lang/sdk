@@ -4,8 +4,7 @@
 
 #include "global.h"
 
-// Show/hide connections debug messages.
-// #define CONDBG
+#define VERBUM_SEND_FLAGS MSG_NOSIGNAL
 
 #define VERBUM_CON_GENERATE_NODE_ID                     0
 #define VERBUM_CON_PING_NODE                            1
