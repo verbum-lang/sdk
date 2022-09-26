@@ -22,6 +22,8 @@ extern pthread_mutex_t    node_mapper_mutex_nodes;
 extern pthread_mutex_t    node_mapper_mutex_connections;
 extern node_mapper_connection_t *node_mapper_connections;
 
+extern global_t global;
+
 /**
  * Initialization.
  */

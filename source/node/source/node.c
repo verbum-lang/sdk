@@ -11,6 +11,8 @@ node_config_t     *gconfig = NULL;
 pthread_mutex_t    node_mutex_connections = PTHREAD_MUTEX_INITIALIZER;
 node_connection_t *node_connections = NULL;
 
+extern global_t global;
+
 int verbum_node (void)
 {
     if (!ignore_sigpipe())

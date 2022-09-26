@@ -3,6 +3,8 @@
 
 static void *start_new_node (void *_param);
 
+extern global_t global;
+
 void initialize_node_creation (void)
 {
 	// Create new node.

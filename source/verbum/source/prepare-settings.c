@@ -5,12 +5,10 @@ static void set_default_options (void);
 static void check_params (int argc, char *argv[]);
 static void usage (void);
 
+extern global_t global;
+
 void prepare_settings (int argc, char *argv[])
 {
-	global.configuration.node.id = NULL;
-	global.configuration.node_mapper.id = NULL;
-	global.configuration.node_mapper.server_port = 0;
-
 	check_params(argc, argv);
 	set_default_options();
 }

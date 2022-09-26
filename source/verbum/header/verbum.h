@@ -1,9 +1,9 @@
 
-#ifndef VERBUM
-#define VERBUM
+#ifndef _H_VERBUM_
+#define _H_VERBUM_
 
 #include "global.h"
 
-#endif
+#endif /* _H_VERBUM_ */
 
 

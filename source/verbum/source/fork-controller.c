@@ -25,6 +25,8 @@ static pthread_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t           mutex_create_proc = PTHREAD_MUTEX_INITIALIZER;
 static thread_worker_t          *workers       = NULL;
 
+extern global_t global;
+
 /**
  * Initialization.
  */

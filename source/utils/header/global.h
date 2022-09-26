@@ -24,10 +24,6 @@
 
 #include <pthread.h>
 
-#ifndef MSG_NOSIGNAL
-#define MSG_NOSIGNAL 0
-#endif
-
 #define VERBUM_LANGUAGE_VERSION             "1.0.0"
 #define VERBUM_DEFAULT_NODE_MAPPER_ID       "VNM-IHS"
 #define VERBUM_DEFAULT_NODE_MAPPER_S_PORT   3333
@@ -78,14 +74,16 @@ typedef struct {
     } configuration;
 } global_t;
 
-global_t global;
-
 int random_number  (int min, int max);
 int ignore_sigpipe (void);
 
-// Macros.
+// General macros.
 #ifndef PATH_MAX
 #define PATH_MAX 4096
+#endif
+
+#ifndef MSG_NOSIGNAL
+#define MSG_NOSIGNAL 0
 #endif
 
 #define infinite_loop()         \
