@@ -678,15 +678,19 @@ function process_network_viewer (request)
             // Nodes.
             for (var a=0; a<pnodes.length; a++) {
                 var node  = pnodes[a];
-                var parts = node.id.toString().split('verbum-node-');
                 var label = 'no name';
                 var color = '#0dcaf0';
 
                 if (node.offline == true)
                     color = '#fd7e14';
 
-                if (parts[1]) 
-                    label = parts[1].toString().trim();
+                if (node.id.indexOf('verbum-node-') != -1) {
+                    var parts = node.id.toString().split('verbum-node-');
+                    if (parts[1]) 
+                        label = parts[1].toString().trim();
+                } else {
+                    label = node.id.toString();
+                }
                 
                 gdata.push({
                     data: { 
