@@ -127,8 +127,10 @@ void *node_server (void *tparam)
 
             pthread_mutex_unlock(&mutex_workers);
 
-            if (status == 0)
+            if (status == 0) {
                 close(nsock);
+                usleep(100000);
+            }
 
         } else
             say("error accept client.");
