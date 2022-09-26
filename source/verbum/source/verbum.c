@@ -19,8 +19,8 @@ int initialization (int argc, char *argv[])
 
     initialize_fork_controller();
     initialize_node_creation();
-
     infinite_loop();
+    
     return 0;
 }
 
