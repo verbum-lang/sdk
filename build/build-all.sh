@@ -10,6 +10,7 @@ echo "$(date '+%H:%M:%S'): Build started!"
 LIBRARIES=" -lpthread "
 HEADER="-I../header"
 
+
 #
 # Preparations.
 #
