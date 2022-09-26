@@ -24,6 +24,11 @@ typedef struct {
     char *cid;                          // Connection ID.
 } worker_param_t, node_connection_param_t;
 
+typedef struct {
+	int node_mapper_port;
+	char *node_id;
+} nm_param_t;
+
 #endif
 
 

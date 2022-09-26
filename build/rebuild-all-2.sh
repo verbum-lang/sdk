@@ -104,9 +104,13 @@ cd ../verbum/source
 
 LIBRARY_V=" -I../include"
 
-gcc -o fork-controller.o -c fork-controller.c $LIBRARY_V
+gcc -o prepare-settings.o -c prepare-settings.c $LIBRARY_V
+gcc -o fork-controller.o  -c fork-controller.c  $LIBRARY_V
+gcc -o node-creation.o    -c node-creation.c    $LIBRARY_V
 
-gcc -o verbum verbum.c fork-controller.o $LIBRARY_OBJECTS $LIBRARY_VN $LIBRARY_NM $LIBRARY_V $LIBRARY_LIBS 
+LIBRARY_OBJS="prepare-settings.o fork-controller.o node-creation.o"
+
+gcc -o verbum verbum.c $LIBRARY_OBJS $LIBRARY_V $LIBRARY_OBJECTS $LIBRARY_VN $LIBRARY_NM $LIBRARY_LIBS 
 
 rm -rf ../../../../sdk-binaries/verbum
 mv verbum ../../../../sdk-binaries/verbum
