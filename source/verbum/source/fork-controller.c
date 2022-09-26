@@ -22,6 +22,7 @@ static void *create_verbum_node_th (void *_param);
 static int initialize_fork_controller_server (void);
 
 static pthread_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t           mutex_create_proc = PTHREAD_MUTEX_INITIALIZER;
 static thread_worker_t          *workers       = NULL;
 
 /**
@@ -136,6 +137,9 @@ static int initialize_fork_controller_server (void)
     if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
         say_ret(0, "mutex init failed - workers.");
 
+    if (pthread_mutex_init(&mutex_create_proc, NULL) != 0) 
+        say_ret(0, "mutex init failed - create proc/fork.");
+
     // Prepare workers, node list and connection list.
     workers = worker_create_item(0);
     if (!workers)
@@ -146,7 +150,7 @@ static int initialize_fork_controller_server (void)
     if (status != 0)
         say_ret(0, "error creating thread - Fork Controller.");
 
-    return 1;
+    infinite_loop();
 }
 
 static void prepare_fork_data (void)
@@ -275,8 +279,12 @@ void *worker_interface (void *tparam)
 
             pthread_mutex_unlock(&mutex_workers);
 
-            if (status == 0)
+            say("worker found status: %d", status);
+
+            if (status == 0) {
                 close(nsock);
+                usleep(100000);
+            }
 
         } else
             say("Error accept client.");
@@ -422,8 +430,14 @@ void *worker_handler (void *tparam)
         if (response) {
 
             if (strstr(response, "create-verbum-node:")) {
+                say("Process action to create a new Verbum Node");
+
+                pthread_mutex_lock(&mutex_create_proc);
+
                 create_verbum_node(response);
                 usleep(100000);
+
+                pthread_mutex_unlock(&mutex_create_proc);
             }
 
             send(sock, success_message, strlen(success_message), VERBUM_SEND_FLAGS);
@@ -434,7 +448,6 @@ void *worker_handler (void *tparam)
          * Finish.
          */
 
-        w_finish:
         close(sock);
 
         pthread_mutex_lock(&mutex_workers);

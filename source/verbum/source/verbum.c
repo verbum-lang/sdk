@@ -53,6 +53,8 @@ static void *start_new_node (void *_param)
 			break;
 		else
 			say("Error creating new node by Verbum.");
+
+		// usleep(100000);
 	}
 
 	say("New node created by Verbum.");

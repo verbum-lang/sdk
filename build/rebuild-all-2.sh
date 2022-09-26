@@ -106,7 +106,7 @@ LIBRARY_V=" -I../include"
 
 gcc -o fork-controller.o -c fork-controller.c $LIBRARY_V
 
-gcc -o verbum verbum.c fork-controller.o $LIBRARY_OBJECTS $LIBRARY_VN $LIBRARY_NM $LIBRARY_V $LIBRARY_LIBS
+gcc -o verbum verbum.c fork-controller.o $LIBRARY_OBJECTS $LIBRARY_VN $LIBRARY_NM $LIBRARY_V $LIBRARY_LIBS 
 
 rm -rf ../../../../sdk-binaries/verbum
 mv verbum ../../../../sdk-binaries/verbum
