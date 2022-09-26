@@ -19,6 +19,7 @@ static void open_node_mapper (void);
 static void *start_verbum_node_mapper (void *param);
 static int create_verbum_node (char *response);
 static void *create_verbum_node_th (void *_param);
+static int initialize_fork_controller_server (void);
 
 static pthread_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
 static thread_worker_t          *workers       = NULL;
@@ -119,7 +120,7 @@ static int open_fork_controller_process (void)
 	initialize_fork_controller_server();
 }
 
-int initialize_fork_controller_server (void)
+static int initialize_fork_controller_server (void)
 {
     int status = 0, size = 0;
     pthread_t tid;

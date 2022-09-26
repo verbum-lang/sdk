@@ -4,15 +4,8 @@
 
 #include "global.h"
 
-
 // Thread workers limit.
 #define FC_THREAD_LIMIT 33
-
-// Thread param.
-typedef struct {
-    int port;
-    int max_connections;                // Server max connections.
-} interface_param_t;
 
 typedef struct {
 	int node_mapper_port;
