@@ -76,7 +76,7 @@ int node_mapper_create_node (int sock, char *content)
 		else
 			say("Error creating new node by Verbum Node Mapper.");
 
-        // usleep(100000);
+        usleep(100000);
 	}
 
     status = send(sock, response, strlen(response), VERBUM_SEND_FLAGS);

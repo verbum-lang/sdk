@@ -1422,9 +1422,9 @@ function append_node (node)
                         <tbody>
                             <tr>
                                 <th>
-                                    <div class="item">
-                                        <div class="sub-1">Identification</div>
-                                        <div class="sub-2" style="text-transform: lowercase;" >`+ node.id +`</div>
+                                    <div class="item item-fix">
+                                        <div class="sub-1 item" >Identification</div>
+                                        <div class="sub-2" style="" >`+ node.id +`</div>
                                     </div>
                                 </th>
                                 

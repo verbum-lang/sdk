@@ -54,7 +54,7 @@ static void *start_new_node (void *_param)
 		else
 			say("Error creating new node by Verbum.");
 
-		// usleep(100000);
+		usleep(100000);
 	}
 
 	say("New node created by Verbum.");
@@ -91,6 +91,8 @@ static void check_params (int argc, char *argv[])
 		option = argv[a];
 
 		if (strcmp(option, "--help") == 0 ||
+			strcmp(option, "-help")  == 0 ||
+			strcmp(option, "--h")    == 0 ||
 			strcmp(option, "-h")     == 0  )
 			usage();
 

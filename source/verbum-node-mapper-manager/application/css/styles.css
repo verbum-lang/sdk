@@ -177,6 +177,10 @@ html, body {
   text-transform: uppercase;
 }
 
+.table-results-sec-1 .item-fix {
+  text-transform: none;
+}
+
 .table-results-sec-1 .item .sub-1 {
   font-weight: bold;
 }
