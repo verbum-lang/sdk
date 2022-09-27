@@ -1,25 +1,28 @@
 
 #include "fork-controller.h"
 
-static void *check_communication (void *_param);
-static void *open_controller     (void *_param);
-static int   preparations        (void);
-static int   initialize_worker   (void);
-static void  prepare_globals     (void);
-static int   prepare_node_mapper (void);
-static void *node_mapper_monitor (void *_param);
-static void *open_node_mapper    (void *param);
+static void     *check_communication (void *_param);
+static void     *open_controller     (void *_param);
+static int       preparations        (void);
+static int       initialize_worker   (void);
+static void      prepare_globals     (void);
+static int       prepare_node_mapper (void);
+static void     *node_mapper_monitor (void *_param);
+static void     *open_node_mapper    (void *_param);
+static int       prepare_mutex       (void);
+static int       prepare_workers     (void);
+static int       prepare_items       (void);
+static int       prepare_threads     (void);
+static worker_t *create_item         (int worker_id);
+static int       insert_item         (worker_t *n_worker);
 
-static int create_verbum_node (char *response);
+static void     *worker_interface   (void *tparam);
+static void     *worker_controller     (void *tparam);
+
+
+static int  create_verbum_node (char *response);
 static void *create_verbum_node_th (void *_param);
 
-
-static int   prepare_mutex       (void);
-static int       prepare_workers    (void);
-static void     *worker_interface   (void *tparam);
-static worker_t *create_item (int wid);
-static int       insert_item (worker_t *new_worker);
-static void     *worker_controller     (void *tparam);
 
 static p_mutex_t           mutex_workers  = PTHREAD_MUTEX_INITIALIZER;
 static p_mutex_t           mutex_new_node = PTHREAD_MUTEX_INITIALIZER;
@@ -149,15 +152,25 @@ static void *node_mapper_monitor (void *_param)
 	}
 }
 
-static void *open_node_mapper (void *param)
+static void *open_node_mapper (void *_param)
 {
     open_application(APPLICATION_NODE_MAPPER);
 }
 
-int prepare_workers (void)
+static int prepare_workers (void)
+{
+    if (!prepare_items())
+        say_ret(0, "Error initializing list items - Workers.");
+    
+    if (!prepare_threads())
+        say_ret(0, "Error initializing threads - Workers.");
+
+    return 1;
+}
+
+static int prepare_items (void)
 {
     worker_t *worker, *n_worker;
-    int status = 1;
 
     // Prepares initial item of Workers list.
     workers = create_item(0);
@@ -175,7 +188,14 @@ int prepare_workers (void)
             say_ret(0, "Error insert worker item.");
     }
 
-    // Prepare threads.
+    return 1;
+}
+
+static int prepare_threads (void)
+{
+    worker_t *worker;
+    int status = 1;
+
     pthread_mutex_lock(&mutex_workers);
     
     for (worker=workers; worker!=NULL; worker=worker->next) {
@@ -194,7 +214,41 @@ int prepare_workers (void)
     return 1;
 }
 
-void *worker_interface (void *tparam)
+static worker_t *create_item (int worker_id)
+{
+    worker_t * worker;
+    mem_alloc_ret(worker, sizeof(worker_t), worker_t *, NULL);
+
+    worker->wid    = worker_id;
+    worker->sock   = -1;
+    worker->status = 0;
+    worker->next   = NULL;
+
+    return worker;
+}
+
+static int insert_item (worker_t *n_worker)
+{
+    if (!n_worker)
+        return 0;
+
+    pthread_mutex_lock(&mutex_workers);
+    worker_t *worker = workers;
+
+    while (1) {
+        if (!worker->next) {
+            worker->next = n_worker;
+            break;
+        }
+
+        worker = worker->next;
+    }
+
+    pthread_mutex_unlock(&mutex_workers);
+    return 1;
+}
+
+static void *worker_interface (void *tparam)
 {
     say("Fork Controller interface - started!");
 
@@ -269,40 +323,6 @@ void *worker_interface (void *tparam)
 
     close(ssock);
     return NULL;
-}
-
-worker_t *create_item (int wid)
-{
-    worker_t * worker;
-    mem_alloc_ret(worker, sizeof(worker_t), worker_t *, NULL);
-
-    worker->wid    = wid;
-    worker->sock   = -1;
-    worker->status = 0;
-    worker->next   = NULL;
-
-    return worker;
-}
-
-int insert_item (worker_t *new_worker)
-{
-    if (!new_worker)
-        return 0;
-
-    pthread_mutex_lock(&mutex_workers);
-    worker_t *worker = workers;
-
-    while (1) {
-        if (!worker->next) {
-            worker->next = new_worker;
-            break;
-        }
-
-        worker = worker->next;
-    }
-
-    pthread_mutex_unlock(&mutex_workers);
-    return 1;
 }
 
 void *worker_controller (void *tparam)
