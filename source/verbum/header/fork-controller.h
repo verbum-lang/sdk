@@ -4,7 +4,8 @@
 
 #include "global.h"
 
-#define _w_continue(FREE_DATA) {                                               \
+#define _w_continue(FREE_DATA)                                                 \
+    {                                                                          \
         if (FREE_DATA)                                                         \
             free(order);                                                       \
                                                                                \
