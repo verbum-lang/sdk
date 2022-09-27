@@ -15,10 +15,10 @@ void prepare_settings (int argc, char *argv[])
 
 static void set_default_options (void)
 {
-	char node_mapper_id []= VERBUM_DEFAULT_NODE_MAPPER_ID;
+	char node_mapper_id []= DEFAULT_NODE_MAPPER_ID;
 
 	if (!global.configuration.node_mapper.server_port)
-		global.configuration.node_mapper.server_port = VERBUM_DEFAULT_NODE_MAPPER_S_PORT;
+		global.configuration.node_mapper.server_port = DEFAULT_NODE_MAPPER_SERVER_PORT;
 	
 	if (!global.configuration.node_mapper.id)
 		mem_salloc_scopy(node_mapper_id, global.configuration.node_mapper.id);
@@ -57,7 +57,7 @@ static void check_params (int argc, char *argv[])
 
 static void usage (void)
 {
-	print("\nVerbum Programming Language - v" VERBUM_LANGUAGE_VERSION "\n");
+	print("\nVerbum Programming Language - v" LANGUAGE_VERSION "\n");
 
 	print("Options:");
 	print("\t--node-id            - Custom Node ID.");

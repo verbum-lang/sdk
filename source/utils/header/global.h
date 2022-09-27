@@ -17,8 +17,8 @@ typedef struct {
         } node;
         
         struct {
-            int server_port;
             char *id;
+            int server_port;
         } node_mapper;
     } configuration;
 } global_t;

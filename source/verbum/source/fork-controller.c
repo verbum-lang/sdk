@@ -33,8 +33,14 @@ extern global_t global;
 
 int initialize_fork_controller (void)
 {
-	pthread_t tid1;
-	pthread_create(&tid1, NULL, check_and_open_fork_controller, NULL);
+	pthread_t tid;
+
+	if (pthread_create(&tid, NULL, check_and_open_fork_controller, NULL) != 0) {
+        say_error("Error creating new thread.");
+        return 0;
+    }
+    
+    return 1;
 }
 
 static void *check_and_open_fork_controller (void *_param)
@@ -47,7 +53,7 @@ static void *check_and_open_fork_controller (void *_param)
 
 	say("Checking Fork Controller connection.");
 
-	sock = check_protocol(address, VERBUM_FORK_CONTROLLER_PORT, 1, 1);
+	sock = check_protocol(address, DEFAULT_FORK_CONTROLLER_SERVER_PORT, 1, 1);
 
 	if (sock != -1) {
 		response = send_raw_data(sock, message);
@@ -133,7 +139,7 @@ static int initialize_fork_controller_server (void)
         say_exit("Error alloc interface_param_t.");
     
     param->max_connections = SERVERS_MAX_CONNECTION;
-    param->port = VERBUM_FORK_CONTROLLER_PORT;
+    param->port = DEFAULT_FORK_CONTROLLER_SERVER_PORT;
 
     // Prepare mutex.
     if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
@@ -165,7 +171,7 @@ static void prepare_fork_data (void)
 
 static void *node_mapper_monitor_th (void *_param)
 {
-	nm_param_t *param = (nm_param_t *) _param;
+	param_t *param = (param_t *) _param;
 	char address [] = LOCALHOST;
 	int sock = -1, status = 0;
 	char *response = NULL;
@@ -243,7 +249,9 @@ void *worker_interface (void *tparam)
     say("Fork Controller server port: %d", param->port);
 
 	// Open Node Mapper monitor.
-	nm_param_t *param_mth = (nm_param_t *) malloc (sizeof(nm_param_t));
+	param_t *param_mth;
+    prepare_thread_param(param_mth);
+
 	param_mth->node_mapper_port = global.configuration.node_mapper.server_port;
 	pthread_create(&tid1, NULL, node_mapper_monitor_th, param_mth);
 

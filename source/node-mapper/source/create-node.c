@@ -71,7 +71,7 @@ int node_mapper_create_node (int sock, char *content)
     }
 
 	while (1) {
-		if (process_create_node(address, VERBUM_FORK_CONTROLLER_PORT, node_param))
+		if (process_create_node(address, DEFAULT_FORK_CONTROLLER_SERVER_PORT, node_param))
 			break;
 		else
 			say("Error creating new node by Verbum Node Mapper.");

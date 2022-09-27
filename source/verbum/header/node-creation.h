@@ -1,11 +1,11 @@
 
-#ifndef VERBUM_V_NDOE_CREATION
-#define VERBUM_V_NDOE_CREATION
+#ifndef _H_VERBUM_NODE_CREATION_
+#define _H_VERBUM_NODE_CREATION_
 
 #include "global.h"
 
 void initialize_node_creation (void);
 
-#endif
+#endif /* _H_VERBUM_NODE_CREATION_ */
 
 

@@ -1,11 +1,11 @@
 
-#ifndef VERBUM_PREPARE_SETTINGS
-#define VERBUM_PREPARE_SETTINGS
+#ifndef _H_VERBUM_PREPARE_SETTINGS_
+#define _H_VERBUM_PREPARE_SETTINGS_
 
 #include "global.h"
 
 void prepare_settings (int argc, char *argv[]);
 
-#endif
+#endif /* _H_VERBUM_PREPARE_SETTINGS_ */
 
 

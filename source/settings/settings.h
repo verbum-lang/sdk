@@ -2,15 +2,22 @@
 #ifndef _H_SETTINGS_
 #define _H_SETTINGS_
 
-#define VERBUM_LANGUAGE_VERSION             "1.0.0"
+#define LANGUAGE_VERSION                                        "1.0.0"
 
 /**
  * Default interface settings.
  */
 
-#define VERBUM_DEFAULT_NODE_MAPPER_ID       "VNM-IHS"
-#define VERBUM_DEFAULT_NODE_MAPPER_S_PORT   3333
-#define VERBUM_FORK_CONTROLLER_PORT 	    3331
+#define DEFAULT_NODE_MAPPER_ID                                  "VNM-IHS"
+#define DEFAULT_NODE_MAPPER_SERVER_PORT                         3333
+#define DEFAULT_FORK_CONTROLLER_SERVER_PORT                     3331
+
+// Debug settings.
+#define VERBUM_DEBUG_ENABLED
+#define VERBUM_DEBUG_SERVER_PORT            1337
+#define VERBUM_DEBUG_R_ADDRESS              "127.0.0.1"
+#define VERBUM_DEBUG_CONNECTION_TIMEOUT     1
+
 
 #define VERBUM_CHECK_DELETION_LIMIT         10
 

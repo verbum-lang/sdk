@@ -24,10 +24,25 @@ typedef struct {
     char *cid;                          // Connection ID.
 } worker_param_t, node_connection_param_t;
 
+
+/**
+ * General purpose type for parameters in threads.
+ */
+
 typedef struct {
 	int node_mapper_port;
 	char *node_id;
-} nm_param_t;
+} param_t;
+
+#define prepare_thread_param(PARAM)                                            \
+    do {                                                                       \
+        PARAM = (param_t *) malloc(sizeof(param_t));                           \
+        if (!PARAM)                                                            \
+            say_exit("Error allocating parameter to thread.");              \
+                                                                               \
+        PARAM->node_mapper_port = 0;                                           \
+        PARAM->node_id          = NULL;                                        \
+    } while (0)
 
 #endif
 

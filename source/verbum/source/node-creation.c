@@ -7,37 +7,35 @@ extern global_t global;
 
 void initialize_node_creation (void)
 {
-	// Create new node.
-	pthread_t tid2;
-	nm_param_t *param = (nm_param_t *) malloc (sizeof(nm_param_t));
+	pthread_t tid;
+	param_t *param;
 
+	prepare_thread_param(param);
 	param->node_mapper_port = global.configuration.node_mapper.server_port;
-	param->node_id = NULL;
 
 	if (global.configuration.node.id)
 		mem_salloc_scopy(global.configuration.node.id, param->node_id);
 	
-	pthread_create(&tid2, NULL, start_new_node, param);
+	pthread_create(&tid, NULL, start_new_node, param);
 }
 
 static void *start_new_node (void *_param)
 {
-	nm_param_t *param = (nm_param_t *) _param;
-	char address []= LOCALHOST;
+	param_t *param = (param_t *) _param;
 
-	say("Creating new node by Verbum...");
-	say("NM port: %d", param->node_mapper_port);
+	say("Creating a new node using the Verbum utility...");
+	say("Connecting to Node Mapper server port: %d", param->node_mapper_port);
 
 	while (1) {
-		if (process_create_node(address, param->node_mapper_port, param->node_id))
+		if (process_create_node(LOCALHOST, param->node_mapper_port, param->node_id))
 			break;
 		else
-			say("Error creating new node by Verbum.");
+			say("Error creating node using Verbum utility.");
 
 		usleep(100000);
 	}
 
-	say("New node created by Verbum.");
+	say("New node successfully created using the Verbum utility.");
 	exit(0);
 }
 

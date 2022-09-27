@@ -1,6 +1,6 @@
 
-#ifndef VERBUM_V_GLOBAL
-#define VERBUM_V_GLOBAL
+#ifndef _H_VERBUM_GLOBAL_
+#define _H_VERBUM_GLOBAL_
 
 #include "../../utils/header/global.h"
 #include "../../utils/header/debug.h"
@@ -13,6 +13,6 @@
 #include "../../utils/header/process.h"
 #include "../../utils/header/types.h"
 
-#endif
+#endif /* _H_VERBUM_GLOBAL_ */
 
 
