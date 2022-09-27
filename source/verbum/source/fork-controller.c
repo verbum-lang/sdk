@@ -461,13 +461,13 @@ static int create_node (char *response)
     if (!response)
         return 0;
 
-    // Check data is valid.	
+    // Check data is valid.
     ptr = strstr(response, prefix);
     if (!ptr)
         return 0;
 
     ptr += strlen(prefix);
-	
+
     prepare_node_data(ptr);
 
     if (!create_node_process())
