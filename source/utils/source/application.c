@@ -106,7 +106,7 @@ char *get_relative_path (void)
     char *cwd  = NULL;
     int   size = 0;
 
-    memset(tmp, 0x0, PATH_MAX);
+    memset(tmp, '\0', PATH_MAX);
 
     if (!getcwd(tmp, sizeof(tmp)))
         return NULL;
@@ -128,7 +128,7 @@ char *get_real_path (char *path)
     if (!path)
         return NULL;
         
-    memset(tmp, 0x0, PATH_MAX);
+    memset(tmp, '\0', PATH_MAX);
 
     if (!realpath(path, tmp))
         return NULL;

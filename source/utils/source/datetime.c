@@ -18,12 +18,12 @@ char *make_datetime (void)
     
     mem_salloc_ret(date, 100, NULL);
 
-    memset(day,  0x0, 5);
-    memset(mon,  0x0, 5);
-    memset(year, 0x0, 5);
-    memset(hour, 0x0, 5);
-    memset(min,  0x0, 5);
-    memset(sec,  0x0, 5);
+    memset(day,  '\0', 5);
+    memset(mon,  '\0', 5);
+    memset(year, '\0', 5);
+    memset(hour, '\0', 5);
+    memset(min,  '\0', 5);
+    memset(sec,  '\0', 5);
 
     sprintf(day,  "%d", tms->tm_mday);
     sprintf(mon,  "%d", (tms->tm_mon + 1));
@@ -44,7 +44,7 @@ char *make_datetime (void)
         sprintf(sec, "0%d",  tms->tm_sec);
 
     sprintf(date, "%s-%s-%s %s:%s:%s", 
-        day, mon, year, hour, min, sec);
+                day, mon, year, hour, min, sec);
 
     return date;
 }
@@ -65,19 +65,20 @@ char *make_datetime (void)
 
 int date_difference (char *start_date, char *end_date, double interval_seconds)
 {
-    date_diff_t start, end;
     double day  = 0, mon = 0, year = 0, date_seconds = 0;
     double hour = 0, min = 0, sec  = 0, hour_seconds = 0;
     double final_seconds = 0;
+    diff_t start, end;
 
     if (!start_date || !end_date || !interval_seconds)
         return 0;
     
-    start = prepare_date_data(start_date);
-    end   = prepare_date_data(end_date);
+    start = prepare_date(start_date);
+    end   = prepare_date(end_date);
 
     #ifdef DBG_DATETIME
-        say("start(%d): %s - end(%d): %s", start.status, start_date, end.status, end_date);
+        say("start(%d): %s - end(%d): %s", 
+            start.status, start_date, end.status, end_date);
     #endif
 
     if (!start.status || !end.status)
@@ -96,8 +97,8 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
         return 0;
 
     #ifdef DBG_DATETIME
-        printf("start: %d-%d-%d %d:%d:%d\n"
-               "end..: %d-%d-%d %d:%d:%d\n",
+        say("start: %d-%d-%d %d:%d:%d"
+            "end..: %d-%d-%d %d:%d:%d",
                     start.day, start.mon, start.year, start.hour, start.min, start.sec,
                     end.day, end.mon, end.year, end.hour, end.min, end.sec);
     #endif
@@ -126,12 +127,12 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
     final_seconds = date_seconds + hour_seconds;
 
     #ifdef DBG_DATETIME
-        printf("%d %d %d - %d %d %d\n", 
+        say("%d %d %d - %d %d %d", 
             (int) day,  (int) mon, (int) year, 
             (int) hour, (int) min, (int) sec);
-        printf("total date secs: %f\n", date_seconds);
-        printf("total hour secs: %f\n", hour_seconds);
-        printf("final secs: %f - %f\n", final_seconds, interval_seconds);
+        say("total date secs: %f", date_seconds);
+        say("total hour secs: %f", hour_seconds);
+        say("final secs: %f - %f", final_seconds, interval_seconds);
     #endif
 
     // Check interval.
@@ -141,9 +142,9 @@ int date_difference (char *start_date, char *end_date, double interval_seconds)
     return 0;
 }
 
-date_diff_t prepare_date_data (char *idate)
+diff_t prepare_date (char *idate)
 {
-    date_diff_t date;
+    diff_t date;
     char tmp [100];
 
     date.day    = 0;
@@ -154,14 +155,12 @@ date_diff_t prepare_date_data (char *idate)
     date.sec    = 0;
     date.status = 0;
 
-    memset(tmp, 0x0, 100);
+    memset(tmp, '\0', 100);
 
     if (!idate)
         return date;
 
-    if (!strstr(idate, "-") || 
-        !strstr(idate, " ") || 
-        !strstr(idate, ":")  )
+    if (!strstr(idate, "-") || !strstr(idate, " ") || !strstr(idate, ":")  )
         return date;
 
     for (int a=0,b=0,c=0; ; a++) {
@@ -193,7 +192,7 @@ date_diff_t prepare_date_data (char *idate)
 
             c ++ ;
             b = 0;
-            memset(tmp, 0x0, 100);
+            memset(tmp, '\0', 100);
 
             if (idate[a] == '\0')
                 break;
