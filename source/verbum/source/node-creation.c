@@ -1,7 +1,7 @@
 
 #include "node-creation.h"
 
-static void *start_new_node (void *_param);
+static void *create_node (void *_param);
 
 extern global_t global;
 
@@ -16,10 +16,10 @@ void initialize_node_creation (void)
 	if (global.configuration.node.id)
 		mem_salloc_scopy(global.configuration.node.id, param->id);
 	
-	pthread_create(&tid, NULL, start_new_node, param);
+	pthread_create(&tid, NULL, create_node, param);
 }
 
-static void *start_new_node (void *_param)
+static void *create_node (void *_param)
 {
 	param_t *param = (param_t *) _param;
 
