@@ -8,7 +8,7 @@
 static int              prepare_node_mapper     (void);
 static int              prepare_timeout_control (void);
 static void            *node_mapper_interface   (void *tparam);
-static int              prepare_workers         (char *path, char *nm_id);
+static int              prepare_workers         (char *nm_id);
 static worker_t *worker_create_item      (int wid);
 static int              worker_insert_item      (worker_t *new_worker);
 static void            *worker_handler          (void *tparam);
@@ -69,15 +69,13 @@ int prepare_node_mapper (void)
 {
     int status = 0, size = 0;
     pthread_t tid;
-    interface_param_t *param;
+    param_t *param;
 
     // Prepare thread param.
-    mem_alloc_ret(param, sizeof(interface_param_t), interface_param_t *, 0);
-    param->max_connections = SERVERS_MAX_CONNECTION;
+    mem_alloc_ret(param, sizeof(param_t), param_t *, 0);
+    param->max_connections = SERVERS_MAX_CONNECTIONS;
     param->port            = global.configuration.node_mapper.server_port;
 
-    // Copy path.
-    // mem_scopy_ret(global.configuration.path, param->path, 0);
     mem_scopy_ret(global.configuration.node_mapper.id, param->id, 0);
 
     // Create thread.
@@ -92,11 +90,11 @@ int prepare_timeout_control (void)
 {
     int status = 0, size = 0;
     pthread_t tid;
-    interface_param_t *param;
+    param_t *param;
 
     // Prepare thread param.
-    mem_alloc_ret(param, sizeof(interface_param_t), interface_param_t *, 0);
-    param->max_connections = SERVERS_MAX_CONNECTION;
+    mem_alloc_ret(param, sizeof(param_t), param_t *, 0);
+    param->max_connections = SERVERS_MAX_CONNECTIONS;
     param->port            = global.configuration.node_mapper.server_port;
 
     // Copy path.
@@ -115,7 +113,7 @@ void *node_mapper_interface (void *tparam)
 {
     say("Node mapper interface - started!");
 
-    interface_param_t *param = (interface_param_t *) tparam;
+    param_t *param = (param_t *) tparam;
     struct sockaddr_in address, client;
     socklen_t client_size;
     int ssock = -1, nsock = -1, status = -1, block = 0;
@@ -137,7 +135,7 @@ void *node_mapper_interface (void *tparam)
     if (listen(ssock, param->max_connections) != 0) 
         say_exit("Error listen server.");
 
-    if (!prepare_workers(param->path, param->id))
+    if (!prepare_workers(param->id))
         say_exit("Error prepare workers.");
 
     say("Node Mapper ID: %s", param->id);
@@ -192,7 +190,7 @@ void *node_mapper_interface (void *tparam)
     return NULL;
 }
 
-int prepare_workers (char *path, char *nm_id)
+int prepare_workers (char *nm_id)
 {
     worker_t *worker;
     int status = -1, size = 0, result = 1;
@@ -231,9 +229,6 @@ int prepare_workers (char *path, char *nm_id)
             result = 0;
             break;
         }
-        
-        // // Path.
-        // mem_salloc_scopy(path, param->path);
 
         // NM ID.
         mem_salloc_scopy(nm_id, param->nm_id);

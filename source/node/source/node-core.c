@@ -23,7 +23,7 @@ void *node_core (void *tparam)
     socklen_t client_size;
     int ssock  = -1, nsock = -1;
     int status = -1, port  =  0;
-    int node_mapper_port = 0, max_connections = SERVERS_MAX_CONNECTION;
+    int node_mapper_port = 0, max_connections = SERVERS_MAX_CONNECTIONS;
     const int enable = 1;
     worker_t *worker;
     
@@ -176,17 +176,7 @@ static int prepare_workers (void)
     pthread_mutex_lock(&mutex_workers);
     
     for (worker=workers; worker!=NULL; worker=worker->next) {
-        worker_param_t *param = (worker_param_t *) malloc(sizeof(worker_param_t));
-
-        if (!param) {
-            say("error allocating memory.");
-            result = 0;
-            break;
-        }
-
-        param->wid = worker->wid;
-
-        status = pthread_create(&worker->tid, NULL, worker_handler, param);
+        status = pthread_create(&worker->tid, NULL, worker_handler, NULL);
 
         if (status != 0) {
             say("error while creating thread - worker handler.");
@@ -237,7 +227,6 @@ static int worker_insert_item (worker_t *new_worker)
 
 static void *worker_handler (void *tparam)
 {
-    worker_param_t  *param = (worker_param_t *) tparam;
     worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;

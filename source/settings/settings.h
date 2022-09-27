@@ -21,7 +21,10 @@
 #define FORK_CONTROLLER_WORKER_THREADS_LIMIT                    33
 
 
-
+/**
+ * Servers configurations.
+ */
+#define SERVERS_MAX_CONNECTIONS                                 SOMAXCONN
 
 
 
@@ -37,7 +40,6 @@
 
 // General configurations.
 #define LOCALHOST                           "127.0.0.1"
-#define SERVERS_MAX_CONNECTION              SOMAXCONN
 
 // Timeout.
 #define CONNECTION_TIMEOUT_LIMIT            10

@@ -11,10 +11,10 @@ void initialize_node_creation (void)
 	param_t *param;
 
 	prepare_thread_param(param);
-	param->node_mapper_port = global.configuration.node_mapper.server_port;
+	param->port = global.configuration.node_mapper.server_port;
 
 	if (global.configuration.node.id)
-		mem_salloc_scopy(global.configuration.node.id, param->node_id);
+		mem_salloc_scopy(global.configuration.node.id, param->id);
 	
 	pthread_create(&tid, NULL, start_new_node, param);
 }
@@ -24,10 +24,10 @@ static void *start_new_node (void *_param)
 	param_t *param = (param_t *) _param;
 
 	say("Creating a new node using the Verbum utility...");
-	say("Connecting to Node Mapper server port: %d", param->node_mapper_port);
+	say("Connecting to Node Mapper server port: %d", param->port);
 
 	while (1) {
-		if (process_create_node(LOCALHOST, param->node_mapper_port, param->node_id))
+		if (process_create_node(LOCALHOST, param->port, param->id))
 			break;
 		else
 			say("Error creating node using Verbum utility.");

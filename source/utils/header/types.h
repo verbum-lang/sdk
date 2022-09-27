@@ -4,15 +4,6 @@
 
 #include "global.h"
 
-// Thread param.
-typedef struct {
-    int wid;                            // Worker ID.
-    char *nm_id;                        // Node Mapper ID.
-    char *path;                         // Configuration file path.
-    char *cid;                          // Connection ID.
-} worker_param_t, node_connection_param_t;
-
-
 /**
  * Simplifications.
  */
@@ -25,8 +16,9 @@ typedef pthread_mutex_t p_mutex_t;
  */
 
 typedef struct {
-	int node_mapper_port;
-	char *node_id;
+	char *id;
+    int   port;
+    int   max_connections;
 } param_t;
 
 #define prepare_thread_param(PARAM)                                            \
@@ -35,8 +27,9 @@ typedef struct {
         if (!PARAM)                                                            \
             say_exit("Error allocating parameter to thread.");                 \
                                                                                \
-        PARAM->node_mapper_port = 0;                                           \
-        PARAM->node_id          = NULL;                                        \
+        PARAM->max_connections = SERVERS_MAX_CONNECTIONS;                      \
+        PARAM->port = 0;                                                       \
+        PARAM->id = NULL;                                                      \
     } while (0)
 
 
@@ -54,6 +47,19 @@ typedef struct worker_s {
     int sock;                           // Current client socket.
     struct worker_s *next;              // Next item.
 } worker_t;
+
+
+
+
+
+// Thread param.
+typedef struct {
+    int wid;                            // Worker ID.
+    char *nm_id;                        // Node Mapper ID.
+    char *path;                         // Configuration file path.
+    char *cid;                          // Connection ID.
+} worker_param_t, node_connection_param_t;
+
 
 #endif /* _H_UTILS_TYPES_ */
 

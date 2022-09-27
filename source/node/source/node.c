@@ -21,7 +21,7 @@ int verbum_node (void)
     mem_alloc_ret(gconfig, sizeof(node_config_t), node_config_t *, 0);
 
     gconfig->path             = NULL;
-    gconfig->max_connections  = SERVERS_MAX_CONNECTION;
+    gconfig->max_connections  = SERVERS_MAX_CONNECTIONS;
     gconfig->node_mapper_port = global.configuration.node_mapper.server_port;
 
     mem_scopy_ret(global.configuration.node_mapper.id, gconfig->node_mapper_id, 0);
