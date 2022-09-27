@@ -417,7 +417,7 @@ static order_t *check_order (void)
 static void worker_release (int worker_id)
 {
     worker_t *worker;
-
+    
     pthread_mutex_lock(&mutex_workers);
 
     for (worker=workers; worker!=NULL; worker=worker->next) {
