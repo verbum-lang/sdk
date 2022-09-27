@@ -2,6 +2,10 @@
 #ifndef _H_SETTINGS_
 #define _H_SETTINGS_
 
+/**
+ * General settings.
+ */
+
 #define LANGUAGE_VERSION                                        "1.0.0"
 
 
@@ -15,16 +19,29 @@
 
 
 /**
- * Worker threads limits.
+ * Workers limit.
  */
 
 #define FORK_CONTROLLER_WORKERS_LIMIT                           33
 
 
 /**
+ * Delay control.
+ */
+
+#define FORK_CONTROLLER_DELAY_SECS_MONITOR                      1
+#define FORK_CONTROLLER_DELAY_CLOSE_CONNECTIONS                 100000
+#define FORK_CONTROLLER_DELAY_NEXT_ORDER                        100000
+#define FORK_CONTROLLER_DELAY_CREATE_NODE                       100000
+
+
+/**
  * Servers configurations.
  */
 #define SERVERS_MAX_CONNECTIONS                                 SOMAXCONN
+
+
+
 
 
 

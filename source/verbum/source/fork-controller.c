@@ -76,8 +76,8 @@ static void *open_controller(void *_param)
 
 static int initialize_worker (void)
 {
-    param_t *param;
-    pthread_t tid;
+    param_t   *param;
+    pthread_t  tid;
 
     prepare_thread_param(param);
     param->port = DEFAULT_FORK_CONTROLLER_SERVER_PORT;
@@ -125,8 +125,8 @@ static int prepare_mutex (void)
 
 static int prepare_node_mapper (void)
 {
-    pthread_t tid;
-    param_t *param;
+    param_t   *param;
+    pthread_t  tid;
 
     prepare_thread_param(param);
     param->port = global.configuration.node_mapper.server_port;
@@ -139,8 +139,8 @@ static int prepare_node_mapper (void)
 
 static void *node_mapper_monitor (void *_param)
 {
-    param_t *param = (param_t *) _param;
-    pthread_t tid;
+    param_t   *param = (param_t *) _param;
+    pthread_t  tid;
 
     say("Node Mapper monitor started!");
     say("Node Mapper server port: %d", param->port);
@@ -151,7 +151,7 @@ static void *node_mapper_monitor (void *_param)
                 say_error_ret(0, "Error creating new thread - open Node Mapper process.");
         }
 
-        sleep(1);
+        sleep(FORK_CONTROLLER_DELAY_SECS_MONITOR);
     }
 }
 
@@ -232,11 +232,13 @@ static worker_t *create_item (int worker_id)
 
 static int insert_item (worker_t *n_worker)
 {
+    worker_t *worker;
+
     if (!n_worker)
         return 0;
 
     pthread_mutex_lock(&mutex_workers);
-    worker_t *worker = workers;
+    worker = workers;
 
     while (1) {
         if (!worker->next) {
@@ -316,7 +318,7 @@ static void worker_connections (int ssock)
             // Checks if the thread is free to use.
             if (!check_resource(sock)) {
                 close(sock);
-                usleep(100000);
+                usleep(FORK_CONTROLLER_DELAY_CLOSE_CONNECTIONS);
             }
 
         } else
@@ -361,7 +363,7 @@ static void *worker_controller (void *_param)
         order = check_order();
 
         if (!order) {
-            usleep(100000);
+            usleep(FORK_CONTROLLER_DELAY_NEXT_ORDER);
             continue;
         }
 
@@ -433,9 +435,9 @@ static void worker_release (int worker_id)
 
 static int worker_communication (int sock)
 {
-    char message []= VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    char  message  []= VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char *response;
-    int status;
+    int   status;
 
     if (!sock)
         return 0;
@@ -451,7 +453,7 @@ static int worker_communication (int sock)
     if (strstr(response, "create-verbum-node:")) {
         pthread_mutex_lock(&mutex_new_node);
         create_node(response);
-        usleep(100000);
+        usleep(FORK_CONTROLLER_DELAY_CREATE_NODE);
         pthread_mutex_unlock(&mutex_new_node);
     }
 
@@ -463,8 +465,8 @@ static int worker_communication (int sock)
 
 static int create_node (char *response)
 {
-    char prefix []= "create-verbum-node:";
-    char *ptr = NULL;
+    char  prefix []= "create-verbum-node:";
+    char *ptr      = NULL;
     
     if (!response)
         return 0;
