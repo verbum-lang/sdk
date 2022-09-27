@@ -1,33 +1,33 @@
 
 #include "fork-controller.h"
 
-static void     *check_communication  (void *_param);
-static void     *open_controller      (void *_param);
-static int       preparations         (void);
-static int       initialize_worker    (void);
-static void      prepare_globals      (void);
-static int       prepare_node_mapper  (void);
-static void     *node_mapper_monitor  (void *_param);
-static void     *open_node_mapper     (void *_param);
-static int       prepare_mutex        (void);
-static int       prepare_workers      (void);
-static int       prepare_items        (void);
-static int       prepare_threads      (void);
-static worker_t *create_item          (int worker_id);
-static int       insert_item          (worker_t *n_worker);
-static void     *worker_interface     (void *_param);
-static int       prepare_interface    (int port, int max_connections);
-static void      worker_connections   (int ssock);
-static int       check_resource       (int sock);
-static void     *worker_controller    (void *_param);
-static int       worker_communication (int sock);
-static int       create_node          (char *response);
-static int       create_node_process  (void);
-static void      *open_node           (void *_param);
+static void      *check_communication  (void *_param);
+static void      *open_controller      (void *_param);
+static int        preparations         (void);
+static int        initialize_worker    (void);
+static void       prepare_globals      (void);
+static int        prepare_node_mapper  (void);
+static void      *node_mapper_monitor  (void *_param);
+static void      *open_node_mapper     (void *_param);
+static int        prepare_mutex        (void);
+static int        prepare_workers      (void);
+static int        prepare_items        (void);
+static int        prepare_threads      (void);
+static worker_t  *create_item          (int worker_id);
+static int        insert_item          (worker_t *n_worker);
+static void      *worker_interface     (void *_param);
+static int        prepare_interface    (int port, int max_connections);
+static void       worker_connections   (int ssock);
+static int        check_resource       (int sock);
+static void      *worker_controller    (void *_param);
+static int        worker_communication (int sock);
+static int        create_node          (char *response);
+static int        create_node_process  (void);
+static void      *open_node            (void *_param);
 
-static p_mutex_t  mutex_workers  = PTHREAD_MUTEX_INITIALIZER;
-static p_mutex_t  mutex_new_node = PTHREAD_MUTEX_INITIALIZER;
-static worker_t  *workers        = NULL;
+static p_mutex_t  mutex_workers        = PTHREAD_MUTEX_INITIALIZER;
+static p_mutex_t  mutex_new_node       = PTHREAD_MUTEX_INITIALIZER;
+static worker_t  *workers              = NULL;
 extern global_t   global;
 
 int initialize_fork_controller (void)
