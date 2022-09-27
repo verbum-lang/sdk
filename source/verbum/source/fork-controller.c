@@ -32,11 +32,11 @@ extern global_t   global;
 
 int initialize_fork_controller (void)
 {
-	pthread_t tid;
+    pthread_t tid;
 
-	if (pthread_create(&tid, NULL, check_communication, NULL) != 0) 
+    if (pthread_create(&tid, NULL, check_communication, NULL) != 0) 
         say_error_ret(0, "Error creating new thread - Fork Controller communication.");
-    
+
     return 1;
 }
 
@@ -53,9 +53,9 @@ int initialize_fork_controller_interface (void)
 
 static void *check_communication (void *_param)
 {
-	pthread_t tid;
+    pthread_t tid;
 
-	say("Checks connection to Fork Controller interface...");
+    say("Checks connection to Fork Controller interface...");
 
     if (check_interface(DEFAULT_FORK_CONTROLLER_SERVER_PORT))
         say_ret(NULL, "Fork Controller interface OK.");
@@ -68,7 +68,7 @@ static void *check_communication (void *_param)
 
 static void *open_controller(void *_param)
 {
-	open_application(APPLICATION_FORK_CONTROLLER);
+    open_application(APPLICATION_FORK_CONTROLLER);
 }
 
 static int initialize_worker (void)
