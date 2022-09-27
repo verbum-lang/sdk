@@ -53,7 +53,6 @@ rm -rf *.o
 
 gcc -o global.o                     -c global.c                     $HEADER
 gcc -o node.o                       -c node.c                       $HEADER
-gcc -o monitor-processes.o          -c monitor-processes.c          $HEADER
 gcc -o node-core.o                  -c node-core.c                  $HEADER
 gcc -o add-on-node-mapper.o         -c add-on-node-mapper.c         $HEADER
 gcc -o ping-node-mapper.o           -c ping-node-mapper.c           $HEADER
@@ -76,8 +75,8 @@ NODE_OBJ+=" $NP/ping-node-mapper.o        $NP/communication.o"
 NODE_OBJ+=" $NP/node-server.o             $NP/node-client.o"
 NODE_OBJ+=" $NP/generate-connection-id.o  $NP/node-server-ping.o"
 NODE_OBJ+=" $NP/node-global.o             $NP/delete-connection.o"
-NODE_OBJ+=" $NP/monitor-processes.o       $NP/check-node-exists.o"
 NODE_OBJ+=" $NP/delete-node.o             $NP/create-node-connection.o"
+NODE_OBJ+=" $NP/check-node-exists.o"
 
 
 # 
