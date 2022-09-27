@@ -7,13 +7,6 @@
 #include "../../node-mapper/header/node-mapper.h"
 #include "../../node/header/node.h"
 
-/**
- * Opens new Daemon process.
- * 
- * Based on https://github.com/jirihnidek/daemon/blob/master/src/daemon.c
- * And on tips from my friends.
- */
-
 int open_application (int application)
 {
     int fd, fd_limit;
