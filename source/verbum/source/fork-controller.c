@@ -407,7 +407,7 @@ static void *worker_controller (void *_param)
 
 static int worker_communication (int sock)
 {
-	char message []= VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    char message []= VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
     char *response;
     int status;
 
