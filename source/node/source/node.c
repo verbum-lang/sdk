@@ -1,6 +1,5 @@
 
 #include "node.h"
-#include "monitor-processes.h"
 #include "node-core.h"
 #include "node-client.h"
 #include "node-server.h"
@@ -37,10 +36,6 @@ int verbum_node (void)
     // Prepare mutex.
     if (pthread_mutex_init(&node_mutex_connections, NULL) != 0) 
         say_ret(0, "mutex init failed - connections.");
-    
-    // Start Node Mapper monitor.
-    if (!monitor_processes())
-        return 0; 
     
     /**
      * Node Core interface.

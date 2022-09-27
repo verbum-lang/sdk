@@ -1,14 +1,14 @@
 
-#ifndef VERBUM_FORK_CONTROLLER
-#define VERBUM_FORK_CONTROLLER
+#ifndef _H_VERBUM_FORK_CONTROLLER_
+#define _H_VERBUM_FORK_CONTROLLER_
 
 #include "global.h"
+#include "../../node/header/node.h"
+#include "../../node-mapper/header/node-mapper.h"
 
-// Thread workers limit.
-#define FC_THREAD_LIMIT 33
+int initialize_fork_controller           (void);
+int initialize_fork_controller_interface (void);
 
-int initialize_fork_controller (void);
-
-#endif
+#endif /* _H_VERBUM_FORK_CONTROLLER_ */
 
 

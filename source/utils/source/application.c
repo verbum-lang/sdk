@@ -3,64 +3,34 @@
 #include "../header/memory.h"
 #include "../header/debug.h"
 
-#include "../../node/header/node.h"
+#include "../../verbum/header/fork-controller.h"
 #include "../../node-mapper/header/node-mapper.h"
+#include "../../node/header/node.h"
 
-void *verbum_node_mapper_open_process (void *_param);
-void *verbum_node_open_process (void *_param);
-
-void system_open_bg_application (char *cmd)
-{
-    pid_t pid = 0;
-    int fd    = -1;
-
-    if (!cmd)
-        say_noret("invalid command.");
-
-    // Fork off the parent process.
-    pid = fork();
-
-    // Error.
-    if (pid < 0)
-        say_noret("error open fork.");
-
-    // Success: Let the parent terminate.
-    if (pid > 0)
-       return;
-
-    // On success: New session. The child process becomes session leader.
-    if (setsid() < 0)
-        say_noret("error setsid.");       
-
-    // Fork off the parent process.
-    pid = fork();
-
-    if (pid < 0)
-        say_noret("error open fork.");
-    if (pid > 0) 
-        exit(0);
-
-    // Close all open file descriptors.
-    for (fd = sysconf(_SC_OPEN_MAX); fd > 0; fd--)
-        close(fd);
-
-    // Reopen stdin (fd = 0), stdout (fd = 1), stderr (fd = 2).
-    stdin  = fopen("/dev/null", "r" );
-    stdout = fopen("/dev/null", "w+");
-    stderr = fopen("/dev/null", "w+");
-    
-    system(cmd);
-    exit(0);
-}
+/**
+ * Opens new Daemon process.
+ * 
+ * Based on https://github.com/jirihnidek/daemon/blob/master/src/daemon.c
+ * And on tips from my friends.
+ */
 
 int open_application (int application)
 {
     int fd, fd_limit;
     pid_t pid;
 
-    say("Opening via fork(), application: %s", 
-        application == VERBUM_NODE_APPLICATION ? "Verbum Node" : "Verbum Node Mapper");
-
+    switch (application) {
+        case APPLICATION_FORK_CONTROLLER:
+            say("Starting application: Verbum Fork Controller.");
+            break;
+        case APPLICATION_NODE_MAPPER:
+            say("Starting application: Verbum Node Mapper.");
+            break;
+        case APPLICATION_NODE:
+            say("Starting application: Verbum Node.");
+            break;
+    }
+ 
     pid = fork();
 
     if (pid < 0)
@@ -76,24 +46,17 @@ int open_application (int application)
     if (pid < 0)
         say_exit("error open fork() 2.");
     if (pid > 0) 
-        say_exit("fork() 2.");
+        say_exit("fork() 2 - exit.");
 
     // Close all file descriptors.
     fd_limit = (int) sysconf(_SC_OPEN_MAX);
 
-    for (int fd = STDERR_FILENO + 1; fd < fd_limit; fd++) {
-#ifndef BLOCK_FORK_STDOUT
-        if (fd != 1)
-#endif
+    for (int fd = STDERR_FILENO + 1; fd < fd_limit; fd++) 
         close(fd);
-    }
 
     stdin  = fopen("/dev/null", "r" );
     stderr = fopen("/dev/null", "w+");
-    
-#ifndef BLOCK_FORK_STDOUT
     stdout = fopen("/dev/null", "w+");
-#endif
 
     // Ignore child and tty signals.
     signal(SIGCHLD, SIG_IGN);
@@ -101,17 +64,31 @@ int open_application (int application)
     signal(SIGTTOU, SIG_IGN);
     signal(SIGTTIN, SIG_IGN);
 
-    say("Opened via fork(), application: %s", 
-        application == VERBUM_NODE_APPLICATION ? "Verbum Node" : "Verbum Node Mapper");
+    switch (application) {
+        case APPLICATION_FORK_CONTROLLER:
+            say("Started application: Verbum Fork Controller.");
+            break;
+        case APPLICATION_NODE_MAPPER:
+            say("Started application: Verbum Node Mapper.");
+            break;
+        case APPLICATION_NODE:
+            say("Started application: Verbum Node.");
+            break;
+    }
 
     switch (application) {
-        case VERBUM_NODE_APPLICATION:
-            if (!verbum_node())
+        case APPLICATION_FORK_CONTROLLER:
+            if (!initialize_fork_controller_interface())
                 exit(0);
             break;
 
-        case VERBUM_NODE_MAPPER_APPLICATION:
+        case APPLICATION_NODE_MAPPER:
             if (!node_mapper())
+                exit(0);
+            break;
+
+        case APPLICATION_NODE:
+            if (!verbum_node())
                 exit(0);
             break;
 
@@ -125,9 +102,9 @@ int open_application (int application)
 
 char *get_relative_path (void)
 {
-    char tmp[PATH_MAX];
-    char *cwd = NULL;
-    int size  = 0;
+    char  tmp [PATH_MAX];
+    char *cwd  = NULL;
+    int   size = 0;
 
     memset(tmp, 0x0, PATH_MAX);
 
@@ -144,9 +121,9 @@ char *get_relative_path (void)
 
 char *get_real_path (char *path)
 {
-    char tmp[PATH_MAX];
-    char *cwd = NULL;
-    int size  = 0;
+    char tmp [PATH_MAX];
+    char *cwd  = NULL;
+    int   size = 0;
 
     if (!path)
         return NULL;

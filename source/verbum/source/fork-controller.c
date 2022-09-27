@@ -1,62 +1,52 @@
 
 #include "fork-controller.h"
 
-#include "../../node/header/node.h"
-#include "../../node-mapper/header/node-mapper.h"
+static void *check_communication     (void *_param);
+static void *fork_controller_thread  (void *_param);
+static int   fork_controller_process (void);
 
-static void            *worker_interface   (void *tparam);
-static int              prepare_workers    (void);
-static thread_worker_t *worker_create_item (int wid);
-static int              worker_insert_item (thread_worker_t *new_worker);
-static void            *worker_handler     (void *tparam);
-
-static void *check_and_open_fork_controller (void *_param);
-static void *start_fork_controller (void *_param);
-static int open_fork_controller_process (void);
 static void prepare_fork_data (void);
 static void *node_mapper_monitor_th (void *_param);
 static void open_node_mapper (void);
 static void *start_verbum_node_mapper (void *param);
 static int create_verbum_node (char *response);
 static void *create_verbum_node_th (void *_param);
-static int initialize_fork_controller_server (void);
 
-static pthread_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t           mutex_create_proc = PTHREAD_MUTEX_INITIALIZER;
-static thread_worker_t          *workers       = NULL;
+static void     *worker_interface   (void *tparam);
+static int       prepare_workers    (void);
+static worker_t *worker_create_item (int wid);
+static int       worker_insert_item (worker_t *new_worker);
+static void     *worker_handler     (void *tparam);
+
+static p_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
+static p_mutex_t           mutex_create_proc = PTHREAD_MUTEX_INITIALIZER;
+static worker_t          *workers       = NULL;
 
 extern global_t global;
-
-/**
- * Initialization.
- */
 
 int initialize_fork_controller (void)
 {
 	pthread_t tid;
 
-	if (pthread_create(&tid, NULL, check_and_open_fork_controller, NULL) != 0) {
-        say_error("Error creating new thread.");
-        return 0;
-    }
+	if (pthread_create(&tid, NULL, check_communication, NULL) != 0) 
+        say_error_ret(0, "Error creating new thread.");
     
     return 1;
 }
 
-static void *check_and_open_fork_controller (void *_param)
+static void *check_communication (void *_param)
 {
-	char address []= LOCALHOST;
-	int sock = -1, status = 0;
-	char *response = NULL;
-	char message[]= "no-data:" VERBUM_EOH;
-	pthread_t tid1;
+	char  message  [] = "no-data:" VERBUM_EOH;
+	char *response    = NULL;
+	int sock, status  = 0;
+	pthread_t tid;
 
-	say("Checking Fork Controller connection.");
+	say("Checks connection to Fork Controller interface...");
 
-	sock = check_protocol(address, DEFAULT_FORK_CONTROLLER_SERVER_PORT, 1, 1);
-
-	if (sock != -1) {
-		response = send_raw_data(sock, message);
+	sock = check_protocol(LOCALHOST, DEFAULT_FORK_CONTROLLER_SERVER_PORT, 1, 1);
+    if (sock != -1) {
+	
+    	response = send_raw_data(sock, message);
 		if (response) {
 			status = 1;
 			mem_sfree(response);
@@ -65,71 +55,21 @@ static void *check_and_open_fork_controller (void *_param)
 		close(sock);
 	} 
 
-	if (!status) 
-		pthread_create(&tid1, NULL, start_fork_controller, NULL);
+    if (status)
+        say_ret(NULL, "Fork Controller interface OK.");
 
-	say("Fork Controller OK.");
-}
+    say("Starts new Fork Controller process.");
 
-static void *start_fork_controller (void *_param)
+    if (pthread_create(&tid, NULL, fork_controller_thread, NULL) != 0) 
+        say_error_ret(NULL, "Error creating new thread.");
+ }
+
+static void *fork_controller_thread (void *_param)
 {
-	say("Open new Fork Controller connection.");
-	open_fork_controller_process();
+	open_application(APPLICATION_FORK_CONTROLLER);
 }
 
-static int open_fork_controller_process (void)
-{
-    int fd, fd_limit;
-    pid_t pid;
-
-    say("Opening via fork(), application: Fork Controller");
-
-    pid = fork();
-
-    if (pid < 0)
-        say_ret(0, "error open fork() 1.");    
-    if (pid > 0)
-       return 0;
-
-    if (setsid() < 0)
-        say_ret(0, "error setsid.");       
-
-    pid = fork();
-
-    if (pid < 0)
-        say_exit("error open fork() 2.");
-    if (pid > 0) 
-        say_exit("fork() 2.");
-
-    // Close all file descriptors.
-    fd_limit = (int) sysconf(_SC_OPEN_MAX);
-
-    for (int fd = STDERR_FILENO + 1; fd < fd_limit; fd++) {
-#ifndef BLOCK_FORK_STDOUT
-        if (fd != 1)
-#endif
-        close(fd);
-    }
-
-    stdin  = fopen("/dev/null", "r" );
-    stderr = fopen("/dev/null", "w+");
-    
-#ifndef BLOCK_FORK_STDOUT
-    stdout = fopen("/dev/null", "w+");
-#endif
-
-    // Ignore child and tty signals.
-    signal(SIGCHLD, SIG_IGN);
-    signal(SIGTSTP, SIG_IGN);
-    signal(SIGTTOU, SIG_IGN);
-    signal(SIGTTIN, SIG_IGN);
-
-    say("Opened via fork(), application: Fork Controller");
-
-	initialize_fork_controller_server();
-}
-
-static int initialize_fork_controller_server (void)
+int initialize_fork_controller_interface (void)
 {
     int status = 0, size = 0;
     pthread_t tid;
@@ -211,7 +151,7 @@ static void open_node_mapper (void)
 
 static void *start_verbum_node_mapper (void *param)
 {
-    open_application(VERBUM_NODE_MAPPER_APPLICATION);
+    open_application(APPLICATION_NODE_MAPPER);
 }
 
 void *worker_interface (void *tparam)
@@ -223,7 +163,7 @@ void *worker_interface (void *tparam)
     socklen_t client_size;
     int ssock = -1, nsock = -1, status = -1, block = 0;
     const int enable = 1;
-    thread_worker_t *worker;
+    worker_t *worker;
     pthread_t tid1;
 
 	prepare_fork_data();
@@ -306,12 +246,12 @@ void *worker_interface (void *tparam)
 
 int prepare_workers (void)
 {
-    thread_worker_t *worker;
+    worker_t *worker;
     int status = -1, result = 1;
 
     // Prepare items.
-    for (int a=1; a<FC_THREAD_LIMIT; a++) {
-        thread_worker_t *new_worker = worker_create_item(a);
+    for (int a=1; a<FORK_CONTROLLER_WORKER_THREADS_LIMIT; a++) {
+        worker_t *new_worker = worker_create_item(a);
 
         if (!new_worker) {
             say("error allocationg memory.");
@@ -359,10 +299,10 @@ int prepare_workers (void)
     return result;
 }
 
-thread_worker_t *worker_create_item (int wid)
+worker_t *worker_create_item (int wid)
 {
-    thread_worker_t * worker;
-    mem_alloc_ret(worker, sizeof(thread_worker_t), thread_worker_t *, NULL);
+    worker_t * worker;
+    mem_alloc_ret(worker, sizeof(worker_t), worker_t *, NULL);
 
     worker->wid    = wid;
     worker->sock   = -1;
@@ -372,13 +312,13 @@ thread_worker_t *worker_create_item (int wid)
     return worker;
 }
 
-int worker_insert_item (thread_worker_t *new_worker)
+int worker_insert_item (worker_t *new_worker)
 {
     if (!new_worker)
         return 0;
 
     pthread_mutex_lock(&mutex_workers);
-    thread_worker_t *worker = workers;
+    worker_t *worker = workers;
 
     while (1) {
         if (!worker->next) {
@@ -396,7 +336,7 @@ int worker_insert_item (thread_worker_t *new_worker)
 void *worker_handler (void *tparam)
 {
     worker_param_t  *param = (worker_param_t *) tparam;
-    thread_worker_t *worker;
+    worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0;
     char *response = NULL;
@@ -518,7 +458,7 @@ static int create_verbum_node (char *response)
 
 static void *create_verbum_node_th (void *_param)
 {
-	open_application(VERBUM_NODE_APPLICATION);
+	open_application(APPLICATION_NODE);
 	return NULL;
 }
 

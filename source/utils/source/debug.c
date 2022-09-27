@@ -206,9 +206,11 @@ void verbum_debug_print_error (void)
 		{ -1,                NULL               },
 	};
 
-    for (int a=0; errors[a].code != -1; a++)
-        say("Error %d (%s): %s", 
-                errors[a].code, errors[a].name, strerror(errors[a].code));
+    for (int a=0; errors[a].code != -1; a++) {
+        if (errors[a].code == errno)
+            say("Error %d (%s): %s", 
+                    errors[a].code, errors[a].name, strerror(errors[a].code));
+    }
 }
 
 

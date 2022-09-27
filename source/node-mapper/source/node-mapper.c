@@ -9,17 +9,17 @@ static int              prepare_node_mapper     (void);
 static int              prepare_timeout_control (void);
 static void            *node_mapper_interface   (void *tparam);
 static int              prepare_workers         (char *path, char *nm_id);
-static thread_worker_t *worker_create_item      (int wid);
-static int              worker_insert_item      (thread_worker_t *new_worker);
+static worker_t *worker_create_item      (int wid);
+static int              worker_insert_item      (worker_t *new_worker);
 static void            *worker_handler          (void *tparam);
 
-static pthread_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
-static thread_worker_t          *workers       = NULL;
+static p_mutex_t           mutex_workers = PTHREAD_MUTEX_INITIALIZER;
+static worker_t          *workers       = NULL;
 
 extern node_control_t    *node_mapper_nodes;
-extern pthread_mutex_t    node_mapper_mutex_nodes;
+extern p_mutex_t    node_mapper_mutex_nodes;
 
-extern pthread_mutex_t    node_mapper_mutex_connections;
+extern p_mutex_t    node_mapper_mutex_connections;
 extern node_mapper_connection_t *node_mapper_connections;
 
 extern global_t global;
@@ -120,7 +120,7 @@ void *node_mapper_interface (void *tparam)
     socklen_t client_size;
     int ssock = -1, nsock = -1, status = -1, block = 0;
     const int enable = 1;
-    thread_worker_t *worker;
+    worker_t *worker;
 
     ssock = socket(AF_INET, SOCK_STREAM, 0);
     address.sin_addr.s_addr = INADDR_ANY;
@@ -194,7 +194,7 @@ void *node_mapper_interface (void *tparam)
 
 int prepare_workers (char *path, char *nm_id)
 {
-    thread_worker_t *worker;
+    worker_t *worker;
     int status = -1, size = 0, result = 1;
 
     if (!nm_id)
@@ -202,7 +202,7 @@ int prepare_workers (char *path, char *nm_id)
 
     // Prepare items.
     for (int a=1; a<NM_THREAD_LIMIT; a++) {
-        thread_worker_t *new_worker = worker_create_item(a);
+        worker_t *new_worker = worker_create_item(a);
 
         if (!new_worker) {
             say("error allocationg memory.");
@@ -256,10 +256,10 @@ int prepare_workers (char *path, char *nm_id)
     return result;
 }
 
-thread_worker_t *worker_create_item (int wid)
+worker_t *worker_create_item (int wid)
 {
-    thread_worker_t * worker;
-    mem_alloc_ret(worker, sizeof(thread_worker_t), thread_worker_t *, NULL);
+    worker_t * worker;
+    mem_alloc_ret(worker, sizeof(worker_t), worker_t *, NULL);
 
     worker->wid    = wid;
     worker->sock   = -1;
@@ -269,13 +269,13 @@ thread_worker_t *worker_create_item (int wid)
     return worker;
 }
 
-int worker_insert_item (thread_worker_t *new_worker)
+int worker_insert_item (worker_t *new_worker)
 {
     if (!new_worker)
         return 0;
 
     pthread_mutex_lock(&mutex_workers);
-    thread_worker_t *worker = workers;
+    worker_t *worker = workers;
 
     while (1) {
         if (!worker->next) {
@@ -293,7 +293,7 @@ int worker_insert_item (thread_worker_t *new_worker)
 void *worker_handler (void *tparam)
 {
     worker_param_t  *param = (worker_param_t *) tparam;
-    thread_worker_t *worker;
+    worker_t *worker;
     int wid = -1, run = 0, sock = -1;
     int status = 0, size = 0;
     char *path = NULL, *nm_id = NULL;

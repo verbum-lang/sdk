@@ -109,8 +109,14 @@
 
 #define say_error(FMT, ...)                                                    \
     do {                                                                       \
-        say_debug(FMT "\n", ##__VA_ARGS__);                                    \
+        say_debug_detail(FMT "\n", ##__VA_ARGS__);                             \
         verbum_debug_print_error();                                            \
+    } while (0)
+
+#define say_error_ret(RETURN, FMT, ...)                                        \
+    do {                                                                       \
+        say_error(FMT, ##__VA_ARGS__);                                         \
+        return RETURN;                                                         \
     } while (0)
 
 
