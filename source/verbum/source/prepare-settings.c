@@ -1,4 +1,13 @@
 
+/**
+ * License: 
+ *  In the LICENSE.txt file in the project root directory, or: 
+ *  SPDX-License-Identifier: BSD-3-Clause.
+ * 
+ * Author(s):
+ *  Copyright (C) 2022 Jessé Silva.
+ */
+
 #include "prepare-settings.h"
 
 static void set_default_options (void);

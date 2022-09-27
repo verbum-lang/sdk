@@ -1,4 +1,12 @@
 
+/**
+ * License: 
+ *  In the LICENSE file, or SPDX-License-Identifier: BSD-3-Clause.
+ * 
+ * Author(s):
+ *  Copyright (C) 2022 Jessé Silva.
+ */
+
 #include "fork-controller.h"
 
 static void      *check_communication  (void *_param);

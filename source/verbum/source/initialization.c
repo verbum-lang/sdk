@@ -1,4 +1,13 @@
 
+/**
+ * License: 
+ *  In the LICENSE.txt file in the project root directory, or: 
+ *  SPDX-License-Identifier: BSD-3-Clause.
+ * 
+ * Author(s):
+ *  Copyright (C) 2022 Jessé Silva.
+ */
+
 #include "initialization.h"
 
 static void prepare_global_data (void);
