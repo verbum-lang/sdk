@@ -18,8 +18,8 @@ int initializations (void)
 static void prepare_global_data (void)
 {
     global.configuration.node.id                 = NULL;
-	global.configuration.node_mapper.id          = NULL;
-	global.configuration.node_mapper.server_port = 0;
+    global.configuration.node_mapper.id          = NULL;
+    global.configuration.node_mapper.server_port = 0;
 }
 
 
