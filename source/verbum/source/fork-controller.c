@@ -15,9 +15,12 @@ static int       prepare_items       (void);
 static int       prepare_threads     (void);
 static worker_t *create_item         (int worker_id);
 static int       insert_item         (worker_t *n_worker);
+static void     *worker_interface    (void *_param);
+static int       prepare_interface   (int port, int max_connections);
+static void      worker_connections  (int ssock);
+static int       check_resource      (int sock);
 
-static void     *worker_interface   (void *tparam);
-static void     *worker_controller     (void *tparam);
+static void     *worker_controller   (void *_param);
 
 
 static int  create_verbum_node (char *response);
@@ -248,84 +251,107 @@ static int insert_item (worker_t *n_worker)
     return 1;
 }
 
-static void *worker_interface (void *tparam)
+static void *worker_interface (void *_param)
 {
-    say("Fork Controller interface - started!");
+    param_t *param = (param_t *) _param;
+    int sock;
 
-    param_t *param = (param_t *) tparam;
-    struct sockaddr_in address, client;
-    socklen_t client_size;
-    int ssock = -1, nsock = -1, status = -1, block = 0;
-    const int enable = 1;
-    worker_t *worker;
-
-    ssock = socket(AF_INET, SOCK_STREAM, 0);
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_family      = AF_INET;
-    address.sin_port        = htons(param->port);
-
-    if (setsockopt(ssock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
-        say_ret(NULL, "Setsockopt (SO_REUSEADDR) failed.");
-
-    status = bind(ssock, (struct sockaddr*) &address, sizeof(address));
-    if (status != 0)
-        say_exit("Error bind server.");
-
-    if (listen(ssock, param->max_connections) != 0) 
-        say_exit("Error listen server.");
-
+    sock = prepare_interface(param->port, param->max_connections);
+    if (sock == -1)
+        say_exit("Error preparing Fork Controller interface.");
+    
     say("Fork Controller server port: %d", param->port);
 
+    worker_connections(sock);
+    close(sock);
+
+    return NULL;
+}
+
+static int prepare_interface (int port, int max_connections)
+{
+    saddr_t address;
+    const int enable = 1;
+    int sock;
+
+    if (!port)
+        return -1;
+
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_family      = AF_INET;
+    address.sin_port        = htons(port);
+
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock == -1)
+        say_error_ret(-1, "Error creating socket.");
+
+    if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) != 0)
+        say_error_ret(-1, "Setsockopt (SO_REUSEADDR) failed.");
+
+    if (bind(sock, (struct sockaddr*) &address, sizeof(address)) != 0)
+        say_error_ret(-1, "Error bind server - Fork Controller.");
+
+    if (listen(sock, max_connections) != 0) 
+        say_error_ret(-1, "Error listen server - Fork Controller.");
+
+    return sock;
+}
+
+static void worker_connections (int ssock)
+{
+    saddr_t address;
+    socklen_t address_size;
+    int sock;
+
+    if (!ssock)
+        return;
+
     while (1) {
-        
-        // Process connection.
-        client_size = sizeof(client);
-        nsock = accept(ssock, (struct sockaddr*) &client, &client_size);
+        address_size = sizeof(address);
+        sock = accept(ssock, (struct sockaddr*) &address, &address_size);
 
-        if (nsock != -1) {
-
-            say("connection accepted!");
-
-            // Configure socket.
-            struct timeval tms;
-            tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
-            tms.tv_usec = 0;
-            setsockopt(nsock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tms, sizeof(struct timeval));
+        if (sock != -1) {
+            configure_recv_timeout(sock);
 
             // Checks if the thread is free to use.
-            status = 0;
-            pthread_mutex_lock(&mutex_workers);
-            
-            for (worker=workers; worker!=NULL; worker=worker->next) {
-                if (worker->status == 0) {
-
-                    // Send signal do worker.
-                    worker->status = 1;
-                    worker->sock   = nsock;
-
-                    status = 1;
-                    break;
-                }
-            }
-
-            pthread_mutex_unlock(&mutex_workers);
-
-            say("worker found status: %d", status);
-
-            if (status == 0) {
-                close(nsock);
+            if (!check_resource(sock)) {
+                close(sock);
                 usleep(100000);
             }
 
         } else
-            say("Error accept client.");
+            say_error("Error accept client - Fork Controller.");
     }
-
-    close(ssock);
-    return NULL;
 }
 
-void *worker_controller (void *tparam)
+static int check_resource (int sock)
+{
+    worker_t *worker;
+    int status = 0;
+
+    if (!sock)
+        return 0;
+
+    pthread_mutex_lock(&mutex_workers);
+    
+    for (worker=workers; worker!=NULL; worker=worker->next) {
+        if (worker->status == 0) {
+
+            // Send signal do Worker.
+            worker->status = 1;
+            worker->sock   = sock;
+
+            status = 1;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_workers);
+
+    return status;
+}
+
+static void *worker_controller (void *_param)
 {
     worker_t *worker;
     int wid = -1, run = 0, sock = -1;

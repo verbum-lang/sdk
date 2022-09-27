@@ -9,7 +9,7 @@
  */
 
 typedef pthread_mutex_t p_mutex_t;
-
+typedef struct sockaddr_in saddr_t;
 
 /**
  * General purpose type for parameters in threads.

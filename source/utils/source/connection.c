@@ -340,6 +340,23 @@ int check_interface (int port)
     return 0;
 }
 
+int configure_recv_timeout (int sock)
+{
+    struct timeval tms;
+    
+    if (!sock)
+        return 0;
+
+    tms.tv_sec  = CONNECTION_TIMEOUT_RECV;
+    tms.tv_usec = 0;
+    
+    if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, 
+        (const char*)&tms, sizeof(struct timeval)) != 0)
+            say_error_ret(0, "Setsockopt (SO_RCVTIMEO) failed.");
+
+    return 1;
+}
+
 char *process_request (
     int   type,          int timeout,
 
