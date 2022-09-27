@@ -454,11 +454,9 @@ static int worker_communication (int sock)
 
 static int create_node (char *response)
 {
-    int size = 0;
-    char *node_param = NULL;
-    char *ptr = NULL;
     char prefix []= "create-verbum-node:";
-
+    char *ptr = NULL;
+    
     if (!response)
         return 0;
 
@@ -469,20 +467,7 @@ static int create_node (char *response)
 
     ptr += strlen(prefix);
 	
-    // Prepare node ID.
-    if (ptr && strlen(ptr) > 0) {
-        size = sizeof(char) * (strlen(ptr) + 1);
-        global.configuration.node.id = (char *) realloc(global.configuration.node.id, size);
-
-        if (global.configuration.node.id) {
-            memset(global.configuration.node.id, 0, size);
-            memcpy(global.configuration.node.id, ptr, strlen(ptr));
-        }
-
-        say("Current node ID: %s", global.configuration.node.id);
-    } else {
-        global.configuration.node.id = NULL;
-    }
+    prepare_node_data(ptr);
 
     if (!create_node_process())
         say_ret(0, "Error creating new node.");
@@ -490,12 +475,36 @@ static int create_node (char *response)
     return 1;
 }
 
+static void prepare_node_data (char *id)
+{
+    int size = 0;
+
+    if (id && strlen(id) > 0) {
+        size = sizeof(char) * (strlen(id) + 1);
+        global.configuration.node.id = 
+            (char *) realloc(global.configuration.node.id, size);
+
+        if (!global.configuration.node.id) 
+            global.configuration.node.id = NULL;
+        
+        else {
+            memset(global.configuration.node.id, 0, size);
+            memcpy(global.configuration.node.id, id, strlen(id));
+
+            say("Current node ID: %s", global.configuration.node.id);
+        }
+
+    } else {
+        global.configuration.node.id = NULL;
+    }
+}
+
 static int create_node_process (void)
 {
     pthread_t tid;
 
     if (pthread_create(&tid, NULL, open_node, NULL) != 0)
-        say_error_ret(0, "Error creating thread - new node.");
+        say_error_ret(0, "Error creating thread - new node (Fork Controller).");
 
     return 1;
 }
