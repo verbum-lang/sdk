@@ -445,7 +445,7 @@ static int create_node (char *response)
     if (!response)
         return 0;
 
-	// Check data is valid.	
+    // Check data is valid.	
     ptr = strstr(response, prefix);
     if (!ptr)
         return 0;
@@ -485,7 +485,7 @@ static int create_node_process (void)
 
 static void *open_node (void *_param)
 {
-	open_application(APPLICATION_NODE);
+    open_application(APPLICATION_NODE);
 }
 
 
