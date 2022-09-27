@@ -368,7 +368,7 @@ static void *worker_controller (void *_param)
         }
 
         // Process actions.
-        worker_communication (order->sock);
+        worker_communication(order->sock);
         
         // Finish.
         close(order->sock);
