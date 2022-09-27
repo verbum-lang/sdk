@@ -20,6 +20,8 @@ static int        prepare_interface    (int port, int max_connections);
 static void       worker_connections   (int ssock);
 static int        check_resource       (int sock);
 static void      *worker_controller    (void *_param);
+static order_t   *check_order          (void);
+static void       worker_release       (int worker_id);
 static int        worker_communication (int sock);
 static int        create_node          (char *response);
 static int        create_node_process  (void);
@@ -350,59 +352,74 @@ static int check_resource (int sock)
 
 static void *worker_controller (void *_param)
 {
-    int wid = -1, run = 0, sock = -1;
-    worker_t *worker;
+    order_t *order;
 
     while (1) {
 
-        /**
-         * Checks if there is order to execute thread.
-         */
+        // Checks if there is order to execute thread.
+        order = check_order();
 
-        run = 0;
-        pthread_mutex_lock(&mutex_workers);
-        
-        for (worker=workers; worker!=NULL; worker=worker->next) {
-            if (worker->status == 1) {
-                worker->status = 2;
-                run  = 1;
-                sock = worker->sock;
-                wid  = worker->wid;
-                break;
-            }
-        }
-        
-        pthread_mutex_unlock(&mutex_workers);
+        if (!order)      _w_continue(0);
+        if (!order->run) _w_continue(1);
 
-        if (run == 0) {
-            usleep(100000);
-            continue;
-        }
+        // Process actions.
+        worker_communication (order->sock);
+        close(order->sock);
 
-        /**
-         * Process actions.
-         */
-
-        worker_communication (sock);
-
-        /**
-         * Finish.
-         */
-
-        close(sock);
-
-        pthread_mutex_lock(&mutex_workers);
-        
-        for (worker=workers; worker!=NULL; worker=worker->next) {
-            if (worker->wid == wid) {
-                worker->status = 0;
-                worker->sock   = -1;
-                break;
-            }
-        }
-        
-        pthread_mutex_unlock(&mutex_workers);
+        // Finish.
+        worker_release(order->wid);
+        free(order);
     }
+}
+
+static order_t *check_order (void) 
+{
+    worker_t *worker;
+    order_t  *order;
+
+    order = (order_t *) malloc(sizeof(order_t));
+    if (!order)
+        return NULL;
+
+    order->run  = 0;
+    order->sock = 0;
+    order->wid  = -1;
+
+    pthread_mutex_lock(&mutex_workers);
+    
+    for (worker=workers; worker!=NULL; worker=worker->next) {
+        if (worker->status == 1) {
+            worker->status = 2;
+
+            order->run  = 1;
+            order->sock = worker->sock;
+            order->wid  = worker->wid;
+            
+            break;
+        }
+    }
+    
+    pthread_mutex_unlock(&mutex_workers);
+
+    return order;
+}
+
+static void worker_release (int worker_id)
+{
+    worker_t *worker;
+
+    pthread_mutex_lock(&mutex_workers);
+
+    for (worker=workers; worker!=NULL; worker=worker->next) {
+        if (worker->wid == worker_id) {
+            worker->status = 0;
+            worker->sock   = -1;
+
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex_workers);
 }
 
 static int worker_communication (int sock)

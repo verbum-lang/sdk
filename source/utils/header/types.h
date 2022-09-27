@@ -34,7 +34,7 @@ typedef struct {
 
 
 /**
- * Type for workers control.
+ * Types for workers control.
  */
 
 typedef struct worker_s {
@@ -48,6 +48,11 @@ typedef struct worker_s {
     struct worker_s *next;              // Next item.
 } worker_t;
 
+typedef struct order_s {
+    int run;
+    int sock;
+    int wid;
+} order_t;
 
 
 
