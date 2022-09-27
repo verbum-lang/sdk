@@ -437,13 +437,13 @@ static int worker_communication (int sock)
 
 static int create_node (char *response)
 {
-	int size = 0;
+    int size = 0;
     char *node_param = NULL;
     char *ptr = NULL;
     char prefix []= "create-verbum-node:";
 
-	if (!response)
-		return 0;
+    if (!response)
+        return 0;
 
 	// Check data is valid.	
     ptr = strstr(response, prefix);
@@ -452,25 +452,25 @@ static int create_node (char *response)
 
     ptr += strlen(prefix);
 	
-	// Prepare node ID.
-	if (ptr && strlen(ptr) > 0) {
-		size = sizeof(char) * (strlen(ptr) + 1);
-		global.configuration.node.id = (char *) realloc(global.configuration.node.id, size);
+    // Prepare node ID.
+    if (ptr && strlen(ptr) > 0) {
+        size = sizeof(char) * (strlen(ptr) + 1);
+        global.configuration.node.id = (char *) realloc(global.configuration.node.id, size);
 
-		if (global.configuration.node.id) {
-			memset(global.configuration.node.id, 0, size);
-			memcpy(global.configuration.node.id, ptr, strlen(ptr));
-		}
+        if (global.configuration.node.id) {
+            memset(global.configuration.node.id, 0, size);
+            memcpy(global.configuration.node.id, ptr, strlen(ptr));
+        }
 
-		say("Current node ID: %s", global.configuration.node.id);
-	} else {
-		global.configuration.node.id = NULL;
-	}
+        say("Current node ID: %s", global.configuration.node.id);
+    } else {
+        global.configuration.node.id = NULL;
+    }
 
     if (!create_node_process())
         say_ret(0, "Error creating new node.");
 
-	return 1;
+    return 1;
 }
 
 static int create_node_process (void)
