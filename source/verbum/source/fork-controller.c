@@ -136,20 +136,20 @@ static int prepare_node_mapper (void)
 
 static void *node_mapper_monitor (void *_param)
 {
-	param_t *param = (param_t *) _param;
+    param_t *param = (param_t *) _param;
     pthread_t tid;
 
-	say("Node Mapper monitor started!");
-	say("Node Mapper server port: %d", param->port);
+    say("Node Mapper monitor started!");
+    say("Node Mapper server port: %d", param->port);
 
-	while (1) {
+    while (1) {
         if (!check_interface(param->port)) {
             if (pthread_create(&tid, NULL, open_node_mapper, NULL) != 0)
                 say_error_ret(0, "Error creating new thread - open Node Mapper process.");
         }
 
-		sleep(1);
-	}
+        sleep(1);
+    }
 }
 
 static void *open_node_mapper (void *_param)
