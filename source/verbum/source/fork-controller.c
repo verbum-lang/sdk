@@ -181,7 +181,7 @@ static int prepare_items (void)
         say_ret(0, "Error create worker item.");
 
     // Prepare items.
-    for (int a=1; a<FORK_CONTROLLER_THREADS_LIMIT; a++) {
+    for (int a=1; a<FORK_CONTROLLER_WORKERS_LIMIT; a++) {
         n_worker = create_item(a);
 
         if (!n_worker) 
@@ -360,14 +360,16 @@ static void *worker_controller (void *_param)
         // Checks if there is order to execute thread.
         order = check_order();
 
-        if (!order)      _w_continue(0)
-        if (!order->run) _w_continue(1)
+        if (!order) {
+            usleep(100000);
+            continue;
+        }
 
         // Process actions.
         worker_communication (order->sock);
-        close(order->sock);
-
+        
         // Finish.
+        close(order->sock);
         worker_release(order->wid);
         free(order);
     }
@@ -402,6 +404,11 @@ static order_t *check_order (void)
     
     pthread_mutex_unlock(&mutex_workers);
 
+    if (!order->run) {
+        free(order);
+        return NULL;
+    }
+
     return order;
 }
 
@@ -413,6 +420,7 @@ static void worker_release (int worker_id)
 
     for (worker=workers; worker!=NULL; worker=worker->next) {
         if (worker->wid == worker_id) {
+
             worker->status = 0;
             worker->sock   = -1;
 

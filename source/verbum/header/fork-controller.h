@@ -4,15 +4,6 @@
 
 #include "global.h"
 
-#define _w_continue(FREE_DATA)                                                 \
-    {                                                                          \
-        if (FREE_DATA)                                                         \
-            free(order);                                                       \
-                                                                               \
-        usleep(100000);                                                        \
-        continue;                                                              \
-    }
-
 int initialize_fork_controller           (void);
 int initialize_fork_controller_interface (void);
 
