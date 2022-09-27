@@ -103,10 +103,10 @@ static int preparations (void)
 
 static void prepare_globals (void)
 {
-	if (global.configuration.node.id) {
-		free(global.configuration.node.id);
-		global.configuration.node.id = NULL;
-	}
+    if (global.configuration.node.id) {
+        free(global.configuration.node.id);
+        global.configuration.node.id = NULL;
+    }
 }
 
 static int prepare_mutex (void)
@@ -123,12 +123,12 @@ static int prepare_mutex (void)
 static int prepare_node_mapper (void)
 {
     pthread_t tid;
-	param_t *param;
-    
-    prepare_thread_param(param);
-	param->port = global.configuration.node_mapper.server_port;
+    param_t *param;
 
-	if (pthread_create(&tid, NULL, node_mapper_monitor, param) != 0)
+    prepare_thread_param(param);
+    param->port = global.configuration.node_mapper.server_port;
+
+    if (pthread_create(&tid, NULL, node_mapper_monitor, param) != 0)
         say_error_ret(0, "Error creating new thread - Node Mapper monitor.");
 
     return 1;
