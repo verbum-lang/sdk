@@ -417,7 +417,7 @@ static order_t *check_order (void)
 static void worker_release (int worker_id)
 {
     worker_t *worker;
-    
+
     pthread_mutex_lock(&mutex_workers);
 
     for (worker=workers; worker!=NULL; worker=worker->next) {
@@ -465,8 +465,8 @@ static int worker_communication (int sock)
 
 static int create_node (char *response)
 {
-    char  prefix []= "create-verbum-node:";
-    char *ptr      = NULL;
+    char  prefix [] = "create-verbum-node:";
+    char *ptr       = NULL;
     
     if (!response)
         return 0;
@@ -477,7 +477,6 @@ static int create_node (char *response)
         return 0;
 
     ptr += strlen(prefix);
-
     prepare_node_data(ptr);
 
     if (!create_node_process())
