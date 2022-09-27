@@ -386,8 +386,8 @@ static order_t *check_order (void)
     if (!order)
         return NULL;
 
-    order->run  = 0;
-    order->sock = 0;
+    order->run  =  0;
+    order->sock =  0;
     order->wid  = -1;
 
     pthread_mutex_lock(&mutex_workers);
