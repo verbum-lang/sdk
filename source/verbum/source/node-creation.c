@@ -15,7 +15,7 @@ void initialize_node_creation (void)
 
 	if (global.configuration.node.id)
 		mem_salloc_scopy(global.configuration.node.id, param->id);
-	
+
 	pthread_create(&tid, NULL, create_node, param);
 }
 
