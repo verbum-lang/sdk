@@ -359,8 +359,8 @@ static void *worker_controller (void *_param)
         // Checks if there is order to execute thread.
         order = check_order();
 
-        if (!order)      _w_continue(0);
-        if (!order->run) _w_continue(1);
+        if (!order)      _w_continue(0)
+        if (!order->run) _w_continue(1)
 
         // Process actions.
         worker_communication (order->sock);
