@@ -318,7 +318,7 @@ static void worker_connections (int ssock)
                 close(sock);
                 usleep(100000);
             }
-            
+
         } else
             say_error("Error accept client - Fork Controller.");
     }
