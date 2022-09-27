@@ -24,6 +24,7 @@ static order_t   *check_order          (void);
 static void       worker_release       (int worker_id);
 static int        worker_communication (int sock);
 static int        create_node          (char *response);
+static void       prepare_node_data    (char *id);
 static int        create_node_process  (void);
 static void      *open_node            (void *_param);
 
