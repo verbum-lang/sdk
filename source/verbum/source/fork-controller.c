@@ -487,7 +487,7 @@ static int create_node (char *response)
 
 static void prepare_node_data (char *id)
 {
-    int size = 0;
+    int size;
 
     if (id && strlen(id) > 0) {
         size = sizeof(char) * (strlen(id) + 1);
