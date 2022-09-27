@@ -24,4 +24,3 @@ Verbum, a simple and intuitive programming language, supports general concepts s
 - Vertical and horizontal scalability
 
 
-
