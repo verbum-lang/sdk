@@ -1,4 +1,11 @@
 
+/**
+ * Copyright (c) 2022, the Verbum project authors.
+ * 
+ * Please see the AUTHORS file for details. All rights reserved. Use of this source
+ * code is governed by a BSD-style license that can be found in the LICENSE file.
+ */
+
 #include "../header/application.h"
 #include "../header/memory.h"
 #include "../header/debug.h"
@@ -9,7 +16,7 @@
 
 int open_application (int application)
 {
-    int fd, fd_limit;
+    int   fd_limit;
     pid_t pid;
 
     switch (application) {

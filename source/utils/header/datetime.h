@@ -1,10 +1,17 @@
 
-#ifndef VERBUM_LIBRARY_DATETIME
-#define VERBUM_LIBRARY_DATETIME
+/**
+ * Copyright (c) 2022, the Verbum project authors. 
+ * 
+ * Please see the AUTHORS file for details. All rights reserved. Use of this source 
+ * code is governed by a BSD-style license that can be found in the LICENSE file.
+ */
+
+#ifndef _H_UTILS_DATETIME_
+#define _H_UTILS_DATETIME_
 
 #include "global.h"
 
-// #define DBGDT
+// #define DBG_DATETIME
 
 typedef struct {
     int day;
@@ -21,6 +28,6 @@ int          date_difference   (char *start_date, char *end_date, double interva
 date_diff_t  prepare_date_data (char *idate);
 int          prepare_atoi      (char *number);
 
-#endif
+#endif /* _H_UTILS_DATETIME_ */
 
 
