@@ -1,37 +1,34 @@
 
 #include "fork-controller.h"
 
-static void     *check_communication (void *_param);
-static void     *open_controller     (void *_param);
-static int       preparations        (void);
-static int       initialize_worker   (void);
-static void      prepare_globals     (void);
-static int       prepare_node_mapper (void);
-static void     *node_mapper_monitor (void *_param);
-static void     *open_node_mapper    (void *_param);
-static int       prepare_mutex       (void);
-static int       prepare_workers     (void);
-static int       prepare_items       (void);
-static int       prepare_threads     (void);
-static worker_t *create_item         (int worker_id);
-static int       insert_item         (worker_t *n_worker);
-static void     *worker_interface    (void *_param);
-static int       prepare_interface   (int port, int max_connections);
-static void      worker_connections  (int ssock);
-static int       check_resource      (int sock);
+static void     *check_communication  (void *_param);
+static void     *open_controller      (void *_param);
+static int       preparations         (void);
+static int       initialize_worker    (void);
+static void      prepare_globals      (void);
+static int       prepare_node_mapper  (void);
+static void     *node_mapper_monitor  (void *_param);
+static void     *open_node_mapper     (void *_param);
+static int       prepare_mutex        (void);
+static int       prepare_workers      (void);
+static int       prepare_items        (void);
+static int       prepare_threads      (void);
+static worker_t *create_item          (int worker_id);
+static int       insert_item          (worker_t *n_worker);
+static void     *worker_interface     (void *_param);
+static int       prepare_interface    (int port, int max_connections);
+static void      worker_connections   (int ssock);
+static int       check_resource       (int sock);
+static void     *worker_controller    (void *_param);
+static int       worker_communication (int sock);
+static int       create_node          (char *response);
+static int       create_node_process  (void);
+static void      *open_node           (void *_param);
 
-static void     *worker_controller   (void *_param);
-
-
-static int  create_verbum_node (char *response);
-static void *create_verbum_node_th (void *_param);
-
-
-static p_mutex_t           mutex_workers  = PTHREAD_MUTEX_INITIALIZER;
-static p_mutex_t           mutex_new_node = PTHREAD_MUTEX_INITIALIZER;
-static worker_t          *workers       = NULL;
-
-extern global_t global;
+static p_mutex_t  mutex_workers  = PTHREAD_MUTEX_INITIALIZER;
+static p_mutex_t  mutex_new_node = PTHREAD_MUTEX_INITIALIZER;
+static worker_t  *workers        = NULL;
+extern global_t   global;
 
 int initialize_fork_controller (void)
 {
@@ -353,11 +350,8 @@ static int check_resource (int sock)
 
 static void *worker_controller (void *_param)
 {
-    worker_t *worker;
     int wid = -1, run = 0, sock = -1;
-    int status = 0;
-    char *response = NULL;
-	char success_message []= VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    worker_t *worker;
 
     while (1) {
 
@@ -389,27 +383,7 @@ static void *worker_controller (void *_param)
          * Process actions.
          */
 
-        status = send_handshake(sock, 
-            "Verbum Node Fork Controller - v1.0.0 - I Love Jesus <3\r\n\r\n");
-
-        // Communication.
-        response = get_recv_content(sock);
-        if (response) {
-
-            if (strstr(response, "create-verbum-node:")) {
-                say("Process action to create a new Verbum Node");
-
-                pthread_mutex_lock(&mutex_new_node);
-
-                create_verbum_node(response);
-                usleep(100000);
-
-                pthread_mutex_unlock(&mutex_new_node);
-            }
-
-            send(sock, success_message, strlen(success_message), VERBUM_SEND_FLAGS);
-            mem_sfree(response);
-        }
+        worker_communication (sock);
 
         /**
          * Finish.
@@ -429,13 +403,40 @@ static void *worker_controller (void *_param)
         
         pthread_mutex_unlock(&mutex_workers);
     }
-
-    return NULL;
 }
 
-static int create_verbum_node (char *response)
+static int worker_communication (int sock)
 {
-	pthread_t tid1;
+	char message []= VERBUM_DEFAULT_SUCCESS VERBUM_EOH;
+    char *response;
+    int status;
+
+    if (!sock)
+        return 0;
+
+    status = send_handshake(sock, HANDSHAKE_FORK_CONTROLLER);
+    if (!status)
+        return 0;
+
+    response = get_recv_content(sock);
+    if (!response)
+        return 0;
+
+    if (strstr(response, "create-verbum-node:")) {
+        pthread_mutex_lock(&mutex_new_node);
+        create_node(response);
+        usleep(100000);
+        pthread_mutex_unlock(&mutex_new_node);
+    }
+
+    send(sock, message, strlen(message), VERBUM_SEND_FLAGS);
+    mem_sfree(response);
+
+    return 1;
+}
+
+static int create_node (char *response)
+{
 	int size = 0;
     char *node_param = NULL;
     char *ptr = NULL;
@@ -444,16 +445,14 @@ static int create_verbum_node (char *response)
 	if (!response)
 		return 0;
 
-	// Prepare data.	
+	// Check data is valid.	
     ptr = strstr(response, prefix);
     if (!ptr)
         return 0;
 
-	say("fork controller, response: %s", response);
-
     ptr += strlen(prefix);
 	
-	// Current node ID.
+	// Prepare node ID.
 	if (ptr && strlen(ptr) > 0) {
 		size = sizeof(char) * (strlen(ptr) + 1);
 		global.configuration.node.id = (char *) realloc(global.configuration.node.id, size);
@@ -468,15 +467,25 @@ static int create_verbum_node (char *response)
 		global.configuration.node.id = NULL;
 	}
 
-	// Create node process.
-	pthread_create(&tid1, NULL, create_verbum_node_th, NULL);
-	return 0;
+    if (!create_node_process())
+        say_ret(0, "Error creating new node.");
+
+	return 1;
 }
 
-static void *create_verbum_node_th (void *_param)
+static int create_node_process (void)
+{
+    pthread_t tid;
+
+    if (pthread_create(&tid, NULL, open_node, NULL) != 0)
+        say_error_ret(0, "Error creating thread - new node.");
+
+    return 1;
+}
+
+static void *open_node (void *_param)
 {
 	open_application(APPLICATION_NODE);
-	return NULL;
 }
 
 

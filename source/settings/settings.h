@@ -51,6 +51,7 @@
 #define VERBUM_DEFAULT_ERROR                "verbum-node-fail"
 #define VERBUM_EOH                          "\r\n\r\n"
 
+#define HANDSHAKE_FORK_CONTROLLER           "Verbum Node Fork Controller - v1.0.0 - I Love Jesus <3\r\n\r\n"
 
 #endif /* _H_SETTINGS_ */
 
