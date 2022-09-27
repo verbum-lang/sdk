@@ -1,7 +1,7 @@
 #!/bin/bash
 
 clear
-echo "$(date '+%H:%M:%S'): Build started!"
+echo "$(date '+%H:%M:%S') -> Build started!"
 
 
 #
@@ -23,7 +23,7 @@ start_date=$(date -u -d "$current_date" +"%s")
 # Build utils.
 #
 
-echo "$(date '+%H:%M:%S'): Building utils..."
+echo "$(date '+%H:%M:%S') -> Building utils..."
 cd ../source/utils/source
 rm -rf *.o
 
@@ -47,7 +47,7 @@ UTILS_OBJ+=" $UP/datetime.o "
 # Build Verbum Node.
 #
 
-echo "$(date '+%H:%M:%S'): Building Verbum Node..."
+echo "$(date '+%H:%M:%S') -> Building Verbum Node..."
 cd ../../node/source
 rm -rf *.o
 
@@ -83,7 +83,7 @@ NODE_OBJ+=" $NP/check-node-exists.o"
 # Build Verbum Node Mapper.
 #
 
-echo "$(date '+%H:%M:%S'): Building Verbum Node Mapper..."
+echo "$(date '+%H:%M:%S') -> Building Verbum Node Mapper..."
 cd ../../node-mapper/source
 rm -rf *.o
 
@@ -120,7 +120,7 @@ NODE_MAPPER_OBJ+=" $NNP/timeout-control.o     $NNP/delete-connection.o"
 # Build Verbum.
 #
 
-echo "$(date '+%H:%M:%S'): Building Verbum..."
+echo "$(date '+%H:%M:%S') -> Building Verbum..."
 cd ../../verbum/source
 
 gcc -o initialization.o             -c initialization.c             $HEADER
@@ -141,7 +141,7 @@ mv verbum ../../../../sdk-binaries/verbum
 # Clean files (.o files).
 #
 
-echo "$(date '+%H:%M:%S'): Cleaning files..."
+echo "$(date '+%H:%M:%S') -> Cleaning files..."
 
 rm -rf *.o
 cd ../../utils/source
@@ -158,7 +158,7 @@ rm -rf *.o
 
 current_date=$(date '+%H:%M:%S')
 end_date=$(date -u -d "$current_date" +"%s")
-echo "$(date '+%H:%M:%S'): Total time: $(date -u -d "0 $end_date sec - $start_date sec" +"%H:%M:%S")."
-echo "$(date '+%H:%M:%S'): Build completed."
+echo "$(date '+%H:%M:%S') -> Total time: $(date -u -d "0 $end_date sec - $start_date sec" +"%H:%M:%S")."
+echo "$(date '+%H:%M:%S') -> Build completed."
 
 
