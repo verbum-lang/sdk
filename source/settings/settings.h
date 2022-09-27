@@ -18,7 +18,7 @@
  * Worker threads limits.
  */
 
-#define FORK_CONTROLLER_WORKER_THREADS_LIMIT                    33
+#define FORK_CONTROLLER_THREADS_LIMIT                           33
 
 
 /**

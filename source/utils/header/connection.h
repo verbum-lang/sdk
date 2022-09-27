@@ -29,6 +29,7 @@ int   check_protocol                        (char *address,        int   port,  
 char *get_recv_content                      (int   sock);
 int   send_handshake                        (int   sock,           char *handshake);
 char *send_raw_data                         (int   sock,           char *message);
+int   check_interface                       (int   port);
 char *process_request                       (int   type,           int   timeout,
                                              char *src_nm_id,      char *src_nm_address,  int   src_nm_port, 
                                              char *src_node_id,    int   src_core_port,   int   src_server_port, 

@@ -315,6 +315,31 @@ char *send_raw_data (int sock, char *message)
     return response;
 }
 
+int check_interface (int port)
+{
+	char message[]= "no-data:" VERBUM_EOH;
+    char *response = NULL;
+    int sock;
+
+    if (!port)
+        return 0;
+
+    sock = check_protocol(LOCALHOST, port, 1, 1);
+    if (sock == -1)
+        return 0;
+
+    response = send_raw_data(sock, message);
+
+    if (response) {
+        mem_sfree(response);
+        close(sock);
+        return 1;
+    }
+
+    close(sock);
+    return 0;
+}
+
 char *process_request (
     int   type,          int timeout,
 

@@ -2,16 +2,14 @@
 #include "fork-controller.h"
 
 static void *check_communication (void *_param);
-static int   connect_interface   (int port);
-static void *create_process      (void *_param);
+static void *open_controller     (void *_param);
 static int   preparations        (void);
 static int   initialize_worker   (void);
 static void  prepare_globals     (void);
 static int   prepare_node_mapper (void);
 static void *node_mapper_monitor (void *_param);
-static int   open_node_mapper    (void);
+static void *open_node_mapper    (void *param);
 
-static void *start_verbum_node_mapper (void *param);
 static int create_verbum_node (char *response);
 static void *create_verbum_node_th (void *_param);
 
@@ -56,37 +54,16 @@ static void *check_communication (void *_param)
 
 	say("Checks connection to Fork Controller interface...");
 
-    if (connect_interface(DEFAULT_FORK_CONTROLLER_SERVER_PORT))
+    if (check_interface(DEFAULT_FORK_CONTROLLER_SERVER_PORT))
         say_ret(NULL, "Fork Controller interface OK.");
 
     say("Starts new Fork Controller process.");
 
-    if (pthread_create(&tid, NULL, create_process, NULL) != 0) 
+    if (pthread_create(&tid, NULL, open_controller, NULL) != 0) 
         say_error_ret(NULL, "Error creating new thread.");
 }
 
-static int connect_fork (void)
-{
-	char  message  [] = "no-data:" VERBUM_EOH;
-	char *response    = NULL;
-	int sock, status  = 0;
-
-	sock = check_protocol(LOCALHOST, DEFAULT_FORK_CONTROLLER_SERVER_PORT, 1, 1);
-    if (sock != -1) {
-	
-    	response = send_raw_data(sock, message);
-		if (response) {
-			status = 1;
-			mem_sfree(response);
-		}
-
-		close(sock);
-	}
-
-    return status;
-}
-
-static void *create_process(void *_param)
+static void *open_controller(void *_param)
 {
 	open_application(APPLICATION_FORK_CONTROLLER);
 }
@@ -113,10 +90,10 @@ static int preparations (void)
         say_ret(0, "Error preparing Mutex.");
 
     if (!prepare_node_mapper())
-        say_exit("Error preparing Node Mapper monitor.");
+        say_ret(0, "Error preparing Node Mapper monitor.");
 
     if (!prepare_workers())
-        say_exit("Error preparing Workers.");
+        say_ret(0, "Error preparing Workers.");
 
     return 1;
 }
@@ -132,10 +109,10 @@ static void prepare_globals (void)
 static int prepare_mutex (void)
 {
     if (pthread_mutex_init(&mutex_workers, NULL) != 0) 
-        say_ret(0, "mutex initialization failed - Workers.");
+        say_ret(0, "Mutex initialization failed - Workers.");
 
     if (pthread_mutex_init(&mutex_new_node, NULL) != 0) 
-        say_ret(0, "mutex initialization failed - Add new node.");
+        say_ret(0, "Mutex initialization failed - Add new node.");
 
     return 1;
 }
@@ -157,105 +134,64 @@ static int prepare_node_mapper (void)
 static void *node_mapper_monitor (void *_param)
 {
 	param_t *param = (param_t *) _param;
+    pthread_t tid;
 
 	say("Node Mapper monitor started!");
 	say("Node Mapper server port: %d", param->port);
 
 	while (1) {
-        if (!connect_interface(param->port))
-			open_node_mapper();
+        if (!check_interface(param->port)) {
+            if (pthread_create(&tid, NULL, open_node_mapper, NULL) != 0)
+                say_error_ret(0, "Error creating new thread - open Node Mapper process.");
+        }
 
 		sleep(1);
 	}
 }
 
-static int connect_interface (int port)
-{
-	char message[]= "no-data:" VERBUM_EOH;
-    char *response = NULL;
-    int sock;
-
-    if (!port)
-        return 0;
-
-    sock = check_protocol(LOCALHOST, port, 1, 1);
-    if (sock == -1)
-        return 0;
-
-    response = send_raw_data(sock, message);
-
-    if (response) {
-        mem_sfree(response);
-        close(sock);
-        return 1;
-    }
-
-    close(sock);
-    return 0;
-}
-
-static int open_node_mapper (void)
-{
-    pthread_t tid;
-    
-    if (pthread_create(&tid, NULL, start_verbum_node_mapper, NULL) != 0)
-        say_error_ret(0, "Error creating new thread - open Node Mapper process.");
-
-    return 1;
-}
-
-static void *start_verbum_node_mapper (void *param)
+static void *open_node_mapper (void *param)
 {
     open_application(APPLICATION_NODE_MAPPER);
 }
 
 int prepare_workers (void)
 {
-    worker_t *worker;
-    int status = -1, result = 1;
+    worker_t *worker, *n_worker;
+    int status = 1;
 
     // Prepares initial item of Workers list.
     workers = create_item(0);
     if (!workers)
-        say_ret(0, "error create worker item.");
+        say_ret(0, "Error create worker item.");
 
     // Prepare items.
-    for (int a=1; a<FORK_CONTROLLER_WORKER_THREADS_LIMIT; a++) {
-        worker_t *new_worker = create_item(a);
+    for (int a=1; a<FORK_CONTROLLER_THREADS_LIMIT; a++) {
+        n_worker = create_item(a);
 
-        if (!new_worker) {
-            say("error allocationg memory.");
-            result = 0;
-            break;
-        }
+        if (!n_worker) 
+            say_ret(0, "Error create worker item.");
 
-        if (!insert_item(new_worker)) {
-            say("error insert worker item.");
-            result = 0;
-            break;
-        }
+        if (!insert_item(n_worker))
+            say_ret(0, "Error insert worker item.");
     }
-
-    if (result == 0)
-        goto pw_end;
 
     // Prepare threads.
     pthread_mutex_lock(&mutex_workers);
     
     for (worker=workers; worker!=NULL; worker=worker->next) {
-        status = pthread_create(&worker->tid, NULL, worker_controller, NULL);
-
-        if (status != 0) {
-            say("error while creating thread - worker handler.");
-            result = 0;
+        if (pthread_create(&worker->tid, NULL, worker_controller, NULL) != 0) {
+            say_error("Error creating new thread - Worker Controller.");
+            status = 0;
             break;
         }
     }
 
     pthread_mutex_unlock(&mutex_workers);
 
-    pw_end:
-    return result;
+    if (!status)
+        return 0;
+
+    return 1;
 }
 
 void *worker_interface (void *tparam)
