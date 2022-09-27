@@ -310,7 +310,7 @@ static void worker_connections (int ssock)
 
     while (1) {
         address_size = sizeof(address);
-        sock = accept(ssock, (struct sockaddr*) &address, &address_size);
+        sock         = accept(ssock, (struct sockaddr*) &address, &address_size);
 
         if (sock != -1) {
             configure_recv_timeout(sock);
@@ -396,9 +396,9 @@ static order_t *check_order (void)
         if (worker->status == 1) {
             worker->status = 2;
 
-            order->run  = 1;
-            order->sock = worker->sock;
-            order->wid  = worker->wid;
+            order->run     = 1;
+            order->sock    = worker->sock;
+            order->wid     = worker->wid;
             
             break;
         }
@@ -504,7 +504,6 @@ static void prepare_node_data (char *id)
 
             say("Current node ID: %s", global.configuration.node.id);
         }
-
     } else {
         global.configuration.node.id = NULL;
     }
