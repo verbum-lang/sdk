@@ -155,7 +155,7 @@ int node_mapper_create_node_output_connection (int   sock,
         return 0;
 
     // Send request to node.
-    response = process_create_node_output_connection(
+    response = process_create_connection(
         address, src_node_id, src_node_interface_port, 
         dst_node_id, dst_nm_address, dst_nm_port);
     

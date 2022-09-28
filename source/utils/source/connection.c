@@ -582,7 +582,7 @@ char *process_check_node_exists (char *src_nm_address, int src_nm_port, char *sr
                 0, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL);
 }
 
-char *process_create_node_output_connection (
+char *process_create_connection (
     char *src_nm_address, 
     char *src_node_id,    int   src_core_port, 
     char *dst_node_id,    char *dst_nm_address, int dst_nm_port)
@@ -618,7 +618,7 @@ char *process_delete_connection (
             dst_node_id, 0, connection_id, connection_type, NULL);
 }
 
-char *process_delete_connection_server(
+char *process_delete_connection_sv (
     char *src_nm_address, int   src_nm_port, 
     char *src_node_id,    char *dst_node_id, char *connection_id)
 {

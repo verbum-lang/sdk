@@ -153,7 +153,7 @@ int node_delete_connection (int sock, char *content)
         status = 0;
 
         for (int a=0; a<VERBUM_CHECK_DELETION_LIMIT; a++) {
-            response = process_delete_connection_server(nm_address, node_server_port, 
+            response = process_delete_connection_sv(nm_address, node_server_port, 
                             src_node_id, dst_node_id, connection_id);
 
             if (response) {
@@ -318,7 +318,7 @@ int node_delete_connection_server (int sock, char *content)
     status = 0;
 
     for (int a=0; a<VERBUM_CHECK_DELETION_LIMIT; a++) {
-        response = process_delete_connection_server(address, node_mapper_port, 
+        response = process_delete_connection_sv(address, node_mapper_port, 
                         dst_node_id, src_node_id, current_connection_id);
 
         if (response) {
