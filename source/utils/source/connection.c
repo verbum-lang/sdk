@@ -1,22 +1,18 @@
 
+/**
+ * Copyright (c) 2022, the Verbum project authors. 
+ * 
+ * Please see the AUTHORS file for details. All rights reserved. Use of this source 
+ * code is governed by a BSD-style license that can be found in the LICENSE file.
+ */
+
 #include "connection.h"
 #include "memory.h"
 
+
 /**
- * Check connection.
- * 
- * address: host address
- * port...: host port
- * enable_timeout: 
- *       0 = disabled.
- *       1 = enabled.
- * one_connection:
- *       0 = disabled.
- *       1 = enabled.
- * 
- * Return: 
- *      -1 = error.
- *   != -1 = socket.
+ * Create new non-blocking socket connection.
+ * On success return socket, on error return -1.
  */
 
 int create_connection (char *address, int port, int enable_timeout, int one_connection)
@@ -50,7 +46,7 @@ int create_connection (char *address, int port, int enable_timeout, int one_conn
         say_ret(-1, "error set non-blocking socket.");
 
     // Connect.
-    #ifdef CONDBG
+    #ifdef DBG_CONNECTION
         say("process connect...");
     #endif
 
@@ -78,12 +74,12 @@ int create_connection (char *address, int port, int enable_timeout, int one_conn
             break;
     }
     
-    #ifdef CONDBG
+    #ifdef DBG_CONNECTION
         say("connect finished, status: %d", status);
     #endif
     
     if (status == -1) {
-        #ifdef CONDBG
+        #ifdef DBG_CONNECTION
             say("error connect socket.");
         #endif
 
@@ -92,7 +88,7 @@ int create_connection (char *address, int port, int enable_timeout, int one_conn
 
     // Select enabled.
     if (enable_timeout == 1) {
-        #ifdef CONDBG
+        #ifdef DBG_CONNECTION
             say("process select...");
         #endif
 
@@ -105,7 +101,7 @@ int create_connection (char *address, int port, int enable_timeout, int one_conn
         int st = select(sock+1, &rfds, NULL, NULL, &stv);
         
         if (st <= 0) {
-            #ifdef CONDBG
+            #ifdef DBG_CONNECTION
                 say("error select socket.");
             #endif
             
@@ -129,13 +125,13 @@ int create_connection (char *address, int port, int enable_timeout, int one_conn
     }
 
     // Receive data.
-    #ifdef CONDBG
+    #ifdef DBG_CONNECTION
         say("recv data...");
     #endif
     
     packet = get_recv_content(sock);
     if (!packet) {
-        #ifdef CONDBG
+        #ifdef DBG_CONNECTION
             say("error recv content.");
         #endif
         
@@ -144,7 +140,7 @@ int create_connection (char *address, int port, int enable_timeout, int one_conn
     
     // Check header.
     if (!strstr(packet, header)) {
-        #ifdef CONDBG
+        #ifdef DBG_CONNECTION
             say("header not found on packet.");
         #endif
 
@@ -152,7 +148,7 @@ int create_connection (char *address, int port, int enable_timeout, int one_conn
         return -1;
     }
 
-    #ifdef CONDBG
+    #ifdef DBG_CONNECTION
         say("connection success!");
     #endif
 
@@ -246,7 +242,7 @@ char *get_recv_content (int sock)
         }
     }
 
-    #ifdef CONDBG
+    #ifdef DBG_CONNECTION
         if (eoh)
             say("raw data received: \"%s + EOH\"", content);
         else
@@ -290,7 +286,7 @@ char *send_raw_data (int sock, char *message)
 
     status = send(sock, message, strlen(message), VERBUM_SEND_FLAGS);
     if (status == -1) {
-        #ifdef CONDBG
+        #ifdef DBG_CONNECTION
            say("error send raw data.");
         #endif
 
@@ -299,7 +295,7 @@ char *send_raw_data (int sock, char *message)
     
     response = get_recv_content(sock);
     if (!response) {
-        #ifdef CONDBG
+        #ifdef DBG_CONNECTION
             say("error recv data.");
         #endif
 
