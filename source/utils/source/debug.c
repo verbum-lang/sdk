@@ -8,11 +8,6 @@
 
 #include "debug.h"
 
-/**
- * Send data to log viewer server.
- * On success, returns 1. On error, returns 0.
- */
-
 int verbum_debug_send_data (char *content)
 {
     struct sockaddr_in address;
