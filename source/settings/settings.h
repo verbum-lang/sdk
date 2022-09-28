@@ -33,23 +33,6 @@
 
 
 /**
- * Delay control.
- */
-
-#define CONNECTION_DELAY_CONNECT                    1000
-#define CONNECTION_DELAY_SEND_HANDSHAKE             1000
-#define CONNECTION_DELAY_PROCESS_REQUEST            1000
-#define CONNECTION_DELAY_CREATE_NODE                1000
-
-#define FORK_CONTROLLER_DELAY_SECS_MONITOR          1
-#define FORK_CONTROLLER_DELAY_CLOSE_CONNECTIONS     100000
-#define FORK_CONTROLLER_DELAY_NEXT_ORDER            100000
-#define FORK_CONTROLLER_DELAY_CREATE_NODE           100000
-
-#define NODE_CREATION_DELAY_CREATE_NODE             100000
-
-
-/**
  * Servers configurations.
  */
 
@@ -76,6 +59,23 @@
  */
 
 #define CHECK_DELETION_LIMIT                        10
+
+
+/**
+ * Delay control.
+ */
+
+#define CONNECTION_DELAY_CONNECT                    1000
+#define CONNECTION_DELAY_SEND_HANDSHAKE             1000
+#define CONNECTION_DELAY_PROCESS_REQUEST            1000
+#define CONNECTION_DELAY_CREATE_NODE                1000
+
+#define FORK_CONTROLLER_DELAY_SECS_MONITOR          1
+#define FORK_CONTROLLER_DELAY_CLOSE_CONNECTIONS     100000
+#define FORK_CONTROLLER_DELAY_NEXT_ORDER            100000
+#define FORK_CONTROLLER_DELAY_CREATE_NODE           100000
+
+#define NODE_CREATION_DELAY_CREATE_NODE             100000
 
 
 /**
