@@ -9,7 +9,6 @@
 #include "connection.h"
 #include "memory.h"
 
-
 /**
  * Create new non-blocking socket connection.
  * On success return socket, on error return -1.
