@@ -101,7 +101,7 @@ int node_mapper_delete_connection (int sock, char *content)
     // Output.
     else if (connection_type == 0) {
 
-        for (int a=0; a<VERBUM_CHECK_DELETION_LIMIT; a++) {
+        for (int a=0; a<CHECK_DELETION_LIMIT; a++) {
             response = process_delete_connection(
                 address, src_node_id, core_port, dst_node_id, connection_id, connection_type);
 

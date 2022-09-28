@@ -20,7 +20,7 @@ int verbum_debug_send_data (char *content)
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port        = htons(VERBUM_DEBUG_SERVER_PORT);
 
-    if (inet_pton(AF_INET, VERBUM_DEBUG_R_ADDRESS, &address.sin_addr) <= 0)
+    if (inet_pton(AF_INET, VERBUM_DEBUG_REMOTE_ADDRESS, &address.sin_addr) <= 0)
         say_ret(0, "error set IP address - socket configuration.");
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
