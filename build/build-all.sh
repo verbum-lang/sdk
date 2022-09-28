@@ -28,7 +28,6 @@ cd ../source/utils/source
 rm -rf *.o
 
 gcc -o global.o                     -c global.c                     $HEADER
-gcc -o memory.o                     -c memory.c                     $HEADER
 gcc -o debug.o                      -c debug.c                      $HEADER
 gcc -o application.o                -c application.c                $HEADER
 gcc -o datetime.o                   -c datetime.c                   $HEADER
@@ -38,9 +37,8 @@ gcc -o process.o                    -c process.c                    $HEADER
 gcc -o connection.o                 -c connection.c                 $HEADER
 
 UP=" ../../utils/source"
-UTILS_OBJ="  $UP/global.o   $UP/memory.o   $UP/debug.o      $UP/application.o"
+UTILS_OBJ="  $UP/global.o   $UP/datetime.o $UP/debug.o      $UP/application.o"
 UTILS_OBJ+=" $UP/file.o     $UP/ini_file.o $UP/connection.o $UP/process.o"
-UTILS_OBJ+=" $UP/datetime.o "
 
 
 # 
