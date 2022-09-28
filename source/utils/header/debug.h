@@ -1,6 +1,13 @@
 
-#ifndef VERBUM_DEBUG
-#define VERBUM_DEBUG
+/**
+ * Copyright (c) 2022, the Verbum project authors. 
+ * 
+ * Please see the AUTHORS file for details. All rights reserved. Use of this source 
+ * code is governed by a BSD-style license that can be found in the LICENSE file.
+ */
+
+#ifndef _H_UTILS_DEBUG_
+#define _H_UTILS_DEBUG_
 
 #include "global.h"
 
@@ -123,6 +130,6 @@
 int  verbum_debug_send_data   (char *content);
 void verbum_debug_print_error (void);
 
-#endif
+#endif /* _H_UTILS_DEBUG_ */
 
 
