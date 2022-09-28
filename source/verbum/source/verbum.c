@@ -6,7 +6,6 @@
  * code is governed by a BSD-style license that can be found in the LICENSE file.
  */
 
-#include "verbum.h"
 #include "initialization.h"
 #include "prepare-settings.h"
 #include "fork-controller.h"
