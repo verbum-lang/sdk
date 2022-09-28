@@ -63,7 +63,7 @@ int create_connection (char *address, int port, int enable_timeout, int one_conn
             if (diff >= (double) timeout)
                 break;
         
-            usleep(1000);
+            usleep(CONNECTION_DELAY_CONNECT);
         }
 
         if (status != -1) 
@@ -264,7 +264,7 @@ int send_handshake (int sock, char *handshake)
         if (status > 0)
             break;
 
-        usleep(1000);
+        usleep(CONNECTION_DELAY_SEND_HANDSHAKE);
         counter++;
 
         if (counter >= limit)
@@ -457,7 +457,7 @@ char *process_request (
             break;
 
         counter++;
-        usleep(1000);
+        usleep(CONNECTION_DELAY_PROCESS_REQUEST);
     }
 
     if (src_nm_id)       size += strlen(src_nm_id);
@@ -669,7 +669,7 @@ int process_create_node (char *address, int port, char *node_param)
             break;
 
         counter++;
-        usleep(1000);
+        usleep(CONNECTION_DELAY_CREATE_NODE);
     }
 
     if (!sock || sock == -1)

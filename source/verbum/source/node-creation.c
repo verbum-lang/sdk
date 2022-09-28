@@ -39,7 +39,7 @@ static void *create_node (void *_param)
         else
             say("Error creating node using Verbum utility.");
 
-        usleep(100000);
+        usleep(NODE_CREATION_DELAY_CREATE_NODE);
     }
 
     say("New node successfully created using the Verbum utility.");
