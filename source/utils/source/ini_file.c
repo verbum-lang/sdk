@@ -32,7 +32,7 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
 
                 // Search section.
                 if (step_check == 0) {
-                    memset(section_name, 0x0, line_size);
+                    memset(section_name, '\0', line_size);
                     
                     for (int c=0,d=0; c<strlen(line); c++)
                         if (c >= 1)
@@ -48,8 +48,8 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
                 // Search param.
                 else if (step_check == 1) {
                     if (strstr(line, "=")) {
-                        memset(param_name,  0x0, line_size);
-                        memset(param_value, 0x0, line_size);
+                        memset(param_name,  '\0', line_size);
+                        memset(param_value, '\0', line_size);
                         
                         for (int c=0,d=0,e=0; c<strlen(line); c++) {
                             if (line[c] == '=')
@@ -71,7 +71,7 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
                                         goto ir_end;
                                     }
 
-                                    memset(result.svalue, 0x0, size);
+                                    memset(result.svalue, '\0', size);
                                     memcpy(result.svalue, param_value, strlen(param_value));
                                     break;
                                 case 1:
@@ -85,7 +85,7 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
             }
 
             b = 0;
-            memset(line, 0x0, line_size);
+            memset(line, '\0', line_size);
         }
 
         else if (content[a] != '\r' && content[a] != '\t') 
@@ -94,10 +94,10 @@ ini_data_t ini_read (char *content, char *section, char *param, int type)
 
     ir_end:
 
-    memset(line,         0x0, line_size);
-    memset(section_name, 0x0, line_size);
-    memset(param_name,   0x0, line_size);
-    memset(param_value,  0x0, line_size);
+    memset(line,         '\0', line_size);
+    memset(section_name, '\0', line_size);
+    memset(param_name,   '\0', line_size);
+    memset(param_value,  '\0', line_size);
 
     free(line);
     free(section_name);

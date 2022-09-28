@@ -12,22 +12,21 @@
 
 /**
  * Check process is running (check by name).
- * 
  * Success: return process PID. Error: return -1.
- * 
  * https://stackoverflow.com/questions/6898337/determine-programmatically-if-a-program-is-running
  */
 
 pid_t check_process_running (char *name)
 {
     DIR *directory;
+    FILE *fp;
     struct dirent *dirdata;
     char *endptr = NULL;
     char buffer [512];
 
     directory = opendir("/proc");
     if (!directory) {
-        say("can't open /proc.");
+        say("Can't open /proc.");
         return -1;
     }
 
@@ -41,8 +40,8 @@ pid_t check_process_running (char *name)
 
         // Try to open the cmdline file.
         snprintf(buffer, sizeof(buffer), "/proc/%ld/cmdline", lpid);
-        FILE *fp = fopen(buffer, "r");
 
+        fp = fopen(buffer, "r");
         if (fp) {
             if (fgets(buffer, sizeof(buffer), fp) != NULL) {
 

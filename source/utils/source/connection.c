@@ -181,7 +181,7 @@ char *get_recv_content (int sock)
         return NULL;
 
     while (1) {
-        memset(tmp, 0x0, 128);
+        memset(tmp, '\0', 128);
         bytes = recv(sock, tmp, 128, 0);
 
         if (bytes <= -1)
@@ -654,7 +654,7 @@ int process_create_node (char *address, int port, char *node_param)
     message = (char *) malloc(size);
     if (!message)
         return 0;
-    memset(message, 0, size);
+    memset(message, '\0', size);
 
     if (!node_param) 
         sprintf(message, "create-verbum-node:" VERBUM_EOH);
