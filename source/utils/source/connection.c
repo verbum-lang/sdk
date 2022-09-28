@@ -1,6 +1,6 @@
 
-#include "../header/connection.h"
-#include "../header/memory.h"
+#include "connection.h"
+#include "memory.h"
 
 /**
  * Check connection.

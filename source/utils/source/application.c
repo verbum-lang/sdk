@@ -6,9 +6,9 @@
  * code is governed by a BSD-style license that can be found in the LICENSE file.
  */
 
-#include "../header/application.h"
-#include "../header/memory.h"
-#include "../header/debug.h"
+#include "application.h"
+#include "memory.h"
+#include "debug.h"
 
 #include "../../verbum/header/fork-controller.h"
 #include "../../node-mapper/header/node-mapper.h"
