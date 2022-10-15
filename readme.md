@@ -1,6 +1,6 @@
 ```
- __      __       _             Programming Language
- \ \    / /      | |                    
+ __      __       _              Programming
+ \ \    / /      | |                  Language
   \ \  / /__ _ __| |__  _   _ _ __ ___  
    \ \/ / _ \ '__| '_ \| | | | '_ ` _ \ 
     \  /  __/ |  | |_) | |_| | | | | | |
@@ -22,5 +22,16 @@ Verbum, a simple and intuitive programming language, supports general concepts s
 - Hot Code Reloading
 - High fault tolerance
 - Vertical and horizontal scalability
+
+<br>
+
+**If you liked this project, or if it was useful to you, please [consider becoming a sponsor](https://github.com/sponsors/verbum-lang) :blue_heart:**
+
+<br>
+
+:scroll: License
+---
+
+[ BSD-3-Clause license](license)
 
 
