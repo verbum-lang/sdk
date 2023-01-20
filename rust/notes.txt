@@ -1,0 +1,7 @@
+
+Multi-threading, Mutex, Workers.
+Non-blocking socket (https://crates.io/crates/message-io, libp2p.io, https://github.com/libp2p/rust-libp2p, tokio.rs).
+SQLite, JSON (https://docs.rs/sqlite/latest/sqlite/).
+Parsing Expression Grammar (PEG), AST processing (createlang.rs, pest.rs/book).
+
+
